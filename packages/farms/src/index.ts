@@ -4,7 +4,7 @@ import { ChainId } from '@pancakeswap/sdk'
 import { masterChefAddresses } from './const'
 import { farmV2FetchFarms, FetchFarmsParams, fetchMasterChefV2Data } from './fetchFarms'
 
-const supportedChainId = [ChainId.BITGERT]
+const supportedChainId = [ChainId.BITGERT, ChainId.DOGE, ChainId.DOKEN, ChainId.FUSE, ChainId.XDC]
 export const bCakeSupportedChainId = []
 
 export function createFarmFetcher(multicallv2: MultiCallV2) {
