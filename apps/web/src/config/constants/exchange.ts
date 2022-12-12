@@ -56,7 +56,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.DOGE]: [dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.ice],
+  [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
