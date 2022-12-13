@@ -46,6 +46,8 @@ async function fetchChunk(
         blockTag: minBlockNumber,
       }
     )
+    console.log(resultsBlockNumber);
+    
   } catch (err) {
     const error = err as any
     if (

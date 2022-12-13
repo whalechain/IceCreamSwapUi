@@ -69,10 +69,10 @@ export default function Swap() {
 
   // Check if pancakeswap route is better than akka route or not
   useEffect(() => {
-    if (akkaRouterTrade?.route?.returnAmount && v2Trade?.outputAmount?.toSignificant(6)) {
-      if (Number(v2Trade?.outputAmount?.toSignificant(6)) > Number(akkaRouterTrade?.route?.returnAmount)) {
+    if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
+      if (v2Trade?.outputAmount.numerator.toString() > akkaRouterTrade?.route?.returnAmountWei) {
         toggleSetAkkaModeToFalse()
-      } else if (Number(v2Trade?.outputAmount?.toSignificant(6)) < Number(akkaRouterTrade?.route?.returnAmount)) {
+      } else if (v2Trade?.outputAmount.numerator.toString() < akkaRouterTrade?.route?.returnAmountWei) {
         toggleSetAkkaModeToTrue()
       }
     }

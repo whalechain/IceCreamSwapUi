@@ -132,7 +132,6 @@ export function useApproveCallbackFromTrade(
     () => (trade ? computeSlippageAdjustedAmounts(trade, allowedSlippage)[Field.INPUT] : undefined),
     [trade, allowedSlippage],
   )
-  const isAkkaSwap = useIsAkkaSwap()
   return useApproveCallback(amountToApprove, ROUTER_ADDRESS[chainId].Icecream)
 }
 
