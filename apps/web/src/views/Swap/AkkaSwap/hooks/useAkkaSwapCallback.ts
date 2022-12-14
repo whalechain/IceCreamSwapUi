@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useAkkaRouterContract } from 'utils/exchange'
@@ -8,6 +8,12 @@ import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToU
 import { useTranslation } from '@pancakeswap/localization'
 import { Field } from 'state/swap/actions'
 import { useSwapState } from 'state/swap/hooks'
+import { useGasPrice } from 'state/user/hooks'
+import { parseEther, parseUnits } from '@ethersproject/units'
+import { calculateGasMargin } from 'utils'
+import { Contract } from '@ethersproject/contracts'
+import { SwapParameters } from '@pancakeswap/sdk'
+import { BigNumber } from '@ethersproject/bignumber'
 
 export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
   multiPathSwap: () => Promise<string>
@@ -29,11 +35,24 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
     [Field.INPUT]: { currencyId: inputCurrencyId },
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
-
   return useMemo(() => {
     const methodName = 'multiPathSwap'
+
     return {
       multiPathSwap: args ? async () => {
+        const gasLimitCalc = await akkaContract.estimateGas[methodName](
+          args?.amountIn,
+          args?.amountOutMin,
+          args?.data,
+          args?.bridge,
+          args?.dstData,
+          account
+          , {
+            value: inputCurrencyId === 'BRISE' ? args?.amountIn : '',
+          })
+          .catch((gasError) => {
+            console.error('Gas estimate failed', gasError, "args:", args)
+          })
         const tx = await callWithGasPrice(
           akkaContract,
           methodName,
@@ -47,6 +66,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           ],
           {
             value: inputCurrencyId === 'BRISE' ? args.amountIn : '',
+            gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : ""
           }
         )
           .catch((error: any) => {
