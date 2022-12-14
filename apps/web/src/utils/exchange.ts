@@ -12,7 +12,6 @@ import {
   INPUT_FRACTION_AFTER_FEE,
   ONE_HUNDRED_PERCENT,
   ROUTER_ADDRESS,
-  ROUTER_ADDRESS_COMMON_AKKA,
 } from 'config/constants/exchange'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useContract } from 'hooks/useContract'
@@ -40,7 +39,8 @@ export function useRouterContract() {
 }
 
 export function useAkkaRouterContract() {
-  return useContract<AkkaRouter>(ROUTER_ADDRESS_COMMON_AKKA, AKKA_BTGERT_ABI, true)
+  const { chainId } = useActiveChainId()
+  return useContract<AkkaRouter>(ROUTER_ADDRESS[chainId].Akka, AKKA_BTGERT_ABI, true)
 }
 
 // computes price breakdown for the trade

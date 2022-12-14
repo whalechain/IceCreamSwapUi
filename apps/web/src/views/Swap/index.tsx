@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect } from 'react'
-import { ChainId, Currency } from '@pancakeswap/sdk'
+import { ChainId, Currency, JSBI } from '@pancakeswap/sdk'
 import { Box, Flex, BottomDrawer, useMatchBreakpoints, Swap as SwapUI } from '@pancakeswap/uikit'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import { AppBody } from 'components/App'
@@ -69,10 +69,11 @@ export default function Swap() {
 
   // Check if pancakeswap route is better than akka route or not
   useEffect(() => {
+
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
-      if (v2Trade?.outputAmount.numerator.toString() > akkaRouterTrade?.route?.returnAmountWei) {
+      if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
-      } else if (v2Trade?.outputAmount.numerator.toString() < akkaRouterTrade?.route?.returnAmountWei) {
+      } else {
         toggleSetAkkaModeToTrue()
       }
     }

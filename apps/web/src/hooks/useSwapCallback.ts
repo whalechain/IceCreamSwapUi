@@ -89,6 +89,7 @@ export function useSwapCallback(
               })
               .catch((gasError) => {
                 console.error('Gas estimate failed, trying eth_call to extract error', call)
+
                 return contract.callStatic[methodName](...args, options)
                   .then((result) => {
                     console.error('Unexpected successful call after failed estimate gas', call, gasError, result)
@@ -96,6 +97,7 @@ export function useSwapCallback(
                   })
                   .catch((callError) => {
                     console.error('Call threw error', call, callError)
+                    
                     return { call, error: transactionErrorToUserReadableMessage(callError, t) }
                   })
               })

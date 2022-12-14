@@ -24,7 +24,7 @@ export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
   },
   [ChainId.XDC]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: '',
   },
 }
 
