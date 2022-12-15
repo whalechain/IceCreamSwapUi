@@ -38,8 +38,8 @@ export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: st
     })
   const { chainId } = useActiveChainId()
   const { data, error } = useSWR(
-    `https://icecream.akka.finance/swap?token0=${inputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
-    }&token1=${outputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
+    `https://icecream.akka.finance/swap?token0=${inputCurrencyId === TokenEnum.BriseNativeToken || inputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
+    }&token1=${outputCurrencyId === TokenEnum.BriseNativeToken || outputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
     }&amount=${amount}&slipage=${slippage}&use_split=true&chain=${setChainName(chainId)}`,
     token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
     {
@@ -68,8 +68,8 @@ export const useAkkaRouterRoute = (token0: Currency, token1: Currency, amount: s
     })
   const { chainId } = useActiveChainId()
   const { data, error } = useSWR(
-    `https://icecream.akka.finance/route?token0=${inputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
-    }&token1=${outputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
+    `https://icecream.akka.finance/route?token0=${inputCurrencyId === TokenEnum.BriseNativeToken || inputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
+    }&token1=${outputCurrencyId === TokenEnum.BriseNativeToken || outputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
     }&amount=${amount}&slipage=${slippage}&use_split=true&chain=${setChainName(chainId)}`,
     token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
     {

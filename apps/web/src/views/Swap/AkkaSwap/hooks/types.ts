@@ -82,6 +82,7 @@ export interface RouteOperationsSeparated {
 }
 
 export enum TokenEnum {
-  NativeToken = 'BRISE',
+  BriseNativeToken = 'BRISE',
+  XdcNativeToken = 'XDC',
   NativeTokenAdress = '0x0000000000000000000000000000000000000000',
 }

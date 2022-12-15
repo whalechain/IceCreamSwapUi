@@ -48,7 +48,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           args?.dstData,
           account
           , {
-            value: inputCurrencyId === 'BRISE' ? args?.amountIn : '',
+            value: inputCurrencyId === 'BRISE' || inputCurrencyId === 'XDC' ? args?.amountIn : '',
           })
           .catch((gasError) => {
             console.error('Gas estimate failed', gasError, "args:", args)
@@ -65,7 +65,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             account
           ],
           {
-            value: inputCurrencyId === 'BRISE' ? args.amountIn : '',
+            value: inputCurrencyId === 'BRISE' || inputCurrencyId === 'XDC' ? args?.amountIn : '',
             gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : ""
           }
         )
