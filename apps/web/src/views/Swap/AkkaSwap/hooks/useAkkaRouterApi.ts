@@ -8,6 +8,7 @@ import { useSwapState } from 'state/swap/hooks'
 import useSWR, { Fetcher } from 'swr'
 import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType, TokenEnum } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
+
 const setChainName = (chainNumber: ChainId): string => {
   switch (chainNumber) {
     case ChainId.BITGERT:
