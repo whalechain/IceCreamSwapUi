@@ -10,6 +10,8 @@ import { AutoRow, RowBetween, RowFixed } from 'components/Layout/Row'
 import { TOTAL_FEE, LP_HOLDERS_FEE, TREASURY_FEE, BUYBACK_FEE } from 'config/constants/info'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 import { AkkaRouterTrade } from '../hooks/types'
+import { setChainName } from '../hooks/useAkkaRouterApi'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 const SwapModalFooterContainer = styled(AutoColumn)`
   margin-top: 24px;
@@ -37,8 +39,8 @@ export default function AkkaSwapModalFooter({
   const lpHoldersFeePercent = `${(LP_HOLDERS_FEE * 100).toFixed(2)}%`
   const treasuryFeePercent = `${(TREASURY_FEE * 100).toFixed(4)}%`
   const buyBackFeePercent = `${(BUYBACK_FEE * 100).toFixed(4)}%`
-
-  const fee = trade.route.routes.bitgert.map((item, index) => {
+  const { chainId } = useActiveChainId()
+  const fee = trade.route.routes[setChainName(chainId)].map((item, index) => {
     return item.inputAmount * item.routes[0].operations.length * 0.003
   })
   const realizedLPFee = fee.reduce((accumulator, value) => {
@@ -85,9 +87,8 @@ export default function AkkaSwapModalFooter({
           </RowFixed>
           <Text fontSize="14px">
             {realizedLPFee
-              ? `${realizedLPFee?.toFixed(6)} ${
-                  trade.route.routes.bitgert[0].routes[0].operationsSeperated[0].operations[0].offerToken[3]
-                }`
+              ? `${realizedLPFee?.toFixed(6)} ${trade.route.routes[setChainName(chainId)][0].routes[0].operationsSeperated[0].operations[0].offerToken[3]
+              }`
               : '-'}
           </Text>
         </RowBetween>

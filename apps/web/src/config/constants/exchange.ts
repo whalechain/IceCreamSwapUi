@@ -4,27 +4,29 @@ import { bitgertTokens, dogechainTokens, dokenTokens, fuseTokens, xdcTokens } fr
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
 export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4'
-export const ROUTER_ADDRESS_COMMON_AKKA = '0x9B13efdA353D1f2B127270A198e2960841e899B0'
+export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0x9B13efdA353D1f2B127270A198e2960841e899B0'
+export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0xd9145CCE52D386f254917e481eB44e9943F39138'
+
 export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
   [ChainId.BITGERT]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: ROUTER_ADDRESS_COMMON_AKKA_BITGERT,
   },
   [ChainId.DOGE]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: ROUTER_ADDRESS_COMMON,
   },
   [ChainId.DOKEN]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: ROUTER_ADDRESS_COMMON,
   },
   [ChainId.FUSE]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: ROUTER_ADDRESS_COMMON,
   },
   [ChainId.XDC]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: ROUTER_ADDRESS_COMMON_AKKA_XDC,
   },
 }
 
