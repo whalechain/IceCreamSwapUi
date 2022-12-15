@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useAkkaRouterContract } from 'utils/exchange'
-import { AkkaRouterTrade } from './types'
+import { AkkaRouterTrade, TokenEnum } from './types'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
 import { useTranslation } from '@pancakeswap/localization'
@@ -48,7 +48,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           args?.dstData,
           account
           , {
-            value: inputCurrencyId === 'BRISE' || inputCurrencyId === 'XDC' ? args?.amountIn : '',
+            value: inputCurrencyId === TokenEnum.BriseNativeToken || inputCurrencyId === TokenEnum.XdcNativeToken ? args?.amountIn : '',
           })
           .catch((gasError) => {
             console.error('Gas estimate failed', gasError, "args:", args)
@@ -65,7 +65,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             account
           ],
           {
-            value: inputCurrencyId === 'BRISE' || inputCurrencyId === 'XDC' ? args?.amountIn : '',
+            value: inputCurrencyId === TokenEnum.BriseNativeToken || inputCurrencyId === TokenEnum.XdcNativeToken ? args?.amountIn : '',
             gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : ""
           }
         )
