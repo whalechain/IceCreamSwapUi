@@ -8,7 +8,16 @@ import { useSwapState } from 'state/swap/hooks'
 import useSWR, { Fetcher } from 'swr'
 import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType, TokenEnum } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-
+const setChainName = (chainNumber: ChainId): string => {
+  switch (chainNumber) {
+    case ChainId.BITGERT:
+      return "bitgert"
+    case ChainId.XDC:
+      return "xdc"
+    default:
+      return ""
+  }
+}
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: string, slippage = 0.1) => {
   const {
@@ -30,8 +39,8 @@ export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: st
   const { data, error } = useSWR(
     `https://icecream.akka.finance/swap?token0=${inputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
     }&token1=${outputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
-    }&amount=${amount}&slipage=${slippage}&use_split=true`,
-    token0 && token1 && amount && slippage && chainId === ChainId.BITGERT && fetcher,
+    }&amount=${amount}&slipage=${slippage}&use_split=true&chain=${setChainName(chainId)}`,
+    token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
     {
       refreshInterval: FAST_INTERVAL,
     },
@@ -60,8 +69,8 @@ export const useAkkaRouterRoute = (token0: Currency, token1: Currency, amount: s
   const { data, error } = useSWR(
     `https://icecream.akka.finance/route?token0=${inputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
     }&token1=${outputCurrencyId === TokenEnum.NativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
-    }&amount=${amount}&slipage=${slippage}&use_split=true`,
-    token0 && token1 && amount && slippage && chainId === ChainId.BITGERT && fetcher,
+    }&amount=${amount}&slipage=${slippage}&use_split=true&chain=${setChainName(chainId)}`,
+    token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
     {
       refreshInterval: FAST_INTERVAL,
     },
