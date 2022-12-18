@@ -1,4 +1,4 @@
-import { Fragment, memo } from 'react'
+import { Fragment, memo, useEffect } from 'react'
 import { Trade, Currency, TradeType } from '@pancakeswap/sdk'
 import { Text, Flex, ChevronRightIcon, Link } from '@pancakeswap/uikit'
 import { unwrappedToken } from 'utils/wrappedCurrency'
@@ -10,8 +10,8 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
   const { isDark, theme } = useTheme()
   // Create better route object to filter routes to show in ui
   const { chainId } = useActiveChainId();
-  const bigtertRoute = route.routes[chainId.toString()]
-  bigtertRoute.forEach((item) => {
+  const akkaRoute = route?.routes[chainId.toString()]
+  akkaRoute?.forEach((item) => {
     item.routes[0].operationsSeperated[0].operations.forEach((i) => {
       /* eslint-disable no-param-reassign */
       delete i.amountIn
@@ -21,7 +21,7 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
       /* eslint-enable no-param-reassign */
     })
   })
-  const result = bigtertRoute.filter(
+  const result = akkaRoute.filter(
     (thing, index, self) =>
       index ===
       self.findIndex(
@@ -34,7 +34,7 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
     })
     arrayElements.sort()
 
-    const arrayElements2 = bigtertRoute.map((item) => {
+    const arrayElements2 = akkaRoute.map((item) => {
       return JSON.stringify(item)
     })
     arrayElements2.sort()

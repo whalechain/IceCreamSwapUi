@@ -354,7 +354,7 @@ export default function SwapForm() {
           </AutoColumn>
         )}
         <Box mt="0.25rem">
-          {isAkkaSwapMode && isAkkaSwapActive ? (
+          {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade ? (
             <AkkaSwapCommitButton
               account={account}
               approval={akkaApproval}
@@ -397,7 +397,7 @@ export default function SwapForm() {
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
       )}
-      {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade.route && typedValue && (
+      {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade.route && typedValue && (
         <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} />
       )}
     </>

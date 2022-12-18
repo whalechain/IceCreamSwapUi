@@ -46,7 +46,7 @@ export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
   const { chainId } = useActiveChainId()
-  const showRoute = Boolean(route && route?.routes[chainId.toString()]?.length > 0)
+  const showRoute = Boolean(route && route?.routes[chainId.toString()] && route?.routes[chainId.toString()]?.length > 0)
 
   return (
     <AutoColumn gap="0px">
