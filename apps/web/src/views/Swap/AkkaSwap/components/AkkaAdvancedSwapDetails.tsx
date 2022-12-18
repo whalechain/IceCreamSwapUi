@@ -48,7 +48,7 @@ export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
   const { chainId } = useActiveChainId()
 
   const showRoute = () => {
-    if (route !== undefined && route?.routes[chainId.toString()] !== undefined && route?.routes[chainId.toString()]?.length > 0) {
+    if (route !== undefined && route?.routes?.[chainId.toString()] !== undefined && route?.routes[chainId.toString()]?.length > 0) {
       return true;
     }
     return false;
