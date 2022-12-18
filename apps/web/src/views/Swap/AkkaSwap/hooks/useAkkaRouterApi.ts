@@ -1,24 +1,14 @@
-import { ChainId, Currency, CurrencyAmount } from '@pancakeswap/sdk'
-import { FAST_INTERVAL } from 'config/constants'
+import { ChainId, Currency, CurrencyAmount, NATIVE } from '@pancakeswap/sdk'
+import { FAST_INTERVAL, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { keysToCamel } from 'utils/snakeToCamel'
 import { useEffect } from 'react'
 import { useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { Field } from 'state/swap/actions'
 import { useSwapState } from 'state/swap/hooks'
 import useSWR, { Fetcher } from 'swr'
-import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType, TokenEnum } from './types'
+import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 
-export const setChainName = (chainNumber: ChainId): string => {
-  switch (chainNumber) {
-    case ChainId.BITGERT:
-      return "bitgert"
-    case ChainId.XDC:
-      return "xdc"
-    default:
-      return ""
-  }
-}
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: string, slippage = 0.1) => {
   const {
@@ -38,9 +28,9 @@ export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: st
     })
   const { chainId } = useActiveChainId()
   const { data, error } = useSWR(
-    `https://icecream.akka.finance/swap?token0=${inputCurrencyId === TokenEnum.BriseNativeToken || inputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
-    }&token1=${outputCurrencyId === TokenEnum.BriseNativeToken || outputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
-    }&amount=${amount}&slipage=${slippage}&use_split=true&chain=${setChainName(chainId)}`,
+    `https://icecream.akka.finance/swap?token0=${inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
+    }&token1=${outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address
+    }&amount=${amount}&slipage=${slippage}&use_split=true&chain_id=${chainId}`,
     token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
     {
       refreshInterval: FAST_INTERVAL,
@@ -68,9 +58,9 @@ export const useAkkaRouterRoute = (token0: Currency, token1: Currency, amount: s
     })
   const { chainId } = useActiveChainId()
   const { data, error } = useSWR(
-    `https://icecream.akka.finance/route?token0=${inputCurrencyId === TokenEnum.BriseNativeToken || inputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token0?.wrapped?.address
-    }&token1=${outputCurrencyId === TokenEnum.BriseNativeToken || outputCurrencyId === TokenEnum.XdcNativeToken ? TokenEnum.NativeTokenAdress : token1?.wrapped?.address
-    }&amount=${amount}&slipage=${slippage}&use_split=true&chain=${setChainName(chainId)}`,
+    `https://icecream.akka.finance/route?token0=${inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
+    }&token1=${outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address
+    }&amount=${amount}&slipage=${slippage}&use_split=true&chain_id=${chainId}`,
     token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
     {
       refreshInterval: FAST_INTERVAL,

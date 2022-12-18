@@ -9,7 +9,6 @@ import { TOTAL_FEE, LP_HOLDERS_FEE, TREASURY_FEE, BUYBACK_FEE } from 'config/con
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import { AkkaRouterInfoResponseType } from '../hooks/types'
 import AkkaSwapRoute from './AkkaSwapRoute'
-import { setChainName } from '../hooks/useAkkaRouterApi'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 
 function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
@@ -47,7 +46,7 @@ export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
   const { chainId } = useActiveChainId()
-  const showRoute = Boolean(route && route?.routes[setChainName(chainId)]?.length > 0)
+  const showRoute = Boolean(route && route?.routes[chainId.toString()]?.length > 0)
 
   return (
     <AutoColumn gap="0px">

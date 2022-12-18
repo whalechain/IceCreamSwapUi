@@ -5,13 +5,12 @@ import { unwrappedToken } from 'utils/wrappedCurrency'
 import { AkkaRouterInfoResponseType } from '../hooks/types'
 import useTheme from 'hooks/useTheme'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import { setChainName } from '../hooks/useAkkaRouterApi'
 
 export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoResponseType }) {
   const { isDark, theme } = useTheme()
   // Create better route object to filter routes to show in ui
   const { chainId } = useActiveChainId();
-  const bigtertRoute = route.routes[setChainName(chainId)]
+  const bigtertRoute = route.routes[chainId.toString()]
   bigtertRoute.forEach((item) => {
     item.routes[0].operationsSeperated[0].operations.forEach((i) => {
       /* eslint-disable no-param-reassign */
