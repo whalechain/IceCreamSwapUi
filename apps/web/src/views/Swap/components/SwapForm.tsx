@@ -283,7 +283,7 @@ export default function SwapForm() {
           </AutoColumn>
           <CurrencyInputPanel
             value={
-              isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade.route && typedValue !== ''
+              isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
                 ? akkaRouterTrade.route.returnAmount
                 : formattedAmounts[Field.OUTPUT]
             }
@@ -298,7 +298,7 @@ export default function SwapForm() {
             commonBasesType={CommonBasesType.SWAP_LIMITORDER}
             disabled={isAkkaSwapMode && isAkkaSwapActive}
           />
-          {isAkkaSwapMode && isAkkaSwapActive && (
+          {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && (
             <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
               <RowBetween align="center">
                 <Label>{t('Slippage Tolerance')}</Label>
@@ -397,7 +397,7 @@ export default function SwapForm() {
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
       )}
-      {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade.route && typedValue && (
+      {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue && (
         <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} />
       )}
     </>

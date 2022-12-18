@@ -21,7 +21,7 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
       /* eslint-enable no-param-reassign */
     })
   })
-  const result = akkaRoute.filter(
+  const result = akkaRoute?.filter(
     (thing, index, self) =>
       index ===
       self.findIndex(
@@ -34,7 +34,7 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
     })
     arrayElements.sort()
 
-    const arrayElements2 = akkaRoute.map((item) => {
+    const arrayElements2 = akkaRoute?.map((item) => {
       return JSON.stringify(item)
     })
     arrayElements2.sort()
