@@ -46,25 +46,14 @@ export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
   const { chainId } = useActiveChainId()
-  // const showRoute = Boolean(route && route?.routes[chainId.toString()] && route?.routes[chainId.toString()]?.length > 0)
-  console.log(route);
+
   const showRoute = () => {
-    if (route !== undefined) {
-      if (route?.routes[chainId.toString()] !== undefined) {
-        if (route?.routes[chainId.toString()]?.length > 0) {
-          return true;
-        } else {
-          return false
-        }
-      } else {
-        return false
-      }
-    } else {
-      return false
+    if (route !== undefined && route?.routes[chainId.toString()] !== undefined && route?.routes[chainId.toString()]?.length > 0) {
+      return true;
     }
+    return false;
   }
 
-  console.log(showRoute());
   return (
     <AutoColumn gap="0px">
       {route && (
