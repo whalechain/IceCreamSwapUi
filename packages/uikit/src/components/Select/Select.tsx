@@ -24,7 +24,7 @@ const DropDownListContainer = styled.div`
   position: absolute;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.input};
-  z-index: ${({ theme }) => theme.zIndices.dropdown};
+  z-index: ${({ theme }) => theme.zIndices.dropdown + 100};
   transition: transform 0.15s, opacity 0.15s;
   transform: scaleY(0);
   transform-origin: top;
@@ -45,7 +45,7 @@ const DropDownContainer = styled(Box)<{ isOpen: boolean }>`
   height: 40px;
   min-width: 136px;
   user-select: none;
-  z-index: 20;
+  z-index: ${(props) => (props.isOpen ? 30 : 20)};
 
   ${({ theme }) => theme.mediaQueries.sm} {
     min-width: 168px;
@@ -102,7 +102,7 @@ export interface SelectProps extends BoxProps {
 }
 
 export interface OptionProps {
-  label: string;
+  label: React.ReactNode;
   value: any;
 }
 
@@ -153,7 +153,10 @@ const Select: React.FunctionComponent<React.PropsWithChildren<SelectProps>> = ({
   return (
     <DropDownContainer isOpen={isOpen} {...props}>
       <DropDownHeader onClick={toggling}>
-        <Text color={!optionSelected && placeHolderText ? "text" : undefined}>
+        <Text
+          style={{ display: "inline-flex", alignItems: "center", gap: "0.75em" }}
+          color={!optionSelected && placeHolderText ? "text" : undefined}
+        >
           {!optionSelected && placeHolderText ? placeHolderText : options[selectedOptionIndex].label}
         </Text>
       </DropDownHeader>
@@ -162,8 +165,8 @@ const Select: React.FunctionComponent<React.PropsWithChildren<SelectProps>> = ({
         <DropDownList>
           {options.map((option, index) =>
             placeHolderText || index !== selectedOptionIndex ? (
-              <ListItem onClick={onOptionClicked(index)} key={option.label}>
-                <Text>{option.label}</Text>
+              <ListItem onClick={onOptionClicked(index)} key={typeof option.label === "string" ? option.label : index}>
+                <Text style={{ display: "inline-flex", alignItems: "center", gap: "0.75em" }}>{option.label}</Text>
               </ListItem>
             ) : null
           )}

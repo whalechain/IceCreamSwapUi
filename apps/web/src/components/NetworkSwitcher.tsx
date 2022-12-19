@@ -4,6 +4,7 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   Box,
+  BoxProps,
   Button,
   Flex,
   InfoIcon,
@@ -25,7 +26,7 @@ import { chains } from 'utils/wagmi'
 import { useNetwork } from 'wagmi'
 
 import { ChainLogo } from './Logo/ChainLogo'
-import chainName from "../config/constants/chainName";
+import chainName from '../config/constants/chainName'
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
@@ -109,7 +110,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   )
 }
 
-export const NetworkSwitcher = () => {
+export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation()
   const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
   const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
@@ -135,9 +136,10 @@ export const NetworkSwitcher = () => {
   }
 
   return (
-    <Box ref={cannotChangeNetwork ? targetRef : null} height="100%">
+    <Box {...props} ref={cannotChangeNetwork ? targetRef : null} height="100%">
       {cannotChangeNetwork && tooltipVisible && tooltip}
       <UserMenu
+        width="100%"
         mr="8px"
         placement="bottom"
         variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'}
