@@ -225,4 +225,26 @@ export const xdc: Chain = {
   },
 }
 
+export const shardeumTestnet: Chain = {
+  id: 8081,
+  name: 'Shardeum Liberty 2.X',
+  network: 'shardeum',
+  rpcUrls: {
+    public: 'https://liberty20.shardeum.org',
+    default: 'https://liberty20.shardeum.org',
+  },
+  blockExplorers: {
+    default: { name: 'Shardeum test Explorer', url: 'https://explorer-liberty20.shardeum.org' },
+  },
+  nativeCurrency: {
+    name: 'SHM',
+    symbol: 'SHM',
+    decimals: 18,
+  },
+  multicall: {
+    address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
+    blockCreated: 2980,
+  },
+}
+
 export { rinkeby, mainnet, goerli }

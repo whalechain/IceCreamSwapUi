@@ -4,6 +4,7 @@ import {dogechainTokens} from "./2000";
 import {dokenTokens} from "./61916";
 import {fuseTokens} from "./122";
 import {xdcTokens} from "./50";
+import {shardeumTestnetTokens} from "./8081";
 
 
 export const USD: Record<ChainId, ERC20Token> = {
@@ -12,6 +13,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.DOKEN]: dokenTokens.usdt,
   [ChainId.FUSE]: fuseTokens.usdt,
   [ChainId.XDC]: xdcTokens.usdt,
+  [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.usdt,
 }
 
 export const ICE: Record<ChainId, ERC20Token> = {
@@ -20,4 +22,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.DOKEN]: dokenTokens.ice,
   [ChainId.FUSE]: fuseTokens.ice,
   [ChainId.XDC]: xdcTokens.ice,
+  [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.ice,
 }

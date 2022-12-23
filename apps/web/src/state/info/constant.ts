@@ -41,6 +41,7 @@ export const multiChainScan = {
   DOGECHAIN: 'DogeScan',
   DOKEN: 'DokenScan',
   FUSE: 'FuseScan',
+  SHARDEUM_TEST: 'ShardeumTestnetScan',
 }
 
 export const multiChainTokenBlackList = {
