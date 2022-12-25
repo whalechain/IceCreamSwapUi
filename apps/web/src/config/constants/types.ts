@@ -10,7 +10,7 @@ export type ChainMap<T> = {
 
 export interface RouterAddressTypes {
   Icecream: string
-  Akka: string
+  Akka?: string
 }
 
 export type ChainTokenList = ChainMap<Token[]>

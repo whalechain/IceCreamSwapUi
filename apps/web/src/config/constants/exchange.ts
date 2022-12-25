@@ -14,15 +14,12 @@ export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
   },
   [ChainId.DOGE]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: "",
   },
   [ChainId.DOKEN]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: "",
   },
   [ChainId.FUSE]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: "",
   },
   [ChainId.XDC]: {
     Icecream: ROUTER_ADDRESS_COMMON,
