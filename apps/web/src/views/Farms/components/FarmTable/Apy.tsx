@@ -6,7 +6,7 @@ import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import { Skeleton } from '@pancakeswap/uikit'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 
-export interface AprProps {
+export interface ApyProps {
   value: string
   multiplier: string
   pid: number
@@ -46,7 +46,7 @@ const AprWrapper = styled.div`
   text-align: left;
 `
 
-const Apr: React.FC<React.PropsWithChildren<AprProps>> = ({
+const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
   value,
   pid,
   lpLabel,
@@ -99,4 +99,4 @@ const Apr: React.FC<React.PropsWithChildren<AprProps>> = ({
   )
 }
 
-export default Apr
+export default Apy
