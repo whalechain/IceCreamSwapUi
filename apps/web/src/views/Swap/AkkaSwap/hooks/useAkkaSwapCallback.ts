@@ -12,8 +12,9 @@ import { useGasPrice } from 'state/user/hooks'
 import { parseEther, parseUnits } from '@ethersproject/units'
 import { calculateGasMargin } from 'utils'
 import { Contract } from '@ethersproject/contracts'
-import { SwapParameters } from '@pancakeswap/sdk'
+import { NATIVE, SwapParameters } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
   multiPathSwap: () => Promise<string>
@@ -35,6 +36,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
     [Field.INPUT]: { currencyId: inputCurrencyId },
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
+  const { chainId } = useActiveChainId()
   return useMemo(() => {
     const methodName = 'multiPathSwap'
 
@@ -48,7 +50,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           args?.dstData,
           account
           , {
-            value: inputCurrencyId === 'BRISE' ? args?.amountIn : '',
+            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '',
           })
           .catch((gasError) => {
             console.error('Gas estimate failed', gasError, "args:", args)
@@ -65,7 +67,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             account
           ],
           {
-            value: inputCurrencyId === 'BRISE' ? args.amountIn : '',
+            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '',
             gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : ""
           }
         )
