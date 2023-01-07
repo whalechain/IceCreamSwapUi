@@ -709,6 +709,22 @@
       "decimals": 18,
       "chainId": 50,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doken/assets/0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5/logo.png"
+    },
+    {
+      "name": "USPLUS",
+      "address": "0xc280EbcD651d2a0C8D4bb49151062C9eEF55d370",
+      "symbol": "US+",
+      "decimals": 6,
+      "chainId": 50,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/xdc/assets/0xc280EbcD651d2a0C8D4bb49151062C9eEF55d370/logo.png"
+    },
+    {
+      "name": "BitcoinX",
+      "address": "0xb6E57fBB2D44092f75d9da2769FFc788ce931320",
+      "symbol": "BTCx",
+      "decimals": 8,
+      "chainId": 50,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/xdc/assets/0xb6e57fbb2d44092f75d9da2769ffc788ce931320/logo.png"
     }
   ]
 }
