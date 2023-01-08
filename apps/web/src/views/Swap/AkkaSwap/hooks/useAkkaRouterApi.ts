@@ -88,7 +88,7 @@ export const useAkkaRouterRouteWithArgs = (token0: Currency, token1: Currency, a
   const route = useAkkaRouterRoute(token0, token1, amount, slippage)
   const args = useAkkaRouterArgs(token0, token1, amount, slippage)
   const akkaContract = useAkkaRouterContract()
-  const { account } = useWeb3React()
+  const { account, isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
   const {
     independentField,
@@ -97,23 +97,27 @@ export const useAkkaRouterRouteWithArgs = (token0: Currency, token1: Currency, a
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
   const { chainId } = useActiveChainId()
-  const gas = akkaContract.estimateGas[methodName](
-    args?.data?.amountIn,
-    args?.data?.amountOutMin,
-    args?.data?.data,
-    [],
-    [],
-    account
-    , {
-      value: inputCurrencyId === NATIVE[chainId].symbol ? args?.data?.amountIn : '0',
-    })
-    .then(() => {
-      toggleSetAkkaContractModeToTrue()
-    })
-    .catch(() => {
-      toggleSetAkkaContractModeToFalse()
-    })
-
+  if (isConnected) {
+    akkaContract.estimateGas[methodName](
+      args?.data?.amountIn,
+      args?.data?.amountOutMin,
+      args?.data?.data,
+      [],
+      [],
+      account
+      , {
+        value: inputCurrencyId === NATIVE[chainId].symbol ? args?.data?.amountIn : '0',
+      })
+      .then(() => {
+        toggleSetAkkaContractModeToTrue()
+      })
+      .catch(() => {
+        toggleSetAkkaContractModeToFalse()
+      })
+  }
+  else {
+    toggleSetAkkaContractModeToTrue()
+  }
   return {
     route,
     args,
