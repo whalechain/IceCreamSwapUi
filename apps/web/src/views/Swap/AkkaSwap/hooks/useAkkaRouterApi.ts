@@ -5,11 +5,13 @@ import { useEffect } from 'react'
 import { useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { Field } from 'state/swap/actions'
 import { useSwapState } from 'state/swap/hooks'
-import useSWR, { Fetcher } from 'swr'
+import useSWR, { Fetcher, useSWRConfig } from 'swr'
 import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { formatUnits } from '@ethersproject/units'
 import { useCurrency } from 'hooks/Tokens'
+import { useAkkaRouterContract } from 'utils/exchange'
+import { useWeb3React } from '@pancakeswap/wagmi'
 
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: CurrencyAmount<Currency>, slippage = 0.1) => {
@@ -76,9 +78,37 @@ export const useAkkaRouterRoute = (token0: Currency, token1: Currency, amount: C
 
 // Call both apis route and args together in the same time
 export const useAkkaRouterRouteWithArgs = (token0: Currency, token1: Currency, amount: CurrencyAmount<Currency>, slippage = 0.1) => {
+  // isAkkaSwapMode checks if this is akka router form or not from redux
+  const [isAkkaSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
+    useIsAkkaSwapModeStatus()
   const route = useAkkaRouterRoute(token0, token1, amount, slippage)
   const args = useAkkaRouterArgs(token0, token1, amount, slippage)
-
+  const akkaContract = useAkkaRouterContract()
+  const { account } = useWeb3React()
+  const methodName = 'multiPathSwap'
+  const {
+    independentField,
+    typedValue,
+    [Field.INPUT]: { currencyId: inputCurrencyId },
+    [Field.OUTPUT]: { currencyId: outputCurrencyId },
+  } = useSwapState()
+  const { chainId } = useActiveChainId()
+  akkaContract.estimateGas[methodName](
+    args?.data?.amountIn,
+    args?.data?.amountOutMin,
+    args?.data?.data,
+    [],
+    [],
+    account
+    , {
+      value: inputCurrencyId === NATIVE[chainId].symbol ? args?.data?.amountIn : '0',
+    })
+    .then(() => {
+      toggleSetAkkaModeToTrue()
+    })
+    .catch(() => {
+      toggleSetAkkaModeToFalse()
+    })
   return {
     route,
     args,

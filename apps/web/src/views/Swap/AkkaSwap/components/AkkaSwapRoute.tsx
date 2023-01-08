@@ -62,7 +62,7 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
         return (
           // eslint-disable-next-line react/no-array-index-key
           <Flex key={index}>
-            <Text fontSize="12px">{(Number((item[2] / Number(route.inputAmount)).toFixed(2)) * 100).toFixed()}%</Text>
+            <Text fontSize="12px">{(Number((item[2] / Number(route.inputAmount)).toFixed(3)) * 100).toFixed(1)}%</Text>
             <ChevronRightIcon width="16px" />
             {JSON.parse(item[0]).routes[0].operationsSeperated[0].operations.map((item2, index2, path) => {
               const isLastItem: boolean = index2 === path.length - 1

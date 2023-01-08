@@ -42,8 +42,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
 
     return {
       multiPathSwap: args ? async () => {
-        console.log(args);
-        console.log(inputCurrencyId === NATIVE[chainId].symbol);
+
         const gasLimitCalc = await akkaContract.estimateGas[methodName](
           args?.amountIn,
           args?.amountOutMin,
