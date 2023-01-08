@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState, useAppDispatch } from '../index'
-import { akkaSwapActive, akkaSwapStatus } from './actions'
+import { akkaSwapActive, akkaSwapContractActive, akkaSwapStatus } from './actions'
 
 // Get Farm Harvest
 export function useFarmHarvestTransaction() {
@@ -57,3 +57,27 @@ export function useIsAkkaSwapModeStatus(): [boolean, () => void, () => void, () 
 
   return [isAkkaSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue]
 }
+
+export function useIsAkkaContractSwapActive(): boolean {
+  return useSelector<AppState, AppState['global']['isAkkaSwapContractActive']>((state) => state.global.isAkkaSwapContractActive)
+}
+
+export function useIsAkkaContractSwapModeActive(): [boolean, () => void, () => void, () => void] {
+  const dispatch = useAppDispatch()
+  const isAkkaContractSwapMode = useIsAkkaContractSwapActive()
+
+  const toggleSetAkkaContractMode = useCallback(() => {
+    dispatch(akkaSwapContractActive({ isAkkaSwapContractActive: !isAkkaContractSwapMode }))
+  }, [isAkkaContractSwapMode, dispatch])
+
+  const toggleSetAkkaContractModeToFalse = useCallback(() => {
+    dispatch(akkaSwapContractActive({ isAkkaSwapContractActive: false }))
+  }, [isAkkaContractSwapMode, dispatch])
+
+  const toggleSetAkkaContractModeToTrue = useCallback(() => {
+    dispatch(akkaSwapContractActive({ isAkkaSwapContractActive: true }))
+  }, [isAkkaContractSwapMode, dispatch])
+
+  return [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue]
+}
+

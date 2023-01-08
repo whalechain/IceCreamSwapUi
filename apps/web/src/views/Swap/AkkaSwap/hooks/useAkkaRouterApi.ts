@@ -2,7 +2,7 @@ import { ChainId, Currency, CurrencyAmount, NATIVE } from '@pancakeswap/sdk'
 import { FAST_INTERVAL, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { keysToCamel } from 'utils/snakeToCamel'
 import { useEffect } from 'react'
-import { useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { Field } from 'state/swap/actions'
 import { useSwapState } from 'state/swap/hooks'
 import useSWR, { Fetcher, useSWRConfig } from 'swr'
@@ -81,6 +81,10 @@ export const useAkkaRouterRouteWithArgs = (token0: Currency, token1: Currency, a
   // isAkkaSwapMode checks if this is akka router form or not from redux
   const [isAkkaSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
     useIsAkkaSwapModeStatus()
+  // isAkkaContractSwapMode checks if this is akka router form or not from redux
+  const [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue] =
+    useIsAkkaContractSwapModeActive()
+
   const route = useAkkaRouterRoute(token0, token1, amount, slippage)
   const args = useAkkaRouterArgs(token0, token1, amount, slippage)
   const akkaContract = useAkkaRouterContract()
@@ -93,7 +97,7 @@ export const useAkkaRouterRouteWithArgs = (token0: Currency, token1: Currency, a
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
   const { chainId } = useActiveChainId()
-  akkaContract.estimateGas[methodName](
+  const gas = akkaContract.estimateGas[methodName](
     args?.data?.amountIn,
     args?.data?.amountOutMin,
     args?.data?.data,
@@ -104,11 +108,12 @@ export const useAkkaRouterRouteWithArgs = (token0: Currency, token1: Currency, a
       value: inputCurrencyId === NATIVE[chainId].symbol ? args?.data?.amountIn : '0',
     })
     .then(() => {
-      toggleSetAkkaModeToTrue()
+      toggleSetAkkaContractModeToTrue()
     })
     .catch(() => {
-      toggleSetAkkaModeToFalse()
+      toggleSetAkkaContractModeToFalse()
     })
+
   return {
     route,
     args,

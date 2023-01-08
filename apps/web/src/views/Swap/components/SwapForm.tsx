@@ -36,7 +36,7 @@ import { useStableFarms } from '../StableSwap/hooks/useStableConfig'
 import { isAddress } from '../../../utils'
 import { SwapFeaturesContext } from '../SwapFeaturesContext'
 import { useAkkaSwapInfo } from '../AkkaSwap/hooks/useAkkaSwapInfo'
-import { useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import AkkaSwapCommitButton from '../AkkaSwap/components/AkkaSwapCommitButton'
 import AkkaAdvancedSwapDetailsDropdown from '../AkkaSwap/components/AkkaAdvancedSwapDetailsDropdown'
 import styled from 'styled-components'
@@ -61,6 +61,10 @@ export default function SwapForm() {
   // isAkkaSwapActive checks if akka router is generally active or not
   const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] =
     useIsAkkaSwapModeActive()
+
+  // isAkkaContractSwapMode checks if this is akka router form or not from redux
+  const [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue] =
+    useIsAkkaContractSwapModeActive()
 
   const { account, chainId } = useActiveWeb3React()
 
@@ -127,13 +131,13 @@ export default function SwapForm() {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
 
@@ -283,7 +287,7 @@ export default function SwapForm() {
           </AutoColumn>
           <CurrencyInputPanel
             value={
-              isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
+              isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
                 ? akkaRouterTrade.route.returnAmount
                 : formattedAmounts[Field.OUTPUT]
             }
@@ -296,18 +300,8 @@ export default function SwapForm() {
             id="swap-currency-output"
             showCommonBases
             commonBasesType={CommonBasesType.SWAP_LIMITORDER}
-            disabled={isAkkaSwapMode && isAkkaSwapActive}
+            disabled={isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode}
           />
-          {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && (
-            <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
-              <RowBetween align="center">
-                <Label>{t('Slippage Tolerance')}</Label>
-                <Text bold color="primary">
-                  {allowedSlippage / 100}%
-                </Text>
-              </RowBetween>
-            </AutoColumn>
-          )}
           {isAccessTokenSupported && (
             <Box>
               <AccessRisk inputCurrency={currencies[Field.INPUT]} outputCurrency={currencies[Field.OUTPUT]} />
@@ -354,7 +348,7 @@ export default function SwapForm() {
           </AutoColumn>
         )}
         <Box mt="0.25rem">
-          {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade ? (
+          {isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade ? (
             <AkkaSwapCommitButton
               account={account}
               approval={akkaApproval}
@@ -392,12 +386,12 @@ export default function SwapForm() {
           )}
         </Box>
       </Wrapper>
-      {(!isAkkaSwapMode || !isAkkaSwapActive) && !swapIsUnsupported ? (
+      {(!isAkkaSwapMode || !isAkkaSwapActive || !isAkkaContractSwapMode) && !swapIsUnsupported ? (
         trade && <AdvancedSwapDetailsDropdown trade={trade} />
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
       )}
-      {isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue && (
+      {isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue && (
         <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} />
       )}
     </>
