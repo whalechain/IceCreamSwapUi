@@ -2,7 +2,7 @@ export interface AkkaRouterArgsResponseType {
   amountIn: string
   amountOutMin: string
   bridge: []
-  data: []
+  data: any[]
   dstData: []
   to: string
   value: string
