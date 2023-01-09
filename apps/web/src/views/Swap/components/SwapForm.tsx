@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useMemo, useContext } from 'react'
-import { Currency, CurrencyAmount, Percent } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, NATIVE, Percent } from '@pancakeswap/sdk'
 import { Button, ArrowDownIcon, Box, Skeleton, Swap as SwapUI, Message, MessageText, Text } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
@@ -41,6 +41,9 @@ import AkkaSwapCommitButton from '../AkkaSwap/components/AkkaSwapCommitButton'
 import AkkaAdvancedSwapDetailsDropdown from '../AkkaSwap/components/AkkaAdvancedSwapDetailsDropdown'
 import styled from 'styled-components'
 import { useApproveCallbackFromAkkaTrade } from '../AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
+import { useActiveChainId } from 'hooks/useActiveChainId'
+import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAkkaRouterContract } from 'utils/exchange'
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -241,6 +244,48 @@ export default function SwapForm() {
       refreshBlockNumber()
     }
   }, [hasAmount, refreshBlockNumber])
+
+  const akkaContract = useAkkaRouterContract()
+  const { isConnected } = useWeb3React()
+  const methodName = 'multiPathSwap'
+  useEffect(() => {
+    if (isConnected) {
+      if (akkaApproval === ApprovalState.APPROVED) {
+        if (
+          currencyBalances[Field.INPUT] &&
+          parsedAmount &&
+          currencyBalances[Field.INPUT].greaterThan(parsedAmount)
+        ) {
+          akkaContract.estimateGas[methodName](
+            akkaRouterTrade?.args?.amountIn,
+            akkaRouterTrade?.args?.amountOutMin,
+            akkaRouterTrade?.args?.data,
+            [],
+            [],
+            account
+            , {
+              value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
+            })
+            .then(() => {
+              toggleSetAkkaContractModeToTrue()
+            })
+            .catch(() => {
+              toggleSetAkkaContractModeToFalse()
+            })
+        }
+        else {
+          toggleSetAkkaContractModeToTrue()
+        }
+      }
+      else {
+        toggleSetAkkaContractModeToTrue()
+      }
+    }
+    else {
+      toggleSetAkkaContractModeToTrue()
+    }
+  }, [akkaApproval, isConnected, parsedAmounts, parsedAmount])
+
 
   return (
     <>

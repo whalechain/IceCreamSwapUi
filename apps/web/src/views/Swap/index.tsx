@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect } from 'react'
-import { ChainId, Currency, JSBI } from '@pancakeswap/sdk'
+import { ChainId, Currency, JSBI, NATIVE } from '@pancakeswap/sdk'
 import { Box, Flex, BottomDrawer, useMatchBreakpoints, Swap as SwapUI } from '@pancakeswap/uikit'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import { AppBody } from 'components/App'
@@ -17,11 +17,12 @@ import SwapTab, { SwapType } from './components/SwapTab'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
 import { chainId } from 'wagmi'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useIsAkkaSwap, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaContractSwapModeActive, useIsAkkaSwap, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useSWR from 'swr'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
 import { useUserSlippageTolerance } from 'state/user/hooks'
+import { useAkkaRouterContract } from 'utils/exchange'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -69,7 +70,6 @@ export default function Swap() {
 
   // Check if pancakeswap route is better than akka route or not
   useEffect(() => {
-
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
