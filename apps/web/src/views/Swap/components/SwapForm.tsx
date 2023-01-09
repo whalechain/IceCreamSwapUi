@@ -433,9 +433,7 @@ export default function SwapForm() {
       </Wrapper>
       {(!isAkkaSwapMode || !isAkkaSwapActive || !isAkkaContractSwapMode) && !swapIsUnsupported ? (
         trade && <AdvancedSwapDetailsDropdown trade={trade} />
-      ) : (
-        <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
-      )}
+      ) : ""}
       {isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue && (
         <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} />
       )}
