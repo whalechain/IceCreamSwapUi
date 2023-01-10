@@ -19,7 +19,7 @@ export function useCurrency(coinId?: string): Currency | undefined {
 
 export function useToken(coinId?: string) {
   const { networkName } = useActiveNetwork()
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
   const tokens = useAllTokens()
   const token = coinId ? tokens[coinId] : undefined
 
@@ -47,7 +47,7 @@ export function useToken(coinId?: string) {
 
 export function useCoins(addresses: string[]) {
   const { networkName } = useActiveNetwork()
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
   const tokens = useAllTokens()
   const native = useNativeCurrency()
 
@@ -76,7 +76,7 @@ const mapWithoutUrls = (tokenMap: TokenAddressMap, chainId: number) =>
   }, {})
 
 export function useAllTokens(): { [address: string]: Token } {
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
   const tokenMap = useAtomValue(combinedTokenMapFromActiveUrlsAtom)
   const userAddedTokens = useUserAddedTokens()
   return useMemo(() => {

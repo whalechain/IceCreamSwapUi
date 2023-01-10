@@ -13,6 +13,7 @@ import { useLottery } from 'state/lottery/hooks'
 import { useGasPrice } from 'state/user/hooks'
 import { callWithEstimateGas } from 'utils/calls'
 import { getBalanceAmount } from '@pancakeswap/utils/formatBalance'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface ClaimInnerProps {
   roundsToClaim: LotteryTicketClaimData[]
@@ -20,6 +21,7 @@ interface ClaimInnerProps {
 }
 
 const ClaimInnerContainer: React.FC<React.PropsWithChildren<ClaimInnerProps>> = ({ onSuccess, roundsToClaim }) => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -63,7 +65,7 @@ const ClaimInnerContainer: React.FC<React.PropsWithChildren<ClaimInnerProps>> = 
     if (roundsToClaim.length > activeClaimIndex + 1) {
       // If there are still rounds to claim, move onto the next claim
       setActiveClaimIndex(activeClaimIndex + 1)
-      dispatch(fetchUserLotteries({ account, currentLotteryId }))
+      dispatch(fetchUserLotteries({ account, currentLotteryId, chainId }))
     } else {
       onSuccess()
     }

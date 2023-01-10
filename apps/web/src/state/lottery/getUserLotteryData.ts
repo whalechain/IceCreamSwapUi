@@ -4,6 +4,7 @@ import { LotteryTicket } from 'config/constants/types'
 import { LotteryUserGraphEntity, LotteryResponse, UserRound } from 'state/types'
 import { getRoundIdsArray, fetchMultipleLotteries, hasRoundBeenClaimed } from './helpers'
 import { fetchUserTicketsForMultipleRounds } from './getUserTicketsData'
+import {ChainId} from "@pancakeswap/sdk";
 
 export const MAX_USER_LOTTERIES_REQUEST_SIZE = 100
 
@@ -123,13 +124,13 @@ export const getGraphLotteryUser = async (
   return user
 }
 
-const getUserLotteryData = async (account: string, currentLotteryId: string): Promise<LotteryUserGraphEntity> => {
+const getUserLotteryData = async (account: string, currentLotteryId: string, chainId: ChainId): Promise<LotteryUserGraphEntity> => {
   const idsForTicketsNodeCall = getRoundIdsArray(currentLotteryId)
   const roundDataAndUserTickets = await fetchUserTicketsForMultipleRounds(idsForTicketsNodeCall, account)
   const userRoundsNodeData = roundDataAndUserTickets.filter((round) => round.userTickets.length > 0)
   const idsForLotteriesNodeCall = userRoundsNodeData.map((round) => round.roundId)
   const [lotteriesNodeData, graphResponse] = await Promise.all([
-    fetchMultipleLotteries(idsForLotteriesNodeCall),
+    fetchMultipleLotteries(idsForLotteriesNodeCall, chainId),
     getGraphLotteryUser(account),
   ])
   const mergedRoundData = applyNodeDataToUserGraphResponse(userRoundsNodeData, graphResponse.rounds, lotteriesNodeData)

@@ -20,6 +20,7 @@ import isEmpty from 'lodash/isEmpty'
 import uniqBy from 'lodash/uniqBy'
 import fromPairs from 'lodash/fromPairs'
 import { REQUEST_SIZE } from '../Collection/config'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface ItemListingSettings {
   field: string
@@ -177,11 +178,12 @@ const fetchAllNfts = async (
 }
 
 export const useCollectionNfts = (collectionAddress: string) => {
+  const { chainId } = useActiveChainId()
   const fetchedNfts = useRef<NftToken[]>([])
   const fallbackMode = useRef(false)
   const fallbackModePage = useRef(0)
   const isLastPage = useRef(false)
-  const collection = useGetCollection(collectionAddress)
+  const collection = useGetCollection(collectionAddress, chainId)
   const { field, direction } = useGetNftOrdering(collectionAddress)
   const showOnlyNftsOnSale = useGetNftShowOnlyOnSale(collectionAddress)
   const nftFilters = useGetNftFilters(collectionAddress)

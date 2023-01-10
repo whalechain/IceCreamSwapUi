@@ -7,9 +7,11 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import { usePotterytDrawContract } from 'hooks/useContract'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { fetchPotteryUserDataAsync } from 'state/pottery'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 export const useClaimPottery = () => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const dispatch = useAppDispatch()
   const { toastSuccess } = useToast()
@@ -26,9 +28,9 @@ export const useClaimPottery = () => {
           {t('You have successfully claimed your rewards.')}
         </ToastDescriptionWithTx>,
       )
-      dispatch(fetchPotteryUserDataAsync(account))
+      dispatch(fetchPotteryUserDataAsync({ account, chainId }))
     }
-  }, [account, contract, t, dispatch, fetchWithCatchTxError, toastSuccess])
+  }, [account, contract, t, dispatch, fetchWithCatchTxError, toastSuccess, chainId])
 
   return { isPending, handleClaim }
 }

@@ -6,6 +6,7 @@ import { Achievement } from 'state/types'
 import { multicallv2 } from 'utils/multicall'
 import { getPointCenterIfoAddress } from 'utils/addressHelpers'
 import pointCenterIfoABI from 'config/abi/pointCenterIfo.json'
+import {ChainId} from "@pancakeswap/sdk";
 
 interface IfoMapResponse {
   thresholdToClaim: string
@@ -44,7 +45,7 @@ export const getAchievementDescription = (campaign: Campaign): TranslatableText 
 /**
  * Checks if a wallet is eligible to claim points from valid IFO's
  */
-export const getClaimableIfoData = async (account: string): Promise<Achievement[]> => {
+export const getClaimableIfoData = async (account: string, chainId: ChainId): Promise<Achievement[]> => {
   const ifoCampaigns = ifosList.filter((ifoItem) => ifoItem.campaignId !== undefined)
 
   // Returns the claim status of every IFO with a campaign ID
@@ -60,12 +61,14 @@ export const getClaimableIfoData = async (account: string): Promise<Achievement[
   const claimStatuses = (await multicallv2({
     abi: pointCenterIfoABI,
     calls: claimStatusCalls,
+    chainId,
     options: { requireSuccess: false },
   })) as [boolean][] | null
 
   // Get IFO data for all IFO's that are eligible to claim
   // @ts-ignore fix chainId support
   const claimableIfoData = (await multicallv2({
+    chainId,
     abi: pointCenterIfoABI,
     calls: claimStatuses.reduce((accum, claimStatusArr, index) => {
       if (claimStatusArr === null) {

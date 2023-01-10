@@ -11,6 +11,7 @@ import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { multicallv2 } from 'utils/multicall'
 import { PublicIfoData } from '../../types'
 import { getStatus } from '../helpers'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 // https://github.com/pancakeswap/pancake-contracts/blob/master/projects/ifo/contracts/IFOV2.sol#L431
 // 1,000,000,000 / 100
@@ -39,6 +40,7 @@ const formatVestingInfo = (pool) => ({
  */
 const useGetPublicIfoData = (ifo: Ifo): PublicIfoData => {
   const { address, releaseBlockNumber, version, plannedStartTime } = ifo
+  const { chainId } = useActiveChainId()
   const cakePriceUsd = usePriceCakeBusd()
   const lpTokenPriceInUsd = useLpTokenPrice(ifo.currency.symbol)
   const currencyPriceInUSD = ifo.currency === bscTokens.cake ? cakePriceUsd : lpTokenPriceInUsd
@@ -107,6 +109,7 @@ const useGetPublicIfoData = (ifo: Ifo): PublicIfoData => {
         unlimitedVestingInformation,
         // @ts-ignore fix chainId support
       ] = await multicallv2({
+        chainId,
         abi,
         calls: [
           {
