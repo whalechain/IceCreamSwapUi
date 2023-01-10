@@ -5,7 +5,7 @@ import { useInitialBlock } from 'state/block/hooks'
 import { BITGERT_BLOCK_TIME } from 'config'
 import { Token } from '@pancakeswap/sdk'
 
-const POOL_START_BLOCK_THRESHOLD = (60 / BITGERT_BLOCK_TIME) * 4
+const POOL_START_BLOCK_THRESHOLD = (60 / BITGERT_BLOCK_TIME) * 10
 
 export default function PoolControlsContainer(props) {
   const [stakedOnly, setStakedOnly] = useUserPoolStakedOnly()

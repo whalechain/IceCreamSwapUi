@@ -10,6 +10,7 @@ import {
   DropdownMenuItemType,
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
+import {SUPPORT_FARMS, SUPPORT_STAKING} from "../../../config/constants/supportChains";
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
@@ -79,24 +80,20 @@ const config: (
     {
       label: t('Earn'),
       href: '/farms',
-      showItemsOnMobile: false,
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
       items: [
-        /*
         {
           label: t('Farms'),
           href: '/farms',
+          supportChainIds: SUPPORT_FARMS,
         },
-           */
-        /*
         {
           label: t('Pools'),
           href: '/pools',
-          supportChainIds: SUPPORT_ONLY_BSC,
+          supportChainIds: SUPPORT_STAKING,
         },
-           */
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     {

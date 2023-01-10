@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { SerializedPoolConfig } from './types'
+import {PoolCategory, SerializedPoolConfig} from './types'
+import { xdcTokens } from '@pancakeswap/tokens'
 
 export const MAX_LOCK_DURATION = 31536000
 export const UNLOCK_FREE_DURATION = 604800
@@ -53,6 +54,29 @@ export const vaultPoolConfig = {
 } as const
 
 export const livePools: SerializedPoolConfig[] = [
+    // souceId can be any positive number as long as it is unique and not 0
+  {  // test pool
+    sousId: 1,
+    stakingToken: xdcTokens.ice,
+    earningToken: xdcTokens.btcx,
+    contractAddress: {
+      50: '0x28c0e6c8E7B9E2462cAb67f151E60d210f4999F5',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.00001',
+    version: 2,  // version can't be 3 as that uses the pancake profiles that we did not implement
+  },
+  {
+    sousId: 2,
+    stakingToken: xdcTokens.ice,
+    earningToken: xdcTokens.btcx,
+    contractAddress: {
+      50: '0x7b7387513444D4336e5a7E9cF75A2Bc7a38721A9',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.02093',
+    version: 2,  // version can't be 3 as that uses the pancake profiles that we did not implement
+  },
     /*
   {
     sousId: 0,
