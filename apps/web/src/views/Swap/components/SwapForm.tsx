@@ -266,8 +266,14 @@ export default function SwapForm() {
             , {
               value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
             })
-            .then(() => {
-              toggleSetAkkaContractModeToTrue()
+            .then((data) => {
+              if (data.gt("21000")) {
+                toggleSetAkkaContractModeToTrue()
+              }
+              else {
+                toggleSetAkkaContractModeToFalse()
+              }
+
             })
             .catch(() => {
               toggleSetAkkaContractModeToFalse()
