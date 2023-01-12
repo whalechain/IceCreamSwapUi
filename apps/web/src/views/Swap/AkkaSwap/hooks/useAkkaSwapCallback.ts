@@ -42,19 +42,21 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
 
     return {
       multiPathSwap: args ? async () => {
+
         const gasLimitCalc = await akkaContract.estimateGas[methodName](
           args?.amountIn,
           args?.amountOutMin,
           args?.data,
-          args?.bridge,
-          args?.dstData,
+          [],
+          [],
           account
           , {
-            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '',
+            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
           })
           .catch((gasError) => {
             console.error('Gas estimate failed', gasError, "args:", args)
           })
+
         const tx = await callWithGasPrice(
           akkaContract,
           methodName,
@@ -62,13 +64,13 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             args.amountIn,
             args.amountOutMin,
             args.data,
-            args.bridge,
-            args.dstData,
+            [],
+            [],
             account
           ],
           {
-            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '',
-            gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : ""
+            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
+            gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
           }
         )
           .catch((error: any) => {
@@ -86,7 +88,8 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           type: 'swap',
         })
         return tx?.hash
-      } : null,
+      }
+        : null,
     }
   }, [trade, akkaContract, addTransaction])
 }
