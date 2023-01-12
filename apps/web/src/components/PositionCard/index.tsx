@@ -338,7 +338,7 @@ function FullPositionCard({
               </RowFixed>
               {token0Deposited ? (
                 <RowFixed>
-                  <Text ml="6px">{`${formatStringNumber(token0Deposited?.toExact())}${token0Deposited.currency}`}</Text>
+                  <Text ml="6px">{`${formatStringNumber(token0Deposited?.toExact())} ${token0Deposited.currency.symbol}`}</Text>
                 </RowFixed>
               ) : (
                 '-'
@@ -356,7 +356,7 @@ function FullPositionCard({
               </RowFixed>
               {token1Deposited ? (
                 <RowFixed>
-                  <Text ml="6px">{`${formatStringNumber(token1Deposited?.toExact())}${token1Deposited.currency}`}</Text>
+                  <Text ml="6px">{`${formatStringNumber(token1Deposited?.toExact())} ${token1Deposited.currency.symbol}`}</Text>
                 </RowFixed>
               ) : (
                 '-'
