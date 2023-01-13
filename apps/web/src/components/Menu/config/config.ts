@@ -85,12 +85,12 @@ const config: (
       image: '/images/decorations/pe2.png',
       items: [
         {
-          label: t('Farms'),
+          label: t('Liquidity Farms'),
           href: '/farms',
           supportChainIds: SUPPORT_FARMS,
         },
         {
-          label: t('Pools'),
+          label: t('Staking'),
           href: '/pools',
           supportChainIds: SUPPORT_STAKING,
         },
