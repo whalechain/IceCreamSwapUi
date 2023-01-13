@@ -26,7 +26,7 @@ interface WalletInfoProps {
 const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss }) => {
   const { t } = useTranslation()
   const { account } = useAccount()
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
   const native = useNativeCurrency()
   const { data, isFetched } = useAccountBalance({ address: account?.address, coin: APTOS_COIN })
 

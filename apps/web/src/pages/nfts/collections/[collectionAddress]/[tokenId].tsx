@@ -4,6 +4,7 @@ import { getCollection, getNftApi } from 'state/nftMarket/helpers'
 import { NftToken } from 'state/nftMarket/types'
 // eslint-disable-next-line camelcase
 import { SWRConfig, unstable_serialize } from 'swr'
+import {ChainId} from "@pancakeswap/sdk";
 
 const IndividualNFTPage = ({ fallback = {} }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -34,7 +35,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   const metadata = await getNftApi(collectionAddress, tokenId)
-  const collection = await getCollection(collectionAddress)
+  const collection = await getCollection(collectionAddress, ChainId.BITGERT) // todo: add correct chain ID once NFTs are used
   if (!metadata) {
     return {
       notFound: true,

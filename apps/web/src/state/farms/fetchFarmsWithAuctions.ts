@@ -6,9 +6,11 @@ import { ethersToBigNumber } from '@pancakeswap/utils/bigNumber'
 import { BITGERT_BLOCK_TIME } from 'config'
 import { add, sub } from 'date-fns'
 import { sortAuctionBidders } from '../../views/FarmAuction/helpers'
+import {ChainId} from "@pancakeswap/sdk";
 
 const fetchFarmsWithAuctions = async (
   currentBlock: number,
+  chainId: ChainId
 ): Promise<{ winnerFarms: string[]; auctionHostingEndDate: string }> => {
   const farmAuctionContract = getFarmAuctionContract()
   const currentAuctionId = await farmAuctionContract.currentAuctionId()
@@ -27,6 +29,7 @@ const fetchFarmsWithAuctions = async (
         params: [currentAuctionId, 0, 500],
       },
     ],
+    chainId,
     options: { requireSuccess: false },
   })
   const blocksSinceEnd = currentBlock - auctionData.endBlock.toNumber()

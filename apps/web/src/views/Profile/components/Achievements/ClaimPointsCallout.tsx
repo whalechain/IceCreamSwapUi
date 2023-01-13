@@ -8,17 +8,19 @@ import { Achievement } from 'state/types'
 import { useTranslation } from '@pancakeswap/localization'
 import { getClaimableIfoData } from 'utils/achievements'
 import AchievementRow from './AchievementRow'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const ClaimPointsCallout: React.FC<React.PropsWithChildren<{ onSuccess?: () => void }>> = ({ onSuccess = null }) => {
   const [claimableAchievements, setClaimableAchievement] = useState<Achievement[]>([])
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { profile, refresh: refreshProfile } = useProfile()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
 
   useEffect(() => {
     const fetchIfoClaims = async () => {
-      const ifoData = await getClaimableIfoData(account)
+      const ifoData = await getClaimableIfoData(account, chainId)
       setClaimableAchievement(ifoData)
     }
 

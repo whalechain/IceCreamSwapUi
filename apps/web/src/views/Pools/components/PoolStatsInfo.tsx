@@ -13,6 +13,7 @@ import { getPoolBlockInfo } from 'views/Pools/helpers'
 import { Token } from '@pancakeswap/sdk'
 import MaxStakeRow from './MaxStakeRow'
 import { AprInfo, DurationAvg, PerformanceFee, TotalLocked, TotalStaked } from './Stat'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 interface ExpandedFooterProps {
   pool: Pool.DeserializedPool<Token>
@@ -29,6 +30,7 @@ const PoolStatsInfo: React.FC<React.PropsWithChildren<ExpandedFooterProps>> = ({
 }) => {
   const { t } = useTranslation()
   const currentBlock = useCurrentBlock()
+  const { chainId } = useActiveChainId()
 
   const {
     stakingToken,
@@ -55,7 +57,7 @@ const PoolStatsInfo: React.FC<React.PropsWithChildren<ExpandedFooterProps>> = ({
   } = useVaultPoolByKey(vaultKey)
 
   const tokenAddress = earningToken.address || ''
-  const poolContractAddress = getAddress(contractAddress)
+  const poolContractAddress = getAddress(contractAddress, chainId)
   const cakeVaultContractAddress = getVaultPoolAddress(vaultKey)
 
   const { shouldShowBlockCountdown, blocksUntilStart, blocksRemaining, hasPoolStarted, blocksToDisplay } =
@@ -97,7 +99,7 @@ const PoolStatsInfo: React.FC<React.PropsWithChildren<ExpandedFooterProps>> = ({
           <Text small>{hasPoolStarted ? t('Ends in') : t('Starts in')}:</Text>
           {blocksRemaining || blocksUntilStart ? (
             <Flex alignItems="center">
-              <Link external href={getBlockExploreLink(hasPoolStarted ? endBlock : startBlock, 'countdown')}>
+              <Link external href={getBlockExploreLink(hasPoolStarted ? endBlock : startBlock, 'countdown', chainId)}>
                 <Balance small value={blocksToDisplay} decimals={0} color="primary" />
                 <Text small ml="4px" color="primary" textTransform="lowercase">
                   {t('Blocks')}

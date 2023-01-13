@@ -11,6 +11,7 @@ import Divider from 'components/Divider'
 import { getDrawnDate } from 'views/Lottery/helpers'
 import { getBlockExploreLink } from 'utils'
 import Winner from './Winner'
+import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
 const StyledCardBody = styled(CardBody)`
   position: relative;
@@ -58,6 +59,7 @@ const PreviousRoundCardBody: React.FC<React.PropsWithChildren<PreviousRoundCardB
     currentLanguage: { locale },
   } = useTranslation()
   const { isFetched, roundId, prizePot, totalPlayers, txid, winners, lockDate } = finishedRoundInfo
+  const { chainId } = useActiveChainId()
   const cakePriceBusd = usePriceCakeBusd()
 
   const prizeAsBn = new BigNumber(prizePot)
@@ -124,7 +126,7 @@ const PreviousRoundCardBody: React.FC<React.PropsWithChildren<PreviousRoundCardB
           </Flex>
           <LinkExternal
             m={['10px auto auto auto', '10px auto auto auto', 'auto 0 0 auto']}
-            href={getBlockExploreLink(txid, 'transaction')}
+            href={getBlockExploreLink(txid, 'transaction', chainId)}
           >
             {t('View on BscScan')}
           </LinkExternal>

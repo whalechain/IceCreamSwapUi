@@ -25,6 +25,7 @@ import { PrizePoolRow, RoundResultBox } from '../RoundResult'
 import CardHeader, { getBorderBackground } from './CardHeader'
 import MultiplierArrow from './MultiplierArrow'
 import SetPositionCard from './SetPositionCard'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface OpenRoundCardProps {
   round: NodeRound
@@ -55,6 +56,7 @@ const OpenRoundCard: React.FC<React.PropsWithChildren<OpenRoundCardProps>> = ({
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { toastSuccess } = useToast()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const dispatch = useLocalDispatch()
   const { token, displayedDecimals } = useConfig()
@@ -133,7 +135,7 @@ const OpenRoundCard: React.FC<React.PropsWithChildren<OpenRoundCardProps>> = ({
   }
 
   const handleSuccess = async (hash: string) => {
-    await dispatch(fetchLedgerData({ account, epochs: [round.epoch] }))
+    await dispatch(fetchLedgerData({ account, epochs: [round.epoch], chainId }))
 
     handleBack()
 

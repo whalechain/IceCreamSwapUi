@@ -26,6 +26,7 @@ import WinningNumbers from '../WinningNumbers'
 import { processLotteryResponse } from '../../helpers'
 import TicketNumber from '../TicketNumber'
 import ClaimPrizesModal from '../ClaimPrizesModal'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const TopBox = styled(Flex)`
   flex-direction: column;
@@ -64,6 +65,7 @@ const PreviousRoundTicketsInner: React.FC<React.PropsWithChildren<{ roundId: str
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { account } = useWeb3React()
+  const { chainId } = useActiveChainId()
   const [onPresentClaimModal] = useModal(<ClaimPrizesModal roundsToClaim={[userWinningTickets.claimData]} />, false)
 
   const TooltipComponent = () => (
@@ -113,7 +115,7 @@ const PreviousRoundTicketsInner: React.FC<React.PropsWithChildren<{ roundId: str
         roundId,
         userTickets,
         finalNumber: processedLotteryData.finalNumber.toString(),
-      })
+      }, chainId)
 
       setUserWinningTickets({
         isFetched: true,
