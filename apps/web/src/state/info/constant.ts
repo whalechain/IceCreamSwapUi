@@ -16,7 +16,7 @@ export const multiChainBlocksClient = {
 }
 
 export const multiChainStartTime = {
-  BITERT: PCS_BITGERT_START,
+  BITGERT: PCS_BITGERT_START,
 }
 
 export const multiChainId = {
@@ -44,7 +44,10 @@ export const multiChainScan = {
 }
 
 export const multiChainTokenBlackList = {
-  // BSC: TOKEN_BLACKLIST,
+  BITGERT: [""],
+  DOGECHAIN: [""],
+  DOKEN: [""],
+  FUSE: [""],
 }
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {

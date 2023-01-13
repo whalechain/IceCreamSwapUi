@@ -102,7 +102,7 @@ const config: (
     {
       label: t('Bridge'),
       href: '/bridge',
-      showItemsOnMobile: false,
+      hideSubNav: true,
       icon: BridgeIcon,
       items: [],
     },
@@ -167,7 +167,14 @@ const config: (
       href: 'https://info.icecreamswap.com',
       type: DropdownMenuItemType.EXTERNAL_LINK,
       icon: InfoIcon,
-      showItemsOnMobile: false,
+      hideSubNav: true,
+      items: [],
+    },
+    {
+      label: t('Info'),
+      href: '/info',
+      icon: InfoIcon,
+      hideSubNav: true,
       items: [],
     },
     /*
