@@ -39,7 +39,7 @@ export function useAkkaSwapInfo(
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
-  const { route, args } = useAkkaRouterRouteWithArgs(inputCurrency, outputCurrency, typedValue, allowedSlippage)
+  const { route, args } = useAkkaRouterRouteWithArgs(inputCurrency, outputCurrency, parsedAmount, allowedSlippage)
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
@@ -71,8 +71,8 @@ export function useAkkaSwapInfo(
 
   if (
     currencyBalances[Field.INPUT] &&
-    args?.data?.amountIn &&
-    currencyBalances[Field.INPUT].lessThan(args?.data?.amountIn)
+    parsedAmount &&
+    currencyBalances[Field.INPUT].lessThan(parsedAmount)
   ) {
     inputError = t('Insufficient %symbol% balance', { symbol: inputCurrency.symbol })
   }

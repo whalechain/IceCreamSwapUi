@@ -25,6 +25,7 @@ import BannerHeader from '../../Nft/market/components/BannerHeader'
 import StatBox, { StatBoxItem } from '../../Nft/market/components/StatBox'
 import EditProfileModal from './EditProfileModal'
 import AvatarImage from '../../Nft/market/components/BannerHeader/AvatarImage'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 interface HeaderProps {
   accountPath: string
@@ -49,6 +50,7 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
   onSuccess,
 }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { usernameWithVisibility, userUsernameVisibility, setUserUsernameVisibility } =
     useGetUsernameWithVisibility(profile)
@@ -108,7 +110,7 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
               style={{
                 width: 'fit-content',
               }}
-              href={getBlockExploreLink(accountPath, 'address') || ''}
+              href={getBlockExploreLink(accountPath, 'address', chainId) || ''}
               // @ts-ignore
               alt={t('View BscScan for user address')}
             >
@@ -175,7 +177,7 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
     return (
       <Flex flexDirection="column" mb={[16, null, 0]} mr={[0, null, 16]}>
         {accountPath && profile?.username && (
-          <Link href={getBlockExploreLink(accountPath, 'address')} external bold color="primary">
+          <Link href={getBlockExploreLink(accountPath, 'address', chainId)} external bold color="primary">
             {truncateHash(accountPath)}
           </Link>
         )}

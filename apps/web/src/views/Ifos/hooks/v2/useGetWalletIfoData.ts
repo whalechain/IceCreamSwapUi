@@ -69,7 +69,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
     }))
 
     // @ts-ignore fix chainId support
-    const [userInfo, amounts] = await multicallv2({ abi: ifoV2Abi, calls: ifoCalls })
+    const [userInfo, amounts] = await multicallv2({ abi: ifoV2Abi, calls: ifoCalls, chainId: ChainId.BITGERT})
 
     setState((prevState) => ({
       ...prevState,

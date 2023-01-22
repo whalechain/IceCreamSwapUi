@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { SWRConfig, unstable_serialize } from 'swr'
 import { getCollection } from 'state/nftMarket/helpers'
 import CollectionPageRouter from 'views/Nft/market/Collection/CollectionPageRouter'
+import {ChainId} from "@pancakeswap/sdk";
 
 const CollectionPage = ({ fallback = {} }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -32,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   try {
-    const collectionData = await getCollection(collectionAddress)
+    const collectionData = await getCollection(collectionAddress, ChainId.BITGERT)  // todo: remove hardcoded chain id if activating NFTs
 
     if (collectionData) {
       return {

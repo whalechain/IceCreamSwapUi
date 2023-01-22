@@ -2,6 +2,7 @@ import { request, gql } from 'graphql-request'
 import { GRAPH_API_LOTTERY } from 'config/constants/endpoints'
 import { LotteryRoundGraphEntity, LotteryResponse } from 'state/types'
 import { getRoundIdsArray, fetchMultipleLotteries } from './helpers'
+import {ChainId} from "@pancakeswap/sdk";
 
 export const MAX_LOTTERIES_REQUEST_SIZE = 100
 
@@ -88,9 +89,9 @@ export const getGraphLotteries = async (
   }
 }
 
-const getLotteriesData = async (currentLotteryId: string): Promise<LotteryRoundGraphEntity[]> => {
+const getLotteriesData = async (currentLotteryId: string, chainId: ChainId): Promise<LotteryRoundGraphEntity[]> => {
   const idsForNodesCall = getRoundIdsArray(currentLotteryId)
-  const [nodeData, graphResponse] = await Promise.all([fetchMultipleLotteries(idsForNodesCall), getGraphLotteries()])
+  const [nodeData, graphResponse] = await Promise.all([fetchMultipleLotteries(idsForNodesCall, chainId), getGraphLotteries()])
   const mergedData = applyNodeDataToLotteriesGraphResponse(nodeData, graphResponse)
   return mergedData
 }

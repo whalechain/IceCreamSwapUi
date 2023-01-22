@@ -11,6 +11,7 @@ import { useIfoCredit } from 'state/pools/hooks'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import useIfoAllowance from '../useIfoAllowance'
 import { WalletIfoState, WalletIfoData } from '../../types'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const initialState = {
   isInitialized: false,
@@ -53,6 +54,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
   const { address, currency, version } = ifo
 
   const { account } = useWeb3React()
+  const { chainId } = useActiveChainId()
   const contract = useIfoV3Contract(address)
   const currencyContract = useERC20(currency.address, false)
   const allowance = useIfoAllowance(currencyContract, address)
@@ -93,6 +95,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
           { address, name: 'computeVestingScheduleIdForAddressAndPid', params: [account, 0] },
           { address, name: 'computeVestingScheduleIdForAddressAndPid', params: [account, 1] },
         ],
+        chainId,
         options: { requireSuccess: false },
       })
 
@@ -136,7 +139,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
           ].filter(Boolean)
         : []
 
-    dispatch(fetchCakeVaultUserData({ account }))
+    dispatch(fetchCakeVaultUserData({ account, chainId }))
 
     const [
       userInfo,
@@ -148,7 +151,7 @@ const useGetWalletIfoData = (ifo: Ifo): WalletIfoData => {
       basicReleasableAmount,
       unlimitedReleasableAmount,
       // @ts-ignore fix chainId support
-    ] = await multicallv2({ abi: ifoV3Abi, calls: [...ifoCalls, ...ifov3Calls], options: { requireSuccess: false } })
+    ] = await multicallv2({ abi: ifoV3Abi, calls: [...ifoCalls, ...ifov3Calls], chainId, options: { requireSuccess: false } })
 
     setState((prevState) => ({
       ...prevState,

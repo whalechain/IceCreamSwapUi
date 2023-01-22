@@ -37,6 +37,7 @@ import { requiresApproval } from 'utils/requiresApproval'
 import EditNumbersModal from './EditNumbersModal'
 import NumTicketsToBuyButton from './NumTicketsToBuyButton'
 import { useTicketsReducer } from './useTicketsReducer'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const StyledModal = styled(Modal)`
   ${({ theme }) => theme.mediaQueries.md} {
@@ -61,6 +62,7 @@ enum BuyingStage {
 }
 
 const BuyTicketsModal: React.FC<React.PropsWithChildren<BuyTicketsModalProps>> = ({ onDismiss }) => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -261,7 +263,7 @@ const BuyTicketsModal: React.FC<React.PropsWithChildren<BuyTicketsModalProps>> =
       },
       onSuccess: async ({ receipt }) => {
         onDismiss?.()
-        dispatch(fetchUserTicketsAndLotteries({ account, currentLotteryId }))
+        dispatch(fetchUserTicketsAndLotteries({ account, currentLotteryId, chainId }))
         toastSuccess(t('Lottery tickets purchased!'), <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
       },
     })

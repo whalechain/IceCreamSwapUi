@@ -38,7 +38,7 @@ const NftWrapper = styled.div`
 `
 
 const ProfilePicture: React.FC = () => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const [isApproved, setIsApproved] = useState(false)
   const [userProfileCreationNfts, setUserProfileCreationNfts] = useState(null)
   const { selectedNft, actions } = useContext(ProfileCreationContext)
@@ -65,7 +65,7 @@ const ProfilePicture: React.FC = () => {
               params: [nftRole, collectionAddress],
             }
           })
-          const collectionRolesRaw = await multicall(profileABI, collectionsNftRoleCalls)
+          const collectionRolesRaw = await multicall(profileABI, collectionsNftRoleCalls, chainId)
           const collectionRoles = collectionRolesRaw.flat()
           setUserProfileCreationNfts(
             nfts.filter((nft) => collectionRoles[nftsByCollection.indexOf(nft.collectionAddress)]),

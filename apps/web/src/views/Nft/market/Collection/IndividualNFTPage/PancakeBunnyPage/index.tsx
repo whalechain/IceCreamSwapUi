@@ -15,13 +15,15 @@ import { pancakeBunniesAddress } from '../../../constants'
 import { TwoColumnsContainer } from '../shared/styles'
 import { usePancakeBunnyCheapestNft } from '../../../hooks/usePancakeBunnyCheapestNfts'
 import ManageNftsCard from '../shared/ManageNFTsCard'
+import {useActiveChainId} from "../../../../../../hooks/useActiveChainId";
 
 interface IndividualPancakeBunnyPageProps {
   bunnyId: string
 }
 
 const IndividualPancakeBunnyPage = (props: IndividualPancakeBunnyPageProps) => {
-  const collection = useGetCollection(pancakeBunniesAddress)
+  const { chainId } = useActiveChainId()
+  const collection = useGetCollection(pancakeBunniesAddress, chainId)
 
   if (!collection) {
     return <PageLoader />
@@ -33,7 +35,8 @@ const IndividualPancakeBunnyPage = (props: IndividualPancakeBunnyPageProps) => {
 const IndividualPancakeBunnyPageBase: React.FC<React.PropsWithChildren<IndividualPancakeBunnyPageProps>> = ({
   bunnyId,
 }) => {
-  const collection = useGetCollection(pancakeBunniesAddress)
+  const { chainId } = useActiveChainId()
+  const collection = useGetCollection(pancakeBunniesAddress, chainId)
   const totalBunnyCount = Number(collection?.totalSupply)
   const [nothingForSaleBunny, setNothingForSaleBunny] = useState<NftToken>(null)
   const [nftMetadata, setNftMetadata] = useState<ApiResponseCollectionTokens>(null)

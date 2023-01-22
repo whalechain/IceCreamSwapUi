@@ -36,7 +36,7 @@ export const useRemoveUserAddedToken = () => {
 }
 
 export const useUserAddedTokens = () => {
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
   const [userAdded] = useAtom(userAddTokensAtom)
 
   return useMemo(

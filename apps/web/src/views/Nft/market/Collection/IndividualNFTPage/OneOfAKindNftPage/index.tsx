@@ -17,10 +17,12 @@ import MoreFromThisCollection from '../shared/MoreFromThisCollection'
 import ActivityCard from './ActivityCard'
 import { useCompleteNft } from '../../../hooks/useCompleteNft'
 import ManageNFTsCard from '../shared/ManageNFTsCard'
+import {ChainId} from "@pancakeswap/sdk";
 
 interface IndividualNFTPageProps {
   collectionAddress: string
   tokenId: string
+  chainId: ChainId
 }
 
 const OwnerActivityContainer = styled(Flex)`
@@ -30,8 +32,9 @@ const OwnerActivityContainer = styled(Flex)`
 const IndividualNFTPage: React.FC<React.PropsWithChildren<IndividualNFTPageProps>> = ({
   collectionAddress,
   tokenId,
+  chainId
 }) => {
-  const collection = useGetCollection(collectionAddress)
+  const collection = useGetCollection(collectionAddress, chainId)
   const { data: distributionData, isFetching: isFetchingDistribution } = useGetCollectionDistribution(collectionAddress)
   const { combinedNft: nft, isOwn: isOwnNft, isProfilePic, refetch } = useCompleteNft(collectionAddress, tokenId)
 

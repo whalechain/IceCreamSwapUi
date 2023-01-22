@@ -14,29 +14,33 @@ import fromPairs from 'lodash/fromPairs'
 import { ApiCollections, NftToken, Collection, NftAttribute, MarketEvent } from './types'
 import { getCollection, getCollections } from './helpers'
 import { nftMarketActivityFiltersAtom, tryVideoNftMediaAtom, nftMarketFiltersAtom } from './atoms'
+import {useActiveChainId} from "../../hooks/useActiveChainId";
+import {ChainId} from "@pancakeswap/sdk";
 
 const DEFAULT_NFT_ORDERING = { field: 'currentAskPrice', direction: 'asc' as 'asc' | 'desc' }
 const DEFAULT_NFT_ACTIVITY_FILTER = { typeFilters: [], collectionFilters: [] }
 const EMPTY_OBJECT = {}
 
 export const useGetCollections = (): { data: ApiCollections; status: FetchStatus } => {
-  const { data, status } = useSWR(['nftMarket', 'collections'], async () => getCollections())
+  const { chainId } = useActiveChainId()
+  const { data, status } = useSWR(['nftMarket', 'collections'], async () => getCollections(chainId))
   const collections = data ?? ({} as ApiCollections)
   return { data: collections, status }
 }
 
-export const useGetCollection = (collectionAddress: string): Collection | undefined => {
+export const useGetCollection = (collectionAddress: string, chainId: ChainId): Collection | undefined => {
   const checksummedCollectionAddress = isAddress(collectionAddress) || ''
   const { data } = useSWR(
     checksummedCollectionAddress ? ['nftMarket', 'collections', checksummedCollectionAddress.toLowerCase()] : null,
-    async () => getCollection(checksummedCollectionAddress),
+    async () => getCollection(checksummedCollectionAddress, chainId),
   )
   const collectionObject = data ?? {}
   return collectionObject[checksummedCollectionAddress]
 }
 
 export const useGetShuffledCollections = (): { data: Collection[]; status: FetchStatus } => {
-  const { data } = useSWRImmutable(['nftMarket', 'collections'], async () => getCollections())
+  const { chainId } = useActiveChainId()
+  const { data } = useSWRImmutable(['nftMarket', 'collections'], async () => getCollections(chainId))
   const collections = data ?? ({} as ApiCollections)
   const { data: shuffledCollections, status } = useSWRImmutable(
     !isEmpty(collections) ? ['nftMarket', 'shuffledCollections'] : null,
@@ -48,6 +52,7 @@ export const useGetShuffledCollections = (): { data: Collection[]; status: Fetch
 }
 
 export const useApprovalNfts = (nftsInWallet: NftToken[]) => {
+  const { chainId } = useActiveChainId()
   const nftApprovalCalls = useMemo(
     () =>
       nftsInWallet.map((nft: NftToken) => {
@@ -62,7 +67,7 @@ export const useApprovalNfts = (nftsInWallet: NftToken[]) => {
     [nftsInWallet],
   )
 
-  const { data } = useSWRMulticall(erc721Abi, nftApprovalCalls)
+  const { data } = useSWRMulticall(erc721Abi, nftApprovalCalls, chainId)
   const profileAddress = getPancakeProfileAddress()
 
   const approvedTokenIds = Array.isArray(data)

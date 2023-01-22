@@ -12,8 +12,9 @@ import { useGasPrice } from 'state/user/hooks'
 import { parseEther, parseUnits } from '@ethersproject/units'
 import { calculateGasMargin } from 'utils'
 import { Contract } from '@ethersproject/contracts'
-import { SwapParameters } from '@pancakeswap/sdk'
+import { NATIVE, SwapParameters } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
   multiPathSwap: () => Promise<string>
@@ -35,24 +36,27 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
     [Field.INPUT]: { currencyId: inputCurrencyId },
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
+  const { chainId } = useActiveChainId()
   return useMemo(() => {
     const methodName = 'multiPathSwap'
 
     return {
       multiPathSwap: args ? async () => {
+
         const gasLimitCalc = await akkaContract.estimateGas[methodName](
           args?.amountIn,
           args?.amountOutMin,
           args?.data,
-          args?.bridge,
-          args?.dstData,
+          [],
+          [],
           account
           , {
-            value: inputCurrencyId === 'BRISE' ? args?.amountIn : '',
+            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
           })
           .catch((gasError) => {
             console.error('Gas estimate failed', gasError, "args:", args)
           })
+
         const tx = await callWithGasPrice(
           akkaContract,
           methodName,
@@ -60,13 +64,13 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             args.amountIn,
             args.amountOutMin,
             args.data,
-            args.bridge,
-            args.dstData,
+            [],
+            [],
             account
           ],
           {
-            value: inputCurrencyId === 'BRISE' ? args.amountIn : '',
-            gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : ""
+            value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
+            gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
           }
         )
           .catch((error: any) => {
@@ -84,7 +88,8 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           type: 'swap',
         })
         return tx?.hash
-      } : null,
+      }
+        : null,
     }
   }, [trade, akkaContract, addTransaction])
 }
