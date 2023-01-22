@@ -1,4 +1,4 @@
-import { ChainId, Currency, Pair } from '@pancakeswap/sdk'
+import { ChainId, Currency, ERC20Token, Pair } from '@pancakeswap/sdk'
 import { Button, ChevronDownIcon, Text, useModal, Flex, Box, NumericalInput, CopyButton } from '@pancakeswap/uikit'
 import styled, { css } from 'styled-components'
 import { isAddress } from 'utils'
@@ -95,6 +95,7 @@ interface CurrencyInputPanelProps {
   disabled?: boolean
   error?: boolean
   showBUSD?: boolean
+  tokens?: { [address: string]: ERC20Token }
 }
 export default function CurrencyInputPanel({
   value,
@@ -119,6 +120,7 @@ export default function CurrencyInputPanel({
   disabled,
   error,
   showBUSD,
+  tokens,
 }: CurrencyInputPanelProps) {
   const { account, chainId } = useWeb3React()
   const { chainId: appChainId } = useActiveChainId()
@@ -140,6 +142,7 @@ export default function CurrencyInputPanel({
       otherSelectedCurrency={otherCurrency}
       showCommonBases={showCommonBases}
       commonBasesType={commonBasesType}
+      tokens={tokens}
     />,
   )
 

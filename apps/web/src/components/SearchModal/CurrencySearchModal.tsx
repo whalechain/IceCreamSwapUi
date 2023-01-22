@@ -1,5 +1,5 @@
 import { useCallback, useState, useRef, useEffect } from 'react'
-import { Currency, Token } from '@pancakeswap/sdk'
+import { Currency, ERC20Token, Token } from '@pancakeswap/sdk'
 import {
   ModalContainer,
   ModalHeader,
@@ -54,6 +54,7 @@ export interface CurrencySearchModalProps extends InjectedModalProps {
   otherSelectedCurrency?: Currency | null
   showCommonBases?: boolean
   commonBasesType?: string
+  tokens?: { [address: string]: ERC20Token }
 }
 
 export default function CurrencySearchModal({
@@ -63,6 +64,7 @@ export default function CurrencySearchModal({
   otherSelectedCurrency,
   showCommonBases = true,
   commonBasesType,
+  tokens,
 }: CurrencySearchModalProps) {
   const [modalView, setModalView] = useState<CurrencyModalView>(CurrencyModalView.search)
 
@@ -137,6 +139,7 @@ export default function CurrencySearchModal({
             showImportView={() => setModalView(CurrencyModalView.importToken)}
             setImportToken={setImportToken}
             height={height}
+            tokens={tokens}
           />
         ) : modalView === CurrencyModalView.importToken && importToken ? (
           <ImportToken tokens={[importToken]} handleCurrencySelect={handleCurrencySelect} />

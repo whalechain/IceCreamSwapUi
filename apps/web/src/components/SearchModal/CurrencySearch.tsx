@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import { Currency, Token } from '@pancakeswap/sdk'
+import { Currency, ERC20Token, Token } from '@pancakeswap/sdk'
 import { Box, Input, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { KeyboardEvent, RefObject, useCallback, useMemo, useRef, useState, useEffect } from 'react'
 import { useTranslation } from '@pancakeswap/localization'
@@ -31,6 +31,7 @@ interface CurrencySearchProps {
   showImportView: () => void
   setImportToken: (token: Token) => void
   height?: number
+  tokens?: { [address: string]: ERC20Token }
 }
 
 function useSearchInactiveTokenLists(search: string | undefined, minResults = 10): WrappedTokenInfo[] {
@@ -82,6 +83,7 @@ function CurrencySearch({
   showImportView,
   setImportToken,
   height,
+  tokens,
 }: CurrencySearchProps) {
   const { t } = useTranslation()
   const { chainId } = useActiveChainId()
@@ -94,7 +96,8 @@ function CurrencySearch({
 
   const [invertSearchOrder] = useState<boolean>(false)
 
-  const allTokens = useAllTokens()
+  const allAllTokens = useAllTokens()
+  const allTokens = tokens || allAllTokens
 
   // if they input an address, use it
   const searchToken = useToken(debouncedQuery)

@@ -1,43 +1,45 @@
 import { AtomBox } from '@pancakeswap/ui'
-import { Box, Button, Flex, Heading, Select, Text } from '@pancakeswap/uikit'
+import { Button, Checkbox, Flex, Heading, Input, Select, Text } from '@pancakeswap/uikit'
 import { AppBody } from 'components/App'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { ChainLogo } from 'components/Logo/ChainLogo'
-import { NetworkSwitcher } from 'components/NetworkSwitcher'
 import { CommonBasesType } from 'components/SearchModal/types'
-import { useAllTokens } from 'hooks/Tokens'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSwitchNetwork } from 'hooks/useSwitchNetwork'
-import { useCallback, useState } from 'react'
-import { Field } from 'state/swap/actions'
-import styled from 'styled-components'
 import { chains } from 'utils/wagmi'
 import Page from '../Page'
 import { StyledBridgeBody, StyledBridgeContainer, StyledInputCurrencyWrapper } from './styles'
-
-const Wrapper = styled.div`
-  & > div {
-    width: 100%;
-    background-color: ${({ theme }) => theme.colors.input};
-    border: 0;
-  }
-  & button {
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.input};
-    border-radius: 20px 20px 0 0;
-  }
-`
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import { useWeb3React } from '@pancakeswap/wagmi'
+import { useBridge } from './BridgeProvider'
+import { useBridgeTax } from './hooks/useBridgeTax'
+import Divider from 'views/Farms/components/Divider'
+import FormError from './components/FormError'
+import { useFormErrors } from './hooks/useFormErrors'
+import { useDeposit } from './hooks/useDeposit'
+import { ERC20Token } from '@pancakeswap/sdk'
 
 const Bridge = () => {
-  const { chainId } = useActiveWeb3React()
-  const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
-  const [tokenValue, setTokenValue] = useState('0')
-  const tokens = useAllTokens()
-  console.log(Object.values(tokens))
-  console.log(chainId)
+  const { account, chainId } = useWeb3React()
+  const { switchNetworkAsync } = useSwitchNetwork()
+  const {
+    currency,
+    setCurrency,
+    depositAmount,
+    setDepositAmount,
+    tokens,
+    setDestinationChainId,
+    destinationChainId,
+    recipient,
+    setRecipient,
+    setToOtherAddress,
+    toOtherAddress,
+    transactionStatus,
+  } = useBridge()
+
+  const balance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
+  const tax = useBridgeTax()
+  const { formErrors, validateForm, setHasSubmitted } = useFormErrors(tax.bridgeFee, tax.bridgeFeeToken)
+  const deposit = useDeposit()
 
   return (
     <Page>
@@ -84,33 +86,89 @@ const Bridge = () => {
                         ),
                         value: chain.id,
                       }))}
-                  />
-                  <CurrencyInputPanel
-                    label="Amount"
-                    value={tokenValue}
-                    showMaxButton
-                    showQuickInputButton
-                    currency={
-                      {
-                        chainId: 32520,
-                        decimals: 18,
-                        symbol: 'BRISE',
-                        name: 'Brise',
-                        isNative: true,
-                        isToken: false,
-                      } as any
-                    }
-                    onUserInput={(value) => {
-                      setTokenValue(value)
+                    onOptionChange={(option) => {
+                      setDestinationChainId(option.value)
                     }}
-                    onPercentInput={console.log}
-                    onMax={console.log}
-                    onCurrencySelect={console.log}
-                    id="bridge-currency-input"
-                    showCommonBases
-                    commonBasesType={CommonBasesType.SWAP_LIMITORDER}
+                    defaultValue={destinationChainId}
                   />
-                  <Button>Bridge</Button>
+                  <div>
+                    <CurrencyInputPanel
+                      label="Amount"
+                      value={depositAmount.toString()}
+                      showMaxButton
+                      showQuickInputButton
+                      onUserInput={(value) => {
+                        setDepositAmount(value)
+                      }}
+                      onPercentInput={(percent) => {
+                        setDepositAmount((+balance?.toExact() * 0.01 * percent).toString())
+                      }}
+                      onMax={() => {
+                        setDepositAmount(balance?.toExact())
+                      }}
+                      onCurrencySelect={setCurrency}
+                      currency={currency}
+                      id="bridge-currency-input"
+                      showCommonBases
+                      commonBasesType={CommonBasesType.SWAP_LIMITORDER}
+                      tokens={tokens}
+                    />
+                    {formErrors.currency && <FormError>{formErrors.currency}</FormError>}
+                  </div>
+                  <Flex alignItems="center">
+                    <Checkbox
+                      name="own-address"
+                      type="checkbox"
+                      checked={toOtherAddress}
+                      onChange={() => setToOtherAddress(!toOtherAddress)}
+                      scale="sm"
+                    />
+                    <Text ml="10px" style={{ userSelect: 'none' }} onClick={() => setToOtherAddress(!toOtherAddress)}>
+                      Send funds to an other address than my own
+                    </Text>
+                  </Flex>
+                  {toOtherAddress && (
+                    <Flex flexDirection="column">
+                      <Text>Recipient Address</Text>
+                      <Input
+                        placeholder="0xXXXXXXXXXXXXXXX…"
+                        value={recipient}
+                        onChange={(e) => setRecipient(e.target.value)}
+                      />
+                      {formErrors.recipient && <FormError>{formErrors.recipient}</FormError>}
+                    </Flex>
+                  )}
+                  <Divider margin="0px" />
+                  {currency && tax.bridgeFee && tax.hasBridgeFee && (
+                    <>
+                      <Flex justifyContent="space-between">
+                        <span>Bridge Fee</span>
+                        <pre>
+                          {tax.bridgeFee ?? '0'} {tax.bridgeFeeCurrency.name}
+                        </pre>
+                      </Flex>
+                      <Flex justifyContent="space-between">
+                        <span>Transfer Amount</span>
+                        <pre>
+                          {depositAmount} {currency.name}
+                        </pre>
+                      </Flex>
+                    </>
+                  )}
+                  <Button
+                    onClick={() => {
+                      validateForm().then((isValid) => {
+                        if (isValid) {
+                          const selectedToken = currency instanceof ERC20Token ? currency.address : undefined
+                          deposit(parseFloat(depositAmount), recipient, selectedToken, destinationChainId)
+                        }
+                      })
+                      setHasSubmitted(true)
+                    }}
+                  >
+                    Bridge
+                  </Button>
+                  {transactionStatus && <span>{transactionStatus}</span>}
                 </StyledBridgeBody>
               </AppBody>
             </StyledInputCurrencyWrapper>
