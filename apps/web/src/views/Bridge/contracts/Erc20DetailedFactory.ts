@@ -4,6 +4,7 @@
 import { Contract, Signer } from 'ethers'
 import { Provider } from '@ethersproject/providers'
 
+// eslint-disable-next-line import/extensions
 import { Erc20Detailed } from './Erc20Detailed'
 
 export class Erc20DetailedFactory {
