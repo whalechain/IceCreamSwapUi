@@ -5,7 +5,6 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import {
   Heading,
   Flex,
-  Image,
   Text,
   Link,
   FlexLayout,
@@ -28,6 +27,7 @@ import CardFooter from './components/PoolCard/CardFooter'
 import CakeVaultCard from './components/CakeVaultCard'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import PoolControls from './components/PoolControls'
+import {SUPPORT_STAKING} from "../../config/constants/supportChains";
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -47,7 +47,7 @@ const FinishedTextLink = styled(Link)`
   text-decoration: underline;
 `
 
-const Pools: React.FC<React.PropsWithChildren> = () => {
+const Pools = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const { pools, userDataLoaded } = usePoolsWithVault()
@@ -60,13 +60,10 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-              {t('Syrup Pools')}
+              {t('Staking Pools')}
             </Heading>
             <Heading scale="md" color="text">
-              {t('Just stake some tokens to earn.')}
-            </Heading>
-            <Heading scale="md" color="text">
-              {t('High APR, low risk.')}
+              {t('Earn passive income while you sleep.')}
             </Heading>
           </Flex>
         </Flex>
@@ -129,6 +126,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
               ) : (
                 <PoolsTable urlSearch={normalizedUrlSearch} pools={chosenPools} account={account} />
               )}
+              {/*
               <Image
                 mx="auto"
                 mt="12px"
@@ -137,6 +135,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
                 width={192}
                 height={184.5}
               />
+              */}
             </>
           )}
         </PoolControls>
@@ -145,5 +144,7 @@ const Pools: React.FC<React.PropsWithChildren> = () => {
     </>
   )
 }
+
+Pools.chains = SUPPORT_STAKING
 
 export default Pools

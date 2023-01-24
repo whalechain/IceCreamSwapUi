@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { useActiveChainId } from './useNetwork'
 
 const useNativeCurrency = () => {
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
 
   return useMemo(() => {
     return AptosCoin.onChain(chainId || defaultChain.id)

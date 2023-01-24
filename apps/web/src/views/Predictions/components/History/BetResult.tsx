@@ -19,6 +19,7 @@ import { formatBnb, getNetPayout } from './helpers'
 import CollectWinningsButton from '../CollectWinningsButton'
 import PositionTag from '../PositionTag'
 import ReclaimPositionButton from '../ReclaimPositionButton'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface BetResultProps {
   bet: Bet
@@ -39,6 +40,7 @@ const Divider = styled.hr`
 const BetResult: React.FC<React.PropsWithChildren<BetResultProps>> = ({ bet, result }) => {
   const { t } = useTranslation()
   const dispatch = useLocalDispatch()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { isRefundable } = useIsRefundable(bet.round.epoch)
   const canClaim = useGetIsClaimable(bet.round.epoch)
@@ -114,7 +116,7 @@ const BetResult: React.FC<React.PropsWithChildren<BetResultProps>> = ({ bet, res
   const handleSuccess = async () => {
     // We have to mark the bet as claimed immediately because it does not update fast enough
     dispatch(markAsCollected({ [bet.round.epoch]: true }))
-    dispatch(fetchLedgerData({ account, epochs: [bet.round.epoch] }))
+    dispatch(fetchLedgerData({ account, epochs: [bet.round.epoch], chainId }))
   }
 
   return (
@@ -136,7 +138,7 @@ const BetResult: React.FC<React.PropsWithChildren<BetResultProps>> = ({ bet, res
         )}
         {bet.claimed && bet.claimedHash && (
           <Flex justifyContent="center">
-            <LinkExternal href={getBlockExploreLink(bet.claimedHash, 'transaction')} mb="16px">
+            <LinkExternal href={getBlockExploreLink(bet.claimedHash, 'transaction', chainId)} mb="16px">
               {t('View on BscScan')}
             </LinkExternal>
           </Flex>

@@ -7,6 +7,7 @@ import { LotteryResponse } from 'state/types'
 import { getLotteryV2Contract } from 'utils/contractHelpers'
 import { ethersToSerializedBigNumber } from '@pancakeswap/utils/bigNumber'
 import { NUM_ROUNDS_TO_FETCH_FROM_NODES } from 'config/constants/lottery'
+import {ChainId} from "@pancakeswap/sdk";
 
 const lotteryContract = getLotteryV2Contract()
 
@@ -82,7 +83,7 @@ export const fetchLottery = async (lotteryId: string): Promise<LotteryResponse> 
   }
 }
 
-export const fetchMultipleLotteries = async (lotteryIds: string[]): Promise<LotteryResponse[]> => {
+export const fetchMultipleLotteries = async (lotteryIds: string[], chainId: ChainId): Promise<LotteryResponse[]> => {
   const calls = lotteryIds.map((id) => ({
     name: 'viewLottery',
     address: getLotteryV2Address(),
@@ -90,7 +91,7 @@ export const fetchMultipleLotteries = async (lotteryIds: string[]): Promise<Lott
   }))
   try {
     // @ts-ignore fix chainId support
-    const multicallRes = await multicallv2({ abi: lotteryV2Abi, calls, options: { requireSuccess: false } })
+    const multicallRes = await multicallv2({ abi: lotteryV2Abi, calls, options: { requireSuccess: false }, chainId})
     const processedResponses = multicallRes.map((res, index) =>
       processViewLotterySuccessResponse(res[0], lotteryIds[index]),
     )
@@ -105,7 +106,7 @@ export const fetchCurrentLotteryId = async (): Promise<EthersBigNumber> => {
   return lotteryContract.currentLotteryId()
 }
 
-export const fetchCurrentLotteryIdAndMaxBuy = async () => {
+export const fetchCurrentLotteryIdAndMaxBuy = async (chainId: ChainId) => {
   try {
     const calls = ['currentLotteryId', 'maxNumberTicketsPerBuyOrClaim'].map((method) => ({
       address: getLotteryV2Address(),
@@ -115,6 +116,7 @@ export const fetchCurrentLotteryIdAndMaxBuy = async () => {
     const [[currentLotteryId], [maxNumberTicketsPerBuyOrClaim]] = (await multicallv2({
       abi: lotteryV2Abi,
       calls,
+      chainId,
     })) as EthersBigNumber[][]
 
     return {

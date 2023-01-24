@@ -25,6 +25,7 @@ import CollectWinningsButton from '../CollectWinningsButton'
 import ReclaimPositionButton from '../ReclaimPositionButton'
 import BetDetails from './BetDetails'
 import { useConfig } from '../../context/ConfigProvider'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface BetProps {
   bet: Bet
@@ -62,6 +63,7 @@ const HistoricalBet: React.FC<React.PropsWithChildren<BetProps>> = ({ bet }) => 
   const status = useGetPredictionsStatus()
   const canClaim = useGetIsClaimable(bet.round.epoch)
   const dispatch = useLocalDispatch()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { displayedDecimals } = useConfig()
 
@@ -153,7 +155,7 @@ const HistoricalBet: React.FC<React.PropsWithChildren<BetProps>> = ({ bet }) => 
   const handleSuccess = async () => {
     // We have to mark the bet as claimed immediately because it does not update fast enough
     dispatch(markAsCollected({ [bet.round.epoch]: true }))
-    dispatch(fetchLedgerData({ account, epochs: [bet.round.epoch] }))
+    dispatch(fetchLedgerData({ account, epochs: [bet.round.epoch], chainId }))
   }
 
   return (

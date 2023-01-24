@@ -9,6 +9,7 @@ import { useConfig } from 'views/Predictions/context/ConfigProvider'
 import { useGetCurrentHistoryPage, useGetHasHistoryLoaded, useGetIsFetchingHistory } from 'state/predictions/hooks'
 import HistoricalBet from './HistoricalBet'
 import V1ClaimCheck from '../v1/V1ClaimCheck'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface RoundsTabProps {
   hasBetHistory: boolean
@@ -18,6 +19,7 @@ interface RoundsTabProps {
 const RoundsTab: React.FC<React.PropsWithChildren<RoundsTabProps>> = ({ hasBetHistory, bets }) => {
   const { t } = useTranslation()
   const dispatch = useLocalDispatch()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const hasHistoryLoaded = useGetHasHistoryLoaded()
   const currentHistoryPage = useGetCurrentHistoryPage()
@@ -25,7 +27,7 @@ const RoundsTab: React.FC<React.PropsWithChildren<RoundsTabProps>> = ({ hasBetHi
   const { token } = useConfig()
 
   const handleClick = () => {
-    dispatch(fetchNodeHistory({ account, page: currentHistoryPage + 1 }))
+    dispatch(fetchNodeHistory({ account, chainId, page: currentHistoryPage + 1 }))
   }
 
   const v1Claim = token.symbol === 'BNB' ? <V1ClaimCheck /> : null

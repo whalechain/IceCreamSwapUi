@@ -48,7 +48,7 @@ export default function ManageTokens({
   setModalView: (view: CurrencyModalView) => void
   setImportToken: (token: Token) => void
 }) {
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
 
   const { t } = useTranslation()
 

@@ -186,20 +186,21 @@ export const getIfoV2Contract = (address: string, signer?: Signer | Provider) =>
 export const getIfoV3Contract = (address: string, signer?: Signer | Provider) => {
   return getContract({ abi: ifoV3Abi, address, signer })
 }
-export const getSouschefContract = (id: number, signer?: Signer | Provider) => {
-  return null
-  /*
+export const getSouschefContract = (id: number, chainId: ChainId, signer?: Signer | Provider) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
+  if (!(chainId in config.contractAddress)){
+    return null
+  }
   const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
-  return getContract({ abi, address: getAddress(config.contractAddress), signer }) as SousChef
-  */
+  return getContract({ abi, address: getAddress(config.contractAddress, chainId), signer }) as SousChef
 }
-export const getSouschefV2Contract = (id: number, signer?: Signer | Provider) => {
-  return null
-  /*
+
+export const getSouschefV2Contract = (id: number, chainId: ChainId, signer?: Signer | Provider) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
-  return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress), signer }) as SousChefV2
-   */
+  if (!(chainId in config.contractAddress)){
+    return null
+  }
+  return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress, chainId), signer }) as SousChefV2
 }
 
 export const getPointCenterIfoContract = (signer?: Signer | Provider) => {
@@ -415,8 +416,8 @@ return getContract({ abi: potteryDrawAbi, address: getPotteryDrawAddress(), sign
    */
 }
 
-export const getZapContract = (signer?: Signer | Provider) => {
-return getContract({ abi: zapAbi, address: getZapAddress(), signer }) as Zap
+export const getZapContract = (chainId: ChainId, signer?: Signer | Provider) => {
+return getContract({ abi: zapAbi, address: getZapAddress(chainId), signer }) as Zap
 }
 
 export const getIfoCreditAddressContract = (signer?: Signer | Provider) => {

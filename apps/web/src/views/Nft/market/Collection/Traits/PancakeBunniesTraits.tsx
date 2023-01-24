@@ -13,6 +13,7 @@ import { nftsBaseUrl } from '../../constants'
 import { SortType } from '../../types'
 import { ClickableRow, NftName, StyledSortButton, TableWrapper } from './styles'
 import { useGetCollectionDistributionPB } from '../../hooks/useGetCollectionDistribution'
+import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
 interface PancakeBunniesTraitsProps {
   collectionAddress: string
@@ -37,8 +38,9 @@ const LowestPriceCell: React.FC<React.PropsWithChildren<{ bunnyId: string }>> = 
 }
 
 const PancakeBunniesTraits: React.FC<React.PropsWithChildren<PancakeBunniesTraitsProps>> = ({ collectionAddress }) => {
+  const { chainId } = useActiveChainId()
   const [raritySort, setRaritySort] = useState<SortType>('asc')
-  const collection = useGetCollection(collectionAddress)
+  const collection = useGetCollection(collectionAddress, chainId)
   const totalBunnyCount = Number(collection?.totalSupply)
   const { t } = useTranslation()
   const { data: distributionData, isFetching: isFetchingDistribution } = useGetCollectionDistributionPB()

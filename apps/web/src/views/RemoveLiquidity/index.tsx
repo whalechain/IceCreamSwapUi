@@ -153,7 +153,7 @@ export default function RemoveLiquidity({ currencyA, currencyB, currencyIdA, cur
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
-    isZap ? getZapAddress() : ROUTER_ADDRESS[chainId].Icecream,
+    isZap ? getZapAddress(chainId) : ROUTER_ADDRESS[chainId].Icecream,
   )
 
   async function onAttemptToApprove() {
