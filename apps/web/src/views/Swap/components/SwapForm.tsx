@@ -290,7 +290,7 @@ export default function SwapForm() {
     else {
       toggleSetAkkaContractModeToTrue()
     }
-  }, [akkaApproval, isConnected, parsedAmounts, parsedAmount])
+  }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
 
 
   return (

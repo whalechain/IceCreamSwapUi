@@ -56,7 +56,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           .catch((gasError) => {
             console.error('Gas estimate failed', gasError, "args:", args)
           })
-
+          
         const tx = await callWithGasPrice(
           akkaContract,
           methodName,
@@ -80,7 +80,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             } else {
               // otherwise, the error was unexpected and we need to convey that
               console.error(`Swap failed`, error, methodName, args)
-              throw new Error(t('Swap failed: %message%', { message: transactionErrorToUserReadableMessage(error, t) }))
+              throw new Error(t('AKKA Swap failed: %message%', { message: transactionErrorToUserReadableMessage(error, t) }))
             }
           })
         addTransaction(tx, {
