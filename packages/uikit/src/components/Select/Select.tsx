@@ -99,6 +99,7 @@ export interface SelectProps extends BoxProps {
   onOptionChange?: (option: OptionProps) => void;
   placeHolderText?: string;
   defaultOptionIndex?: number;
+  value?: any;
 }
 
 export interface OptionProps {
@@ -111,11 +112,21 @@ const Select: React.FunctionComponent<React.PropsWithChildren<SelectProps>> = ({
   onOptionChange,
   defaultOptionIndex = 0,
   placeHolderText,
+  value,
   ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [optionSelected, setOptionSelected] = useState(false);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState(defaultOptionIndex);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(
+    options.findIndex((option) => option.value === value) === -1
+      ? defaultOptionIndex
+      : options.findIndex((option) => option.value === value)
+  );
+
+  useEffect(() => {
+    const index = options.findIndex((option) => option.value === value);
+    if (index !== -1) setSelectedOptionIndex(index);
+  }, [options, value]);
 
   const toggling = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsOpen(!isOpen);

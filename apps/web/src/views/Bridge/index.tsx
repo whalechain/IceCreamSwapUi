@@ -17,10 +17,13 @@ import FormError from './components/FormError'
 import { useFormErrors } from './hooks/useFormErrors'
 import { useDeposit } from './hooks/useDeposit'
 import { ERC20Token } from '@pancakeswap/sdk'
+import { useRouter } from 'next/router'
 
 const Bridge = () => {
-  const { account, chainId } = useWeb3React()
-  const { switchNetworkAsync } = useSwitchNetwork()
+  const { account, chainId: accountChainId } = useWeb3React()
+  const { switchNetworkAsync, pendingChainId, data } = useSwitchNetwork()
+  const { chainId: routerChainId } = useRouter().query
+  const chainId = accountChainId ?? (typeof routerChainId === 'string' ? parseInt(routerChainId) : undefined)
   const {
     currency,
     setCurrency,
@@ -71,7 +74,7 @@ const Bridge = () => {
                     onOptionChange={(option) => {
                       switchNetworkAsync(option.value)
                     }}
-                    defaultValue={chainId}
+                    value={chainId}
                   />
                   Target Chain
                   <Select
@@ -89,7 +92,7 @@ const Bridge = () => {
                     onOptionChange={(option) => {
                       setDestinationChainId(option.value)
                     }}
-                    defaultValue={destinationChainId}
+                    value={destinationChainId}
                   />
                   <div>
                     <CurrencyInputPanel
