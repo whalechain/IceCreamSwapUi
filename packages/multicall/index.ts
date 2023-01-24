@@ -11,7 +11,7 @@ export const multicallAddresses = {
   61916: '0xb999ea90607a826a3e6e6646b404c3c7d11fa39d',
   122: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
   50: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-  8081: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
+  8081: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
 }
 
 export const getMulticallContract = (chainId: ChainId, provider) => {

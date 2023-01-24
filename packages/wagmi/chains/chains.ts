@@ -227,14 +227,14 @@ export const xdc: Chain = {
 
 export const shardeumTestnet: Chain = {
   id: 8081,
-  name: 'Shardeum Liberty 2.X',
+  name: 'Shardeum Developer network',
   network: 'shardeum',
   rpcUrls: {
-    public: 'https://liberty20.shardeum.org',
-    default: 'https://liberty20.shardeum.org',
+    public: 'http://3.125.9.67:8080/',
+    default: 'http://3.125.9.67:8080/',
   },
   blockExplorers: {
-    default: { name: 'Shardeum test Explorer', url: 'https://explorer-liberty20.shardeum.org' },
+    default: { name: 'Shardeum development Explorer', url: 'http://3.76.217.8:6001' },
   },
   nativeCurrency: {
     name: 'SHM',
@@ -242,8 +242,8 @@ export const shardeumTestnet: Chain = {
     decimals: 18,
   },
   multicall: {
-    address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
-    blockCreated: 2980,
+    address: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
+    blockCreated: 10156,
   },
 }
 
