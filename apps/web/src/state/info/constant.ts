@@ -8,7 +8,7 @@ export type MultiChainName = 'BSC' | 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' 
 
 export const multiChainQueryMainToken = {
   BSC: 'BNB',
-  BITGERT: 'ETH',
+  BITGERT: 'BNB',
 }
 
 export const multiChainBlocksClient = {
