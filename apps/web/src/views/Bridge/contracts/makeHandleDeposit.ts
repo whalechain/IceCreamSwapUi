@@ -19,7 +19,7 @@ const makeHandleDeposit =
     bridgeFee?: number,
     bridgeFeeToken?: string,
   ) =>
-  async (amount: number, recipient: string, tokenAddress: string, destinationChainId: number) => {
+  async (amount: number, recipient: string, tokenAddress: string, destinationDomainId: number) => {
     if (!homeChainConfig || !homeBridge) {
       console.error('Home bridge contract is not instantiated')
       return
@@ -30,7 +30,7 @@ const makeHandleDeposit =
       return
     }
 
-    const destinationChain = bridgeChains.find((c) => c.domainId === destinationChainId)
+    const destinationChain = bridgeChains.find((c) => c.domainId === destinationDomainId)
     const token = homeChainConfig.tokens.find((t) => t.address === tokenAddress)
 
     if (!token) {
@@ -90,7 +90,7 @@ const makeHandleDeposit =
         value = utils.parseUnits(bridgeFee.toString(), 18)
       }
 
-      const depositTransaction = await homeBridge.deposit(destinationChainId, token.resourceId, data, {
+      const depositTransaction = await homeBridge.deposit(destinationDomainId, token.resourceId, data, {
         gasPrice: gasPriceCompatibility,
         value,
       })

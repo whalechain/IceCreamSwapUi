@@ -37,6 +37,7 @@ const Bridge = () => {
     setToOtherAddress,
     toOtherAddress,
     transactionStatus,
+    destinationChainConfig,
   } = useBridge()
 
   const balance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -163,7 +164,7 @@ const Bridge = () => {
                       validateForm().then((isValid) => {
                         if (isValid) {
                           const selectedToken = currency instanceof ERC20Token ? currency.address : undefined
-                          deposit(parseFloat(depositAmount), recipient, selectedToken, destinationChainId)
+                          deposit(parseFloat(depositAmount), recipient, selectedToken, destinationChainConfig.domainId)
                         }
                       })
                       setHasSubmitted(true)
