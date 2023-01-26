@@ -245,54 +245,6 @@ export default function SwapForm() {
     }
   }, [hasAmount, refreshBlockNumber])
 
-  const akkaContract = useAkkaRouterContract()
-  const { isConnected } = useWeb3React()
-  const methodName = 'multiPathSwap'
-  useEffect(() => {
-    if (isConnected) {
-      if (akkaApproval === ApprovalState.APPROVED) {
-        if (
-          currencyBalances[Field.INPUT] &&
-          parsedAmount &&
-          currencyBalances[Field.INPUT].greaterThan(parsedAmount)
-        ) {
-          akkaContract.estimateGas[methodName](
-            akkaRouterTrade?.args?.amountIn,
-            akkaRouterTrade?.args?.amountOutMin,
-            akkaRouterTrade?.args?.data,
-            [],
-            [],
-            account
-            , {
-              value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
-            })
-            .then((data) => {
-              if (data.gt("21000")) {
-                toggleSetAkkaContractModeToTrue()
-              }
-              else {
-                toggleSetAkkaContractModeToFalse()
-              }
-
-            })
-            .catch(() => {
-              toggleSetAkkaContractModeToFalse()
-            })
-        }
-        else {
-          toggleSetAkkaContractModeToTrue()
-        }
-      }
-      else {
-        toggleSetAkkaContractModeToTrue()
-      }
-    }
-    else {
-      toggleSetAkkaContractModeToTrue()
-    }
-  }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
-
-
   return (
     <>
       <CurrencyInputHeader
