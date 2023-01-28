@@ -1,7 +1,7 @@
 import { Bridge } from '@chainsafe/chainbridge-contracts'
 import { providers, BigNumber, utils, constants as ethersConstants } from 'ethers'
 import type { TransactionStatus } from '../BridgeProvider'
-import { BridgeChain, bridgeChains } from '../config'
+import { BridgeChain } from '../config'
 import { Erc20DetailedFactory } from './Erc20DetailedFactory'
 
 import { getPriceCompatibility } from './helpers'
@@ -30,7 +30,6 @@ const makeHandleDeposit =
       return
     }
 
-    const destinationChain = bridgeChains.find((c) => c.domainId === destinationDomainId)
     const token = homeChainConfig.tokens.find((t) => t.address === tokenAddress)
 
     if (!token) {
@@ -46,8 +45,10 @@ const makeHandleDeposit =
 
     const amountBN = BigNumber.from(utils.parseUnits(amount.toString(), erc20Decimals))
 
-    const data = `0x${utils.hexZeroPad(amountBN.toHexString(), 32).substr(2) /* Deposit Amount (32 bytes) */}${
-      utils.hexZeroPad(utils.hexlify((recipient.length - 2) / 2), 32).substr(2) /* len(recipientAddress) (32 bytes) */
+    const data = `0x${utils.hexZeroPad(amountBN.toHexString(), 32).substring(2) /* Deposit Amount (32 bytes) */}${
+      utils
+        .hexZeroPad(utils.hexlify((recipient.length - 2) / 2), 32)
+        .substring(2) /* len(recipientAddress) (32 bytes) */
     }${
       recipient.substring(2) // recipientAddress (?? bytes)
     }`

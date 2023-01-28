@@ -32,6 +32,7 @@ interface CurrencySearchProps {
   setImportToken: (token: Token) => void
   height?: number
   tokens?: { [address: string]: ERC20Token }
+  showNative?: boolean
 }
 
 function useSearchInactiveTokenLists(search: string | undefined, minResults = 10): WrappedTokenInfo[] {
@@ -84,6 +85,7 @@ function CurrencySearch({
   setImportToken,
   height,
   tokens,
+  ...props
 }: CurrencySearchProps) {
   const { t } = useTranslation()
   const { chainId } = useActiveChainId()
@@ -108,10 +110,12 @@ function CurrencySearch({
 
   const native = useNativeCurrency()
 
-  const showNative: boolean = useMemo(() => {
-    const s = debouncedQuery.toLowerCase().trim()
-    return native && native.symbol?.toLowerCase?.()?.indexOf(s) !== -1
-  }, [debouncedQuery, native])
+  const showNative: boolean =
+    useMemo(() => {
+      const s = debouncedQuery.toLowerCase().trim()
+      return native && native.symbol?.toLowerCase?.()?.indexOf(s) !== -1
+    }, [debouncedQuery, native]) &&
+    (props.showNative || typeof props.showNative === 'undefined')
 
   const filteredTokens: Token[] = useMemo(() => {
     const filterToken = createFilterToken(debouncedQuery)
@@ -140,7 +144,7 @@ function CurrencySearch({
   const inputRef = useRef<HTMLInputElement>()
 
   useEffect(() => {
-    if (!isMobile) inputRef.current.focus()
+    if (!isMobile) inputRef.current?.focus()
   }, [isMobile])
 
   const handleInput = useCallback((event) => {
@@ -229,18 +233,20 @@ function CurrencySearch({
   return (
     <>
       <AutoColumn gap="16px">
-        <Row>
-          <Input
-            id="token-search-input"
-            placeholder={t('Search name or paste address')}
-            scale="lg"
-            autoComplete="off"
-            value={searchQuery}
-            ref={inputRef as RefObject<HTMLInputElement>}
-            onChange={handleInput}
-            onKeyDown={handleEnter}
-          />
-        </Row>
+        {Object.keys(allTokens).length > 5 && (
+          <Row>
+            <Input
+              id="token-search-input"
+              placeholder={t('Search name or paste address')}
+              scale="lg"
+              autoComplete="off"
+              value={searchQuery}
+              ref={inputRef as RefObject<HTMLInputElement>}
+              onChange={handleInput}
+              onKeyDown={handleEnter}
+            />
+          </Row>
+        )}
         {showCommonBases && (
           <CommonBases
             chainId={chainId}

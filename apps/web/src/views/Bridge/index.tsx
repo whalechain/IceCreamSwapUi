@@ -3,13 +3,13 @@ import { Button, Checkbox, Flex, Heading, Input, Select, Text } from '@pancakesw
 import { AppBody } from 'components/App'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { ChainLogo } from 'components/Logo/ChainLogo'
-import { CommonBasesType } from 'components/SearchModal/types'
 import { useSwitchNetwork } from 'hooks/useSwitchNetwork'
 import { chains } from 'utils/wagmi'
 import Page from '../Page'
 import { StyledBridgeBody, StyledBridgeContainer, StyledInputCurrencyWrapper } from './styles'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import { useWeb3React } from '@pancakeswap/wagmi'
+import { useMemo } from 'react'
 import { useBridge } from './BridgeProvider'
 import { useBridgeTax } from './hooks/useBridgeTax'
 import Divider from 'views/Farms/components/Divider'
@@ -18,10 +18,11 @@ import { useFormErrors } from './hooks/useFormErrors'
 import { useDeposit } from './hooks/useDeposit'
 import { ERC20Token } from '@pancakeswap/sdk'
 import { useRouter } from 'next/router'
+import ConnectWalletButton from 'components/ConnectWalletButton'
 
 const Bridge = () => {
   const { account, chainId: accountChainId } = useWeb3React()
-  const { switchNetworkAsync, pendingChainId, data } = useSwitchNetwork()
+  const { switchNetworkAsync } = useSwitchNetwork()
   const { chainId: routerChainId } = useRouter().query
   const chainId = accountChainId ?? (typeof routerChainId === 'string' ? parseInt(routerChainId) : undefined)
   const {
@@ -38,12 +39,43 @@ const Bridge = () => {
     toOtherAddress,
     transactionStatus,
     destinationChainConfig,
+    showNative,
   } = useBridge()
 
   const balance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const tax = useBridgeTax()
   const { formErrors, validateForm, setHasSubmitted } = useFormErrors(tax.bridgeFee, tax.bridgeFeeToken)
   const deposit = useDeposit()
+
+  const homeChainOptions = useMemo(
+    () =>
+      chains.map((chain) => ({
+        label: (
+          <>
+            <ChainLogo chainId={chain.id} />
+            {chain.name}
+          </>
+        ),
+        value: chain.id,
+      })),
+    [],
+  )
+
+  const targetChainOptions = useMemo(
+    () =>
+      chains
+        .filter((chain) => chain.id !== chainId)
+        .map((chain) => ({
+          label: (
+            <>
+              <ChainLogo chainId={chain.id} />
+              {chain.name}
+            </>
+          ),
+          value: chain.id,
+        })),
+    [chainId],
+  )
 
   return (
     <Page>
@@ -63,15 +95,7 @@ const Bridge = () => {
                 <StyledBridgeBody>
                   Home Chain
                   <Select
-                    options={chains.map((chain) => ({
-                      label: (
-                        <>
-                          <ChainLogo chainId={chain.id} />
-                          {chain.name}
-                        </>
-                      ),
-                      value: chain.id,
-                    }))}
+                    options={homeChainOptions}
                     onOptionChange={(option) => {
                       switchNetworkAsync(option.value)
                     }}
@@ -79,17 +103,7 @@ const Bridge = () => {
                   />
                   Target Chain
                   <Select
-                    options={chains
-                      .filter((chain) => chain.id !== chainId)
-                      .map((chain) => ({
-                        label: (
-                          <>
-                            <ChainLogo chainId={chain.id} />
-                            {chain.name}
-                          </>
-                        ),
-                        value: chain.id,
-                      }))}
+                    options={targetChainOptions}
                     onOptionChange={(option) => {
                       setDestinationChainId(option.value)
                     }}
@@ -113,9 +127,10 @@ const Bridge = () => {
                       onCurrencySelect={setCurrency}
                       currency={currency}
                       id="bridge-currency-input"
-                      showCommonBases
-                      commonBasesType={CommonBasesType.SWAP_LIMITORDER}
                       tokens={tokens}
+                      hideManage
+                      showCommonBases={false}
+                      showNative={showNative}
                     />
                     {formErrors.currency && <FormError>{formErrors.currency}</FormError>}
                   </div>
@@ -143,7 +158,7 @@ const Bridge = () => {
                     </Flex>
                   )}
                   <Divider margin="0px" />
-                  {currency && tax.bridgeFee && tax.hasBridgeFee && (
+                  {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && (
                     <>
                       <Flex justifyContent="space-between">
                         <span>Bridge Fee</span>
@@ -159,19 +174,28 @@ const Bridge = () => {
                       </Flex>
                     </>
                   )}
-                  <Button
-                    onClick={() => {
-                      validateForm().then((isValid) => {
-                        if (isValid) {
-                          const selectedToken = currency instanceof ERC20Token ? currency.address : undefined
-                          deposit(parseFloat(depositAmount), recipient, selectedToken, destinationChainConfig.domainId)
-                        }
-                      })
-                      setHasSubmitted(true)
-                    }}
-                  >
-                    Bridge
-                  </Button>
+                  {account ? (
+                    <Button
+                      onClick={() => {
+                        validateForm().then((isValid) => {
+                          if (isValid) {
+                            const selectedToken = currency instanceof ERC20Token ? currency.address : undefined
+                            deposit(
+                              parseFloat(depositAmount),
+                              recipient,
+                              selectedToken,
+                              destinationChainConfig.domainId,
+                            )
+                          }
+                        })
+                        setHasSubmitted(true)
+                      }}
+                    >
+                      Bridge
+                    </Button>
+                  ) : (
+                    <ConnectWalletButton />
+                  )}
                   {transactionStatus && <span>{transactionStatus}</span>}
                 </StyledBridgeBody>
               </AppBody>

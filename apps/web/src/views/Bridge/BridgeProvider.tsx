@@ -2,10 +2,10 @@ import type { Bridge } from '@chainsafe/chainbridge-contracts'
 import { BridgeFactory } from '@chainsafe/chainbridge-contracts'
 import type { BridgeChain } from './config'
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react'
-import { useSigner } from 'wagmi'
+import { useBalance, useSigner } from 'wagmi'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { bridgeChains } from './config'
-import { Currency, ERC20Token } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, ERC20Token, Native } from '@pancakeswap/sdk'
 import { useTokenBalances } from 'state/wallet/hooks'
 
 type Tokens = { [address: string]: ERC20Token }
@@ -42,6 +42,7 @@ interface BridgeContext {
   setDepositNonce: (nonce: string) => void
   homeTransferTxHash?: string
   setHomeTransferTxHash: (hash: string) => void
+  showNative: boolean
 }
 
 const BridgeContext = createContext<BridgeContext | undefined>(undefined)
@@ -76,6 +77,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () =>
       homeChainConfig?.tokens.reduce<Tokens>((acc, current) => {
         if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return acc
+        if (current.isNative) return acc
         return {
           ...acc,
           [current.address]: new ERC20Token(
@@ -87,12 +89,29 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
           ),
         }
       }, {}),
-    [chainId, destinationChainConfig, homeChainConfig],
+    [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens],
   )
-  const tokenBalances = useTokenBalances(
-    account,
-    useMemo(() => Object.values(tokens || {}), [tokens]),
-  )
+  const nativeBalance = useBalance({ chainId, addressOrName: account }).data
+  const tokenBalances = {
+    ...useTokenBalances(
+      account,
+      useMemo(() => Object.values(tokens || {}), [tokens]),
+    ),
+  }
+  if (homeChainConfig && nativeBalance?.value) {
+    Object.assign(tokenBalances, {
+      [homeChainConfig?.tokens.find((token) => token.isNative)?.address]: CurrencyAmount.fromRawAmount(
+        Native.onChain(chainId),
+        nativeBalance?.value?.toString(),
+      ),
+    })
+  }
+  const showNative = useMemo(() => {
+    const nativeToken = homeChainConfig?.tokens.find((token) => token.isNative)
+    if (!nativeToken) return false
+    if (destinationChainConfig?.tokens.find((token) => token.resourceId === nativeToken.resourceId)) return true
+    return false
+  }, [destinationChainConfig?.tokens, homeChainConfig?.tokens])
 
   return (
     <BridgeContext.Provider
@@ -118,6 +137,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
         setTransactionStatus,
         homeTransferTxHash,
         setHomeTransferTxHash,
+        showNative,
       }}
     >
       {children}

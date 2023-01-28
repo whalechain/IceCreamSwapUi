@@ -31,7 +31,12 @@ export const useBridgeTax = () => {
     getRelayerThreshold()
   }, [homeBridge])
 
-  const selectedToken = currency instanceof ERC20Token ? currency.address : undefined
+  const selectedToken =
+    currency instanceof ERC20Token
+      ? currency.address
+      : currency?.isNative
+      ? '0x0000000000000000000000000000000000000000'
+      : undefined
   const destinationDomainId = destinationChainConfig?.domainId
 
   useEffect(() => {

@@ -96,6 +96,8 @@ interface CurrencyInputPanelProps {
   error?: boolean
   showBUSD?: boolean
   tokens?: { [address: string]: ERC20Token }
+  hideManage?: boolean
+  showNative?: boolean
 }
 export default function CurrencyInputPanel({
   value,
@@ -121,6 +123,8 @@ export default function CurrencyInputPanel({
   error,
   showBUSD,
   tokens,
+  hideManage,
+  showNative,
 }: CurrencyInputPanelProps) {
   const { account, chainId } = useWeb3React()
   const { chainId: appChainId } = useActiveChainId()
@@ -143,6 +147,8 @@ export default function CurrencyInputPanel({
       showCommonBases={showCommonBases}
       commonBasesType={commonBasesType}
       tokens={tokens}
+      hideManage={hideManage}
+      showNative={showNative}
     />,
   )
 

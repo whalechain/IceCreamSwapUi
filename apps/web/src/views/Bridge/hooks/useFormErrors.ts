@@ -48,7 +48,12 @@ const checkToMessage: Record<
 export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
   const { currency, depositAmount, recipient, homeChainConfig, destinationChainConfig, tokens, tokenBalances, bridge } =
     useBridge()
-  const tokenAddress = currency instanceof ERC20Token ? currency.address : undefined
+  const tokenAddress =
+    currency instanceof ERC20Token
+      ? currency.address
+      : currency?.isNative
+      ? '0x0000000000000000000000000000000000000000'
+      : undefined
   const [formErrors, setFormErrors] = useState<FormErrors>({})
   const [hasSubmitted, setHasSubmitted] = useState(false)
 

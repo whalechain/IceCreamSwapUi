@@ -117,14 +117,11 @@ const Select: React.FunctionComponent<React.PropsWithChildren<SelectProps>> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [optionSelected, setOptionSelected] = useState(false);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState(
-    options.findIndex((option) => option.value === value) === -1
-      ? defaultOptionIndex
-      : options.findIndex((option) => option.value === value)
-  );
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(defaultOptionIndex);
 
   useEffect(() => {
     const index = options.findIndex((option) => option.value === value);
+    console.log("index", index);
     if (index !== -1) setSelectedOptionIndex(index);
   }, [options, value]);
 
@@ -168,7 +165,7 @@ const Select: React.FunctionComponent<React.PropsWithChildren<SelectProps>> = ({
           style={{ display: "inline-flex", alignItems: "center", gap: "0.75em" }}
           color={!optionSelected && placeHolderText ? "text" : undefined}
         >
-          {!optionSelected && placeHolderText ? placeHolderText : options[selectedOptionIndex].label}
+          {!optionSelected && placeHolderText ? placeHolderText : options[selectedOptionIndex]?.label}
         </Text>
       </DropDownHeader>
       <ArrowDropDownIcon color="text" onClick={toggling} />
