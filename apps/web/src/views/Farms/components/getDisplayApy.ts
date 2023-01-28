@@ -9,7 +9,5 @@ export const getDisplayApy = (cakeRewardsApr?: number, lpRewardsApr?: number) =>
     apr = cakeRewardsApr
   }
   const apy = ((1 + (apr / 100 / 365)) ** 365 - 1) * 100
-  const apyString = apy.toLocaleString('en-US', { maximumFractionDigits: 2 })
-  console.info(cakeRewardsApr, lpRewardsApr, apr, apy, apyString)
-  return apyString
+  return apy.toLocaleString('en-US', { maximumFractionDigits: 2 })
 }

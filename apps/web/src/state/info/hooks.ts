@@ -208,7 +208,6 @@ export const useGetChainName = () => {
   const path = window.location.href
 
   const getChain = useCallback(() => {
-    if (path.includes('chainId=56')) return 'BSC'
     if (path.includes('chainId=32520')) return 'BITGERT'
     if (path.includes('chainId=2000')) return 'DOGECHAIN'
     if (path.includes('chainId=61916')) return 'DOKEN'
