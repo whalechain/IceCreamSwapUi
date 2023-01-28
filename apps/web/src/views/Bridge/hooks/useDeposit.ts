@@ -19,7 +19,11 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     homeChainConfig,
     bridge,
     signer?.data?.provider as Web3Provider,
-    currency instanceof ERC20Token ? currency.address : undefined,
+    currency instanceof ERC20Token
+      ? currency.address
+      : currency?.isNative
+      ? '0x0000000000000000000000000000000000000000'
+      : undefined,
     bridgeFee,
     bridgeFeeToken,
   )

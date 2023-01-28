@@ -25,6 +25,9 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
     Icecream: ROUTER_ADDRESS_COMMON,
     Akka: ROUTER_ADDRESS_COMMON_AKKA_XDC,
   },
+  [ChainId.BSC]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
+  },
 }
 
 // used to construct intermediary pairs for trading

@@ -27,9 +27,11 @@ import { useNetwork } from 'wagmi'
 
 import { ChainLogo } from './Logo/ChainLogo'
 import chainName from '../config/constants/chainName'
+import { useSupportedChains } from 'hooks/useSupportedChains'
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
+  const supportedChains = useSupportedChains()
 
   return (
     <>
@@ -39,6 +41,7 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
       <UserMenuDivider />
       {chains
         .filter((chain) => !chain.testnet || chain.id === chainId)
+        .filter((chain) => supportedChains.includes(chain.id))
         .map((chain) => (
           <UserMenuItem
             key={chain.id}

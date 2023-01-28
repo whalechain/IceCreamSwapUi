@@ -122,7 +122,7 @@ const Bridge = () => {
                         setDepositAmount((+balance?.toExact() * 0.01 * percent).toString())
                       }}
                       onMax={() => {
-                        setDepositAmount(balance?.toExact())
+                        setDepositAmount(balance?.toExact() || '0')
                       }}
                       onCurrencySelect={setCurrency}
                       currency={currency}
@@ -179,7 +179,13 @@ const Bridge = () => {
                       onClick={() => {
                         validateForm().then((isValid) => {
                           if (isValid) {
-                            const selectedToken = currency instanceof ERC20Token ? currency.address : undefined
+                            const selectedToken =
+                              currency instanceof ERC20Token
+                                ? currency.address
+                                : currency?.isNative
+                                ? '0x0000000000000000000000000000000000000000'
+                                : undefined
+
                             deposit(
                               parseFloat(depositAmount),
                               recipient,
