@@ -16,9 +16,9 @@ import Divider from 'views/Farms/components/Divider'
 import FormError from './components/FormError'
 import { useFormErrors } from './hooks/useFormErrors'
 import { useDeposit } from './hooks/useDeposit'
-import { ERC20Token } from '@pancakeswap/sdk'
 import { useRouter } from 'next/router'
-import ConnectWalletButton from 'components/ConnectWalletButton'
+import DepositButton from './components/DepositButton'
+import { formatAmount } from './formatter'
 
 const Bridge = () => {
   const { account, chainId: accountChainId } = useWeb3React()
@@ -38,14 +38,12 @@ const Bridge = () => {
     setToOtherAddress,
     toOtherAddress,
     transactionStatus,
-    destinationChainConfig,
     showNative,
   } = useBridge()
 
   const balance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const tax = useBridgeTax()
   const { formErrors, validateForm, setHasSubmitted } = useFormErrors(tax.bridgeFee, tax.bridgeFeeToken)
-  const deposit = useDeposit()
 
   const homeChainOptions = useMemo(
     () =>
@@ -163,46 +161,18 @@ const Bridge = () => {
                       <Flex justifyContent="space-between">
                         <span>Bridge Fee</span>
                         <pre>
-                          {tax.bridgeFee ?? '0'} {tax.bridgeFeeCurrency.name}
+                          {formatAmount(tax.bridgeFee ?? '0')} {tax.bridgeFeeCurrency.name}
                         </pre>
                       </Flex>
                       <Flex justifyContent="space-between">
                         <span>Transfer Amount</span>
                         <pre>
-                          {depositAmount} {currency.name}
+                          {formatAmount(depositAmount)} {currency.name}
                         </pre>
                       </Flex>
                     </>
                   )}
-                  {account ? (
-                    <Button
-                      onClick={() => {
-                        validateForm().then((isValid) => {
-                          if (isValid) {
-                            const selectedToken =
-                              currency instanceof ERC20Token
-                                ? currency.address
-                                : currency?.isNative
-                                ? '0x0000000000000000000000000000000000000000'
-                                : undefined
-
-                            deposit(
-                              parseFloat(depositAmount),
-                              recipient,
-                              selectedToken,
-                              destinationChainConfig.domainId,
-                            )
-                          }
-                        })
-                        setHasSubmitted(true)
-                      }}
-                    >
-                      Bridge
-                    </Button>
-                  ) : (
-                    <ConnectWalletButton />
-                  )}
-                  {transactionStatus && <span>{transactionStatus}</span>}
+                  <DepositButton validateForm={validateForm} setHasSubmitted={setHasSubmitted} />
                 </StyledBridgeBody>
               </AppBody>
             </StyledInputCurrencyWrapper>

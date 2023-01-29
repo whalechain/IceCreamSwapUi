@@ -73,6 +73,12 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [depositNonce, setDepositNonce] = useState<string | undefined>()
   const [homeTransferTxHash, setHomeTransferTxHash] = useState<string | undefined>()
 
+  useEffect(() => {
+    if (homeChainConfig && destinationChainConfig) {
+      setCurrency(undefined)
+    }
+  }, [homeChainConfig, destinationChainConfig])
+
   const tokens = useMemo(
     () =>
       homeChainConfig?.tokens.reduce<Tokens>((acc, current) => {
