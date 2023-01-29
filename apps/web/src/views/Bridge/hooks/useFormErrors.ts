@@ -37,7 +37,7 @@ const checkToMessage: Record<
   tokenSelected: { message: 'Please select a token', field: 'currency' },
   amountValid: { message: 'Please enter a valid amount', field: 'currency' },
   max: { message: 'Insufficient funds', field: 'currency' },
-  fee: { message: 'Invalid for fee', field: 'currency' },
+  fee: { message: 'Amount below min fee', field: 'currency' },
   bridgeSupplies: { message: 'Not enough tokens on the destination chain. Please contact support', field: 'currency' },
   min: { message: 'Amount must be greater than 0', field: 'currency' },
   tokenProvided: { message: 'Please select a token', field: 'currency' },
@@ -46,8 +46,7 @@ const checkToMessage: Record<
 }
 
 export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
-  const { currency, depositAmount, recipient, homeChainConfig, destinationChainConfig, tokens, tokenBalances, bridge } =
-    useBridge()
+  const { currency, depositAmount, recipient, homeChainConfig, destinationChainConfig, tokenBalances } = useBridge()
   const tokenAddress =
     currency instanceof ERC20Token
       ? currency.address
