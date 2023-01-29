@@ -2,11 +2,13 @@ import type { Bridge } from '@chainsafe/chainbridge-contracts'
 import { BridgeFactory } from '@chainsafe/chainbridge-contracts'
 import type { BridgeChain } from './config'
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react'
-import { useBalance, useSigner } from 'wagmi'
+import { useBalance, useProvider, useSigner } from 'wagmi'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { bridgeChains } from './config'
 import { Currency, CurrencyAmount, ERC20Token, Native } from '@pancakeswap/sdk'
 import { useTokenBalances } from 'state/wallet/hooks'
+import { BigNumber, utils } from 'ethers'
+import { Erc20DetailedFactory } from './contracts/Erc20DetailedFactory'
 
 type Tokens = { [address: string]: ERC20Token }
 
@@ -43,6 +45,9 @@ interface BridgeContext {
   homeTransferTxHash?: string
   setHomeTransferTxHash: (hash: string) => void
   showNative: boolean
+  showApprovalFlow: boolean
+  hasApproval: boolean
+  setHasApproval: (hasApproval: boolean) => void
 }
 
 const BridgeContext = createContext<BridgeContext | undefined>(undefined)
@@ -72,18 +77,63 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [transactionStatus, setTransactionStatus] = useState<TransactionStatus | undefined>()
   const [depositNonce, setDepositNonce] = useState<string | undefined>()
   const [homeTransferTxHash, setHomeTransferTxHash] = useState<string | undefined>()
+  const [showApprovalFlow, setShowApprovalFlow] = useState(false)
+  const [hasApproval, setHasApproval] = useState(false)
+
+  useEffect(() => {
+    const setApprovalFlow = async () => {
+      if (!homeChainConfig || !bridge || !depositAmount || !signer?.data || !currency) return
+      if (currency.isNative) {
+        setHasApproval(true)
+        setShowApprovalFlow(false)
+      }
+      const tokenAddress = currency instanceof ERC20Token ? currency.address : undefined
+      if (!tokenAddress) return
+
+      const erc20 = Erc20DetailedFactory.connect(tokenAddress, signer?.data)
+      const token = homeChainConfig.tokens.find((t) => t.address === tokenAddress)
+      const handlerAddress = await bridge._resourceIDToHandlerAddress(token.resourceId)
+      const currentAllowance = await erc20.allowance(await signer?.data.getAddress(), handlerAddress)
+      const erc20Decimals = await erc20.decimals()
+      const amountBN = BigNumber.from(utils.parseUnits(depositAmount, erc20Decimals))
+
+      setShowApprovalFlow(currentAllowance.lt(amountBN))
+      setHasApproval(currentAllowance.gte(amountBN))
+    }
+    setApprovalFlow()
+  }, [homeChainConfig, signer?.data, currency, bridge, depositAmount])
 
   useEffect(() => {
     if (homeChainConfig && destinationChainConfig) {
       setCurrency(undefined)
+      setDepositAmount('0')
     }
   }, [homeChainConfig, destinationChainConfig])
+  const destProvider = useProvider({ chainId: destinationChainId })
+
+  useEffect(() => {
+    if (!destinationChainConfig) return () => undefined
+
+    const destinationBridge = BridgeFactory.connect(destinationChainConfig.bridgeAddress, destProvider)
+    destinationBridge?.on(
+      destinationBridge.filters.ProposalEvent(null, null, null, null) as any,
+      async (originDomainId: number, nonce: BigNumber, status: number) => {
+        if (originDomainId !== homeChainConfig?.domainId) return
+        if (nonce.toString() !== depositNonce) return
+        if (status === 3) setTransactionStatus('Transfer Completed')
+        if (status === 4) setTransactionStatus('Transfer Aborted')
+      },
+    )
+    return () => {
+      destinationBridge?.removeAllListeners(destinationBridge.filters.ProposalEvent(null, null, null, null) as any)
+    }
+  }, [depositNonce, homeChainConfig?.domainId, destProvider, destinationChainConfig])
 
   const tokens = useMemo(
     () =>
       homeChainConfig?.tokens.reduce<Tokens>((acc, current) => {
         if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return acc
-        if (current.isNative) return acc
+        if (current.address === '0x0000000000000000000000000000000000000000') return acc
         return {
           ...acc,
           [current.address]: new ERC20Token(
@@ -106,14 +156,14 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }
   if (homeChainConfig && nativeBalance?.value) {
     Object.assign(tokenBalances, {
-      [homeChainConfig?.tokens.find((token) => token.isNative)?.address]: CurrencyAmount.fromRawAmount(
-        Native.onChain(chainId),
-        nativeBalance?.value?.toString(),
-      ),
+      [homeChainConfig?.tokens.find((token) => token.address === '0x0000000000000000000000000000000000000000')
+        ?.address]: CurrencyAmount.fromRawAmount(Native.onChain(chainId), nativeBalance?.value?.toString()),
     })
   }
   const showNative = useMemo(() => {
-    const nativeToken = homeChainConfig?.tokens.find((token) => token.isNative)
+    const nativeToken = homeChainConfig?.tokens.find(
+      (token) => token.address === '0x0000000000000000000000000000000000000000',
+    )
     if (!nativeToken) return false
     if (destinationChainConfig?.tokens.find((token) => token.resourceId === nativeToken.resourceId)) return true
     return false
@@ -144,6 +194,9 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
         homeTransferTxHash,
         setHomeTransferTxHash,
         showNative,
+        showApprovalFlow,
+        hasApproval,
+        setHasApproval,
       }}
     >
       {children}

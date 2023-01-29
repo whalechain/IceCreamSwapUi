@@ -2,13 +2,13 @@ import { useGasPrice } from 'state/user/hooks'
 import makeHandleDeposit from '../contracts/makeHandleDeposit'
 import { useBridge } from '../BridgeProvider'
 import { useSigner } from 'wagmi'
-import { ERC20Token } from '@pancakeswap/sdk'
 import { Web3Provider } from '@ethersproject/providers'
+import { useWeb3React } from '@pancakeswap/wagmi'
 
 export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
   const gasPrice = useGasPrice()
-  const { setTransactionStatus, setDepositNonce, setHomeTransferTxHash, homeChainConfig, bridge, currency } =
-    useBridge()
+  const { account } = useWeb3React()
+  const { setTransactionStatus, setDepositNonce, setHomeTransferTxHash, homeChainConfig, bridge } = useBridge()
   const signer = useSigner()
 
   return makeHandleDeposit(
@@ -19,11 +19,7 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     homeChainConfig,
     bridge,
     signer?.data?.provider as Web3Provider,
-    currency instanceof ERC20Token
-      ? currency.address
-      : currency?.isNative
-      ? '0x0000000000000000000000000000000000000000'
-      : undefined,
+    account,
     bridgeFee,
     bridgeFeeToken,
   )

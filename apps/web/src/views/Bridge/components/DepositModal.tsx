@@ -1,5 +1,15 @@
 import { ERC20Token } from '@pancakeswap/sdk'
-import { Flex, Modal, useModalContext, Text, ArrowDownIcon, Button, Spinner } from '@pancakeswap/uikit'
+import {
+  Flex,
+  Modal,
+  useModalContext,
+  Text,
+  ArrowDownIcon,
+  Button,
+  Spinner,
+  Column,
+  RowBetween,
+} from '@pancakeswap/uikit'
 import { CurrencyLogo } from 'components/Logo'
 import { ChainLogo } from 'components/Logo/ChainLogo'
 import Divider from 'views/Farms/components/Divider'
@@ -7,10 +17,13 @@ import { useBridge } from '../BridgeProvider'
 import type { TransactionStatus } from '../BridgeProvider'
 import { formatAmount } from '../formatter'
 import { useDeposit } from '../hooks/useDeposit'
+import ProgressSteps from 'views/Swap/components/ProgressSteps'
+import { useState } from 'react'
 
 interface DepositModalProps {
   bridge: ReturnType<typeof useBridge>
-  deposit: ReturnType<typeof useDeposit>
+  deposit: ReturnType<typeof useDeposit>['deposit']
+  approve: ReturnType<typeof useDeposit>['approve']
 }
 
 const titleByStatus: Record<TransactionStatus, string> = {
@@ -23,34 +36,43 @@ const titleByStatus: Record<TransactionStatus, string> = {
   'Initializing Transfer': 'Initializing Transfer',
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit }) => {
-  const { currency, depositAmount, recipient, destinationChainConfig, homeChainConfig, transactionStatus } = bridge
+const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve }) => {
+  const {
+    currency,
+    depositAmount,
+    recipient,
+    destinationChainConfig,
+    homeChainConfig,
+    transactionStatus,
+    hasApproval,
+    setHasApproval,
+    showApprovalFlow,
+  } = bridge
   const { onDismiss } = useModalContext()
+  const [waitingForApproval, setWaitingForApproval] = useState(false)
 
   const title = transactionStatus ? titleByStatus[transactionStatus] : 'Confirm Bridge Transfer'
 
+  const selectedToken =
+    currency instanceof ERC20Token
+      ? currency.address
+      : currency?.isNative
+      ? '0x0000000000000000000000000000000000000000'
+      : undefined
   const handleDeposit = () => {
-    const selectedToken =
-      currency instanceof ERC20Token
-        ? currency.address
-        : currency?.isNative
-        ? '0x0000000000000000000000000000000000000000'
-        : undefined
     deposit(parseFloat(depositAmount), recipient, selectedToken, destinationChainConfig.domainId)
+  }
+
+  const handleApprove = () => {
+    setWaitingForApproval(true)
+    approve(parseFloat(depositAmount), selectedToken, setHasApproval).then(() => {
+      setWaitingForApproval(false)
+    })
   }
 
   const handleDismiss = () => {
     onDismiss()
   }
-
-  const waitingForApproval = (
-    <>
-      <Flex justifyContent="center">
-        <Spinner />
-      </Flex>
-      <Text>Please approve the transaction in your wallet</Text>
-    </>
-  )
 
   const waitingForDeposit = (
     <>
@@ -76,8 +98,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit }) => {
         <Spinner />
       </Flex>
       <Text>Transfer in transit</Text>
-      <Text>Please check you wallet in a few minutes</Text>
-      <Button onClick={handleDismiss}>Ok</Button>
+      <Text>Please wait the transaction will take a few minutes</Text>
     </>
   )
 
@@ -96,20 +117,42 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit }) => {
       </Flex>
       <Divider margin="0px" />
       <Flex alignItems="center" justifyContent="space-between">
-        <Text fontSize="1em" display="flex" style={{ alignItems: 'center' }}>
-          <CurrencyLogo currency={currency} /> Amount
+        <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
+          <CurrencyLogo currency={currency} />
+          <span>Amount</span>
         </Text>
         <Text fontSize="1em">
           {formatAmount(depositAmount)} {currency?.symbol}
         </Text>
       </Flex>
-      <Button onClick={handleDeposit}>Confirm</Button>
+      {showApprovalFlow ? (
+        <>
+          <Flex style={{ gap: '0.5em' }} alignItems="stretch">
+            <Button
+              style={{ flexGrow: 1 }}
+              onClick={handleApprove}
+              disabled={hasApproval}
+              isLoading={waitingForApproval}
+            >
+              Approve
+            </Button>
+            <Button style={{ flexGrow: 1 }} onClick={handleDeposit} disabled={!hasApproval}>
+              Confirm
+            </Button>
+          </Flex>
+          <Column style={{ marginTop: '1rem' }}>
+            <ProgressSteps steps={[hasApproval]} />
+          </Column>
+        </>
+      ) : (
+        <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
+          Confirm
+        </Button>
+      )}
     </>
   )
 
   const mapping = {
-    'Approve 0': waitingForApproval,
-    Approve: waitingForApproval,
     Deposit: waitingForDeposit,
     'In Transit': transferInTransit,
     'Transfer Completed': <Text>Transfer Completed! 🥳</Text>,
@@ -120,7 +163,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit }) => {
   const content = transactionStatus ? mapping[transactionStatus] : preview
 
   return (
-    <Modal title={title} onDismiss={handleDismiss} maxWidth="400px">
+    <Modal title={title} onDismiss={handleDismiss} minWidth="426px">
       <Flex flexDirection="column" alignItems="stretch" style={{ gap: '1em' }}>
         {content}
       </Flex>

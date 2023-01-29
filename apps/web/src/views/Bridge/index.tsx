@@ -159,15 +159,15 @@ const Bridge = () => {
                   {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && (
                     <>
                       <Flex justifyContent="space-between">
-                        <span>Bridge Fee</span>
-                        <pre>
-                          {formatAmount(tax.bridgeFee ?? '0')} {tax.bridgeFeeCurrency.name}
-                        </pre>
-                      </Flex>
-                      <Flex justifyContent="space-between">
                         <span>Transfer Amount</span>
                         <pre>
                           {formatAmount(depositAmount)} {currency.name}
+                        </pre>
+                      </Flex>
+                      <Flex justifyContent="space-between">
+                        <span>Bridge Fee</span>
+                        <pre>
+                          {formatAmount(tax.bridgeFee ?? '0')} {tax.bridgeFeeCurrency.name}
                         </pre>
                       </Flex>
                     </>
