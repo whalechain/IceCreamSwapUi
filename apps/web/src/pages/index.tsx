@@ -8,7 +8,7 @@ import { getCakeVaultAddress } from 'utils/addressHelpers'
 import { getIceContract } from 'utils/contractHelpers'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
 import { bitQueryServerClient, infoServerClient } from 'utils/graphql'
-import { chains } from 'utils/wagmi'
+import { CHAIN_IDS } from 'utils/wagmi'
 import Home from '../views/Home'
 
 const IndexPage = ({ totalTx30Days, addressCount30Days, tvl }) => {
@@ -136,6 +136,6 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-IndexPage.chains = chains
+IndexPage.chains = CHAIN_IDS
 
 export default IndexPage
