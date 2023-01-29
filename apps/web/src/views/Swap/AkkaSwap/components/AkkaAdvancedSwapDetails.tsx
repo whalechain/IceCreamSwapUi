@@ -26,16 +26,19 @@ function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
           {route?.priceImpact?.toFixed(3)}%
         </Text>
       </RowBetween>
-      <RowBetween>
-        <RowFixed>
+      {route?.returnAmountInUsd - route?.bestAlt > 0 &&
+        <RowBetween>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              You Save
+            </Text>
+          </RowFixed>
           <Text fontSize="14px" color="textSubtle">
-            You Save
+            ${(route?.returnAmountInUsd - route?.bestAlt).toFixed(3)}
           </Text>
-        </RowFixed>
-        <Text fontSize="14px" color="textSubtle">
-          ${(route?.returnAmountInUsd - route?.bestAlt).toFixed(3)}
-        </Text>
-      </RowBetween>
+        </RowBetween>
+      }
+
     </AutoColumn>
   )
 }

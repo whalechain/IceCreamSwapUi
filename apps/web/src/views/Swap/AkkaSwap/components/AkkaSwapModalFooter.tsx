@@ -59,16 +59,19 @@ export default function AkkaSwapModalFooter({
             {trade.route.priceImpact.toFixed(3)}%
           </Text>
         </RowBetween>
-        <RowBetween>
-          <RowFixed>
+        {trade.route.returnAmountInUsd - trade.route.bestAlt > 0 &&
+          <RowBetween>
+            <RowFixed>
+              <Text fontSize="14px" color="textSubtle">
+                You Save
+              </Text>
+            </RowFixed>
             <Text fontSize="14px" color="textSubtle">
-              You Save
+              ${(trade.route.returnAmountInUsd - trade.route.bestAlt).toFixed(3)}
             </Text>
-          </RowFixed>
-          <Text fontSize="14px" color="textSubtle">
-            ${(trade.route.returnAmountInUsd - trade.route.bestAlt).toFixed(3)}
-          </Text>
-        </RowBetween>
+          </RowBetween>
+        }
+
         <RowBetween>
           <RowFixed>
             <Text fontSize="14px">{t('Liquidity Provider Fee')}</Text>
