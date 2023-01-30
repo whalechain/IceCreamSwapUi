@@ -141,7 +141,7 @@ const Bridge = () => {
                       scale="sm"
                     />
                     <Text ml="10px" style={{ userSelect: 'none' }} onClick={() => setToOtherAddress(!toOtherAddress)}>
-                      Send funds to an other address than my own
+                      Send tokens to a different address
                     </Text>
                   </Flex>
                   {toOtherAddress && (
