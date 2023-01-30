@@ -1,6 +1,6 @@
-import { ChainId } from '@pancakeswap/sdk'
 import Swap from '../views/Swap'
 import { SwapFeaturesProvider } from '../views/Swap/SwapFeaturesContext'
+import {SUPPORT_SWAP} from "../config/constants/supportChains";
 
 const SwapPage = () => {
   return (
@@ -10,6 +10,6 @@ const SwapPage = () => {
   )
 }
 
-SwapPage.chains = [ChainId.BITGERT, ChainId.DOGE, ChainId.DOKEN, ChainId.FUSE, ChainId.XDC]
+SwapPage.chains = SUPPORT_SWAP
 
 export default SwapPage

@@ -1,6 +1,6 @@
-import { CHAIN_IDS } from 'utils/wagmi'
 import { BridgeProvider } from 'views/Bridge/BridgeProvider'
 import Bridge from '../views/Bridge'
+import {SUPPORT_BRIDGE} from "../config/constants/supportChains";
 
 const BridgePage = () => {
   return (
@@ -10,6 +10,6 @@ const BridgePage = () => {
   )
 }
 
-BridgePage.chains = CHAIN_IDS
+BridgePage.chains = SUPPORT_BRIDGE
 
 export default BridgePage
