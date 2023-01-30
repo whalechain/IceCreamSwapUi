@@ -9,6 +9,7 @@ import { Currency, CurrencyAmount, ERC20Token, Native } from '@pancakeswap/sdk'
 import { useTokenBalances } from 'state/wallet/hooks'
 import { BigNumber, utils } from 'ethers'
 import { Erc20DetailedFactory } from './contracts/Erc20DetailedFactory'
+import { useRouter } from 'next/router'
 
 type Tokens = { [address: string]: ERC20Token }
 
@@ -53,7 +54,9 @@ interface BridgeContext {
 const BridgeContext = createContext<BridgeContext | undefined>(undefined)
 
 export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { chainId, account } = useWeb3React()
+  const { account, chainId: accountChainId } = useWeb3React()
+  const { chainId: routerChainId } = useRouter().query
+  const chainId = accountChainId ?? (typeof routerChainId === 'string' ? parseInt(routerChainId) : undefined)
   const [currency, setCurrency] = useState<Currency | undefined>()
   const [depositAmount, setDepositAmount] = useState('0')
   const [destinationChainId, setDestinationChainId] = useState<number | undefined>()
