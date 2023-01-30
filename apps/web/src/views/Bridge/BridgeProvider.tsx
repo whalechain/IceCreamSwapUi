@@ -92,6 +92,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       const erc20 = Erc20DetailedFactory.connect(tokenAddress, signer?.data)
       const token = homeChainConfig.tokens.find((t) => t.address === tokenAddress)
+      if (!token) return
       const handlerAddress = await bridge._resourceIDToHandlerAddress(token.resourceId)
       const currentAllowance = await erc20.allowance(await signer?.data.getAddress(), handlerAddress)
       const erc20Decimals = await erc20.decimals()
@@ -118,6 +119,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     destinationBridge?.on(
       destinationBridge.filters.ProposalEvent(null, null, null, null) as any,
       async (originDomainId: number, nonce: BigNumber, status: number) => {
+        console.log('ProposalEvent', originDomainId, nonce?.toString(), status)
         if (originDomainId !== homeChainConfig?.domainId) return
         if (nonce.toString() !== depositNonce) return
         if (status === 3) setTransactionStatus('Transfer Completed')

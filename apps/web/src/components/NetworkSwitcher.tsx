@@ -143,7 +143,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
       {cannotChangeNetwork && tooltipVisible && tooltip}
       <UserMenu
         width="100%"
-        mr="8px"
+        pr="8px"
         placement="bottom"
         variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'}
         avatarSrc={`/images/chains/${chainId}.png`}

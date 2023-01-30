@@ -156,7 +156,7 @@ const Bridge = () => {
                     </Flex>
                   )}
                   <Divider margin="0px" />
-                  {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && (
+                  {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && tax.bridgeFeeCurrency && (
                     <>
                       <Flex justifyContent="space-between">
                         <span>Transfer Amount</span>

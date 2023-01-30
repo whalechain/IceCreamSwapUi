@@ -1,15 +1,5 @@
 import { ERC20Token } from '@pancakeswap/sdk'
-import {
-  Flex,
-  Modal,
-  useModalContext,
-  Text,
-  ArrowDownIcon,
-  Button,
-  Spinner,
-  Column,
-  RowBetween,
-} from '@pancakeswap/uikit'
+import { Flex, Modal, useModalContext, Text, ArrowDownIcon, Button, Spinner, Column } from '@pancakeswap/uikit'
 import { CurrencyLogo } from 'components/Logo'
 import { ChainLogo } from 'components/Logo/ChainLogo'
 import Divider from 'views/Farms/components/Divider'
@@ -19,6 +9,8 @@ import { formatAmount } from '../formatter'
 import { useDeposit } from '../hooks/useDeposit'
 import ProgressSteps from 'views/Swap/components/ProgressSteps'
 import { useState } from 'react'
+import Image from 'next/image'
+import BridgeSuccess from '../assets/bridge-success.png'
 
 interface DepositModalProps {
   bridge: ReturnType<typeof useBridge>
@@ -152,10 +144,22 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
     </>
   )
 
+  const transferCompleted = (
+    <>
+      <Flex justifyContent="center">
+        <span style={{ maxWidth: '200px' }}>
+          <Image src={BridgeSuccess} alt="success" />
+        </span>
+      </Flex>
+      <Text>Congratulations! Your transfer has been completed.</Text>
+      <Button onClick={handleDismiss}>Close</Button>
+    </>
+  )
+
   const mapping = {
     Deposit: waitingForDeposit,
     'In Transit': transferInTransit,
-    'Transfer Completed': <Text>Transfer Completed! 🥳</Text>,
+    'Transfer Completed': transferCompleted,
     'Transfer Aborted': <Text>Transfer Failed</Text>,
     'Initializing Transfer': waitingForTransfer,
   }

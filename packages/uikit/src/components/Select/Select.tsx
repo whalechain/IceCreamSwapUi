@@ -121,7 +121,6 @@ const Select: React.FunctionComponent<React.PropsWithChildren<SelectProps>> = ({
 
   useEffect(() => {
     const index = options.findIndex((option) => option.value === value);
-    console.log("index", index);
     if (index !== -1) setSelectedOptionIndex(index);
   }, [options, value]);
 
