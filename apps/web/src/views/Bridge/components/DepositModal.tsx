@@ -11,6 +11,7 @@ import ProgressSteps from 'views/Swap/components/ProgressSteps'
 import { useState } from 'react'
 import Image from 'next/image'
 import BridgeSuccess from '../assets/bridge-success.png'
+import chainName from 'config/constants/chainName'
 
 interface DepositModalProps {
   bridge: ReturnType<typeof useBridge>
@@ -98,14 +99,14 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
     <>
       <Flex alignItems="center" style={{ gap: '0.5em' }}>
         <ChainLogo chainId={homeChainConfig.networkId} />
-        <Text fontSize="1.5em">{homeChainConfig.name}</Text>
+        <Text fontSize="1.5em">{chainName[homeChainConfig.networkId]}</Text>
       </Flex>
       <span>
         <ArrowDownIcon />
       </span>
       <Flex alignItems="center" style={{ gap: '0.5em' }}>
         <ChainLogo chainId={destinationChainConfig.networkId} />
-        <Text fontSize="1.5em">{destinationChainConfig.name}</Text>
+        <Text fontSize="1.5em">{chainName[destinationChainConfig.networkId]}</Text>
       </Flex>
       <Divider margin="0px" />
       <Flex alignItems="center" justifyContent="space-between">
