@@ -19,6 +19,7 @@ import { useDeposit } from './hooks/useDeposit'
 import { useRouter } from 'next/router'
 import DepositButton from './components/DepositButton'
 import { formatAmount } from './formatter'
+import chainName from 'config/constants/chainName'
 
 const Bridge = () => {
   const { account, chainId: accountChainId } = useWeb3React()
@@ -51,7 +52,7 @@ const Bridge = () => {
         label: (
           <>
             <ChainLogo chainId={chain.id} />
-            {chain.name}
+            {chainName[chain.id]}
           </>
         ),
         value: chain.id,
@@ -67,7 +68,7 @@ const Bridge = () => {
           label: (
             <>
               <ChainLogo chainId={chain.id} />
-              {chain.name}
+              {chainName[chain.id]}
             </>
           ),
           value: chain.id,
@@ -83,7 +84,7 @@ const Bridge = () => {
             <StyledInputCurrencyWrapper mt="0">
               <AppBody>
                 <AtomBox width="full" alignItems="center" flexDirection="column" padding="24px" borderBottom="1">
-                  <AtomBox display="flex" width="full" alignItems="center" justifyContent="space-between">
+                  <AtomBox display="flex" width="full" alignItems="center" justifyContent="center">
                     <Heading as="h2">Bridge</Heading>
                   </AtomBox>
                   <Text color="textSubtle" fontSize="14px" textAlign="center">
