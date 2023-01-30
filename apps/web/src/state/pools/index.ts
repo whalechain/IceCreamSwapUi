@@ -86,11 +86,11 @@ const initialState: PoolsState = {
 
 const cakeVaultAddress = getCakeVaultAddress()
 
-export const fetchCakePoolPublicDataAsync = () => async (dispatch, getState) => {
+export const fetchCakePoolPublicDataAsync = (chainId: ChainId) => async (dispatch, getState) => {
   const farmsData = getState().farms.data
   const prices = getTokenPricesFromFarm(farmsData)
 
-  const cakePool = poolsConfig.filter((p) => p.sousId === 0)[0]
+  const cakePool = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).filter((p) => p.sousId === 0)[0]
 
   const stakingTokenAddress = isAddress(cakePool.stakingToken.address)
   const stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
@@ -140,10 +140,11 @@ export const fetchPoolsPublicDataAsync =
     try {
       const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
         fetchPoolsBlockLimits(chainId),
-        fetchPoolsTotalStaking(chainId),
+        fetchPoolsTotalStaking(chainId), // todo: use totalStaked from contract instead of it's balance.
         fetchPoolsProfileRequirement(chainId),
         currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(),
       ])
+      console.log(blockLimits, totalStakings, profileRequirements, currentBlock)  // todo: remove
 
       const blockLimitsSousIdMap = fromPairs(blockLimits.map((entry) => [entry.sousId, entry]))
       const totalStakingsSousIdMap = fromPairs(totalStakings.map((entry) => [entry.sousId, entry]))
@@ -151,7 +152,7 @@ export const fetchPoolsPublicDataAsync =
       const priceHelperLpsConfig = getPoolsPriceHelperLpFiles(chainId)
       const activePriceHelperLpsConfig = priceHelperLpsConfig.filter((priceHelperLpConfig) => {
         return (
-          poolsConfig
+          poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress)
             .filter(
               (pool) => pool.earningToken.address.toLowerCase() === priceHelperLpConfig.token.address.toLowerCase(),
             )
@@ -177,7 +178,7 @@ export const fetchPoolsPublicDataAsync =
 
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
-      const liveData = poolsConfig.map((pool) => {
+      const liveData = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((pool) => {
         const blockLimit = blockLimitsSousIdMap[pool.sousId]
         const totalStaking = totalStakingsSousIdMap[pool.sousId]
         const isPoolEndBlockExceeded =
@@ -225,7 +226,7 @@ export const fetchPoolsStakingLimitsAsync = (chainId: ChainId) => async (dispatc
   try {
     const stakingLimits = await fetchPoolsStakingLimits(poolsWithStakingLimit, chainId)
 
-    const stakingLimitData = poolsConfig.map((pool) => {
+    const stakingLimitData = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((pool) => {
       if (poolsWithStakingLimit.includes(pool.sousId)) {
         return { sousId: pool.sousId }
       }
@@ -258,7 +259,7 @@ export const fetchPoolsUserDataAsync = createAsyncThunk<
       fetchUserPendingRewards(account, chainId),
     ])
 
-    const userData = poolsConfig.map((pool) => ({
+    const userData = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((pool) => ({
       sousId: pool.sousId,
       allowance: allowances[pool.sousId],
       stakingTokenBalance: stakingTokenBalances[pool.sousId],

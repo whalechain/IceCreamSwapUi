@@ -196,7 +196,7 @@ export const getSouschefContract = (id: number, chainId: ChainId, signer?: Signe
 }
 
 export const getSouschefV2Contract = (id: number, chainId: ChainId, signer?: Signer | Provider) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
+  const config = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).find((pool) => pool.sousId === id)
   if (!(chainId in config.contractAddress)){
     return null
   }

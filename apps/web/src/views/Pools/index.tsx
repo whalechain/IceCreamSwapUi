@@ -51,6 +51,7 @@ const Pools = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const { pools, userDataLoaded } = usePoolsWithVault()
+  console.log(pools, userDataLoaded)
 
   usePoolsPageFetch()
 

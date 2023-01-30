@@ -41,7 +41,7 @@ export const fetchPoolsBlockLimits = async (chainId: ChainId) => {
     return resultArray
   }, [])
 
-  return livePoolsWithEnd.map((cakePoolConfig, index) => {
+  return livePoolsWithEnd.filter((poolConfig) => chainId in poolConfig.contractAddress).map((cakePoolConfig, index) => {
     const [[startBlock], [endBlock]] = startEndBlockResult[index]
     return {
       sousId: cakePoolConfig.sousId,
@@ -60,7 +60,7 @@ export const fetchPoolsTotalStaking = async (chainId: ChainId) => {
     }
   }), chainId)
 
-  return poolsConfig.map((p, index) => ({
+  return poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((p, index) => ({
     sousId: p.sousId,
     totalStaked: new BigNumber(poolsTotalStaked[index]).toJSON(),
   }))
@@ -71,7 +71,8 @@ export const fetchPoolsStakingLimits = async (
   chainId: ChainId,
 ): Promise<{ [key: string]: { stakingLimit: BigNumber; numberBlocksForUserLimit: number } }> => {
   const validPools = poolsConfig
-    .filter((p) => p.stakingToken.symbol !== 'BNB' && !p.isFinished)
+    .filter((poolConfig) => chainId in poolConfig.contractAddress)
+    .filter((p) => !p.isFinished)
     .filter((p) => !poolsWithStakingLimit.includes(p.sousId))
 
   // Get the staking limit for each valid pool

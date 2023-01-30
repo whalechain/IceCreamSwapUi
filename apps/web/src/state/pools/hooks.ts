@@ -169,7 +169,7 @@ export const useFetchIfo = () => {
       const cakePriceFarms = await getCakePriceFarms(chainId)
       await dispatch(fetchFarmsPublicDataAsync({ pids: cakePriceFarms, chainId, flag: farmFlag }))
       batch(() => {
-        dispatch(fetchCakePoolPublicDataAsync())
+        dispatch(fetchCakePoolPublicDataAsync(chainId))
         dispatch(fetchCakeVaultPublicData(chainId))
         dispatch(fetchIfoPublicDataAsync())
       })
