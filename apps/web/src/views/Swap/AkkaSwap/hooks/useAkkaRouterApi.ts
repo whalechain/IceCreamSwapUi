@@ -33,7 +33,7 @@ export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: Cu
     })
   const { chainId } = useActiveChainId()
   const { data, error } = useSWR(
-    `https://icecreamv2.akka.finance/swap?token0=${inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
+    `https://icecream.akka.finance/swap?token0=${inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
     }&token1=${outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address
     }&amount=${amount?.multiply(10 ** inputCurrency?.decimals)?.toExact()}&slipage=${slippage / 10000}&use_split=true&chain_id=${chainId}`,
     token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,
@@ -65,7 +65,7 @@ export const useAkkaRouterRoute = (token0: Currency, token1: Currency, amount: C
   const { chainId } = useActiveChainId()
 
   const { data, error } = useSWR(
-    `https://icecreamv2.akka.finance/route?token0=${inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
+    `https://icecream.akka.finance/route?token0=${inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
     }&token1=${outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address
     }&amount=${amount?.multiply(10 ** inputCurrency?.decimals)?.toExact()}&slipage=${slippage / 10000}&use_split=true&chain_id=${chainId}`,
     token0 && token1 && amount && slippage && (chainId === ChainId.BITGERT || chainId === ChainId.XDC) && fetcher,

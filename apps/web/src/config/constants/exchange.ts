@@ -4,8 +4,8 @@ import { bitgertTokens, dogechainTokens, dokenTokens, fuseTokens, xdcTokens } fr
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
 export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4'
-export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0x9B13efdA353D1f2B127270A198e2960841e899B0'
-export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0xB8727B821e17FC125CC4656BaD7181EF84a3dB7e'
+export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0xCFD3C811766F8E60E8763739DF9a5a0104463bf3'
+export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0x9d8E6B2554672078c3d8c992b272eE3634533De7'
 
 export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
   [ChainId.BITGERT]: {
