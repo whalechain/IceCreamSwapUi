@@ -117,7 +117,6 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation()
   const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
   const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
-  const router = useRouter()
   const { account } = useWeb3React()
 
   useNetworkConnectorUpdater()
@@ -134,7 +133,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
 
   const cannotChangeNetwork = !canSwitch
 
-  if (!chainId || (!account && router.pathname.includes('info'))) {
+  if (!chainId || !account) {
     return null
   }
 
