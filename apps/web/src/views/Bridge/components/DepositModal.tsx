@@ -167,7 +167,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
   const content = transactionStatus ? mapping[transactionStatus] : preview
 
   return (
-    <Modal title={title} onDismiss={handleDismiss} minWidth="426px">
+    <Modal title={title} onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
       <Flex flexDirection="column" alignItems="stretch" style={{ gap: '1em' }}>
         {content}
       </Flex>
