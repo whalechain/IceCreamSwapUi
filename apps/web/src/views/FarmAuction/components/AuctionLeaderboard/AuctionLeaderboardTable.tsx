@@ -21,6 +21,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import { Bidder } from 'config/constants/types'
 import WhitelistedBiddersModal from '../WhitelistedBiddersModal'
+import { useActiveChainId } from "../../../../hooks/useActiveChainId";
 
 const LeaderboardContainer = styled.div`
   display: grid;
@@ -52,6 +53,7 @@ const LeaderboardRow: React.FC<React.PropsWithChildren<LeaderboardRowProps>> = (
   const { t } = useTranslation()
   const { isTopPosition, position, samePositionAsAbove, farmName, tokenName, amount, projectSite, lpAddress, account } =
     bidder
+  const { chainId } = useActiveChainId()
   return (
     <>
       <GridCell isTopPosition={isTopPosition} pl={['12px', '24px']}>
@@ -103,7 +105,7 @@ const LeaderboardRow: React.FC<React.PropsWithChildren<LeaderboardRowProps>> = (
             </SubMenuItem>
           )}
           {account && (
-            <SubMenuItem as={LinkExternal} href={getBlockExploreLink(account, 'address')} bold={false} color="text">
+            <SubMenuItem as={LinkExternal} href={getBlockExploreLink(account, 'address', chainId)} bold={false} color="text">
               {t('Bidder Address')}
             </SubMenuItem>
           )}

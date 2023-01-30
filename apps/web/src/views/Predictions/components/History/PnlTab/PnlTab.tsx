@@ -14,6 +14,7 @@ import { useConfig } from 'views/Predictions/context/ConfigProvider'
 import { formatBnb, getMultiplier, getNetPayout } from '../helpers'
 import PnlChart from './PnlChart'
 import SummaryRow from './SummaryRow'
+import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
 interface PnlTabProps {
   hasBetHistory: boolean
@@ -104,6 +105,7 @@ const getPnlSummary = (bets: Bet[], currentEpoch: number): PnlSummary => {
 
 const PnlTab: React.FC<React.PropsWithChildren<PnlTabProps>> = ({ hasBetHistory, bets }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const currentEpoch = useGetCurrentEpoch()
   const { token, displayedDecimals } = useConfig()
@@ -193,7 +195,7 @@ const PnlTab: React.FC<React.PropsWithChildren<PnlTabProps>> = ({ hasBetHistory,
         <SummaryRow type="entered" summary={summary} bnbBusdPrice={bnbBusdPrice} />
 
         <Flex justifyContent="center" mt="24px">
-          <Link href={`${getBlockExploreLink(account, 'address')}#internaltx`} mb="16px" external>
+          <Link href={`${getBlockExploreLink(account, 'address', chainId)}#internaltx`} mb="16px" external>
             <Button mt="8px" width="100%">
               {t('View Reclaimed & Won')}
               <OpenNewIcon color="white" ml="4px" />

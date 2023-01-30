@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { multicallv2 } from 'utils/multicall'
 import ifoV3Abi from 'config/abi/ifoV3.json'
+import {ChainId} from "@pancakeswap/sdk";
 
 export interface VestingCharacteristics {
   vestingId: string
@@ -24,8 +25,9 @@ export interface VestingData {
   }
 }
 
-export const fetchUserWalletIfoData = async (ifo: Ifo, account: string): Promise<VestingData> => {
+export const fetchUserWalletIfoData = async (ifo: Ifo, account: string, chainId: ChainId): Promise<VestingData> => {
   const { address } = ifo
+
   let userVestingData = {
     vestingStartTime: 0,
     poolBasic: {
@@ -58,6 +60,7 @@ export const fetchUserWalletIfoData = async (ifo: Ifo, account: string): Promise
         { address, name: 'computeVestingScheduleIdForAddressAndPid', params: [account, 0] },
         { address, name: 'computeVestingScheduleIdForAddressAndPid', params: [account, 1] },
       ],
+      chainId,
       options: { requireSuccess: false },
     })
 
@@ -113,7 +116,7 @@ export const fetchUserWalletIfoData = async (ifo: Ifo, account: string): Promise
       unlimitedVestingInformation,
       vestingStartTime,
       // @ts-ignore fix chainId support
-    ] = await multicallv2({ abi: ifoV3Abi, calls: ifov3Calls, options: { requireSuccess: false } })
+    ] = await multicallv2({ abi: ifoV3Abi, calls: ifov3Calls, chainId, options: { requireSuccess: false } })
 
     userVestingData = {
       vestingStartTime: vestingStartTime ? vestingStartTime[0].toNumber() : 0,

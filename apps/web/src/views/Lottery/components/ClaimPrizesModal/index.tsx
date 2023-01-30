@@ -10,6 +10,7 @@ import { useAppDispatch } from 'state'
 import { useLottery } from 'state/lottery/hooks'
 import { fetchUserLotteries } from 'state/lottery'
 import ClaimPrizesInner from './ClaimPrizesInner'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const StyledModal = styled(ModalContainer)`
   position: relative;
@@ -57,6 +58,7 @@ const ClaimPrizesModal: React.FC<React.PropsWithChildren<ClaimPrizesModalModalPr
   roundsToClaim,
 }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { currentLotteryId } = useLottery()
   const dispatch = useAppDispatch()
@@ -79,7 +81,7 @@ const ClaimPrizesModal: React.FC<React.PropsWithChildren<ClaimPrizesModalModalPr
       <ModalBody p="24px">
         <ClaimPrizesInner
           onSuccess={() => {
-            dispatch(fetchUserLotteries({ account, currentLotteryId }))
+            dispatch(fetchUserLotteries({ account, currentLotteryId, chainId }))
             onDismiss?.()
           }}
           roundsToClaim={roundsToClaim}

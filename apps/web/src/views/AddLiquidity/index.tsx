@@ -71,8 +71,6 @@ enum Steps {
   Add,
 }
 
-const zapAddress = getZapAddress()
-
 export default function AddLiquidity({ currencyA, currencyB }) {
   const router = useRouter()
   const { account, chainId, isWrongNetwork } = useActiveWeb3React()
@@ -87,6 +85,8 @@ export default function AddLiquidity({ currencyA, currencyB }) {
 
   const { t } = useTranslation()
   const gasPrice = useGasPrice()
+
+  const zapAddress = getZapAddress(chainId)
 
   useEffect(() => {
     if (router.query.step === '1') {

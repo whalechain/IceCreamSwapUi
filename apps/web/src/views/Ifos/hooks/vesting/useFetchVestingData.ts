@@ -4,10 +4,12 @@ import { Ifo, PoolIds } from 'config/constants/types'
 import { ifosConfig, FAST_INTERVAL } from 'config/constants'
 import BigNumber from 'bignumber.js'
 import { fetchUserWalletIfoData } from './fetchUserWalletIfoData'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const allVestingIfo: Ifo[] = ifosConfig.filter((ifo) => ifo.version >= 3.2 && ifo.vestingTitle)
 
 const useFetchVestingData = () => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
 
   const { data, mutate } = useSWR(
@@ -15,7 +17,7 @@ const useFetchVestingData = () => {
     async () => {
       const allData = await Promise.all(
         allVestingIfo.map(async (ifo) => {
-          const response = await fetchUserWalletIfoData(ifo, account)
+          const response = await fetchUserWalletIfoData(ifo, account, chainId)
           return response
         }),
       )

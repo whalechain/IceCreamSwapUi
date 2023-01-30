@@ -7,6 +7,7 @@ import { GRAPH_API_POTTERY } from 'config/constants/endpoints'
 import { PotteryDepositStatus } from 'state/types'
 import { multicallv2 } from 'utils/multicall'
 import potteryVaultAbi from 'config/abi/potteryVaultAbi.json'
+import {ChainId} from "@pancakeswap/sdk";
 
 const potteryDrawContract = getPotteryDrawContract()
 
@@ -55,7 +56,7 @@ export const fetchUserDrawData = async (account: string) => {
   }
 }
 
-export const fetchWithdrawAbleData = async (account: string) => {
+export const fetchWithdrawAbleData = async (account: string, chainId: ChainId) => {
   try {
     const response = await request(
       GRAPH_API_POTTERY,
@@ -102,6 +103,7 @@ export const fetchWithdrawAbleData = async (account: string) => {
         const [[previewRedeem], [totalSupply], [totalLockCake], [balanceOf]] = await multicallv2({
           abi: potteryVaultAbi,
           calls,
+          chainId,
         })
 
         return {

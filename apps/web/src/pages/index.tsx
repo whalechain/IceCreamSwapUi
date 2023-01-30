@@ -112,13 +112,13 @@ export const getStaticProps: GetStaticProps = async () => {
   try {
     const result = await infoServerClient.request(gql`
       query tvl {
-        pancakeFactories(first: 1) {
+        uniswapFactories(first: 1) {
           totalLiquidityUSD
         }
       }
     `)
     const cake = await (await fetch('https://farms.pancake-swap.workers.dev/price/cake')).json()
-    const { totalLiquidityUSD } = result.pancakeFactories[0]
+    const { totalLiquidityUSD } = result.uniswapFactories[0]
     const cakeVaultV2 = getCakeVaultAddress()
     const cakeContract = getIceContract()
     const totalCakeInVault = await cakeContract.balanceOf(cakeVaultV2)

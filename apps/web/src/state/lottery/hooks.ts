@@ -6,6 +6,7 @@ import { useFastRefreshEffect } from 'hooks/useRefreshEffect'
 import { State } from '../types'
 import { fetchCurrentLotteryId, fetchCurrentLottery, fetchUserTicketsAndLotteries, fetchPublicLotteries } from '.'
 import { makeLotteryGraphDataByIdSelector, lotterySelector } from './selectors'
+import {useActiveChainId} from "../../hooks/useActiveChainId";
 
 // Lottery
 export const useGetCurrentLotteryId = () => {
@@ -27,19 +28,20 @@ export const useGetLotteryGraphDataById = (lotteryId: string) => {
 
 export const useFetchLottery = (fetchPublicDataOnly = false) => {
   const { account } = useWeb3React()
+  const { chainId } = useActiveChainId()
   const dispatch = useAppDispatch()
   const currentLotteryId = useGetCurrentLotteryId()
 
   useEffect(() => {
     // get current lottery ID & max ticket buy
-    dispatch(fetchCurrentLotteryId())
+    dispatch(fetchCurrentLotteryId(chainId))
   }, [dispatch])
 
   useFastRefreshEffect(() => {
     if (currentLotteryId) {
       batch(() => {
         // Get historical lottery data from nodes +  last 100 subgraph entries
-        dispatch(fetchPublicLotteries({ currentLotteryId }))
+        dispatch(fetchPublicLotteries({ currentLotteryId, chainId }))
         // get public data for current lottery
         dispatch(fetchCurrentLottery({ currentLotteryId }))
       })
@@ -49,7 +51,7 @@ export const useFetchLottery = (fetchPublicDataOnly = false) => {
   useEffect(() => {
     // get user tickets for current lottery, and user lottery subgraph data
     if (account && currentLotteryId && !fetchPublicDataOnly) {
-      dispatch(fetchUserTicketsAndLotteries({ account, currentLotteryId }))
+      dispatch(fetchUserTicketsAndLotteries({ account, currentLotteryId, chainId }))
     }
   }, [dispatch, currentLotteryId, account, fetchPublicDataOnly])
 }

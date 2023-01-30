@@ -14,10 +14,12 @@ import useUserInfos from './hooks/useUserInfos'
 import { StyledSquadContainer } from './styles'
 import { EventInfos, UserInfos } from './types'
 import { getUserStatus } from './utils'
+import {useActiveChainId} from "../../hooks/useActiveChainId";
 
 const REFRESH_INTERVAL = 4000
 
 const PancakeSquad: React.FC<React.PropsWithChildren> = () => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const { hasProfile, isInitialized } = useProfile()
   const [eventInfos, setEventInfo] = useState<EventInfos>()
@@ -27,7 +29,7 @@ const PancakeSquad: React.FC<React.PropsWithChildren> = () => {
   const isLoading = (!eventInfos || !userInfos) && nftSaleAbi?.length > 0
 
   useEventInfos({ setCallback: setEventInfo, refreshCounter })
-  useUserInfos({ setCallback: setUserInfos, refreshCounter, account })
+  useUserInfos({ setCallback: setUserInfos, refreshCounter, account, chainId })
 
   const userStatus = getUserStatus({
     account,
