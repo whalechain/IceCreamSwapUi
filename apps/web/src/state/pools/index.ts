@@ -140,7 +140,7 @@ export const fetchPoolsPublicDataAsync =
     try {
       const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
         fetchPoolsBlockLimits(chainId),
-        fetchPoolsTotalStaking(chainId), // todo: use totalStaked from contract instead of it's balance.
+        fetchPoolsTotalStaking(chainId),
         fetchPoolsProfileRequirement(chainId),
         currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(),
       ])
