@@ -115,6 +115,14 @@ export default function SwapForm() {
     inputError: swapInputError,
   } = useDerivedSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, recipient)
 
+  // Take swap information from AKKA router
+  const {
+    trade: akkaRouterTrade,
+    currencyBalances: akkaCurrencyBalances,
+    parsedAmount: akkaParsedAmount,
+    inputError: akkaSwapInputError,
+  } = useAkkaSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, allowedSlippage)
+
   const {
     wrapType,
     execute: onWrap,
@@ -157,14 +165,6 @@ export default function SwapForm() {
       ? parsedAmounts[independentField]?.toExact() ?? ''
       : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   }
-
-  // Take swap information from AKKA router
-  const {
-    trade: akkaRouterTrade,
-    currencyBalances: akkaCurrencyBalances,
-    parsedAmount: akkaParsedAmount,
-    inputError: akkaSwapInputError,
-  } = useAkkaSwapInfo(independentField, parsedAmount?.toSignificant(inputCurrency?.decimals), inputCurrency, outputCurrency, allowedSlippage)
 
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage, chainId)
@@ -259,11 +259,7 @@ export default function SwapForm() {
         <AutoColumn gap="sm">
           <CurrencyInputPanel
             label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
-            value={
-              isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
-                ? akkaRouterTrade.route.inputAmount
-                : formattedAmounts[Field.INPUT]
-            }
+            value={formattedAmounts[Field.INPUT]}
             showMaxButton={!atMaxAmountInput}
             showQuickInputButton
             currency={currencies[Field.INPUT]}
@@ -309,7 +305,7 @@ export default function SwapForm() {
             id="swap-currency-output"
             showCommonBases
             commonBasesType={CommonBasesType.SWAP_LIMITORDER}
-            disabled={isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode}
+            disabled
           />
           {isAccessTokenSupported && (
             <Box>
