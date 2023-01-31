@@ -14,8 +14,8 @@ import {
   SUPPORT_STAKING,
   SUPPORT_INFO,
   SUPPORT_SWAP,
-  SUPPORT_BRIDGE
-} from "../../../config/constants/supportChains";
+  SUPPORT_BRIDGE,
+} from '../../../config/constants/supportChains'
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
@@ -106,7 +106,7 @@ const config: (
     {
       label: t('Bridge'),
       href: '/bridge',
-      hideSubNav: true,
+      hideSubNav: false,
       icon: BridgeIcon,
       supportChainIds: SUPPORT_BRIDGE,
       items: [],
@@ -167,7 +167,7 @@ const config: (
       ],
     },
        */
-      /*
+    /*
     {
       label: t('Info'),
       href: 'https://info.icecreamswap.com',
@@ -182,7 +182,7 @@ const config: (
       href: '/info',
       icon: InfoIcon,
       supportChainIds: SUPPORT_INFO,
-      hideSubNav: true,
+      hideSubNav: false,
       items: [],
     },
     /*
