@@ -149,7 +149,14 @@ const makeHandleDeposit = (
       return
     } catch (error) {
       console.error(error)
-      setTransactionStatus('Transfer Aborted')
+      if (typeof error === 'object' && 'code' in error && 'message' in error) {
+        setTransactionStatus({
+          status: (error as any).code as number,
+          message: (error as any).message as string,
+        })
+      } else {
+        setTransactionStatus('Transfer Aborted')
+      }
     }
   }
   return { deposit, approve }
