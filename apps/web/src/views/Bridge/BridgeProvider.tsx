@@ -13,6 +13,11 @@ import { useRouter } from 'next/router'
 
 type Tokens = { [address: string]: ERC20Token }
 
+export interface TransactionError {
+  status: number
+  message: string
+}
+
 export type TransactionStatus =
   | 'Initializing Transfer'
   | 'Approve 0'
@@ -21,6 +26,10 @@ export type TransactionStatus =
   | 'In Transit'
   | 'Transfer Completed'
   | 'Transfer Aborted'
+  | TransactionError
+
+export const isTransactionError = (status: TransactionStatus): status is TransactionError =>
+  typeof status === 'object' && 'status' in status && 'message' in status
 
 interface BridgeContext {
   bridge: Bridge
