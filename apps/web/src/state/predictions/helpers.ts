@@ -24,6 +24,7 @@ import { transformBetResponseBNB, transformUserResponseBNB } from './bnbTransfor
 import { BetResponse, UserResponse } from './responseType'
 import { BetResponseBNB } from './bnbQueries'
 import { BetResponseICE } from './cakeQueries'
+import {ChainId} from "@pancakeswap/sdk";
 
 export enum Result {
   WIN = 'win',
@@ -140,14 +141,14 @@ export const getBetHistory = async (
   return response.bets
 }
 
-export const getLedgerData = async (account: string, epochs: number[], address: string) => {
+export const getLedgerData = async (account: string, epochs: number[], address: string, chainId: ChainId) => {
   const ledgerCalls = epochs.map((epoch) => ({
     address,
     name: 'ledger',
     params: [epoch, account],
   }))
   // @ts-ignore fix chainId support
-  const response = await multicallv2<PredictionsLedgerResponse[]>({ abi: predictionsAbi, calls: ledgerCalls })
+  const response = await multicallv2<PredictionsLedgerResponse[]>({ abi: predictionsAbi, calls: ledgerCalls, chainId })
   return response
 }
 
@@ -224,6 +225,7 @@ export const getClaimStatuses = async (
   account: string,
   epochs: number[],
   address: string,
+  chainId: ChainId
 ): Promise<PredictionsState['claimableStatuses']> => {
   const claimableCalls = epochs.map((epoch) => ({
     address,
@@ -234,6 +236,7 @@ export const getClaimStatuses = async (
   const claimableResponses = await multicallv2<[PredictionsClaimableResponse][]>({
     abi: predictionsAbi,
     calls: claimableCalls,
+    chainId
   })
 
   return claimableResponses.reduce((accum, claimableResponse, index) => {
@@ -248,7 +251,7 @@ export const getClaimStatuses = async (
 }
 
 export type MarketData = Pick<PredictionsState, 'status' | 'currentEpoch' | 'intervalSeconds' | 'minBetAmount'>
-export const getPredictionData = async (address: string): Promise<MarketData> => {
+export const getPredictionData = async (address: string, chainId: ChainId): Promise<MarketData> => {
   const staticCalls = ['currentEpoch', 'intervalSeconds', 'minBetAmount', 'paused'].map((method) => ({
     address,
     name: method,
@@ -257,6 +260,7 @@ export const getPredictionData = async (address: string): Promise<MarketData> =>
   const [[currentEpoch], [intervalSeconds], [minBetAmount], [paused]] = await multicallv2({
     abi: predictionsAbi,
     calls: staticCalls,
+    chainId
   })
 
   return {
@@ -267,14 +271,14 @@ export const getPredictionData = async (address: string): Promise<MarketData> =>
   }
 }
 
-export const getRoundsData = async (epochs: number[], address: string): Promise<PredictionsRoundsResponse[]> => {
+export const getRoundsData = async (epochs: number[], address: string, chainId: ChainId): Promise<PredictionsRoundsResponse[]> => {
   const calls = epochs.map((epoch) => ({
     address,
     name: 'rounds',
     params: [epoch],
   }))
   // @ts-ignore fix chainId support
-  const response = await multicallv2<PredictionsRoundsResponse[]>({ abi: predictionsAbi, calls })
+  const response = await multicallv2<PredictionsRoundsResponse[]>({ abi: predictionsAbi, calls, chainId })
   return response
 }
 

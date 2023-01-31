@@ -11,6 +11,7 @@ import { convertSharesToCake } from 'views/Pools/helpers'
 import { ADMINS, PANICE_SPACE, SNAPSHOT_VERSION } from './config'
 import { getScores } from './getScores'
 import * as strategies from './strategies'
+import {ChainId} from "@pancakeswap/sdk";
 
 export const isCoreProposal = (proposal: Proposal) => {
   return ADMINS.includes(proposal.author.toLowerCase())
@@ -112,6 +113,7 @@ const nodeRealProvider = new JsonRpcProvider('https://bsc-mainnet.nodereal.io/v1
 
 export const getVotingPower = async (
   account: string,
+  chainId: ChainId,
   poolAddresses: string[],
   blockNumber?: number,
 ): Promise<GetVotingPowerType> => {
@@ -134,6 +136,7 @@ export const getVotingPower = async (
           name: 'userInfo',
         },
       ],
+      chainId,
       options: {
         blockTag: blockNumber,
       },

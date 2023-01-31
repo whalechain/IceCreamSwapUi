@@ -14,18 +14,18 @@ const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'B
 const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
 const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
 
-export const fetchPoolsAllowance = async (account) => {
-  const calls = nonBnbPools.map((pool) => ({
+export const fetchPoolsAllowance = async (account, chainId) => {
+  const calls = nonBnbPools.filter((poolConfig) => chainId in poolConfig.contractAddress).map((pool) => ({
     address: pool.stakingToken.address,
     name: 'allowance',
-    params: [account, getAddress(pool.contractAddress)],
+    params: [account, getAddress(pool.contractAddress, chainId)],
   }))
 
-  const allowances = await multicall(erc20ABI, calls)
+  const allowances = await multicall(erc20ABI, calls, chainId)
   return fromPairs(nonBnbPools.map((pool, index) => [pool.sousId, new BigNumber(allowances[index]).toJSON()]))
 }
 
-export const fetchUserBalances = async (account) => {
+export const fetchUserBalances = async (account, chainId) => {
   // Non BNB pools
   const tokens = uniq(nonBnbPools.map((pool) => pool.stakingToken.address))
   const calls = tokens.map((token) => ({
@@ -34,7 +34,7 @@ export const fetchUserBalances = async (account) => {
     params: [account],
   }))
   const [tokenBalancesRaw, bnbBalance] = await Promise.all([
-    multicall(erc20ABI, calls),
+    multicall(erc20ABI, calls, chainId),
     bscRpcProvider.getBalance(account),
   ])
   const tokenBalances = fromPairs(tokens.map((token, index) => [token, tokenBalancesRaw[index]]))
@@ -55,24 +55,24 @@ export const fetchUserBalances = async (account) => {
   return { ...poolTokenBalances, ...bnbBalances }
 }
 
-export const fetchUserStakeBalances = async (account) => {
-  const calls = nonMasterPools.map((p) => ({
-    address: getAddress(p.contractAddress),
+export const fetchUserStakeBalances = async (account, chainId) => {
+  const calls = nonMasterPools.filter((poolConfig) => chainId in poolConfig.contractAddress).map((p) => ({
+    address: getAddress(p.contractAddress, chainId),
     name: 'userInfo',
     params: [account],
   }))
-  const userInfo = await multicall(sousChefABI, calls)
+  const userInfo = await multicall(sousChefABI, calls, chainId)
   return fromPairs(
     nonMasterPools.map((pool, index) => [pool.sousId, new BigNumber(userInfo[index].amount._hex).toJSON()]),
   )
 }
 
-export const fetchUserPendingRewards = async (account) => {
-  const calls = nonMasterPools.map((p) => ({
-    address: getAddress(p.contractAddress),
+export const fetchUserPendingRewards = async (account, chainId) => {
+  const calls = nonMasterPools.filter((poolConfig) => chainId in poolConfig.contractAddress).map((p) => ({
+    address: getAddress(p.contractAddress, chainId),
     name: 'pendingReward',
     params: [account],
   }))
-  const res = await multicall(sousChefABI, calls)
+  const res = await multicall(sousChefABI, calls, chainId)
   return fromPairs(nonMasterPools.map((pool, index) => [pool.sousId, new BigNumber(res[index]).toJSON()]))
 }

@@ -27,6 +27,7 @@ import { PredictionUser } from 'state/types'
 import { NetWinningsView } from './Results/styles'
 import MobileBetsTable from './MobileBetsTable'
 import DesktopBetsTable from './Results/DesktopBetsTable'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 interface WalletStatsModalProps extends InjectedModalProps {
   account?: string
@@ -56,6 +57,7 @@ const WalletStatsModal: React.FC<React.PropsWithChildren<WalletStatsModalProps>>
   api,
 }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { theme } = useTheme()
   const { profile } = useProfileForAddress(address)
   const isLoading = leaderboardLoadingState === FetchStatus.Fetching
@@ -82,7 +84,7 @@ const WalletStatsModal: React.FC<React.PropsWithChildren<WalletStatsModalProps>>
                 {profile?.username}
               </Heading>
             )}
-            <ExternalLink href={getBlockExploreLink(address, 'address')}>{truncateHash(address)}</ExternalLink>
+            <ExternalLink href={getBlockExploreLink(address, 'address', chainId)}>{truncateHash(address)}</ExternalLink>
           </Box>
         </Flex>
         <IconButton variant="text" onClick={handleDismiss} aria-label="Close the dialog">

@@ -19,6 +19,7 @@ import SwiperProvider from './context/SwiperProvider'
 import Desktop from './Desktop'
 import usePollPredictions from './hooks/usePollPredictions'
 import Mobile from './Mobile'
+import {useActiveChainId} from "../../hooks/useActiveChainId";
 
 function Warnings() {
   const [showDisclaimer] = useUserPredictionChartDisclaimerShow()
@@ -52,6 +53,7 @@ function Warnings() {
 
 const Predictions = () => {
   const { isDesktop } = useMatchBreakpoints()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const dispatch = useLocalDispatch()
   const initialBlock = useInitialBlock()
@@ -61,9 +63,9 @@ const Predictions = () => {
   useEffect(() => {
     if (initialBlock > 0) {
       // Do not start initialization until the first block has been retrieved
-      dispatch(initializePredictions(account))
+      dispatch(initializePredictions({ account , chainId}))
     }
-  }, [initialBlock, dispatch, account])
+  }, [initialBlock, dispatch, account, chainId])
 
   usePollPredictions()
 

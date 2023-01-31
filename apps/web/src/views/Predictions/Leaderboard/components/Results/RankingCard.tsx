@@ -23,6 +23,7 @@ import { useStatModalProps } from 'state/predictions/hooks'
 import { useConfig } from 'views/Predictions/context/ConfigProvider'
 import WalletStatsModal from '../WalletStatsModal'
 import { NetWinningsRow, Row } from './styles'
+import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
 interface RankingCardProps {
   rank: 1 | 2 | 3
@@ -52,6 +53,7 @@ const getRankingColor = (rank: number) => {
 const RankingCard: React.FC<React.PropsWithChildren<RankingCardProps>> = ({ rank, user }) => {
   const { t } = useTranslation()
   const rankColor = getRankingColor(rank)
+  const { chainId } = useActiveChainId()
   const { profile } = useProfileForAddress(user.id)
   const { result, address, leaderboardLoadingState } = useStatModalProps(user.id)
   const { token, api } = useConfig()
@@ -91,7 +93,7 @@ const RankingCard: React.FC<React.PropsWithChildren<RankingCardProps>> = ({ rank
             options={{ placement: 'bottom' }}
           >
             <SubMenuItem onClick={onPresentWalletStatsModal}>{t('View Stats')}</SubMenuItem>
-            <SubMenuItem as={Link} href={getBlockExploreLink(user.id, 'address')} bold={false} color="text" external>
+            <SubMenuItem as={Link} href={getBlockExploreLink(user.id, 'address', chainId)} bold={false} color="text" external>
               {t('View on BscScan')}
             </SubMenuItem>
           </SubMenu>
