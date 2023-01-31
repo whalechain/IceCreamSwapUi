@@ -89,6 +89,7 @@ const config: (
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
+      showItemsOnMobile: false,
       supportChainIds: [...SUPPORT_FARMS, ...SUPPORT_STAKING],
       items: [
         {
@@ -106,9 +107,10 @@ const config: (
     {
       label: t('Bridge'),
       href: '/bridge',
-      hideSubNav: false,
+      hideSubNav: true,
       icon: BridgeIcon,
       supportChainIds: SUPPORT_BRIDGE,
+      showItemsOnMobile: false,
       items: [],
     },
     /*
@@ -182,7 +184,8 @@ const config: (
       href: '/info',
       icon: InfoIcon,
       supportChainIds: SUPPORT_INFO,
-      hideSubNav: false,
+      hideSubNav: true,
+      showItemsOnMobile: false,
       items: [],
     },
     /*
