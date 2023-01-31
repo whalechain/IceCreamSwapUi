@@ -24,7 +24,6 @@ export enum ApprovalState {
   PENDING,
   APPROVED,
 }
-
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export function useApproveCallback(
   amountToApprove?: CurrencyAmount<Currency>,
@@ -55,7 +54,7 @@ export function useApproveCallback(
 
   const tokenContract = useTokenContract(token?.address)
   const addTransaction = useTransactionAdder()
-
+  const { chainId } = useActiveChainId()
   const approve = useCallback(async (): Promise<void> => {
     if (approvalState !== ApprovalState.NOT_APPROVED) {
       toastError(t('Error'), t('Approve was called unnecessarily'))
@@ -93,9 +92,6 @@ export function useApproveCallback(
       useExact = true
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString())
     })
-    const { chainId } = useActiveChainId()
-    console.log(spender);
-    console.log(ROUTER_ADDRESS[chainId].Akka);
     
     return callWithGasPrice(
       tokenContract,

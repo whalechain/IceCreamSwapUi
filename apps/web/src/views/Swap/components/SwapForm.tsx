@@ -183,6 +183,8 @@ export default function SwapForm() {
   useEffect(() => {
     if (akkaApproval === ApprovalState.PENDING) {
       setAkkaApprovalSubmitted(true)
+    } else {
+      setAkkaApprovalSubmitted(false)
     }
   }, [akkaApproval, akkaApprovalSubmitted])
 
