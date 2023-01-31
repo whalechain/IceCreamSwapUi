@@ -17,9 +17,9 @@ export const GRAPH_API_POTTERY = 'https://api.thegraph.com/subgraphs/name/pancak
  */
 export const GRAPH_API_PREDICTION_V1 = 'https://api.thegraph.com/subgraphs/name/pancakeswap/prediction'
 
-export const INFO_CLIENT_BITGERT = 'https://graph.icecreamswap.com/subgraphs/name/simone1999/bitgert-uniswap'
+export const INFO_CLIENT_BITGERT = 'https://graph2.icecreamswap.com/subgraphs/name/simone1999/icecreamswap-bitgert'
 
-export const BLOCKS_CLIENT_BITGERT = 'https://graph.icecreamswap.com/subgraphs/name/simone1999/bitgert-blocks'
+export const BLOCKS_CLIENT_BITGERT = 'https://graph2.icecreamswap.com/subgraphs/name/icecreamswap/blocks-bitgert'
 
 export const STABLESWAP_SUBGRAPH_CLIENT = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-stableswap'
 export const GRAPH_API_NFTMARKET = 'https://api.thegraph.com/subgraphs/name/pancakeswap/nft-market'

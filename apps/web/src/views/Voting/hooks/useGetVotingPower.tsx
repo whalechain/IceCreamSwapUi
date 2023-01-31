@@ -6,6 +6,8 @@ import { getAddress } from 'utils/addressHelpers'
 import { getActivePools } from 'utils/calls'
 import { bscRpcProvider } from 'utils/providers'
 import { getVotingPower } from '../helpers'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
+import {useCurrentBlock} from "../../../state/block/hooks";
 
 interface State {
   cakeBalance?: number
@@ -20,13 +22,15 @@ interface State {
 }
 
 const useGetVotingPower = (block?: number, isActive = true): State & { isLoading: boolean; isError: boolean } => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
+  const fetchedBlock = useCurrentBlock()
+  const blockNumber = block || fetchedBlock
   const { data, status, error } = useSWRImmutable(
     account && isActive ? [account, block, 'votingPower'] : null,
     async () => {
-      const blockNumber = block || (await bscRpcProvider.getBlockNumber())
-      const eligiblePools = await getActivePools(blockNumber)
-      const poolAddresses = eligiblePools.map(({ contractAddress }) => getAddress(contractAddress, ChainId.BITGERT))
+      const eligiblePools = await getActivePools(chainId, blockNumber)
+      const poolAddresses = eligiblePools.map(({ contractAddress }) => getAddress(contractAddress, chainId))
       const {
         cakeBalance,
         cakeBnbLpBalance,
@@ -37,7 +41,7 @@ const useGetVotingPower = (block?: number, isActive = true): State & { isLoading
         ifoPoolBalance,
         lockedCakeBalance,
         lockedEndTime,
-      } = await getVotingPower(account, poolAddresses, blockNumber)
+      } = await getVotingPower(account, chainId, poolAddresses, blockNumber)
       return {
         cakeBalance,
         cakeBnbLpBalance,

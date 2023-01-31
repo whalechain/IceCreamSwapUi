@@ -3,9 +3,11 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { useGetLotteriesGraphData, useGetUserLotteriesGraphData, useLottery } from 'state/lottery/hooks'
 import fetchUnclaimedUserRewards from 'state/lottery/fetchUnclaimedUserRewards'
 import { FetchStatus } from 'config/constants/types'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 const useGetUnclaimedRewards = () => {
   const { account } = useWeb3React()
+  const { chainId } = useActiveChainId()
   const { isTransitioning, currentLotteryId } = useLottery()
   const userLotteryData = useGetUserLotteriesGraphData()
   const lotteriesData = useGetLotteriesGraphData()
@@ -24,6 +26,7 @@ const useGetUnclaimedRewards = () => {
       userLotteryData,
       lotteriesData,
       currentLotteryId,
+      chainId,
     )
     setUnclaimedRewards(unclaimedRewardsResponse)
     setFetchStatus(FetchStatus.Fetched)

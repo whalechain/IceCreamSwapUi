@@ -19,6 +19,7 @@ import useSwiper from '../hooks/useSwiper'
 import usePollOraclePrice from '../hooks/usePollOraclePrice'
 import { CHART_DOT_CLICK_EVENT } from '../helpers'
 import { useConfig } from '../context/ConfigProvider'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 function useChainlinkLatestRound() {
   const { chainlinkOracleAddress } = useConfig()
@@ -40,6 +41,7 @@ function useChainlinkLatestRound() {
 function useChainlinkRoundDataSet() {
   const lastRound = useChainlinkLatestRound()
   const { chainlinkOracleAddress } = useConfig()
+  const { chainId } = useActiveChainId()
 
   const calls = useMemo(() => {
     return lastRound.data
@@ -54,6 +56,7 @@ function useChainlinkRoundDataSet() {
   const { data, error } = useSWRMulticall<Awaited<ReturnType<ChainlinkOracle['getRoundData']>>[]>(
     chainlinkOracleAbi,
     calls,
+    chainId,
     {
       use: [laggyMiddleware],
     },

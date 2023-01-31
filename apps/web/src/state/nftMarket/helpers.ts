@@ -40,6 +40,7 @@ import {
   UserActivity,
 } from './types'
 import { baseNftFields, collectionBaseFields, baseTransactionFields } from './queries'
+import {ChainId} from "@pancakeswap/sdk";
 
 /**
  * API HELPERS
@@ -59,7 +60,7 @@ export const getCollectionsApi = async (): Promise<ApiCollectionsResponse> => {
   return null
 }
 
-const fetchCollectionsTotalSupply = async (collections: ApiCollection[]): Promise<number[]> => {
+const fetchCollectionsTotalSupply = async (collections: ApiCollection[], chainId: ChainId): Promise<number[]> => {
   const totalSupplyCalls = collections
     .filter((collection) => collection?.address)
     .map((collection) => ({
@@ -71,6 +72,7 @@ const fetchCollectionsTotalSupply = async (collections: ApiCollection[]): Promis
     const totalSupplyRaw = await multicallv2({
       abi: erc721Abi,
       calls: totalSupplyCalls,
+      chainId,
       options: { requireSuccess: false },
     })
     const totalSupply = totalSupplyRaw.flat()
@@ -82,11 +84,11 @@ const fetchCollectionsTotalSupply = async (collections: ApiCollection[]): Promis
 /**
  * Fetch all collections data by combining data from the API (static metadata) and the Subgraph (dynamic market data)
  */
-export const getCollections = async (): Promise<Record<string, Collection>> => {
+export const getCollections = async (chainId: ChainId): Promise<Record<string, Collection>> => {
   try {
     const [collections, collectionsMarket] = await Promise.all([getCollectionsApi(), getCollectionsSg()])
     const collectionApiData: ApiCollection[] = collections?.data ?? []
-    const collectionsTotalSupply = await fetchCollectionsTotalSupply(collectionApiData)
+    const collectionsTotalSupply = await fetchCollectionsTotalSupply(collectionApiData, chainId)
     const collectionApiDataCombinedOnChain = collectionApiData.map((collection, index) => {
       const totalSupplyFromApi = Number(collection?.totalSupply) || 0
       const totalSupplyFromOnChain = collectionsTotalSupply[index]
@@ -106,14 +108,14 @@ export const getCollections = async (): Promise<Record<string, Collection>> => {
 /**
  * Fetch collection data by combining data from the API (static metadata) and the Subgraph (dynamic market data)
  */
-export const getCollection = async (collectionAddress: string): Promise<Record<string, Collection> | null> => {
+export const getCollection = async (collectionAddress: string, chainId: ChainId): Promise<Record<string, Collection> | null> => {
   try {
     const [collection, collectionMarket] = await Promise.all([
       getCollectionApi(collectionAddress),
       getCollectionSg(collectionAddress),
     ])
 
-    const collectionsTotalSupply = await fetchCollectionsTotalSupply([collection])
+    const collectionsTotalSupply = await fetchCollectionsTotalSupply([collection], chainId)
     const totalSupplyFromApi = Number(collection?.totalSupply) || 0
     const totalSupplyFromOnChain = collectionsTotalSupply[0]
     const collectionApiDataCombinedOnChain = {
@@ -455,6 +457,7 @@ export const getNftsUpdatedMarketData = async (
 export const getAccountNftsOnChainMarketData = async (
   collections: ApiCollections,
   account: string,
+  chainId: ChainId
 ): Promise<TokenMarketData[]> => {
   try {
     const nftMarketAddress = getNftMarketAddress()
@@ -472,6 +475,7 @@ export const getAccountNftsOnChainMarketData = async (
     const askCallsResultsRaw = await multicallv2({
       abi: nftMarketAbi,
       calls: askCalls,
+      chainId,
       options: { requireSuccess: false },
     })
     const askCallsResults = askCallsResultsRaw
@@ -928,6 +932,7 @@ export const combineApiAndSgResponseToNftToken = (
 export const fetchWalletTokenIdsForCollections = async (
   account: string,
   collections: ApiCollections,
+  chainId: ChainId
 ): Promise<TokenIdWithCollectionAddress[]> => {
   const balanceOfCalls = Object.values(collections).map((collection) => {
     const { address: collectionAddress } = collection
@@ -942,6 +947,7 @@ export const fetchWalletTokenIdsForCollections = async (
   const balanceOfCallsResultRaw = await multicallv2({
     abi: erc721Abi,
     calls: balanceOfCalls,
+    chainId,
     options: { requireSuccess: false },
   })
   const balanceOfCallsResult = balanceOfCallsResultRaw.flat()
@@ -965,6 +971,7 @@ export const fetchWalletTokenIdsForCollections = async (
   const tokenIdResultRaw = await multicallv2({
     abi: erc721Abi,
     calls: tokenIdCalls,
+    chainId,
     options: { requireSuccess: false },
   })
   const tokenIdResult = tokenIdResultRaw.flat()
@@ -1154,20 +1161,22 @@ const fetchWalletMarketData = async (walletNftsByCollection: {
  * Get in-wallet, on-sale & profile pic NFT metadata, complete with market data for a given account
  * @param account
  * @param collections
+ * @param chainId
  * @param profileNftWithCollectionAddress
  * @returns Promise<NftToken[]>
  */
 export const getCompleteAccountNftData = async (
   account: string,
   collections: ApiCollections,
+  chainId: ChainId,
   profileNftWithCollectionAddress?: TokenIdWithCollectionAddress,
 ): Promise<NftToken[]> => {
   // Add delist collections to allow user reclaim their NFTs
   const collectionsWithDelist = { ...collections, ...DELIST_COLLECTIONS }
 
   const [walletNftIdsWithCollectionAddress, onChainForSaleNfts] = await Promise.all([
-    fetchWalletTokenIdsForCollections(account, collectionsWithDelist),
-    getAccountNftsOnChainMarketData(collectionsWithDelist, account),
+    fetchWalletTokenIdsForCollections(account, collectionsWithDelist, chainId),
+    getAccountNftsOnChainMarketData(collectionsWithDelist, account, chainId),
   ])
 
   if (profileNftWithCollectionAddress?.tokenId) {

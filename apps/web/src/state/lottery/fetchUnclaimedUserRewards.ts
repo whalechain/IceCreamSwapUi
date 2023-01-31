@@ -9,6 +9,7 @@ import { getLotteryV2Address } from 'utils/addressHelpers'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { fetchUserTicketsForMultipleRounds } from './getUserTicketsData'
 import { MAX_LOTTERIES_REQUEST_SIZE } from './getLotteriesData'
+import {ChainId} from "@pancakeswap/sdk";
 
 interface RoundDataAndUserTickets {
   roundId: string
@@ -20,6 +21,7 @@ const lotteryAddress = getLotteryV2Address()
 
 const fetchCakeRewardsForTickets = async (
   winningTickets: LotteryTicket[],
+  chainId: ChainId
 ): Promise<{ ticketsWithUnclaimedRewards: LotteryTicket[]; cakeTotal: BigNumber }> => {
   const calls = winningTickets.map((winningTicket) => {
     const { roundId, id, rewardBracket } = winningTicket
@@ -32,7 +34,7 @@ const fetchCakeRewardsForTickets = async (
 
   try {
     // @ts-ignore fix chainId support
-    const cakeRewards = await multicallv2({ abi: lotteryV2Abi, calls })
+    const cakeRewards = await multicallv2({ abi: lotteryV2Abi, calls, chainId })
 
     const cakeTotal = cakeRewards.reduce((accum: BigNumber, cakeReward: EthersBigNumber[]) => {
       return accum.plus(new BigNumber(cakeReward[0].toString()))
@@ -70,6 +72,7 @@ const getRewardBracketByNumber = (ticketNumber: string, finalNumber: string): nu
 
 export const getWinningTickets = async (
   roundDataAndUserTickets: RoundDataAndUserTickets,
+  chainId: ChainId
 ): Promise<LotteryTicketClaimData> => {
   const { roundId, userTickets, finalNumber } = roundDataAndUserTickets
 
@@ -94,7 +97,7 @@ export const getWinningTickets = async (
   })
 
   if (unclaimedWinningTickets.length > 0) {
-    const { ticketsWithUnclaimedRewards, cakeTotal } = await fetchCakeRewardsForTickets(unclaimedWinningTickets)
+    const { ticketsWithUnclaimedRewards, cakeTotal } = await fetchCakeRewardsForTickets(unclaimedWinningTickets, chainId)
     return { ticketsWithUnclaimedRewards, allWinningTickets, cakeTotal, roundId }
   }
 
@@ -115,6 +118,7 @@ const fetchUnclaimedUserRewards = async (
   userLotteryData: LotteryUserGraphEntity,
   lotteriesData: LotteryRoundGraphEntity[],
   currentLotteryId: string,
+  chainId: ChainId
 ): Promise<LotteryTicketClaimData[]> => {
   const { rounds } = userLotteryData
 
@@ -158,7 +162,7 @@ const fetchUnclaimedUserRewards = async (
     })
 
     const winningTicketsForPastRounds = await Promise.all(
-      roundDataAndWinningTickets.map((roundData) => getWinningTickets(roundData)),
+      roundDataAndWinningTickets.map((roundData) => getWinningTickets(roundData, chainId)),
     )
 
     // Filter out null values (returned when no winning tickets found for past round)

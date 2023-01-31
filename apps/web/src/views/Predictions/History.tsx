@@ -18,6 +18,7 @@ import {
 import { Header, HistoryTabs } from './components/History'
 import RoundsTab from './components/History/RoundsTab'
 import PnlTab from './components/History/PnlTab/PnlTab'
+import {useActiveChainId} from "../../hooks/useActiveChainId";
 
 const StyledHistory = styled.div`
   background-color: ${({ theme }) => theme.card.background};
@@ -46,6 +47,7 @@ const SpinnerWrapper = styled.div`
 `
 
 const History = () => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const dispatch = useLocalDispatch()
   const isHistoryPaneOpen = useIsHistoryPaneOpen()
@@ -59,9 +61,9 @@ const History = () => {
 
   useEffect(() => {
     if (account && isHistoryPaneOpen) {
-      dispatch(fetchNodeHistory({ account }))
+      dispatch(fetchNodeHistory({ account, chainId }))
     }
-  }, [account, currentEpoch, isHistoryPaneOpen, dispatch])
+  }, [account, currentEpoch, isHistoryPaneOpen, dispatch, chainId])
 
   const results = getFilteredBets(bets, historyFilter)
   const hasBetHistory = results && results.length > 0

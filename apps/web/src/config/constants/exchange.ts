@@ -7,7 +7,7 @@ export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4
 export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0x0430fb71a2d8Cf17e6E56114D7Cf3c945B04549A'
 export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0xB33c7327dd8A80ee239888982d678cBF1B8C39D9'
 
-export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
+export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   [ChainId.BITGERT]: {
     Icecream: ROUTER_ADDRESS_COMMON,
     Akka: ROUTER_ADDRESS_COMMON_AKKA_BITGERT,
@@ -25,10 +25,13 @@ export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
     Icecream: ROUTER_ADDRESS_COMMON,
     Akka: ROUTER_ADDRESS_COMMON_AKKA_XDC,
   },
+  [ChainId.BSC]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
+  },
 }
 
 // used to construct intermediary pairs for trading
-export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
+export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.BITGERT]: [bitgertTokens.wbrise, bitgertTokens.ice, bitgertTokens.usdci, bitgertTokens.usdti],
   [ChainId.DOGE]: [dogechainTokens.wdoge, dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
@@ -50,16 +53,16 @@ export const ADDITIONAL_BASES: { [chainId in ChainId]?: { [tokenAddress: string]
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {}
 
 // used for display in the default list when adding liquidity
-export const SUGGESTED_BASES: ChainTokenList = {
+export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.BITGERT]: [bitgertTokens.ice, bitgertTokens.usdti],
   [ChainId.DOGE]: [dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.ice],
+  [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
-export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
+export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.BITGERT]: [
     bitgertTokens.wbrise,
     bitgertTokens.sphynx,
@@ -144,7 +147,7 @@ export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), BIP
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')
 
-export const BASE_FEE = new Percent(JSBI.BigInt(25), BIPS_BASE)
+export const BASE_FEE = new Percent(JSBI.BigInt(30), BIPS_BASE)
 export const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(BASE_FEE)
 
 // BNB

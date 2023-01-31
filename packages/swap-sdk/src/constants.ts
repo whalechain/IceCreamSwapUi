@@ -6,6 +6,7 @@ export enum ChainId {
   DOKEN = 61916,
   FUSE = 122,
   XDC = 50,
+  BSC = 56,
 }
 
 export const FACTORY_ADDRESS = '0x9E6d21E759A7A288b80eef94E4737D313D31c13f'
@@ -15,6 +16,7 @@ export const FACTORY_ADDRESS_MAP: Record<number, string> = {
   [ChainId.DOKEN]: FACTORY_ADDRESS,
   [ChainId.FUSE]: FACTORY_ADDRESS,
   [ChainId.XDC]: FACTORY_ADDRESS,
+  [ChainId.BSC]: FACTORY_ADDRESS,
 }
 
 export const INIT_CODE_HASH = '0x58c1b429d0ffdb4407396ae8118c58fed54898473076d0394163ea2198f7c4a3'
@@ -24,6 +26,7 @@ export const INIT_CODE_HASH_MAP: Record<number, string> = {
   [ChainId.DOKEN]: INIT_CODE_HASH,
   [ChainId.FUSE]: INIT_CODE_HASH,
   [ChainId.XDC]: INIT_CODE_HASH,
+  [ChainId.BSC]: INIT_CODE_HASH,
 }
 
 export const WETH9 = {
@@ -55,13 +58,8 @@ export const WETH9 = {
     'WFUSE',
     'Wrapped Fuse'
   ),
-  [ChainId.XDC]: new ERC20Token(
-    ChainId.XDC,
-    '0x951857744785E80e2De051c32EE7b25f9c458C42',
-    18,
-    'WXDC',
-    'Wrapped XDC'
-  ),
+  [ChainId.XDC]: new ERC20Token(ChainId.XDC, '0x951857744785E80e2De051c32EE7b25f9c458C42', 18, 'WXDC', 'Wrapped XDC'),
+  [ChainId.BSC]: new ERC20Token(ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'),
 }
 
 export const WNATIVE: Record<number, ERC20Token> = {
@@ -70,6 +68,18 @@ export const WNATIVE: Record<number, ERC20Token> = {
   [ChainId.DOKEN]: WETH9[ChainId.DOKEN],
   [ChainId.FUSE]: WETH9[ChainId.FUSE],
   [ChainId.XDC]: WETH9[ChainId.XDC],
+  [ChainId.BSC]: WETH9[ChainId.BSC],
+}
+
+export const WBNB = {
+  [ChainId.BSC]: new ERC20Token(
+    ChainId.BSC,
+    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+    18,
+    'WBNB',
+    'Wrapped BNB',
+    'https://www.binance.org'
+  ),
 }
 
 export const NATIVE: Record<
@@ -85,4 +95,5 @@ export const NATIVE: Record<
   [ChainId.DOKEN]: { name: 'DoKEN', symbol: 'DKN', decimals: 18 },
   [ChainId.FUSE]: { name: 'Fuse', symbol: 'FUSE', decimals: 18 },
   [ChainId.XDC]: { name: 'XDC', symbol: 'XDC', decimals: 18 },
+  [ChainId.BSC]: { name: 'Binance Coin', symbol: 'BNB', decimals: 18 },
 }

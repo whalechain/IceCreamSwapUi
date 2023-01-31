@@ -7,6 +7,7 @@ import { getBlockExploreLink } from 'utils'
 import { formatNumber } from '@pancakeswap/utils/formatBalance'
 import useCurrentBlockTimestamp from 'hooks/useCurrentBlockTimestamp'
 import { ModalInner, VotingBoxBorder, VotingBoxCardInner } from './styles'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const StyledLinkExternal = styled(LinkExternal)`
   display: inline-flex;
@@ -75,6 +76,7 @@ const DetailsView: React.FC<React.PropsWithChildren<DetailsViewProps>> = ({
   block,
 }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const blockTimestamp = useCurrentBlockTimestamp()
 
   const isBoostingExpired = useMemo(() => {
@@ -126,7 +128,7 @@ const DetailsView: React.FC<React.PropsWithChildren<DetailsViewProps>> = ({
       </VotingBoxBorder>
       <Text color="secondary" textTransform="uppercase" mb="4px" bold fontSize="14px">
         {t('Your voting power at block')}
-        <StyledLinkExternal href={getBlockExploreLink(block, 'block')} ml="8px">
+        <StyledLinkExternal href={getBlockExploreLink(block, 'block', chainId)} ml="8px">
           {block}
         </StyledLinkExternal>
       </Text>
@@ -202,7 +204,7 @@ const DetailsView: React.FC<React.PropsWithChildren<DetailsViewProps>> = ({
       {Number.isFinite(poolsBalance) && (
         <Flex alignItems="center" justifyContent="space-between" mb="4px">
           <Text color="textSubtle" fontSize="16px">
-            {t('Other Syrup Pools')}
+            {t('Other Staking Pools')}
           </Text>
           <Text textAlign="right">{formatNumber(poolsBalance, 0, 3)}</Text>
         </Flex>

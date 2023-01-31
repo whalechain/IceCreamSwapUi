@@ -57,7 +57,7 @@ interface MulticallV3Params {
 }
 
 export type MultiCallV2 = <T = any>(params: MulticallV2Params) => Promise<T>
-export type MultiCall = <T = any>(abi: any[], calls: Call[], chainId?: ChainId) => Promise<T>
+export type MultiCall = <T = any>(abi: any[], calls: Call[], chainId: ChainId) => Promise<T>
 
 export function createMulticall<TProvider>(provider: ({ chainId }: { chainId?: number | undefined }) => TProvider) {
   const multicall: MultiCall = async (abi: any[], calls: Call[], chainId: ChainId) => {

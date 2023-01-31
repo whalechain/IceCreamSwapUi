@@ -24,6 +24,8 @@ import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
+import { SupportedChainsProvider } from 'hooks/useSupportedChains'
+import { CHAIN_IDS } from 'utils/wagmi'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -86,16 +88,18 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         )}
       </Head>
       <Providers store={store}>
-        <Blocklist>
-          {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
-          <ResetCSS />
-          <GlobalStyle />
-          <GlobalCheckClaimStatus excludeLocations={[]} />
-          <PersistGate loading={null} persistor={persistor}>
-            <Updaters />
-            <App {...props} />
-          </PersistGate>
-        </Blocklist>
+        <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
+          <Blocklist>
+            {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
+            <ResetCSS />
+            <GlobalStyle />
+            <GlobalCheckClaimStatus excludeLocations={[]} />
+            <PersistGate loading={null} persistor={persistor}>
+              <Updaters />
+              <App {...props} />
+            </PersistGate>
+          </Blocklist>
+        </SupportedChainsProvider>
       </Providers>
       {/* <Script */}
       {/*   strategy="afterInteractive" */}

@@ -16,7 +16,12 @@ import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import SwapTab, { SwapType } from './components/SwapTab'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useIsAkkaContractSwapModeActive, useIsAkkaSwap, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import {
+  useIsAkkaContractSwapModeActive,
+  useIsAkkaSwap,
+  useIsAkkaSwapModeActive,
+  useIsAkkaSwapModeStatus,
+} from 'state/global/hooks'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useSWR from 'swr'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
@@ -26,6 +31,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCall
 import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useSupportedChains } from 'hooks/useSupportedChains'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -84,13 +90,13 @@ export default function Swap() {
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
     ? {
-      [Field.INPUT]: parsedAmount,
-      [Field.OUTPUT]: parsedAmount,
-    }
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
     : {
-      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-    }
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
   const akkaContract = useAkkaRouterContract()
   const { isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
@@ -101,8 +107,12 @@ export default function Swap() {
     useIsAkkaSwapModeActive()
 
   // isAkkaContractSwapMode checks if this is akka router form or not from redux
-  const [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue] =
-    useIsAkkaContractSwapModeActive()
+  const [
+    isAkkaContractSwapMode,
+    toggleSetAkkaContractMode,
+    toggleSetAkkaContractModeToFalse,
+    toggleSetAkkaContractModeToTrue,
+  ] = useIsAkkaContractSwapModeActive()
 
   const { chainId } = useActiveWeb3React()
   // Check if pancakeswap route is better than akka route or not
@@ -118,47 +128,38 @@ export default function Swap() {
   useEffect(() => {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
-        if (
-          currencyBalances[Field.INPUT] &&
-          parsedAmount &&
-          currencyBalances[Field.INPUT].greaterThan(parsedAmount)
-        ) {
+        if (currencyBalances[Field.INPUT] && parsedAmount && currencyBalances[Field.INPUT].greaterThan(parsedAmount)) {
           akkaContract.estimateGas[methodName](
             akkaRouterTrade?.args?.amountIn,
             akkaRouterTrade?.args?.amountOutMin,
             akkaRouterTrade?.args?.data,
             [],
             [],
-            account
-            , {
+            account,
+            {
               value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
-            })
+            },
+          )
             .then((data) => {
-              if (data.gt("21000")) {
+              if (data.gt('21000')) {
                 toggleSetAkkaContractModeToTrue()
-              }
-              else {
+              } else {
                 toggleSetAkkaContractModeToFalse()
               }
-
             })
             .catch(() => {
               toggleSetAkkaContractModeToFalse()
             })
-        }
-        else {
+        } else {
           toggleSetAkkaContractModeToTrue()
         }
-      }
-      else {
+      } else {
         toggleSetAkkaContractModeToTrue()
       }
-    }
-    else {
+    } else {
       toggleSetAkkaContractModeToTrue()
     }
   }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
-
 
   // Check api bridge data is empty
   useEffect(() => {
@@ -168,10 +169,13 @@ export default function Swap() {
   }, [akkaRouterTrade])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
+  const supportedChains = useSupportedChains()
+  const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
+  // const isChainSupported = true
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
-      <Flex width={['328px', , '100%']} height="100%" justifyContent="center" position="relative">
+      <Flex marginBottom="4em" width={['328px', , '100%']} height="100%" justifyContent="center" position="relative">
         {!isMobile && isChartSupported && (
           <PriceChartContainer
             inputCurrencyId={inputCurrencyId}
@@ -203,24 +207,26 @@ export default function Swap() {
             setIsOpen={setIsChartDisplayed}
           />
         )}
-        <Flex flexDirection="column">
-          <StyledSwapContainer $isChartExpanded={isChartExpanded}>
-            <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
-              <AppBody>
-                <SwapTab>
-                  {(swapTypeState) =>
-                    swapTypeState === SwapType.STABLE_SWAP ? <StableSwapFormContainer /> : <SwapForm />
-                  }
-                </SwapTab>
-              </AppBody>
-            </StyledInputCurrencyWrapper>
-          </StyledSwapContainer>
-          {isChartExpanded && (
-            <Box display={['none', null, null, 'block']} width="100%" height="100%">
-              <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
-            </Box>
-          )}
-        </Flex>
+        {isChainSupported && (
+          <Flex flexDirection="column">
+            <StyledSwapContainer $isChartExpanded={isChartExpanded}>
+              <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
+                <AppBody>
+                  <SwapTab>
+                    {(swapTypeState) =>
+                      swapTypeState === SwapType.STABLE_SWAP ? <StableSwapFormContainer /> : <SwapForm />
+                    }
+                  </SwapTab>
+                </AppBody>
+              </StyledInputCurrencyWrapper>
+            </StyledSwapContainer>
+            {isChartExpanded && (
+              <Box display={['none', null, null, 'block']} width="100%" height="100%">
+                <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
+              </Box>
+            )}
+          </Flex>
+        )}
       </Flex>
     </Page>
   )

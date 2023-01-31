@@ -10,7 +10,7 @@ export function useCurrencyBalance(coinId?: string): CurrencyAmount<Token | Apto
   const allTokens = useAllTokens()
   const { account } = useAccount()
   const native = useNativeCurrency()
-  const chainId = useActiveChainId()
+  const { chainId } = useActiveChainId()
 
   const selector = useCallback(
     (coin: UseAccountBalancesResult) => {

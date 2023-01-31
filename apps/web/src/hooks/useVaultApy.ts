@@ -10,8 +10,7 @@ import { getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { BOOST_WEIGHT, DURATION_FACTOR, MAX_LOCK_DURATION } from 'config/constants/pools'
 import { multicallv2 } from '../utils/multicall'
-
-const masterChefAddress = getMasterChefAddress()
+import {useActiveChainId} from "./useActiveChainId";
 
 // default
 const DEFAULT_PERFORMANCE_FEE_DECIMALS = 2
@@ -42,6 +41,8 @@ const getLockedApy = (flexibleApy: string, boostFactor: FixedNumber) =>
 const cakePoolPID = 0
 
 export function useVaultApy({ duration = MAX_LOCK_DURATION }: { duration?: number } = {}) {
+  const { chainId } = useActiveChainId()
+
   const {
     totalShares = BIG_ZERO,
     pricePerFullShare = BIG_ZERO,
@@ -52,6 +53,7 @@ export function useVaultApy({ duration = MAX_LOCK_DURATION }: { duration?: numbe
   const pricePerFullShareAsEtherBN = useMemo(() => FixedNumber.from(pricePerFullShare.toString()), [pricePerFullShare])
 
   const { data: totalCakePoolEmissionPerYear } = useSWRImmutable('masterChef-total-cake-pool-emission', async () => {
+    const masterChefAddress = getMasterChefAddress(chainId)
     const calls = [
       {
         address: masterChefAddress,
@@ -72,6 +74,7 @@ export function useVaultApy({ duration = MAX_LOCK_DURATION }: { duration?: numbe
     // @ts-ignore fix chainId support
     const [[specialFarmsPerBlock], cakePoolInfo, [totalSpecialAllocPoint]] = await multicallv2({
       abi: masterChefAbi,
+      chainId,
       calls,
     })
 

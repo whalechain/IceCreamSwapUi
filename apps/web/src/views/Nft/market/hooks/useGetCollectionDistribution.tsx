@@ -8,6 +8,7 @@ import useSWRImmutable from 'swr/immutable'
 import { FetchStatus } from 'config/constants/types'
 import mapValues from 'lodash/mapValues'
 import { pancakeBunniesAddress } from '../constants'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const useGetCollectionDistribution = (collectionAddress: string) => {
   const { data, status } = useSWRImmutable(
@@ -27,6 +28,7 @@ interface StatePB {
 }
 
 export const useGetCollectionDistributionPB = () => {
+  const { chainId } = useActiveChainId()
   const [state, setState] = useState<StatePB>({ isFetching: false, data: null })
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export const useGetCollectionDistributionPB = () => {
       }))
       try {
         // @ts-ignore fix chainId support
-        const response = await multicallv2({ abi: pancakeBunniesAbi, calls: bunnyCountCalls })
+        const response = await multicallv2({ abi: pancakeBunniesAbi, calls: bunnyCountCalls, chainId })
         const tokenListResponse = response.reduce((obj, tokenCount, index) => {
           return {
             ...obj,
@@ -74,7 +76,7 @@ export const useGetCollectionDistributionPB = () => {
     }
 
     fetchTokens()
-  }, [])
+  }, [chainId])
 
   return state
 }

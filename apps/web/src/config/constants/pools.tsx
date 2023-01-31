@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { SerializedPoolConfig } from './types'
+import {PoolCategory, SerializedPoolConfig} from './types'
+import {bitgertTokens, xdcTokens} from '@pancakeswap/tokens'
 
 export const MAX_LOCK_DURATION = 31536000
 export const UNLOCK_FREE_DURATION = 604800
@@ -53,6 +54,41 @@ export const vaultPoolConfig = {
 } as const
 
 export const livePools: SerializedPoolConfig[] = [
+  // souceId can be any positive number as long as it is unique and not 0
+  // version can't be 3 as that uses the pancake profiles that we did not implement
+  {
+    sousId: 2,
+    stakingToken: xdcTokens.ice,
+    earningToken: xdcTokens.btcx,
+    contractAddress: {
+      50: '0x7b7387513444D4336e5a7E9cF75A2Bc7a38721A9',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.02093',
+    version: 2,
+  },
+  {
+    sousId: 3,
+    stakingToken: xdcTokens.btcx,
+    earningToken: xdcTokens.btcx,
+    contractAddress: {
+      50: '0x788C14Ddb3D4e9036D1fC98D2324f3F86FD43fCf',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.02093',
+    version: 2,
+  },
+  {
+    sousId: 4,
+    stakingToken: bitgertTokens.miidas,
+    earningToken: bitgertTokens.miidas,
+    contractAddress: {
+      32520: '0xf4c78d403527ba2fb67ab599efea0a739d3d6547',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '12.5',
+    version: 2,
+  },
     /*
   {
     sousId: 0,
@@ -3455,5 +3491,7 @@ const finishedPools = [
   stakingToken: p.stakingToken.serialize,
   earningToken: p.earningToken.serialize,
 }))
+
+
 
 export default [...livePools, ...finishedPools]
