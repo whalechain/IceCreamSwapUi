@@ -6,7 +6,7 @@ import {
   EarnIcon,
   DropdownMenuItems,
   InfoIcon,
-  BridgeIcon,
+  BridgeIcon, DropdownMenuItemType,
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
 import {
@@ -184,6 +184,15 @@ const config: (
       href: '/info',
       icon: InfoIcon,
       supportChainIds: SUPPORT_INFO,
+      hideSubNav: true,
+      showItemsOnMobile: false,
+      items: [],
+    },
+    {
+      label: t('Wiki'),
+      href: 'https://wiki.icecreamswap.com',
+      type: DropdownMenuItemType.EXTERNAL_LINK,
+      icon: InfoIcon,
       hideSubNav: true,
       showItemsOnMobile: false,
       items: [],
