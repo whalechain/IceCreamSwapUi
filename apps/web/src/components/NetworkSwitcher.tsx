@@ -133,7 +133,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
 
   const cannotChangeNetwork = !canSwitch
 
-  if (!chainId || !account) {
+  if (!chainId) {
     return null
   }
 
