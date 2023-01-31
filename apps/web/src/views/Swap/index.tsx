@@ -109,7 +109,7 @@ export default function Swap() {
   useEffect(() => {
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
-        toggleSetAkkaModeToFalse()
+        toggleSetAkkaModeToTrue()
       } else {
         toggleSetAkkaModeToTrue()
       }

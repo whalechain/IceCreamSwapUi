@@ -13,6 +13,7 @@ import { useHasPendingApproval, useTransactionAdder } from '../state/transaction
 import { calculateGasMargin } from '../utils'
 import { computeSlippageAdjustedAmounts } from '../utils/exchange'
 import useGelatoLimitOrdersLib from './limitOrders/useGelatoLimitOrdersLib'
+import { useActiveChainId } from './useActiveChainId'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 import { useTokenContract } from './useContract'
 import useTokenAllowance from './useTokenAllowance'
@@ -92,11 +93,14 @@ export function useApproveCallback(
       useExact = true
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString())
     })
-
+    const { chainId } = useActiveChainId()
+    console.log(spender);
+    console.log(ROUTER_ADDRESS[chainId].Akka);
+    
     return callWithGasPrice(
       tokenContract,
       'approve',
-      [spender, useExact ? amountToApprove.quotient.toString() : MaxUint256],
+      [spender, useExact ? amountToApprove.quotient.toString() : spender === ROUTER_ADDRESS[chainId].Akka ? amountToApprove.quotient.toString() : MaxUint256],
       {
         gasLimit: calculateGasMargin(estimatedGas),
       },
