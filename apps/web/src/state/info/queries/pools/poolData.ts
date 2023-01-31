@@ -81,10 +81,10 @@ export const fetchPoolData = async (
   block7d: number,
   block14d: number,
   poolAddresses: string[],
-  chainName: MultiChainName = 'BSC',
+  chainName: MultiChainName,
 ) => {
   const pairTokenMap = await getPairTokenMap(poolAddresses, chainName)
-  const weeksQuery = chainName === 'BSC' ? `twoWeeksAgo: ${POOL_AT_BLOCK(chainName, block14d, poolAddresses)}` : ''
+  const weeksQuery = ''
   try {
     const query = gql`
       query pools {
