@@ -1,17 +1,12 @@
 import { ChainId, Currency, CurrencyAmount, NATIVE } from '@pancakeswap/sdk'
 import { FAST_INTERVAL, NATIVE_TOKEN_ADDRESS } from 'config/constants'
-import { keysToCamel } from 'utils/snakeToCamel'
-import { useEffect } from 'react'
-import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { Field } from 'state/swap/actions'
 import { useSwapState } from 'state/swap/hooks'
 import useSWR, { Fetcher, useSWRConfig } from 'swr'
 import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import { formatUnits } from '@ethersproject/units'
 import { useCurrency } from 'hooks/Tokens'
-import { useAkkaRouterContract } from 'utils/exchange'
-import { useWeb3React } from '@pancakeswap/wagmi'
 
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (token0: Currency, token1: Currency, amount: CurrencyAmount<Currency>, slippage = 0.1) => {
