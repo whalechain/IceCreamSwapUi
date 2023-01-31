@@ -4,6 +4,7 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   Box,
+  BoxProps,
   Button,
   Flex,
   InfoIcon,
@@ -25,10 +26,12 @@ import { chains } from 'utils/wagmi'
 import { useNetwork } from 'wagmi'
 
 import { ChainLogo } from './Logo/ChainLogo'
-import chainName from "../config/constants/chainName";
+import chainName from '../config/constants/chainName'
+import { useSupportedChains } from 'hooks/useSupportedChains'
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
+  const supportedChains = useSupportedChains()
 
   return (
     <>
@@ -38,6 +41,7 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
       <UserMenuDivider />
       {chains
         .filter((chain) => !chain.testnet || chain.id === chainId)
+        .filter((chain) => supportedChains.includes(chain.id))
         .map((chain) => (
           <UserMenuItem
             key={chain.id}
@@ -109,7 +113,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   )
 }
 
-export const NetworkSwitcher = () => {
+export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation()
   const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
   const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
@@ -135,10 +139,11 @@ export const NetworkSwitcher = () => {
   }
 
   return (
-    <Box ref={cannotChangeNetwork ? targetRef : null} height="100%">
+    <Box {...props} ref={cannotChangeNetwork ? targetRef : null} height="100%">
       {cannotChangeNetwork && tooltipVisible && tooltip}
       <UserMenu
-        mr="8px"
+        width="100%"
+        pr="8px"
         placement="bottom"
         variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'}
         avatarSrc={`/images/chains/${chainId}.png`}
