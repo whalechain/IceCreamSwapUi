@@ -20,7 +20,6 @@ import { multicallv2 } from 'utils/multicall'
 import { bscTokens } from '@pancakeswap/tokens'
 import { isAddress } from 'utils'
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
-import { bscRpcProvider } from 'utils/providers'
 import { getPoolsPriceHelperLpFiles } from 'config/constants/priceHelperLps/index'
 import fetchFarms from '../farms/fetchFarms'
 import getFarmsPrices from '../farms/getFarmsPrices'
@@ -138,13 +137,13 @@ export const fetchCakePoolUserDataAsync = (account: string, chainId: ChainId) =>
 export const fetchPoolsPublicDataAsync =
   (currentBlockNumber: number, chainId: number) => async (dispatch, getState) => {
     try {
-      const [blockLimits, totalStakings, profileRequirements, currentBlock] = await Promise.all([
+      const [blockLimits, totalStakings, profileRequirements] = await Promise.all([
         fetchPoolsBlockLimits(chainId),
         fetchPoolsTotalStaking(chainId),
         fetchPoolsProfileRequirement(chainId),
-        currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(),
       ])
-      console.log(blockLimits, totalStakings, profileRequirements, currentBlock)  // todo: remove
+      const currentBlock = currentBlockNumber  // todo: currentBlockNumber can be 0, query correct block number if it is
+      // bscRpcProvider.getBlockNumber() could be one way, but the providers seem to not be directly available for all chains
 
       const blockLimitsSousIdMap = fromPairs(blockLimits.map((entry) => [entry.sousId, entry]))
       const totalStakingsSousIdMap = fromPairs(totalStakings.map((entry) => [entry.sousId, entry]))

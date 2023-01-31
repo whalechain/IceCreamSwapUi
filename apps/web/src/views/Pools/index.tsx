@@ -76,6 +76,7 @@ const Pools = () => {
         <PoolControls pools={pools}>
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
+              {/*
               {showFinishedPools && (
                 <FinishedTextContainer>
                   <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
@@ -86,6 +87,7 @@ const Pools = () => {
                   </FinishedTextLink>
                 </FinishedTextContainer>
               )}
+              */}
               {account && !userDataLoaded && stakedOnly && (
                 <Flex justifyContent="center" mb="4px">
                   <Loading />
