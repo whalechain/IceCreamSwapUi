@@ -7,10 +7,15 @@ import {
   DropdownMenuItems,
   InfoIcon,
   BridgeIcon,
-  DropdownMenuItemType,
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
-import {SUPPORT_FARMS, SUPPORT_STAKING} from "../../../config/constants/supportChains";
+import {
+  SUPPORT_FARMS,
+  SUPPORT_STAKING,
+  SUPPORT_INFO,
+  SUPPORT_SWAP,
+  SUPPORT_BRIDGE,
+} from '../../../config/constants/supportChains'
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
@@ -42,6 +47,7 @@ const config: (
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
       href: '/swap',
+      supportChainIds: SUPPORT_SWAP,
       showItemsOnMobile: false,
       items: [
         {
@@ -83,6 +89,8 @@ const config: (
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
       image: '/images/decorations/pe2.png',
+      showItemsOnMobile: false,
+      supportChainIds: [...SUPPORT_FARMS, ...SUPPORT_STAKING],
       items: [
         {
           label: t('Liquidity Farms'),
@@ -99,8 +107,10 @@ const config: (
     {
       label: t('Bridge'),
       href: '/bridge',
-      showItemsOnMobile: false,
+      hideSubNav: true,
       icon: BridgeIcon,
+      supportChainIds: SUPPORT_BRIDGE,
+      showItemsOnMobile: false,
       items: [],
     },
     /*
@@ -159,11 +169,22 @@ const config: (
       ],
     },
        */
+    /*
     {
       label: t('Info'),
       href: 'https://info.icecreamswap.com',
       type: DropdownMenuItemType.EXTERNAL_LINK,
       icon: InfoIcon,
+      hideSubNav: true,
+      items: [],
+    },
+    */
+    {
+      label: t('Info'),
+      href: '/info',
+      icon: InfoIcon,
+      supportChainIds: SUPPORT_INFO,
+      hideSubNav: true,
       showItemsOnMobile: false,
       items: [],
     },

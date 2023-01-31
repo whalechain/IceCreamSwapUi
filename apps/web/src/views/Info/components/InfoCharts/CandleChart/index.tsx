@@ -20,6 +20,7 @@ const CandleChart = ({ data, setValue, setLabel, ...rest }: LineChartProps) => {
     currentLanguage: { locale },
   } = useTranslation()
   const chartRef = useRef<HTMLDivElement>(null)
+  const chartCreatedRef = useRef<IChartApi | undefined>(undefined)
   const [chartCreated, setChart] = useState<IChartApi | undefined>()
 
   const handleResize = useCallback(() => {
@@ -42,7 +43,7 @@ const CandleChart = ({ data, setValue, setLabel, ...rest }: LineChartProps) => {
 
   // if chart not instantiated in canvas, create it
   useEffect(() => {
-    if (!chartCreated && data && !!chartRef?.current?.parentElement) {
+    if (!chartCreatedRef.current && data && !!chartRef?.current?.parentElement) {
       const chart = createChart(chartRef.current, {
         height: CANDLE_CHART_HEIGHT,
         width: chartRef.current.parentElement.clientWidth - 32,
@@ -95,6 +96,7 @@ const CandleChart = ({ data, setValue, setLabel, ...rest }: LineChartProps) => {
       })
 
       chart.timeScale().fitContent()
+      chartCreatedRef.current = chart
       setChart(chart)
     }
   }, [chartCreated, data, setValue, theme])

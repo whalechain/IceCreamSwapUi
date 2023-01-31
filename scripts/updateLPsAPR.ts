@@ -31,7 +31,7 @@ const getWeekAgoTimestamp = () => {
   return getUnixTime(weekAgo)
 }
 
-const LP_HOLDERS_FEE = 0.0017
+const LP_HOLDERS_FEE = 0.0025
 const WEEKS_IN_A_YEAR = 52.1429
 
 const getBlockAtTimestamp = async (timestamp: number, chainId: ChainId) => {
@@ -95,21 +95,10 @@ const getAprsForFarmGroup = async (addresses: string[], blockWeekAgo: number, ch
   }
 }
 
-// Copy paste of Stable farm logic
-export const bscProvider = new StaticJsonRpcProvider(
-  {
-    url: 'https://bsc-mainnet.nodereal.io/v1/5a516406afa140ffa546ee10af7c9b24',
-    skipFetchSetup: true,
-  },
-  56,
-)
-
 interface SplitFarmResult {
   normalFarms: any[]
   stableFarms: any[]
 }
-
-export const BLOCKS_PER_DAY = (60 / 3) * 60 * 24
 
 const getAprsForStableFarm = async (stableFarm: any, chainId: ChainId): Promise<BigNumber> => {
   const stableSwapAddress = stableFarm?.stableSwapAddress
@@ -166,7 +155,7 @@ function splitNormalAndStableFarmsReducer(result: SplitFarmResult, farm: any): S
 }
 // ====
 
-const FETCH_CHAIN_ID = [ChainId.BITGERT]
+const FETCH_CHAIN_ID = [ChainId.BITGERT, ChainId.XDC]
 const fetchAndUpdateLPsAPR = async () => {
   Promise.all(
     FETCH_CHAIN_ID.map(async (chainId) => {

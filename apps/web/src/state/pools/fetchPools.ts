@@ -41,7 +41,7 @@ export const fetchPoolsBlockLimits = async (chainId: ChainId) => {
     return resultArray
   }, [])
 
-  return livePoolsWithEnd.map((cakePoolConfig, index) => {
+  return livePoolsWithEnd.filter((poolConfig) => chainId in poolConfig.contractAddress).map((cakePoolConfig, index) => {
     const [[startBlock], [endBlock]] = startEndBlockResult[index]
     return {
       sousId: cakePoolConfig.sousId,
@@ -52,15 +52,14 @@ export const fetchPoolsBlockLimits = async (chainId: ChainId) => {
 }
 
 export const fetchPoolsTotalStaking = async (chainId: ChainId) => {
-  const poolsTotalStaked = await multicall(erc20ABI, poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((poolConfig) => {
+  const poolsTotalStaked = await multicall(sousChefABI, poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((poolConfig) => {
     return {
-      address: poolConfig.stakingToken.address,
-      name: 'balanceOf',
-      params: [getAddress(poolConfig.contractAddress, chainId)],
+      address: getAddress(poolConfig.contractAddress, chainId),
+      name: 'stakedTokenAmount',
     }
   }), chainId)
 
-  return poolsConfig.map((p, index) => ({
+  return poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((p, index) => ({
     sousId: p.sousId,
     totalStaked: new BigNumber(poolsTotalStaked[index]).toJSON(),
   }))
@@ -71,7 +70,8 @@ export const fetchPoolsStakingLimits = async (
   chainId: ChainId,
 ): Promise<{ [key: string]: { stakingLimit: BigNumber; numberBlocksForUserLimit: number } }> => {
   const validPools = poolsConfig
-    .filter((p) => p.stakingToken.symbol !== 'BNB' && !p.isFinished)
+    .filter((poolConfig) => chainId in poolConfig.contractAddress)
+    .filter((p) => !p.isFinished)
     .filter((p) => !poolsWithStakingLimit.includes(p.sousId))
 
   // Get the staking limit for each valid pool

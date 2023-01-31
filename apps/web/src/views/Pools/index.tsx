@@ -28,6 +28,7 @@ import CakeVaultCard from './components/CakeVaultCard'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import PoolControls from './components/PoolControls'
 import {SUPPORT_STAKING} from "../../config/constants/supportChains";
+import {useActiveChainId} from "../../hooks/useActiveChainId";
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -50,7 +51,10 @@ const FinishedTextLink = styled(Link)`
 const Pools = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const { pools, userDataLoaded } = usePoolsWithVault()
+  const { pools: allPools, userDataLoaded } = usePoolsWithVault()
+  const { chainId } = useActiveChainId()
+
+  const pools = allPools.filter(pool => chainId in pool.contractAddress)
 
   usePoolsPageFetch()
 
@@ -72,6 +76,7 @@ const Pools = () => {
         <PoolControls pools={pools}>
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
+              {/*
               {showFinishedPools && (
                 <FinishedTextContainer>
                   <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
@@ -82,6 +87,7 @@ const Pools = () => {
                   </FinishedTextLink>
                 </FinishedTextContainer>
               )}
+              */}
               {account && !userDataLoaded && stakedOnly && (
                 <Flex justifyContent="center" mb="4px">
                   <Loading />

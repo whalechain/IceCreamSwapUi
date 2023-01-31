@@ -21,8 +21,8 @@ import { MultiChainName, checkIsStableSwap } from './constant'
 import { ChartEntry, PoolData, PriceChartEntry, ProtocolData, TokenData } from './types'
 // Protocol hooks
 
-const refreshIntervalForInfo = 15000 // 15s
-const SWR_SETTINGS = { refreshInterval: refreshIntervalForInfo }
+// const refreshIntervalForInfo = 15000 // 15s
+const SWR_SETTINGS = {}  // no cyclic refreshing, to reenable, add: { refreshInterval: refreshIntervalForInfo }
 
 export const useProtocolDataSWR = (): ProtocolData | undefined => {
   const chainName = useGetChainName()
@@ -208,7 +208,6 @@ export const useGetChainName = () => {
   const path = window.location.href
 
   const getChain = useCallback(() => {
-    if (path.includes('chainId=56')) return 'BSC'
     if (path.includes('chainId=32520')) return 'BITGERT'
     if (path.includes('chainId=2000')) return 'DOGECHAIN'
     if (path.includes('chainId=61916')) return 'DOKEN'
