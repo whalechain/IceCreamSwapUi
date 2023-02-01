@@ -17,12 +17,12 @@ import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import cakeAbi from 'config/abi/cake.json'
 import { getCakeVaultAddress, getCakeFlexibleSideVaultAddress } from 'utils/addressHelpers'
 import { multicallv2 } from 'utils/multicall'
-import { bscTokens } from '@pancakeswap/tokens'
+import { bscTokens, USD } from '@pancakeswap/tokens'
 import { isAddress } from 'utils'
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { getPoolsPriceHelperLpFiles } from 'config/constants/priceHelperLps/index'
 import fetchFarms from '../farms/fetchFarms'
-import getFarmsPrices from '../farms/getFarmsPrices'
+import { getFarmsPrices } from '@pancakeswap/farms/farmPrices'
 import {
   fetchPoolsBlockLimits,
   fetchPoolsProfileRequirement,
@@ -40,7 +40,7 @@ import { getTokenPricesFromFarm } from './helpers'
 import { resetUserState } from '../global/actions'
 import { fetchUserIfoCredit, fetchPublicIfoData } from './fetchUserIfo'
 import { fetchVaultUser, fetchFlexibleSideVaultUser } from './fetchVaultUser'
-import {ChainId} from "@pancakeswap/sdk";
+import {ChainId, WETH9} from "@pancakeswap/sdk";
 
 export const initialPoolVaultState = Object.freeze({
   totalShares: null,
@@ -169,12 +169,15 @@ export const fetchPoolsPublicDataAsync =
       const farmsData = getState().farms.data
       const bnbBusdFarm =
         activePriceHelperLpsConfig.length > 0
-          ? farmsData.find((farm) => farm.token.symbol === 'BUSD' && farm.quoteToken.symbol === 'WBNB')
+          ? farmsData.find((farm) => farm.token.address === USD[chainId].address && farm.quoteToken.address === WETH9[chainId].address)
           : null
-      const farmsWithPricesOfDifferentTokenPools = bnbBusdFarm
-        ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)
+      const farmsWithPricesOfDifferentTokenPools = bnbBusdFarm && "tokenPriceVsQuote" in bnbBusdFarm
+        ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], {
+            address: bnbBusdFarm.lpAddress,
+            wNative: bnbBusdFarm.quoteToken.symbol,
+            stable: bnbBusdFarm.token.symbol
+          })
         : []
-
       const prices = getTokenPricesFromFarm([...farmsData, ...farmsWithPricesOfDifferentTokenPools])
 
       const liveData = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).map((pool) => {
