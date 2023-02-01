@@ -3,8 +3,11 @@ import { ChainId, WETH9, ERC20Token } from '@pancakeswap/sdk'
 export const bitgertTokens = {
   wbrise: WETH9[ChainId.BITGERT],
   ice: new ERC20Token(ChainId.BITGERT, '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D', 18, 'ICE', 'IceCream', 'https://icecreamswap.com'),
+  sps: new ERC20Token(ChainId.BITGERT, '0x1633b7157e7638C4d6593436111Bf125Ee74703F', 18, 'SPS', 'Splinterlands Token', 'https://splinterlands.com'),
   sphynx: new ERC20Token(ChainId.BITGERT, '0x0e11DCE06eF2FeD6f78CEF5144F970E1184b4298', 18, 'SPHYNX', 'Sphynx BRISE'),
   bpad: new ERC20Token(ChainId.BITGERT, '0x71946a5C9dA7C95ee804a9BE561EC15A3F286A7D', 8, 'BPAD', 'Brisepad'),
+  broge: new ERC20Token(ChainId.BITGERT, '0x41c5ae56681Fb19334eCF7d914919805DaE2Ec8f', 18, 'BROGE', 'BROGE'),
+  brzilla: new ERC20Token(ChainId.BITGERT, '0x9b8535Dd9281e48484725bC9Eb6Ed2f66CEA2a36', 18, 'BRZILLA', 'BriseZilla'),
   btxt: new ERC20Token(ChainId.BITGERT, '0x1A8a039007186d7640C1D7Cd7c2606e333D04e03', 18, 'BTXT', 'BitsXT'),
   eltg: new ERC20Token(ChainId.BITGERT, '0xb860eCD8400600c13342a751408737235E177077', 9, 'ELTG', 'Graphen'),
   evo: new ERC20Token(ChainId.BITGERT, '0x267Ae4bA9CE5ef3c87629812596b0D89EcBD81dD', 18, 'EVO', 'EVO'),
