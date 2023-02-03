@@ -186,8 +186,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return () => {
       cancelled = true
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens])
+  }, [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens, signer?.data])
   const nativeBalance = useBalance({ chainId, addressOrName: account }).data
   const tokenBalances = {
     ...useTokenBalances(
