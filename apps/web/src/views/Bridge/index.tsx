@@ -39,7 +39,6 @@ const Bridge = () => {
     setRecipient,
     setToOtherAddress,
     toOtherAddress,
-    transactionStatus,
     showNative,
   } = useBridge()
 
