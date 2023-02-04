@@ -4,7 +4,7 @@ import { dogechainTokens } from './2000'
 import { dokenTokens } from './61916'
 import { fuseTokens } from './122'
 import { xdcTokens } from './50'
-import {shardeumTestnetTokens} from "./8081";
+import {shardeumTestnetTokens} from "./8082";
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
