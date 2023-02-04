@@ -39,7 +39,7 @@ const Footer: React.FC<
       >
         <Flex alignItems="center">
           <BottomBunnyWrapper>
-            <Image src={image} width={254} height={227} />
+            <Image src={image} width={254} height={227} alt="" />
           </BottomBunnyWrapper>
           {shouldHideCta ? null : (
             <Flex height="fit-content">

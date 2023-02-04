@@ -9,7 +9,7 @@ import { FetchStatus } from 'config/constants/types'
 import { laggyMiddleware } from 'hooks/useSWRContract'
 import { usePreviousValue } from '@pancakeswap/hooks'
 import { isAddress } from 'utils'
-import {useActiveChainId} from "../../../../hooks/useActiveChainId";
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 export const useNftsForAddress = (account: string, profile: Profile, isProfileFetching: boolean) => {
   const { data: collections } = useGetCollections()

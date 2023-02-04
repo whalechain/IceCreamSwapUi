@@ -2,24 +2,10 @@
 import { withAxiom } from 'next-axiom'
 import BundleAnalyzer from '@next/bundle-analyzer'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
-import NextTranspileModules from 'next-transpile-modules'
 
 const withBundleAnalyzer = BundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
-
-const withTM = NextTranspileModules([
-  '@pancakeswap/ui',
-  '@pancakeswap/uikit',
-  '@pancakeswap/swap-sdk-core',
-  '@pancakeswap/farms',
-  '@pancakeswap/localization',
-  '@pancakeswap/hooks',
-  '@pancakeswap/multicall',
-  '@pancakeswap/token-lists',
-  '@pancakeswap/utils',
-  '@pancakeswap/tokens',
-])
 
 const withVanillaExtract = createVanillaExtractPlugin()
 
@@ -49,8 +35,22 @@ const config = {
     styledComponents: true,
   },
   experimental: {
-    scrollRestoration: true,
+    swcPlugins: [["swc-plugin-vanilla-extract", {}]]
   },
+  transpilePackages: [
+    '@pancakeswap/ui',
+    '@pancakeswap/uikit',
+    '@pancakeswap/swap-sdk-core',
+    '@pancakeswap/farms',
+    '@pancakeswap/localization',
+    '@pancakeswap/hooks',
+    '@pancakeswap/multicall',
+    '@pancakeswap/token-lists',
+    '@pancakeswap/utils',
+    '@pancakeswap/tokens',
+    '@wagmi',
+    'wagmi',
+  ],
   reactStrictMode: true,
   swcMinify: true,
   images: {
@@ -163,19 +163,9 @@ const config = {
         permanent: true,
       },
     ]
-  },
-  webpack: (webpackConfig, { webpack }) => {
-    // tree shake sentry tracing
-    webpackConfig.plugins.push(
-      new webpack.DefinePlugin({
-        __SENTRY_DEBUG__: false,
-        __SENTRY_TRACING__: false,
-      }),
-    )
-    return webpackConfig
-  },
+  }
 }
 
 export default withBundleAnalyzer(
-  withVanillaExtract(withTM(withAxiom(config))),
+  withAxiom(config),
 )

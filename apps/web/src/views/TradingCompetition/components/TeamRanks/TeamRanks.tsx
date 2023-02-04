@@ -78,7 +78,7 @@ const TeamRanks: React.FC<React.PropsWithChildren<TeamRanksProps>> = ({
           }
         />
         <BunnyImageWrapper mt="24px">
-          <Image src={image} width={200} height={205} />
+          <Image src={image} width={200} height={205} alt="" />
         </BunnyImageWrapper>
       </StyledPodiumWrapper>
       <StyledTopTradersWrapper>

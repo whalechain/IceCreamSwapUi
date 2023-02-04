@@ -275,7 +275,7 @@ const MoDCompetition = () => {
         >
           <Flex alignItems="center" position="relative">
             <BottomBunnyWrapper>
-              <Image src={StormBunny} width={182} height={213} />
+              <Image src={StormBunny} width={182} height={213} alt="" />
             </BottomBunnyWrapper>
             {shouldHideCta ? null : (
               <Flex height="fit-content" position="relative" zIndex="2">

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import Flex from "../../../components/Box/Flex";
 import { LogoIcon, LogoWithTextIcon } from "../../../components/Svg";
-import { MenuContext } from "../context";
+import Link from "next/link";
 
 interface Props {
   href: string;
@@ -43,7 +43,6 @@ const StyledLink = styled("a")`
 `;
 
 const Logo: React.FC<React.PropsWithChildren<Props>> = ({ href }) => {
-  const { linkComponent } = useContext(MenuContext);
   const isAbsoluteUrl = href.startsWith("http");
   const innerLogo = (
     <>
@@ -59,9 +58,9 @@ const Logo: React.FC<React.PropsWithChildren<Props>> = ({ href }) => {
           {innerLogo}
         </StyledLink>
       ) : (
-        <StyledLink href={href} as={linkComponent} aria-label="IceCream home page">
-          {innerLogo}
-        </StyledLink>
+        <Link legacyBehavior href={href} passHref>
+          <StyledLink aria-label="IceCream home page">{innerLogo}</StyledLink>
+        </Link>
       )}
     </Flex>
   );
