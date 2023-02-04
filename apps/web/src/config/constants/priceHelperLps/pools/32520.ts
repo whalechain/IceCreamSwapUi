@@ -1,4 +1,5 @@
 import { SerializedFarmConfig } from '../../types'
+import { bitgertTokens } from '@pancakeswap/tokens'
 
 const priceHelperLps: SerializedFarmConfig[] = [
   /**
@@ -8,6 +9,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
    * Prices are then fetched for all farms (masterchef + priceHelperLps).
    * Before storing to redux, farms without a PID are filtered out.
    */
+  {
+    pid: null,
+    lpSymbol: 'Miidas-Wbrise LP',
+    lpAddress: '0xd98e4C6352F6D73bAa65c0A5DF2bdf68f4C9C18E',
+    token: bitgertTokens.miidas,
+    quoteToken: bitgertTokens.wbrise,
+  },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default priceHelperLps

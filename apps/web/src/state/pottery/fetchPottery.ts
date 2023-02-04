@@ -8,6 +8,7 @@ import { bscTokens } from '@pancakeswap/tokens'
 import { getPotteryDrawContract, getBep20Contract } from 'utils/contractHelpers'
 import { request, gql } from 'graphql-request'
 import { GRAPH_API_POTTERY } from 'config/constants/endpoints'
+import {ChainId} from "@pancakeswap/sdk";
 
 const potteryDrawAddress = getPotteryDrawAddress()
 const potteryDrawContract = getPotteryDrawContract()
@@ -35,7 +36,7 @@ export const fetchLastVaultAddress = async () => {
   }
 }
 
-export const fetchPublicPotteryValue = async (potteryVaultAddress: string) => {
+export const fetchPublicPotteryValue = async (potteryVaultAddress: string, chainId: ChainId) => {
   try {
     const calls = [
       'getStatus',
@@ -50,7 +51,7 @@ export const fetchPublicPotteryValue = async (potteryVaultAddress: string) => {
     }))
 
     const [getStatus, [totalLockCake], [totalSupply], [lockStartTime], getLockTime, getMaxTotalDeposit] =
-      await multicall(potteryVaultAbi, calls)
+      await multicall(potteryVaultAbi, calls, chainId)
     const [lastDrawId, totalPrize] = await potteryDrawContract.getPot(potteryVaultAddress)
 
     return {

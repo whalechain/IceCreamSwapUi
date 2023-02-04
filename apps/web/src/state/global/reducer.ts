@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createReducer } from '@reduxjs/toolkit'
 import { ChainId } from '@pancakeswap/sdk'
-import { toggleFarmTransactionModal, pickFarmTransactionTx, akkaSwapStatus, akkaSwapActive } from './actions'
+import { toggleFarmTransactionModal, pickFarmTransactionTx, akkaSwapStatus, akkaSwapActive, akkaSwapContractActive } from './actions'
 
 export interface GlobalState {
   isAkkaSwap: boolean
   isAkkaSwapActive: boolean
+  isAkkaSwapContractActive: boolean
   showFarmTransactionModal: boolean
   pickedFarmTransactionModalTx: {
     tx: string
@@ -16,6 +17,7 @@ export interface GlobalState {
 export const initialState: GlobalState = {
   isAkkaSwap: false,
   isAkkaSwapActive: true,
+  isAkkaSwapContractActive: false,
   showFarmTransactionModal: false,
   pickedFarmTransactionModalTx: {
     tx: '',
@@ -33,6 +35,9 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(akkaSwapActive, (state, { payload: { isAkkaSwapActive } }) => {
       state.isAkkaSwapActive = isAkkaSwapActive
+    })
+    .addCase(akkaSwapContractActive, (state, { payload: { isAkkaSwapContractActive } }) => {
+      state.isAkkaSwapContractActive = isAkkaSwapContractActive
     })
     .addCase(pickFarmTransactionTx, (state, { payload: { tx, chainId } }) => {
       state.pickedFarmTransactionModalTx = { tx, chainId }

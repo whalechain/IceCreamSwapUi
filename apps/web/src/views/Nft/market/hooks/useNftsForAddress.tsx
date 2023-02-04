@@ -9,6 +9,7 @@ import { FetchStatus } from 'config/constants/types'
 import { laggyMiddleware } from 'hooks/useSWRContract'
 import { usePreviousValue } from '@pancakeswap/hooks'
 import { isAddress } from 'utils'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 export const useNftsForAddress = (account: string, profile: Profile, isProfileFetching: boolean) => {
   const { data: collections } = useGetCollections()
@@ -23,6 +24,7 @@ export const useCollectionsNftsForAddress = (
   isProfileFetching: boolean,
   collections: ApiCollections,
 ) => {
+  const { chainId } = useActiveChainId()
   const resetLaggyRef = useRef(null)
   const previousAccount = usePreviousValue(account)
 
@@ -47,7 +49,7 @@ export const useCollectionsNftsForAddress = (
   // @ts-ignore
   const { status, data, mutate, resetLaggy } = useSWR(
     !isProfileFetching && !isEmpty(collections) && isAddress(account) ? [account, 'userNfts'] : null,
-    async () => getCompleteAccountNftData(account, collections, profileNftWithCollectionAddress),
+    async () => getCompleteAccountNftData(account, collections, chainId, profileNftWithCollectionAddress),
     { use: [laggyMiddleware] },
   )
 

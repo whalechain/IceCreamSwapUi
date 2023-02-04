@@ -2,7 +2,7 @@ export interface AkkaRouterArgsResponseType {
   amountIn: string
   amountOutMin: string
   bridge: []
-  data: []
+  data: any[]
   dstData: []
   to: string
   value: string
@@ -81,7 +81,3 @@ export interface RouteOperationsSeparated {
   operations: Array<RouteRegularOperations>
 }
 
-export enum TokenEnum {
-  NativeToken = 'BRISE',
-  NativeTokenAdress = '0x0000000000000000000000000000000000000000',
-}

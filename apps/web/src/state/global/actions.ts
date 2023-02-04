@@ -24,3 +24,7 @@ export const akkaSwapStatus = createAction<{
 export const akkaSwapActive = createAction<{
   isAkkaSwapActive: boolean
 }>('global/akkaSwapActive')
+
+export const akkaSwapContractActive = createAction<{
+  isAkkaSwapContractActive: boolean
+}>('global/akkaSwapContractActive')

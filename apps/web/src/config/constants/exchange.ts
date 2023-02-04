@@ -4,27 +4,29 @@ import { bitgertTokens, dogechainTokens, dokenTokens, fuseTokens, xdcTokens, sha
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
 export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4'
-export const ROUTER_ADDRESS_COMMON_AKKA = '0x9B13efdA353D1f2B127270A198e2960841e899B0'
-export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
+export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0xCFD3C811766F8E60E8763739DF9a5a0104463bf3'
+export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0x9d8E6B2554672078c3d8c992b272eE3634533De7'
+
+export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   [ChainId.BITGERT]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA,
+    Akka: ROUTER_ADDRESS_COMMON_AKKA_BITGERT,
   },
   [ChainId.DOGE]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: '',
   },
   [ChainId.DOKEN]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: '',
   },
   [ChainId.FUSE]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: '',
   },
   [ChainId.XDC]: {
     Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: '',
+    Akka: ROUTER_ADDRESS_COMMON_AKKA_XDC,
+  },
+  [ChainId.BSC]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
   },
   [ChainId.SHARDEUM_TEST]: {
     Icecream: "0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62",
@@ -33,7 +35,7 @@ export const ROUTER_ADDRESS: ChainMap<RouterAddressTypes> = {
 }
 
 // used to construct intermediary pairs for trading
-export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
+export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.BITGERT]: [bitgertTokens.wbrise, bitgertTokens.ice, bitgertTokens.usdci, bitgertTokens.usdti],
   [ChainId.DOGE]: [dogechainTokens.wdoge, dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
@@ -56,7 +58,7 @@ export const ADDITIONAL_BASES: { [chainId in ChainId]?: { [tokenAddress: string]
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {}
 
 // used for display in the default list when adding liquidity
-export const SUGGESTED_BASES: ChainTokenList = {
+export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.BITGERT]: [bitgertTokens.ice, bitgertTokens.usdti],
   [ChainId.DOGE]: [dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.ice],
@@ -66,7 +68,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
-export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
+export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.BITGERT]: [
     bitgertTokens.wbrise,
     bitgertTokens.sphynx,

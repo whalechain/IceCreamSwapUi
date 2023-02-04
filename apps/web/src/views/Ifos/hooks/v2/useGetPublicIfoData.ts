@@ -11,6 +11,7 @@ import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { multicallv2 } from 'utils/multicall'
 import { PublicIfoData } from '../../types'
 import { getStatus } from '../helpers'
+import {ChainId} from "@pancakeswap/sdk";
 
 // https://github.com/pancakeswap/pancake-contracts/blob/master/projects/ifo/contracts/IFOV2.sol#L431
 // 1,000,000,000 / 100
@@ -68,6 +69,7 @@ const useGetPublicIfoData = (ifo: Ifo): PublicIfoData => {
       const [startBlock, endBlock, poolBasic, poolUnlimited, taxRate, numberPoints, thresholdPoints] =
         // @ts-ignore fix chainId support
         await multicallv2({
+          chainId: ChainId.BITGERT,
           abi: ifoV2Abi,
           calls: [
             {

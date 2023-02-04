@@ -1,11 +1,10 @@
 import { ChainId, ERC20Token } from '@pancakeswap/sdk'
-import {bitgertTokens} from "./32520";
-import {dogechainTokens} from "./2000";
-import {dokenTokens} from "./61916";
-import {fuseTokens} from "./122";
-import {xdcTokens} from "./50";
+import { bitgertTokens } from './32520'
+import { dogechainTokens } from './2000'
+import { dokenTokens } from './61916'
+import { fuseTokens } from './122'
+import { xdcTokens } from './50'
 import {shardeumTestnetTokens} from "./8081";
-
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
@@ -14,6 +13,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.FUSE]: fuseTokens.usdt,
   [ChainId.XDC]: xdcTokens.usdt,
   [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.usdt,
+  [ChainId.BSC]: bitgertTokens.usdti,
 }
 
 export const ICE: Record<ChainId, ERC20Token> = {
@@ -23,4 +23,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.FUSE]: fuseTokens.ice,
   [ChainId.XDC]: xdcTokens.ice,
   [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.ice,
+  [ChainId.BSC]: bitgertTokens.ice,
 }

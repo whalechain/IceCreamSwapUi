@@ -8,6 +8,7 @@ import { NftToken } from 'state/nftMarket/types'
 import { useGetCollection } from 'state/nftMarket/hooks'
 import { Divider } from '../shared/styles'
 import { GreyedOutContainer, BnbAmountCell, RightAlignedInput, FeeAmountCell } from './styles'
+import {useActiveChainId} from "../../../../../../hooks/useActiveChainId";
 
 interface SetPriceStageProps {
   nftToSell: NftToken
@@ -35,12 +36,13 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
   setPrice,
   continueToNextStage,
 }) => {
+  const { chainId } = useActiveChainId()
   const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>()
   const adjustedPriceIsTheSame = variant === 'adjust' && parseFloat(currentPrice) === parseFloat(price)
   const priceIsValid = !price || Number.isNaN(parseFloat(price)) || parseFloat(price) <= 0
 
-  const { creatorFee = '', tradingFee = '' } = useGetCollection(nftToSell.collectionAddress) || {}
+  const { creatorFee = '', tradingFee = '' } = useGetCollection(nftToSell.collectionAddress, chainId) || {}
   const creatorFeeAsNumber = parseFloat(creatorFee)
   const tradingFeeAsNumber = parseFloat(tradingFee)
   const bnbPrice = useBNBBusdPrice()

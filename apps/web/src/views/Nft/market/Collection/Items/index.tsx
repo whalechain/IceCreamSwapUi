@@ -8,12 +8,14 @@ import { isAddress } from 'utils'
 import { pancakeBunniesAddress } from '../../constants'
 import PancakeBunniesCollectionNfts from './PancakeBunniesCollectionNfts'
 import CollectionWrapper from './CollectionWrapper'
+import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
 const Items = () => {
+  const { chainId } = useActiveChainId()
   const collectionAddress = useRouter().query.collectionAddress as string
   const [sortBy, setSortBy] = useState('updatedAt')
   const { t } = useTranslation()
-  const collection = useGetCollection(collectionAddress)
+  const collection = useGetCollection(collectionAddress, chainId)
   const isPBCollection = isAddress(collectionAddress) === pancakeBunniesAddress
 
   const sortByItems = [

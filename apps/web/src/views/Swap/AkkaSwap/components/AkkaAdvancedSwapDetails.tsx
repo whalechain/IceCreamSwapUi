@@ -9,6 +9,7 @@ import { TOTAL_FEE, LP_HOLDERS_FEE, TREASURY_FEE, BUYBACK_FEE } from 'config/con
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import { AkkaRouterInfoResponseType } from '../hooks/types'
 import AkkaSwapRoute from './AkkaSwapRoute'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
   const { t } = useTranslation()
@@ -25,16 +26,19 @@ function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
           {route?.priceImpact?.toFixed(3)}%
         </Text>
       </RowBetween>
-      <RowBetween>
-        <RowFixed>
+      {route?.returnAmountInUsd - route?.bestAlt > 0 &&
+        <RowBetween>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              You Save
+            </Text>
+          </RowFixed>
           <Text fontSize="14px" color="textSubtle">
-            You Save
+            ${(route?.returnAmountInUsd - route?.bestAlt).toFixed(3)}
           </Text>
-        </RowFixed>
-        <Text fontSize="14px" color="textSubtle">
-          ${(route?.returnAmountInUsd - route?.bestAlt).toFixed(3)}
-        </Text>
-      </RowBetween>
+        </RowBetween>
+      }
+
     </AutoColumn>
   )
 }
@@ -44,15 +48,21 @@ export interface AdvancedSwapDetailsProps {
 export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
+  const { chainId } = useActiveChainId()
 
-  const showRoute = Boolean(route && route?.routes?.bitgert.length > 0)
+  const showRoute = () => {
+    if (route !== undefined && route?.routes?.[chainId.toString()] !== undefined && route?.routes[chainId.toString()]?.length > 0) {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <AutoColumn gap="0px">
       {route && (
         <>
           <TradeSummary route={route} />
-          {showRoute && (
+          {showRoute() && (
             <>
               <RowBetween style={{ padding: '0 16px' }}>
                 <span style={{ display: 'flex', alignItems: 'center' }}>

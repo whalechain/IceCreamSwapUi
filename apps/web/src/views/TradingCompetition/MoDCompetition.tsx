@@ -102,6 +102,7 @@ const MoDCompetition = () => {
               params: [account],
             },
           ],
+          chainId,
           options: { requireSuccess: false },
         })
         const userObject: UserTradingInformation = {

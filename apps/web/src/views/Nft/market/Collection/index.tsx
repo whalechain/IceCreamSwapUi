@@ -6,6 +6,7 @@ import { useMemo } from 'react'
 import { useGetCollection } from 'state/nftMarket/hooks'
 import Header from './Header'
 import Items from './Items'
+import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
 const Traits = dynamic(() => import('./Traits'), {
   loading: () => <PageLoader />,
@@ -17,9 +18,10 @@ const Activity = dynamic(() => import('./Activity'), {
 const getHashFromRouter = (router: NextRouter) => router.asPath.match(/#([a-z0-9]+)/gi)
 
 const Collection = () => {
+  const { chainId } = useActiveChainId()
   const router = useRouter()
   const collectionAddress = router.query.collectionAddress as string
-  const collection = useGetCollection(collectionAddress)
+  const collection = useGetCollection(collectionAddress, chainId)
 
   const hash = useMemo(() => getHashFromRouter(router)?.[0], [router])
 

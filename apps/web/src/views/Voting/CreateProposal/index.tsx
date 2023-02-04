@@ -39,6 +39,7 @@ import Choices, { Choice, makeChoice, MINIMUM_CHOICES } from './Choices'
 import { combineDateAndTime, getFormErrors } from './helpers'
 import { FormErrors, Label, SecondaryLabel } from './styles'
 import { FormState } from './types'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 const hub = 'https://hub.snapshot.org'
 const client = new snapshot.Client712(hub)
@@ -61,6 +62,7 @@ const CreateProposal = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [fieldsState, setFieldsState] = useState<{ [key: string]: boolean }>({})
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const initialBlock = useInitialBlock()
   const { push } = useRouter()
@@ -257,14 +259,14 @@ const CreateProposal = () => {
                     <Text color="textSubtle" mr="16px">
                       {t('Creator')}
                     </Text>
-                    <LinkExternal href={getBlockExploreLink(account, 'address')}>{truncateHash(account)}</LinkExternal>
+                    <LinkExternal href={getBlockExploreLink(account, 'address', chainId)}>{truncateHash(account)}</LinkExternal>
                   </Flex>
                 )}
                 <Flex alignItems="center" mb="16px">
                   <Text color="textSubtle" mr="16px">
                     {t('Snapshot')}
                   </Text>
-                  <LinkExternal href={getBlockExploreLink(snapshot, 'block')}>{snapshot}</LinkExternal>
+                  <LinkExternal href={getBlockExploreLink(snapshot, 'block', chainId)}>{snapshot}</LinkExternal>
                 </Flex>
                 {account ? (
                   <>

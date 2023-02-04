@@ -20,6 +20,7 @@ import { Ifo } from 'config/constants/types'
 import { BIG_TEN } from '@pancakeswap/utils/bigNumber'
 import { getBlockExploreLink } from 'utils'
 import { formatBigNumber } from '@pancakeswap/utils/formatBalance'
+import { useActiveChainId } from "../../../../hooks/useActiveChainId";
 
 const SmartContractIcon: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
   return (
@@ -86,6 +87,7 @@ const InlinePrize = styled(Flex)`
 
 const IfoAchievement: React.FC<React.PropsWithChildren<Props>> = ({ ifo, publicIfoData }) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const tokenName = ifo.token.symbol?.toLowerCase()
   const projectUrl = ifo.token.projectLink
   const campaignTitle = ifo.name
@@ -135,7 +137,7 @@ const IfoAchievement: React.FC<React.PropsWithChildren<Props>> = ({ ifo, publicI
             <Link external href={ifo.articleUrl}>
               <ProposalIcon color="textSubtle" />
             </Link>
-            <Link external href={getBlockExploreLink(ifo.address, 'address')}>
+            <Link external href={getBlockExploreLink(ifo.address, 'address', chainId)}>
               <SmartContractIcon color="textSubtle" />
             </Link>
             {ifo.twitterUrl && (

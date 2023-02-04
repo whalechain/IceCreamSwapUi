@@ -9,7 +9,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi'
 
-const CHAINS = [bitgert, dogechain, dokenchain, fuse, xdc, shardeumTestnet]
+const CHAINS = [bitgert, dogechain, dokenchain, fuse, xdc, shardeumTestnet, bsc]
 
 const getNodeRealUrl = (networkName: string) => {
   let host = null

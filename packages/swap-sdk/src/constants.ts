@@ -6,7 +6,8 @@ export enum ChainId {
   DOKEN = 61916,
   FUSE = 122,
   XDC = 50,
-  SHARDEUM_TEST = 8081,
+  SHARDEUM_TEST = 8082,
+  BSC = 56,
 }
 
 export const FACTORY_ADDRESS = '0x9E6d21E759A7A288b80eef94E4737D313D31c13f'
@@ -17,6 +18,7 @@ export const FACTORY_ADDRESS_MAP: Record<number, string> = {
   [ChainId.FUSE]: FACTORY_ADDRESS,
   [ChainId.XDC]: FACTORY_ADDRESS,
   [ChainId.SHARDEUM_TEST]: FACTORY_ADDRESS,
+  [ChainId.BSC]: FACTORY_ADDRESS,
 }
 
 export const INIT_CODE_HASH = '0x58c1b429d0ffdb4407396ae8118c58fed54898473076d0394163ea2198f7c4a3'
@@ -27,6 +29,7 @@ export const INIT_CODE_HASH_MAP: Record<number, string> = {
   [ChainId.FUSE]: INIT_CODE_HASH,
   [ChainId.XDC]: INIT_CODE_HASH,
   [ChainId.SHARDEUM_TEST]: INIT_CODE_HASH,
+  [ChainId.BSC]: INIT_CODE_HASH,
 }
 
 export const WETH9 = {
@@ -67,10 +70,17 @@ export const WETH9 = {
   ),
   [ChainId.SHARDEUM_TEST]: new ERC20Token(
       ChainId.SHARDEUM_TEST,
-      '0xBb5e1777A331ED93E07cF043363e48d320eb96c4',
+      '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
       18,
       'WSHM',
       'Wrapped SHM'
+  ),
+  [ChainId.BSC]: new ERC20Token(
+      ChainId.BSC,
+      '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+      18,
+      'WBNB',
+      'Wrapped BNB'
   ),
 }
 
@@ -81,6 +91,7 @@ export const WNATIVE: Record<number, ERC20Token> = {
   [ChainId.FUSE]: WETH9[ChainId.FUSE],
   [ChainId.XDC]: WETH9[ChainId.XDC],
   [ChainId.SHARDEUM_TEST]: WETH9[ChainId.SHARDEUM_TEST],
+  [ChainId.BSC]: WETH9[ChainId.BSC],
 }
 
 export const NATIVE: Record<
@@ -97,4 +108,5 @@ export const NATIVE: Record<
   [ChainId.FUSE]: { name: 'Fuse', symbol: 'FUSE', decimals: 18 },
   [ChainId.XDC]: { name: 'XDC', symbol: 'XDC', decimals: 18 },
   [ChainId.SHARDEUM_TEST]: { name: 'SHM', symbol: 'SHM', decimals: 18 },
+  [ChainId.BSC]: { name: 'Binance Coin', symbol: 'BNB', decimals: 18 },
 }

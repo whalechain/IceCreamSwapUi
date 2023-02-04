@@ -21,6 +21,7 @@ import {
   fetchUserDrawData,
   fetchWithdrawAbleData,
 } from './fetchUserPottery'
+import {ChainId} from "@pancakeswap/sdk";
 
 const initialState: PotteryState = Object.freeze({
   lastVaultAddress: '',
@@ -62,14 +63,14 @@ export const fetchLastVaultAddressAsync = createAsyncThunk<string>('pottery/fetc
   return lastVaultAddress
 })
 
-export const fetchPublicPotteryDataAsync = createAsyncThunk<SerializedPotteryPublicData>(
+export const fetchPublicPotteryDataAsync = createAsyncThunk<SerializedPotteryPublicData, ChainId>(
   'pottery/fetchPublicPotteryData',
-  async (arg, { getState }) => {
+  async (chainId, { getState }) => {
     const state = getState()
     const potteryVaultAddress = (state as AppState).pottery.lastVaultAddress
 
     const [publicPotteryData, totalLockedValue, latestRoundId] = await Promise.all([
-      fetchPublicPotteryValue(potteryVaultAddress),
+      fetchPublicPotteryValue(potteryVaultAddress, chainId),
       fetchTotalLockedValue(potteryVaultAddress),
       fetchLatestRoundId(),
     ])
@@ -77,9 +78,9 @@ export const fetchPublicPotteryDataAsync = createAsyncThunk<SerializedPotteryPub
   },
 )
 
-export const fetchPotteryUserDataAsync = createAsyncThunk<SerializedPotteryUserData, string>(
+export const fetchPotteryUserDataAsync = createAsyncThunk<SerializedPotteryUserData, {account: string, chainId: ChainId}>(
   'pottery/fetchPotteryUserData',
-  async (account, { rejectWithValue, getState }) => {
+  async ({account, chainId}, { rejectWithValue, getState }) => {
     try {
       const state = getState()
       const potteryVaultAddress = (state as AppState).pottery.lastVaultAddress
@@ -87,7 +88,7 @@ export const fetchPotteryUserDataAsync = createAsyncThunk<SerializedPotteryUserD
         fetchPotterysAllowance(account, potteryVaultAddress),
         fetchVaultUserData(account, potteryVaultAddress),
         fetchUserDrawData(account),
-        fetchWithdrawAbleData(account),
+        fetchWithdrawAbleData(account, chainId),
       ])
 
       const userData = {

@@ -8,6 +8,7 @@ import { getCakeVaultAddress } from 'utils/addressHelpers'
 import { getIceContract } from 'utils/contractHelpers'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
 import { bitQueryServerClient, infoServerClient } from 'utils/graphql'
+import { CHAIN_IDS } from 'utils/wagmi'
 import Home from '../views/Home'
 
 const IndexPage = ({ totalTx30Days, addressCount30Days, tvl }) => {
@@ -112,13 +113,13 @@ export const getStaticProps: GetStaticProps = async () => {
   try {
     const result = await infoServerClient.request(gql`
       query tvl {
-        pancakeFactories(first: 1) {
+        uniswapFactories(first: 1) {
           totalLiquidityUSD
         }
       }
     `)
     const cake = await (await fetch('https://farms.pancake-swap.workers.dev/price/cake')).json()
-    const { totalLiquidityUSD } = result.pancakeFactories[0]
+    const { totalLiquidityUSD } = result.uniswapFactories[0]
     const cakeVaultV2 = getCakeVaultAddress()
     const cakeContract = getIceContract()
     const totalCakeInVault = await cakeContract.balanceOf(cakeVaultV2)
@@ -135,6 +136,6 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-IndexPage.chains = []
+IndexPage.chains = CHAIN_IDS
 
 export default IndexPage

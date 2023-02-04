@@ -10,7 +10,7 @@ const config = ({ t }: FAQsType) => [
     title: t('Is the Swap audited?'),
     description: [
       t(
-        'The Swap uses the Uniswap V2 smart contracts which makes it inherit all security and audits from it. This basically means you have the security of Uniswap on all our supported chains.',
+        'The Swap uses the audited Uniswap V2 smart contracts',
       ),
     ],
   },

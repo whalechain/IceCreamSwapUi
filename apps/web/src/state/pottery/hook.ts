@@ -6,8 +6,10 @@ import { fetchCakeVaultPublicData, fetchCakeVaultUserData } from 'state/pools'
 import { fetchLastVaultAddressAsync, fetchPublicPotteryDataAsync, fetchPotteryUserDataAsync } from './index'
 import { potterDataSelector } from './selectors'
 import { State } from '../types'
+import {useActiveChainId} from "../../hooks/useActiveChainId";
 
 export const usePotteryFetch = () => {
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const dispatch = useAppDispatch()
   const potteryVaultAddress = useLatestVaultAddress()
@@ -17,15 +19,15 @@ export const usePotteryFetch = () => {
 
     if (potteryVaultAddress) {
       batch(() => {
-        dispatch(fetchCakeVaultPublicData())
-        dispatch(fetchPublicPotteryDataAsync())
+        dispatch(fetchCakeVaultPublicData(chainId))
+        dispatch(fetchPublicPotteryDataAsync(chainId))
         if (account) {
-          dispatch(fetchPotteryUserDataAsync(account))
-          dispatch(fetchCakeVaultUserData({ account }))
+          dispatch(fetchPotteryUserDataAsync({ account, chainId }))
+          dispatch(fetchCakeVaultUserData({ account, chainId }))
         }
       })
     }
-  }, [potteryVaultAddress, account, dispatch])
+  }, [potteryVaultAddress, account, dispatch, chainId])
 }
 
 export const usePotteryData = () => {

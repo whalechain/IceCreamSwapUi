@@ -426,6 +426,14 @@
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xEe9801669C6138E84bD50dEB500827b776777d28/logo.png"
     },
+    {
+      "name": "EAGLE EYE TOKEN",
+      "address": "0x0B00C890c9C543d963a36Ce1520DeBA330C6aBb5",
+      "symbol": "EET",
+      "decimals": 9,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x0B00C890c9C543d963a36Ce1520DeBA330C6aBb5/logo.png"
+    },
 
     {
       "name": "Wrapped DOGE",
@@ -710,21 +718,45 @@
       "chainId": 50,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doken/assets/0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5/logo.png"
     },
+    {
+      "name": "USPLUS",
+      "address": "0xc280EbcD651d2a0C8D4bb49151062C9eEF55d370",
+      "symbol": "US+",
+      "decimals": 6,
+      "chainId": 50,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/xdc/assets/0xc280EbcD651d2a0C8D4bb49151062C9eEF55d370/logo.png"
+    },
+    {
+      "name": "BitcoinX",
+      "address": "0xb6E57fBB2D44092f75d9da2769FFc788ce931320",
+      "symbol": "BTCx",
+      "decimals": 8,
+      "chainId": 50,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/xdc/assets/0xb6e57fbb2d44092f75d9da2769ffc788ce931320/logo.png"
+    },
+    {
+      "name": "GEM",
+      "address": "0x84fb1a5795858E7296780a7f55C43afa20e9A7Ae",
+      "symbol": "GEM",
+      "decimals": 15,
+      "chainId": 50,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/xdc/assets/0x84fb1a5795858E7296780a7f55C43afa20e9A7Ae/logo.png"
+    },
 
     {
       "name": "IceCream",
-      "address": "0xBD2e577dEa54602C7c367fa144981c8ACA6FD570",
+      "address": "0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62",
       "symbol": "ICE",
       "decimals": 18,
-      "chainId": 8081,
+      "chainId": 8082,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png"
     },
     {
       "name": "Tether USD",
-      "address": "0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42",
+      "address": "0xBD2e577dEa54602C7c367fa144981c8ACA6FD570",
       "symbol": "USDT",
       "decimals": 18,
-      "chainId": 8081,
+      "chainId": 8082,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png"
     }
   ]

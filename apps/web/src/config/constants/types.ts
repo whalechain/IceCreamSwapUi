@@ -10,7 +10,7 @@ export type ChainMap<T> = {
 
 export interface RouterAddressTypes {
   Icecream: string
-  Akka: string
+  Akka?: string
 }
 
 export type ChainTokenList = ChainMap<Token[]>
@@ -24,8 +24,11 @@ export type TranslatableText =
       }
     }
 export interface Address {
+  // todo: specify ChainId: string so only ChainId's can be used
+  /*
   97?: string
   56: string
+   */
   [chainId: number]: string
 }
 

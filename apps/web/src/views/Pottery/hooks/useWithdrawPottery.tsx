@@ -7,9 +7,11 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import { usePotterytVaultContract } from 'hooks/useContract'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { fetchPotteryUserDataAsync } from 'state/pottery'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 export const useWithdrawPottery = (redeemShare: string, vaultAddress: string) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { account } = useWeb3React()
   const dispatch = useAppDispatch()
   const { toastSuccess } = useToast()
@@ -26,9 +28,9 @@ export const useWithdrawPottery = (redeemShare: string, vaultAddress: string) =>
           {t('Your earnings have also been harvested to your wallet')}
         </ToastDescriptionWithTx>,
       )
-      dispatch(fetchPotteryUserDataAsync(account))
+      dispatch(fetchPotteryUserDataAsync({account, chainId}))
     }
-  }, [account, contract, redeemShare, t, dispatch, fetchWithCatchTxError, toastSuccess])
+  }, [account, contract, redeemShare, t, dispatch, fetchWithCatchTxError, toastSuccess, chainId])
 
   return { isPending, handleWithdraw }
 }

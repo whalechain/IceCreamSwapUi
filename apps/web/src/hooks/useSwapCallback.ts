@@ -97,7 +97,7 @@ export function useSwapCallback(
                   })
                   .catch((callError) => {
                     console.error('Call threw error', call, callError)
-
+                    
                     return { call, error: transactionErrorToUserReadableMessage(callError, t) }
                   })
               })

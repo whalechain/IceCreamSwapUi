@@ -6,9 +6,11 @@ import { multicallv2 } from 'utils/multicall'
 import profileABI from 'config/abi/pancakeProfile.json'
 import { getPancakeProfileAddress } from 'utils/addressHelpers'
 import { useToast } from '@pancakeswap/uikit'
+import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 const useGetProfileCosts = () => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const [isLoading, setIsLoading] = useState(true)
   const [costs, setCosts] = useState({
     numberCakeToReactivate: Zero,
@@ -27,7 +29,7 @@ const useGetProfileCosts = () => {
         const [[numberCakeToReactivate], [numberCakeToRegister], [numberCakeToUpdate]] = await multicallv2<
           [[BigNumber], [BigNumber], [BigNumber]]
           // @ts-ignore fix chainId support
-        >({ abi: profileABI, calls })
+        >({ abi: profileABI, calls, chainId })
 
         setCosts({
           numberCakeToReactivate,

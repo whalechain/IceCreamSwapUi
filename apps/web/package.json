@@ -32,6 +32,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
+    "@chainsafe/chainbridge-contracts": "simone1999/chainbridge-solidity#f10aa953ccdfe2046c33c9ad5dc318a64cd55675",
     "@ethersproject/abi": "^5.0.0",
     "@ethersproject/address": "^5.0.0",
     "@ethersproject/bignumber": "^5.0.0",
