@@ -86,6 +86,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   buyCakeLabel,
   children,
 }) => {
+  const hasSubLinks = subLinks && subLinks.length > 0;
   const { isMobile } = useMatchBreakpoints();
   const isMounted = useIsMounted();
   const [showMenu, setShowMenu] = useState(true);
@@ -187,7 +188,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           ) : (
             <div />
           )}
-          <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
+          <BodyWrapper mt={!hasSubLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
             <Inner>{children}</Inner>
           </BodyWrapper>
         </Wrapper>
