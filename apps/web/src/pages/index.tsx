@@ -1,11 +1,8 @@
-import { formatEther } from '@ethersproject/units'
 import { FACTORY_ADDRESS } from '@pancakeswap/sdk'
 import { getUnixTime, sub } from 'date-fns'
 import { gql } from 'graphql-request'
 import { GetStaticProps } from 'next'
 import { SWRConfig } from 'swr'
-import { getCakeVaultAddress } from 'utils/addressHelpers'
-import { getIceContract } from 'utils/contractHelpers'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
 import { bitQueryServerClient, infoServerClient } from 'utils/graphql'
 import { CHAIN_IDS } from 'utils/wagmi'
@@ -107,26 +104,6 @@ export const getStaticProps: GetStaticProps = async () => {
       if (process.env.NODE_ENV === 'production') {
         console.error('Error when fetching address count', error)
       }
-    }
-  }
-
-  try {
-    const result = await infoServerClient.request(gql`
-      query tvl {
-        uniswapFactories(first: 1) {
-          totalLiquidityUSD
-        }
-      }
-    `)
-    const cake = await (await fetch('https://farms.pancake-swap.workers.dev/price/cake')).json()
-    const { totalLiquidityUSD } = result.uniswapFactories[0]
-    const cakeVaultV2 = getCakeVaultAddress()
-    const cakeContract = getIceContract()
-    const totalCakeInVault = await cakeContract.balanceOf(cakeVaultV2)
-    results.tvl = parseFloat(formatEther(totalCakeInVault)) * cake.price + parseFloat(totalLiquidityUSD)
-  } catch (error) {
-    if (process.env.NODE_ENV === 'production') {
-      console.error('Error when fetching tvl stats', error)
     }
   }
 

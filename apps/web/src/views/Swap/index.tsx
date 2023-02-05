@@ -1,5 +1,5 @@
-import { useCallback, useContext, useEffect } from 'react'
-import { ChainId, Currency, JSBI, NATIVE } from '@pancakeswap/sdk'
+import { useEffect, useContext } from 'react'
+import { JSBI, NATIVE, Currency } from '@pancakeswap/sdk'
 import { Box, Flex, BottomDrawer, useMatchBreakpoints, Swap as SwapUI } from '@pancakeswap/uikit'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import { AppBody } from 'components/App'
@@ -16,13 +16,12 @@ import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import SwapTab, { SwapType } from './components/SwapTab'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useIsAkkaContractSwapModeActive, useIsAkkaSwap, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import useSWR from 'swr'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { useAkkaRouterContract } from 'utils/exchange'
-import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback'
+import { ApprovalState } from 'hooks/useApproveCallback'
 import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -84,13 +83,13 @@ export default function Swap() {
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
     ? {
-      [Field.INPUT]: parsedAmount,
-      [Field.OUTPUT]: parsedAmount,
-    }
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
     : {
-      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-    }
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
   const akkaContract = useAkkaRouterContract()
   const { isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
@@ -101,8 +100,12 @@ export default function Swap() {
     useIsAkkaSwapModeActive()
 
   // isAkkaContractSwapMode checks if this is akka router form or not from redux
-  const [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue] =
-    useIsAkkaContractSwapModeActive()
+  const [
+    isAkkaContractSwapMode,
+    toggleSetAkkaContractMode,
+    toggleSetAkkaContractModeToFalse,
+    toggleSetAkkaContractModeToTrue,
+  ] = useIsAkkaContractSwapModeActive()
 
   const { chainId } = useActiveWeb3React()
   // Check if pancakeswap route is better than akka route or not
@@ -118,47 +121,38 @@ export default function Swap() {
   useEffect(() => {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
-        if (
-          currencyBalances[Field.INPUT] &&
-          parsedAmount &&
-          currencyBalances[Field.INPUT].greaterThan(parsedAmount)
-        ) {
+        if (currencyBalances[Field.INPUT] && parsedAmount && currencyBalances[Field.INPUT].greaterThan(parsedAmount)) {
           akkaContract.estimateGas[methodName](
             akkaRouterTrade?.args?.amountIn,
             akkaRouterTrade?.args?.amountOutMin,
             akkaRouterTrade?.args?.data,
             [],
             [],
-            account
-            , {
+            account,
+            {
               value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
-            })
+            },
+          )
             .then((data) => {
-              if (data.gt("21000")) {
+              if (data.gt('21000')) {
                 toggleSetAkkaContractModeToTrue()
-              }
-              else {
+              } else {
                 toggleSetAkkaContractModeToFalse()
               }
-
             })
             .catch(() => {
               toggleSetAkkaContractModeToFalse()
             })
-        }
-        else {
+        } else {
           toggleSetAkkaContractModeToTrue()
         }
-      }
-      else {
+      } else {
         toggleSetAkkaContractModeToTrue()
       }
-    }
-    else {
+    } else {
       toggleSetAkkaContractModeToTrue()
     }
   }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
-
 
   // Check api bridge data is empty
   useEffect(() => {
