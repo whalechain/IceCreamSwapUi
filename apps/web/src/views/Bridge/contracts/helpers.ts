@@ -27,10 +27,10 @@ export const hasTokenSupplies = async (destinationChain: BridgeChain, token: Tok
       return true
     }
     let balanceTokens
-    let erc20Decimals
+    let erc20Decimals: number | undefined
     if (!destinationNativeCoin) {
       balanceTokens = await erc20destinationToken.balanceOf(destinationErc20Handler)
-      erc20Decimals = destinationChain.decimals ?? (await erc20destinationToken.decimals())
+      erc20Decimals = await erc20destinationToken.decimals()
     } else {
       balanceTokens = await erc20destinationToken.provider.getBalance(destinationErc20Handler)
       erc20Decimals = 18
