@@ -143,24 +143,50 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [depositNonce, homeChainConfig?.domainId, destProvider, destinationChainConfig])
 
-  const tokens = useMemo(
-    () =>
-      homeChainConfig?.tokens.reduce<Tokens>((acc, current) => {
-        if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return acc
-        if (current.address === '0x0000000000000000000000000000000000000000') return acc
-        return {
-          ...acc,
-          [current.address]: new ERC20Token(
+  const [tokens, setTokens] = useState<Tokens>({})
+  useEffect(() => {
+    const tokensWithoutDecimals = homeChainConfig?.tokens.reduce<Tokens>((acc, current) => {
+      if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return acc
+      if (current.address === '0x0000000000000000000000000000000000000000') return acc
+      return {
+        ...acc,
+        [current.address]: new ERC20Token(
+          chainId,
+          current.address,
+          homeChainConfig.decimals,
+          current.symbol,
+          current.name,
+        ),
+      }
+    }, {})
+    setTokens(tokensWithoutDecimals)
+    let cancelled = false
+    const calculateDecimals = async () => {
+      if (!signer?.data) return
+      const tokensWithDecimals: Tokens = {}
+      await Promise.all(
+        homeChainConfig?.tokens.map(async (current) => {
+          if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return
+          if (current.address === '0x0000000000000000000000000000000000000000') return
+          const erc20 = Erc20DetailedFactory.connect(current.address, signer?.data)
+          const decimals = await erc20.decimals()
+          tokensWithDecimals[current.address] = new ERC20Token(
             chainId,
             current.address,
-            homeChainConfig.decimals,
+            decimals,
             current.symbol,
             current.name,
-          ),
-        }
-      }, {}),
-    [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens],
-  )
+          )
+        }),
+      )
+      if (cancelled) return
+      setTokens(tokensWithDecimals)
+    }
+    calculateDecimals()
+    return () => {
+      cancelled = true
+    }
+  }, [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens, signer?.data])
   const nativeBalance = useBalance({ chainId, addressOrName: account }).data
   const tokenBalances = {
     ...useTokenBalances(
@@ -179,8 +205,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       (token) => token.address === '0x0000000000000000000000000000000000000000',
     )
     if (!nativeToken) return false
-    if (destinationChainConfig?.tokens.find((token) => token.resourceId === nativeToken.resourceId)) return true
-    return false
+    return destinationChainConfig?.tokens.some((token) => token.resourceId === nativeToken.resourceId)
   }, [destinationChainConfig?.tokens, homeChainConfig?.tokens])
 
   return (
