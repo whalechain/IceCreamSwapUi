@@ -26,13 +26,18 @@ const evmNativeStableLpMap = {
     stable: 'USDT',
   },
   [ChainId.FUSE]: {
-    address: '',  // todo: add
+    address: '0x0000000000000000000000000000000000000000',  // todo: add Fuse stable LP
     wNative: 'WFUSE',
     stable: 'USDT',
   },
   [ChainId.XDC]: {
     address: '0xe9450d66a493C3ae6eBC3Bb0B2B01a5107ea8bDb',
     wNative: 'WXDC',
+    stable: 'USDT',
+  },
+  [ChainId.XDC]: {
+    address: '0x0000000000000000000000000000000000000000',  // todo: add CORE stable LP
+    wNative: 'WCORE',
     stable: 'USDT',
   },
 }

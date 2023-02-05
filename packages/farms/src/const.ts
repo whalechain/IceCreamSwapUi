@@ -12,7 +12,8 @@ export const masterChefAddresses = {
   2000: "0xc44a6eb41f02740A6778CCb9591448a5EBC73b74",
   61916: "0x509733EaB85DEbdAE55306Aa81e3E4326f71cE0D",
   122: "0xBbB4CCfc93657AC125F4b1f734111349d1bFF611",
-  50: "0xdD156cA7bff002f7827BDfFd38a0651CFBbe400e"
+  50: "0xdD156cA7bff002f7827BDfFd38a0651CFBbe400e",
+  // todo: add CORE master chef address
 }
 
 export const nonBSCVaultAddresses = {

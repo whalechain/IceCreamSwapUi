@@ -28,6 +28,9 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   [ChainId.BSC]: {
     Icecream: ROUTER_ADDRESS_COMMON,
   },
+  [ChainId.CORE]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
+  },
 }
 
 // used to construct intermediary pairs for trading
@@ -37,6 +40,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
+  [ChainId.CORE]: [],  // todo: add CORE base tokens
 }
 
 /**
@@ -59,6 +63,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
+  [ChainId.CORE]: [],  // todo: add ice and usdt as suggested bases on CORE
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -106,6 +111,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice, fuseTokens.doge, fuseTokens.shiba],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt, xdcTokens.usdc],
+  [ChainId.CORE]: [],  // todo: add tokens to track liquidity for
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -122,6 +128,8 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.XDC]: [
     [xdcTokens.wxdc, xdcTokens.ice],
     [xdcTokens.usdt, xdcTokens.ice],
+  ],
+  [ChainId.CORE]: [  // todo: add core.usdt and usdt-ice as pinned peer
   ],
 }
 

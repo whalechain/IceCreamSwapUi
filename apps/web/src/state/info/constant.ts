@@ -4,7 +4,7 @@ import { ChainId } from '@pancakeswap/sdk'
 import { PCS_BITGERT_START } from 'config/constants/info'
 import { GraphQLClient } from 'graphql-request'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC'
+export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE'
 
 export const multiChainQueryMainToken = {
   BITGERT: 'BNB',

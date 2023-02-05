@@ -225,4 +225,26 @@ export const xdc: Chain = {
   },
 }
 
+export const core: Chain = {
+  id: 1116,
+  name: 'Core Blockchain',
+  network: 'core',
+  rpcUrls: {
+    public: 'https://rpc.coredao.org/',
+    default: 'https://rpc.coredao.org/',
+  },
+  blockExplorers: {
+    default: { name: 'CORE Explorer', url: 'https://scan.coredao.org' },
+  },
+  nativeCurrency: {
+    name: 'CORE',
+    symbol: 'CORE',
+    decimals: 18,
+  },
+  multicall: {
+    address: '0x0000000000000000000000000000000000000000',  // todo: add CORE MulticallV3
+    blockCreated: 0,  // todo: add CORE MulticallV3 creation block
+  },
+}
+
 export { rinkeby, mainnet, goerli }

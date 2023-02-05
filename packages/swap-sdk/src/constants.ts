@@ -7,6 +7,7 @@ export enum ChainId {
   FUSE = 122,
   XDC = 50,
   BSC = 56,
+  CORE = 1116,
 }
 
 export const FACTORY_ADDRESS = '0x9E6d21E759A7A288b80eef94E4737D313D31c13f'
@@ -16,7 +17,8 @@ export const FACTORY_ADDRESS_MAP: Record<number, string> = {
   [ChainId.DOKEN]: FACTORY_ADDRESS,
   [ChainId.FUSE]: FACTORY_ADDRESS,
   [ChainId.XDC]: FACTORY_ADDRESS,
-  [ChainId.BSC]: FACTORY_ADDRESS,
+  [ChainId.BSC]: '',
+  [ChainId.CORE]: FACTORY_ADDRESS,
 }
 
 export const INIT_CODE_HASH = '0x58c1b429d0ffdb4407396ae8118c58fed54898473076d0394163ea2198f7c4a3'
@@ -26,7 +28,8 @@ export const INIT_CODE_HASH_MAP: Record<number, string> = {
   [ChainId.DOKEN]: INIT_CODE_HASH,
   [ChainId.FUSE]: INIT_CODE_HASH,
   [ChainId.XDC]: INIT_CODE_HASH,
-  [ChainId.BSC]: INIT_CODE_HASH,
+  [ChainId.BSC]: '',
+  [ChainId.CORE]: INIT_CODE_HASH,
 }
 
 export const WETH9 = {
@@ -58,8 +61,27 @@ export const WETH9 = {
     'WFUSE',
     'Wrapped Fuse'
   ),
-  [ChainId.XDC]: new ERC20Token(ChainId.XDC, '0x951857744785E80e2De051c32EE7b25f9c458C42', 18, 'WXDC', 'Wrapped XDC'),
-  [ChainId.BSC]: new ERC20Token(ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'),
+  [ChainId.XDC]: new ERC20Token(
+      ChainId.XDC,
+      '0x951857744785E80e2De051c32EE7b25f9c458C42',
+      18,
+      'WXDC',
+      'Wrapped XDC'
+  ),
+  [ChainId.BSC]: new ERC20Token(
+      ChainId.BSC,
+      '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+      18,
+      'WBNB',
+      'Wrapped BNB'
+  ),
+  [ChainId.CORE]: new ERC20Token(
+      ChainId.CORE,
+      '0x0000000000000000000000000000000000000000',  // todo: add WCORE address
+      18,
+      'WCORE',
+      'Wrapped CORE'
+  ),
 }
 
 export const WNATIVE: Record<number, ERC20Token> = {
@@ -69,6 +91,7 @@ export const WNATIVE: Record<number, ERC20Token> = {
   [ChainId.FUSE]: WETH9[ChainId.FUSE],
   [ChainId.XDC]: WETH9[ChainId.XDC],
   [ChainId.BSC]: WETH9[ChainId.BSC],
+  [ChainId.CORE]: WETH9[ChainId.CORE],
 }
 
 export const WBNB = {
@@ -96,4 +119,5 @@ export const NATIVE: Record<
   [ChainId.FUSE]: { name: 'Fuse', symbol: 'FUSE', decimals: 18 },
   [ChainId.XDC]: { name: 'XDC', symbol: 'XDC', decimals: 18 },
   [ChainId.BSC]: { name: 'Binance Coin', symbol: 'BNB', decimals: 18 },
+  [ChainId.CORE]: { name: 'CORE', symbol: 'CORE', decimals: 18 },
 }

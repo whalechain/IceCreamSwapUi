@@ -213,6 +213,8 @@ export const useGetChainName = () => {
     if (path.includes('chainId=61916')) return 'DOKEN'
     if (path.includes('chainId=122')) return 'FUSE'
     if (path.includes('chainId=50')) return 'XDC'
+    if (path.includes('chainId=56')) return 'BSC'
+    if (path.includes('chainId=1116')) return 'CORE'
     return 'BITGERT'
   }, [path])
   const [name, setName] = useState<MultiChainName | null>(getChain())
