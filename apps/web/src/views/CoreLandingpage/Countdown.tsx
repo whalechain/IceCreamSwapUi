@@ -111,9 +111,9 @@ const Hero = () => {
             <Link display="inline-flex" href="https://coredao.org/">
               Core Chain
             </Link>{' '}
-            from the start on. IceCreamSwap offers a seamless trading experience for digital assets. The core chain also
-            will support our bridge, allowing users to easily and quickly transfer between different chains -{' '}
-            <i>the fastest way to get you startet on Core</i>.
+            from the start on. IceCreamSwap offers a seamless trading experience for digital assets on Core with our
+            swap. The core chain also will support our bridge, allowing users to easily and quickly transfer between
+            different chains - <i>the fastest way to get you startet on Core</i>.
           </Heading>
           <Flex style={{ gap: '8px' }} flexDirection={['column', null, null, 'row']} alignItems="stretch">
             {!account && <ConnectWalletButton />}
