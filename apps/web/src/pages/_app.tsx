@@ -81,11 +81,6 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
           content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on Bitgert (Brise), Binance smart chain (BSC), XDC, Dogechain, Doken and Fuse blockchain."
         />
         <title>IceCreamSwap</title>
-        {(Component as NextPageWithLayout).mp && (
-          // todo: check what this is doing exactly
-          // eslint-disable-next-line @next/next/no-sync-scripts
-          <script src="https://public.bnbstatic.com/static/js/mp-webview-sdk/webview-v1.0.0.min.js" id="mp-webview" />
-        )}
       </Head>
       <Providers store={store}>
         <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
