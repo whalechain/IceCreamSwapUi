@@ -44,6 +44,7 @@ const getPathList = (t: ContextApi['t']): PathList => {
       '/profile': { basePath: true, title: t('Profile') },
       '/pancake-squad': { basePath: true, title: t('Pancake Squad') },
       '/pottery': { basePath: true, title: t('Pottery') },
+      '/core': { basePath: true, title: t('Get Ready for Core 🚀') },
     },
     defaultTitleSuffix: t('IceCreamSwap'),
   }
