@@ -7,6 +7,8 @@ import styled, { keyframes } from 'styled-components'
 import hero from '../../../../public/images/home/hero-home.png'
 import { SlideSvgDark, SlideSvgLight } from '../Home/components/SlideSvg'
 import Countdown from 'react-countdown'
+import { SUPPORT_BRIDGE } from 'config/constants/supportChains'
+import { ChainId } from '@pancakeswap/sdk'
 
 const flyingAnim = () => keyframes`
   from {
@@ -68,7 +70,6 @@ const countdownRenderer = ({ hours, minutes, seconds, completed, days }) => {
 const Hero = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const released = coreReleaseDate.getTime() < Date.now()
 
   return (
     <>
@@ -122,11 +123,13 @@ const Hero = () => {
                 {t('Trade Now')}
               </Button>
             </NextLinkFromReactRouter>
-            <NextLinkFromReactRouter to="/bridge">
-              <Button width="100%" variant={!account ? 'secondary' : 'primary'}>
-                {t('Start Bridging')}
-              </Button>
-            </NextLinkFromReactRouter>
+            {SUPPORT_BRIDGE.includes(ChainId.CORE) && (
+              <NextLinkFromReactRouter to="/bridge">
+                <Button width="100%" variant={!account ? 'secondary' : 'primary'}>
+                  {t('Start Bridging')}
+                </Button>
+              </NextLinkFromReactRouter>
+            )}
           </Flex>
         </Flex>
         <Flex
@@ -138,7 +141,10 @@ const Hero = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Countdown renderer={countdownRenderer} date={coreReleaseDate} />
+          <Flex flexDirection="column" alignItems="center">
+            <span style={{ fontSize: '2.5em' }}>Ready for takeoff 🚀</span>
+            <span style={{ fontSize: '1.5em' }}>First Dex on Core Chain!</span>
+          </Flex>
         </Flex>
       </Flex>
     </>
