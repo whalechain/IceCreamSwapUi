@@ -332,7 +332,7 @@ const HowToPlay: React.FC<React.PropsWithChildren> = () => {
                 {t(
                   'An average total of 35,000 ICE from the treasury is added to lottery rounds over the course of a week. This ICE is of course also included in rollovers! Read more in our guide to ',
                 )}
-                <InlineLink href="https://docs.pancakeswap.finance/tokenomics/cake/cake-tokenomics">
+                <InlineLink href="https://docs.icecreamswap.com/tokenomics/cake/cake-tokenomics">
                   {t('ICE Tokenomics')}
                 </InlineLink>
               </Text>
@@ -352,7 +352,7 @@ const HowToPlay: React.FC<React.PropsWithChildren> = () => {
           </Heading>
           <Text>
             {t('Check our in-depth guide on')}{' '}
-            <InlineLink href="https://docs.pancakeswap.finance/products/lottery/lottery-guide">
+            <InlineLink href="https://docs.icecreamswap.com/products/lottery/lottery-guide">
               {t('how to play the PancakeSwap lottery!')}
             </InlineLink>
           </Text>

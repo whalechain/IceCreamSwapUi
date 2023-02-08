@@ -69,7 +69,7 @@ const config: (
         /*
         {
           label: t('Perpetual'),
-          href: `https://perp.pancakeswap.finance/${perpLangMap(languageCode)}/futures/BTCUSDT?theme=${perpTheme(
+          href: `https://perp.icecreamswap.com/${perpLangMap(languageCode)}/futures/BTCUSDT?theme=${perpTheme(
             isDark,
           )}`,
           supportChainIds: SUPPORT_ONLY_BSC,
@@ -77,7 +77,7 @@ const config: (
         },
         {
           label: t('Bridge'),
-          href: 'https://bridge.pancakeswap.finance/',
+          href: 'https://bridge.icecreamswap.com/',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
            */
@@ -239,7 +239,7 @@ const config: (
         },
         {
           label: t('Docs'),
-          href: 'https://docs.pancakeswap.finance',
+          href: 'https://docs.icecreamswap.com',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
       ].map((item) => addMenuItemSupported(item, chainId)),

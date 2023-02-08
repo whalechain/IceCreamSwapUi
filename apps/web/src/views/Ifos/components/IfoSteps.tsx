@@ -79,7 +79,7 @@ const Step1 = ({ hasProfile }: { hasProfile: boolean }) => {
           },
         )}
       </Text>
-      <InlineLink external href="https://docs.pancakeswap.finance/products/ifo-initial-farm-offering/icake">
+      <InlineLink external href="https://docs.icecreamswap.com/products/ifo-initial-farm-offering/icake">
         {t('Learn more about iICE')}
       </InlineLink>
     </Box>,
