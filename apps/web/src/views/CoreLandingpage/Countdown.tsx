@@ -68,7 +68,6 @@ const countdownRenderer = ({ hours, minutes, seconds, completed, days }) => {
 const Hero = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const released = coreReleaseDate.getTime() < Date.now()
 
   return (
     <>
@@ -138,7 +137,10 @@ const Hero = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Countdown renderer={countdownRenderer} date={coreReleaseDate} />
+          <Flex flexDirection="column" alignItems="center">
+            <span style={{ fontSize: '2.5em' }}>Ready for takeoff 🚀</span>
+            <span style={{ fontSize: '1.5em' }}>First Dex on Core Chain!</span>
+          </Flex>
         </Flex>
       </Flex>
     </>
