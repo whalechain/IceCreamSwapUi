@@ -741,6 +741,23 @@
       "decimals": 15,
       "chainId": 50,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/xdc/assets/0x84fb1a5795858E7296780a7f55C43afa20e9A7Ae/logo.png"
+    },
+
+    {
+      "name": "Tether USD",
+      "address": "0x81bCEa03678D1CEF4830942227720D542Aa15817",
+      "symbol": "USDT",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doken/assets/0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5/logo.png"
+    },
+    {
+      "name": "IceCream",
+      "address": "0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44",
+      "symbol": "ICE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doken/assets/0x54051D9DbE99687867090d95fe15C3D3E35512Ba/logo.png"
     }
   ]
 }

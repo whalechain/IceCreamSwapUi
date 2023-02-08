@@ -77,7 +77,7 @@ export const WETH9 = {
   ),
   [ChainId.CORE]: new ERC20Token(
       ChainId.CORE,
-      '0x0000000000000000000000000000000000000000',  // todo: add WCORE address
+      '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
       18,
       'WCORE',
       'Wrapped CORE'

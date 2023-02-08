@@ -242,8 +242,8 @@ export const core: Chain = {
     decimals: 18,
   },
   multicall: {
-    address: '0x0000000000000000000000000000000000000000',  // todo: add CORE MulticallV3
-    blockCreated: 0,  // todo: add CORE MulticallV3 creation block
+    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+    blockCreated: 852772,
   },
 }
 
