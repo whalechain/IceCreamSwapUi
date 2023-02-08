@@ -830,6 +830,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png"
+    },
+    {
+      "name": "Coreinu",
+      "address": "0x6E35fF7aC8eEB825DdB155515eF612ADcD66BCbC",
+      "symbol": "Coreinu",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6E35fF7aC8eEB825DdB155515eF612ADcD66BCbC/logo.png"
     }
   ]
 }
