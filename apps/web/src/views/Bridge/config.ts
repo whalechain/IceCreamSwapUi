@@ -97,6 +97,13 @@ const chains = [
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
         resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
       },
+      {
+        address: '0x71Ef0A490E53Cc177F640169b0347Be4d0f23cc9',
+        name: 'HotDoge',
+        symbol: 'HOTDOGE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x05888e66703c1e79aD5803433CF25a05f18e76C6/logo.png',
+        resourceId: '0x000000000000000000000005888e66703c1e79aD5803433CF25a05f18e76C603',
+      },
     ],
   },
   {
@@ -296,6 +303,13 @@ const chains = [
         imageUri:
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x876607adc4CC715CDE0183fdC49eA2539053f358/logo.png',
         resourceId: '0x000000000000000000000028B9aed756De31B6b362aA0f23211D13093EBb7901',
+      },
+      {
+        address: '0x05888e66703c1e79aD5803433CF25a05f18e76C6',
+        name: 'HotDoge',
+        symbol: 'HOTDOGE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x05888e66703c1e79aD5803433CF25a05f18e76C6/logo.png',
+        resourceId: '0x000000000000000000000005888e66703c1e79aD5803433CF25a05f18e76C603',
       },
     ],
   },
