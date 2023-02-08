@@ -8,11 +8,7 @@ type FAQsType = {
 const config = ({ t }: FAQsType) => [
   {
     title: t('Is the Swap audited?'),
-    description: [
-      t(
-        'The Swap uses the audited Uniswap V2 smart contracts',
-      ),
-    ],
+    description: [t('The Swap uses the audited Uniswap V2 smart contracts')],
   },
   {
     title: t('How is the Bridge secured?'),
@@ -34,8 +30,8 @@ const config = ({ t }: FAQsType) => [
     title: t('Which Chains are supported?'),
     description: [
       <Text as="p" color="textSubtle" fontSize="16px">
-        Currently we are supporting Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Dogechain, Doken, Fuse and soon Shardeum blockchains.
-        For an always up to date list please take a look at our{' '}
+        Currently we are supporting Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Dogechain, Doken, Fuse and
+        soon Shardeum blockchains. For an always up to date list please take a look at our{' '}
         <Link
           display="inline-flex"
           color="text"
@@ -58,7 +54,8 @@ const config = ({ t }: FAQsType) => [
           display="inline-flex"
           color="text"
           title="IceCreamSwap Wiki"
-          href="https://wiki.icecreamswap.com/introduction/ice"
+          external
+          href="https://wiki.icecreamswap.com/intro/ice"
         >
           Wiki
         </Link>

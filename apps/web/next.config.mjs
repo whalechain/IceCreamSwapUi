@@ -163,6 +163,4 @@ const config = {
   }
 }
 
-export default withBundleAnalyzer(
-  withAxiom(config),
-)
+export default withBundleAnalyzer(config)

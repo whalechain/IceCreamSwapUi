@@ -1,5 +1,5 @@
 import { AtomBox } from '@pancakeswap/ui'
-import { Button, Checkbox, Flex, Heading, Input, Select, Text } from '@pancakeswap/uikit'
+import { Checkbox, Flex, Heading, Input, Select, Text } from '@pancakeswap/uikit'
 import { AppBody } from 'components/App'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { ChainLogo } from 'components/Logo/ChainLogo'
@@ -21,7 +21,6 @@ import { formatAmount } from './formatter'
 import chainName from 'config/constants/chainName'
 import { SUPPORT_BRIDGE } from 'config/constants/supportChains'
 
-// Bump
 const Bridge = () => {
   const { account, chainId: accountChainId } = useWeb3React()
   const { switchNetworkAsync } = useSwitchNetwork()

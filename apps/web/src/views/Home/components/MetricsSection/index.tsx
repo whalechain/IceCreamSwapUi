@@ -48,6 +48,8 @@ const Stats = () => {
         {t('all in one place available on multiple chains.')}
         <br />
         {t('Main DEX of Bitgert chain.')}
+        <br />
+        {t('First DEX of Core DAO')}
       </Text>
       {/*
       <Flex flexWrap="wrap">

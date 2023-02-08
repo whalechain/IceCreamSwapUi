@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, NextLinkFromReactRouter } from '@pancakeswap/uikit'
+import { Button, Flex, Heading, Link, NextLinkFromReactRouter } from '@pancakeswap/uikit'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from '@pancakeswap/localization'
@@ -18,7 +18,6 @@ const flyingAnim = () => keyframes`
     transform: translate(0, 0px);
   }
 `
-
 
 const BgWrapper = styled.div`
   z-index: -1;
@@ -86,9 +85,11 @@ const Hero = () => {
             {t('IceCream brings people together')}
           </Heading>
           <Heading scale="md" mb="24px">
-            {t(
-              'Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Shardeum, Dogechain, Doken and Fuse blockchain.',
-            )}
+            Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC),{' '}
+            <Link href="/core" display="inline-flex">
+              CORE
+            </Link>
+            , Shardeum, Dogechain, Doken and Fuse blockchain.,
           </Heading>
           <Flex>
             {!account && <ConnectWalletButton mr="8px" />}
@@ -105,7 +106,7 @@ const Hero = () => {
           position="relative"
         >
           <BunnyWrapper>
-            <Image src={hero} priority placeholder="blur" alt={t('IceCream Store')} />
+            <Image src={hero} priority objectFit="fill" placeholder="blur" alt={t('IceCream Store')} />
           </BunnyWrapper>
         </Flex>
       </Flex>
