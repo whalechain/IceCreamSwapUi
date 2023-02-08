@@ -4,7 +4,7 @@ import { ChainId } from '@pancakeswap/sdk'
 import { masterChefAddresses } from './const'
 import { farmV2FetchFarms, FetchFarmsParams, fetchMasterChefV2Data } from './fetchFarms'
 
-export const SUPPORT_FARMS = [ChainId.BITGERT, ChainId.XDC]
+export const SUPPORT_FARMS = [ChainId.BITGERT, ChainId.XDC, ChainId.CORE]
 export const bCakeSupportedChainId = []
 export { masterChefAddresses } from './const'
 

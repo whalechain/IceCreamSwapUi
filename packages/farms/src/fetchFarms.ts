@@ -35,8 +35,8 @@ const evmNativeStableLpMap = {
     wNative: 'WXDC',
     stable: 'USDT',
   },
-  [ChainId.XDC]: {
-    address: '0x0000000000000000000000000000000000000000',  // todo: add CORE stable LP
+  [ChainId.CORE]: {
+    address: '0x5ebAE3A840fF34B107D637c8Ed07C3D1D2017178',
     wNative: 'WCORE',
     stable: 'USDT',
   },
