@@ -25,6 +25,7 @@ import { ApprovalState } from 'hooks/useApproveCallback'
 import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useSupportedChains } from 'hooks/useSupportedChains'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -162,6 +163,9 @@ export default function Swap() {
   }, [akkaRouterTrade])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
+  const supportedChains = useSupportedChains()
+  const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
+  // const isChainSupported = true
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
@@ -197,24 +201,26 @@ export default function Swap() {
             setIsOpen={setIsChartDisplayed}
           />
         )}
-        <Flex flexDirection="column">
-          <StyledSwapContainer $isChartExpanded={isChartExpanded}>
-            <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
-              <AppBody>
-                <SwapTab>
-                  {(swapTypeState) =>
-                    swapTypeState === SwapType.STABLE_SWAP ? <StableSwapFormContainer /> : <SwapForm />
-                  }
-                </SwapTab>
-              </AppBody>
-            </StyledInputCurrencyWrapper>
-          </StyledSwapContainer>
-          {isChartExpanded && (
-            <Box display={['none', null, null, 'block']} width="100%" height="100%">
-              <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
-            </Box>
-          )}
-        </Flex>
+        {isChainSupported && (
+          <Flex flexDirection="column">
+            <StyledSwapContainer $isChartExpanded={isChartExpanded}>
+              <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
+                <AppBody>
+                  <SwapTab>
+                    {(swapTypeState) =>
+                      swapTypeState === SwapType.STABLE_SWAP ? <StableSwapFormContainer /> : <SwapForm />
+                    }
+                  </SwapTab>
+                </AppBody>
+              </StyledInputCurrencyWrapper>
+            </StyledSwapContainer>
+            {isChartExpanded && (
+              <Box display={['none', null, null, 'block']} width="100%" height="100%">
+                <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
+              </Box>
+            )}
+          </Flex>
+        )}
       </Flex>
     </Page>
   )

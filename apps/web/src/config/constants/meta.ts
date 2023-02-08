@@ -5,7 +5,7 @@ import { PageMeta } from './types'
 export const DEFAULT_META: PageMeta = {
   title: 'IceCreamSwap Multi-chain DeFi ecosystem, Swap, Bridge, LaunchPad',
   description:
-    'Multi-chain DeFi ecosystem with Swap, Bridge and Launchpad. Trade, Bridge, Earn and Launch on Bitgert (Brise), Binance smart chain (BSC), XDC, Dogechain, Doken, Fuse and soon CORE blockchain',
+    'Multi-chain DeFi ecosystem with Swap, Bridge and Launchpad. Trade, Bridge, Earn and Launch on Bitgert (Brise), Binance smart chain (BSC), XDC, Dogechain, Doken, Fuse and CORE blockchain',
   image: 'https://icecreamswap.com/images/hero.png',
 }
 
@@ -29,6 +29,7 @@ const getPathList = (t: ContextApi['t']): PathList => {
       '/info': { title: t('Overview'), description: 'View statistics for IceCreamSwap exchanges.' },
       '/info/pools': { title: t('Pools'), description: 'View statistics for IceCreamSwap exchanges.' },
       '/info/tokens': { title: t('Tokens'), description: 'View statistics for IceCreamSwap exchanges.' },
+      '/core': { basePath: true, title: t('Get Ready for Core 🚀') },
     },
     defaultTitleSuffix: t('IceCreamSwap'),
   }

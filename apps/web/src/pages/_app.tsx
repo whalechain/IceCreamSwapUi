@@ -78,7 +78,7 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on Bitgert (Brise), Binance smart chain (BSC), XDC, Dogechain, Doken and Fuse blockchain."
+          content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Shardeum, Dogechain, Doken and Fuse blockchain."
         />
         <title>IceCreamSwap</title>
       </Head>

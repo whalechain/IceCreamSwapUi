@@ -34,7 +34,7 @@ const config = ({ t }: FAQsType) => [
     title: t('Which Chains are supported?'),
     description: [
       <Text as="p" color="textSubtle" fontSize="16px">
-        Currently we are supporting Binance Smart chain (BSC), Bitgert (Brise), Dogechain, Doken chain and Fuse chain.
+        Currently we are supporting Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Dogechain, Doken, Fuse and soon Shardeum blockchains.
         For an always up to date list please take a look at our{' '}
         <Link
           display="inline-flex"

@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import DepositButton from './components/DepositButton'
 import { formatAmount } from './formatter'
 import chainName from 'config/constants/chainName'
+import { SUPPORT_BRIDGE } from 'config/constants/supportChains'
 
 // Bump
 const Bridge = () => {
@@ -38,7 +39,6 @@ const Bridge = () => {
     setRecipient,
     setToOtherAddress,
     toOtherAddress,
-    transactionStatus,
     showNative,
   } = useBridge()
 
@@ -48,15 +48,17 @@ const Bridge = () => {
 
   const homeChainOptions = useMemo(
     () =>
-      chains.map((chain) => ({
-        label: (
-          <>
-            <ChainLogo chainId={chain.id} />
-            {chainName[chain.id]}
-          </>
-        ),
-        value: chain.id,
-      })),
+      chains
+        .filter((chain) => SUPPORT_BRIDGE.includes(chain.id))
+        .map((chain) => ({
+          label: (
+            <>
+              <ChainLogo chainId={chain.id} />
+              {chainName[chain.id]}
+            </>
+          ),
+          value: chain.id,
+        })),
     [],
   )
 
@@ -64,6 +66,7 @@ const Bridge = () => {
     () =>
       chains
         .filter((chain) => chain.id !== chainId)
+        .filter((chain) => SUPPORT_BRIDGE.includes(chain.id))
         .map((chain) => ({
           label: (
             <>

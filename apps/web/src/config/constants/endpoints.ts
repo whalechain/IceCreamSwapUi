@@ -40,6 +40,6 @@ export const INFO_CLIENT_WITH_CHAIN = {
   [ChainId.BITGERT]: INFO_CLIENT_BITGERT,
 }
 
-export const BLOCKS_CLIENT_WITH_CHAIN = {
+export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
   [ChainId.BITGERT]: BLOCKS_CLIENT_BITGERT,
 }

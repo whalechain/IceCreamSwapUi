@@ -87,7 +87,7 @@ const Hero = () => {
           </Heading>
           <Heading scale="md" mb="24px">
             {t(
-              'Trade, Earn, Bridge and Launch on Bitgert (Brise), Binance smart chain (BSC), XDC, Dogechain, Doken, Fuse and soon CORE blockchain.',
+              'Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Shardeum, Dogechain, Doken and Fuse blockchain.',
             )}
           </Heading>
           <Flex>

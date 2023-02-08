@@ -3,8 +3,7 @@ import { Flex, Modal, useModalContext, Text, ArrowDownIcon, Button, Spinner, Col
 import { CurrencyLogo } from 'components/Logo'
 import { ChainLogo } from 'components/Logo/ChainLogo'
 import Divider from 'views/Farms/components/Divider'
-import { useBridge } from '../BridgeProvider'
-import type { TransactionStatus } from '../BridgeProvider'
+import { isTransactionError, TransactionError, TransactionStatus, useBridge } from '../BridgeProvider'
 import { formatAmount } from '../formatter'
 import { useDeposit } from '../hooks/useDeposit'
 import ProgressSteps from 'views/Swap/components/ProgressSteps'
@@ -19,7 +18,7 @@ interface DepositModalProps {
   approve: ReturnType<typeof useDeposit>['approve']
 }
 
-const titleByStatus: Record<TransactionStatus, string> = {
+const titleByStatus: Record<Exclude<TransactionStatus, TransactionError>, string> = {
   'Approve 0': 'Waiting for approval',
   Approve: 'Waiting for approval',
   Deposit: 'Waiting for deposit',
@@ -44,7 +43,11 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
   const { onDismiss } = useModalContext()
   const [waitingForApproval, setWaitingForApproval] = useState(false)
 
-  const title = transactionStatus ? titleByStatus[transactionStatus] : 'Confirm Bridge Transfer'
+  const title = transactionStatus
+    ? isTransactionError(transactionStatus)
+      ? 'Transaction Failed'
+      : titleByStatus[transactionStatus]
+    : 'Confirm Bridge Transfer'
 
   const selectedToken =
     currency instanceof ERC20Token
@@ -165,7 +168,15 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
     'Initializing Transfer': waitingForTransfer,
   }
 
-  const content = transactionStatus ? mapping[transactionStatus] : preview
+  const content = transactionStatus ? (
+    isTransactionError(transactionStatus) ? (
+      <TransactionError error={transactionStatus} />
+    ) : (
+      mapping[transactionStatus]
+    )
+  ) : (
+    preview
+  )
 
   return (
     <Modal title={title} onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
@@ -173,6 +184,22 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
         {content}
       </Flex>
     </Modal>
+  )
+}
+
+const TransactionError: React.FC<{ error: TransactionError }> = ({ error }) => {
+  let { message } = error
+  if (error.status === 4001) message = 'Action has been rejected by the user.'
+  return (
+    <>
+      <Flex justifyContent="center" flexDirection="column">
+        {error.status > 5000 && <Text fontSize="1.5em">RPC Error</Text>}
+        <Text>{message}</Text>
+        {error.status > 5000 && (
+          <Text fontSize="1.5em">Please try again later. When this issue persists please contact the support.</Text>
+        )}
+      </Flex>
+    </>
   )
 }
 
