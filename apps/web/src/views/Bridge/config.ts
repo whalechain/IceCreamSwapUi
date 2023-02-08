@@ -518,9 +518,7 @@ const chains = [
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
     ],
-  }
-  /*
-  ,
+  },
   {
     domainId: 7,
     networkId: 1116,
@@ -612,7 +610,6 @@ const chains = [
       },
     ],
   },
-  */
 ]
 
 export type BridgeChain = typeof chains[number]
