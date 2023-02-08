@@ -1,9 +1,13 @@
-import { useTranslation } from '@pancakeswap/localization'
+import { TranslateFunction, useTranslation } from '@pancakeswap/localization'
 import { PageMeta } from 'components/Layout/Page'
 import PageSection from 'components/PageSection'
 import styled from 'styled-components'
+import useTheme from 'hooks/useTheme'
 import Hero from 'views/Home/components/Hero'
+import SalesSection from 'views/Home/components/SalesSection'
+import { InnerWedgeWrapper, OuterWedgeWrapper, WedgeTopLeft } from 'views/Home/components/WedgeSvgs'
 import Countdown from './Countdown'
+import rocket from './rocket.png'
 
 const StyledHeroSection = styled(PageSection)`
   padding-top: 16px;
@@ -13,7 +17,33 @@ const StyledHeroSection = styled(PageSection)`
   }
 `
 
+const HomeSectionContainerStyles = { margin: '0', width: '100%', maxWidth: '968px' }
+
+export const swapSectionData = (t: TranslateFunction): any => ({
+  headingText: t('HUGE CORE APY!'),
+  bodyText: (
+    <>
+      IceCreamSwap will provide <i>huge farm rewards</i> for CORE/USDT liqudity provider
+    </>
+  ),
+  reverse: false,
+  primaryButton: {
+    to: '/add?chainId=1116',
+    text: t('Earn Now'),
+    external: false,
+  },
+  secondaryButton: {
+    to: 'https://wiki.icecreamswap.com/dex/liquidity',
+    text: t('Learn'),
+    external: true,
+  },
+  images: {
+    attributes: [{ src: rocket, alt: '' }],
+  },
+})
+
 const CoreLandingpage = () => {
+  const { theme } = useTheme()
   const { t } = useTranslation()
   return (
     <>
@@ -54,6 +84,22 @@ const CoreLandingpage = () => {
       >
         <Countdown />
       </StyledHeroSection>
+      <PageSection
+        innerProps={{ style: HomeSectionContainerStyles }}
+        background={theme.colors.background}
+        containerProps={{
+          id: 'home-2',
+        }}
+        index={2}
+        hasCurvedDivider={false}
+      >
+        <OuterWedgeWrapper>
+          <InnerWedgeWrapper top>
+            <WedgeTopLeft />
+          </InnerWedgeWrapper>
+        </OuterWedgeWrapper>
+        <SalesSection {...swapSectionData(t)} />
+      </PageSection>
     </>
   )
 }
