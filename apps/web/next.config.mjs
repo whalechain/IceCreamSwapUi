@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { withAxiom } from 'next-axiom'
 import BundleAnalyzer from '@next/bundle-analyzer'
 
 const withBundleAnalyzer = BundleAnalyzer({
@@ -51,12 +50,7 @@ const config = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'static-nft.pancakeswap.com',
-      },
-    ],
+    deviceSizes: [50, 150, 200, 300, 400, 640, 750, 828, 1080, 1200],
   },
   async rewrites() {
     return [
@@ -160,7 +154,7 @@ const config = {
         permanent: true,
       },
     ]
-  }
+  },
 }
 
 export default withBundleAnalyzer(config)

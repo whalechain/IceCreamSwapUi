@@ -38,6 +38,7 @@ const InnerWrapper = styled.div`
 const BunnyWrapper = styled.div`
   width: 100%;
   animation: ${flyingAnim} 3.5s ease-in-out infinite;
+  position: relative;
   will-change: transform;
   > span {
     overflow: visible !important; // make sure the next-image pre-build blur image not be cropped
@@ -99,14 +100,21 @@ const Hero = () => {
           </Flex>
         </Flex>
         <Flex
-          height={['292px', null, null, '100%']}
-          width={['292px', null, null, '100%']}
+          minHeight={['292px', null, null, '100%']}
+          width={['auto', null, null, '100%']}
           flex={[null, null, null, '1']}
-          mb={['24px', null, null, '0']}
+          mb={['12px', null, null, '0']}
           position="relative"
         >
           <BunnyWrapper>
-            <Image src={hero} priority objectFit="fill" placeholder="blur" alt={t('IceCream Store')} />
+            <Image
+              sizes="(max-width: 768px) 95vw, 580px"
+              src={hero}
+              priority
+              objectFit="fill"
+              placeholder="blur"
+              alt={t('IceCream Store')}
+            />
           </BunnyWrapper>
         </Flex>
       </Flex>
