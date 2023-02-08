@@ -744,6 +744,14 @@
     },
 
     {
+      "name": "Wrapped CORE",
+      "address": "0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f",
+      "symbol": "WCORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f/logo.png"
+    },
+    {
       "name": "Tether USD",
       "address": "0x81bCEa03678D1CEF4830942227720D542Aa15817",
       "symbol": "USDT",
