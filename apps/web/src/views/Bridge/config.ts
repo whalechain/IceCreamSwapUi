@@ -524,20 +524,20 @@ const chains = [
     networkId: 1116,
     name: 'CORE',
     decimals: 18,
-    bridgeAddress: '0x0000000000000000000000000000000000000000',  // todo: add CORE bridge address
+    bridgeAddress: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba',
     rpcUrl: 'https://rpc.coredao.org/',
     type: 'Ethereum',
     nativeTokenSymbol: 'CORE',
     tokens: [
       {
-        address: '0x0000000000000000000000000000000000000000',  // todo: add ICE CORE address
+        address: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
         name: 'IceCream',
         symbol: 'ICE',
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
         resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
       },
       {
-        address: '0x0000000000000000000000000000000000000000',  // todo: add BNB CORE address
+        address: '0x12AA82525DEfF84777fa78578A68ceB854A85f43',
         name: 'BNB',
         symbol: 'BNB',
         imageUri:
@@ -545,7 +545,7 @@ const chains = [
         resourceId: '0x0000000000000000000000bb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c01',
       },
       {
-        address: '0x0000000000000000000000000000000000000000',  // todo: add BUSD CORE address
+        address: '0x8687cD1d02A28098571067ddB18F33fEF667C929',
         name: 'BUSD',
         symbol: 'BUSD',
         imageUri:
@@ -553,7 +553,7 @@ const chains = [
         resourceId: '0x0000000000000000000000e9e7CEA3DedcA5984780Bafc599bD69ADd087D5601',
       },
       {
-        address: '0x0000000000000000000000000000000000000000', // todo: add DAI CORE address
+        address: '0x1f82d787a1186c67360E62869C46eADbc192846a',
         name: 'Dai',
         symbol: 'DAI',
         imageUri:
@@ -561,7 +561,7 @@ const chains = [
         resourceId: '0x00000000000000000000001AF3F329e8BE154074D8769D1FFa4eE058B1DBc301',
       },
       {
-        address: '0x0000000000000000000000000000000000000000',  // // todo: add DOGE CORE address
+        address: '0x7de0Bc2cf736f0a307299A0acFf1e89843C109a2',
         name: 'Dogecoin',
         symbol: 'DOGE',
         imageUri:
@@ -569,7 +569,7 @@ const chains = [
         resourceId: '0x0000000000000000000000bA2aE424d960c26247Dd6c32edC70B295c744C4301',
       },
       {
-        address: '0x0000000000000000000000000000000000000000',  // todo: add ETH CORE address
+        address: '0xeF6b7BC74C9354BCf2e3F2A068e4b0B5CDf08F29',
         name: 'Ether',
         symbol: 'ETH',
         imageUri:
@@ -577,7 +577,7 @@ const chains = [
         resourceId: '0x00000000000000000000002170Ed0880ac9A755fd29B2688956BD959F933F801',
       },
       {
-        address: '0x0000000000000000000000000000000000000000', // todo: add SHIB CORE address
+        address: '0xD45eC0D923E7CD61666A46bfc0A8BE9C234Ae6d7',
         name: 'Shiba Inu',
         symbol: 'SHIB',
         imageUri:
@@ -585,7 +585,7 @@ const chains = [
         resourceId: '0x00000000000000000000002859e4544C4bB03966803b044A93563Bd2D0DD4D01',
       },
       {
-        address: '0x0000000000000000000000000000000000000000',  // todo: add USDC CORE address
+        address: '0xD2683b22287E63D22928CBe4514003a92507f474',
         name: 'USD Coin',
         symbol: 'USDC',
         imageUri:
@@ -593,12 +593,20 @@ const chains = [
         resourceId: '0x00000000000000000000008AC76a51cc950d9822D68b83fE1Ad97B32Cd580d01',
       },
       {
-        address: '0x0000000000000000000000000000000000000000',  // todo: add USDT CORE address
+        address: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
         name: 'Tether USD',
         symbol: 'USDT',
         imageUri:
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+      {
+        address: '0xDC2393dc10734BF153153038943a5deB42b209cd',
+        name: 'Young Parrot',
+        symbol: 'YPC',
+        imageUri:
+            'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
+        resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
       },
     ],
   },
