@@ -7,6 +7,8 @@ import styled, { keyframes } from 'styled-components'
 import hero from '../../../../public/images/home/hero-home.png'
 import { SlideSvgDark, SlideSvgLight } from '../Home/components/SlideSvg'
 import Countdown from 'react-countdown'
+import { SUPPORT_BRIDGE } from 'config/constants/supportChains'
+import { ChainId } from '@pancakeswap/sdk'
 
 const flyingAnim = () => keyframes`
   from {
@@ -121,11 +123,13 @@ const Hero = () => {
                 {t('Trade Now')}
               </Button>
             </NextLinkFromReactRouter>
-            <NextLinkFromReactRouter to="/bridge">
-              <Button width="100%" variant={!account ? 'secondary' : 'primary'}>
-                {t('Start Bridging')}
-              </Button>
-            </NextLinkFromReactRouter>
+            {SUPPORT_BRIDGE.includes(ChainId.CORE) && (
+              <NextLinkFromReactRouter to="/bridge">
+                <Button width="100%" variant={!account ? 'secondary' : 'primary'}>
+                  {t('Start Bridging')}
+                </Button>
+              </NextLinkFromReactRouter>
+            )}
           </Flex>
         </Flex>
         <Flex
