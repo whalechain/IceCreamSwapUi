@@ -752,7 +752,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f/logo.png"
     },
     {
-      "name": "Tether USD",
+      "name": "Tether USD (ICE Bridge)",
       "address": "0x81bCEa03678D1CEF4830942227720D542Aa15817",
       "symbol": "USDT",
       "decimals": 18,
@@ -760,7 +760,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doken/assets/0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5/logo.png"
     },
     {
-      "name": "IceCream",
+      "name": "IceCream (ICE Bridge)",
       "address": "0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44",
       "symbol": "ICE",
       "decimals": 18,
@@ -768,7 +768,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doken/assets/0x54051D9DbE99687867090d95fe15C3D3E35512Ba/logo.png"
     },
     {
-      "name": "BNB",
+      "name": "BNB (ICE Bridge)",
       "address": "0x12AA82525DEfF84777fa78578A68ceB854A85f43",
       "symbol": "BNB",
       "decimals": 18,
@@ -776,7 +776,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x74446a7418BFbFCDe3F1f6bCaFFA097d050a6dD8/logo.png"
     },
     {
-      "name": "BUSD",
+      "name": "BUSD (ICE Bridge)",
       "address": "0x8687cD1d02A28098571067ddB18F33fEF667C929",
       "symbol": "BUSD",
       "decimals": 18,
@@ -784,7 +784,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xd0CE781960c6356A7175988751bfC8d7cd28EA60/logo.png"
     },
     {
-      "name": "Dai",
+      "name": "Dai (ICE Bridge)",
       "address": "0x1f82d787a1186c67360E62869C46eADbc192846a",
       "symbol": "DAI",
       "decimals": 18,
@@ -792,7 +792,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x71Ef0A490E53Cc177F640169b0347Be4d0f23cc9/logo.png"
     },
     {
-      "name": "Dogecoin",
+      "name": "Dogecoin (ICE Bridge)",
       "address": "0x7de0Bc2cf736f0a307299A0acFf1e89843C109a2",
       "symbol": "DOGE",
       "decimals": 18,
@@ -800,7 +800,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x46a8E16dB8Bb241618873bCA21Ef02F120EA4125/logo.png"
     },
     {
-      "name": "Ether",
+      "name": "Ether (ICE Bridge)",
       "address": "0xeF6b7BC74C9354BCf2e3F2A068e4b0B5CDf08F29",
       "symbol": "ETH",
       "decimals": 18,
@@ -808,7 +808,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xeA61Dc96F105469522d39cBF7bD59b42393678F7/logo.png"
     },
     {
-      "name": "Shiba Inu",
+      "name": "Shiba Inu (ICE Bridge)",
       "address": "0xD45eC0D923E7CD61666A46bfc0A8BE9C234Ae6d7",
       "symbol": "SHIB",
       "decimals": 18,
@@ -816,7 +816,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xADF3051f6fbC1f42ee20B2eDb47EA7f6CcaBe978/logo.png"
     },
     {
-      "name": "USD Coin",
+      "name": "USD Coin (ICE Bridge)",
       "address": "0xD2683b22287E63D22928CBe4514003a92507f474",
       "symbol": "USDC",
       "decimals": 18,
@@ -824,7 +824,7 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c/logo.png"
     },
     {
-      "name": "Young Parrot",
+      "name": "Young Parrot (ICE Bridge)",
       "address": "0xDC2393dc10734BF153153038943a5deB42b209cd",
       "symbol": "YPC",
       "decimals": 18,
