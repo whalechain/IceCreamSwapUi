@@ -13,6 +13,7 @@ import { useHasPendingApproval, useTransactionAdder } from '../state/transaction
 import { calculateGasMargin } from '../utils'
 import { computeSlippageAdjustedAmounts } from '../utils/exchange'
 import useGelatoLimitOrdersLib from './limitOrders/useGelatoLimitOrdersLib'
+import { useActiveChainId } from './useActiveChainId'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 import { useTokenContract } from './useContract'
 import useTokenAllowance from './useTokenAllowance'
@@ -23,7 +24,6 @@ export enum ApprovalState {
   PENDING,
   APPROVED,
 }
-
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export function useApproveCallback(
   amountToApprove?: CurrencyAmount<Currency>,
@@ -54,7 +54,7 @@ export function useApproveCallback(
 
   const tokenContract = useTokenContract(token?.address)
   const addTransaction = useTransactionAdder()
-
+  const { chainId } = useActiveChainId()
   const approve = useCallback(async (): Promise<void> => {
     if (approvalState !== ApprovalState.NOT_APPROVED) {
       toastError(t('Error'), t('Approve was called unnecessarily'))
@@ -92,11 +92,11 @@ export function useApproveCallback(
       useExact = true
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString())
     })
-
+    
     return callWithGasPrice(
       tokenContract,
       'approve',
-      [spender, useExact ? amountToApprove.quotient.toString() : MaxUint256],
+      [spender, useExact ? amountToApprove.quotient.toString() : spender === ROUTER_ADDRESS[chainId].Akka ? amountToApprove.quotient.toString() : MaxUint256],
       {
         gasLimit: calculateGasMargin(estimatedGas),
       },
