@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document'
 import Script from 'next/script'
-import { kanit } from 'style/font'
 import { ServerStyleSheet } from 'styled-components'
 
 class MyDocument extends Document {
@@ -43,7 +42,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/logo.png" />
           <link rel="manifest" href="/manifest.json" />
         </Head>
-        <body className={kanit.variable}>
+        <body>
           <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-ZER0X0YN79" />
           <Script id="google-analytics" strategy="afterInteractive">
             {`

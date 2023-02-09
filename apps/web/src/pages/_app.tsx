@@ -26,6 +26,7 @@ import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
 import { SupportedChainsProvider } from 'hooks/useSupportedChains'
 import { CHAIN_IDS } from 'utils/wagmi'
+import { poppins } from 'style/font'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -82,20 +83,22 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         />
         <title>IceCreamSwap</title>
       </Head>
-      <Providers store={store}>
-        <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
-          <Blocklist>
-            {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
-            <ResetCSS />
-            <GlobalStyle />
-            <GlobalCheckClaimStatus excludeLocations={[]} />
-            <PersistGate loading={null} persistor={persistor}>
-              <Updaters />
-              <App {...props} />
-            </PersistGate>
-          </Blocklist>
-        </SupportedChainsProvider>
-      </Providers>
+      <main className={poppins.variable}>
+        <Providers store={store}>
+          <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
+            <Blocklist>
+              {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
+              <ResetCSS />
+              <GlobalStyle />
+              <GlobalCheckClaimStatus excludeLocations={[]} />
+              <PersistGate loading={null} persistor={persistor}>
+                <Updaters />
+                <App {...props} />
+              </PersistGate>
+            </Blocklist>
+          </SupportedChainsProvider>
+        </Providers>
+      </main>
       {/* <Script */}
       {/*   strategy="afterInteractive" */}
       {/*   id="google-tag" */}

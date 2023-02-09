@@ -119,7 +119,7 @@ const DropdownMenu: React.FC<React.PropsWithChildren<DropdownMenuProps>> = ({
                       </DropdownMenuItem>
                     )}
                     {type === DropdownMenuItemType.INTERNAL_LINK && (
-                      <NextLink href={href} legacyBehavior passHref>
+                      <NextLink href={href} legacyBehavior passHref prefetch={false}>
                         <DropdownMenuItem
                           $isActive={isActive}
                           disabled={disabled || isDisabled}
@@ -135,7 +135,7 @@ const DropdownMenu: React.FC<React.PropsWithChildren<DropdownMenuProps>> = ({
                       </NextLink>
                     )}
                     {type === DropdownMenuItemType.EXTERNAL_LINK && (
-                      <NextLink href={href} legacyBehavior passHref target="_blank">
+                      <NextLink href={href} legacyBehavior passHref target="_blank" prefetch={false}>
                         <DropdownMenuItem
                           $isActive={isActive}
                           disabled={disabled || isDisabled}

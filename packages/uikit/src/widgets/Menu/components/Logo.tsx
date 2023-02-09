@@ -19,14 +19,14 @@ const StyledLink = styled("a")`
   .mobile-icon {
     width: 32px;
     ${({ theme }) => theme.mediaQueries.lg} {
-      display: none;
+      display: none !important;
     }
   }
   .desktop-icon {
     width: 160px;
     display: none;
     ${({ theme }) => theme.mediaQueries.lg} {
-      display: block;
+      display: flex;
     }
   }
   .eye {
@@ -58,7 +58,7 @@ const Logo: React.FC<React.PropsWithChildren<Props>> = ({ href }) => {
           {innerLogo}
         </StyledLink>
       ) : (
-        <Link legacyBehavior href={href} passHref>
+        <Link legacyBehavior href={href} passHref prefetch={false}>
           <StyledLink aria-label="IceCream home page">{innerLogo}</StyledLink>
         </Link>
       )}

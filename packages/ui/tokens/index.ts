@@ -1,4 +1,3 @@
-import { kanit } from 'style/font'
 import { darkColors, lightColors } from './colors'
 
 export const shadows = {

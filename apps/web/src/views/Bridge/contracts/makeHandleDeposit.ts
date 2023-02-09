@@ -1,4 +1,4 @@
-import { Bridge } from '@chainsafe/chainbridge-contracts'
+import type { Bridge } from '@chainsafe/chainbridge-contracts'
 import { providers, BigNumber, utils, constants as ethersConstants } from 'ethers'
 import type { TransactionStatus } from '../BridgeProvider'
 import { BridgeChain } from '../config'

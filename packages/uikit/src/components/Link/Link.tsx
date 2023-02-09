@@ -18,7 +18,7 @@ const Link: React.FC<React.PropsWithChildren<LinkProps>> = ({ external, ...props
   const internalProps = external ? EXTERNAL_LINK_PROPS : {};
   if (!href) return <StyledLink as="a" bold {...(rest as LinkProps)} />;
   return (
-    <NextLink href={href} legacyBehavior passHref {...internalProps}>
+    <NextLink prefetch={false} href={href} legacyBehavior passHref {...internalProps}>
       <StyledLink as="a" bold {...(rest as LinkProps)} />
     </NextLink>
   );

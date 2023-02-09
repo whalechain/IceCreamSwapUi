@@ -41,7 +41,7 @@ const MenuItem: React.FC<React.PropsWithChildren<MenuItemProps>> = ({
 
   return (
     <StyledMenuItemContainer $isActive={isActive} $variant={variant} ref={menuItemRef}>
-      <Link href={href!} legacyBehavior passHref>
+      <Link href={href!} legacyBehavior passHref prefetch={false}>
         <StyledMenuItem
           {...itemLinkProps}
           $isActive={isActive}
