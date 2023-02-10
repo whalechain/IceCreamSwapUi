@@ -115,14 +115,6 @@ export default function SwapForm() {
     inputError: swapInputError,
   } = useDerivedSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, recipient)
 
-  // Take swap information from AKKA router
-  const {
-    trade: akkaRouterTrade,
-    currencyBalances: akkaCurrencyBalances,
-    parsedAmount: akkaParsedAmount,
-    inputError: akkaSwapInputError,
-  } = useAkkaSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, allowedSlippage)
-
   const {
     wrapType,
     execute: onWrap,
@@ -141,6 +133,14 @@ export default function SwapForm() {
       [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
       [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
     }
+
+  // Take swap information from AKKA router
+  const {
+    trade: akkaRouterTrade,
+    currencyBalances: akkaCurrencyBalances,
+    parsedAmount: akkaParsedAmount,
+    inputError: akkaSwapInputError,
+  } = useAkkaSwapInfo(independentField, parsedAmounts[Field.INPUT]?.toExact(), inputCurrency, outputCurrency, allowedSlippage)
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
 
@@ -183,6 +183,8 @@ export default function SwapForm() {
   useEffect(() => {
     if (akkaApproval === ApprovalState.PENDING) {
       setAkkaApprovalSubmitted(true)
+    } else {
+      setAkkaApprovalSubmitted(false)
     }
   }, [akkaApproval, akkaApprovalSubmitted])
 

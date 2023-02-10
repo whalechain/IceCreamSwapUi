@@ -96,13 +96,13 @@ export default function Swap() {
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
   const akkaContract = useAkkaRouterContract()
   const { isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
@@ -121,6 +121,17 @@ export default function Swap() {
   ] = useIsAkkaContractSwapModeActive()
 
   const { chainId } = useActiveWeb3React()
+
+  // Check Independent Field for AKKA
+  useEffect(() => {
+    if (independentField === Field.OUTPUT) {
+      toggleSetAkkaActiveToFalse();
+    }
+    else {
+      toggleSetAkkaActiveToTrue();
+    }
+  }, [independentField])
+  
   // Check if pancakeswap route is better than akka route or not
   useEffect(() => {
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
