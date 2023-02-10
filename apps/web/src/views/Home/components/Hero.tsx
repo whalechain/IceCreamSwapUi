@@ -82,10 +82,10 @@ const Hero = () => {
         id="homepage-hero"
       >
         <Flex flex="1" flexDirection="column">
-          <Heading scale="xxl" color="secondary" mb="24px">
+          <Heading as="h1" scale="xxl" color="secondary" mb="24px">
             {t('IceCream brings people together')}
           </Heading>
-          <Heading scale="md" mb="24px">
+          <Heading as="p" scale="md" mb="24px">
             Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC),{' '}
             <Link href="/core" display="inline-flex">
               CORE

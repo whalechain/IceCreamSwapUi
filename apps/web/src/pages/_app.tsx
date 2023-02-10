@@ -14,7 +14,7 @@ import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
@@ -58,6 +58,11 @@ function MPGlobalHooks() {
 function MyApp(props: AppProps<{ initialReduxState: any }>) {
   const { pageProps, Component } = props
   const store = useStore(pageProps.initialReduxState)
+  useEffect(() => {
+    // add font to body
+    if (document.body.classList.contains(poppins.variable)) return
+    document.body.classList.add(poppins.variable)
+  }, [])
 
   return (
     <>
@@ -83,7 +88,7 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         />
         <title>IceCreamSwap</title>
       </Head>
-      <main className={poppins.variable}>
+      <main>
         <Providers store={store}>
           <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
             <Blocklist>

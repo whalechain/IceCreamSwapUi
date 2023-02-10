@@ -1,6 +1,16 @@
 import { useEffect, useContext } from 'react'
 import { JSBI, NATIVE, Currency } from '@pancakeswap/sdk'
-import { Box, Flex, BottomDrawer, useMatchBreakpoints, Swap as SwapUI } from '@pancakeswap/uikit'
+import {
+  Box,
+  Flex,
+  BottomDrawer,
+  useMatchBreakpoints,
+  Text,
+  Swap as SwapUI,
+  Link,
+  Heading,
+  Message,
+} from '@pancakeswap/uikit'
 import { EXCHANGE_DOCS_URLS } from 'config/constants'
 import { AppBody } from 'components/App'
 
@@ -25,7 +35,9 @@ import { ApprovalState } from 'hooks/useApproveCallback'
 import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSupportedChains } from 'hooks/useSupportedChains'
+import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedChains'
+import { useBalance } from 'wagmi'
+import chainName from 'config/constants/chainName'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -164,11 +176,24 @@ export default function Swap() {
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
   const supportedChains = useSupportedChains()
+  const supportedChainNames = useSupportedChainList()
+  const balance = useBalance({ addressOrName: account })
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
-  // const isChainSupported = true
+  const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
+      {isConnectedAndHasNoBalance && (
+        <Message variant="info" mb="16px">
+          <span>
+            It looks like you don&apos;t have any {chainName[walletChainId]} tokens. To get started you can use our{' '}
+            <Link href="/bridge" display="inline-flex">
+              Bridge
+            </Link>{' '}
+            to transfer Tokens from a different Chain.
+          </span>
+        </Message>
+      )}
       <Flex marginBottom="4em" width={['328px', , '100%']} height="100%" justifyContent="center" position="relative">
         {!isMobile && isChartSupported && (
           <PriceChartContainer
@@ -219,6 +244,25 @@ export default function Swap() {
                 <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
               </Box>
             )}
+            <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="12px">
+              <Heading>About our Swap</Heading>
+              Our swap is the <i>number one</i> DEX that supports{' '}
+              <Link href="https://akka.finance" display="inline-flex">
+                CoreDao
+              </Link>
+              . The swap is highly secured by running on audited smart contracts based on UniSwap V2. You are able to
+              trade your tokens with the best price and the lowest slippage. We are able to provide low price slippage
+              even with high token amounts transferred. This is possible due to our integration of the{' '}
+              <Link href="https://akka.finance" external display="inline-flex" target="_blank">
+                Akka Router
+              </Link>
+              . Our DEX is supporting a wide range of Chains counting {supportedChains.length} chains. Which are{' '}
+              {supportedChainNames}. If you want to learn more about our swap, please visit our{' '}
+              <Link href="https://wiki.icecreamswap.com/dex/swap" display="inline-flex" external target="_blank">
+                Wiki
+              </Link>
+              .
+            </Text>
           </Flex>
         )}
       </Flex>

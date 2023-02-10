@@ -32,7 +32,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html translate="no">
+      <Html lang="en">
         <Head>
           {process.env.NEXT_PUBLIC_NODE_PRODUCTION && (
             <link rel="preconnect" href={process.env.NEXT_PUBLIC_NODE_PRODUCTION} />

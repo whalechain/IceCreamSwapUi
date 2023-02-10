@@ -30,6 +30,12 @@ const getPathList = (t: ContextApi['t']): PathList => {
       '/info/pools': { title: t('Pools'), description: 'View statistics for IceCreamSwap exchanges.' },
       '/info/tokens': { title: t('Tokens'), description: 'View statistics for IceCreamSwap exchanges.' },
       '/core': { basePath: true, title: t('Get Ready for Core 🚀') },
+      '/bridge': {
+        basePath: true,
+        title: t('Bridge'),
+        description:
+          'Transfer tokens between multiple Chains including Core, Bitgert, Binance, XDC, Fuse and may more on IceCreamSwap DEX.',
+      },
     },
     defaultTitleSuffix: t('IceCreamSwap'),
   }
