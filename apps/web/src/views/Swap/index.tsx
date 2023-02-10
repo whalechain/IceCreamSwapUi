@@ -96,13 +96,13 @@ export default function Swap() {
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
     ? {
-      [Field.INPUT]: parsedAmount,
-      [Field.OUTPUT]: parsedAmount,
-    }
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
     : {
-      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-    }
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
   const akkaContract = useAkkaRouterContract()
   const { isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
@@ -125,13 +125,12 @@ export default function Swap() {
   // Check Independent Field for AKKA
   useEffect(() => {
     if (independentField === Field.OUTPUT) {
-      toggleSetAkkaActiveToFalse();
-    }
-    else {
-      toggleSetAkkaActiveToTrue();
+      toggleSetAkkaActiveToFalse()
+    } else {
+      toggleSetAkkaActiveToTrue()
     }
   }, [independentField])
-  
+
   // Check if pancakeswap route is better than akka route or not
   useEffect(() => {
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
@@ -258,7 +257,7 @@ export default function Swap() {
             <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="12px">
               <Heading>About our Swap</Heading>
               Our swap is the <i>number one</i> DEX that supports{' '}
-              <Link href="https://akka.finance" display="inline-flex">
+              <Link href="/core" display="inline-flex">
                 CoreDao
               </Link>
               . The swap is highly secured by running on audited smart contracts based on UniSwap V2. You are able to
