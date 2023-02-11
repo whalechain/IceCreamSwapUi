@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { JSBI, NATIVE, Currency } from '@pancakeswap/sdk'
 import {
   Box,
@@ -38,6 +38,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedChains'
 import { useBalance } from 'wagmi'
 import chainName from 'config/constants/chainName'
+import localStorage from 'local-storage'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -196,11 +197,11 @@ export default function Swap() {
       {isConnectedAndHasNoBalance && (
         <Message variant="info" mb="16px">
           <span>
-            It looks like you don&apos;t have any {chainName[walletChainId]} tokens. To get started you can use our{' '}
+            It looks like you don&apos;t have any {chainName[walletChainId]} tokens. Simply{'  '}
             <Link href="/bridge" display="inline-flex">
-              Bridge
+              bridge
             </Link>{' '}
-            to transfer Tokens from a different Chain and recieve a free airdrop.
+            any token to {chainName[walletChainId]} and recieve a free gasdrop.
           </span>
         </Message>
       )}
