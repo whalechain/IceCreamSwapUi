@@ -200,7 +200,7 @@ export default function Swap() {
             <Link href="/bridge" display="inline-flex">
               Bridge
             </Link>{' '}
-            to transfer Tokens from a different Chain.
+            to transfer Tokens from a different Chain and recieve a free airdrop.
           </span>
         </Message>
       )}
@@ -254,8 +254,8 @@ export default function Swap() {
                 <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
               </Box>
             )}
-            <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="12px">
-              <Heading>About our Swap</Heading>
+            <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="24px">
+              <Heading marginBottom="16px">About our Swap</Heading>
               Our swap is the <i>number one</i> DEX that supports{' '}
               <Link href="/core" display="inline-flex">
                 CoreDao

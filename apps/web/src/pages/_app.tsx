@@ -1,5 +1,5 @@
 import '@pancakeswap/ui/css/reset.css'
-import { ResetCSS, ToastListener } from '@pancakeswap/uikit'
+import { Flex, ResetCSS, Spinner, ToastListener } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from 'components/GlobalCheckClaimStatus'
 import { NetworkModal } from 'components/NetworkModal'
@@ -24,9 +24,10 @@ import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
-import { SupportedChainsProvider } from 'hooks/useSupportedChains'
+import { SupportedChainsProvider, useSupportedChains } from 'hooks/useSupportedChains'
 import { CHAIN_IDS } from 'utils/wagmi'
 import { poppins } from 'style/font'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -141,6 +142,9 @@ type AppPropsWithLayout = AppProps & {
 const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryErrorBoundary : Fragment
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const { chainId } = useActiveWeb3React()
+  const supportedChains = useSupportedChains()
+  const wrongChain = typeof chainId !== 'undefined' && !supportedChains.includes(chainId)
   if (Component.pure) {
     return <Component {...pageProps} />
   }
@@ -153,7 +157,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     <ProductionErrorBoundary>
       <ShowMenu>
         <Layout>
-          <Component {...pageProps} />
+          {wrongChain ? (
+            <Flex justifyContent="center" alignItems="center" height="400px">
+              <Spinner />
+            </Flex>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </Layout>
       </ShowMenu>
       <EasterEgg iterations={2} />
