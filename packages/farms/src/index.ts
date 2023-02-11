@@ -9,15 +9,13 @@ export const bCakeSupportedChainId = []
 export { masterChefAddresses } from './const'
 
 export function createFarmFetcher(multicallv2: MultiCallV2) {
-  const fetchFarms = async (
-    params: Pick<FetchFarmsParams, 'chainId' | 'farms'>,
-  ) => {
+  const fetchFarms = async (params: Pick<FetchFarmsParams, 'chainId' | 'farms'>) => {
     const { farms, chainId } = params
     const masterChefAddress = masterChefAddresses[chainId]
     const { poolLength, totalRegularAllocPoint, totalSpecialAllocPoint, icePerBlock } = await fetchMasterChefV2Data({
       multicallv2,
       masterChefAddress,
-      chainId
+      chainId,
     })
     const regularCakePerBlock = formatEther(icePerBlock)
     const farmsWithPrice = await farmV2FetchFarms({
@@ -45,3 +43,5 @@ export function createFarmFetcher(multicallv2: MultiCallV2) {
 export * from './apr'
 export * from './farmsPriceHelpers'
 export * from './types'
+export { getFarmsPriceHelperLpFiles } from '../constants/priceHelperLps/getFarmsPriceHelperLpFiles'
+export { getFarmConfig, getStableConfig } from '../constants'

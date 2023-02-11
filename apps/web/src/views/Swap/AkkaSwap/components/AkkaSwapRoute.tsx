@@ -9,7 +9,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoResponseType }) {
   const { isDark, theme } = useTheme()
   // Create better route object to filter routes to show in ui
-  const { chainId } = useActiveChainId();
+  const { chainId } = useActiveChainId()
   const akkaRoute = route?.routes[chainId.toString()]
   akkaRoute?.forEach((item) => {
     item.routes[0].operationsSeperated[0].operations.forEach((i) => {
@@ -67,10 +67,10 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
             {JSON.parse(item[0]).routes[0].operationsSeperated[0].operations.map((item2, index2, path) => {
               const isLastItem: boolean = index2 === path.length - 1
               return (
-                <>
+                <Fragment key={item2.askToken[3]}>
                   <Text fontSize="12px"> {item2.askToken[3]} </Text>
                   {!isLastItem && <ChevronRightIcon width="16px" />}
-                </>
+                </Fragment>
               )
             })}
           </Flex>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Signer } from '@ethersproject/abstract-signer'
 import type { Provider } from '@ethersproject/providers'
 import { provider } from 'utils/wagmi'
@@ -188,7 +189,7 @@ export const getIfoV3Contract = (address: string, signer?: Signer | Provider) =>
 }
 export const getSouschefContract = (id: number, chainId: ChainId, signer?: Signer | Provider) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
-  if (!(chainId in config.contractAddress)){
+  if (!(chainId in config.contractAddress)) {
     return null
   }
   const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
@@ -196,8 +197,10 @@ export const getSouschefContract = (id: number, chainId: ChainId, signer?: Signe
 }
 
 export const getSouschefV2Contract = (id: number, chainId: ChainId, signer?: Signer | Provider) => {
-  const config = poolsConfig.filter((poolConfig) => chainId in poolConfig.contractAddress).find((pool) => pool.sousId === id)
-  if (!(chainId in config.contractAddress)){
+  const config = poolsConfig
+    .filter((poolConfig) => chainId in poolConfig.contractAddress)
+    .find((pool) => pool.sousId === id)
+  if (!(chainId in config.contractAddress)) {
     return null
   }
   return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress, chainId), signer }) as SousChefV2
@@ -417,7 +420,7 @@ return getContract({ abi: potteryDrawAbi, address: getPotteryDrawAddress(), sign
 }
 
 export const getZapContract = (chainId: ChainId, signer?: Signer | Provider) => {
-return getContract({ abi: zapAbi, address: getZapAddress(chainId), signer }) as Zap
+  return getContract({ abi: zapAbi, address: getZapAddress(chainId), signer }) as Zap
 }
 
 export const getIfoCreditAddressContract = (signer?: Signer | Provider) => {
@@ -484,9 +487,9 @@ signer,
 }
 
 export const getCrossFarmingProxyContract = (
-proxyContractAddress: string,
-signer?: Signer | Provider,
-chainId?: number,
+  proxyContractAddress: string,
+  signer?: Signer | Provider,
+  chainId?: number,
 ) => {
   return null
   // return getContract({ abi: crossFarmingProxyAbi, address: proxyContractAddress, chainId, signer }) as CrossFarmingProxy

@@ -1,5 +1,5 @@
 import '@pancakeswap/ui/css/reset.css'
-import { ResetCSS, ToastListener } from '@pancakeswap/uikit'
+import { Flex, ResetCSS, Spinner, ToastListener } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from 'components/GlobalCheckClaimStatus'
 import { NetworkModal } from 'components/NetworkModal'
@@ -14,7 +14,7 @@ import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
@@ -24,8 +24,10 @@ import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
-import { SupportedChainsProvider } from 'hooks/useSupportedChains'
+import { SupportedChainsProvider, useSupportedChains } from 'hooks/useSupportedChains'
 import { CHAIN_IDS } from 'utils/wagmi'
+import { poppins } from 'style/font'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -57,6 +59,11 @@ function MPGlobalHooks() {
 function MyApp(props: AppProps<{ initialReduxState: any }>) {
   const { pageProps, Component } = props
   const store = useStore(pageProps.initialReduxState)
+  useEffect(() => {
+    // add font to body
+    if (document.body.classList.contains(poppins.variable)) return
+    document.body.classList.add(poppins.variable)
+  }, [])
 
   return (
     <>
@@ -81,26 +88,23 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
           content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Shardeum, Dogechain, Doken and Fuse blockchain."
         />
         <title>IceCreamSwap</title>
-        {(Component as NextPageWithLayout).mp && (
-          // todo: check what this is doing exactly
-          // eslint-disable-next-line @next/next/no-sync-scripts
-          <script src="https://public.bnbstatic.com/static/js/mp-webview-sdk/webview-v1.0.0.min.js" id="mp-webview" />
-        )}
       </Head>
-      <Providers store={store}>
-        <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
-          <Blocklist>
-            {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
-            <ResetCSS />
-            <GlobalStyle />
-            <GlobalCheckClaimStatus excludeLocations={[]} />
-            <PersistGate loading={null} persistor={persistor}>
-              <Updaters />
-              <App {...props} />
-            </PersistGate>
-          </Blocklist>
-        </SupportedChainsProvider>
-      </Providers>
+      <main>
+        <Providers store={store}>
+          <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
+            <Blocklist>
+              {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
+              <ResetCSS />
+              <GlobalStyle />
+              <GlobalCheckClaimStatus excludeLocations={[]} />
+              <PersistGate loading={null} persistor={persistor}>
+                <Updaters />
+                <App {...props} />
+              </PersistGate>
+            </Blocklist>
+          </SupportedChainsProvider>
+        </Providers>
+      </main>
       {/* <Script */}
       {/*   strategy="afterInteractive" */}
       {/*   id="google-tag" */}
@@ -138,6 +142,9 @@ type AppPropsWithLayout = AppProps & {
 const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryErrorBoundary : Fragment
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const { chainId } = useActiveWeb3React()
+  const supportedChains = useSupportedChains()
+  const wrongChain = typeof chainId !== 'undefined' && !supportedChains.includes(chainId)
   if (Component.pure) {
     return <Component {...pageProps} />
   }
@@ -150,7 +157,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     <ProductionErrorBoundary>
       <ShowMenu>
         <Layout>
-          <Component {...pageProps} />
+          {wrongChain ? (
+            <Flex justifyContent="center" alignItems="center" height="400px">
+              <Spinner />
+            </Flex>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </Layout>
       </ShowMenu>
       <EasterEgg iterations={2} />
