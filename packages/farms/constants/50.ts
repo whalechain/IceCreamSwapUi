@@ -13,8 +13,8 @@ const farms: SerializedFarmConfig[] = [
         pid: 1,
         lpSymbol: 'USDT-XDC LP',
         lpAddress: '0xe9450d66a493C3ae6eBC3Bb0B2B01a5107ea8bDb',
-        token: xdcTokens.wxdc,
-        quoteToken: xdcTokens.usdt,
+        token: xdcTokens.usdt,
+        quoteToken: xdcTokens.wxdc,
     },
     {
         pid: 0,
