@@ -254,25 +254,25 @@ export default function Swap() {
                 <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
               </Box>
             )}
-            <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="24px">
-              <Heading marginBottom="16px">About our Swap</Heading>
-              Our swap is the <i>number one</i> DEX that supports{' '}
-              <Link href="/core" display="inline-flex">
-                CoreDao
-              </Link>
-              . The swap is highly secured by running on audited smart contracts based on UniSwap V2. You are able to
-              trade your tokens with the best price and the lowest slippage. We are able to provide low price slippage
-              even with high token amounts transferred. This is possible due to our integration of the{' '}
-              <Link href="https://akka.finance" external display="inline-flex" target="_blank">
-                Akka Router
-              </Link>
-              . Our DEX is supporting a wide range of Chains counting {supportedChains.length} chains. Which are{' '}
-              {supportedChainNames}. If you want to learn more about our swap, please visit our{' '}
-              <Link href="https://wiki.icecreamswap.com/dex/swap" display="inline-flex" external target="_blank">
-                Wiki
-              </Link>
-              .
-            </Text>
+            {/* <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="24px"> */}
+            {/*   <Heading marginBottom="16px">About our Swap</Heading> */}
+            {/*   Our swap is the <i>number one</i> DEX that supports{' '} */}
+            {/*   <Link href="/core" display="inline-flex"> */}
+            {/*     CoreDao */}
+            {/*   </Link> */}
+            {/*   . The swap is highly secured by running on audited smart contracts based on UniSwap V2. You are able to */}
+            {/*   trade your tokens with the best price and the lowest slippage. We are able to provide low price slippage */}
+            {/*   even with high token amounts transferred. This is possible due to our integration of the{' '} */}
+            {/*   <Link href="https://akka.finance" external display="inline-flex" target="_blank"> */}
+            {/*     Akka Router */}
+            {/*   </Link> */}
+            {/*   . Our DEX is supporting a wide range of Chains counting {supportedChains.length} chains. Which are{' '} */}
+            {/*   {supportedChainNames}. If you want to learn more about our swap, please visit our{' '} */}
+            {/*   <Link href="https://wiki.icecreamswap.com/dex/swap" display="inline-flex" external target="_blank"> */}
+            {/*     Wiki */}
+            {/*   </Link> */}
+            {/*   . */}
+            {/* </Text> */}
           </Flex>
         )}
       </Flex>

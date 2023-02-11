@@ -182,17 +182,17 @@ const Bridge = () => {
               </AppBody>
             </StyledInputCurrencyWrapper>
           </StyledBridgeContainer>
-          <Text lineHeight="125%" padding="24px" marginTop="36px" maxWidth="560px">
-            <Heading marginBottom="16px">About our Bridge</Heading>
-            The Bridge allows you to transfer tokens between chains. We charge a small fee to cover the cost of the gas,
-            the tax is 1% of the transfer amount. Transactions are processed by our bridge smart contract - this way
-            transactions can never get lost. We are currently supporting {supportedNames}. For more information, please
-            visit our{' '}
-            <Link href="https://wiki.icecreamswap.com/dex/bridge" display="inline-flex" external target="_blank">
-              Wiki
-            </Link>
-            .
-          </Text>
+          {/* <Text lineHeight="125%" padding="24px" marginTop="36px" maxWidth="560px"> */}
+          {/*   <Heading marginBottom="16px">About our Bridge</Heading> */}
+          {/*   The Bridge allows you to transfer tokens between chains. We charge a small fee to cover the cost of the gas, */}
+          {/*   the tax is 1% of the transfer amount. Transactions are processed by our bridge smart contract - this way */}
+          {/*   transactions can never get lost. We are currently supporting {supportedNames}. For more information, please */}
+          {/*   visit our{' '} */}
+          {/*   <Link href="https://wiki.icecreamswap.com/dex/bridge" display="inline-flex" external target="_blank"> */}
+          {/*     Wiki */}
+          {/*   </Link> */}
+          {/*   . */}
+          {/* </Text> */}
         </Flex>
       </Flex>
     </Page>
