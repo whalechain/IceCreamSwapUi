@@ -53,7 +53,7 @@ class MyDocument extends Document {
           gtag('config', 'G-ZER0X0YN79', {
             'storage': 'none'
           });
-          ga('set', 'allowAdFeatures', false);
+          gtag('set', 'allowAdFeatures', false);
           `}
           </Script>
 
