@@ -878,6 +878,22 @@
       "decimals": 9,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x95fa9f187fdBeB310f38A9cf99536648EC4231D9/logo.png"
+    },
+    {
+      "name": "CoreTiger",
+      "address": "0x4B61816857431C7d6ff0Dc023B7638d55e408587",
+      "symbol": "TCORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x4B61816857431C7d6ff0Dc023B7638d55e408587/logo.png"
+    },
+    {
+      "name": "DogeZilla",
+      "address": "0xed291D99922C13CD0225C18628A7Fde15a8eb017",
+      "symbol": "DZilla",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xed291D99922C13CD0225C18628A7Fde15a8eb017/logo.png"
     }
   ]
 }
