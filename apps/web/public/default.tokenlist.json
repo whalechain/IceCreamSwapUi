@@ -894,6 +894,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xed291D99922C13CD0225C18628A7Fde15a8eb017/logo.png"
+    },
+    {
+      "name": "ShibZilla",
+      "address": "0x3Af9b566876b0343BBdBC16D6038204578FF786C",
+      "symbol": "SZilla",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x3Af9b566876b0343BBdBC16D6038204578FF786C/logo.png"
     }
   ]
 }
