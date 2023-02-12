@@ -50,7 +50,10 @@ class MyDocument extends Document {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-ZER0X0YN79');
+          gtag('config', 'G-ZER0X0YN79', {
+            'storage': 'none'
+          });
+          gtag('set', 'allowAdFeatures', false);
           `}
           </Script>
 
