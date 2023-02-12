@@ -854,6 +854,30 @@
       "decimals": 9,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x751669F3dCE1ED1c449dE44889365E40F13ce57f/logo.png"
+    },
+    {
+      "name": "ShibKing",
+      "address": "0xfaAb2496997b7D0C0BCbe8Fd4fC5d3a310f8691f",
+      "symbol": "ShibKing",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xfaAb2496997b7D0C0BCbe8Fd4fC5d3a310f8691f/logo.png"
+    },
+    {
+      "name": "AIINUcorecoin",
+      "address": "0x7469BaE0b0bC80A208EB0946121b5AFf686A6AC2",
+      "symbol": "AIINU",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7469BaE0b0bC80A208EB0946121b5AFf686A6AC2/logo.png"
+    },
+    {
+      "name": "CoreKing",
+      "address": "0x95fa9f187fdBeB310f38A9cf99536648EC4231D9",
+      "symbol": "CoreKing",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x95fa9f187fdBeB310f38A9cf99536648EC4231D9/logo.png"
     }
   ]
 }
