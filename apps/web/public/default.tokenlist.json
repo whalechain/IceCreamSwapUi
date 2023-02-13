@@ -902,6 +902,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x3Af9b566876b0343BBdBC16D6038204578FF786C/logo.png"
+    },
+    {
+      "name": "CoreMoon",
+      "address": "0xc7C380Cf10d7c6f0720BFDf4D613c877Ba0D2DB1",
+      "symbol": "CMoon",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xc7C380Cf10d7c6f0720BFDf4D613c877Ba0D2DB1/logo.png"
     }
   ]
 }
