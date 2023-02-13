@@ -910,6 +910,22 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xc7C380Cf10d7c6f0720BFDf4D613c877Ba0D2DB1/logo.png"
+    },
+    {
+      "name": "DOGECORE",
+      "address": "0x1C0c38d3E341c2aEB8A2E69065DBcFfB1fB607d3",
+      "symbol": "DCORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x1C0c38d3E341c2aEB8A2E69065DBcFfB1fB607d3/logo.png"
+    },
+    {
+      "name": "BabyDoge",
+      "address": "0xBe81330aab07e66bE7F26a491083826Ba6a2537d",
+      "symbol": "BDoge",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xBe81330aab07e66bE7F26a491083826Ba6a2537d/logo.png"
     }
   ]
 }
