@@ -1,10 +1,10 @@
 import { formatEther } from '@ethersproject/units'
 import { MultiCallV2 } from '@pancakeswap/multicall'
-import { ChainId } from '@pancakeswap/sdk'
 import { masterChefAddresses } from './const'
 import { farmV2FetchFarms, FetchFarmsParams, fetchMasterChefV2Data } from './fetchFarms'
+import { chains } from '@icecreamswap/constants'
 
-export const SUPPORT_FARMS = [ChainId.BITGERT, ChainId.XDC, ChainId.CORE]
+export const SUPPORT_FARMS = chains.filter((chain) => chain.features.includes('farms')).map((chain) => chain.id)
 export const bCakeSupportedChainId = []
 export { masterChefAddresses } from './const'
 
