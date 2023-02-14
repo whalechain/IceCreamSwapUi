@@ -34,15 +34,23 @@ export const WETH9 = chains.reduce((acc, chain) => {
 
 export const WNATIVE = WETH9
 
-export const NATIVE = chains.reduce((acc, chain) => {
-  const natives = acc
-  if (chain.nativeCurrency)
-    natives[chain.id] = new ERC20Token(
-      chain.id,
-      chain.nativeCurrency.symbol,
-      chain.nativeCurrency.decimals,
-      chain.nativeCurrency.symbol,
-      chain.nativeCurrency.name
-    )
-  return natives
-}, {} as Record<number, ERC20Token>)
+export const NATIVE = chains.reduce(
+  (acc, chain) => {
+    const natives = acc
+    if (chain.nativeCurrency)
+      natives[chain.id] = {
+        symbol: chain.nativeCurrency.symbol,
+        decimals: chain.nativeCurrency.decimals,
+        name: chain.nativeCurrency.name,
+      }
+    return natives
+  },
+  {} as Record<
+    number,
+    {
+      symbol: string
+      decimals: number
+      name: string
+    }
+  >
+)
