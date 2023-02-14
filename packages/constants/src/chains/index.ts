@@ -6,7 +6,8 @@ import { dokenchain } from './dokenchain'
 import { fuse } from './fuse'
 import { xdc } from './xdc'
 
-export const chains = [bitgert, bsc, core, dogechain, dokenchain, fuse, xdc]
+export const chainMap = { bitgert, bsc, core, dogechain, dokenchain, fuse, xdc }
+export const chains = Object.values(chainMap)
 
 export enum ChainId {
   BITGERT = bitgert.id,
