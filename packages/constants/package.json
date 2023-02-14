@@ -8,5 +8,8 @@
   "private": true,
   "scripts": {},
   "dependencies": {},
+  "peerDependencies": {
+    "wagmi": "^0.6.6"
+  },
   "devDependencies": {}
 }
