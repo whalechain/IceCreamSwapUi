@@ -950,6 +950,14 @@
       "decimals": 9,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xBb790D1e8A2d34e9d846bb00EA0b0380813375EE/logo.png"
+    },
+    {
+      "name": "Big Core",
+      "address": "0xBFa14641bf0fE84dE3fcf3Bf227900af445f09C3",
+      "symbol": "Bcore",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xBFa14641bf0fE84dE3fcf3Bf227900af445f09C3/logo.png"
     }
   ]
 }
