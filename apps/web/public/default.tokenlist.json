@@ -961,27 +961,27 @@
     },
     {
       "name": "CoreCCTV",
-      "address": "0x7ce61a71fd872f9b0599f1f49ab0b9783db26e9e",
+      "address": "0x7Ce61A71Fd872F9B0599f1F49ab0b9783Db26E9E",
       "symbol": "CoreCCTV",
       "decimals": 18,
       "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7ce61a71fd872f9b0599f1f49ab0b9783db26e9e/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7Ce61A71Fd872F9B0599f1F49ab0b9783Db26E9E/logo.png"
     },
     {
       "name": "Dao",
-      "address": "0xa677940e2d7f696d3ec11f226a3ff7a06e5c8254",
+      "address": "0xA677940e2D7F696D3EC11F226a3FF7a06E5c8254",
       "symbol": "Dao",
       "decimals": 9,
       "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xa677940e2d7f696d3ec11f226a3ff7a06e5c8254/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xA677940e2D7F696D3EC11F226a3FF7a06E5c8254/logo.png"
     },
     {
       "name": "Corgi Inu",
-      "address": "0xcb6375d3bf479e7fd1355ac4138edc8d13e13218",
+      "address": "0xCb6375D3bF479e7fD1355ac4138eDC8D13E13218",
       "symbol": "CORGI",
       "decimals": 9,
       "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xcb6375d3bf479e7fd1355ac4138edc8d13e13218/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xCb6375D3bF479e7fD1355ac4138eDC8D13E13218/logo.png"
     }
   ]
 }
