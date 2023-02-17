@@ -96,7 +96,7 @@ export function useApproveCallback(
     return callWithGasPrice(
       tokenContract,
       'approve',
-      [spender, useExact ? amountToApprove.quotient.toString() : spender === ROUTER_ADDRESS[chainId].Akka ? amountToApprove.quotient.toString() : MaxUint256],
+      [spender, useExact ? amountToApprove.quotient.toString() : MaxUint256],
       {
         gasLimit: calculateGasMargin(estimatedGas),
       },
