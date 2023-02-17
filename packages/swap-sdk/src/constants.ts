@@ -70,7 +70,7 @@ export const WETH9 = {
   ),
   [ChainId.SHARDEUM_TEST]: new ERC20Token(
       ChainId.SHARDEUM_TEST,
-      '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+      '0x1DAcbaB28Decd115c8AA6F183877C71b942aE406',
       18,
       'WSHM',
       'Wrapped SHM'

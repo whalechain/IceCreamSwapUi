@@ -745,7 +745,7 @@
 
     {
       "name": "IceCream",
-      "address": "0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62",
+      "address": "0xBD2e577dEa54602C7c367fa144981c8ACA6FD570",
       "symbol": "ICE",
       "decimals": 18,
       "chainId": 8082,
@@ -753,7 +753,7 @@
     },
     {
       "name": "Tether USD",
-      "address": "0xBD2e577dEa54602C7c367fa144981c8ACA6FD570",
+      "address": "0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42",
       "symbol": "USDT",
       "decimals": 18,
       "chainId": 8082,
