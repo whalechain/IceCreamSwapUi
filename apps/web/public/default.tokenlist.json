@@ -912,28 +912,12 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xc7C380Cf10d7c6f0720BFDf4D613c877Ba0D2DB1/logo.png"
     },
     {
-      "name": "DOGECORE",
-      "address": "0x1C0c38d3E341c2aEB8A2E69065DBcFfB1fB607d3",
-      "symbol": "DCORE",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x1C0c38d3E341c2aEB8A2E69065DBcFfB1fB607d3/logo.png"
-    },
-    {
       "name": "Hobo Universe",
       "address": "0x5EE2c2aE144218b52CF756c0907bA384C7E35fba",
       "symbol": "HUC",
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x5EE2c2aE144218b52CF756c0907bA384C7E35fba/logo.png"
-    },
-    {
-      "name": "PI CORE",
-      "address": "0x57fbCB78a09d639364439706aBDC45e7A8773BFb",
-      "symbol": "PICORE",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x57fbCB78a09d639364439706aBDC45e7A8773BFb/logo.png"
     },
     {
       "name": "CoreTama",
