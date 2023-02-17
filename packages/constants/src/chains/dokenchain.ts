@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const dokenchain: IceChain = {
   id: 61916,
   name: 'DoKEN Super Chain Mainnet',
-  features: ['swap', 'bridge'],
+  features: ['swap'],
   network: 'doken',
   rpcUrls: {
     public: 'https://nyrpc.doken.dev',
