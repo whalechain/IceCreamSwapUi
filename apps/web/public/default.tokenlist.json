@@ -982,6 +982,54 @@
       "decimals": 9,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xCb6375D3bF479e7fD1355ac4138eDC8D13E13218/logo.png"
+    },
+    {
+      "name": "SAFECORE",
+      "address": "0x6cA82c13c1F42bC859f5f0E235E1ee7B7BfBbb8F",
+      "symbol": "SAFECORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6cA82c13c1F42bC859f5f0E235E1ee7B7BfBbb8F/logo.png"
+    },
+    {
+      "name": "BullKats",
+      "address": "0x7C2Cb8462Be5fA86353e043b80aFd1A58a8Ccfc3",
+      "symbol": "Bullkats",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7C2Cb8462Be5fA86353e043b80aFd1A58a8Ccfc3/logo.png"
+    },
+    {
+      "name": "CoreBoy",
+      "address": "0x7C220b37C8D12324e59c045E32830c48FA0f2869",
+      "symbol": "CBoy",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7C220b37C8D12324e59c045E32830c48FA0f2869/logo.png"
+    },
+    {
+      "name": "Volcanoes Core",
+      "address": "0x9D083d1749B0446D16B48678567E164B03Cc92F3",
+      "symbol": "VOLC",
+      "decimals": 8,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9D083d1749B0446D16B48678567E164B03Cc92F3/logo.png"
+    },
+    {
+      "name": "CoreFloki",
+      "address": "0xA8Fba30fD133dE026EeF6218c6E38e6b83108ce6",
+      "symbol": "CoreFloki",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xA8Fba30fD133dE026EeF6218c6E38e6b83108ce6/logo.png"
+    },
+    {
+      "name": "Goatge",
+      "address": "0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3",
+      "symbol": "GTE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3/logo.png"
     }
   ]
 }
