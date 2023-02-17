@@ -840,14 +840,6 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6E35fF7aC8eEB825DdB155515eF612ADcD66BCbC/logo.png"
     },
     {
-      "name": "Core dao nft token",
-      "address": "0xa10eb7478a760d0612fe3b7b244f0600e7527785",
-      "symbol": "CDNT",
-      "decimals": 9,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xa10eb7478a760d0612fe3b7b244f0600e7527785/logo.png"
-    },
-    {
       "name": "CoreShib",
       "address": "0x751669F3dCE1ED1c449dE44889365E40F13ce57f",
       "symbol": "CoreShib",
