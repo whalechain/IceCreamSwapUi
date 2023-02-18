@@ -242,7 +242,7 @@ export const shardeumTestnet: Chain = {
     decimals: 18,
   },
   multicall: {
-    address: '0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42',
+    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
     blockCreated: 28555,
   },
 }
