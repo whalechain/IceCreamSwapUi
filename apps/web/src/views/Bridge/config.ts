@@ -313,6 +313,7 @@ const chains = [
       },
     ],
   },
+    /*
   {
     domainId: 4,
     networkId: 61916,
@@ -413,6 +414,7 @@ const chains = [
       },
     ],
   },
+  */
   {
     domainId: 5,
     networkId: 122,

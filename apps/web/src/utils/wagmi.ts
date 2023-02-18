@@ -1,5 +1,4 @@
 import { BinanceWalletConnector } from '@pancakeswap/wagmi/connectors/binanceWallet'
-import {bitgert, bsc, dogechain, dokenchain, fuse, xdc, mainnet, core} from '@pancakeswap/wagmi/chains'
 import { configureChains, createClient } from 'wagmi'
 import memoize from 'lodash/memoize'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
@@ -8,8 +7,7 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi'
-
-const CHAINS = [bitgert, dogechain, dokenchain, fuse, xdc, bsc, core]
+import { chains as CHAINS } from '@icecreamswap/constants'
 
 const getNodeRealUrl = (networkName: string) => {
   let host = null
@@ -48,12 +46,6 @@ const getNodeRealUrl = (networkName: string) => {
 export const { provider, chains } = configureChains(CHAINS, [
   jsonRpcProvider({
     rpc: (chain) => {
-      if (!!process.env.NEXT_PUBLIC_NODE_PRODUCTION && chain.id === bsc.id) {
-        return { http: process.env.NEXT_PUBLIC_NODE_PRODUCTION }
-      }
-      if (process.env.NODE_ENV === 'test' && chain.id === mainnet.id) {
-        return { http: 'https://cloudflare-eth.com' }
-      }
       return getNodeRealUrl(chain.network) || { http: chain.rpcUrls.default }
     },
   }),

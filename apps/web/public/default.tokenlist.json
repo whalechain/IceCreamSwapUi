@@ -840,14 +840,6 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6E35fF7aC8eEB825DdB155515eF612ADcD66BCbC/logo.png"
     },
     {
-      "name": "Core dao nft token",
-      "address": "0xa10eb7478a760d0612fe3b7b244f0600e7527785",
-      "symbol": "CDNT",
-      "decimals": 9,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xa10eb7478a760d0612fe3b7b244f0600e7527785/logo.png"
-    },
-    {
       "name": "CoreShib",
       "address": "0x751669F3dCE1ED1c449dE44889365E40F13ce57f",
       "symbol": "CoreShib",
@@ -912,28 +904,12 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xc7C380Cf10d7c6f0720BFDf4D613c877Ba0D2DB1/logo.png"
     },
     {
-      "name": "DOGECORE",
-      "address": "0x1C0c38d3E341c2aEB8A2E69065DBcFfB1fB607d3",
-      "symbol": "DCORE",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x1C0c38d3E341c2aEB8A2E69065DBcFfB1fB607d3/logo.png"
-    },
-    {
       "name": "Hobo Universe",
       "address": "0x5EE2c2aE144218b52CF756c0907bA384C7E35fba",
       "symbol": "HUC",
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x5EE2c2aE144218b52CF756c0907bA384C7E35fba/logo.png"
-    },
-    {
-      "name": "PI CORE",
-      "address": "0x57fbCB78a09d639364439706aBDC45e7A8773BFb",
-      "symbol": "PICORE",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x57fbCB78a09d639364439706aBDC45e7A8773BFb/logo.png"
     },
     {
       "name": "CoreTama",
@@ -950,6 +926,86 @@
       "decimals": 9,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xBb790D1e8A2d34e9d846bb00EA0b0380813375EE/logo.png"
+    },
+    {
+      "name": "Big Core",
+      "address": "0xBFa14641bf0fE84dE3fcf3Bf227900af445f09C3",
+      "symbol": "Bcore",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xBFa14641bf0fE84dE3fcf3Bf227900af445f09C3/logo.png"
+    },
+    {
+      "name": "CoreCCTV",
+      "address": "0x7Ce61A71Fd872F9B0599f1F49ab0b9783Db26E9E",
+      "symbol": "CoreCCTV",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7Ce61A71Fd872F9B0599f1F49ab0b9783Db26E9E/logo.png"
+    },
+    {
+      "name": "Dao",
+      "address": "0xA677940e2D7F696D3EC11F226a3FF7a06E5c8254",
+      "symbol": "Dao",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xA677940e2D7F696D3EC11F226a3FF7a06E5c8254/logo.png"
+    },
+    {
+      "name": "Corgi Inu",
+      "address": "0xCb6375D3bF479e7fD1355ac4138eDC8D13E13218",
+      "symbol": "CORGI",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xCb6375D3bF479e7fD1355ac4138eDC8D13E13218/logo.png"
+    },
+    {
+      "name": "SAFECORE",
+      "address": "0x6cA82c13c1F42bC859f5f0E235E1ee7B7BfBbb8F",
+      "symbol": "SAFECORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6cA82c13c1F42bC859f5f0E235E1ee7B7BfBbb8F/logo.png"
+    },
+    {
+      "name": "BullKats",
+      "address": "0x7C2Cb8462Be5fA86353e043b80aFd1A58a8Ccfc3",
+      "symbol": "Bullkats",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7C2Cb8462Be5fA86353e043b80aFd1A58a8Ccfc3/logo.png"
+    },
+    {
+      "name": "CoreBoy",
+      "address": "0x7C220b37C8D12324e59c045E32830c48FA0f2869",
+      "symbol": "CBoy",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7C220b37C8D12324e59c045E32830c48FA0f2869/logo.png"
+    },
+    {
+      "name": "Volcanoes Core",
+      "address": "0x9D083d1749B0446D16B48678567E164B03Cc92F3",
+      "symbol": "VOLC",
+      "decimals": 8,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9D083d1749B0446D16B48678567E164B03Cc92F3/logo.png"
+    },
+    {
+      "name": "CoreFloki",
+      "address": "0xA8Fba30fD133dE026EeF6218c6E38e6b83108ce6",
+      "symbol": "CoreFloki",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xA8Fba30fD133dE026EeF6218c6E38e6b83108ce6/logo.png"
+    },
+    {
+      "name": "Goatge",
+      "address": "0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3",
+      "symbol": "GTE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3/logo.png"
     }
   ]
 }
