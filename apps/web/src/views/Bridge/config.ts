@@ -624,6 +624,14 @@ const chains = [
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
         resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
       },
+      {
+        address: '0xE8b0dF74192CCA9C4de66F23653476f6e6CD1d98',
+        name: 'LunaGens',
+        symbol: 'LUNG',
+        imageUri:
+            'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xc3b730dD10A7e9A69204bDf6cb5A426e4f1F09E3/logo.png',
+        resourceId: '0x000000000000000000000028B9aed756De31B6b362aA0f23211D13093EBb7901',
+      },
     ],
   },
 ]
