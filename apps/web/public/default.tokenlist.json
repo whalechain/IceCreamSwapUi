@@ -1014,6 +1014,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xE8b0dF74192CCA9C4de66F23653476f6e6CD1d98/logo.png"
+    },
+    {
+      "name": "RED APPLE",
+      "address": "0xcB4844B87C10d6049Fa4e9657A94046AFAc0321d",
+      "symbol": "APPLE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xcB4844B87C10d6049Fa4e9657A94046AFAc0321d/logo.png"
     }
   ]
 }
