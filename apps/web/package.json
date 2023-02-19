@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@chainsafe/chainbridge-contracts": "simone1999/chainbridge-solidity#f10aa953ccdfe2046c33c9ad5dc318a64cd55675",
-    "@passive-income/launchpad-contracts": "MasterGordon/Launchpad-contracts#559de679d2e7fdb7b4d9981f656ae06433ee60d8",
+    "@passive-income/launchpad-contracts": "MasterGordon/Launchpad-contracts#5ed0ff981044cc4886ded2375e8c01a4d4d51aa6",
     "@ethersproject/abi": "^5.0.0",
     "@ethersproject/address": "^5.0.0",
     "@ethersproject/bignumber": "^5.0.0",

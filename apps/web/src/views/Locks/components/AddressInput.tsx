@@ -1,5 +1,5 @@
 import { isAddress } from '@ethersproject/address'
-import { Input } from '@pancakeswap/uikit'
+import { Flex, Input } from '@pancakeswap/uikit'
 import { useState } from 'react'
 import FormError from 'views/Bridge/components/FormError'
 
@@ -14,7 +14,7 @@ const AddressInput: React.FC<AddressInputProps> = ({ value, onChange }) => {
   const [touched, setTouched] = useState(false)
 
   return (
-    <>
+    <Flex flexDirection="column" width="100%">
       <Input
         placeholder="0xXXXXXXXXXXXXXXX…"
         onBlur={() => setTouched(true)}
@@ -23,7 +23,7 @@ const AddressInput: React.FC<AddressInputProps> = ({ value, onChange }) => {
         isWarning={!isValid && touched}
       />
       {!isValid && touched && <FormError>Token Address not Valid!</FormError>}
-    </>
+    </Flex>
   )
 }
 

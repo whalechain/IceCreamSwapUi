@@ -4,7 +4,6 @@ import styled from 'styled-components'
 export const StyledLockContainer = styled(Flex)`
   flex-shrink: 0;
   height: fit-content;
-  padding: 0 24px;
 
   ${({ theme }) => theme.mediaQueries.lg} {
     padding: 0 40px;

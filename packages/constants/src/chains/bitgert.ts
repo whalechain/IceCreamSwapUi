@@ -26,6 +26,9 @@ export const bitgert: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  locks: {
+    factoryAddress: '0x103D2Af144DF0ebdBC8164524cCcEf296E230B48',
+  },
   wrappedNative: {
     address: '0x0eb9036cbE0f052386f36170c6b07eF0a0E3f710',
     decimals: 18,

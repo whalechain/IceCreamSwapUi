@@ -4732,9 +4732,9 @@
     "@truffle/hdwallet-provider" "^1.2.1"
     dotenv "^8.2.0"
 
-"@passive-income/launchpad-contracts@MasterGordon/Launchpad-contracts#559de679d2e7fdb7b4d9981f656ae06433ee60d8":
+"@passive-income/launchpad-contracts@MasterGordon/Launchpad-contracts#5ed0ff981044cc4886ded2375e8c01a4d4d51aa6":
   version "1.0.2"
-  resolved "https://codeload.github.com/MasterGordon/Launchpad-contracts/tar.gz/559de679d2e7fdb7b4d9981f656ae06433ee60d8"
+  resolved "https://codeload.github.com/MasterGordon/Launchpad-contracts/tar.gz/5ed0ff981044cc4886ded2375e8c01a4d4d51aa6"
   dependencies:
     "@openzeppelin/contracts" "4.3.2"
     "@openzeppelin/contracts-upgradeable" "4.3.2"
