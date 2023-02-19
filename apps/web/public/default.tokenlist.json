@@ -1022,6 +1022,22 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xcB4844B87C10d6049Fa4e9657A94046AFAc0321d/logo.png"
+    },
+    {
+      "name": "AI CORE TOKEN",
+      "address": "0x7621c97683A3b0499EC156bD257E44175e793bb1",
+      "symbol": "AICore",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7621c97683A3b0499EC156bD257E44175e793bb1/logo.png"
+    },
+    {
+      "name": "CoreDOGE",
+      "address": "0xB9CFcC2995eDD0f7Ad4cf873A3006E54831A8888",
+      "symbol": "CDOGE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB9CFcC2995eDD0f7Ad4cf873A3006E54831A8888/logo.png"
     }
   ]
 }
