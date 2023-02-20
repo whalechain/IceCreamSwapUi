@@ -9,6 +9,7 @@ const Flex = styled(Box)<FlexProps>`
   ${layout}
   ${position}
   ${space}
+  ${({ gap }) => gap && `gap: ${gap};`}
 `;
 
 export default Flex;
