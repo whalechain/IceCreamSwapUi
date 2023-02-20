@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const bitgert: IceChain = {
   id: 32520,
   name: 'Bitgert Mainnet',
-  features: ['swap', 'bridge', 'info', 'farms', 'staking'],
+  features: ['swap', 'bridge', 'info', 'farms', 'staking', 'locks'],
   network: 'bitgert',
   rpcUrls: {
     public: 'https://rpc.icecreamswap.com',
@@ -22,17 +22,17 @@ export const bitgert: IceChain = {
     address: '0x2490b172F7de4f518713fB03E6D3f57B558c9964',
     blockCreated: 1541584,
   },
-  swap: {
-    factoryAddress: FACTORY_ADDRESS,
-    initCodeHash: INIT_CODE_HASH,
-  },
   locks: {
-    factoryAddress: '0x103D2Af144DF0ebdBC8164524cCcEf296E230B48',
+    factoryAddress: '0x9Cf1e91106CA675040a4eC9647f875785bCcAB71',
   },
   wrappedNative: {
     address: '0x0eb9036cbE0f052386f36170c6b07eF0a0E3f710',
     decimals: 18,
     symbol: 'WBRISE',
     name: 'Wrapped Brise',
+  },
+  swap: {
+    factoryAddress: FACTORY_ADDRESS,
+    initCodeHash: INIT_CODE_HASH,
   },
 }

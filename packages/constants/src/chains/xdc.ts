@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const xdc: IceChain = {
   id: 50,
   name: 'XinFin XDC Network',
-  features: ['swap', 'bridge', 'farms', 'staking'],
+  features: ['swap', 'bridge', 'farms', 'staking', 'locks'],
   network: 'xdc',
   rpcUrls: {
     public: 'https://erpc.xinfin.network',
@@ -21,6 +21,9 @@ export const xdc: IceChain = {
   multicall: {
     address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
     blockCreated: 53792616,
+  },
+  locks: {
+    factoryAddress: '0xE4d6908351B613143AF81aaC6e34Eaa4b72acF5B',
   },
   wrappedNative: {
     address: '0x951857744785E80e2De051c32EE7b25f9c458C42',
