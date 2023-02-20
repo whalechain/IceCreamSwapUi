@@ -64,14 +64,14 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         </Text>
         <Text fontSize="1em">{renderDate(startingDate.getTime())}</Text>
       </Flex>
-      {duration && (
+      {duration ? (
         <Flex alignItems="center" justifyContent="space-between">
           <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
             Claimable ending at
           </Text>
           <Text fontSize="1em">{renderDate(startingDate.getTime() + duration * 1000)}</Text>
         </Flex>
-      )}
+      ) : null}
       {showApprovalFlow ? (
         <>
           <Flex style={{ gap: '0.5em' }} alignItems="stretch">
