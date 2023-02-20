@@ -37,8 +37,6 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
     [token],
   )
 
-  console.log(lock.amountUnlocked.toString())
-  console.log(lock.amount.toString())
   const percentClaimed = (lock.amountUnlocked.mul(10000).div(lock.amount).toNumber() / 100).toString()
 
   if (isMobile) {
