@@ -16,6 +16,13 @@ const farms: SerializedFarmConfig[] = [
         token: coreTokens.wcore,
         quoteToken: coreTokens.usdt,
     },
+    {
+        pid: 2,
+        lpSymbol: 'WCORE-HUC LP',
+        lpAddress: '0xA51C53fb5B6Ce3755a03AeFa86dFE8340850e33c',
+        token: coreTokens.huc,
+        quoteToken: coreTokens.wcore,
+    },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default farms
