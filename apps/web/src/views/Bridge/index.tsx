@@ -115,7 +115,7 @@ const Bridge = () => {
                   <div>
                     <CurrencyInputPanel
                       label="Amount"
-                      value={depositAmount.toString()}
+                      value={depositAmount}
                       showMaxButton
                       showQuickInputButton
                       onUserInput={(value) => {
