@@ -13,8 +13,8 @@ const farms: SerializedFarmConfig[] = [
         pid: 1,
         lpSymbol: 'WCORE-USDT LP',
         lpAddress: '0x5ebAE3A840fF34B107D637c8Ed07C3D1D2017178',
-        token: coreTokens.wcore,
-        quoteToken: coreTokens.usdt,
+        token: coreTokens.usdt,
+        quoteToken: coreTokens.wcore,
     },
     {
         pid: 2,
