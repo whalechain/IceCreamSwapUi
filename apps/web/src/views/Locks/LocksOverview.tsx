@@ -35,7 +35,7 @@ export const LocksOverview: React.FC = () => {
             Go
           </Button>
         </Flex>
-        {locks?.length && (
+        {locks?.length ? (
           <>
             <Heading as="h2" marginY="3">
               My Locks
@@ -54,7 +54,7 @@ export const LocksOverview: React.FC = () => {
               <tbody>{locks && locks.map((lock) => <LockRow key={lock.lockId.toString()} lock={lock} />)}</tbody>
             </Table>
           </>
-        )}
+        ) : undefined}
       </Flex>
     </LocksWrapper>
   )
