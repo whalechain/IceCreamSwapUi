@@ -18,6 +18,7 @@ export const xdc: IceChain = {
     symbol: 'XDC',
     decimals: 18,
   },
+  blockInterval: 2,
   multicall: {
     address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
     blockCreated: 53792616,

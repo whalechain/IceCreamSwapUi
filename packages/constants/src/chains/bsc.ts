@@ -21,6 +21,7 @@ export const bsc: IceChain = {
     symbol: 'BNB',
     decimals: 18,
   },
+  blockInterval: 3,
   multicall: {
     address: '0xcA11bde05977b3631167028862bE2a173976CA11',
     blockCreated: 15921452,

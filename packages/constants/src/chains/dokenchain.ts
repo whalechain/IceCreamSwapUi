@@ -18,6 +18,7 @@ export const dokenchain: IceChain = {
     symbol: 'DKN',
     decimals: 18,
   },
+  blockInterval: 10,
   multicall: {
     address: '0xb999ea90607a826a3e6e6646b404c3c7d11fa39d',
     blockCreated: 451563,

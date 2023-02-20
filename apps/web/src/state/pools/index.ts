@@ -198,6 +198,7 @@ export const fetchPoolsPublicDataAsync =
               earningTokenPrice,
               getBalanceNumber(new BigNumber(totalStaking.totalStaked), pool.stakingToken.decimals),
               parseFloat(pool.tokenPerBlock),
+              chainId,
             )
           : 0
 

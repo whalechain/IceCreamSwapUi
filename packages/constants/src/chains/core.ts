@@ -25,6 +25,7 @@ export const core: IceChain = {
   locks: {
     factoryAddress: '0xA48E76d95619f4c9838Df19FDeE690a06581b5dD',
   },
+  blockInterval: 3,
   wrappedNative: {
     address: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
     decimals: 18,

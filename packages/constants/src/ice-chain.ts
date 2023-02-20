@@ -15,6 +15,7 @@ interface ChainBase {
   features: ChainFeature[]
   swap?: SwapConfig
   locks?: LocksConfig
+  blockInterval: number
   wrappedNative: {
     name: string
     symbol: string

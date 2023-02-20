@@ -18,6 +18,7 @@ export const fuse: IceChain = {
     symbol: 'FUSE',
     decimals: 18,
   },
+  blockInterval: 5,
   multicall: {
     address: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
     blockCreated: 20060779,

@@ -18,6 +18,7 @@ export const dogechain: IceChain = {
     symbol: 'DOGE',
     decimals: 18,
   },
+  blockInterval: 2,
   multicall: {
     address: '0x3d2e33eb61677869d87ac92d3c8891ec5c57fa5b',
     blockCreated: 4308714,

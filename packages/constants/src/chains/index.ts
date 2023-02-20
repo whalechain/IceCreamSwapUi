@@ -9,6 +9,10 @@ import { xdc } from './xdc'
 export const chainMap = { bitgert, bsc, core, dogechain, dokenchain, fuse, xdc }
 export const chains = Object.values(chainMap)
 
+export const getChain = (chainId: number) => {
+  return chains.find((chain) => chain.id === chainId)
+}
+
 export enum ChainId {
   BITGERT = bitgert.id,
   BSC = bsc.id,

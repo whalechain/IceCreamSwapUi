@@ -18,6 +18,7 @@ export const bitgert: IceChain = {
     symbol: 'Brise',
     decimals: 18,
   },
+  blockInterval: 15,
   multicall: {
     address: '0x2490b172F7de4f518713fB03E6D3f57B558c9964',
     blockCreated: 1541584,
