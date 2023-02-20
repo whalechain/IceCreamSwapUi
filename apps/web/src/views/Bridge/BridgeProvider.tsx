@@ -66,7 +66,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { chainId: routerChainId } = useRouter().query
   const chainId = accountChainId ?? (typeof routerChainId === 'string' ? parseInt(routerChainId) : undefined)
   const [currency, setCurrency] = useState<Currency | undefined>()
-  const [depositAmount, setDepositAmount] = useState('0')
+  const [depositAmount, setDepositAmount] = useState('')
   const [destinationChainId, setDestinationChainId] = useState<number | undefined>()
   useEffect(() => {
     setDestinationChainId(bridgeChains.find((chain) => chain.networkId !== chainId)?.networkId)
@@ -122,7 +122,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (homeChainConfig && destinationChainConfig) {
       setCurrency(undefined)
-      setDepositAmount('0')
+      setDepositAmount('')
     }
   }, [homeChainConfig, destinationChainConfig])
   const destProvider = useProvider({ chainId: destinationChainId })
