@@ -28,6 +28,7 @@ export enum ApprovalState {
 export function useApproveCallback(
   amountToApprove?: CurrencyAmount<Currency>,
   spender?: string,
+  exactApproval = false,
 ): [ApprovalState, () => Promise<void>] {
   const { account } = useWeb3React()
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -85,14 +86,14 @@ export function useApproveCallback(
       return undefined
     }
 
-    let useExact = false
+    let useExact = exactApproval
 
     const estimatedGas = await tokenContract.estimateGas.approve(spender, MaxUint256).catch(() => {
       // general fallback for tokens who restrict approval amounts
       useExact = true
       return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString())
     })
-    
+
     return callWithGasPrice(
       tokenContract,
       'approve',

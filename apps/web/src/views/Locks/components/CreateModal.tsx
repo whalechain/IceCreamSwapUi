@@ -21,7 +21,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const [finished, setFinished] = useState(false)
   const locks = useLocks()
   const { onDismiss } = useModalContext()
-  const [approvalState, approve] = useApproveCallback(amount, locks.address)
+  const [approvalState, approve] = useApproveCallback(amount, locks.address, true)
   const showApprovalFlow = useMemo(() => {
     return approvalState !== ApprovalState.APPROVED
     // eslint-disable-next-line react-hooks/exhaustive-deps
