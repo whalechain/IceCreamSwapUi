@@ -121,7 +121,7 @@ export default function CurrencyInputPanel({
   commonBasesType,
   disabled,
   error,
-  showBUSD,
+  showBUSD = true,
   tokens,
   hideManage,
   showNative,
