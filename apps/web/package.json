@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@chainsafe/chainbridge-contracts": "simone1999/chainbridge-solidity#f10aa953ccdfe2046c33c9ad5dc318a64cd55675",
-    "@passive-income/launchpad-contracts": "MasterGordon/Launchpad-contracts#5ed0ff981044cc4886ded2375e8c01a4d4d51aa6",
     "@ethersproject/abi": "^5.0.0",
     "@ethersproject/address": "^5.0.0",
     "@ethersproject/bignumber": "^5.0.0",
@@ -58,6 +57,7 @@
     "@pancakeswap/uikit": "*",
     "@pancakeswap/utils": "*",
     "@pancakeswap/wagmi": "*",
+    "@passive-income/launchpad-contracts": "MasterGordon/Launchpad-contracts#c6fd508ec9e5f2563c41d5fe9a650cd087d730fa",
     "@reduxjs/toolkit": "^1.8.6",
     "@sentry/nextjs": "^7.9.0",
     "@snapshot-labs/snapshot.js": "^0.4.40",

@@ -6,7 +6,6 @@ import FormError from 'views/Bridge/components/FormError'
 interface AddressInputProps {
   value: string
   onChange: (value: string) => void
-  onChangeIsValid: (value: boolean) => void
 }
 
 const AddressInput: React.FC<AddressInputProps> = ({ value, onChange }) => {

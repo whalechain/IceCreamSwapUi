@@ -51,16 +51,18 @@ export const useLockingData = (lockIds?: BigNumber[]) => {
         chainId,
       })
       let i = 0
-      return lockIds.map((lockId) => {
-        const lockingData = multicallResult[i]
-        const [amountToUnlock] = multicallResult[i + 1] as unknown as BigNumber[]
-        i += 2
-        return {
-          lockId,
-          ...lockingData,
-          amountToUnlock,
-        }
-      })
+      return lockIds
+        .map((lockId) => {
+          const lockingData = multicallResult[i]
+          const [amountToUnlock] = multicallResult[i + 1] as unknown as BigNumber[]
+          i += 2
+          return {
+            lockId,
+            ...lockingData,
+            amountToUnlock,
+          }
+        })
+        .reverse()
     },
     {
       refreshInterval: 10000,
@@ -82,7 +84,7 @@ export const useLocksByUser = (account?: string) => {
   return useLockingData(lockIds)
 }
 
-export const useLocksByToken = (tokenAddress: string) => {
+export const useLocksByToken = (tokenAddress?: string) => {
   const locks = useLocks()
 
   const { data: lockIds } = useSWR(

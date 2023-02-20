@@ -1,7 +1,7 @@
-import Locks from '../../views/Locks'
+import { LocksOverview } from '../../views/Locks'
 
-const LocksPage: React.FC = () => {
-  return <Locks />
+const LocksOverviewPage: React.FC = () => {
+  return <LocksOverview />
 }
 
-export default LocksPage
+export default LocksOverviewPage

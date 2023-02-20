@@ -6,7 +6,8 @@ import {
   EarnIcon,
   DropdownMenuItems,
   InfoIcon,
-  BridgeIcon, DropdownMenuItemType,
+  BridgeIcon,
+  DropdownMenuItemType,
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
 import {
@@ -15,6 +16,7 @@ import {
   SUPPORT_INFO,
   SUPPORT_SWAP,
   SUPPORT_BRIDGE,
+  SUPPORT_LOCKS,
 } from '../../../config/constants/supportChains'
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
@@ -180,13 +182,23 @@ const config: (
     },
     */
     {
-      label: t('Info'),
-      href: '/info',
+      label: t('Tools'),
       icon: InfoIcon,
-      supportChainIds: SUPPORT_INFO,
+      showItemsOnMobile: true,
       hideSubNav: true,
-      showItemsOnMobile: false,
-      items: [],
+      supportChainIds: [...SUPPORT_INFO, ...SUPPORT_LOCKS],
+      items: [
+        {
+          label: t('Info'),
+          href: '/info',
+          supportChainIds: SUPPORT_INFO,
+        },
+        {
+          label: t('Locks'),
+          href: '/locks',
+          supportChainIds: SUPPORT_LOCKS,
+        },
+      ].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
       label: t('Wiki'),

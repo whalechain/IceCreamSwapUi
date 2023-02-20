@@ -7,6 +7,7 @@ import { Lock } from '../hooks'
 import { utils, BigNumber } from 'ethers'
 import { useCallback } from 'react'
 import { formatAmount } from 'views/Bridge/formatter'
+import Link from 'next/link'
 
 const RowStyled = styled.tr`
   &:hover {
@@ -36,6 +37,10 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
     [token],
   )
 
+  console.log(lock.amountUnlocked.toString())
+  console.log(lock.amount.toString())
+  const percentClaimed = (lock.amountUnlocked.mul(10000).div(lock.amount).toNumber() / 100).toString()
+
   if (isMobile) {
     return (
       <>
@@ -47,7 +52,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
             <Flex flexDirection="column">
               <span>{`${format(lock.amount)} ${token.symbol}`}</span>
               <Text fontSize="0.75em" color={theme.colors.text99}>
-                {lock.amountUnlocked.div(lock.amount).mul(100).toString()}% Claimed
+                {percentClaimed}% Claimed
               </Text>
             </Flex>
           </Td>
@@ -66,9 +71,11 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
             )}
           </Td>
           <Td>
-            <Button variant="subtle" scale="sm" style={{ fontSize: '0.75rem' }}>
-              View Details
-            </Button>
+            <Link href={`/locks/lock/${lock.lockId}`} passHref legacyBehavior>
+              <Button as="a" variant="subtle" scale="sm" style={{ fontSize: '0.75rem', textAlign: 'center' }}>
+                View Details
+              </Button>
+            </Link>
           </Td>
         </RowStyled>
       </>
@@ -84,7 +91,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
         <Flex flexDirection="column">
           <span>{`${format(lock.amount)} ${token.symbol}`}</span>
           <Text fontSize="0.75em" color={theme.colors.text99}>
-            {lock.amountUnlocked.div(lock.amount).mul(100).toString()}% Claimed
+            {percentClaimed}% Claimed
           </Text>
         </Flex>
       </Td>
@@ -103,9 +110,11 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
         </Td>
       )}
       <Td>
-        <Button variant="subtle" scale="sm" style={{ fontSize: '0.75rem' }}>
-          {isMobile ? 'View' : 'View Details'}
-        </Button>
+        <Link href={`/locks/lock/${lock.lockId}`} passHref legacyBehavior>
+          <Button as="a" variant="subtle" scale="sm" style={{ fontSize: '0.75rem', textAlign: 'center' }}>
+            {isMobile ? 'View' : 'View Details'}
+          </Button>
+        </Link>
       </Td>
     </RowStyled>
   )
