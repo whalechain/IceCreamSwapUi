@@ -9,6 +9,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
         token: coreTokens.aicore,
         quoteToken: coreTokens.wcore,
     },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0xcadda376b2840094cf6efa16a4c8483d6064adee',
+        token: coreTokens.bcore,
+        quoteToken: coreTokens.usdt,
+    },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default priceHelperLps

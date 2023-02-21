@@ -100,6 +100,17 @@ export const livePools: SerializedPoolConfig[] = [
     tokenPerBlock: '50',
     version: 2,
   },
+  {
+    sousId: 6,
+    stakingToken: coreTokens.bcore,
+    earningToken: coreTokens.bcore,
+    contractAddress: {
+      1116: '0x5CA06A5A6393382B6d8EcEEC6EC23A667eC85850',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '1.66',
+    version: 2,
+  },
     /*
   {
     sousId: 0,
