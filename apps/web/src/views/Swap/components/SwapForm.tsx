@@ -44,7 +44,16 @@ import { useApproveCallbackFromAkkaTrade } from '../AkkaSwap/hooks/useApproveCal
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useAkkaRouterContract } from 'utils/exchange'
-import numeral from 'numeral'
+
+function formatNumber(exponentialNumber: number): string | number {
+  const str = exponentialNumber.toString()
+  if (str.indexOf('e') !== -1) {
+    const exponent = parseInt(str.split('-')[1], 10)
+    const result = exponentialNumber.toFixed(exponent)
+    return result
+  }
+  return exponentialNumber
+}
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -307,7 +316,7 @@ export default function SwapForm() {
               akkaRouterTrade &&
               akkaRouterTrade?.route &&
               typedValue !== ''
-                ? numeral(akkaRouterTrade.route.returnAmount).format()
+                ? formatNumber(akkaRouterTrade.route.returnAmount)
                 : formattedAmounts[Field.OUTPUT]
             }
             onUserInput={handleTypeOutput}
