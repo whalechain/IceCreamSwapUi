@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import {PoolCategory, SerializedPoolConfig} from './types'
-import {bitgertTokens, xdcTokens} from '@pancakeswap/tokens'
+import {bitgertTokens, coreTokens, xdcTokens} from '@pancakeswap/tokens'
 
 export const MAX_LOCK_DURATION = 31536000
 export const UNLOCK_FREE_DURATION = 604800
@@ -87,6 +87,17 @@ export const livePools: SerializedPoolConfig[] = [
     },
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '12.5',
+    version: 2,
+  },
+  {
+    sousId: 5,
+    stakingToken: coreTokens.aicore,
+    earningToken: coreTokens.aicore,
+    contractAddress: {
+      1116: '0x573625F4D250b2a9Cf29fC030227Be00F2d13F92',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '50',
     version: 2,
   },
     /*
