@@ -146,6 +146,17 @@ const walletsConfig = ({
       installed: typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isBlocto),
       qrCode,
     },
+    {
+      id: 'bitkeep',
+      title: 'BitKeep',
+      icon: '/images/wallets/bitkeep.png',
+      connectorId: ConnectorNames.Injected,
+      installed: typeof window !== 'undefined' && Boolean(window.bitkeep),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak',
+      },
+      qrCode,
+    },
   ]
 }
 
