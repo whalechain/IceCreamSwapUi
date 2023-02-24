@@ -11,6 +11,7 @@ export enum ConnectorNames {
   BSC = 'bsc',
   Blocto = 'blocto',
   WalletLink = 'coinbaseWallet',
+  BitKeep = 'bitKeep',
 }
 
 const delay = (t: number) => new Promise((resolve) => setTimeout(resolve, t))
@@ -144,6 +145,17 @@ const walletsConfig = ({
       icon: '/images/wallets/blocto.png',
       connectorId: ConnectorNames.Injected,
       installed: typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isBlocto),
+      qrCode,
+    },
+    {
+      id: 'bitkeep',
+      title: 'BitKeep',
+      icon: '/images/wallets/bitkeep.png',
+      connectorId: ConnectorNames.BitKeep,
+      installed: typeof window !== 'undefined' && Boolean(window.bitkeep),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak',
+      },
       qrCode,
     },
   ]
