@@ -23,6 +23,27 @@ const farms: SerializedFarmConfig[] = [
         token: coreTokens.huc,
         quoteToken: coreTokens.wcore,
     },
+    {
+        pid: 3,
+        lpSymbol: 'ICE-USDC LP',
+        lpAddress: '0x3BEC22289EA5E8Ef13e3Ddf536306193F19449B5',
+        token: coreTokens.usdc,
+        quoteToken: coreTokens.ice,
+    },
+    {
+        pid: 4,
+        lpSymbol: 'ICE-ETH LP',
+        lpAddress: '0x53c55f7CA1B99bed1F8E3C876992abE28d91187A',
+        token: coreTokens.eth,
+        quoteToken: coreTokens.ice,
+    },
+    {
+        pid: 5,
+        lpSymbol: 'ICE-BNB LP',
+        lpAddress: '0x69dE3b3fbbC5AA0201a8028F90cE5eebfCD0cBd3',
+        token: coreTokens.bnb,
+        quoteToken: coreTokens.ice,
+    },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default farms
