@@ -91,6 +91,25 @@ export const metaMaskConnector = new MetaMaskConnector({
 
 export const bscConnector = new BinanceWalletConnector({ chains })
 
+class BitKeepConnector extends InjectedConnector {
+  provider?: Window['ethereum']
+
+  public id = 'bitKeep'
+
+  async getProvider() {
+    this.provider = (window as any).bitkeep?.ethereum
+    return this.provider
+  }
+}
+
+export const bitKeepConnector = new BitKeepConnector({
+  chains,
+  options: {
+    shimDisconnect: false,
+    shimChainChangedDisconnect: true,
+  },
+})
+
 export const client = createClient({
   autoConnect: false,
   provider,
@@ -101,6 +120,7 @@ export const client = createClient({
     coinbaseConnector,
     walletConnectConnector,
     bscConnector,
+    bitKeepConnector,
   ],
 })
 
