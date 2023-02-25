@@ -11,4 +11,6 @@ export const coreTokens = {  // todo: add bridged CORE tokens
   aicore: new ERC20Token(ChainId.CORE, '0x7621c97683A3b0499EC156bD257E44175e793bb1', 9, 'AICore', 'AI CORE TOKEN'),
   bcore: new ERC20Token(ChainId.CORE, '0xBFa14641bf0fE84dE3fcf3Bf227900af445f09C3', 18, 'Bcore', 'Big Core'),
   kishu: new ERC20Token(ChainId.CORE, '0xb2172C92e22F09Bc7d15C4B1790c7704f8429d14', 18, 'CKISHU', 'Core Kishu'),
+  gte: new ERC20Token(ChainId.CORE, '0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3', 18, 'GTE', 'Goatge'),
+  word: new ERC20Token(ChainId.CORE, '0xAA7912C028E058e4bD90Bcbb9fB41C27DbcC3245', 6, 'WORD', 'StarlyBooks'),
 }

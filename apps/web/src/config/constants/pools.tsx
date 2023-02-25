@@ -122,6 +122,28 @@ export const livePools: SerializedPoolConfig[] = [
     tokenPerBlock: '34722222',
     version: 2,
   },
+  {
+    sousId: 8,
+    stakingToken: coreTokens.gte,
+    earningToken: coreTokens.gte,
+    contractAddress: {
+      1116: '0xA34506a08ea9F4CF83732D52449909ce631b65B6',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '23.1481',
+    version: 2,
+  },
+  {
+    sousId: 9,
+    stakingToken: coreTokens.word,
+    earningToken: coreTokens.word,
+    contractAddress: {
+      1116: '0xE72c8D91fc12b38D31A091Deff08cf411e062842',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.038',
+    version: 2,
+  },
     /*
   {
     sousId: 0,
