@@ -63,7 +63,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.ice, coreTokens.usdt, coreTokens.score],
+  [ChainId.CORE]: [coreTokens.ice, coreTokens.score, coreTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
