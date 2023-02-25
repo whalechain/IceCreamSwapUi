@@ -18,7 +18,7 @@ const farms: SerializedFarmConfig[] = [
     },
     {
         pid: 1,
-        lpSymbol: 'WCORE-USDT LP',
+        lpSymbol: 'CORE-USDT LP',
         lpAddress: '0x5ebAE3A840fF34B107D637c8Ed07C3D1D2017178',
         token: coreTokens.usdt,
         quoteToken: coreTokens.wcore,
@@ -46,7 +46,7 @@ const farms: SerializedFarmConfig[] = [
     },
     {
         pid: 2,
-        lpSymbol: 'WCORE-HUC LP',
+        lpSymbol: 'CORE-HUC LP',
         lpAddress: '0xA51C53fb5B6Ce3755a03AeFa86dFE8340850e33c',
         token: coreTokens.huc,
         quoteToken: coreTokens.wcore,
