@@ -40,7 +40,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.ice, coreTokens.usdt],
+  [ChainId.CORE]: [coreTokens.wcore, coreTokens.score, coreTokens.ice, coreTokens.usdt],
 }
 
 /**
@@ -63,7 +63,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.ice, coreTokens.usdt],
+  [ChainId.CORE]: [coreTokens.ice, coreTokens.usdt, coreTokens.score],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -111,7 +111,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt, xdcTokens.usdc],
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.ice, coreTokens.usdt],
+  [ChainId.CORE]: [coreTokens.wcore, coreTokens.score, coreTokens.ice, coreTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -130,7 +130,8 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [xdcTokens.usdt, xdcTokens.ice],
   ],
   [ChainId.CORE]: [
-    [coreTokens.wcore, coreTokens.ice],
+    [coreTokens.score, coreTokens.ice],
+    [coreTokens.score, coreTokens.wcore],
     [coreTokens.usdt, coreTokens.ice],
   ],
 }

@@ -752,6 +752,14 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f/logo.png"
     },
     {
+      "name": "StakedCore",
+      "address": "0xA20b3B97df3a02f9185175760300a06B4e0A2C05",
+      "symbol": "SCORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xA20b3B97df3a02f9185175760300a06B4e0A2C05/logo.png"
+    },
+    {
       "name": "Tether USD (ICE Bridge)",
       "address": "0x81bCEa03678D1CEF4830942227720D542Aa15817",
       "symbol": "USDT",
