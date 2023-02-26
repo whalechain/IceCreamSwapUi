@@ -12,6 +12,7 @@ export enum ConnectorNames {
   Blocto = 'blocto',
   WalletLink = 'coinbaseWallet',
   BitKeep = 'bitKeep',
+  Nabox = 'nabox',
 }
 
 const delay = (t: number) => new Promise((resolve) => setTimeout(resolve, t))
@@ -155,6 +156,17 @@ const walletsConfig = ({
       installed: typeof window !== 'undefined' && Boolean(window.bitkeep),
       downloadLink: {
         desktop: 'https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak',
+      },
+      qrCode,
+    },
+    {
+      id: 'nabox',
+      title: 'Nabox',
+      icon: '/images/wallets/nabox.png',
+      connectorId: ConnectorNames.Nabox,
+      installed: typeof window !== 'undefined' && Boolean(window.NaboxWallet),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/nabox-wallet/nknhiehlklippafakaeklbeglecifhad',
       },
       qrCode,
     },
