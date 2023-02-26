@@ -110,6 +110,26 @@ export const bitKeepConnector = new BitKeepConnector({
   },
 })
 
+class NaboxConnector extends InjectedConnector {
+  provider?: Window['ethereum']
+
+  public id = 'nabox'
+
+  async getProvider() {
+    if (!(window as any).NaboxWallet) throw new Error('Nabox not found')
+    this.provider = (window as any).ethereum
+    return this.provider
+  }
+}
+
+export const naboxConnector = new NaboxConnector({
+  chains,
+  options: {
+    shimDisconnect: false,
+    shimChainChangedDisconnect: true,
+  },
+})
+
 export const client = createClient({
   autoConnect: false,
   provider,
@@ -121,6 +141,7 @@ export const client = createClient({
     walletConnectConnector,
     bscConnector,
     bitKeepConnector,
+    naboxConnector,
   ],
 })
 
