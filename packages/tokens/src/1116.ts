@@ -15,4 +15,6 @@ export const coreTokens = {
   gte: new ERC20Token(ChainId.CORE, '0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3', 18, 'GTE', 'Goatge'),
   word: new ERC20Token(ChainId.CORE, '0xAA7912C028E058e4bD90Bcbb9fB41C27DbcC3245', 6, 'WORD', 'StarlyBooks'),
   cshib: new ERC20Token(ChainId.CORE, '0x751669F3dCE1ED1c449dE44889365E40F13ce57f', 9, 'CoreShib', 'CoreShib'),
+  ctomb: new ERC20Token(ChainId.CORE, '0xC830a752eef79F2D66a36645A70fB0bA176b4Cea', 18, 'CTOMB', 'CoreTomb'),
+  cshare: new ERC20Token(ChainId.CORE, '0x6501cCA79ca8D6F68784f2345c9a379951e30A05', 18, 'CSHARE', 'CoreShare'),
 }

@@ -59,6 +59,20 @@ const farms: SerializedFarmConfig[] = [
         quoteToken: coreTokens.ice,
     },
     {
+        pid: 11,
+        lpSymbol: 'CTOMB-SCORE LP',
+        lpAddress: '0x529be42298329b3296b591ea3e5e48af0d99ef53',
+        token: coreTokens.ctomb,
+        quoteToken: coreTokens.score,
+    },
+    {
+        pid: 12,
+        lpSymbol: 'CSHARE-SCORE LP',
+        lpAddress: '0x0954069e3e8cd91bea14dfce40f51a46e71e3454',
+        token: coreTokens.cshare,
+        quoteToken: coreTokens.score,
+    },
+    {
         pid: 2,
         lpSymbol: 'CORE-HUC LP',
         lpAddress: '0xA51C53fb5B6Ce3755a03AeFa86dFE8340850e33c',
