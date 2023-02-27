@@ -10,10 +10,24 @@ const farms: SerializedFarmConfig[] = [
         quoteToken: coreTokens.wcore,
     },
     {
+        pid: 9,
+        lpSymbol: 'ICE-SCORE LP',
+        lpAddress: '0xa2710913b9a9a0a34d87bd8a9cf91e8f533ecac7',
+        token: coreTokens.ice,
+        quoteToken: coreTokens.score,
+    },
+    {
         pid: 0,
         lpSymbol: 'ICE-USDT LP',
         lpAddress: '0xf1a996efba43dcbd7945d2b91fa78420d9c23bf0',
         token: coreTokens.ice,
+        quoteToken: coreTokens.usdt,
+    },
+    {
+        pid: 10,
+        lpSymbol: 'SCORE-USDT LP',
+        lpAddress: '0x64ead682Ce296B1167d614AEF19bE58F7BAa7288',
+        token: coreTokens.score,
         quoteToken: coreTokens.usdt,
     },
     {
