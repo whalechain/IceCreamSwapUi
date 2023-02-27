@@ -1,6 +1,6 @@
 import {ChainId, ERC20Token, WETH9} from '@pancakeswap/sdk'
 
-export const coreTokens = {  // todo: add bridged CORE tokens
+export const coreTokens = {
   wcore: WETH9[ChainId.CORE],
   score: new ERC20Token(ChainId.CORE, '0xA20b3B97df3a02f9185175760300a06B4e0A2C05', 18, 'SCORE', 'StakedCore', 'https://icecreamswap.com'),
   ice: new ERC20Token(ChainId.CORE, '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44', 18, 'ICE', 'IceCream', 'https://icecreamswap.com'),
@@ -14,4 +14,5 @@ export const coreTokens = {  // todo: add bridged CORE tokens
   kishu: new ERC20Token(ChainId.CORE, '0xb2172C92e22F09Bc7d15C4B1790c7704f8429d14', 18, 'CKISHU', 'Core Kishu'),
   gte: new ERC20Token(ChainId.CORE, '0xdA7dAA9a07ef5070dB671307fEa819c75d2D6cE3', 18, 'GTE', 'Goatge'),
   word: new ERC20Token(ChainId.CORE, '0xAA7912C028E058e4bD90Bcbb9fB41C27DbcC3245', 6, 'WORD', 'StarlyBooks'),
+  cshib: new ERC20Token(ChainId.CORE, '0x751669F3dCE1ED1c449dE44889365E40F13ce57f', 9, 'CoreShib', 'CoreShib'),
 }
