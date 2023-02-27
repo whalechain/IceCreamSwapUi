@@ -58,15 +58,13 @@ const farms: SerializedFarmConfig[] = [
         token: coreTokens.kishu,
         quoteToken: coreTokens.wcore,
     },
-    /*
     {
         pid: 8,
         lpSymbol: 'CoreShib-USDT LP',
         lpAddress: '0x77d1e8bfcb738039cbfe70390e8e9c9b28829167',
         token: coreTokens.cshib,
         quoteToken: coreTokens.usdt,
-    },
-    */
+    }
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default farms
