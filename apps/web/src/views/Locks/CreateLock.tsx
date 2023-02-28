@@ -1,6 +1,5 @@
 import { Flex, Heading, Text, Link, useMatchBreakpoints, Input, Checkbox, Button, useModal } from '@pancakeswap/uikit'
 import { useLocksByToken } from './hooks'
-import LocksWrapper from './components/LocksWrapper'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
 import { useMemo, useCallback, useState } from 'react'
@@ -17,6 +16,7 @@ import { intervalToDuration } from 'date-fns'
 import CreateModal from './components/CreateModal'
 import { CurrencyAmount } from '@pancakeswap/sdk'
 import FormError from 'views/Bridge/components/FormError'
+import AppWrapper from 'components/AppWrapper'
 
 const getNow = () => {
   const now = new Date()
@@ -80,7 +80,7 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
   )
 
   return (
-    <LocksWrapper hasBackButton title={`Locks of ${token?.name}`} subtitle="Lock your tokens for a fixed period">
+    <AppWrapper hasBackButton title={`Locks of ${token?.name}`} subtitle="Lock your tokens for a fixed period">
       <Flex flexDirection="column" gap="0.75em">
         <Heading as="h2" marginY="3">
           Creating Lock for {token?.name}
@@ -157,6 +157,6 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
           Create
         </Button>
       </Flex>
-    </LocksWrapper>
+    </AppWrapper>
   )
 }

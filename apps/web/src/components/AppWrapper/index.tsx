@@ -1,19 +1,19 @@
 import { AtomBox } from '@pancakeswap/ui'
-import { ArrowBackIcon, Flex, Heading, IconButton, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { ArrowBackIcon, Flex, Heading, IconButton, Text } from '@pancakeswap/uikit'
 import { AppBody } from 'components/App'
 import { useRouter } from 'next/router'
 import { PropsWithChildren } from 'react'
 import Page from 'views/Page'
-import { StyledLockBody, StyledLockContainer } from '../styles'
+import { AppWrapperBody, AppWrapperContainer } from './styles'
 
-interface LocksWrapperProps extends PropsWithChildren {
+interface AppWrapperProps extends PropsWithChildren {
   title: React.ReactNode
   subtitle: React.ReactNode
   hasBackButton?: boolean
   backlink?: string
 }
 
-const LocksWrapper: React.FC<LocksWrapperProps> = (props) => {
+const AppWrapper: React.FC<AppWrapperProps> = (props) => {
   const { title, subtitle, children, hasBackButton } = props
   const router = useRouter()
 
@@ -21,7 +21,7 @@ const LocksWrapper: React.FC<LocksWrapperProps> = (props) => {
     <Page>
       <Flex marginBottom="4em" width="100%" height="100%" justifyContent="center">
         <Flex flexDirection="column">
-          <StyledLockContainer>
+          <AppWrapperContainer>
             <AppBody>
               <AtomBox width="full" display="flex" gap="2" padding="24px" borderBottom="1">
                 {hasBackButton && (
@@ -51,13 +51,13 @@ const LocksWrapper: React.FC<LocksWrapperProps> = (props) => {
                   </Text>
                 </Flex>
               </AtomBox>
-              <StyledLockBody>{children}</StyledLockBody>
+              <AppWrapperBody>{children}</AppWrapperBody>
             </AppBody>
-          </StyledLockContainer>
+          </AppWrapperContainer>
         </Flex>
       </Flex>
     </Page>
   )
 }
 
-export default LocksWrapper
+export default AppWrapper
