@@ -1086,6 +1086,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092/logo.png"
+    },
+    {
+      "name": "USDT Rain",
+      "address": "0xFB59984Fd355C60064fcb191C0Ed817F1365eec0",
+      "symbol": "USDTRAIN",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xFB59984Fd355C60064fcb191C0Ed817F1365eec0/logo.png"
     }
   ]
 }
