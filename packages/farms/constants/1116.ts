@@ -80,6 +80,13 @@ const farms: SerializedFarmConfig[] = [
         quoteToken: coreTokens.wcore,
     },
     {
+        pid: 13,
+        lpSymbol: 'LUNG-SCORE LP',
+        lpAddress: '0x2e1c068299028e3b5bbd3def5ea3047b78ed92b5',
+        token: coreTokens.lung,
+        quoteToken: coreTokens.score,
+    },
+    {
         pid: 7,
         lpSymbol: 'CKISHU-CORE LP',
         lpAddress: '0xb737cb83f5e7c365b95e54517f37a67eb3de88a6',
