@@ -1094,6 +1094,22 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xFB59984Fd355C60064fcb191C0Ed817F1365eec0/logo.png"
+    },
+    {
+      "name": "DogeCore",
+      "address": "0x8063F3ff48B24cAe82DbA04D24D11b8A3B9A087c",
+      "symbol": "DCORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x8063F3ff48B24cAe82DbA04D24D11b8A3B9A087c/logo.png"
+    },
+    {
+      "name": "ShibaCore",
+      "address": "0x84F0FDAA0a34B5F4a1144372072a706A4A8121A4",
+      "symbol": "SHIBA",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x84F0FDAA0a34B5F4a1144372072a706A4A8121A4/logo.png"
     }
   ]
 }
