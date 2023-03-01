@@ -73,8 +73,15 @@ const farms: SerializedFarmConfig[] = [
         quoteToken: coreTokens.score,
     },
     {
+        pid: 14,
+        lpSymbol: 'HOBO-SCORE LP',
+        lpAddress: '0xd16aa6313adf04c02b64898efd96cedc59d2d167',
+        token: coreTokens.hobo,
+        quoteToken: coreTokens.score,
+    },
+    {
         pid: 2,
-        lpSymbol: 'CORE-HUC LP',
+        lpSymbol: 'HUC-CORE LP',
         lpAddress: '0xA51C53fb5B6Ce3755a03AeFa86dFE8340850e33c',
         token: coreTokens.huc,
         quoteToken: coreTokens.wcore,

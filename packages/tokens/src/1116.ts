@@ -18,4 +18,5 @@ export const coreTokens = {
   ctomb: new ERC20Token(ChainId.CORE, '0xC830a752eef79F2D66a36645A70fB0bA176b4Cea', 18, 'CTOMB', 'CoreTomb'),
   cshare: new ERC20Token(ChainId.CORE, '0x6501cCA79ca8D6F68784f2345c9a379951e30A05', 18, 'CSHARE', 'CoreShare'),
   lung: new ERC20Token(ChainId.CORE, '0xE8b0dF74192CCA9C4de66F23653476f6e6CD1d98', 18, 'LUNG', 'LunaGens'),
+  hobo: new ERC20Token(ChainId.CORE, '0x25100C0083e8E53b1cb264E978522bd477011A0d', 18, 'HOBO', 'Hobo Universe'),
 }
