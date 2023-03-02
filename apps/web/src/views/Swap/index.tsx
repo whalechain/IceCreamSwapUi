@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react'
-import { JSBI, NATIVE, Currency } from '@pancakeswap/sdk'
+import { JSBI, NATIVE, Currency, ChainId } from '@pancakeswap/sdk'
 import {
   Box,
   Flex,
@@ -30,7 +30,7 @@ import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwap
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
 import { useUserSlippageTolerance } from 'state/user/hooks'
-import { useAkkaRouterContract } from 'utils/exchange'
+import { useAkkaRouterContract, useAkkaRouterCoreContract } from 'utils/exchange'
 import { ApprovalState } from 'hooks/useApproveCallback'
 import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
@@ -97,14 +97,15 @@ export default function Swap() {
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
   const akkaContract = useAkkaRouterContract()
+  const akkaCoreContract = useAkkaRouterCoreContract()
   const { isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
   const [akkaApproval, akkaApproveCallback] = useApproveCallbackFromAkkaTrade(parsedAmounts[Field.INPUT])
@@ -120,6 +121,12 @@ export default function Swap() {
     toggleSetAkkaContractModeToFalse,
     toggleSetAkkaContractModeToTrue,
   ] = useIsAkkaContractSwapModeActive()
+  useEffect(() => {
+    console.log(isAkkaSwapActive);
+    console.log(isAkkaContractSwapMode);
+    console.log(isAkkaSwapMode);
+
+  }, [isAkkaContractSwapMode, isAkkaSwapActive,isAkkaSwapMode])
 
   const { chainId } = useActiveWeb3React()
 
@@ -133,40 +140,70 @@ export default function Swap() {
   }, [independentField])
 
   // Check if pancakeswap route is better than akka route or not
-  useEffect(() => {
-    if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
-      if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
-        toggleSetAkkaModeToFalse()
-      } else {
-        toggleSetAkkaModeToTrue()
-      }
-    }
-  }, [typedValue, akkaRouterTrade, inputCurrencyId, outputCurrencyId])
+  // useEffect(() => {
+  //   if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
+  //     if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
+  //       toggleSetAkkaModeToFalse()
+  //     } else {
+  //       toggleSetAkkaModeToTrue()
+  //     }
+  //   }
+  // }, [typedValue, akkaRouterTrade, inputCurrencyId, outputCurrencyId])
+
   useEffect(() => {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
         if (currencyBalances[Field.INPUT] && parsedAmount && currencyBalances[Field.INPUT].greaterThan(parsedAmount)) {
-          akkaContract.estimateGas[methodName](
-            akkaRouterTrade?.args?.amountIn,
-            akkaRouterTrade?.args?.amountOutMin,
-            akkaRouterTrade?.args?.data,
-            [],
-            [],
-            account,
-            {
-              value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
-            },
-          )
-            .then((data) => {
-              if (data.gt('21000')) {
-                toggleSetAkkaContractModeToTrue()
-              } else {
+          if (chainId === ChainId.CORE) {
+            akkaCoreContract.estimateGas[methodName](
+              akkaRouterTrade?.args?.amountIn,
+              akkaRouterTrade?.args?.amountOutMin,
+              akkaRouterTrade?.args?.data,
+              account,
+              akkaRouterTrade?.args?.akkaFee?.fee,
+              akkaRouterTrade?.args?.akkaFee?.v,
+              akkaRouterTrade?.args?.akkaFee?.r,
+              akkaRouterTrade?.args?.akkaFee?.s,
+              {
+                value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
+              },
+            )
+              .then((data) => {
+                if (data.gt('21000')) {
+                  toggleSetAkkaContractModeToTrue()
+                } else {
+                  toggleSetAkkaContractModeToFalse()
+                }
+              })
+              .catch((err) => {
+                console.log(err);
                 toggleSetAkkaContractModeToFalse()
-              }
-            })
-            .catch(() => {
-              toggleSetAkkaContractModeToFalse()
-            })
+              })
+          }
+          else {
+            akkaContract.estimateGas[methodName](
+              akkaRouterTrade?.args?.amountIn,
+              akkaRouterTrade?.args?.amountOutMin,
+              akkaRouterTrade?.args?.data,
+              [],
+              [],
+              account,
+              {
+                value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
+              },
+            )
+              .then((data) => {
+                if (data.gt('21000')) {
+                  toggleSetAkkaContractModeToTrue()
+                } else {
+                  toggleSetAkkaContractModeToFalse()
+                }
+              })
+              .catch(() => {
+                toggleSetAkkaContractModeToFalse()
+              })
+          }
+
         } else {
           toggleSetAkkaContractModeToTrue()
         }
@@ -182,6 +219,9 @@ export default function Swap() {
   useEffect(() => {
     if (akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
+    }
+    else{
+      toggleSetAkkaModeToTrue()
     }
   }, [akkaRouterTrade])
 
