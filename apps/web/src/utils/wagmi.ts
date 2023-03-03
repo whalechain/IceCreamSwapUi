@@ -133,7 +133,7 @@ export const naboxConnector = new NaboxConnector({
 class OkxConnector extends InjectedConnector {
   provider?: Window['ethereum']
 
-  public id = 'nabox'
+  public id = 'okx'
 
   async getProvider() {
     if (!(window as any).okxwallet) throw new Error('Okx Wallet not found')
@@ -145,7 +145,7 @@ class OkxConnector extends InjectedConnector {
 export const okxConnector = new OkxConnector({
   chains,
   options: {
-    shimDisconnect: false,
+    shimDisconnect: true,
     shimChainChangedDisconnect: true,
   },
 })
