@@ -130,6 +130,26 @@ export const naboxConnector = new NaboxConnector({
   },
 })
 
+class OkxConnector extends InjectedConnector {
+  provider?: Window['ethereum']
+
+  public id = 'nabox'
+
+  async getProvider() {
+    if (!(window as any).okxwallet) throw new Error('Okx Wallet not found')
+    this.provider = (window as any).okxwallet
+    return this.provider
+  }
+}
+
+export const okxConnector = new OkxConnector({
+  chains,
+  options: {
+    shimDisconnect: false,
+    shimChainChangedDisconnect: true,
+  },
+})
+
 export const client = createClient({
   autoConnect: false,
   provider,
@@ -142,6 +162,7 @@ export const client = createClient({
     bscConnector,
     bitKeepConnector,
     naboxConnector,
+    okxConnector,
   ],
 })
 
