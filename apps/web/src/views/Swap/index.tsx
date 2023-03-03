@@ -121,12 +121,6 @@ export default function Swap() {
     toggleSetAkkaContractModeToFalse,
     toggleSetAkkaContractModeToTrue,
   ] = useIsAkkaContractSwapModeActive()
-  useEffect(() => {
-    console.log(isAkkaSwapActive);
-    console.log(isAkkaContractSwapMode);
-    console.log(isAkkaSwapMode);
-
-  }, [isAkkaContractSwapMode, isAkkaSwapActive,isAkkaSwapMode])
 
   const { chainId } = useActiveWeb3React()
 
@@ -153,7 +147,7 @@ export default function Swap() {
   useEffect(() => {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
-        if (currencyBalances[Field.INPUT] && parsedAmount && currencyBalances[Field.INPUT].greaterThan(parsedAmount)) {
+        if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
           if (chainId === ChainId.CORE) {
             akkaCoreContract.estimateGas[methodName](
               akkaRouterTrade?.args?.amountIn,
@@ -175,8 +169,7 @@ export default function Swap() {
                   toggleSetAkkaContractModeToFalse()
                 }
               })
-              .catch((err) => {
-                console.log(err);
+              .catch(() => {
                 toggleSetAkkaContractModeToFalse()
               })
           }
@@ -220,7 +213,7 @@ export default function Swap() {
     if (akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
     }
-    else{
+    else {
       toggleSetAkkaModeToTrue()
     }
   }, [akkaRouterTrade])
