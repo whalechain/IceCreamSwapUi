@@ -1113,7 +1113,7 @@
     },
     {
       "name": "Biang Inu",
-      "address": "0x241dC1D03eAbd156FDb326Cf9fFBa11f48BA9758"
+      "address": "0x241dC1D03eAbd156FDb326Cf9fFBa11f48BA9758",
       "symbol": "BINU",
       "decimals": 9,
       "chainId": 1116,
@@ -1121,7 +1121,7 @@
     },
     {
       "name": "Core Sharky",
-      "address": "0x73532Ba016bAf18db9edD6013eB150BDf3451C51"
+      "address": "0x73532Ba016bAf18db9edD6013eB150BDf3451C51",
       "symbol": "CSHARKY",
       "decimals": 9,
       "chainId": 1116,
@@ -1129,7 +1129,7 @@
     },
     {
       "name": "Zombie Core",
-      "address": "0xc951d94922CEC79e2a363c6773dACac8079BA833"
+      "address": "0xc951d94922CEC79e2a363c6773dACac8079BA833",
       "symbol": "ZCORE",
       "decimals": 9,
       "chainId": 1116,
@@ -1137,7 +1137,7 @@
     },
     {
       "name": "Robic Wallet",
-      "address": "0xe1497a14a1224DaEFa5Fe68fD9e107Cb472e8129"
+      "address": "0xe1497a14a1224DaEFa5Fe68fD9e107Cb472e8129",
       "symbol": "RBWT",
       "decimals": 9,
       "chainId": 1116,
