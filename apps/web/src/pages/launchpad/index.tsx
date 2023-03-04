@@ -1,7 +1,7 @@
 import LaunchpadList from 'views/Launchpad/LaunchpadList'
-import { Launchpad } from 'views/Launchpad/types/Launchpad'
+import { Campaign } from 'views/Launchpad/types/Launchpad'
 
-const launchpads: Launchpad[] = [
+const launchpads: Campaign[] = [
   {
     id: '1',
     price: '1 GG = 187 ICE',

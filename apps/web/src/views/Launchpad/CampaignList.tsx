@@ -1,11 +1,11 @@
-import { Flex, Grid, Heading, PageHeader } from '@pancakeswap/uikit'
+import { Grid, Heading, PageHeader } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import styled from 'styled-components'
 import LaunchpadCard from './components/LaunchpadCard'
-import { Launchpad } from './types/Launchpad'
+import { Campaign } from './types/Launchpad'
 
 interface LaunchpadListProps {
-  launchpads: Launchpad[]
+  launchpads: Campaign[]
 }
 
 const H1 = styled(Heading)`

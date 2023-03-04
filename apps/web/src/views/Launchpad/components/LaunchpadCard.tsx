@@ -1,6 +1,6 @@
 import { Button, Card, Flex, Link, Progress, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
-import { Launchpad } from '../types/Launchpad'
+import { Campaign } from '../types/Launchpad'
 import LaunchpadCardHeader from './LaunchpadCardHeader'
 
 const StyledCard = styled(Card)`
@@ -27,7 +27,7 @@ const ExpandingWrapper = styled(Flex)`
   justify-content: center;
 `
 interface LaunchpadCardProps {
-  launchpad: Launchpad
+  launchpad: Campaign
 }
 
 const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {

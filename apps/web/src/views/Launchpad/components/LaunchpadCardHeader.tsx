@@ -2,7 +2,7 @@ import { Flex, Heading, TokenImage } from '@pancakeswap/uikit'
 import { CurrencyLogo } from 'components/Logo'
 import { useToken } from 'hooks/Tokens'
 import styled from 'styled-components'
-import { Launchpad } from '../types/Launchpad'
+import { Campaign } from '../types/Launchpad'
 import { LaunchpadTags } from './Tags'
 
 const Wrapper = styled(Flex)`
@@ -14,7 +14,7 @@ const Wrapper = styled(Flex)`
   margin-bottom: 12px;
 `
 interface LaunchpadCardHeaderProps {
-  launchpad: Launchpad
+  launchpad: Campaign
 }
 
 const LaunchpadCardHeader: React.FC<LaunchpadCardHeaderProps> = (props) => {
