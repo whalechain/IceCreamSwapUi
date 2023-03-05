@@ -19,8 +19,8 @@ const AppWrapper: React.FC<AppWrapperProps> = (props) => {
 
   return (
     <Page>
-      <Flex marginBottom="4em" width="100%" height="100%" justifyContent="center">
-        <Flex flexDirection="column">
+      <Flex marginBottom="4em" height="100%" justifyContent="center" width="100%">
+        <Flex flexDirection="column" minWidth="min(428px, calc(100vw - 48px))">
           <AppWrapperContainer>
             <AppBody>
               <AtomBox width="full" display="flex" gap="2" padding="24px" borderBottom="1">
