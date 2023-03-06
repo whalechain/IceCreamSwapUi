@@ -13,6 +13,7 @@ export enum ConnectorNames {
   WalletLink = 'coinbaseWallet',
   BitKeep = 'bitKeep',
   Nabox = 'nabox',
+  Okx = 'okx',
 }
 
 const delay = (t: number) => new Promise((resolve) => setTimeout(resolve, t))
@@ -167,6 +168,17 @@ const walletsConfig = ({
       installed: typeof window !== 'undefined' && Boolean(window.NaboxWallet),
       downloadLink: {
         desktop: 'https://chrome.google.com/webstore/detail/nabox-wallet/nknhiehlklippafakaeklbeglecifhad',
+      },
+      qrCode,
+    },
+    {
+      id: 'okx',
+      title: 'Okx',
+      icon: '/images/wallets/okx.png',
+      connectorId: ConnectorNames.Okx,
+      installed: typeof window !== 'undefined' && Boolean(window.okxwallet),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/okx-wallet/mcohilncbfahbmgdjkbpemcciiolgcge',
       },
       qrCode,
     },
