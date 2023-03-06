@@ -124,6 +124,17 @@ export const livePools: SerializedPoolConfig[] = [
     tokenPerBlock: '0.000578',
     version: 2,
   },
+  {
+    sousId: 12,
+    stakingToken: coreTokens.usdtrain,
+    earningToken: coreTokens.usdtrain,
+    contractAddress: {
+      1116: '0x072501B86fd40EC9cBF3aC032096fc9945A83aC8',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '115740740',
+    version: 2,
+  },
 ].map((p) => ({
   ...p,
   stakingToken: p.stakingToken.serialize,

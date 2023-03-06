@@ -20,4 +20,5 @@ export const coreTokens = {
   lung: new ERC20Token(ChainId.CORE, '0xE8b0dF74192CCA9C4de66F23653476f6e6CD1d98', 18, 'LUNG', 'LunaGens'),
   hobo: new ERC20Token(ChainId.CORE, '0x25100C0083e8E53b1cb264E978522bd477011A0d', 18, 'HOBO', 'Hobo Universe'),
   coreshiba: new ERC20Token(ChainId.CORE, '0x84F0FDAA0a34B5F4a1144372072a706A4A8121A4', 18, 'SHIBA', 'ShibaCore'),
+  usdtrain: new ERC20Token(ChainId.CORE, '0xFB59984Fd355C60064fcb191C0Ed817F1365eec0', 18, 'USDTRAIN', 'USDT Rain'),
 }
