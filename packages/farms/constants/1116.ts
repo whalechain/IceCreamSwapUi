@@ -94,6 +94,13 @@ const farms: SerializedFarmConfig[] = [
         quoteToken: coreTokens.score,
     },
     {
+        pid: 15,
+        lpSymbol: 'CKISHU-SCORE LP',
+        lpAddress: '0xfa4374bfaCbcdf9139A1Ac0A0236D9DD6974DF66',
+        token: coreTokens.kishu,
+        quoteToken: coreTokens.score,
+    },
+    {
         pid: 7,
         lpSymbol: 'CKISHU-CORE LP',
         lpAddress: '0xb737cb83f5e7c365b95e54517f37a67eb3de88a6',
