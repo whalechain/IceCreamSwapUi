@@ -1150,6 +1150,30 @@
       "decimals": 9,
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x85FD5f8dBD0c9Ef1806E6c7d4B787d438621C1dC/logo.png"
+    },
+    {
+      "name": "MemeRoyale",
+      "address": "0xA7c0B19645B653B4373E3592C84fce8C64D89E8F",
+      "symbol": "ROYALE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/binance/assets/0x7a89fae255957C190ac8552f559be0Ad0401A081/logo.png"
+    },
+    {
+      "name": "4D Twin Maps",
+      "address": "0xAB82f8b18ea7929815076F152b8Fd24F8b267274",
+      "symbol": "MAP",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x6D347fdCb302a5879545E01EceE7A176db23dCDa/logo.png"
+    },
+    {
+      "name": "AIBRA",
+      "address": "0xe56016187C0fb36f76c33d0D0B36b47648A42D0A",
+      "symbol": "ABR",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png"
     }
   ]
 }
