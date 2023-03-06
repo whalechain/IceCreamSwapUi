@@ -667,6 +667,7 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x6D347fdCb302a5879545E01EceE7A176db23dCDa/logo.png',
         resourceId: '0x00000000000000000000006D347fdCb302a5879545E01EceE7A176db23dCDa02',
       },
+        /*
       {
         address: '0xe56016187C0fb36f76c33d0D0B36b47648A42D0A',
         name: 'AIBRA',
@@ -674,6 +675,7 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png',
         resourceId: '0x00000000000000000000009F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA9402',
       },
+      */
     ],
   },
 ]
