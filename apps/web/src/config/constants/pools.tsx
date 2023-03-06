@@ -48,17 +48,6 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
-    sousId: 5,
-    stakingToken: coreTokens.aicore,
-    earningToken: coreTokens.aicore,
-    contractAddress: {
-      1116: '0x573625F4D250b2a9Cf29fC030227Be00F2d13F92',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '50',
-    version: 2,
-  },
-  {
     sousId: 6,
     stakingToken: coreTokens.bcore,
     earningToken: coreTokens.bcore,
@@ -143,6 +132,17 @@ export const livePools: SerializedPoolConfig[] = [
 
 // known finished pools
 const finishedPools = [
+  {
+    sousId: 5,
+    stakingToken: coreTokens.aicore,
+    earningToken: coreTokens.aicore,
+    contractAddress: {
+      1116: '0x573625F4D250b2a9Cf29fC030227Be00F2d13F92',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '50',
+    version: 2,
+  },
 ].map((p) => ({
   ...p,
   isFinished: true,
