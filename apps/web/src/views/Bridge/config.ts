@@ -104,6 +104,7 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/doge/assets/0x05888e66703c1e79aD5803433CF25a05f18e76C6/logo.png',
         resourceId: '0x000000000000000000000005888e66703c1e79aD5803433CF25a05f18e76C603',
       },
+        /*
       {
         address: '0x7a89fae255957C190ac8552f559be0Ad0401A081',
         name: 'MemeRoyale',
@@ -111,6 +112,7 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/binance/assets/0x7a89fae255957C190ac8552f559be0Ad0401A081/logo.png',
         resourceId: '0x00000000000000000000007a89fae255957C190ac8552f559be0Ad0401A08101',
       },
+         */
     ],
   },
   {
@@ -653,6 +655,7 @@ const chains = [
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xc3b730dD10A7e9A69204bDf6cb5A426e4f1F09E3/logo.png',
         resourceId: '0x000000000000000000000028B9aed756De31B6b362aA0f23211D13093EBb7901',
       },
+        /*
       {
         address: '0xA7c0B19645B653B4373E3592C84fce8C64D89E8F',
         name: 'MemeRoyale',
@@ -660,6 +663,7 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/binance/assets/0x7a89fae255957C190ac8552f559be0Ad0401A081/logo.png',
         resourceId: '0x00000000000000000000007a89fae255957C190ac8552f559be0Ad0401A08101',
       },
+         */
       {
         address: '0xAB82f8b18ea7929815076F152b8Fd24F8b267274',
         name: '4D Twin Maps',
