@@ -1174,6 +1174,22 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png"
+    },
+    {
+      "name": "CRYPTEQ",
+      "address": "0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91",
+      "symbol": "CRQ",
+      "decimals": 5,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91/logo.png"
+    },
+    {
+      "name": "FlashX Max",
+      "address": "0x5aE225fa6573903CA58E26Cd4171B87060CeEAA2",
+      "symbol": "FSXM",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5aE225fa6573903CA58E26Cd4171B87060CeEAA2/logo.png"
     }
   ]
 }
