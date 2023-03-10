@@ -26,7 +26,7 @@ export const core: IceChain = {
     factoryAddress: '0xA48E76d95619f4c9838Df19FDeE690a06581b5dD',
   },
   tokenDeployer: {
-    address: '0x5422B037dD1d6F1B8636D07F8874571a8b78d9B6',
+    address: '0x3d14cB33D5A4ce59625C32291719691953061903',
   },
   blockInterval: 3,
   wrappedNative: {

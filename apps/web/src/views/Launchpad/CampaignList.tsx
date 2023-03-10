@@ -2,7 +2,7 @@ import { Grid, Heading, PageHeader } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import styled from 'styled-components'
 import LaunchpadCard from './components/LaunchpadCard'
-import { Campaign } from './types/Launchpad'
+import { Campaign } from './types/Campaign'
 
 interface LaunchpadListProps {
   launchpads: Campaign[]

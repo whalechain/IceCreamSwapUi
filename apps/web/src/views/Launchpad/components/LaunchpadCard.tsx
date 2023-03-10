@@ -1,6 +1,6 @@
 import { Button, Card, Flex, Link, Progress, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
-import { Campaign } from '../types/Launchpad'
+import { Campaign } from '../types/Campaign'
 import LaunchpadCardHeader from './LaunchpadCardHeader'
 
 const StyledCard = styled(Card)`

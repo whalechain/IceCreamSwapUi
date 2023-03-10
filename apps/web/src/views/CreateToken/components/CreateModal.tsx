@@ -1,4 +1,4 @@
-import { Flex, Modal, useModalContext, Text, Button, Heading } from '@pancakeswap/uikit'
+import { Flex, Modal, useModalContext, Text, Button, Heading, Spinner } from '@pancakeswap/uikit'
 import { formatAmount } from '../../Bridge/formatter'
 import { useState } from 'react'
 import { FormValues } from '../create-schema'
@@ -10,6 +10,8 @@ import AddToWallet from './AddToWallet'
 import useTokenDeployer from '../useTokenDeployer'
 import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import { BigNumber, utils } from 'ethers'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 interface DepositModalProps {
   formValues: FormValues
@@ -30,23 +32,27 @@ const hasFeatures = (formValues: FormValues) => {
   return formValues?.burnable || formValues?.mintable
 }
 
+type Steps = 'preview' | 'transfer' | 'completed'
+
 const CreateModal: React.FC<DepositModalProps> = (props) => {
   const { formValues } = props
-  const [finished, setFinished] = useState(false)
+  const [step, setStep] = useState<Steps>('preview')
   const { onDismiss } = useModalContext()
+  const { chainId } = useActiveChainId()
   const [tokenAddress, setTokenAddress] = useState<string | null>(null)
   const token = useToken(tokenAddress)
   const tokenDeployer = useTokenDeployer()
   const { address, status } = useAccount()
 
   const handleDeposit = async () => {
-    console.log(formValues)
-    const tx = await tokenDeployer.createToken(
+    const initialSupply = utils.parseUnits(String(formValues?.initialSupply || '0'), 18)
+    const maxSupply = utils.parseUnits(String(formValues?.maxSupply || '0'), 18)
+    await tokenDeployer.createToken(
       {
         name: formValues?.tokenName,
         symbol: formValues?.tokenSymbol,
-        initialSupply: formValues?.initialSupply,
-        maximumSupply: formValues?.maxSupply || 0,
+        initialSupply,
+        maximumSupply: maxSupply,
         burnable: formValues?.burnable,
         mintable: formValues?.mintable,
         crossChain: false,
@@ -56,10 +62,25 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       },
       { gasLimit: 1000000 },
     )
-    const ta = await tx.wait()
-    const txHash = ta.transactionHash
-    tokenDeployer.on(tokenDeployer.filters.TokenCreated(address), (creator) => {
-      console.log('TokenCreated', creator)
+    fetch('/api/add-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: formValues?.tokenName,
+        symbol: formValues?.tokenSymbol,
+        logo: formValues?.logo?.blob,
+        owner: address,
+        chainId,
+        decimals: 18,
+      }),
+    })
+    setStep('transfer')
+    tokenDeployer.on(tokenDeployer.filters.TokenCreated(address), (creator, ta, _tokenName) => {
+      if (creator !== address) return
+      setTokenAddress(ta)
+      setStep('completed')
     })
   }
 
@@ -133,16 +154,31 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         tokenDecimals={18}
         tokenImage={formValues?.logo?.blob}
       />
-      <Button onClick={handleDismiss}>Close</Button>&apos;
+      <Button onClick={handleDismiss} variant="secondary">
+        Close
+      </Button>
     </>
   )
 
-  const content = finished ? transferCompleted : preview
+  const waitingForTransfer = (
+    <>
+      <Flex justifyContent="center">
+        <Spinner />
+      </Flex>
+      <Text>Your Token is being created</Text>
+    </>
+  )
+
+  const steps = {
+    preview,
+    transfer: waitingForTransfer,
+    completed: transferCompleted,
+  }
 
   return (
     <Modal title="Creating Token" onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
       <Flex flexDirection="column" alignItems="stretch" style={{ gap: '1em' }}>
-        {content}
+        {steps[step]}
       </Flex>
     </Modal>
   )

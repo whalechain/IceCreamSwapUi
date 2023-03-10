@@ -1,5 +1,5 @@
-import LaunchpadList from 'views/Launchpad/LaunchpadList'
-import { Campaign } from 'views/Launchpad/types/Launchpad'
+import LaunchpadList from 'views/Launchpad/CampaignList'
+import { Campaign } from 'views/Launchpad/types/Campaign'
 
 const launchpads: Campaign[] = [
   {

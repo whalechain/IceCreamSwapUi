@@ -2,7 +2,7 @@ import { Flex, Heading, TokenImage } from '@pancakeswap/uikit'
 import { CurrencyLogo } from 'components/Logo'
 import { useToken } from 'hooks/Tokens'
 import styled from 'styled-components'
-import { Campaign } from '../types/Launchpad'
+import { Campaign } from '../types/Campaign'
 import { LaunchpadTags } from './Tags'
 
 const Wrapper = styled(Flex)`

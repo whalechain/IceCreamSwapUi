@@ -7,8 +7,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
+model Token {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  name     String
+  symbol   String
+  decimals Int
+  address  String
+  logo    String
+  chainId Int
 }
