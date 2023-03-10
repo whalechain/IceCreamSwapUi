@@ -5,6 +5,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
     {
         pid: null,
         lpSymbol: '',
+        lpAddress: '0xFEE8F527e3909b3f16CbdA437DA6876dEeA132Ca',
+        token: coreTokens.ice,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
         lpAddress: '0x876C62C8C94ca04aFE45a9Ef9DB39799D3CddF34',
         token: coreTokens.score,
         quoteToken: coreTokens.wcore,
@@ -63,6 +70,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
         lpSymbol: '',
         lpAddress: '0x6a1a2b2af9683d810b7660b9a8addca19f466f17',
         token: coreTokens.usdtrain,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0xe9aF781e080424F93a05a297BaDeC5caA2EAE018',
+        token: coreTokens.fsxm,
         quoteToken: coreTokens.wcore,
     },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))

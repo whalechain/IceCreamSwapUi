@@ -15,6 +15,17 @@ export const livePools: SerializedPoolConfig[] = [
   // souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
   {
+    sousId: 14,
+    stakingToken: coreTokens.ice,
+    earningToken: coreTokens.fsxm,
+    contractAddress: {
+      1116: '0xb947fb0c93fae288e25033181e148492c050f32c',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '57.87',
+    version: 2,
+  },
+  {
     sousId: 2,
     stakingToken: xdcTokens.ice,
     earningToken: xdcTokens.btcx,
@@ -124,6 +135,17 @@ export const livePools: SerializedPoolConfig[] = [
     tokenPerBlock: '115740740',
     version: 2,
   },
+  {
+    sousId: 13,
+    stakingToken: coreTokens.fsxm,
+    earningToken: coreTokens.fsxm,
+    contractAddress: {
+      1116: '0x1753e17c9b4dedca9cfb879f7a5eaf16554e942f',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '57.87',
+    version: 2,
+  }
 ].map((p) => ({
   ...p,
   stakingToken: p.stakingToken.serialize,
