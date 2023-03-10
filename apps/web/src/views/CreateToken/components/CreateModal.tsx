@@ -139,6 +139,9 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const transferCompleted = (
     <>
       <Text>Token created Successful!</Text>
+      <Text as="pre" display="inline">
+        Token Address: {tokenAddress}
+      </Text>
       <Text>What&apos;s next?</Text>
       <Button
         onClick={() => {
