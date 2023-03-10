@@ -62,25 +62,25 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       },
       { gasLimit: 1000000 },
     )
-    fetch('/api/add-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formValues?.tokenName,
-        symbol: formValues?.tokenSymbol,
-        logo: formValues?.logo?.blob,
-        owner: address,
-        chainId,
-        decimals: 18,
-      }),
-    })
     setStep('transfer')
     tokenDeployer.on(tokenDeployer.filters.TokenCreated(address), (creator, ta, _tokenName) => {
       if (creator !== address) return
       setTokenAddress(ta)
       setStep('completed')
+      fetch('/api/add-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formValues?.tokenName,
+          symbol: formValues?.tokenSymbol,
+          logo: formValues?.logo?.blob,
+          address: ta,
+          chainId,
+          decimals: 18,
+        }),
+      })
     })
   }
 

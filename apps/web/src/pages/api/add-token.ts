@@ -7,27 +7,27 @@ import { PSIPadTokenDeployer } from '@passive-income/launchpad-contracts/typecha
 const client = new PrismaClient()
 
 export default async function handler(req, res) {
-  const { symbol, name, decimals, logo, owner, chainId } = req.body
+  const { symbol, name, decimals, logo, address, chainId } = req.body
 
-  const chain = getChain(chainId)
-  const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrls.default)
-  const tokenDeployer = new Contract(chain.tokenDeployer.address, tokenDeployerAbi, provider) as PSIPadTokenDeployer
-  tokenDeployer.on(tokenDeployer.filters.TokenCreated(owner), async (creator, address) => {
-    if (creator !== owner) return
-    await client.token.create({
-      data: {
-        address,
-        symbol,
-        name,
-        decimals,
-        logo,
-        chainId,
-      },
-    })
+  // const chain = getChain(chainId)
+  // const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrls.default)
+  // const tokenDeployer = new Contract(chain.tokenDeployer.address, tokenDeployerAbi, provider) as PSIPadTokenDeployer
+  // tokenDeployer.on(tokenDeployer.filters.TokenCreated(owner), async (creator, address) => {
+  //   if (creator !== owner) return
+  await client.token.create({
+    data: {
+      address,
+      symbol,
+      name,
+      decimals,
+      logo,
+      chainId,
+    },
   })
-  setTimeout(() => {
-    tokenDeployer.removeAllListeners()
-  }, 15000)
+  // })
+  // setTimeout(() => {
+  //   tokenDeployer.removeAllListeners()
+  // }, 15000)
 
   res.json({ message: 'ok' })
 }
