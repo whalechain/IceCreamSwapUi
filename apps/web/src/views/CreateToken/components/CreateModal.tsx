@@ -1,6 +1,6 @@
 import { Flex, Modal, useModalContext, Text, Button, Heading, Spinner } from '@pancakeswap/uikit'
 import { formatAmount } from '../../Bridge/formatter'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FormValues } from '../create-schema'
 import styled from 'styled-components'
 import { useAddUserToken } from 'state/user/hooks'
@@ -41,6 +41,8 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const { chainId } = useActiveChainId()
   const [tokenAddress, setTokenAddress] = useState<string | null>(null)
   const token = useToken(tokenAddress)
+  console.log(token)
+  console.log(tokenAddress)
   const tokenDeployer = useTokenDeployer()
   const { address, status } = useAccount()
 
@@ -86,6 +88,14 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
 
   const addToken = useAddUserToken()
   const userAddedTokens = useUserAddedTokens()
+
+  const handleAddToken = useCallback(() => {
+    if (token) {
+      addToken(token)
+    } else {
+      console.error('No token found')
+    }
+  }, [addToken, token])
 
   const handleDismiss = () => {
     onDismiss()
@@ -144,9 +154,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       </Text>
       <Text>What&apos;s next?</Text>
       <Button
-        onClick={() => {
-          addToken(token)
-        }}
+        onClick={handleAddToken}
         disabled={userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress)}
       >
         {userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress) ? 'Imported' : 'Import to Swap'}
