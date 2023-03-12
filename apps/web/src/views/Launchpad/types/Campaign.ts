@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers'
+import { Campaign as DatabaseCampaign } from '@prisma/client'
 
 export interface Campaign {
   id: string
