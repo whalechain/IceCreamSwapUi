@@ -1174,6 +1174,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5aE225fa6573903CA58E26Cd4171B87060CeEAA2/logo.png"
+    },
+    {
+      "name": "EMPEROR",
+      "address": "0x8AFB52De791A19873c3097195Ef04D48ED93fE14",
+      "symbol": "EMPEROR",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x8AFB52De791A19873c3097195Ef04D48ED93fE14/logo.png"
     }
   ]
 }
