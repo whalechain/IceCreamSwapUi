@@ -30,6 +30,10 @@ const SwapWarningModal: React.FC<React.PropsWithChildren<SwapWarningModalProps>>
       symbol: SwapWarningTokensConfig.layer0_scam.symbol,
       component: <ScamWarning />,
     },
+    [SwapWarningTokensConfig.future_ai.address]: {
+      symbol: SwapWarningTokensConfig.future_ai.symbol,
+      component: <ScamWarning />,
+    },
   }
 
   const SWAP_WARNING = TOKEN_WARNINGS[swapCurrency.address]
