@@ -912,22 +912,6 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xc7C380Cf10d7c6f0720BFDf4D613c877Ba0D2DB1/logo.png"
     },
     {
-      "name": "Hobo Universe",
-      "address": "0x5EE2c2aE144218b52CF756c0907bA384C7E35fba",
-      "symbol": "HUC",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x5EE2c2aE144218b52CF756c0907bA384C7E35fba/logo.png"
-    },
-    {
-      "name": "CoreTama",
-      "address": "0x66B6c83B40A74d0EB9294Ccf52c4A6269d452D84",
-      "symbol": "CTama",
-      "decimals": 9,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x66B6c83B40A74d0EB9294Ccf52c4A6269d452D84/logo.png"
-    },
-    {
       "name": "AKIO INU",
       "address": "0xBb790D1e8A2d34e9d846bb00EA0b0380813375EE",
       "symbol": "AKIO",
@@ -966,14 +950,6 @@
       "decimals": 9,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xCb6375D3bF479e7fD1355ac4138eDC8D13E13218/logo.png"
-    },
-    {
-      "name": "SAFECORE",
-      "address": "0x6cA82c13c1F42bC859f5f0E235E1ee7B7BfBbb8F",
-      "symbol": "SAFECORE",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6cA82c13c1F42bC859f5f0E235E1ee7B7BfBbb8F/logo.png"
     },
     {
       "name": "BullKats",
@@ -1054,6 +1030,158 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xb2172C92e22F09Bc7d15C4B1790c7704f8429d14/logo.png"
+    },
+    {
+      "name": "CoreTomb",
+      "address": "0xC830a752eef79F2D66a36645A70fB0bA176b4Cea",
+      "symbol": "CTOMB",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xC830a752eef79F2D66a36645A70fB0bA176b4Cea/logo.png"
+    },
+    {
+      "name": "CoreShare",
+      "address": "0x6501cCA79ca8D6F68784f2345c9a379951e30A05",
+      "symbol": "CSHARE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6501cCA79ca8D6F68784f2345c9a379951e30A05/logo.png"
+    },
+    {
+      "name": "Hobo Universe",
+      "address": "0x25100C0083e8E53b1cb264E978522bd477011A0d",
+      "symbol": "HOBO",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x25100C0083e8E53b1cb264E978522bd477011A0d/logo.png"
+    },
+    {
+      "name": "WOOF",
+      "address": "0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092",
+      "symbol": "WOOF",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092/logo.png"
+    },
+    {
+      "name": "USDT Rain",
+      "address": "0xFB59984Fd355C60064fcb191C0Ed817F1365eec0",
+      "symbol": "USDTRAIN",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xFB59984Fd355C60064fcb191C0Ed817F1365eec0/logo.png"
+    },
+    {
+      "name": "DogeCore",
+      "address": "0x8063F3ff48B24cAe82DbA04D24D11b8A3B9A087c",
+      "symbol": "DCORE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x8063F3ff48B24cAe82DbA04D24D11b8A3B9A087c/logo.png"
+    },
+    {
+      "name": "ShibaCore",
+      "address": "0x84F0FDAA0a34B5F4a1144372072a706A4A8121A4",
+      "symbol": "SHIBA",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x84F0FDAA0a34B5F4a1144372072a706A4A8121A4/logo.png"
+    },
+    {
+      "name": "Biang Inu",
+      "address": "0x241dC1D03eAbd156FDb326Cf9fFBa11f48BA9758",
+      "symbol": "BINU",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x241dC1D03eAbd156FDb326Cf9fFBa11f48BA9758/logo.png"
+    },
+    {
+      "name": "Core Sharky",
+      "address": "0x73532Ba016bAf18db9edD6013eB150BDf3451C51",
+      "symbol": "CSHARKY",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x73532Ba016bAf18db9edD6013eB150BDf3451C51/logo.png"
+    },
+    {
+      "name": "Zombie Core",
+      "address": "0xc951d94922CEC79e2a363c6773dACac8079BA833",
+      "symbol": "ZCORE",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xc951d94922CEC79e2a363c6773dACac8079BA833/logo.png"
+    },
+    {
+      "name": "Rubic Wallet",
+      "address": "0xe1497a14a1224DaEFa5Fe68fD9e107Cb472e8129",
+      "symbol": "RBWT",
+      "decimals": 9,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xe1497a14a1224DaEFa5Fe68fD9e107Cb472e8129/logo.png"
+    },
+    {
+      "name": "HUSKY TOKEN",
+      "address": "0xB584245941a82cd4F19ecD7308cd466370f55569",
+      "symbol": "HSK",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB584245941a82cd4F19ecD7308cd466370f55569/logo.png"
+    },
+    {
+      "name": "SHIBONK",
+      "address": "0x85FD5f8dBD0c9Ef1806E6c7d4B787d438621C1dC",
+      "symbol": "SBONK",
+      "decimals": 9,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x85FD5f8dBD0c9Ef1806E6c7d4B787d438621C1dC/logo.png"
+    },
+    {
+      "name": "MemeRoyale",
+      "address": "0xA7c0B19645B653B4373E3592C84fce8C64D89E8F",
+      "symbol": "ROYALE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/binance/assets/0x7a89fae255957C190ac8552f559be0Ad0401A081/logo.png"
+    },
+    {
+      "name": "4D Twin Maps",
+      "address": "0xAB82f8b18ea7929815076F152b8Fd24F8b267274",
+      "symbol": "MAP",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x6D347fdCb302a5879545E01EceE7A176db23dCDa/logo.png"
+    },
+    {
+      "name": "AIBRA",
+      "address": "0xe56016187C0fb36f76c33d0D0B36b47648A42D0A",
+      "symbol": "ABR",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png"
+    },
+    {
+      "name": "CRYPTEQ",
+      "address": "0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91",
+      "symbol": "CRQ",
+      "decimals": 5,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91/logo.png"
+    },
+    {
+      "name": "FlashX Max",
+      "address": "0x5aE225fa6573903CA58E26Cd4171B87060CeEAA2",
+      "symbol": "FSXM",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5aE225fa6573903CA58E26Cd4171B87060CeEAA2/logo.png"
+    },
+    {
+      "name": "EMPEROR",
+      "address": "0x8AFB52De791A19873c3097195Ef04D48ED93fE14",
+      "symbol": "EMPEROR",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x8AFB52De791A19873c3097195Ef04D48ED93fE14/logo.png"
     }
   ]
 }
