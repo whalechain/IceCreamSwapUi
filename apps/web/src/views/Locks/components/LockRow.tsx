@@ -87,7 +87,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
       </Td>
       <Td>
         <Flex flexDirection="column">
-          <span>{`${format(lock.amount)} ${token.symbol}`}</span>
+          <span>{`${format(lock.amount)} ${token?.symbol}`}</span>
           <Text fontSize="0.75em" color={theme.colors.text99}>
             {percentClaimed}% Claimed
           </Text>
