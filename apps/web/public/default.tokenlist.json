@@ -1198,6 +1198,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xDBa57074B81CD0630D7960dFAA370972C5E1A6D9/logo.png"
+    },
+    {
+      "name": "3D City",
+      "address": "0x979A34f98b9a1bF2B38fD18f5c038423e4902db9",
+      "symbol": "$3DC",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x979A34f98b9a1bF2B38fD18f5c038423e4902db9/logo.png"
     }
   ]
 }

@@ -233,6 +233,13 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png',
         resourceId: '0x00000000000000000000009F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA9402',
       },
+      {
+        address: '0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5',
+        name: '3D City',
+        symbol: '$3DC',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png',
+        resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
+      },
     ],
   },
   {
@@ -676,6 +683,13 @@ const chains = [
         resourceId: '0x00000000000000000000009F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA9402',
       },
       */
+      {
+        address: '0x979A34f98b9a1bF2B38fD18f5c038423e4902db9',
+        name: '3D City',
+        symbol: '$3DC',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x979A34f98b9a1bF2B38fD18f5c038423e4902db9/logo.png',
+        resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
+      },
     ],
   },
 ]
