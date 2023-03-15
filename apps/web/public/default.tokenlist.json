@@ -1182,6 +1182,22 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x8AFB52De791A19873c3097195Ef04D48ED93fE14/logo.png"
+    },
+    {
+      "name": "ZMLM",
+      "address": "0x8EDF218D7bd1A28AA3736A0F77Bd8879e2af6789",
+      "symbol": "ZM",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x8EDF218D7bd1A28AA3736A0F77Bd8879e2af6789/logo.png"
+    },
+    {
+      "name": "GreenRanger",
+      "address": "0xDBa57074B81CD0630D7960dFAA370972C5E1A6D9",
+      "symbol": "GR",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xDBa57074B81CD0630D7960dFAA370972C5E1A6D9/logo.png"
     }
   ]
 }
