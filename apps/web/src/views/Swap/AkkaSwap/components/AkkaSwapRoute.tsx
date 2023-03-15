@@ -73,22 +73,6 @@ export default memo(function SwapRoute({ route }: { route: AkkaRouterInfoRespons
                 </Fragment>
               )
             })}
-            <Fragment>
-              <Text fontSize="12px"> adsasd </Text>
-              {<ChevronRightIcon width="16px" />}
-            </Fragment>
-            <Fragment>
-              <Text fontSize="12px"> adsasd </Text>
-              {<ChevronRightIcon width="16px" />}
-            </Fragment>
-            <Fragment>
-              <Text fontSize="12px"> adsasd </Text>
-              {<ChevronRightIcon width="16px" />}
-            </Fragment>
-            <Fragment>
-              <Text fontSize="12px"> adsasd </Text>
-            </Fragment>
-
           </Flex>
         )
       })}
