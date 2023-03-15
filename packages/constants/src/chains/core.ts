@@ -39,4 +39,5 @@ export const core: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
 }

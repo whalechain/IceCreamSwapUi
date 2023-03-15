@@ -31,4 +31,5 @@ model Campaign {
   github String?
   reddit String?
   description String
+  tags String[]
 }

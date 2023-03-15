@@ -27,6 +27,7 @@ interface ChainBase {
     address: string
     decimals: number
   }
+  campaignFactory?: string
 }
 
 type IceChain = ChainBase & Chain

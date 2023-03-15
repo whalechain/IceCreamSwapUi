@@ -1,7 +1,10 @@
-import { Button, Card, Flex, Link, Progress, Text } from '@pancakeswap/uikit'
+import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap/uikit'
 import styled from 'styled-components'
-import { Campaign } from '../types/Campaign'
+import { useToken } from 'hooks/Tokens'
+import { CampaignData } from '../hooks'
 import LaunchpadCardHeader from './LaunchpadCardHeader'
+import BuyModal from './BuyModal'
+import { renderDate } from 'views/Locks/utils'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -27,38 +30,64 @@ const ExpandingWrapper = styled(Flex)`
   justify-content: center;
 `
 interface LaunchpadCardProps {
-  launchpad: Campaign
+  launchpad: CampaignData
+}
+
+const roundString = (str: string) => {
+  const [whole, decimal] = str.split('.')
+  if (!decimal) return whole
+  return `${whole}.${decimal.slice(0, 2)}`
 }
 
 const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
   const { launchpad } = props
+  const token = useToken(launchpad?.tokenAddress)
+  console.log(launchpad)
+  const [onPresentBuyModal] = useModal(<BuyModal campaign={launchpad} />, true, true, `buyModal-${launchpad.id}`)
+  const started = new Date(launchpad.start_date.toNumber() * 1000) < new Date()
+  const ended = new Date(launchpad.end_date.toNumber() * 1000) < new Date()
+
   return (
     <StyledCard>
       <LaunchpadCardInnerContainer>
-        <LaunchpadCardHeader launchpad={launchpad} />
+        <LaunchpadCardHeader campaign={launchpad} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {launchpad.price}
+            {launchpad.rate.toNumber().toFixed(2)} CORE per {token?.symbol}
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" fontWeight="bold">
-            Progress ({Math.round((launchpad.sold / launchpad.total) * 10000) / 100}%)
+            Progress ({roundString(launchpad.collected.div(launchpad.softCap).mul(100).toString())}%)
           </Text>
         </Flex>
-        <Progress primaryStep={(launchpad.sold / launchpad.total) * 100} />
+        <Progress primaryStep={launchpad.collected.div(launchpad.hardCap).mul(100).toNumber()} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px">Liquidity</Text>
-          <Text fontSize="16px">{launchpad.liquidity}%</Text>
+          <Text fontSize="16px">{launchpad.liquidity_rate.toNumber() / 100}%</Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px">Lockup Time</Text>
-          <Text fontSize="16px">{launchpad.lockupTime} Days</Text>
+          <Text fontSize="16px">{launchpad.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
         </Flex>
-        <Button>Buy now</Button>
+        {started && !ended && (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Ending at</Text>
+            <Text fontSize="16px">{renderDate(launchpad.end_date.mul(1000).toNumber())}</Text>
+          </Flex>
+        )}
+        {started ? (
+          !ended ? (
+            <Button onClick={onPresentBuyModal}>Buy now</Button>
+          ) : (
+            <Button disabled>Sale Ended</Button>
+          )
+        ) : (
+          <Button disabled>Starting at {renderDate(launchpad.start_date.mul(1000).toNumber())}</Button>
+        )}
       </LaunchpadCardInnerContainer>
       <ExpandingWrapper>
-        <Link fontSize="16px" color="primary" href="/launchpad/blub">
+        <Link fontSize="16px" color="primary" href={`/launchpad/${launchpad.id}`}>
           Details
         </Link>
       </ExpandingWrapper>

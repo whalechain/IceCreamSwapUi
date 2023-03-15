@@ -15,6 +15,21 @@ const KYCTag: React.FC = () => {
   )
 }
 
+const OfficialTag: React.FC = () => {
+  const { t } = useTranslation()
+  return (
+    <Tag
+      variant="secondary"
+      style={{ background: 'none' }}
+      outline
+      startIcon={<VerifiedIcon width="18px" color="primary" mr="4px" />}
+    >
+      {t('Official')}
+    </Tag>
+  )
+}
+
 export const LaunchpadTags = {
   Kyc: KYCTag,
+  Official: OfficialTag,
 }

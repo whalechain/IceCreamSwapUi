@@ -1,7 +1,7 @@
-import LaunchpadList from 'views/Launchpad/CampaignList'
+import { CreateCampaign } from 'views/Launchpad/CreateCampaign'
 
 const LaunchpadPage = () => {
-  return <LaunchpadList />
+  return <CreateCampaign />
 }
 
 LaunchpadPage.chains = [1116]
