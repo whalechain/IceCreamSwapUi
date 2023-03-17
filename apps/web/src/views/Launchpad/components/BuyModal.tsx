@@ -69,6 +69,8 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const handleDismiss = () => {
     onDismiss()
   }
+  const purchased = (Number(contributed ? contributed.data.toString() : '0') * 500) / 10 ** 18
+  console.log(purchased)
 
   const preview = (
     <>
@@ -101,21 +103,14 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
         <Text>{formatAmount(amountBigint ? amountBigint.multiply(500).toFixed(3) : '0')} TICE</Text>
       </Flex>
 
-      {amountBigint &&
-      Number(amountBigint.multiply(500).toFixed(3)) >
-        50 - Number(contributed ? contributed.data.toString() : '0') * 500 ? (
+      {amountBigint && Number(amountBigint.multiply(500).toFixed(3)) > 50 - purchased ? (
         <Text style={{ color: 'var(--colors-failure)' }}>You can&apos;t buy more than 50 TICE per account!</Text>
       ) : undefined}
       {status === 'connected' ? (
         <Button
           style={{ flexGrow: 1 }}
           onClick={handleDeposit}
-          disabled={
-            (amountBigint &&
-              Number(amountBigint.multiply(500).toFixed(3)) >
-                50 - (Number(contributed ? contributed.data.toString() : '0') * 500) / 10 ** 18) ||
-            !amountBigint
-          }
+          disabled={(amountBigint && Number(amountBigint.multiply(500).toFixed(3)) > 50 - purchased) || !amountBigint}
         >
           Confirm
         </Button>
