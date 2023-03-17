@@ -144,6 +144,13 @@ const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryEr
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { chainId } = useActiveWeb3React()
   const supportedChains = useSupportedChains()
+  useEffect(() => {
+    if (supportedChains.length > 0 && !supportedChains.includes(chainId)) {
+      const url = new URL(window.location.href)
+      url.searchParams.set('chainId', supportedChains[0].toString())
+      window.location.href = url.href
+    }
+  }, [chainId, supportedChains])
   const wrongChain = typeof chainId !== 'undefined' && !supportedChains.includes(chainId)
   if (Component.pure) {
     return <Component {...pageProps} />
