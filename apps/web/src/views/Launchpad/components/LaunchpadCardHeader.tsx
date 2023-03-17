@@ -36,7 +36,7 @@ const LaunchpadCardHeader: React.FC<LaunchpadCardHeaderProps> = (props) => {
       <Logo src={ticeBlob} />
       <Flex flexDirection="column" alignItems="flex-end" gap="4px">
         <Heading>{token?.name}</Heading>
-        <Flex justifyContent="center">
+        <Flex justifyContent="center" style={{ gap: '0.5em' }}>
           {campaign.tags.map((tag) => {
             const Tag = LaunchpadTags[tag]
             return <Tag key={tag} />
