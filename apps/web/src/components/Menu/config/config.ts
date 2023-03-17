@@ -8,6 +8,8 @@ import {
   InfoIcon,
   BridgeIcon,
   DropdownMenuItemType,
+  RocketIcon,
+  MoreHorizontalIcon,
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
 import {
@@ -182,8 +184,16 @@ const config: (
     },
     */
     {
-      label: t('Tools'),
-      icon: InfoIcon,
+      label: t('Launchpad'),
+      href: '/launchpad',
+      icon: RocketIcon,
+      hideSubNav: true,
+      showItemsOnMobile: false,
+      items: [],
+    },
+    {
+      label: t('More'),
+      icon: MoreHorizontalIcon,
       showItemsOnMobile: true,
       hideSubNav: true,
       supportChainIds: [...SUPPORT_INFO, ...SUPPORT_LOCKS],
@@ -198,21 +208,17 @@ const config: (
           href: '/locks',
           supportChainIds: SUPPORT_LOCKS,
         },
+        {
+          label: t('Wiki'),
+          href: 'https://wiki.icecreamswap.com',
+          type: DropdownMenuItemType.EXTERNAL_LINK,
+        },
         // {
         //   label: t('Create Token'),
         //   href: '/create-token',
         //   supportChainIds: SUPPORT_LOCKS,
         // },
       ].map((item) => addMenuItemSupported(item, chainId)),
-    },
-    {
-      label: t('Wiki'),
-      href: 'https://wiki.icecreamswap.com',
-      type: DropdownMenuItemType.EXTERNAL_LINK,
-      icon: InfoIcon,
-      hideSubNav: true,
-      showItemsOnMobile: false,
-      items: [],
     },
     /*
     {
