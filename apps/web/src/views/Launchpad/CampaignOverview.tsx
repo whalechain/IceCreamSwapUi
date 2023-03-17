@@ -101,7 +101,7 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                     </RowStyled>
                     <RowStyled>
                       <Td1>Ending at</Td1>
-                      <Td2>{renderDate(campaign.start_date.mul(1000).toNumber())}</Td2>
+                      <Td2>{renderDate(campaign.end_date.mul(1000).toNumber())}</Td2>
                     </RowStyled>
                   </tbody>
                 </Table>
