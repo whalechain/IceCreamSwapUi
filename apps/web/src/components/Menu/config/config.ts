@@ -198,11 +198,11 @@ const config: (
           href: '/locks',
           supportChainIds: SUPPORT_LOCKS,
         },
-        {
-          label: t('Create Token'),
-          href: '/create-token',
-          supportChainIds: SUPPORT_LOCKS,
-        },
+        // {
+        //   label: t('Create Token'),
+        //   href: '/create-token',
+        //   supportChainIds: SUPPORT_LOCKS,
+        // },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
