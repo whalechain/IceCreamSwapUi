@@ -64,7 +64,7 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   )
 
   return (
-    <AppWrapper hasBackButton title={`Viewing ${token?.name} Campaign`} subtitle="">
+    <AppWrapper hasBackButton title={`Viewing ${token?.name} Campaign`} subtitle="" backlink="/launchpad">
       <Flex flexDirection="column" gap="0.75em">
         {status === FetchStatus.Failed ? (
           <Heading as="h2" marginY="3">
