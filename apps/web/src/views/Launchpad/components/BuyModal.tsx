@@ -10,7 +10,7 @@ import { useAccount, useBalance } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { BigNumber, utils } from 'ethers'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import { CampaignData, useCampaign, useCampaignFactory } from '../hooks'
+import { CampaignData, useCampaign, useCampaignFactory, useGivenAmount } from '../hooks'
 import { useActiveChain } from 'hooks/useActiveChain'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import useNativeCurrency from 'hooks/useNativeCurrency'
@@ -46,6 +46,7 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const nativeCurrency = useNativeCurrency()
   const balances = useNativeBalances([address])
   const balance = (balances ?? {})[address]
+  const contributed = useGivenAmount(campaign?.address, address)
 
   const [amount, setAmount] = useState('')
 
@@ -100,14 +101,21 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
         <Text>{formatAmount(amountBigint ? amountBigint.multiply(500).toFixed(3) : '0')} TICE</Text>
       </Flex>
 
-      {amountBigint && Number(amountBigint.multiply(500).toFixed(3)) > 50 ? (
+      {amountBigint &&
+      Number(amountBigint.multiply(500).toFixed(3)) >
+        50 - Number(contributed ? contributed.data.toString() : '0') * 500 ? (
         <Text style={{ color: 'var(--colors-failure)' }}>You can&apos;t buy more than 50 TICE per account!</Text>
       ) : undefined}
       {status === 'connected' ? (
         <Button
           style={{ flexGrow: 1 }}
           onClick={handleDeposit}
-          disabled={(amountBigint && Number(amountBigint.multiply(500).toFixed(3)) > 50) || !amountBigint}
+          disabled={
+            (amountBigint &&
+              Number(amountBigint.multiply(500).toFixed(3)) >
+                50 - Number(contributed ? contributed.data.toString() : '0') * 500) ||
+            !amountBigint
+          }
         >
           Confirm
         </Button>
