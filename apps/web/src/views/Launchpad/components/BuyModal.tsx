@@ -113,7 +113,7 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
           disabled={
             (amountBigint &&
               Number(amountBigint.multiply(500).toFixed(3)) >
-                50 - Number(contributed ? contributed.data.toString() : '0') * 500) ||
+                50 - (Number(contributed ? contributed.data.toString() : '0') * 500) / 10 ** 18) ||
             !amountBigint
           }
         >
