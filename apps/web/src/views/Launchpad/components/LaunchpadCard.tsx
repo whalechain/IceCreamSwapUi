@@ -7,6 +7,7 @@ import BuyModal from './BuyModal'
 import { renderDate } from 'views/Locks/utils'
 import { useAccount } from 'wagmi'
 import { utils } from 'ethers'
+import ConnectWalletButton from 'components/ConnectWalletButton'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -48,7 +49,7 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
   const [onPresentBuyModal] = useModal(<BuyModal campaign={launchpad} />, true, true, `buyModal-${launchpad.id}`)
   const started = new Date(launchpad.start_date.toNumber() * 1000) < new Date()
   const ended = new Date(launchpad.end_date.toNumber() * 1000) < new Date()
-  const { address } = useAccount()
+  const { address, status } = useAccount()
 
   const contributed = useGivenAmount(launchpad.address, address)
   return (
@@ -77,7 +78,7 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
         </Flex>
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Your Contribution</Text>
+            <Text fontSize="16px">Contributed</Text>
             <Text fontSize="16px">{utils.formatUnits(contributed.data, 18)} CORE</Text>
           </Flex>
         )}
@@ -89,7 +90,11 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
         )}
         {started ? (
           !ended ? (
-            <Button onClick={onPresentBuyModal}>Buy now</Button>
+            status === 'connected' ? (
+              <Button onClick={onPresentBuyModal}>Buy now</Button>
+            ) : (
+              <ConnectWalletButton />
+            )
           ) : (
             <Button disabled>Sale Ended</Button>
           )

@@ -57,10 +57,12 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const handleDeposit = async () => {
     // const initialSupply = utils.parseUnits(String(formValues?.initialSupply || '0'), 18)
     // const maxSupply = utils.parseUnits(String(formValues?.maxSupply || '0'), 18)
-    await campaignInstance?.buyTokens({
+    const tx = await campaignInstance?.buyTokens({
       value: utils.parseEther(amount),
     })
     setStep('transfer')
+    await tx?.wait()
+    setStep('completed')
   }
 
   const handleDismiss = () => {
@@ -129,7 +131,7 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
       <Flex justifyContent="center">
         <Spinner />
       </Flex>
-      <Text>Your Token is being created</Text>
+      <Text>Processing Transaction</Text>
     </>
   )
 
