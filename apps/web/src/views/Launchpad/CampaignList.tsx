@@ -1,8 +1,11 @@
-import { Grid, Heading, PageHeader } from '@pancakeswap/uikit'
+import { Flex, Grid, Heading, PageHeader } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import styled from 'styled-components'
 import LaunchpadCard from './components/LaunchpadCard'
 import { useCampaigns } from './hooks'
+import header from './images/header.png'
+import rocket from './images/rocket.png'
+import Image from 'next/image'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -21,25 +24,66 @@ const H2 = styled(Heading)`
   }
 `
 
+const Filler = styled.div`
+  min-height: 175px;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    min-height: 0px;
+  }
+`
+
+const Rocket = styled.div`
+  display: none;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    display: block;
+    margin-right: 24px;
+  }
+`
+const Rocket2 = styled.div`
+  ${({ theme }) => theme.mediaQueries.sm} {
+    display: none;
+  }
+`
+
 const LaunchpadList: React.FC = () => {
   const campaigns = useCampaigns({})
 
   return (
     <>
-      <PageHeader>
-        <H1 as="h1" color="secondary" scale="xxl">
-          Launchpad
-        </H1>
-        <H2>Be the first investing in new Projects</H2>
+      <PageHeader
+        background={`url(${header.src})`}
+        style={{
+          backgroundPosition: 'right bottom',
+          backgroundColor: '#E66280',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <Flex>
+          <Rocket>
+            <Image src={rocket.src} alt="Rocket" width={96} height={96} />
+          </Rocket>
+          <Flex flexDirection="column">
+            <H1 as="h1" color="secondary" scale="xxl">
+              Launchpad
+            </H1>
+            <H2>Be the first investing in new Projects</H2>
+            <Filler />
+          </Flex>
+        </Flex>
       </PageHeader>
       <Page>
         {campaigns.data?.length > 0 && (
           <Grid gridGap="32px" gridTemplateColumns={['1fr', null, null, 'repeat(2, 1fr)', 'repeat(3, 1fr)']}>
+            {campaigns.data.length === 1 && <div />}
             {campaigns.data.map((launchpad) => (
               <LaunchpadCard key={launchpad.id} launchpad={launchpad} />
             ))}
           </Grid>
         )}
+        <Flex justifyContent="center" width="100%">
+          <Rocket2>
+            <Image src={rocket.src} alt="Rocket" width={96} height={96} />
+          </Rocket2>
+        </Flex>
       </Page>
     </>
   )

@@ -8,14 +8,26 @@ import campaignFactoryAbi from '@passive-income/launchpad-contracts/abi/contract
 import useSWR from 'swr'
 import { multicallv2 } from 'utils/multicall'
 import { BigNumber } from 'ethers'
+import { useProvider } from 'wagmi'
 
 export const useCampaignFactory = () => {
   const chain = useActiveChain()
   return useContract<PSIPadCampaignFactory>(chain?.campaignFactory, campaignFactoryAbi, true)
 }
 
-export const useCampaign = (contractAddress: string) => {
+export const useCampaignSigner = (contractAddress: string) => {
   return useContract<PSIPadCampaign>(contractAddress, campaignAbi, true)
+}
+
+export const useCampaign = (contractAddress: string) => {
+  return useContract<PSIPadCampaign>(contractAddress, campaignAbi)
+}
+
+export const useGivenAmount = (contractAddress: string, address: string) => {
+  const campaign = useCampaign(contractAddress)
+  return useSWR<BigNumber>(campaign && address ? ['givenAmount', contractAddress, address] : null, async () => {
+    return campaign.getGivenAmount(address)
+  })
 }
 
 export interface CampaignData {
@@ -47,6 +59,7 @@ export interface CampaignData {
 
 export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) => {
   const chain = useActiveChain()
+  const provider = useProvider({ chainId: chain?.id })
 
   return useSWR<CampaignData[]>(
     chain ? ['campaigns', chain] : null,
@@ -55,63 +68,68 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
         method: 'POST',
         body: JSON.stringify({ chainId: chain.id, filter, id }),
       }).then((res) => res.json())
-      const multiCallResult = await multicallv2({
-        abi: campaignAbi,
-        chainId: chain.id,
-        calls: campaigns
-          .map((campaign) => [
-            {
-              address: campaign.address,
-              name: 'token',
-            },
-            {
-              address: campaign.address,
-              name: 'softCap',
-            },
-            {
-              address: campaign.address,
-              name: 'hardCap',
-            },
-            {
-              address: campaign.address,
-              name: 'start_date',
-            },
-            {
-              address: campaign.address,
-              name: 'end_date',
-            },
-            {
-              address: campaign.address,
-              name: 'rate',
-            },
-            {
-              address: campaign.address,
-              name: 'min_allowed',
-            },
-            {
-              address: campaign.address,
-              name: 'max_allowed',
-            },
-            {
-              address: campaign.address,
-              name: 'pool_rate',
-            },
-            {
-              address: campaign.address,
-              name: 'lock_duration',
-            },
-            {
-              address: campaign.address,
-              name: 'liquidity_rate',
-            },
+      let multiCallResult: any = []
+      try {
+        multiCallResult = await multicallv2({
+          abi: campaignAbi,
+          chainId: chain.id,
+          calls: campaigns
+            .map((campaign) => [
+              {
+                address: campaign.address,
+                name: 'token',
+              },
+              {
+                address: campaign.address,
+                name: 'softCap',
+              },
+              {
+                address: campaign.address,
+                name: 'hardCap',
+              },
+              {
+                address: campaign.address,
+                name: 'start_date',
+              },
+              {
+                address: campaign.address,
+                name: 'end_date',
+              },
+              {
+                address: campaign.address,
+                name: 'rate',
+              },
+              {
+                address: campaign.address,
+                name: 'min_allowed',
+              },
+              {
+                address: campaign.address,
+                name: 'max_allowed',
+              },
+              {
+                address: campaign.address,
+                name: 'pool_rate',
+              },
+              {
+                address: campaign.address,
+                name: 'lock_duration',
+              },
+              {
+                address: campaign.address,
+                name: 'liquidity_rate',
+              },
 
-            {
-              address: campaign.address,
-              name: 'collected',
-            },
-          ])
-          .flat(),
-      })
+              {
+                address: campaign.address,
+                name: 'collected',
+              },
+            ])
+            .flat(),
+        })
+      } catch (e) {
+        console.error(e)
+      }
       return campaigns.map((campaign, index) => {
         return {
           ...campaign,

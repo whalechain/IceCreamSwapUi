@@ -95,13 +95,18 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
       </Flex>
       <Flex flexDirection="column">
         <Text>You will recieve</Text>
-        <Text>
-          {formatAmount(amountBigint ? amountBigint.multiply(15).divide(10).toFixed(3) : '0')} Core worth in Ice
-        </Text>
+        <Text>{formatAmount(amountBigint ? amountBigint.multiply(500).toFixed(3) : '0')} TICE</Text>
       </Flex>
 
+      {amountBigint && Number(amountBigint.multiply(500).toFixed(3)) > 50 && (
+        <Text style={{ color: 'var(--colors-failure)' }}>You can&apos;t buy more than 50 TICE per account!</Text>
+      )}
       {status === 'connected' ? (
-        <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
+        <Button
+          style={{ flexGrow: 1 }}
+          onClick={handleDeposit}
+          disabled={(amountBigint && Number(amountBigint.multiply(500).toFixed(3)) > 50) || !amountBigint}
+        >
           Confirm
         </Button>
       ) : (

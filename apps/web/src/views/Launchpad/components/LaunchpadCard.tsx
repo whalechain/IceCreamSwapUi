@@ -1,10 +1,12 @@
 import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useToken } from 'hooks/Tokens'
-import { CampaignData } from '../hooks'
+import { CampaignData, useGivenAmount } from '../hooks'
 import LaunchpadCardHeader from './LaunchpadCardHeader'
 import BuyModal from './BuyModal'
 import { renderDate } from 'views/Locks/utils'
+import { useAccount } from 'wagmi'
+import { utils } from 'ethers'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -46,22 +48,25 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
   const [onPresentBuyModal] = useModal(<BuyModal campaign={launchpad} />, true, true, `buyModal-${launchpad.id}`)
   const started = new Date(launchpad.start_date.toNumber() * 1000) < new Date()
   const ended = new Date(launchpad.end_date.toNumber() * 1000) < new Date()
+  const { address } = useAccount()
 
+  const contributed = useGivenAmount(launchpad.address, address)
   return (
     <StyledCard>
       <LaunchpadCardInnerContainer>
         <LaunchpadCardHeader campaign={launchpad} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {launchpad.rate.toNumber().toFixed(2)} CORE per {token?.symbol}
+            {(launchpad.rate.toNumber() / 10 ** 18).toFixed(3)} CORE per {token?.symbol}
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" fontWeight="bold">
-            Progress ({roundString(launchpad.collected.div(launchpad.softCap).mul(100).toString())}%)
+            Progress (
+            {roundString(`${(Number(launchpad.collected.toString()) / Number(launchpad.softCap.toString())) * 100}`)}%)
           </Text>
         </Flex>
-        <Progress primaryStep={launchpad.collected.div(launchpad.hardCap).mul(100).toNumber()} />
+        <Progress primaryStep={(Number(launchpad.collected.toString()) / Number(launchpad.softCap.toString())) * 100} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px">Liquidity</Text>
           <Text fontSize="16px">{launchpad.liquidity_rate.toNumber() / 100}%</Text>
@@ -70,6 +75,12 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
           <Text fontSize="16px">Lockup Time</Text>
           <Text fontSize="16px">{launchpad.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
         </Flex>
+        {contributed.data && (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Your Contribution</Text>
+            <Text fontSize="16px">{utils.formatUnits(contributed.data, 18)} CORE</Text>
+          </Flex>
+        )}
         {started && !ended && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Ending at</Text>
