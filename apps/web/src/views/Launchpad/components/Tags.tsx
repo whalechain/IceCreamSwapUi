@@ -1,5 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Tag, VerifiedIcon } from '@pancakeswap/uikit'
+import { Tag, TestnetIcon, VerifiedIcon } from '@pancakeswap/uikit'
 
 const KYCTag: React.FC = () => {
   const { t } = useTranslation()
@@ -29,7 +29,22 @@ const OfficialTag: React.FC = () => {
   )
 }
 
+const TestTag: React.FC = () => {
+  const { t } = useTranslation()
+  return (
+    <Tag
+      variant="success"
+      style={{ background: 'none' }}
+      outline
+      startIcon={<TestnetIcon width="18px" color="primary" mr="4px" />}
+    >
+      {t('Test')}
+    </Tag>
+  )
+}
+
 export const LaunchpadTags = {
   Kyc: KYCTag,
   Official: OfficialTag,
+  Test: TestTag,
 }
