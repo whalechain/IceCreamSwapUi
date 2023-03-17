@@ -7,7 +7,7 @@ import campaignAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPa
 import campaignFactoryAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadCampaignFactory.sol/PSIPadCampaignFactory.json'
 import useSWR from 'swr'
 import { multicallv2 } from 'utils/multicall'
-import { BigNumber } from 'ethers'
+import { BigNumber, Contract } from 'ethers'
 import { useProvider } from 'wagmi'
 
 export const useCampaignFactory = () => {
@@ -70,81 +70,104 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
       }).then((res) => res.json())
       let multiCallResult: any = []
       try {
-        multiCallResult = await multicallv2({
-          abi: campaignAbi,
-          chainId: chain.id,
-          calls: campaigns
-            .map((campaign) => [
-              {
-                address: campaign.address,
-                name: 'token',
-              },
-              {
-                address: campaign.address,
-                name: 'softCap',
-              },
-              {
-                address: campaign.address,
-                name: 'hardCap',
-              },
-              {
-                address: campaign.address,
-                name: 'start_date',
-              },
-              {
-                address: campaign.address,
-                name: 'end_date',
-              },
-              {
-                address: campaign.address,
-                name: 'rate',
-              },
-              {
-                address: campaign.address,
-                name: 'min_allowed',
-              },
-              {
-                address: campaign.address,
-                name: 'max_allowed',
-              },
-              {
-                address: campaign.address,
-                name: 'pool_rate',
-              },
-              {
-                address: campaign.address,
-                name: 'lock_duration',
-              },
-              {
-                address: campaign.address,
-                name: 'liquidity_rate',
-              },
-
-              {
-                address: campaign.address,
-                name: 'collected',
-              },
-            ])
+        // multiCallResult = await multicallv2({
+        //   abi: campaignAbi,
+        //   chainId: chain.id,
+        //   calls: campaigns
+        //     .map((campaign) => [
+        //       {
+        //         address: campaign.address,
+        //         name: 'token',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'softCap',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'hardCap',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'start_date',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'end_date',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'rate',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'min_allowed',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'max_allowed',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'pool_rate',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'lock_duration',
+        //       },
+        //       {
+        //         address: campaign.address,
+        //         name: 'liquidity_rate',
+        //       },
+        //
+        //       {
+        //         address: campaign.address,
+        //         name: 'collected',
+        //       },
+        //     ])
+        //     .flat(),
+        // })
+        multiCallResult = await Promise.all(
+          campaigns
+            .map((campaign) => {
+              const contract = new Contract(campaign.address, campaignAbi, provider) as PSIPadCampaign
+              return [
+                contract.token(),
+                contract.softCap(),
+                contract.hardCap(),
+                contract.start_date(),
+                contract.end_date(),
+                contract.rate(),
+                contract.min_allowed(),
+                contract.max_allowed(),
+                contract.pool_rate(),
+                contract.lock_duration(),
+                contract.liquidity_rate(),
+                contract.collected(),
+              ]
+            })
             .flat(),
-        })
+        )
+        console.log('multiCallResult', multiCallResult)
       } catch (e) {
         console.error(e)
       }
+      console.log('MR', multiCallResult)
       return campaigns.map((campaign, index) => {
         return {
           ...campaign,
-          tokenAddress: multiCallResult[index * 12][0],
-          softCap: multiCallResult[index * 12 + 1][0],
-          hardCap: multiCallResult[index * 12 + 2][0],
-          start_date: multiCallResult[index * 12 + 3][0],
-          end_date: multiCallResult[index * 12 + 4][0],
-          rate: multiCallResult[index * 12 + 5][0],
-          min_allowed: multiCallResult[index * 12 + 6][0],
-          max_allowed: multiCallResult[index * 12 + 7][0],
-          pool_rate: multiCallResult[index * 12 + 8][0],
-          lock_duration: multiCallResult[index * 12 + 9][0],
-          liquidity_rate: multiCallResult[index * 12 + 10][0],
-          collected: multiCallResult[index * 12 + 11][0],
+          tokenAddress: multiCallResult[index * 12],
+          softCap: multiCallResult[index * 12 + 1],
+          hardCap: multiCallResult[index * 12 + 2],
+          start_date: multiCallResult[index * 12 + 3],
+          end_date: multiCallResult[index * 12 + 4],
+          rate: multiCallResult[index * 12 + 5],
+          min_allowed: multiCallResult[index * 12 + 6],
+          max_allowed: multiCallResult[index * 12 + 7],
+          pool_rate: multiCallResult[index * 12 + 8],
+          lock_duration: multiCallResult[index * 12 + 9],
+          liquidity_rate: multiCallResult[index * 12 + 10],
+          collected: multiCallResult[index * 12 + 11],
         }
       })
     },
