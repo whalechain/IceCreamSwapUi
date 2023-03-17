@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import BundleAnalyzer from '@next/bundle-analyzer'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const withBundleAnalyzer = BundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-/*
 const sentryWebpackPluginOptions =
   process.env.VERCEL_ENV === 'production'
     ? {
@@ -23,7 +23,6 @@ const sentryWebpackPluginOptions =
         silent: true, // Suppresses all logs
         dryRun: !process.env.SENTRY_AUTH_TOKEN,
       }
- */
 
 /** @type {import('next').NextConfig} */
 const config = {
@@ -145,4 +144,4 @@ const config = {
   },
 }
 
-export default withBundleAnalyzer(config)
+export default withSentryConfig(withBundleAnalyzer(config), sentryWebpackPluginOptions)
