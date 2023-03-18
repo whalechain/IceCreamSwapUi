@@ -66,7 +66,6 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
 
   const token = useToken(campaign?.tokenAddress)
-  console.log(campaign)
 
   return (
     <AppWrapper hasBackButton title={`Viewing ${token?.name} Campaign`} subtitle="" backlink="/launchpad">
