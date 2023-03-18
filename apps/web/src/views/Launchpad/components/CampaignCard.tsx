@@ -60,7 +60,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {formatAmount(utils.formatUnits(campaign.pool_rate, token?.decimals))} {token?.symbol} per {native?.symbol}
+            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per {native?.symbol}
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
