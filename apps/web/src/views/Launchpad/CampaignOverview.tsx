@@ -122,6 +122,18 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                       </Td2>
                     </RowStyled>
                     <RowStyled>
+                      <Td1>Minimum Contribution</Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.min_allowed, 18))} {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>Maximum Contribution</Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.max_allowed, 18))} {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
                       <Td1>Rate</Td1>
                       <Td2>
                         {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per{' '}
