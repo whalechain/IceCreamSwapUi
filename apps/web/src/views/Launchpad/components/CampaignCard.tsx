@@ -9,6 +9,7 @@ import { useAccount } from 'wagmi'
 import { utils } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import useNativeCurrency from 'hooks/useNativeCurrency'
+import { formatAmount } from 'views/Bridge/formatter'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -59,7 +60,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {(campaign.rate.toNumber() / 10 ** 18).toFixed(3)} {token?.symbol} per {native?.symbol}
+            {formatAmount(utils.formatUnits(campaign.pool_rate, token?.decimals))} {token?.symbol} per {native?.symbol}
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
@@ -79,7 +80,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Contributed</Text>
-            <Text fontSize="16px">{utils.formatUnits(contributed.data, 18)} CORE</Text>
+            <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} CORE</Text>
           </Flex>
         )}
         {started && !ended && (
