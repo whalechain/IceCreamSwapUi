@@ -33,3 +33,11 @@ model Campaign {
   description String
   tags String[]
 }
+
+model Kyc {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  address String
+  chainId Int
+  transactionHash String
+}
