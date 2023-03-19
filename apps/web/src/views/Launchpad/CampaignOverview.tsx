@@ -10,7 +10,9 @@ import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
 import { useCampaigns } from './hooks'
 import TokenName from 'views/Locks/components/TokenName'
-import { renderDate } from 'views/Locks/utils'
+import { renderDate } from 'utils/renderDate'
+import InfoTooltip from '@pancakeswap/uikit/src/components/Timeline/InfoTooltip'
+import useNativeCurrency from 'hooks/useNativeCurrency'
 
 const RowStyled = styled.tr`
   &:hover {
@@ -31,10 +33,20 @@ const RowStyled = styled.tr`
   }
 `
 
+const StyledFlex = styled(Flex)`
+  align-items: center;
+  gap: 0.25em;
+`
+
 const Td1: React.FC<PropsWithChildren> = ({ children }) => {
   const { isMobile } = useMatchBreakpoints()
   return (
-    <Td style={{ paddingBottom: isMobile ? '0px' : undefined, borderBottom: isMobile ? '0px' : undefined }}>
+    <Td
+      style={{
+        paddingBottom: isMobile ? '0px' : undefined,
+        borderBottom: isMobile ? '0px' : undefined,
+      }}
+    >
       {children}
     </Td>
   )
@@ -47,21 +59,13 @@ const Td2: React.FC<PropsWithChildren> = ({ children }) => {
 
 export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const { isMobile } = useMatchBreakpoints()
-  const { address } = useAccount()
   const { data, status } = useCampaigns({ id })
   const campaign = data?.[0]
   const chain = useActiveChain()
+  const native = useNativeCurrency()
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
 
   const token = useToken(campaign?.tokenAddress)
-  const format = useCallback(
-    (value: BigNumber) => {
-      if (!value) return ''
-      const decimals = token?.decimals ?? 18
-      return formatAmount(Number(utils.formatUnits(value, decimals)))
-    },
-    [token],
-  )
 
   return (
     <AppWrapper hasBackButton title={`Viewing ${token?.name} Campaign`} subtitle="" backlink="/launchpad">
@@ -95,6 +99,70 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                       </Td2>
                     </RowStyled>
 
+                    <RowStyled>
+                      <Td1>
+                        <StyledFlex>
+                          Soft Cap{' '}
+                          <InfoTooltip text="The soft cap is required for the campaign to succeed. If the Soft Cap is not reached you will get your funds back" />
+                        </StyledFlex>
+                      </Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.softCap, 18))} {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>
+                        <StyledFlex>
+                          Hard Cap
+                          <InfoTooltip text="The hard cap allows for additional contribution to the campaign. The remaining tokens of the hard cap will be burned. When the hard cap is reached the campaign is lock for additional contributions." />
+                        </StyledFlex>
+                      </Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.hardCap, 18))} {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>Minimum Contribution</Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.min_allowed, 18))} {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>Maximum Contribution</Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.max_allowed, 18))} {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>Rate</Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per{' '}
+                        {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>
+                        <StyledFlex>
+                          Liquidity Rate
+                          <InfoTooltip
+                            text={`The amount of ${token?.symbol} that will be added per ${native?.symbol} as liquidity after the campaign succeeded. This will also determine the starting price after the campaign.`}
+                          />
+                        </StyledFlex>
+                      </Td1>
+                      <Td2>
+                        {formatAmount(utils.formatUnits(campaign.pool_rate, token?.decimals))} {token?.symbol} per{' '}
+                        {native?.symbol}
+                      </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>
+                        <StyledFlex>
+                          Liquidity Percentage
+                          <InfoTooltip text="That percentage of the total raised amount that will be added as liquidity." />
+                        </StyledFlex>
+                      </Td1>
+                      <Td2>{campaign.liquidity_rate.toNumber() / 100}%</Td2>
+                    </RowStyled>
                     <RowStyled>
                       <Td1>Starting at</Td1>
                       <Td2>{renderDate(campaign.start_date.mul(1000).toNumber())}</Td2>

@@ -2,12 +2,14 @@ import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap
 import styled from 'styled-components'
 import { useToken } from 'hooks/Tokens'
 import { CampaignData, useGivenAmount } from '../hooks'
-import LaunchpadCardHeader from './LaunchpadCardHeader'
+import CampaignCardHeader from './CampaignCardHeader'
 import BuyModal from './BuyModal'
-import { renderDate } from 'views/Locks/utils'
+import { renderDate } from 'utils/renderDate'
 import { useAccount } from 'wagmi'
 import { utils } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import useNativeCurrency from 'hooks/useNativeCurrency'
+import { formatAmount } from 'views/Bridge/formatter'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -33,7 +35,7 @@ const ExpandingWrapper = styled(Flex)`
   justify-content: center;
 `
 interface LaunchpadCardProps {
-  launchpad: CampaignData
+  campaign: CampaignData
 }
 
 const roundString = (str: string) => {
@@ -42,50 +44,49 @@ const roundString = (str: string) => {
   return `${whole}.${decimal.slice(0, 2)}`
 }
 
-const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
-  const { launchpad } = props
-  const token = useToken(launchpad?.tokenAddress)
-  console.log(launchpad)
-  const [onPresentBuyModal] = useModal(<BuyModal campaign={launchpad} />, true, true, `buyModal-${launchpad.id}`)
-  const started = new Date(launchpad.start_date.toNumber() * 1000) < new Date()
-  const ended = new Date(launchpad.end_date.toNumber() * 1000) < new Date()
+const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
+  const { campaign } = props
+  const token = useToken(campaign?.tokenAddress)
+  const native = useNativeCurrency()
+  const [onPresentBuyModal] = useModal(<BuyModal campaign={campaign} />, true, true, `buyModal-${campaign.id}`)
+  const started = new Date(campaign.start_date.toNumber() * 1000) < new Date()
+  const ended = new Date(campaign.end_date.toNumber() * 1000) < new Date()
   const { address, status } = useAccount()
 
-  const contributed = useGivenAmount(launchpad.address, address)
+  const contributed = useGivenAmount(campaign.address, address)
   return (
-    <StyledCard>
+    <StyledCard isActive={campaign.progress >= 1}>
       <LaunchpadCardInnerContainer>
-        <LaunchpadCardHeader campaign={launchpad} />
+        <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {(launchpad.rate.toNumber() / 10 ** 18).toFixed(3)} CORE per {token?.symbol}
+            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per {native?.symbol}
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" fontWeight="bold">
-            Progress (
-            {roundString(`${(Number(launchpad.collected.toString()) / Number(launchpad.softCap.toString())) * 100}`)}%)
+            Progress ({roundString(`${campaign.progress * 100}`)}%)
           </Text>
         </Flex>
-        <Progress primaryStep={(Number(launchpad.collected.toString()) / Number(launchpad.softCap.toString())) * 100} />
+        <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px">Liquidity</Text>
-          <Text fontSize="16px">{launchpad.liquidity_rate.toNumber() / 100}%</Text>
+          <Text fontSize="16px">{campaign.liquidity_rate.toNumber() / 100}%</Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px">Lockup Time</Text>
-          <Text fontSize="16px">{launchpad.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
+          <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
         </Flex>
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Contributed</Text>
-            <Text fontSize="16px">{utils.formatUnits(contributed.data, 18)} CORE</Text>
+            <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} CORE</Text>
           </Flex>
         )}
         {started && !ended && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Ending at</Text>
-            <Text fontSize="16px">{renderDate(launchpad.end_date.mul(1000).toNumber())}</Text>
+            <Text fontSize="16px">{renderDate(campaign.end_date.mul(1000).toNumber())}</Text>
           </Flex>
         )}
         {started ? (
@@ -99,11 +100,11 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
             <Button disabled>Sale Ended</Button>
           )
         ) : (
-          <Button disabled>Starting at {renderDate(launchpad.start_date.mul(1000).toNumber())}</Button>
+          <Button disabled>Starting at {renderDate(campaign.start_date.mul(1000).toNumber())}</Button>
         )}
       </LaunchpadCardInnerContainer>
       <ExpandingWrapper>
-        <Link fontSize="16px" color="primary" href={`/launchpad/${launchpad.id}`}>
+        <Link fontSize="16px" color="primary" href={`/launchpad/${campaign.id}`}>
           Details
         </Link>
       </ExpandingWrapper>
@@ -111,4 +112,4 @@ const LaunchpadCard: React.FC<LaunchpadCardProps> = (props) => {
   )
 }
 
-export default LaunchpadCard
+export default CampaignCard

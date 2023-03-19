@@ -7,7 +7,7 @@ import campaignAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPa
 import campaignFactoryAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadCampaignFactory.sol/PSIPadCampaignFactory.json'
 import useSWR from 'swr'
 import { multicallv2 } from 'utils/multicall'
-import { BigNumber, Contract } from 'ethers'
+import { BigNumber } from 'ethers'
 import { useProvider } from 'wagmi'
 
 export const useCampaignFactory = () => {
@@ -55,6 +55,8 @@ export interface CampaignData {
   twitter?: string
   website: string
   tags: string[]
+  progress: number
+  hardCapProgress: number
 }
 
 export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) => {
@@ -64,7 +66,7 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
   return useSWR<CampaignData[]>(
     chain ? ['campaigns', chain] : null,
     async () => {
-      const campaigns = await fetch('/api/get-campaigns', {
+      const campaigns: any[] = await fetch('/api/get-campaigns', {
         method: 'POST',
         body: JSON.stringify({ chainId: chain.id, filter, id }),
       }).then((res) => res.json())
@@ -128,31 +130,10 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
             ])
             .flat(),
         })
-        // multiCallResult = await Promise.all(
-        //   campaigns
-        //     .map((campaign) => {
-        //       const contract = new Contract(campaign.address, campaignAbi, provider) as PSIPadCampaign
-        //       return [
-        //         contract.token(),
-        //         contract.softCap(),
-        //         contract.hardCap(),
-        //         contract.start_date(),
-        //         contract.end_date(),
-        //         contract.rate(),
-        //         contract.min_allowed(),
-        //         contract.max_allowed(),
-        //         contract.pool_rate(),
-        //         contract.lock_duration(),
-        //         contract.liquidity_rate(),
-        //         contract.collected(),
-        //       ]
-        //     })
-        //     .flat(),
-        // )
       } catch (e) {
         console.error(e)
       }
-      return campaigns.map((campaign, index) => {
+      return campaigns.map((campaign, index: number) => {
         return {
           ...campaign,
           tokenAddress: multiCallResult[index * 12][0],
@@ -167,6 +148,12 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
           lock_duration: multiCallResult[index * 12 + 9][0],
           liquidity_rate: multiCallResult[index * 12 + 10][0],
           collected: multiCallResult[index * 12 + 11][0],
+          progress:
+            Number(multiCallResult[index * 12 + 11][0].toString()) /
+            Number(multiCallResult[index * 12 + 1][0].toString()),
+          hardCapProgress:
+            Number(multiCallResult[index * 12 + 11][0].toString()) /
+            Number(multiCallResult[index * 12 + 2][0].toString()),
         }
       })
     },

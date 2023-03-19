@@ -8,7 +8,7 @@ import TokenName from './components/TokenName'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
 import { formatAmount } from 'views/Bridge/formatter'
-import { renderDate } from './utils'
+import { renderDate } from '../../utils/renderDate'
 import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
 

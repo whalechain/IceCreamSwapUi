@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useLocks } from '../hooks'
 import { useRouter } from 'next/router'
-import { renderDate } from '../utils'
+import { renderDate } from '../../../utils/renderDate'
 
 interface DepositModalProps {
   amount: CurrencyAmount<Currency>

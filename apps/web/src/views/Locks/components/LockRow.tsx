@@ -1,7 +1,7 @@
 import { Flex, Td, Text, Button, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useToken } from 'hooks/Tokens'
 import styled, { useTheme } from 'styled-components'
-import { renderDate } from '../utils'
+import { renderDate } from '../../../utils/renderDate'
 import TokenName from './TokenName'
 import { Lock } from '../hooks'
 import { utils, BigNumber } from 'ethers'

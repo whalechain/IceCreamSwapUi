@@ -1,11 +1,12 @@
-import { Flex, Grid, Heading, PageHeader } from '@pancakeswap/uikit'
+import { Box, Flex, Grid, Heading, PageHeader } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
-import styled from 'styled-components'
-import LaunchpadCard from './components/LaunchpadCard'
+import styled, { useTheme } from 'styled-components'
+import CampaignCard from './components/CampaignCard'
 import { useCampaigns } from './hooks'
 import header from './images/header.png'
 import rocket from './images/rocket.png'
 import Image from 'next/image'
+import { tokens } from '@pancakeswap/ui'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -46,9 +47,10 @@ const Rocket2 = styled.div`
 
 const LaunchpadList: React.FC = () => {
   const campaigns = useCampaigns({})
+  const { isDark } = useTheme()
 
   return (
-    <>
+    <Box background={isDark ? 'linear-gradient(135deg, #1d1c21 0%, #141317 100%)' : undefined}>
       <PageHeader
         background={`url(${header.src})`}
         style={{
@@ -62,10 +64,10 @@ const LaunchpadList: React.FC = () => {
             <Image src={rocket.src} alt="Rocket" width={96} height={96} />
           </Rocket>
           <Flex flexDirection="column">
-            <H1 as="h1" color="secondary" scale="xxl">
+            <H1 as="h1" color={tokens.colors.dark.secondary} scale="xxl">
               Launchpad
             </H1>
-            <H2>Be the first investing in new Projects</H2>
+            <H2 color="#F4EEFF">Be the first investing in new Projects</H2>
             <Filler />
           </Flex>
         </Flex>
@@ -75,7 +77,7 @@ const LaunchpadList: React.FC = () => {
           <Grid gridGap="32px" gridTemplateColumns={['1fr', null, null, 'repeat(2, 1fr)', 'repeat(3, 1fr)']}>
             {campaigns.data.length === 1 && <div />}
             {campaigns.data.map((launchpad) => (
-              <LaunchpadCard key={launchpad.id} launchpad={launchpad} />
+              <CampaignCard key={launchpad.id} campaign={launchpad} />
             ))}
           </Grid>
         )}
@@ -85,7 +87,7 @@ const LaunchpadList: React.FC = () => {
           </Rocket2>
         </Flex>
       </Page>
-    </>
+    </Box>
   )
 }
 
