@@ -11,8 +11,9 @@ import { AkkaRouterInfoResponseType } from '../hooks/types'
 import AkkaSwapRoute from './AkkaSwapRoute'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 
-function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
+function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar }: { route: AkkaRouterInfoResponseType, inputAmountInDollar: number, outputAmountInDollar: number }) {
   const { t } = useTranslation()
+  const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
 
   return (
     <AutoColumn style={{ padding: '0 16px' }}>
@@ -23,7 +24,7 @@ function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
           </Text>
         </RowFixed>
         <Text fontSize="14px" color="textSubtle">
-          {route?.priceImpact?.toFixed(3)}%
+          {priceImpact?.toFixed(3)}%
         </Text>
       </RowBetween>
       {route?.returnAmountInUsd - route?.bestAlt > 0 &&
@@ -44,8 +45,10 @@ function TradeSummary({ route }: { route: AkkaRouterInfoResponseType }) {
 }
 export interface AdvancedSwapDetailsProps {
   route?: AkkaRouterInfoResponseType
+  inputAmountInDollar: number
+  outputAmountInDollar: number
 }
-export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
+export function AkkaAdvancedSwapDetails({ route, inputAmountInDollar, outputAmountInDollar }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
   const [allowedSlippage] = useUserSlippageTolerance()
   const { chainId } = useActiveChainId()
@@ -61,7 +64,7 @@ export function AkkaAdvancedSwapDetails({ route }: AdvancedSwapDetailsProps) {
     <AutoColumn gap="0px">
       {route && (
         <>
-          <TradeSummary route={route} />
+          <TradeSummary route={route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} />
           {showRoute() && (
             <>
               <RowBetween style={{ padding: '0 16px' }}>
