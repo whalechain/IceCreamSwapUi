@@ -1,3 +1,4 @@
+import { ChainId, getChain as getChainById } from '@icecreamswap/constants'
 import { Duration, getUnixTime, startOfHour, sub } from 'date-fns'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -22,7 +23,7 @@ import { ChartEntry, PoolData, PriceChartEntry, ProtocolData, TokenData } from '
 // Protocol hooks
 
 // const refreshIntervalForInfo = 15000 // 15s
-const SWR_SETTINGS = {}  // no cyclic refreshing, to reenable, add: { refreshInterval: refreshIntervalForInfo }
+const SWR_SETTINGS = {} // no cyclic refreshing, to reenable, add: { refreshInterval: refreshIntervalForInfo }
 
 export const useProtocolDataSWR = (): ProtocolData | undefined => {
   const chainName = useGetChainName()
@@ -205,18 +206,15 @@ export const useTokenTransactionsSWR = (address: string): Transaction[] | undefi
 }
 
 export const useGetChainName = () => {
-  const path = window.location.href
+  const { search } = window.location
 
   const getChain = useCallback(() => {
-    if (path.includes('chainId=32520')) return 'BITGERT'
-    if (path.includes('chainId=2000')) return 'DOGECHAIN'
-    if (path.includes('chainId=61916')) return 'DOKEN'
-    if (path.includes('chainId=122')) return 'FUSE'
-    if (path.includes('chainId=50')) return 'XDC'
-    if (path.includes('chainId=56')) return 'BSC'
-    if (path.includes('chainId=1116')) return 'CORE'
-    return 'BITGERT'
-  }, [path])
+    const chainId = new URLSearchParams(search).get('chainId')
+    const chain = getChainById(Number(chainId) || ChainId.CORE)
+    const chainName = chain?.network.toUpperCase() || 'CORE'
+
+    return chainName as MultiChainName
+  }, [search])
   const [name, setName] = useState<MultiChainName | null>(getChain())
   const result = useMemo(() => name, [name])
 
