@@ -1,7 +1,7 @@
 import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useToken } from 'hooks/Tokens'
-import { CampaignData, useGivenAmount } from '../hooks'
+import { CampaignData, useCampaign, useGivenAmount } from '../hooks'
 import CampaignCardHeader from './CampaignCardHeader'
 import BuyModal from './BuyModal'
 import { renderDate } from 'utils/renderDate'
@@ -10,6 +10,7 @@ import { utils } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import useNativeCurrency from 'hooks/useNativeCurrency'
 import { formatAmount } from 'views/Bridge/formatter'
+import { useState } from 'react'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -52,8 +53,10 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const started = new Date(campaign.start_date.toNumber() * 1000) < new Date()
   const ended = new Date(campaign.end_date.toNumber() * 1000) < new Date()
   const { address, status } = useAccount()
+  const c = useCampaign(campaign.address)
 
   const contributed = useGivenAmount(campaign.address, address)
+  const [claiming, setClaiming] = useState(false)
   return (
     <StyledCard isActive={campaign.progress >= 1}>
       <LaunchpadCardInnerContainer>
@@ -96,8 +99,20 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
             ) : (
               <ConnectWalletButton />
             )
+          ) : contributed.data?.gt(0) ? (
+            <Button
+              disabled={claiming}
+              onClick={() => {
+                setClaiming(true)
+                c.withdrawTokens().catch(() => {
+                  setClaiming(false)
+                })
+              }}
+            >
+              Claim
+            </Button>
           ) : (
-            <Button disabled>Sale Ended</Button>
+            <Button disabled>Ended</Button>
           )
         ) : (
           <Button disabled>Starting at {renderDate(campaign.start_date.mul(1000).toNumber())}</Button>

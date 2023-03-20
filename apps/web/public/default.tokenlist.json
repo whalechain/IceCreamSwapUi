@@ -1206,6 +1206,14 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x979A34f98b9a1bF2B38fD18f5c038423e4902db9/logo.png"
+    },
+    {
+      "name": "Testsale IceCream",
+      "address": "0x4Fa8A18cFf618A19948c9F954F6330eB53DA4348",
+      "symbol": "TICE",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x4Fa8A18cFf618A19948c9F954F6330eB53DA4348/logo.png"
     }
   ]
 }
