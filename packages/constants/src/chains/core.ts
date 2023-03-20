@@ -40,4 +40,9 @@ export const core: IceChain = {
     initCodeHash: INIT_CODE_HASH,
   },
   campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
+  kyc: {
+    stableCoin: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
+    fee: 5,
+    feeWallet: '0x7489ed13DA72E8b6B38bd1Fd122259fD779077b5',
+  },
 }
