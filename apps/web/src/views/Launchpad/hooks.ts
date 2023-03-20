@@ -25,9 +25,15 @@ export const useCampaign = (contractAddress: string) => {
 
 export const useGivenAmount = (contractAddress: string, address: string) => {
   const campaign = useCampaign(contractAddress)
-  return useSWR<BigNumber>(campaign && address ? ['givenAmount', contractAddress, address] : null, async () => {
-    return campaign.getGivenAmount(address)
-  })
+  return useSWR<BigNumber>(
+    campaign && address ? ['givenAmount', contractAddress, address] : null,
+    async () => {
+      return campaign.getGivenAmount(address)
+    },
+    {
+      refreshInterval: 3000,
+    },
+  )
 }
 
 export interface CampaignData {
