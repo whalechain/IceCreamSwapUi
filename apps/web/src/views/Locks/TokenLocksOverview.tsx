@@ -1,6 +1,5 @@
 import { Button, Flex, Heading, Table, Td, Text, Link, useMatchBreakpoints } from '@pancakeswap/uikit'
-import { useLocksByToken, useLocksByUser } from './hooks'
-import LocksWrapper from './components/LocksWrapper'
+import { useLocksByToken } from './hooks'
 import LockRow from './components/LockRow'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
@@ -10,6 +9,7 @@ import { formatAmount } from 'views/Bridge/formatter'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import NextLink from 'next/link'
 import { useAccount } from 'wagmi'
+import AppWrapper from 'components/AppWrapper'
 
 export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }) => {
   const { isMobile } = useMatchBreakpoints()
@@ -35,7 +35,7 @@ export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenA
   )
 
   return (
-    <LocksWrapper
+    <AppWrapper
       backlink="/locks"
       hasBackButton
       title={`Locks of ${token?.name}`}
@@ -79,6 +79,6 @@ export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenA
           <tbody>{locks && locks.map((lock) => <LockRow key={lock.lockId.toString()} lock={lock} />)}</tbody>
         </Table>
       </Flex>
-    </LocksWrapper>
+    </AppWrapper>
   )
 }

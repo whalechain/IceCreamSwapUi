@@ -91,6 +91,65 @@ export const metaMaskConnector = new MetaMaskConnector({
 
 export const bscConnector = new BinanceWalletConnector({ chains })
 
+class BitKeepConnector extends InjectedConnector {
+  provider?: Window['ethereum']
+
+  public id = 'bitKeep'
+
+  async getProvider() {
+    this.provider = (window as any).bitkeep?.ethereum
+    return this.provider
+  }
+}
+
+export const bitKeepConnector = new BitKeepConnector({
+  chains,
+  options: {
+    shimDisconnect: false,
+    shimChainChangedDisconnect: true,
+  },
+})
+
+class NaboxConnector extends InjectedConnector {
+  provider?: Window['ethereum']
+
+  public id = 'nabox'
+
+  async getProvider() {
+    if (!(window as any).NaboxWallet) throw new Error('Nabox not found')
+    this.provider = (window as any).ethereum
+    return this.provider
+  }
+}
+
+export const naboxConnector = new NaboxConnector({
+  chains,
+  options: {
+    shimDisconnect: false,
+    shimChainChangedDisconnect: true,
+  },
+})
+
+class OkxConnector extends InjectedConnector {
+  provider?: Window['ethereum']
+
+  public id = 'okx'
+
+  async getProvider() {
+    if (!(window as any).okxwallet) throw new Error('Okx Wallet not found')
+    this.provider = (window as any).okxwallet
+    return this.provider
+  }
+}
+
+export const okxConnector = new OkxConnector({
+  chains,
+  options: {
+    shimDisconnect: true,
+    shimChainChangedDisconnect: true,
+  },
+})
+
 export const client = createClient({
   autoConnect: false,
   provider,
@@ -101,6 +160,9 @@ export const client = createClient({
     coinbaseConnector,
     walletConnectConnector,
     bscConnector,
+    bitKeepConnector,
+    naboxConnector,
+    okxConnector,
   ],
 })
 

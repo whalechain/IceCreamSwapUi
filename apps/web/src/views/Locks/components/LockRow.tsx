@@ -1,7 +1,7 @@
 import { Flex, Td, Text, Button, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useToken } from 'hooks/Tokens'
 import styled, { useTheme } from 'styled-components'
-import { renderDate } from '../utils'
+import { renderDate } from '../../../utils/renderDate'
 import TokenName from './TokenName'
 import { Lock } from '../hooks'
 import { utils, BigNumber } from 'ethers'
@@ -48,7 +48,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
           </Td>
           <Td style={{ borderBottom: '0px', paddingBottom: '0px' }}>
             <Flex flexDirection="column">
-              <span>{`${format(lock.amount)} ${token.symbol}`}</span>
+              <span>{`${format(lock.amount)} ${token?.symbol}`}</span>
               <Text fontSize="0.75em" color={theme.colors.text99}>
                 {percentClaimed}% Claimed
               </Text>
@@ -87,7 +87,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
       </Td>
       <Td>
         <Flex flexDirection="column">
-          <span>{`${format(lock.amount)} ${token.symbol}`}</span>
+          <span>{`${format(lock.amount)} ${token?.symbol}`}</span>
           <Text fontSize="0.75em" color={theme.colors.text99}>
             {percentClaimed}% Claimed
           </Text>

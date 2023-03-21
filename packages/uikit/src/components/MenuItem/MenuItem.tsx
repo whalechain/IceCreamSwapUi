@@ -37,22 +37,35 @@ const MenuItem: React.FC<React.PropsWithChildren<MenuItemProps>> = ({
     }
   }, [isActive, isMobile, scrollLayerRef]);
 
-  const Link = href ? NextLink : React.Fragment;
-
   return (
     <StyledMenuItemContainer $isActive={isActive} $variant={variant} ref={menuItemRef}>
-      <Link href={href!} legacyBehavior passHref prefetch={false}>
-        <StyledMenuItem
-          {...itemLinkProps}
-          $isActive={isActive}
-          $isDisabled={isDisabled}
-          $variant={variant}
-          $statusColor={statusColor}
-          {...props}
-        >
-          {children}
-        </StyledMenuItem>
-      </Link>
+      {href ? (
+        <NextLink href={href} legacyBehavior passHref prefetch={false}>
+          <StyledMenuItem
+            {...itemLinkProps}
+            $isActive={isActive}
+            $isDisabled={isDisabled}
+            $variant={variant}
+            $statusColor={statusColor}
+            {...props}
+          >
+            {children}
+          </StyledMenuItem>
+        </NextLink>
+      ) : (
+        <>
+          <StyledMenuItem
+            {...itemLinkProps}
+            $isActive={isActive}
+            $isDisabled={isDisabled}
+            $variant={variant}
+            $statusColor={statusColor}
+            {...props}
+          >
+            {children}
+          </StyledMenuItem>
+        </>
+      )}
     </StyledMenuItemContainer>
   );
 };

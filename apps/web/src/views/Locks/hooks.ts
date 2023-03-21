@@ -1,6 +1,6 @@
 import { useContract } from 'hooks/useContract'
 import { useActiveChain } from 'hooks/useActiveChain'
-import tokenLockFactoryAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadTokenLockFactory.sol/PSIPadTokenLockFactory.json'
+import tokenLockFactoryAbi from './abi.json'
 import { PSIPadTokenLockFactory } from '@passive-income/launchpad-contracts/typechain/PSIPadTokenLockFactory'
 import useSWR from 'swr'
 import { useAccount } from 'wagmi'

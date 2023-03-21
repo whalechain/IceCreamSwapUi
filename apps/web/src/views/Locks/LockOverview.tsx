@@ -1,8 +1,6 @@
 import { Button, Flex, Heading, Link, Table, Td, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { PropsWithChildren, useMemo, useCallback } from 'react'
 import { useLockingData, useLocks } from './hooks'
-import LocksWrapper from './components/LocksWrapper'
-import { useRouter } from 'next/router'
 import { FetchStatus } from 'config/constants/types'
 import { BigNumber, utils } from 'ethers'
 import styled from 'styled-components'
@@ -10,8 +8,9 @@ import TokenName from './components/TokenName'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
 import { formatAmount } from 'views/Bridge/formatter'
-import { renderDate } from './utils'
+import { renderDate } from '../../utils/renderDate'
 import { useAccount } from 'wagmi'
+import AppWrapper from 'components/AppWrapper'
 
 const RowStyled = styled.tr`
   &:hover {
@@ -73,7 +72,7 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
   }, [lock, locks])
 
   return (
-    <LocksWrapper hasBackButton title={`Viewing Lock #${lockId}`} subtitle="Lock your tokens for a fixed period">
+    <AppWrapper hasBackButton title={`Viewing Lock #${lockId}`} subtitle="Lock your tokens for a fixed period">
       <Flex flexDirection="column" gap="0.75em">
         {status === FetchStatus.Failed ? (
           <Heading as="h2" marginY="3">
@@ -174,6 +173,6 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
           </>
         )}
       </Flex>
-    </LocksWrapper>
+    </AppWrapper>
   )
 }

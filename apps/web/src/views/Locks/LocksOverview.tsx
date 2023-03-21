@@ -1,13 +1,11 @@
 import { Button, Flex, Heading, Input, Table, Td, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useState } from 'react'
-import AddressInput from './components/AddressInput'
 import { useLocksByUser } from './hooks'
-import LocksWrapper from './components/LocksWrapper'
 import LockRow from './components/LockRow'
 import { useRouter } from 'next/router'
-import { isAddress } from '@ethersproject/address'
 import TokenInput from 'components/TokenInput'
 import { Currency } from '@pancakeswap/sdk'
+import AppWrapper from 'components/AppWrapper'
 
 export const LocksOverview: React.FC = () => {
   const [token, setToken] = useState<Currency>()
@@ -20,7 +18,7 @@ export const LocksOverview: React.FC = () => {
   }
 
   return (
-    <LocksWrapper title="Locks" subtitle="Lock your tokens for a fixed period">
+    <AppWrapper title="Locks" subtitle="Lock your tokens for a fixed period">
       <Flex flexDirection="column" gap="0.75em">
         <Text>Token Address</Text>
         <Text color="textSubtle" fontSize="14px" textAlign="start">
@@ -56,6 +54,6 @@ export const LocksOverview: React.FC = () => {
           </>
         ) : undefined}
       </Flex>
-    </LocksWrapper>
+    </AppWrapper>
   )
 }

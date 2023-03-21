@@ -46,6 +46,16 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { useAkkaRouterContract } from 'utils/exchange'
 import { useBUSDCurrencyAmount } from 'hooks/useBUSDPrice'
 
+function formatNumber(exponentialNumber: number): string {
+  const str = exponentialNumber.toString()
+  if (str.indexOf('e') !== -1) {
+    const exponent = parseInt(str.split('-')[1], 10)
+    const result = exponentialNumber.toFixed(exponent)
+    return result
+  }
+  return str
+}
+
 const Label = styled(Text)`
   font-size: 12px;
   font-weight: bold;
@@ -67,8 +77,12 @@ export default function SwapForm() {
     useIsAkkaSwapModeActive()
 
   // isAkkaContractSwapMode checks if this is akka router form or not from redux
-  const [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue] =
-    useIsAkkaContractSwapModeActive()
+  const [
+    isAkkaContractSwapMode,
+    toggleSetAkkaContractMode,
+    toggleSetAkkaContractModeToFalse,
+    toggleSetAkkaContractModeToTrue,
+  ] = useIsAkkaContractSwapModeActive()
 
   const { account, chainId } = useActiveWeb3React()
 
@@ -127,13 +141,13 @@ export default function SwapForm() {
 
   const parsedAmounts = showWrap
     ? {
-      [Field.INPUT]: parsedAmount,
-      [Field.OUTPUT]: parsedAmount,
-    }
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
     : {
-      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-    }
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
 
   // Take swap information from AKKA router
   const {
@@ -141,7 +155,13 @@ export default function SwapForm() {
     currencyBalances: akkaCurrencyBalances,
     parsedAmount: akkaParsedAmount,
     inputError: akkaSwapInputError,
-  } = useAkkaSwapInfo(independentField, parsedAmounts[Field.INPUT]?.toExact(), inputCurrency, outputCurrency, allowedSlippage)
+  } = useAkkaSwapInfo(
+    independentField,
+    parsedAmounts[Field.INPUT]?.toExact(),
+    inputCurrency,
+    outputCurrency,
+    allowedSlippage,
+  )
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
 
@@ -305,8 +325,13 @@ export default function SwapForm() {
           </AutoColumn>
           <CurrencyInputPanel
             value={
-              isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
-                ? akkaRouterTrade.route.returnAmount
+              isAkkaSwapMode &&
+              isAkkaSwapActive &&
+              isAkkaContractSwapMode &&
+              akkaRouterTrade &&
+              akkaRouterTrade?.route &&
+              typedValue !== ''
+                ? formatNumber(Number(akkaRouterTrade.route.returnAmount))
                 : formattedAmounts[Field.OUTPUT]
             }
             onUserInput={handleTypeOutput}
@@ -406,12 +431,15 @@ export default function SwapForm() {
           )}
         </Box>
       </Wrapper>
-      {(!isAkkaSwapMode || !isAkkaSwapActive || !isAkkaContractSwapMode) && !swapIsUnsupported ? (
-        trade && <AdvancedSwapDetailsDropdown trade={trade} />
-      ) : ""}
-      {isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue && (
-        <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} />
-      )}
+      {(!isAkkaSwapMode || !isAkkaSwapActive || !isAkkaContractSwapMode) && !swapIsUnsupported
+        ? trade && <AdvancedSwapDetailsDropdown trade={trade} />
+        : ''}
+      {isAkkaSwapMode &&
+        isAkkaSwapActive &&
+        isAkkaContractSwapMode &&
+        akkaRouterTrade &&
+        akkaRouterTrade?.route &&
+        typedValue && <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} />}
     </>
   )
 }

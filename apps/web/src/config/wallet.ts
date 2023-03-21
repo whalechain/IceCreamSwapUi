@@ -11,6 +11,9 @@ export enum ConnectorNames {
   BSC = 'bsc',
   Blocto = 'blocto',
   WalletLink = 'coinbaseWallet',
+  BitKeep = 'bitKeep',
+  Nabox = 'nabox',
+  Okx = 'okx',
 }
 
 const delay = (t: number) => new Promise((resolve) => setTimeout(resolve, t))
@@ -144,6 +147,39 @@ const walletsConfig = ({
       icon: '/images/wallets/blocto.png',
       connectorId: ConnectorNames.Injected,
       installed: typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isBlocto),
+      qrCode,
+    },
+    {
+      id: 'bitkeep',
+      title: 'BitKeep',
+      icon: '/images/wallets/bitkeep.png',
+      connectorId: ConnectorNames.BitKeep,
+      installed: typeof window !== 'undefined' && Boolean(window.bitkeep),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/bitkeep-crypto-nft-wallet/jiidiaalihmmhddjgbnbgdfflelocpak',
+      },
+      qrCode,
+    },
+    {
+      id: 'nabox',
+      title: 'Nabox',
+      icon: '/images/wallets/nabox.png',
+      connectorId: ConnectorNames.Nabox,
+      installed: typeof window !== 'undefined' && Boolean(window.NaboxWallet),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/nabox-wallet/nknhiehlklippafakaeklbeglecifhad',
+      },
+      qrCode,
+    },
+    {
+      id: 'okx',
+      title: 'Okx',
+      icon: '/images/wallets/okx.png',
+      connectorId: ConnectorNames.Okx,
+      installed: typeof window !== 'undefined' && Boolean(window.okxwallet),
+      downloadLink: {
+        desktop: 'https://chrome.google.com/webstore/detail/okx-wallet/mcohilncbfahbmgdjkbpemcciiolgcge',
+      },
       qrCode,
     },
   ]
