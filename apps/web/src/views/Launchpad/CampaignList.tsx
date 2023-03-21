@@ -65,7 +65,7 @@ const LaunchpadList: React.FC = () => {
           </Rocket>
           <Flex flexDirection="column">
             <H1 as="h1" color={tokens.colors.dark.secondary} scale="xxl">
-              Launchpad
+              Launchpad {process.env.NEXT_PUBLIC_APP_STAGE}
             </H1>
             <H2 color="#F4EEFF">Be the first investing in new Projects</H2>
             <Filler />
