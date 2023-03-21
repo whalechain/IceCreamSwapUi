@@ -1214,6 +1214,30 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x4Fa8A18cFf618A19948c9F954F6330eB53DA4348/logo.png"
+    },
+    {
+      "name": "Avocado Baby",
+      "address": "0xf69399158cbA7b92089317814E60C5AF867fEaB6",
+      "symbol": "Avo",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xf69399158cbA7b92089317814E60C5AF867fEaB6/logo.png"
+    },
+    {
+      "name": "Coffee Crypto",
+      "address": "0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820",
+      "symbol": "CFEE",
+      "decimals": 8,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820/logo.png"
+    },
+    {
+      "name": "BITCOIN FUTURE",
+      "address": "0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098",
+      "symbol": "BITCOINF",
+      "decimals": 2,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098/logo.png"
     }
   ]
 }
