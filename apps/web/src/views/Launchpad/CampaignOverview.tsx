@@ -1,5 +1,5 @@
 import { Button, Flex, Heading, Link, Table, Td, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
-import { PropsWithChildren, useMemo, useCallback } from 'react'
+import { PropsWithChildren, useMemo, useCallback, useEffect } from 'react'
 import { FetchStatus } from 'config/constants/types'
 import { BigNumber, utils } from 'ethers'
 import styled from 'styled-components'
@@ -65,7 +65,12 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const native = useNativeCurrency()
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
   const flags = useFlags()
-  console.log(flags)
+  useEffect(() => {
+    console.log(
+      'Total Contributed: ',
+      utils.formatEther(campaign?.softCap.mul(Math.floor(campaign.progress * 10000)).div(10000)),
+    )
+  }, [campaign.progress, campaign?.softCap])
 
   const token = useToken(campaign?.tokenAddress)
   const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
@@ -121,17 +126,19 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                         {formatAmount(utils.formatUnits(campaign.softCap, 18))} {native?.symbol}
                       </Td2>
                     </RowStyled>
-                    <RowStyled>
-                      <Td1>
-                        <StyledFlex>
-                          Hard Cap
-                          <InfoTooltip text="The hard cap allows for additional contribution to the campaign. The remaining tokens of the hard cap will be burned. When the hard cap is reached the campaign is lock for additional contributions." />
-                        </StyledFlex>
-                      </Td1>
-                      <Td2>
-                        {formatAmount(utils.formatUnits(campaign.hardCap, 18))} {native?.symbol}
-                      </Td2>
-                    </RowStyled>
+                    {!isIceSale ? (
+                      <RowStyled>
+                        <Td1>
+                          <StyledFlex>
+                            Hard Cap
+                            <InfoTooltip text="The hard cap allows for additional contribution to the campaign. The remaining tokens of the hard cap will be burned. When the hard cap is reached the campaign is lock for additional contributions." />
+                          </StyledFlex>
+                        </Td1>
+                        <Td2>
+                          {formatAmount(utils.formatUnits(campaign.hardCap, 18))} {native?.symbol}
+                        </Td2>
+                      </RowStyled>
+                    ) : undefined}
                     {!campaign.min_allowed.isZero() ? (
                       <RowStyled>
                         <Td1>Minimum Contribution</Td1>
