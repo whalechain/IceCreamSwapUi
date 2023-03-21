@@ -1,5 +1,5 @@
 import { Button, Flex, Heading, Link, Table, Td, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
-import { PropsWithChildren, useMemo, useCallback } from 'react'
+import { PropsWithChildren, useMemo, useCallback, useEffect } from 'react'
 import { FetchStatus } from 'config/constants/types'
 import { BigNumber, utils } from 'ethers'
 import styled from 'styled-components'
@@ -65,7 +65,12 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const native = useNativeCurrency()
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
   const flags = useFlags()
-  console.log(flags)
+  useEffect(() => {
+    console.log(
+      'Total Contributed: ',
+      utils.formatEther(campaign?.softCap.mul(Math.floor(campaign.progress * 10000)).div(10000)),
+    )
+  }, [campaign.progress, campaign?.softCap])
 
   const token = useToken(campaign?.tokenAddress)
   const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
