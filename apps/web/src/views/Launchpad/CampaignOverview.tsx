@@ -8,7 +8,7 @@ import { useToken } from 'hooks/Tokens'
 import { formatAmount } from 'views/Bridge/formatter'
 import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
-import { useCampaigns } from './hooks'
+import { useCampaigns, useFlags } from './hooks'
 import TokenName from 'views/Locks/components/TokenName'
 import { renderDate } from 'utils/renderDate'
 import InfoTooltip from '@pancakeswap/uikit/src/components/Timeline/InfoTooltip'
@@ -64,8 +64,11 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const chain = useActiveChain()
   const native = useNativeCurrency()
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
+  const flags = useFlags()
+  console.log(flags)
 
   const token = useToken(campaign?.tokenAddress)
+  const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
 
   return (
     <AppWrapper hasBackButton title={`Viewing ${token?.name} Campaign`} subtitle="" backlink="/launchpad">
@@ -121,12 +124,14 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                         {formatAmount(utils.formatUnits(campaign.hardCap, 18))} {native?.symbol}
                       </Td2>
                     </RowStyled>
-                    <RowStyled>
-                      <Td1>Minimum Contribution</Td1>
-                      <Td2>
-                        {formatAmount(utils.formatUnits(campaign.min_allowed, 18))} {native?.symbol}
-                      </Td2>
-                    </RowStyled>
+                    {!campaign.min_allowed.isZero() ? (
+                      <RowStyled>
+                        <Td1>Minimum Contribution</Td1>
+                        <Td2>
+                          {formatAmount(utils.formatUnits(campaign.min_allowed, 18))} {native?.symbol}
+                        </Td2>
+                      </RowStyled>
+                    ) : undefined}
                     <RowStyled>
                       <Td1>Maximum Contribution</Td1>
                       <Td2>
@@ -140,29 +145,44 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                         {native?.symbol}
                       </Td2>
                     </RowStyled>
-                    <RowStyled>
-                      <Td1>
-                        <StyledFlex>
-                          Liquidity Rate
-                          <InfoTooltip
-                            text={`The amount of ${token?.symbol} that will be added per ${native?.symbol} as liquidity after the campaign succeeded. This will also determine the starting price after the campaign.`}
-                          />
-                        </StyledFlex>
-                      </Td1>
-                      <Td2>
-                        {formatAmount(utils.formatUnits(campaign.pool_rate, token?.decimals))} {token?.symbol} per{' '}
-                        {native?.symbol}
-                      </Td2>
-                    </RowStyled>
-                    <RowStyled>
-                      <Td1>
-                        <StyledFlex>
-                          Liquidity Percentage
-                          <InfoTooltip text="That percentage of the total raised amount that will be added as liquidity." />
-                        </StyledFlex>
-                      </Td1>
-                      <Td2>{campaign.liquidity_rate.toNumber() / 100}%</Td2>
-                    </RowStyled>
+                    {isIceSale ? (
+                      <>
+                        <RowStyled>
+                          <Td1>Reward</Td1>
+                          <Td2>{flags.data?.reward}</Td2>
+                        </RowStyled>
+                        <RowStyled>
+                          <Td1>Vesting Duration</Td1>
+                          <Td2>{flags.data?.vestingDuration}</Td2>
+                        </RowStyled>
+                      </>
+                    ) : (
+                      <>
+                        <RowStyled>
+                          <Td1>
+                            <StyledFlex>
+                              Liquidity Rate
+                              <InfoTooltip
+                                text={`The amount of ${token?.symbol} that will be added per ${native?.symbol} as liquidity after the campaign succeeded. This will also determine the starting price after the campaign.`}
+                              />
+                            </StyledFlex>
+                          </Td1>
+                          <Td2>
+                            {formatAmount(utils.formatUnits(campaign.pool_rate, token?.decimals))} {token?.symbol} per{' '}
+                            {native?.symbol}
+                          </Td2>
+                        </RowStyled>
+                        <RowStyled>
+                          <Td1>
+                            <StyledFlex>
+                              Liquidity Percentage
+                              <InfoTooltip text="That percentage of the total raised amount that will be added as liquidity." />
+                            </StyledFlex>
+                          </Td1>
+                          <Td2>{campaign.liquidity_rate.toNumber() / 100}%</Td2>
+                        </RowStyled>
+                      </>
+                    )}
                     <RowStyled>
                       <Td1>Starting at</Td1>
                       <Td2>{renderDate(campaign.start_date.mul(1000).toNumber())}</Td2>

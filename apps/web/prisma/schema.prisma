@@ -33,3 +33,10 @@ model Campaign {
   description String
   tags String[]
 }
+
+model Flags {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  key String
+  value String
+}
