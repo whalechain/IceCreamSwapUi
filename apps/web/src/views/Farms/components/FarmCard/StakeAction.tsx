@@ -151,7 +151,7 @@ const StakeAction: React.FC<React.PropsWithChildren<FarmCardActionsProps>> = ({
   }
 
   const handleUnstake = async (amount: string) => {
-    const [left, right] = lpSymbol.split('.')
+    const [left, right] = amount.split('.')
     const amountSafe = `${left}.${right ? right.slice(0, 18) : '0'}`
     if (vaultPid) {
       await handleNonBscUnStake(amountSafe)
