@@ -66,14 +66,16 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
   const flags = useFlags()
   useEffect(() => {
+    if (!campaign) return
     console.log(
       'Total Contributed: ',
       utils.formatEther(campaign?.softCap.mul(Math.floor(campaign.progress * 10000)).div(10000)),
     )
-  }, [campaign.progress, campaign?.softCap])
+  }, [campaign?.progress, campaign?.softCap])
 
   const token = useToken(campaign?.tokenAddress)
   const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
+  if (!campaign) return null
 
   return (
     <AppWrapper
