@@ -85,7 +85,6 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
           showNative={false}
         />
       </Flex>
-      Test
       <Flex flexDirection="column">
         <Text>You will recieve</Text>
         <Text>
