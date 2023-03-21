@@ -71,7 +71,14 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
 
   return (
-    <AppWrapper hasBackButton title={`Viewing ${token?.name} Campaign`} subtitle="" backlink="/launchpad">
+    <AppWrapper
+      hasBackButton
+      title={`Viewing ${
+        campaign.tokenAddress === '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44' ? 'IceCream' : token?.name
+      } Campaign`}
+      subtitle=""
+      backlink="/launchpad"
+    >
       <Flex flexDirection="column" gap="0.75em">
         {status === FetchStatus.Failed ? (
           <Heading as="h2" marginY="3">
@@ -80,7 +87,8 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
         ) : (
           <>
             <Heading as="h2" marginY="3">
-              {token?.name} Campaign
+              {campaign.tokenAddress === '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44' ? 'IceCream' : token?.name}{' '}
+              Campaign
             </Heading>
             <Text>{campaign?.description}</Text>
             {campaign && (
