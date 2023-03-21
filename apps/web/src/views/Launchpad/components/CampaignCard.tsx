@@ -58,7 +58,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const contributed = useGivenAmount(campaign.address, address)
   const [claiming, setClaiming] = useState(false)
   return (
-    <StyledCard isActive={campaign.progress >= 1}>
+    <StyledCard isActive={started && !ended}>
       <LaunchpadCardInnerContainer>
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
@@ -72,14 +72,18 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           </Text>
         </Flex>
         <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text fontSize="16px">Liquidity</Text>
-          <Text fontSize="16px">{campaign.liquidity_rate.toNumber() / 100}%</Text>
-        </Flex>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text fontSize="16px">Lockup Time</Text>
-          <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
-        </Flex>
+        {campaign.liquidity_rate.toNumber() > 0 ? (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Liquidity</Text>
+            <Text fontSize="16px">{campaign.liquidity_rate.toNumber() / 100}%</Text>
+          </Flex>
+        ) : undefined}
+        {campaign.lock_duration.toNumber() > 0 ? (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Lockup Time</Text>
+            <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
+          </Flex>
+        ) : undefined}
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Contributed</Text>
