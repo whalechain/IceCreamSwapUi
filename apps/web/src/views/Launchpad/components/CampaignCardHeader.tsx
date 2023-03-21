@@ -38,7 +38,9 @@ const CampaignCardHeader: React.FC<LaunchpadCardHeaderProps> = (props) => {
         <Logo src={ticeBlob} />
       )}
       <Flex flexDirection="column" alignItems="flex-end" gap="4px">
-        <Heading>{token?.name}</Heading>
+        <Heading>
+          {campaign.tokenAddress === '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44' ? 'IceCream' : token?.name}
+        </Heading>
         <Flex justifyContent="center" style={{ gap: '0.5em' }}>
           {campaign.tags.map((tag) => {
             const Tag = LaunchpadTags[tag]
