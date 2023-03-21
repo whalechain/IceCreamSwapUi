@@ -44,6 +44,7 @@ import { useApproveCallbackFromAkkaTrade } from '../AkkaSwap/hooks/useApproveCal
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useAkkaRouterContract } from 'utils/exchange'
+import { useBUSDCurrencyAmount } from 'hooks/useBUSDPrice'
 
 function formatNumber(exponentialNumber: number): string {
   const str = exponentialNumber.toString()
@@ -265,6 +266,20 @@ export default function SwapForm() {
     }
   }, [hasAmount, refreshBlockNumber])
 
+
+  const inputAmountInDollar = useBUSDCurrencyAmount(
+    true ? inputCurrency : undefined,
+    Number.isFinite(+formattedAmounts[Field.INPUT]) ? +formattedAmounts[Field.INPUT] : undefined,
+  )
+  const outputAmountInDollar = useBUSDCurrencyAmount(
+    true ? outputCurrency : undefined,
+    Number.isFinite(+(isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
+      ? akkaRouterTrade.route.returnAmount
+      : formattedAmounts[Field.OUTPUT])) ? +(isAkkaSwapMode && isAkkaSwapActive && isAkkaContractSwapMode && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
+        ? akkaRouterTrade.route.returnAmount
+        : formattedAmounts[Field.OUTPUT]) : undefined,
+  )
+
   return (
     <>
       <CurrencyInputHeader
@@ -389,6 +404,8 @@ export default function SwapForm() {
               currencyBalances={akkaCurrencyBalances}
               allowedSlippage={allowedSlippage}
               onUserInput={onUserInput}
+              inputAmountInDollar={inputAmountInDollar}
+              outputAmountInDollar={outputAmountInDollar}
             />
           ) : (
             <SwapCommitButton
@@ -422,7 +439,7 @@ export default function SwapForm() {
         isAkkaContractSwapMode &&
         akkaRouterTrade &&
         akkaRouterTrade?.route &&
-        typedValue && <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} />}
+        typedValue && <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} />}
     </>
   )
 }
