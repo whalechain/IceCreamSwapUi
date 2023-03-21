@@ -121,17 +121,19 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                         {formatAmount(utils.formatUnits(campaign.softCap, 18))} {native?.symbol}
                       </Td2>
                     </RowStyled>
-                    <RowStyled>
-                      <Td1>
-                        <StyledFlex>
-                          Hard Cap
-                          <InfoTooltip text="The hard cap allows for additional contribution to the campaign. The remaining tokens of the hard cap will be burned. When the hard cap is reached the campaign is lock for additional contributions." />
-                        </StyledFlex>
-                      </Td1>
-                      <Td2>
-                        {formatAmount(utils.formatUnits(campaign.hardCap, 18))} {native?.symbol}
-                      </Td2>
-                    </RowStyled>
+                    {!isIceSale ? (
+                      <RowStyled>
+                        <Td1>
+                          <StyledFlex>
+                            Hard Cap
+                            <InfoTooltip text="The hard cap allows for additional contribution to the campaign. The remaining tokens of the hard cap will be burned. When the hard cap is reached the campaign is lock for additional contributions." />
+                          </StyledFlex>
+                        </Td1>
+                        <Td2>
+                          {formatAmount(utils.formatUnits(campaign.hardCap, 18))} {native?.symbol}
+                        </Td2>
+                      </RowStyled>
+                    ) : undefined}
                     {!campaign.min_allowed.isZero() ? (
                       <RowStyled>
                         <Td1>Minimum Contribution</Td1>
