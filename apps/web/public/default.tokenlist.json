@@ -1120,14 +1120,6 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xe1497a14a1224DaEFa5Fe68fD9e107Cb472e8129/logo.png"
     },
     {
-      "name": "HUSKY TOKEN",
-      "address": "0xB584245941a82cd4F19ecD7308cd466370f55569",
-      "symbol": "HSK",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB584245941a82cd4F19ecD7308cd466370f55569/logo.png"
-    },
-    {
       "name": "SHIBONK",
       "address": "0x85FD5f8dBD0c9Ef1806E6c7d4B787d438621C1dC",
       "symbol": "SBONK",
@@ -1158,14 +1150,6 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png"
-    },
-    {
-      "name": "CRYPTEQ",
-      "address": "0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91",
-      "symbol": "CRQ",
-      "decimals": 5,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91/logo.png"
     },
     {
       "name": "FlashX Max",
@@ -1214,6 +1198,30 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x4Fa8A18cFf618A19948c9F954F6330eB53DA4348/logo.png"
+    },
+    {
+      "name": "Avocado Baby",
+      "address": "0xf69399158cbA7b92089317814E60C5AF867fEaB6",
+      "symbol": "Avo",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xf69399158cbA7b92089317814E60C5AF867fEaB6/logo.png"
+    },
+    {
+      "name": "Coffee Crypto",
+      "address": "0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820",
+      "symbol": "CFEE",
+      "decimals": 8,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820/logo.png"
+    },
+    {
+      "name": "BITCOIN FUTURE",
+      "address": "0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098",
+      "symbol": "BITCOINF",
+      "decimals": 2,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098/logo.png"
     }
   ]
 }
