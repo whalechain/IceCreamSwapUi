@@ -106,6 +106,16 @@ const config = {
         permanent: true,
       },
       {
+        source: '/discord',
+        destination: 'https://discord.gg/rx6WGBPTty',
+        permanent: false,
+      },
+      {
+        source: '/telegram',
+        destination: 'https://t.me/Icecreamswap_com',
+        permanent: false,
+      },
+      {
         source: '/swap/:outputCurrency',
         destination: '/swap?outputCurrency=:outputCurrency',
         permanent: true,
