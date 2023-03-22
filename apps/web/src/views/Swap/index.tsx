@@ -221,13 +221,6 @@ export default function Swap() {
   const balance = useBalance({ addressOrName: account })
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
   const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
-
-  useEffect(() => {
-    console.log(isAkkaSwapMode);
-    console.log(isAkkaSwapActive);
-    console.log(isAkkaContractSwapMode);
-    
-  }, [isAkkaSwapMode,isAkkaSwapActive,isAkkaContractSwapMode])
   
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
