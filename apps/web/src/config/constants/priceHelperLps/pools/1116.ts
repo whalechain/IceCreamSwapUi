@@ -79,6 +79,27 @@ const priceHelperLps: SerializedFarmConfig[] = [
         token: coreTokens.fsxm,
         quoteToken: coreTokens.wcore,
     },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0x6932543112c90dfc265afb2918a6f2490deaf91f',
+        token: coreTokens.royale,
+        quoteToken: coreTokens.score,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0x6932543112c90dfc265afb2918a6f2490deaf91f',
+        token: coreTokens.royale,
+        quoteToken: coreTokens.score,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0x30d84a940a7209c4c63fc4636afdf3fe52591ec2',
+        token: coreTokens.cfee,
+        quoteToken: coreTokens.wcore,
+    }
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default priceHelperLps

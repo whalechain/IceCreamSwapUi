@@ -22,4 +22,6 @@ export const coreTokens = {
   coreshiba: new ERC20Token(ChainId.CORE, '0x84F0FDAA0a34B5F4a1144372072a706A4A8121A4', 18, 'SHIBA', 'ShibaCore'),
   usdtrain: new ERC20Token(ChainId.CORE, '0xFB59984Fd355C60064fcb191C0Ed817F1365eec0', 18, 'USDTRAIN', 'USDT Rain'),
   fsxm: new ERC20Token(ChainId.CORE, '0x5aE225fa6573903CA58E26Cd4171B87060CeEAA2', 18, 'FSXM', 'FlashX Max'),
+  royale: new ERC20Token(ChainId.CORE, '0xA7c0B19645B653B4373E3592C84fce8C64D89E8F', 18, 'ROYALE', 'MemeRoyale'),
+  cfee: new ERC20Token(ChainId.CORE, '0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820', 8, 'CFEE', 'Coffee Crypto'),
 }
