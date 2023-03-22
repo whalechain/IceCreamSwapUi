@@ -139,7 +139,7 @@ export default function Swap() {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
       } else {
-        toggleSetAkkaModeToTrue()
+        toggleSetAkkaModeToFalse()
       }
     }
   }, [typedValue, akkaRouterTrade, inputCurrencyId, outputCurrencyId])
@@ -213,9 +213,6 @@ export default function Swap() {
     if (akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
     }
-    else {
-      toggleSetAkkaModeToTrue()
-    }
   }, [akkaRouterTrade])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
@@ -225,6 +222,13 @@ export default function Swap() {
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
   const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
 
+  useEffect(() => {
+    console.log(isAkkaSwapMode);
+    console.log(isAkkaSwapActive);
+    console.log(isAkkaContractSwapMode);
+    
+  }, [isAkkaSwapMode,isAkkaSwapActive,isAkkaContractSwapMode])
+  
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
       {isConnectedAndHasNoBalance && (
