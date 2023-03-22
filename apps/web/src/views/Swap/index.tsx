@@ -139,7 +139,7 @@ export default function Swap() {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
       } else {
-        toggleSetAkkaModeToFalse()
+        toggleSetAkkaModeToTrue()
       }
     }
   }, [typedValue, akkaRouterTrade, inputCurrencyId, outputCurrencyId])
