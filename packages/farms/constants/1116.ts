@@ -3,6 +3,27 @@ import { coreTokens } from '@pancakeswap/tokens'
 
 const farms: SerializedFarmConfig[] = [
     {
+        pid: 17,
+        lpSymbol: 'USDT(l0)-CORE LP',
+        lpAddress: '0x23A776980962CF489130d8A936D2953fdf3E6Aa1',
+        token: coreTokens.usdtl0,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: 18,
+        lpSymbol: 'USDC(l0)-CORE LP',
+        lpAddress: '0x3A43bBf95106d477230Df2e4C432adEd973deD03',
+        token: coreTokens.usdcl0,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: 19,
+        lpSymbol: 'USDT(ICE)-USDT(l0) LP',
+        lpAddress: '0x1424f74af91Ae42938fea515e94B4c88161F0C64',
+        token: coreTokens.usdtl0,
+        quoteToken: coreTokens.usdt,
+    },
+    {
         pid: 6,
         lpSymbol: 'SCORE-CORE LP',
         lpAddress: '0x876C62C8C94ca04aFE45a9Ef9DB39799D3CddF34',
