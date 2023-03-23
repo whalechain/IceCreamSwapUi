@@ -1222,6 +1222,22 @@
       "decimals": 2,
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098/logo.png"
+    },
+    {
+      "name": "ShadowSwap Token",
+      "symbol": "SHDW",
+      "address": "0xddBa66C1eBA873e26Ac0215Ca44892a07d83aDF5",
+      "chainId": 1116,
+      "decimals": 18,
+      "logoURI": "https://shadowswap.xyz/images/tokens/0xddBa66C1eBA873e26Ac0215Ca44892a07d83aDF5.png"
+    },
+    {
+      "name": "LFG",
+      "symbol": "LFG",
+      "address": "0xF7a0b80681eC935d6dd9f3Af9826E68B99897d6D",
+      "chainId": 1116,
+      "decimals": 18,
+      "logoURI": "https://www.lfgswap.finance/images/tokens/0xF7a0b80681eC935d6dd9f3Af9826E68B99897d6D.png"
     }
   ]
 }
