@@ -1224,6 +1224,22 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820/logo.png"
     },
     {
+      "name": "ShadowSwap Token",
+      "symbol": "SHDW",
+      "address": "0xddBa66C1eBA873e26Ac0215Ca44892a07d83aDF5",
+      "chainId": 1116,
+      "decimals": 18,
+      "logoURI": "https://shadowswap.xyz/images/tokens/0xddBa66C1eBA873e26Ac0215Ca44892a07d83aDF5.png"
+    },
+    {
+      "name": "LFG",
+      "symbol": "LFG",
+      "address": "0xF7a0b80681eC935d6dd9f3Af9826E68B99897d6D",
+      "chainId": 1116,
+      "decimals": 18,
+      "logoURI": "https://www.lfgswap.finance/images/tokens/0xF7a0b80681eC935d6dd9f3Af9826E68B99897d6D.png"
+    },
+    {
       "name": "USD Coin (Layer0 Bridge)",
       "address": "0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9",
       "symbol": "USDC",
