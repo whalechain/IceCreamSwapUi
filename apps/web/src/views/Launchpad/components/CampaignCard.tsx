@@ -112,17 +112,31 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
               <ConnectWalletButton />
             )
           ) : contributed.data?.gt(0) ? (
-            <Button
-              disabled={claiming}
-              onClick={() => {
-                setClaiming(true)
-                c.withdrawTokens().catch(() => {
-                  setClaiming(false)
-                })
-              }}
-            >
-              Claim
-            </Button>
+            campaign.collected.gt(campaign.softCap) ? (
+              <Button
+                disabled={claiming}
+                onClick={() => {
+                  setClaiming(true)
+                  c.withdrawTokens().catch(() => {
+                    setClaiming(false)
+                  })
+                }}
+              >
+                Claim
+              </Button>
+            ) : (
+              <Button
+                disabled={claiming}
+                onClick={() => {
+                  setClaiming(true)
+                  c.withdrawFunds().catch(() => {
+                    setClaiming(false)
+                  })
+                }}
+              >
+                Refund
+              </Button>
+            )
           ) : (
             <Button disabled>Ended</Button>
           )
