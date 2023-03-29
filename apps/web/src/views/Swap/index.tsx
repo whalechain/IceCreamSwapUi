@@ -213,9 +213,6 @@ export default function Swap() {
     if (akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
     }
-    else {
-      toggleSetAkkaModeToTrue()
-    }
   }, [akkaRouterTrade])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
@@ -224,7 +221,7 @@ export default function Swap() {
   const balance = useBalance({ addressOrName: account })
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
   const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
-
+  
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
       {isConnectedAndHasNoBalance && (
