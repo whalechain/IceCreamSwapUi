@@ -214,7 +214,7 @@ export default function Swap() {
 
   // Check api bridge data is empty
   useEffect(() => {
-    if (akkaRouterTrade?.args?.bridge?.length !== 0) {
+    if (akkaRouterTrade?.args && akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
       console.error("bridge array is not empty", akkaRouterTrade?.args)
     }
