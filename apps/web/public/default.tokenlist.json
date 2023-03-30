@@ -1254,6 +1254,38 @@
       "decimals": 6,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1/logo.png"
+    },
+    {
+      "address": "0x6ce5334048E95F800C22ce39B533369Eb1037485",
+      "chainId": 1116,
+      "name": "DFJ",
+      "symbol": "DFJ",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6ce5334048E95F800C22ce39B533369Eb1037485/logo.png"
+    },
+    {
+      "address": "0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC",
+      "chainId": 1116,
+      "name": "Bitvexa Network",
+      "symbol": "BTV",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC/logo.png"
+    },
+    {
+      "address": "0x9cc83D580180f0d37d00e5d86ce868f73b6E3D0A",
+      "chainId": 1116,
+      "name": "Bitcointry Token",
+      "symbol": "BTTY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9cc83D580180f0d37d00e5d86ce868f73b6E3D0A/logo.png"
+    },
+    {
+      "address": "0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3",
+      "chainId": 1116,
+      "name": "CORE BUNNY",
+      "symbol": "CORE BUNNY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3/logo.png"
     }
   ]
 }
