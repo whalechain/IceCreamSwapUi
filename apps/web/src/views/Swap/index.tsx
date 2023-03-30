@@ -167,10 +167,12 @@ export default function Swap() {
                   toggleSetAkkaContractModeToTrue()
                 } else {
                   toggleSetAkkaContractModeToFalse()
+                  console.error("estimate gas is lower than 21000", data, akkaRouterTrade?.args)
                 }
               })
-              .catch(() => {
+              .catch((error) => {
                 toggleSetAkkaContractModeToFalse()
+                console.error("can not estimate gas", error, akkaRouterTrade?.args)
               })
           }
           else {
@@ -190,10 +192,12 @@ export default function Swap() {
                   toggleSetAkkaContractModeToTrue()
                 } else {
                   toggleSetAkkaContractModeToFalse()
+                  console.error("estimate gas is lower than 21000", data, akkaRouterTrade?.args)
                 }
               })
-              .catch(() => {
+              .catch((error) => {
                 toggleSetAkkaContractModeToFalse()
+                console.error("can not estimate gas", error, akkaRouterTrade?.args)
               })
           }
 
@@ -212,6 +216,7 @@ export default function Swap() {
   useEffect(() => {
     if (akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
+      console.error("bridge array is not empty", akkaRouterTrade?.args)
     }
   }, [akkaRouterTrade])
 
@@ -221,7 +226,7 @@ export default function Swap() {
   const balance = useBalance({ addressOrName: account })
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
   const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
-  
+
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
       {isConnectedAndHasNoBalance && (
