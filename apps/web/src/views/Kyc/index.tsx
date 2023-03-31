@@ -16,6 +16,7 @@ import kycAsset from './images/KYC.png'
 import success from '../Bridge/assets/bridge-success.png'
 import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
+import AddToWallet from 'views/CreateToken/components/AddToWallet'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -81,6 +82,8 @@ export const Kyc: React.FC = () => {
     })
   }
   const { isDark } = useTheme()
+  const kycToken = useToken('0x913E332d552b98355587BBa82b1256BCAdbCeD48')
+  console.log(kycToken)
 
   let action: React.ReactNode | undefined
 
@@ -96,8 +99,15 @@ export const Kyc: React.FC = () => {
     else if (paid.data === 'verified')
       action = (
         <Flex alignItems="center" flexDirection="column" gap="1em">
-          <Heading>Your wallet has been verified 🥳</Heading>
-          <Button variant="success">Added to Metamask</Button>
+          <Heading>Your identity has been verified 🥳</Heading>
+          <AddToWallet
+            tokenAddress="0x913E332d552b98355587BBa82b1256BCAdbCeD48"
+            tokenSymbol="ICEKYC"
+            tokenDecimals={0}
+            variant="success"
+          >
+            Add NFT to Metamask
+          </AddToWallet>
         </Flex>
       )
     else

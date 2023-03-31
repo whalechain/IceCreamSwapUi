@@ -1,4 +1,4 @@
-import { Button } from '@pancakeswap/uikit'
+import { Button, ButtonProps } from '@pancakeswap/uikit'
 import { canRegisterToken } from 'utils/wallet'
 import { useAccount } from 'wagmi'
 
@@ -7,10 +7,11 @@ interface Props {
   tokenSymbol: string
   tokenDecimals: number
   tokenImage?: string
+  text?: string
 }
 
-const AddToWallet: React.FC<Props> = (props) => {
-  const { tokenAddress, tokenSymbol, tokenDecimals, tokenImage } = props
+const AddToWallet: React.FC<Props & ButtonProps> = (props) => {
+  const { tokenAddress, tokenSymbol, tokenDecimals, tokenImage, children } = props
 
   const { connector, isConnected } = useAccount()
   const isCanRegisterToken = canRegisterToken()
@@ -32,7 +33,7 @@ const AddToWallet: React.FC<Props> = (props) => {
         })
       }}
     >
-      Add to Wallet
+      {children ?? 'Add to Wallet'}
     </Button>
   )
 }

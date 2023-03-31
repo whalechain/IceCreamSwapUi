@@ -41,8 +41,6 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const { chainId } = useActiveChainId()
   const [tokenAddress, setTokenAddress] = useState<string | null>(null)
   const token = useToken(tokenAddress)
-  console.log(token)
-  console.log(tokenAddress)
   const tokenDeployer = useTokenDeployer()
   const { address, status } = useAccount()
 
