@@ -97,7 +97,7 @@ export const Kyc: React.FC = () => {
                   </Button>
                 </Link>
               ) : paid.data === 'verified' ? (
-                <Flex>✔️✔️ Your are successfuly verified</Flex>
+                <Flex>✔️ Your are successfuly verified</Flex>
               ) : (
                 <Button onClick={handlePayment} height="40px" width="100%">
                   Pay
