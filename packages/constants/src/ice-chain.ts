@@ -15,6 +15,13 @@ interface TokenDeployerConfig {
   address: string
 }
 
+interface KycConfig {
+  stableCoin: string
+  fee: number
+  feeWallet: string
+  tokenAddress: string
+}
+
 interface ChainBase {
   features: ChainFeature[]
   swap?: SwapConfig
@@ -28,6 +35,7 @@ interface ChainBase {
     decimals: number
   }
   campaignFactory?: string
+  kyc?: KycConfig
 }
 
 type IceChain = ChainBase & Chain

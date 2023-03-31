@@ -34,6 +34,15 @@ model Campaign {
   tags String[]
 }
 
+model Kyc {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  address String @unique
+  chainId Int
+  transactionHash String
+  status String
+}
+
 model Flags {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
