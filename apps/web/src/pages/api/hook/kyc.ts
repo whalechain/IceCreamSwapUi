@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     return
   }
 
-  if (state !== 'verified') {
+  if (state !== 'VALIDATED') {
     res.json({ message: 'ok' })
     return
   }
