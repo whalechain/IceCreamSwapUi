@@ -33,9 +33,13 @@ export default async function handler(req, res) {
     return
   }
 
-  const { alias } = await response.json()
+  const { alias, status } = await response.json()
+  if (status !== 'VERIFIED') {
+    res.json({ message: 'ok' })
+    return
+  }
 
-  const address = alias
+  const address = alias.toLowerCase()
 
   await client.kyc.update({
     where: {
@@ -51,8 +55,7 @@ export default async function handler(req, res) {
   const signer = new Wallet(process.env.KYC_MINTER, provider)
 
   const kyc = new Contract(chainMap.core.kyc.tokenAddress, kycAbi, signer)
-  const tx = await kyc.safeMint(address)
-  await tx.wait()
+  await kyc.safeMint(address)
 
   res.json({ message: 'ok' })
 }
