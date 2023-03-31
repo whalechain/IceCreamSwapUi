@@ -1,7 +1,7 @@
 import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useToken } from 'hooks/Tokens'
-import { CampaignData, useCampaign, useGivenAmount } from '../hooks'
+import { CampaignData, useCampaign, useFlags, useGivenAmount } from '../hooks'
 import CampaignCardHeader from './CampaignCardHeader'
 import BuyModal from './BuyModal'
 import { renderDate } from 'utils/renderDate'
@@ -54,11 +54,13 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const ended = new Date(campaign.end_date.toNumber() * 1000) < new Date()
   const { address, status } = useAccount()
   const c = useCampaign(campaign.address)
+  const flags = useFlags()
+  const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
 
   const contributed = useGivenAmount(campaign.address, address)
   const [claiming, setClaiming] = useState(false)
   return (
-    <StyledCard isActive={campaign.progress >= 1}>
+    <StyledCard isActive={started && !ended}>
       <LaunchpadCardInnerContainer>
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
@@ -72,18 +74,28 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           </Text>
         </Flex>
         <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text fontSize="16px">Liquidity</Text>
-          <Text fontSize="16px">{campaign.liquidity_rate.toNumber() / 100}%</Text>
-        </Flex>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text fontSize="16px">Lockup Time</Text>
-          <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
-        </Flex>
+        {campaign.liquidity_rate.toNumber() > 0 ? (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Liquidity</Text>
+            <Text fontSize="16px">{campaign.liquidity_rate.toNumber() / 100}%</Text>
+          </Flex>
+        ) : undefined}
+        {campaign.lock_duration.toNumber() > 0 ? (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Lockup Time</Text>
+            <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
+          </Flex>
+        ) : undefined}
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Contributed</Text>
             <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} CORE</Text>
+          </Flex>
+        )}
+        {contributed.data && isIceSale && Number(utils.formatUnits(contributed.data, 18)) >= 25 && (
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">Free KYC</Text>
+            <Text fontSize="16px">Yes</Text>
           </Flex>
         )}
         {started && !ended && (
@@ -100,17 +112,31 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
               <ConnectWalletButton />
             )
           ) : contributed.data?.gt(0) ? (
-            <Button
-              disabled={claiming}
-              onClick={() => {
-                setClaiming(true)
-                c.withdrawTokens().catch(() => {
-                  setClaiming(false)
-                })
-              }}
-            >
-              Claim
-            </Button>
+            campaign.collected.gt(campaign.softCap) ? (
+              <Button
+                disabled={claiming}
+                onClick={() => {
+                  setClaiming(true)
+                  c.withdrawTokens().catch(() => {
+                    setClaiming(false)
+                  })
+                }}
+              >
+                Claim
+              </Button>
+            ) : (
+              <Button
+                disabled={claiming}
+                onClick={() => {
+                  setClaiming(true)
+                  c.withdrawFunds().catch(() => {
+                    setClaiming(false)
+                  })
+                }}
+              >
+                Refund
+              </Button>
+            )
           ) : (
             <Button disabled>Ended</Button>
           )

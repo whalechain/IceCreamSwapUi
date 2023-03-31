@@ -434,6 +434,14 @@
       "chainId": 32520,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x0B00C890c9C543d963a36Ce1520DeBA330C6aBb5/logo.png"
     },
+    {
+      "name": "BITCOIN FUTURE",
+      "address": "0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098",
+      "symbol": "BITCOINF",
+      "decimals": 2,
+      "chainId": 32520,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9Ba88b1edCBd8f24aa3fa0c7472e07903f6d0098/logo.png"
+    },
 
     {
       "name": "Wrapped DOGE",
@@ -1120,14 +1128,6 @@
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xe1497a14a1224DaEFa5Fe68fD9e107Cb472e8129/logo.png"
     },
     {
-      "name": "HUSKY TOKEN",
-      "address": "0xB584245941a82cd4F19ecD7308cd466370f55569",
-      "symbol": "HSK",
-      "decimals": 18,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB584245941a82cd4F19ecD7308cd466370f55569/logo.png"
-    },
-    {
       "name": "SHIBONK",
       "address": "0x85FD5f8dBD0c9Ef1806E6c7d4B787d438621C1dC",
       "symbol": "SBONK",
@@ -1158,14 +1158,6 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x9F7Bb6E8386ac9ad5e944d66fBa80F3F7231FA94/logo.png"
-    },
-    {
-      "name": "CRYPTEQ",
-      "address": "0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91",
-      "symbol": "CRQ",
-      "decimals": 5,
-      "chainId": 1116,
-      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x03fAAb80A25Fe8CFeF964273F9A80716e79c3A91/logo.png"
     },
     {
       "name": "FlashX Max",
@@ -1214,6 +1206,86 @@
       "decimals": 18,
       "chainId": 1116,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x4Fa8A18cFf618A19948c9F954F6330eB53DA4348/logo.png"
+    },
+    {
+      "name": "Avocado Baby",
+      "address": "0xf69399158cbA7b92089317814E60C5AF867fEaB6",
+      "symbol": "Avo",
+      "decimals": 18,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xf69399158cbA7b92089317814E60C5AF867fEaB6/logo.png"
+    },
+    {
+      "name": "Coffee Crypto",
+      "address": "0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820",
+      "symbol": "CFEE",
+      "decimals": 8,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820/logo.png"
+    },
+    {
+      "name": "ShadowSwap Token",
+      "symbol": "SHDW",
+      "address": "0xddBa66C1eBA873e26Ac0215Ca44892a07d83aDF5",
+      "chainId": 1116,
+      "decimals": 18,
+      "logoURI": "https://shadowswap.xyz/images/tokens/0xddBa66C1eBA873e26Ac0215Ca44892a07d83aDF5.png"
+    },
+    {
+      "name": "LFG",
+      "symbol": "LFG",
+      "address": "0xF7a0b80681eC935d6dd9f3Af9826E68B99897d6D",
+      "chainId": 1116,
+      "decimals": 18,
+      "logoURI": "https://www.lfgswap.finance/images/tokens/0xF7a0b80681eC935d6dd9f3Af9826E68B99897d6D.png"
+    },
+    {
+      "name": "USD Coin (Layer0 Bridge)",
+      "address": "0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9",
+      "symbol": "USDC",
+      "decimals": 6,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9/logo.png"
+    },
+    {
+      "name": "Tether USD (Layer0 Bridge)",
+      "address": "0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1",
+      "symbol": "USDT",
+      "decimals": 6,
+      "chainId": 1116,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1/logo.png"
+    },
+    {
+      "address": "0x6ce5334048E95F800C22ce39B533369Eb1037485",
+      "chainId": 1116,
+      "name": "DFJ",
+      "symbol": "DFJ",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6ce5334048E95F800C22ce39B533369Eb1037485/logo.png"
+    },
+    {
+      "address": "0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC",
+      "chainId": 1116,
+      "name": "Bitvexa Network",
+      "symbol": "BTV",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC/logo.png"
+    },
+    {
+      "address": "0x9cc83D580180f0d37d00e5d86ce868f73b6E3D0A",
+      "chainId": 1116,
+      "name": "Bitcointry Token",
+      "symbol": "BTTY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x9cc83D580180f0d37d00e5d86ce868f73b6E3D0A/logo.png"
+    },
+    {
+      "address": "0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3",
+      "chainId": 1116,
+      "name": "CORE BUNNY",
+      "symbol": "CORE BUNNY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3/logo.png"
     }
   ]
 }

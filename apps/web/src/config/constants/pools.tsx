@@ -167,6 +167,52 @@ export const livePools: SerializedPoolConfig[] = [
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '57.87',
     version: 2,
+  },
+    /*
+  {
+    sousId: 17,
+    stakingToken: coreTokens.ice,
+    earningToken: coreTokens.royale,
+    contractAddress: {
+      1116: '0x6ebcb39fa52253ec702518981b6449182e70dc74',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '4398148',
+    version: 2,
+  },
+  {
+    sousId: 18,
+    stakingToken: coreTokens.royale,
+    earningToken: coreTokens.royale,
+    contractAddress: {
+      1116: '0x18e1fee6da6af48296dfb1f9d8da9e3cc65aa35e',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '5657696',
+    version: 2,
+  },
+    */
+  {
+    sousId: 19,
+    stakingToken: coreTokens.cfee,
+    earningToken: coreTokens.cfee,
+    contractAddress: {
+      1116: '0x258f0b7efbbdd088fca6162cc86b53e0133a7148',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.023',
+    version: 2,
+  },
+  {
+    sousId: 20,
+    stakingToken: coreTokens.bcore,
+    earningToken: coreTokens.bcore,
+    contractAddress: {
+      1116: '0x7ac860a1737b82c01f92c920c33e0434c8550fbd',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '2.31',
+    version: 2,
   }
 ].map((p) => ({
   ...p,

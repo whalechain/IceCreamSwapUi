@@ -36,6 +36,19 @@ export const useGivenAmount = (contractAddress: string, address: string) => {
   )
 }
 
+export const useFlags = () => {
+  return useSWR<Record<string, string>>(
+    '/api/get-flags',
+    async () => {
+      const flags = await fetch('/api/get-flags').then((res) => res.json())
+      return flags
+    },
+    {
+      refreshInterval: 60000,
+    },
+  )
+}
+
 export interface CampaignData {
   address: string
   banner?: string
