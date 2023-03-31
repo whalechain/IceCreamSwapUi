@@ -39,7 +39,7 @@ export const Kyc: React.FC = () => {
   const paid = useSWR(
     address ? `kyc/${address}` : null,
     async () => {
-      const response = await fetch(`api/kyc/${address}`)
+      const response = await fetch(`api/kyc-info/${address}`)
       const data = await response.json()
       return data
     },
@@ -90,12 +90,14 @@ export const Kyc: React.FC = () => {
           </Text>
           <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch">
             {status === 'connected' ? (
-              paid.data ? (
+              paid.data === 'payed' ? (
                 <Link href="https://icecreamswap.synaps.me" passHref legacyBehavior>
                   <Button as="a" height="40px" width="100%">
                     Proceed to KYC
                   </Button>
                 </Link>
+              ) : paid.data === 'verified' ? (
+                <Flex>✔️✔️ Your are successfuly verified</Flex>
               ) : (
                 <Button onClick={handlePayment} height="40px" width="100%">
                   Pay

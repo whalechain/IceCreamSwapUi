@@ -5,10 +5,11 @@ const client = new PrismaClient()
 export default async function handler(req, res) {
   const { address } = req.query
 
-  const count = await client.kyc.count({
+  const kyc = await client.kyc.findFirst({
     where: {
       address: address.toLowerCase(),
     },
   })
-  return res.json(count > 0)
+
+  return res.json(kyc?.status || 'unverified')
 }
