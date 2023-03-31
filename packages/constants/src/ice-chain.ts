@@ -19,6 +19,7 @@ interface KycConfig {
   stableCoin: string
   fee: number
   feeWallet: string
+  tokenAddress: string
 }
 
 interface ChainBase {
