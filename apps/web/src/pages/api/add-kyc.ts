@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   await client.kyc.create({
     data: {
-      address,
+      address: address.toLowerCase(),
       chainId,
       transactionHash,
       status: 'payed',
