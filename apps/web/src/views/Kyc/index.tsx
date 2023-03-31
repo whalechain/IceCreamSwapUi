@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
+import success from '../Bridge/assets/bridge-success.png'
 import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
 
@@ -40,6 +41,16 @@ const ImgWrapper = styled.div`
     margin-left: 24px;
   }
 `
+
+const Bg = styled.div`
+  background: #fdd8e1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 130px;
+`
+
 export const Kyc: React.FC = () => {
   const chain = useActiveChain()
   const { address, status } = useAccount()
@@ -71,6 +82,34 @@ export const Kyc: React.FC = () => {
   }
   const { isDark } = useTheme()
 
+  let action: React.ReactNode | undefined
+
+  if (status === 'connected' && paid.data) {
+    if (paid.data === 'payed')
+      action = (
+        <Link href="https://icecreamswap.synaps.me" passHref legacyBehavior>
+          <Button as="a" height="40px" width="100%">
+            Proceed to KYC
+          </Button>
+        </Link>
+      )
+    else if (paid.data === 'verified')
+      action = (
+        <Flex alignItems="center" flexDirection="column" gap="1em">
+          <Heading>Your wallet has been verified 🥳</Heading>
+          <Button variant="success">Added to Metamask</Button>
+        </Flex>
+      )
+    else
+      action = (
+        <Button onClick={handlePayment} height="40px" width="100%">
+          Pay
+        </Button>
+      )
+  } else {
+    action = <ConnectWalletButton />
+  }
+
   return (
     <Box background={isDark ? 'linear-gradient(135deg, #1d1c21 0%, #141317 100%)' : undefined}>
       <PageHeader
@@ -80,6 +119,8 @@ export const Kyc: React.FC = () => {
           backgroundColor: '#E66280',
           backgroundRepeat: 'no-repeat',
         }}
+        padding="0"
+        // extra={<Bg />}
       >
         <Flex maxWidth="800px" margin="auto">
           <Box>
@@ -96,33 +137,18 @@ export const Kyc: React.FC = () => {
       <Page style={{ maxWidth: '800px' }}>
         <Flex flexDirection="column" gap="0.75em">
           <Text>
-              The IceCream KYC-Soulbound Token allows you to publicly proove you being KYCed with IceCreamSwap.
-              For Projects that means you can get access to extra functionality and greatly increase your communitys and other projects trust.
-              For Users this means you might receive AirDrops where the KYC token is a prerequesit so projects are sure they don&apos;t AirDrop to bots.
+            The IceCream KYC-Soulbound Token allows you to publicly prove you being KYCed with IceCreamSwap. For
+            Projects that means you can get access to extra functionality and greatly increase your communities and
+            other projects trust. For Users this means you might receive AirDrops where the KYC token is a prerequisite
+            so projects are sure they don&apos;t AirDrop to bots.
           </Text>
           <Text>
             To get your token, you will need to pay a fee of {chain.kyc?.fee} {token?.symbol}. After you pay, you will
             be redirected to a KYC form, where you will need to provide your identity information. After you submit the
             form, your token will be sent to your wallet. The whole process just takes a few minutes.
           </Text>
-          <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch">
-            {status === 'connected' ? (
-              paid.data === 'payed' ? (
-                <Link href="https://icecreamswap.synaps.me" passHref legacyBehavior>
-                  <Button as="a" height="40px" width="100%">
-                    Proceed to KYC
-                  </Button>
-                </Link>
-              ) : paid.data === 'verified' ? (
-                <Flex>✔️ Your are successfuly verified</Flex>
-              ) : (
-                <Button onClick={handlePayment} height="40px" width="100%">
-                  Pay
-                </Button>
-              )
-            ) : (
-              <ConnectWalletButton />
-            )}
+          <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch" marginTop="1em">
+            {action}
           </Flex>
         </Flex>
       </Page>
