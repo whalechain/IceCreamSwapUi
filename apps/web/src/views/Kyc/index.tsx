@@ -96,13 +96,14 @@ export const Kyc: React.FC = () => {
       <Page style={{ maxWidth: '800px' }}>
         <Flex flexDirection="column" gap="0.75em">
           <Text>
-            The IceCream KYC-Soulbound Token will allow you to verify your identity. This will also allow projects to
-            provide airdrops more easily to you.
+              The IceCream KYC-Soulbound Token allows you to publicly proove you being KYCed with IceCreamSwap.
+              For Projects that means you can get access to extra functionality and greatly increase your communitys and other projects trust.
+              For Users this means you might receive AirDrops where the KYC token is a prerequesit so projects are sure they don&apos;t AirDrop to bots.
           </Text>
           <Text>
             To get your token, you will need to pay a fee of {chain.kyc?.fee} {token?.symbol}. After you pay, you will
             be redirected to a KYC form, where you will need to provide your identity information. After you submit the
-            form, your token will be sent to your wallet.
+            form, your token will be sent to your wallet. The whole process just takes a few minutes.
           </Text>
           <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch">
             {status === 'connected' ? (
