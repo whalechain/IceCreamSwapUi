@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   const response = await fetch('https://individual-api.synaps.io/v3/session/info', {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Client-Id': process.env.SYNAPS_CLIENT_ID,
       'Session-Id': session_id,
