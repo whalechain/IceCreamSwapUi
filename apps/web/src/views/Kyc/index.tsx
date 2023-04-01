@@ -82,8 +82,6 @@ export const Kyc: React.FC = () => {
     })
   }
   const { isDark } = useTheme()
-  const kycToken = useToken('0x913E332d552b98355587BBa82b1256BCAdbCeD48')
-  console.log(kycToken)
 
   let action: React.ReactNode | undefined
 
@@ -104,6 +102,7 @@ export const Kyc: React.FC = () => {
             tokenAddress="0x913E332d552b98355587BBa82b1256BCAdbCeD48"
             tokenSymbol="ICEKYC"
             tokenDecimals={0}
+            tokenImage="https://icecreamswap.com/kyc.png"
             variant="success"
           >
             Add NFT to Metamask
