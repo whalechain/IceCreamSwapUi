@@ -26,4 +26,6 @@ export const coreTokens = {
   cfee: new ERC20Token(ChainId.CORE, '0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820', 8, 'CFEE', 'Coffee Crypto'),
   usdtl0: new ERC20Token(ChainId.CORE, '0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1', 6, 'USDT', 'Tether USD (Layer0 Bridge)'),
   usdcl0: new ERC20Token(ChainId.CORE, '0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9', 6, 'USDC', 'USD Coin (Layer0 Bridge)'),
+  btv: new ERC20Token(ChainId.CORE, '0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC', 8, 'BTV', 'Bitvexa Network'),
+  woof: new ERC20Token(ChainId.CORE, '0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092', 18, 'WOOF', 'WOOF'),
 }

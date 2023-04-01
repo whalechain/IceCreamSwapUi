@@ -213,6 +213,28 @@ export const livePools: SerializedPoolConfig[] = [
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '2.31',
     version: 2,
+  },
+  {
+    sousId: 21,
+    stakingToken: coreTokens.btv,
+    earningToken: coreTokens.btv,
+    contractAddress: {
+      1116: '0xe58a38a2b167647f11da02f0be1fcac67fc47c97',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '1.157',
+    version: 2,
+  },
+  {
+    sousId: 22,
+    stakingToken: coreTokens.woof,
+    earningToken: coreTokens.woof,
+    contractAddress: {
+      1116: '0xa83942e64452c157c502a38ecb56afe6703ebfd5',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.0231',
+    version: 2,
   }
 ].map((p) => ({
   ...p,
