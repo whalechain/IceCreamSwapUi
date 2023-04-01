@@ -17,6 +17,7 @@ import success from '../Bridge/assets/bridge-success.png'
 import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
 import AddToWallet from 'views/CreateToken/components/AddToWallet'
+import useTokenBalance from 'hooks/useTokenBalance'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -82,6 +83,8 @@ export const Kyc: React.FC = () => {
     })
   }
   const { isDark } = useTheme()
+  const tokenBalance = useTokenBalance(chain.kyc.stableCoin)
+  const canPay = Number(utils.formatEther(tokenBalance?.balance?.toString() ?? '0')) >= chain?.kyc?.fee
 
   let action: React.ReactNode | undefined
 
@@ -108,6 +111,12 @@ export const Kyc: React.FC = () => {
             Add NFT to Metamask
           </AddToWallet>
         </Flex>
+      )
+    else if (!canPay)
+      action = (
+        <Button disabled height="40px" width="100%">
+          Insufficient ICE balance
+        </Button>
       )
     else
       action = (
