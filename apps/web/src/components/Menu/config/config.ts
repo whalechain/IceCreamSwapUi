@@ -209,6 +209,11 @@ const config: (
           supportChainIds: SUPPORT_LOCKS,
         },
         {
+          label: t('Kyc'),
+          href: '/kyc',
+          supportChainIds: [1116],
+        },
+        {
           label: t('Wiki'),
           href: 'https://wiki.icecreamswap.com',
           type: DropdownMenuItemType.EXTERNAL_LINK,

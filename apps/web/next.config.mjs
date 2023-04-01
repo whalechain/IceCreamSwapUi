@@ -64,6 +64,10 @@ const config = {
       {
         source: '/info/pair/:address',
         destination: '/info/pools/:address',
+      },
+      {
+        source: '/kyc-meta',
+        destination: '/api/kyc-meta',
       }
     ]
   },
