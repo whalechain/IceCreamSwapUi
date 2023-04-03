@@ -1283,9 +1283,17 @@
       "address": "0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3",
       "chainId": 1116,
       "name": "CORE BUNNY",
-      "symbol": "CORE BUNNY",
+      "symbol": "CBUNNY",
       "decimals": 18,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3/logo.png"
+    },
+    {
+      "address": "0xcfd38184c30832917A2871695F91e5e61bBD41fF",
+      "chainId": 1116,
+      "name": "Miidas NFT",
+      "symbol": "Miidas",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xcfd38184c30832917A2871695F91e5e61bBD41fF/logo.png"
     }
   ]
 }

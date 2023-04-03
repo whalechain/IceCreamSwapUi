@@ -28,4 +28,5 @@ export const coreTokens = {
   usdcl0: new ERC20Token(ChainId.CORE, '0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9', 6, 'USDC', 'USD Coin (Layer0 Bridge)'),
   btv: new ERC20Token(ChainId.CORE, '0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC', 8, 'BTV', 'Bitvexa Network'),
   woof: new ERC20Token(ChainId.CORE, '0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092', 18, 'WOOF', 'WOOF'),
+  miidas: new ERC20Token(ChainId.CORE, '0xcfd38184c30832917A2871695F91e5e61bBD41fF', 6, 'Miidas', 'Miidas NFT'),
 }
