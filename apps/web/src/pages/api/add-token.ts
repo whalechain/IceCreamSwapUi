@@ -1,5 +1,5 @@
 import { getChain } from '@icecreamswap/constants'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@icecreamswap/database'
 import { Contract, ethers } from 'ethers'
 import tokenDeployerAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadTokenDeployer.sol/PSIPadTokenDeployer.json'
 import { PSIPadTokenDeployer } from '@passive-income/launchpad-contracts/typechain/PSIPadTokenDeployer'
