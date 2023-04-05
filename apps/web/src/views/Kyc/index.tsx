@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Heading, PageHeader, Text } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
-import AppWrapper from 'components/AppWrapper'
 import { useAccount, useSigner } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import useSWR from 'swr'
@@ -13,7 +12,6 @@ import Link from 'next/link'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
-import success from '../Bridge/assets/bridge-success.png'
 import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
 import AddToWallet from 'views/CreateToken/components/AddToWallet'
@@ -42,15 +40,6 @@ const ImgWrapper = styled.div`
     display: block;
     margin-left: 24px;
   }
-`
-
-const Bg = styled.div`
-  background: #fdd8e1;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 130px;
 `
 
 export const Kyc: React.FC = () => {

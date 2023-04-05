@@ -6,7 +6,6 @@ import PhishingWarningBanner from 'components/PhishingWarningBanner'
 import { NetworkSwitcher } from 'components/NetworkSwitcher'
 import useTheme from 'hooks/useTheme'
 import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
-import { usePhishingBannerManager } from 'state/user/hooks'
 import UserMenu from './UserMenu'
 import { useMenuItems } from './hooks/useMenuItems'
 import GlobalSettings from './GlobalSettings'
@@ -35,6 +34,20 @@ const Menu = (props) => {
     return footerLinks(t)
   }, [t])
 
+  const subLinks = useMemo(() => {
+    if (activeSubMenuItem?.items?.length > 0) {
+      return activeSubMenuItem.items
+    }
+    for (const menuItem of menuItems) {
+      const parentSubLinks = menuItem.items?.find((item) => item.items?.includes(activeSubMenuItem))
+      if (parentSubLinks) {
+        return parentSubLinks.items
+      }
+    }
+
+    return activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items
+  }, [activeMenuItem?.hideSubNav, activeMenuItem?.items, activeSubMenuItem, menuItems])
+
   return (
     <>
       <UikitMenu
@@ -56,7 +69,7 @@ const Menu = (props) => {
         setLang={setLanguage}
         cakePriceUsd={cakePriceUsd}
         links={menuItems}
-        subLinks={activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items}
+        subLinks={subLinks}
         footerLinks={getFooterLinks}
         activeItem={activeMenuItem?.href}
         activeSubItem={activeSubMenuItem?.href}
