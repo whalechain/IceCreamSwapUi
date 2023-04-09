@@ -206,10 +206,10 @@ export default function SwapForm() {
       setAkkaApprovalSubmitted(true)
     }
   }, [akkaApproval, akkaApprovalSubmitted])
-
+  
   const maxAmountInput: CurrencyAmount<Currency> | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
-
+  
   const handleInputSelect = useCallback(
     (newCurrencyInput) => {
       setApprovalSubmitted(false) // reset 2 step UI for approvals

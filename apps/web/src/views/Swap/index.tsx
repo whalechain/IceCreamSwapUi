@@ -39,6 +39,7 @@ import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedCha
 import { useBalance } from 'wagmi'
 import chainName from 'config/constants/chainName'
 import localStorage from 'local-storage'
+import { logError } from 'utils/sentry'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -138,6 +139,7 @@ export default function Swap() {
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
+        logError(`AKKA: ${akkaRouterTrade?.route?.returnAmountWei} vs PKS: ${v2Trade?.outputAmount.toExact()}`)
       } else {
         toggleSetAkkaModeToTrue()
       }
@@ -167,12 +169,12 @@ export default function Swap() {
                   toggleSetAkkaContractModeToTrue()
                 } else {
                   toggleSetAkkaContractModeToFalse()
-                  console.error("estimate gas is lower than 21000", data, akkaRouterTrade?.args)
+                  logError("estimate gas is lower than 21000")
                 }
               })
               .catch((error) => {
                 toggleSetAkkaContractModeToFalse()
-                console.error("can not estimate gas", error, akkaRouterTrade?.args)
+                logError(error)
               })
           }
           else {
@@ -192,12 +194,12 @@ export default function Swap() {
                   toggleSetAkkaContractModeToTrue()
                 } else {
                   toggleSetAkkaContractModeToFalse()
-                  console.error("estimate gas is lower than 21000", data, akkaRouterTrade?.args)
+                  logError("estimate gas is lower than 21000")
                 }
               })
               .catch((error) => {
                 toggleSetAkkaContractModeToFalse()
-                console.error("can not estimate gas", error, akkaRouterTrade?.args)
+                logError(error)
               })
           }
 
@@ -216,7 +218,6 @@ export default function Swap() {
   useEffect(() => {
     if (akkaRouterTrade?.args && akkaRouterTrade?.args?.bridge?.length !== 0) {
       toggleSetAkkaModeToFalse()
-      console.error("bridge array is not empty", akkaRouterTrade?.args)
     }
   }, [akkaRouterTrade])
 

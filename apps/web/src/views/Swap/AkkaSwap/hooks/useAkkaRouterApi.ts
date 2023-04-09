@@ -8,6 +8,7 @@ import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCurrency } from 'hooks/Tokens'
 import { useWeb3React } from '@pancakeswap/wagmi'
+import { logError } from 'utils/sentry'
 
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (
@@ -29,6 +30,7 @@ export const useAkkaRouterArgs = (
     fetch(url).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
+        logError(r.url)
       }
       return r.json()
     })
@@ -76,6 +78,7 @@ export const useAkkaRouterRoute = (
     fetch(url).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
+        logError(r.url)
       }
       return r.json()
     })
