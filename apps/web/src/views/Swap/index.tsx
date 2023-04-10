@@ -11,7 +11,7 @@ import {
   Heading,
   Message,
 } from '@pancakeswap/uikit'
-import { EXCHANGE_DOCS_URLS } from 'config/constants'
+import { EXCHANGE_DOCS_URLS, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { AppBody } from 'components/App'
 
 import { useCurrency } from '../../hooks/Tokens'
@@ -38,8 +38,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedChains'
 import { useBalance } from 'wagmi'
 import chainName from 'config/constants/chainName'
-import localStorage from 'local-storage'
-import { logError } from 'utils/sentry'
+import { captureMessage } from '@sentry/nextjs'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -65,7 +64,6 @@ export default function Swap() {
   }
 
   const { chainId: walletChainId } = useWeb3React()
-  const { chainId: appChainId } = useActiveChainId()
 
   // isAkkaSwapMode checks if this is akka router form or not from redux
   const [isAkkaSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
@@ -139,7 +137,16 @@ export default function Swap() {
     if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
-        logError(`AKKA: ${akkaRouterTrade?.route?.returnAmountWei} vs PKS: ${v2Trade?.outputAmount.toExact()}`)
+        captureMessage(`AKKA: RateError`, {
+          tags: {
+            chain_id: chainId,
+            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+            pksRate: v2Trade?.outputAmount.toExact(),
+            akkaRate: akkaRouterTrade?.route?.returnAmountWei,
+          },
+        })
       } else {
         toggleSetAkkaModeToTrue()
       }
@@ -150,59 +157,88 @@ export default function Swap() {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
         if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
-          if (chainId === ChainId.CORE) {
-            akkaCoreContract.estimateGas[methodName](
-              akkaRouterTrade?.args?.amountIn,
-              akkaRouterTrade?.args?.amountOutMin,
-              akkaRouterTrade?.args?.data,
-              account,
-              akkaRouterTrade?.args?.akkaFee?.fee,
-              akkaRouterTrade?.args?.akkaFee?.v,
-              akkaRouterTrade?.args?.akkaFee?.r,
-              akkaRouterTrade?.args?.akkaFee?.s,
-              {
-                value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
-              },
-            )
-              .then((data) => {
-                if (data.gt('21000')) {
-                  toggleSetAkkaContractModeToTrue()
-                } else {
+          if (akkaRouterTrade?.args) {
+            if (chainId === ChainId.CORE) {
+              akkaCoreContract.estimateGas[methodName](
+                akkaRouterTrade?.args?.amountIn,
+                akkaRouterTrade?.args?.amountOutMin,
+                akkaRouterTrade?.args?.data,
+                account,
+                akkaRouterTrade?.args?.akkaFee?.fee,
+                akkaRouterTrade?.args?.akkaFee?.v,
+                akkaRouterTrade?.args?.akkaFee?.r,
+                akkaRouterTrade?.args?.akkaFee?.s,
+                {
+                  value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
+                },
+              )
+                .then((data) => {
+                  if (data.gt('21000')) {
+                    toggleSetAkkaContractModeToTrue()
+                  } else {
+                    toggleSetAkkaContractModeToFalse()
+                    captureMessage(`AKKA: EstimateGas is lower than 21000`, {
+                      tags: {
+                        chain_id: chainId,
+                        amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                        fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                        toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                      },
+                    })
+                  }
+                })
+                .catch((error) => {
                   toggleSetAkkaContractModeToFalse()
-                  logError("estimate gas is lower than 21000")
-                }
-              })
-              .catch((error) => {
-                toggleSetAkkaContractModeToFalse()
-                logError(error)
-              })
-          }
-          else {
-            akkaContract.estimateGas[methodName](
-              akkaRouterTrade?.args?.amountIn,
-              akkaRouterTrade?.args?.amountOutMin,
-              akkaRouterTrade?.args?.data,
-              [],
-              [],
-              account,
-              {
-                value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
-              },
-            )
-              .then((data) => {
-                if (data.gt('21000')) {
-                  toggleSetAkkaContractModeToTrue()
-                } else {
+                  captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
+                    tags: {
+                      chain_id: chainId,
+                      amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                      fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                      toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                    },
+                  })
+                })
+            }
+            else {
+              akkaContract.estimateGas[methodName](
+                akkaRouterTrade?.args?.amountIn,
+                akkaRouterTrade?.args?.amountOutMin,
+                akkaRouterTrade?.args?.data,
+                [],
+                [],
+                account,
+                {
+                  value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
+                },
+              )
+                .then((data) => {
+                  if (data.gt('21000')) {
+                    toggleSetAkkaContractModeToTrue()
+                  } else {
+                    toggleSetAkkaContractModeToFalse()
+                    captureMessage(`AKKA: EstimateGas is lower than 21000`, {
+                      tags: {
+                        chain_id: chainId,
+                        amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                        fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                        toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                      },
+                    })
+                  }
+                })
+                .catch((error) => {
                   toggleSetAkkaContractModeToFalse()
-                  logError("estimate gas is lower than 21000")
-                }
-              })
-              .catch((error) => {
-                toggleSetAkkaContractModeToFalse()
-                logError(error)
-              })
+                  captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
+                    tags: {
+                      chain_id: chainId,
+                      amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                      fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                      toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                    },
+                  })
+                })
+            }
           }
-
         } else {
           toggleSetAkkaContractModeToTrue()
         }
@@ -213,13 +249,6 @@ export default function Swap() {
       toggleSetAkkaContractModeToTrue()
     }
   }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
-
-  // Check api bridge data is empty
-  useEffect(() => {
-    if (akkaRouterTrade?.args && akkaRouterTrade?.args?.bridge?.length !== 0) {
-      toggleSetAkkaModeToFalse()
-    }
-  }, [akkaRouterTrade])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
   const supportedChains = useSupportedChains()
