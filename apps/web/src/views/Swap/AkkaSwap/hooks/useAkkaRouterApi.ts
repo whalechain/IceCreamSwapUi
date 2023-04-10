@@ -7,9 +7,7 @@ import useSWR, { Fetcher, useSWRConfig } from 'swr'
 import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCurrency } from 'hooks/Tokens'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import { logError } from 'utils/sentry'
-import { captureException, captureMessage } from '@sentry/nextjs'
+import { captureMessage } from '@sentry/nextjs'
 
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (
@@ -26,10 +24,8 @@ export const useAkkaRouterArgs = (
   } = useSwapState()
   const inputCurrency = useCurrency(inputCurrencyId)
   const { chainId } = useActiveChainId()
-  const { account } = useWeb3React()
   const API_URL = chainId === ChainId.CORE ? 'https://api.akka.foundation' : 'https://icecream.akka.finance'
-  const [isAkkSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
-    useIsAkkaSwapModeStatus()
+  const [, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
   const fetcher: Fetcher<AkkaRouterArgsResponseType> = (url) =>
     fetch(url).then((r) => {
       if (r.status !== 200) {
@@ -50,9 +46,9 @@ export const useAkkaRouterArgs = (
       inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
     }&token1=${
       outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address
-    }&amount=${amount?.multiply(10 ** inputCurrency?.decimals)?.toExact()}&slipage=${slippage / 10000}&use_split=true${
-      account ? `&user_wallet_addr=${account}` : ''
-    }&${chainId !== ChainId.CORE ? `chain_id=${chainId}` : `chain0=core&chain1=core`}`,
+    }&amount=${amount?.multiply(10 ** inputCurrency?.decimals)?.toExact()}&slipage=${slippage / 10000}&use_split=true&${
+      chainId !== ChainId.CORE ? `chain_id=${chainId}` : `chain0=core&chain1=core`
+    }`,
     token0 &&
       token1 &&
       amount &&
@@ -80,8 +76,7 @@ export const useAkkaRouterRoute = (
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
   const inputCurrency = useCurrency(inputCurrencyId)
-  const [isAkkSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
-    useIsAkkaSwapModeStatus()
+  const [, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
   const fetcher: Fetcher<AkkaRouterInfoResponseType> = (url) =>
     fetch(url).then((r) => {
       if (r.status !== 200) {
