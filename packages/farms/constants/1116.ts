@@ -3,20 +3,6 @@ import { coreTokens } from '@pancakeswap/tokens'
 
 const farms: SerializedFarmConfig[] = [
     {
-        pid: 17,
-        lpSymbol: 'USDT(l0)-CORE LP',
-        lpAddress: '0x23A776980962CF489130d8A936D2953fdf3E6Aa1',
-        token: coreTokens.usdtl0,
-        quoteToken: coreTokens.wcore,
-    },
-    {
-        pid: 18,
-        lpSymbol: 'USDC(l0)-CORE LP',
-        lpAddress: '0x3A43bBf95106d477230Df2e4C432adEd973deD03',
-        token: coreTokens.usdcl0,
-        quoteToken: coreTokens.wcore,
-    },
-    {
         pid: 19,
         lpSymbol: 'USDT-USDT(l0) LP',
         lpAddress: '0x1424f74af91Ae42938fea515e94B4c88161F0C64',
@@ -85,6 +71,20 @@ const farms: SerializedFarmConfig[] = [
         lpAddress: '0x69dE3b3fbbC5AA0201a8028F90cE5eebfCD0cBd3',
         token: coreTokens.bnb,
         quoteToken: coreTokens.ice,
+    },
+    {
+        pid: 17,
+        lpSymbol: 'USDT(l0)-CORE LP',
+        lpAddress: '0x23A776980962CF489130d8A936D2953fdf3E6Aa1',
+        token: coreTokens.usdtl0,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: 18,
+        lpSymbol: 'USDC(l0)-CORE LP',
+        lpAddress: '0x3A43bBf95106d477230Df2e4C432adEd973deD03',
+        token: coreTokens.usdcl0,
+        quoteToken: coreTokens.wcore,
     },
     {
         pid: 11,
