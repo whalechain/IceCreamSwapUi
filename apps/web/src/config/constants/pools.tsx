@@ -15,17 +15,6 @@ export const livePools: SerializedPoolConfig[] = [
   // souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
   {
-    sousId: 14,
-    stakingToken: coreTokens.ice,
-    earningToken: coreTokens.fsxm,
-    contractAddress: {
-      1116: '0xb947fb0c93fae288e25033181e148492c050f32c',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '57.87',
-    version: 2,
-  },
-  {
     sousId: 15,
     stakingToken: coreTokens.ice,
     earningToken: coreTokens.coreshiba,
@@ -67,6 +56,17 @@ export const livePools: SerializedPoolConfig[] = [
     },
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '0.00106',
+    version: 2,
+  },
+  {
+    sousId: 24,
+    stakingToken: coreTokens.block,
+    earningToken: coreTokens.block,
+    contractAddress: {
+      1116: '0x920704424e7930e3d133fae25f633b74589d72c3',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.239',
     version: 2,
   },
   {
@@ -211,6 +211,17 @@ export const livePools: SerializedPoolConfig[] = [
 
 // known finished pools
 const finishedPools = [
+  {
+    sousId: 14,
+    stakingToken: coreTokens.ice,
+    earningToken: coreTokens.fsxm,
+    contractAddress: {
+      1116: '0xb947fb0c93fae288e25033181e148492c050f32c',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '57.87',
+    version: 2,
+  },
   {
     sousId: 5,
     stakingToken: coreTokens.aicore,

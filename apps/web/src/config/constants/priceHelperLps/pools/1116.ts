@@ -120,6 +120,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
         lpAddress: '0x7c2a08db0f8d3976a336298a5d14962a9e67adfc',
         token: coreTokens.miidas,
         quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0xae83e154f83b1b2328e6c80751a0353d0bb4b16c',
+        token: coreTokens.block,
+        quoteToken: coreTokens.wcore,
     }
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
