@@ -49,3 +49,17 @@ model Flags {
   key String
   value String
 }
+
+enum Role {
+  ADMIN
+  MOD
+  USER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  wallet String @unique
+  role Role @default(USER)
+  name String
+}
