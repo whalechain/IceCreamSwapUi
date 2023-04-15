@@ -58,7 +58,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const contributed = useGivenAmount(campaign.address, address)
   const [claiming, setClaiming] = useState(false)
 
-  if (ended && contributed.data && !contributed.data.gt(0) && campaign.deleted) {
+  if (ended && (!address || (contributed.data && !contributed.data.gt(0))) && campaign.deleted) {
     return null
   }
 
