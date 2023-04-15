@@ -39,7 +39,6 @@ const roundString = (str: string) => {
 
 const CampaignCardDummy: React.FC<LaunchpadCardProps> = (props) => {
   const { campaign } = props
-  console.log(campaign)
   const started = new Date(campaign.startDate * 1000) < new Date()
 
   return (

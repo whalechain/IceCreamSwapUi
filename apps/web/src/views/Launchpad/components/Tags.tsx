@@ -5,7 +5,7 @@ const KYCTag: React.FC = () => {
   const { t } = useTranslation()
   return (
     <Tag
-      variant="secondary"
+      variant="success"
       style={{ background: 'none' }}
       outline
       startIcon={<VerifiedIcon width="18px" color="secondary" mr="4px" />}
