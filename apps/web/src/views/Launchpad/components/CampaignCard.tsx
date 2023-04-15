@@ -54,11 +54,14 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const ended = new Date(campaign.end_date.toNumber() * 1000) < new Date()
   const { address, status } = useAccount()
   const c = useCampaign(campaign.address)
-  const flags = useFlags()
-  const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
 
   const contributed = useGivenAmount(campaign.address, address)
   const [claiming, setClaiming] = useState(false)
+
+  if (ended && contributed.data && !contributed.data.gt(0) && campaign.deleted) {
+    return null
+  }
+
   return (
     <StyledCard isActive={started && !ended}>
       <LaunchpadCardInnerContainer>
@@ -90,12 +93,6 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Contributed</Text>
             <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} CORE</Text>
-          </Flex>
-        )}
-        {contributed.data && isIceSale && Number(utils.formatUnits(contributed.data, 18)) >= 25 && (
-          <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Free KYC</Text>
-            <Text fontSize="16px">Yes</Text>
           </Flex>
         )}
         {started && !ended && (
