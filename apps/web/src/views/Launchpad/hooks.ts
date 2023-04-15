@@ -76,6 +76,12 @@ export interface CampaignData {
   tags: string[]
   progress: number
   hardCapProgress: number
+  deleted: boolean
+  startDate?: number
+  dummyRate?: string
+  dummyMaxContrib?: string
+  dummySoftCap?: string
+  dummyHardCap?: string
 }
 
 export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) => {
@@ -96,6 +102,7 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
           chainId: chain.id,
           provider,
           calls: campaigns
+            .filter((c) => c.address !== 'dummy')
             .map((campaign) => [
               {
                 address: campaign.address,
@@ -152,29 +159,34 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
       } catch (e) {
         console.error(e)
       }
-      return campaigns.map((campaign, index: number) => {
-        return {
-          ...campaign,
-          tokenAddress: multiCallResult[index * 12][0],
-          softCap: multiCallResult[index * 12 + 1][0],
-          hardCap: multiCallResult[index * 12 + 2][0],
-          start_date: multiCallResult[index * 12 + 3][0],
-          end_date: multiCallResult[index * 12 + 4][0],
-          rate: multiCallResult[index * 12 + 5][0],
-          min_allowed: multiCallResult[index * 12 + 6][0],
-          max_allowed: multiCallResult[index * 12 + 7][0],
-          pool_rate: multiCallResult[index * 12 + 8][0],
-          lock_duration: multiCallResult[index * 12 + 9][0],
-          liquidity_rate: multiCallResult[index * 12 + 10][0],
-          collected: multiCallResult[index * 12 + 11][0],
-          progress:
-            Number(multiCallResult[index * 12 + 11][0].toString()) /
-            Number(multiCallResult[index * 12 + 1][0].toString()),
-          hardCapProgress:
-            Number(multiCallResult[index * 12 + 11][0].toString()) /
-            Number(multiCallResult[index * 12 + 2][0].toString()),
-        }
-      })
+      return [
+        ...campaigns
+          .filter((c) => c.address !== 'dummy')
+          .map((campaign, index: number) => {
+            return {
+              ...campaign,
+              tokenAddress: multiCallResult[index * 12][0],
+              softCap: multiCallResult[index * 12 + 1][0],
+              hardCap: multiCallResult[index * 12 + 2][0],
+              start_date: multiCallResult[index * 12 + 3][0],
+              end_date: multiCallResult[index * 12 + 4][0],
+              rate: multiCallResult[index * 12 + 5][0],
+              min_allowed: multiCallResult[index * 12 + 6][0],
+              max_allowed: multiCallResult[index * 12 + 7][0],
+              pool_rate: multiCallResult[index * 12 + 8][0],
+              lock_duration: multiCallResult[index * 12 + 9][0],
+              liquidity_rate: multiCallResult[index * 12 + 10][0],
+              collected: multiCallResult[index * 12 + 11][0],
+              progress:
+                Number(multiCallResult[index * 12 + 11][0].toString()) /
+                Number(multiCallResult[index * 12 + 1][0].toString()),
+              hardCapProgress:
+                Number(multiCallResult[index * 12 + 11][0].toString()) /
+                Number(multiCallResult[index * 12 + 2][0].toString()),
+            }
+          }),
+        ...campaigns.filter((c) => c.address === 'dummy'),
+      ]
     },
     {
       refreshInterval: 30000,
