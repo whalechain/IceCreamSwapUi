@@ -88,7 +88,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         ) : undefined}
         {campaign.lock_duration.toNumber() > 0 ? (
           <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Lockup Time</Text>
+            <Text fontSize="16px">Liquidity Locked</Text>
             <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
           </Flex>
         ) : undefined}
