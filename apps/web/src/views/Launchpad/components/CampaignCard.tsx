@@ -11,6 +11,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import useNativeCurrency from 'hooks/useNativeCurrency'
 import { formatAmount } from 'views/Bridge/formatter'
 import { useState } from 'react'
+import { formatDuration, intervalToDuration } from 'date-fns'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -110,7 +111,13 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
                 <Button onClick={onPresentBuyModal}>Contribute</Button>
               ) : (
                 <Button disabled>
-                  Public sale starting at {renderDate(campaign.start_date.mul(1000).toNumber() + 7200000)}
+                  Public sale starting in{' '}
+                  {formatDuration(
+                    intervalToDuration({
+                      start: new Date(),
+                      end: new Date(campaign.start_date.mul(1000).toNumber() + 7200000),
+                    }),
+                  )}
                 </Button>
               )
             ) : (
@@ -148,7 +155,13 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
             <Button disabled>Ended</Button>
           )
         ) : (
-          <Button disabled>Starting at {renderDate(campaign.start_date.mul(1000).toNumber())}</Button>
+          <Button disabled>Starting in {formatDuration(
+                    intervalToDuration({
+                      start: new Date(),
+                      end: new Date(campaign.start_date.mul(1000).toNumber()),
+                    }),
+                  )}
+</Button>
         )}
       </LaunchpadCardInnerContainer>
       <ExpandingWrapper>
