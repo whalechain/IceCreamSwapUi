@@ -8,7 +8,7 @@ import { utils } from 'ethers'
 import { CampaignData, useCampaign, useGivenAmount } from '../hooks'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import useNativeCurrency from 'hooks/useNativeCurrency'
-import { useNativeBalances } from 'state/wallet/hooks'
+import { useNativeBalances, useTokenBalances } from 'state/wallet/hooks'
 import { CurrencyAmount } from '@pancakeswap/sdk'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
@@ -27,8 +27,8 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const raisedToken = useToken(campaign?.raisedToken)
   const { address, status } = useAccount()
   const campaignInstance = useCampaign(campaign?.address)
-  const balances = useNativeBalances([address])
-  const balance = (balances ?? {})[address]
+  const balances = useTokenBalances(address, raisedToken && [raisedToken])
+  const balance = (balances ?? {})[raisedToken?.address ?? '']
   const contributed = useGivenAmount(campaign?.address, address)
   const addTransaction = useTransactionAdder()
 
