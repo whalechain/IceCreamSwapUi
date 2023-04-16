@@ -62,7 +62,7 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const { data, status } = useCampaigns({ id })
   const campaign = data?.[0]
   const chain = useActiveChain()
-  const native = useNativeCurrency()
+  const native = useToken(campaign?.raisedToken)
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
   const flags = useFlags()
   useEffect(() => {
