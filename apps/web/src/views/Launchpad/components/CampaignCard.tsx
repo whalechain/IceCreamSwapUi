@@ -109,7 +109,9 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
               canBuy?.data ? (
                 <Button onClick={onPresentBuyModal}>Contribute</Button>
               ) : (
-                <Button disabled>Not Whitelisted</Button>
+                <Button disabled>
+                  Public sale starting at {renderDate(campaign.start_date.mul(1000).toNumber() + 7200000)}
+                </Button>
               )
             ) : (
               <ConnectWalletButton />
