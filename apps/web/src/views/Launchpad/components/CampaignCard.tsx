@@ -71,7 +71,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per {native?.symbol}
+            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per ICE
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
@@ -155,13 +155,15 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
             <Button disabled>Ended</Button>
           )
         ) : (
-          <Button disabled>Starting in {formatDuration(
-                    intervalToDuration({
-                      start: new Date(),
-                      end: new Date(campaign.start_date.mul(1000).toNumber()),
-                    }),
-                  )}
-</Button>
+          <Button disabled>
+            Starting in{' '}
+            {formatDuration(
+              intervalToDuration({
+                start: new Date(),
+                end: new Date(campaign.start_date.mul(1000).toNumber()),
+              }),
+            )}
+          </Button>
         )}
       </LaunchpadCardInnerContainer>
       <ExpandingWrapper>
