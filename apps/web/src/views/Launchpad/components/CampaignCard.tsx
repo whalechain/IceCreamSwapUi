@@ -93,7 +93,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           {tooltip.tooltipVisible && tooltip.tooltip}
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px" fontWeight="bold">
-              Progress ({roundString(`${campaign.hardCapProgress * 100}`)}%)
+              Progress ({roundString(`${campaign.hardCapProgress * 100}`)}%) of hard cap
             </Text>
           </Flex>
           <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
