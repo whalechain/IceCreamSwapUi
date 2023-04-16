@@ -32,11 +32,7 @@ const CampaignCardHeader: React.FC<LaunchpadCardHeaderProps> = (props) => {
 
   return (
     <Wrapper>
-      {campaign.tokenAddress === '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44' ? (
-        <CurrencyLogo currency={token} size="60px" />
-      ) : (
-        <Logo src={ticeBlob} />
-      )}
+      <CurrencyLogo currency={token} size="60px" />
       <Flex flexDirection="column" alignItems="flex-end" gap="4px">
         <Heading>
           {campaign.tokenAddress === '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44' ? 'IceCream' : token?.name}

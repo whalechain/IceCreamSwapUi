@@ -9,6 +9,7 @@ interface SwapConfig {
 
 interface LocksConfig {
   factoryAddress: string
+  factoryAddress2: string
 }
 
 interface TokenDeployerConfig {
