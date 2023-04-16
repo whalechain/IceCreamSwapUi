@@ -162,6 +162,10 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                         {native?.symbol}
                       </Td2>
                     </RowStyled>
+                    <RowStyled>
+                      <Td1>Vesting</Td1>
+                      <Td2>50% over 3 months</Td2>
+                    </RowStyled>
                     {isIceSale ? (
                       <>
                         <RowStyled>
