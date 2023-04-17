@@ -1,5 +1,5 @@
-import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap/uikit'
-import styled from 'styled-components'
+import { Box, Button, Card, Flex, Link, Progress, Text, useModal, useTooltip } from '@pancakeswap/uikit'
+import styled, { useTheme } from 'styled-components'
 import { useToken } from 'hooks/Tokens'
 import { CampaignData, useCampaign, useCanBuy, useFlags, useGivenAmount } from '../hooks'
 import CampaignCardHeader from './CampaignCardHeader'
@@ -61,6 +61,21 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const canBuy = useCanBuy(campaign.address, address)
   const [claiming, setClaiming] = useState(false)
 
+  const theme = useTheme()
+
+  const tooltip = useTooltip(
+    <Flex flexDirection="column" gap="0.5em">
+      <Flex alignItems="center" gap="0.5em">
+        <Box width="1ch" height="1ch" backgroundColor={theme.colors.secondary} /> Soft Cap:{' '}
+        {roundString(String(campaign.progress * 100))}%
+      </Flex>
+      <Flex alignItems="center" gap="0.5em">
+        <Box width="1ch" height="1ch" backgroundColor={theme.colors.success} /> Hard Cap:{' '}
+        {roundString(String(campaign.hardCapProgress * 100))}%
+      </Flex>
+    </Flex>,
+    { placement: 'bottom', trigger: 'hover' },
+  )
   if (ended && (!address || (contributed.data && !contributed.data.gt(0))) && campaign.deleted) {
     return null
   }
@@ -74,10 +89,14 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
             {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per ICE
           </Text>
         </Flex>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text fontSize="16px" fontWeight="bold">
-            Progress ({roundString(`${campaign.progress * 100}`)}%)
-          </Text>
+        <Flex ref={tooltip.targetRef} flexDirection="column" gap="0.5em">
+          {tooltip.tooltipVisible && tooltip.tooltip}
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px" fontWeight="bold">
+              Progress ({roundString(`${campaign.hardCapProgress * 100}`)}%) of hard cap
+            </Text>
+          </Flex>
+          <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
         </Flex>
         <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
         <Flex justifyContent="space-between" alignItems="center">
