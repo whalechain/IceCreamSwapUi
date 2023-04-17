@@ -62,7 +62,7 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
   const { data, status } = useCampaigns({ id })
   const campaign = data?.[0]
   const chain = useActiveChain()
-  const native = useNativeCurrency()
+  const native = useToken(campaign?.raisedToken)
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
   const flags = useFlags()
   useEffect(() => {
@@ -161,6 +161,10 @@ export const CampaignOverview: React.FC<{ id: number }> = ({ id }) => {
                         {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per{' '}
                         {native?.symbol}
                       </Td2>
+                    </RowStyled>
+                    <RowStyled>
+                      <Td1>Vesting</Td1>
+                      <Td2>50% over 3 months</Td2>
                     </RowStyled>
                     {isIceSale ? (
                       <>

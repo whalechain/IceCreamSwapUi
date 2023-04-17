@@ -3,7 +3,7 @@ import { PSIPadCampaign } from '@passive-income/launchpad-contracts/typechain/PS
 import { PSIPadCampaignFactory } from '@passive-income/launchpad-contracts/typechain/PSIPadCampaignFactory'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useContract } from 'hooks/useContract'
-import campaignAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadCampaign.sol/PSIPadCampaign.json'
+import campaignAbi from './campaignAbi.json'
 import campaignFactoryAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadCampaignFactory.sol/PSIPadCampaignFactory.json'
 import useSWR from 'swr'
 import { multicallv2 } from 'utils/multicall'
@@ -29,6 +29,21 @@ export const useGivenAmount = (contractAddress: string, address: string) => {
     campaign && address ? ['givenAmount', contractAddress, address] : null,
     async () => {
       return campaign.getGivenAmount(address)
+    },
+    {
+      refreshInterval: 3000,
+    },
+  )
+}
+
+export const useCanBuy = (contractAddress: string, address: string) => {
+  const campaign = useCampaign(contractAddress)
+  return useSWR<boolean>(
+    campaign && address ? ['canBuy', contractAddress, address] : null,
+    async () => {
+      if (!(await campaign.whitelistEnabled())) return true
+      const canBuy = await campaign.whitelisted(address)
+      return canBuy
     },
     {
       refreshInterval: 3000,
@@ -71,11 +86,19 @@ export interface CampaignData {
   start_date: BigNumber
   telegram?: string
   tokenAddress: string
+  raisedToken: string
   twitter?: string
   website: string
   tags: string[]
   progress: number
   hardCapProgress: number
+  deleted: boolean
+  startDate?: number
+  dummyRate?: string
+  dummyMaxContrib?: string
+  dummySoftCap?: string
+  dummyHardCap?: string
+  isLive: boolean
 }
 
 export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) => {
@@ -96,11 +119,13 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
           chainId: chain.id,
           provider,
           calls: campaigns
+            .filter((c) => c.address !== 'dummy')
             .map((campaign) => [
               {
                 address: campaign.address,
                 name: 'token',
               },
+
               {
                 address: campaign.address,
                 name: 'softCap',
@@ -146,35 +171,50 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
                 address: campaign.address,
                 name: 'collected',
               },
+              {
+                address: campaign.address,
+                name: 'raisedToken',
+              },
+              {
+                address: campaign.address,
+                name: 'isLive',
+              },
             ])
             .flat(),
         })
       } catch (e) {
         console.error(e)
       }
-      return campaigns.map((campaign, index: number) => {
-        return {
-          ...campaign,
-          tokenAddress: multiCallResult[index * 12][0],
-          softCap: multiCallResult[index * 12 + 1][0],
-          hardCap: multiCallResult[index * 12 + 2][0],
-          start_date: multiCallResult[index * 12 + 3][0],
-          end_date: multiCallResult[index * 12 + 4][0],
-          rate: multiCallResult[index * 12 + 5][0],
-          min_allowed: multiCallResult[index * 12 + 6][0],
-          max_allowed: multiCallResult[index * 12 + 7][0],
-          pool_rate: multiCallResult[index * 12 + 8][0],
-          lock_duration: multiCallResult[index * 12 + 9][0],
-          liquidity_rate: multiCallResult[index * 12 + 10][0],
-          collected: multiCallResult[index * 12 + 11][0],
-          progress:
-            Number(multiCallResult[index * 12 + 11][0].toString()) /
-            Number(multiCallResult[index * 12 + 1][0].toString()),
-          hardCapProgress:
-            Number(multiCallResult[index * 12 + 11][0].toString()) /
-            Number(multiCallResult[index * 12 + 2][0].toString()),
-        }
-      })
+      return [
+        ...campaigns
+          .filter((c) => c.address !== 'dummy')
+          .map((campaign, index: number) => {
+            return {
+              ...campaign,
+              tokenAddress: multiCallResult[index * 12][0],
+              raisedToken: multiCallResult[index * 12 + 12][0],
+              isLive: multiCallResult[index * 12 + 13][0],
+              softCap: multiCallResult[index * 12 + 1][0],
+              hardCap: multiCallResult[index * 12 + 2][0],
+              start_date: multiCallResult[index * 12 + 3][0],
+              end_date: multiCallResult[index * 12 + 4][0],
+              rate: multiCallResult[index * 12 + 5][0],
+              min_allowed: multiCallResult[index * 12 + 6][0],
+              max_allowed: multiCallResult[index * 12 + 7][0],
+              pool_rate: multiCallResult[index * 12 + 8][0],
+              lock_duration: multiCallResult[index * 12 + 9][0],
+              liquidity_rate: multiCallResult[index * 12 + 10][0],
+              collected: multiCallResult[index * 12 + 11][0],
+              progress:
+                Number(multiCallResult[index * 12 + 11][0].toString()) /
+                Number(multiCallResult[index * 12 + 1][0].toString()),
+              hardCapProgress:
+                Number(multiCallResult[index * 12 + 11][0].toString()) /
+                Number(multiCallResult[index * 12 + 2][0].toString()),
+            }
+          }),
+        ...campaigns.filter((c) => c.address === 'dummy'),
+      ]
     },
     {
       refreshInterval: 30000,

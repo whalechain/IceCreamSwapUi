@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Input, Link, Table, Td, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Button, Flex, Heading, Input, Table, Td, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useState } from 'react'
 import { useLocksByUser } from './hooks'
 import LockRow from './components/LockRow'
@@ -6,17 +6,15 @@ import { useRouter } from 'next/router'
 import TokenInput from 'components/TokenInput'
 import { Currency } from '@pancakeswap/sdk'
 import AppWrapper from 'components/AppWrapper'
-import { useActiveChain } from 'hooks/useActiveChain'
 
 export const LocksOverview: React.FC = () => {
   const [token, setToken] = useState<Currency>()
   const { isMobile } = useMatchBreakpoints()
   const { data: locks } = useLocksByUser()
-  const chain = useActiveChain()
   const router = useRouter()
 
   const handleSearch = () => {
-    if (token && token.isToken) router.push(`/locks/${token.address}`)
+    if (token && token.isToken) router.push(`/locks-old/${token.address}`)
   }
 
   return (
@@ -38,7 +36,7 @@ export const LocksOverview: React.FC = () => {
         {locks?.length ? (
           <>
             <Heading as="h2" marginY="3">
-              My Locks {chain?.locks.factoryAddress2 && <Link href="/locks-old">Looking for Older locks?</Link>}
+              My Locks
             </Heading>
             <Table>
               {!isMobile && (

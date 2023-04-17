@@ -1,7 +1,7 @@
 import { Button, Card, Flex, Link, Progress, Text, useModal } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useToken } from 'hooks/Tokens'
-import { CampaignData, useCampaign, useFlags, useGivenAmount } from '../hooks'
+import { CampaignData, useCampaign, useCanBuy, useFlags, useGivenAmount } from '../hooks'
 import CampaignCardHeader from './CampaignCardHeader'
 import BuyModal from './BuyModal'
 import { renderDate } from 'utils/renderDate'
@@ -11,6 +11,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import useNativeCurrency from 'hooks/useNativeCurrency'
 import { formatAmount } from 'views/Bridge/formatter'
 import { useState } from 'react'
+import { formatDuration, intervalToDuration } from 'date-fns'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -52,20 +53,25 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const [onPresentBuyModal] = useModal(<BuyModal campaign={campaign} />, true, true, `buyModal-${campaign.id}`)
   const started = new Date(campaign.start_date.toNumber() * 1000) < new Date()
   const ended = new Date(campaign.end_date.toNumber() * 1000) < new Date()
+  const hardCapReached = campaign.hardCapProgress >= 1
   const { address, status } = useAccount()
   const c = useCampaign(campaign.address)
-  const flags = useFlags()
-  const isIceSale = flags.data?.iceSaleAddress === campaign?.tokenAddress
 
   const contributed = useGivenAmount(campaign.address, address)
+  const canBuy = useCanBuy(campaign.address, address)
   const [claiming, setClaiming] = useState(false)
+
+  if (ended && (!address || (contributed.data && !contributed.data.gt(0))) && campaign.deleted) {
+    return null
+  }
+
   return (
     <StyledCard isActive={started && !ended}>
       <LaunchpadCardInnerContainer>
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per {native?.symbol}
+            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per ICE
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
@@ -82,20 +88,14 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         ) : undefined}
         {campaign.lock_duration.toNumber() > 0 ? (
           <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Lockup Time</Text>
+            <Text fontSize="16px">Liquidity Locked</Text>
             <Text fontSize="16px">{campaign.lock_duration.toNumber() / 60 / 60 / 24} Days</Text>
           </Flex>
         ) : undefined}
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Contributed</Text>
-            <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} CORE</Text>
-          </Flex>
-        )}
-        {contributed.data && isIceSale && Number(utils.formatUnits(contributed.data, 18)) >= 25 && (
-          <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Free KYC</Text>
-            <Text fontSize="16px">Yes</Text>
+            <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} ICE</Text>
           </Flex>
         )}
         {started && !ended && (
@@ -105,9 +105,21 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           </Flex>
         )}
         {started ? (
-          !ended ? (
+          campaign.isLive ? (
             status === 'connected' ? (
-              <Button onClick={onPresentBuyModal}>Buy now</Button>
+              canBuy?.data ? (
+                <Button onClick={onPresentBuyModal}>Contribute</Button>
+              ) : (
+                <Button disabled>
+                  Public sale starting in{' '}
+                  {formatDuration(
+                    intervalToDuration({
+                      start: new Date(),
+                      end: new Date(campaign.start_date.mul(1000).toNumber() + 7200000),
+                    }),
+                  )}
+                </Button>
+              )
             ) : (
               <ConnectWalletButton />
             )
@@ -137,11 +149,21 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
                 Refund
               </Button>
             )
+          ) : hardCapReached ? (
+            <Button disabled>Hard Cap Reached</Button>
           ) : (
             <Button disabled>Ended</Button>
           )
         ) : (
-          <Button disabled>Starting at {renderDate(campaign.start_date.mul(1000).toNumber())}</Button>
+          <Button disabled>
+            Starting in{' '}
+            {formatDuration(
+              intervalToDuration({
+                start: new Date(),
+                end: new Date(campaign.start_date.mul(1000).toNumber()),
+              }),
+            )}
+          </Button>
         )}
       </LaunchpadCardInnerContainer>
       <ExpandingWrapper>
