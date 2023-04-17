@@ -1299,7 +1299,7 @@
       "address": "0xbFf24592345094DFA4d6f75aFF5BE79AbCbC9bD9",
       "chainId": 1116,
       "name": "BlockVerse",
-      "symbol":"BLOCK",
+      "symbol": "BLOCK",
       "decimals": 8,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xbFf24592345094DFA4d6f75aFF5BE79AbCbC9bD9/logo.png"
     },
@@ -1310,6 +1310,14 @@
       "symbol": "4TOKEN",
       "decimals": 18,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x98564E70c7fCC6d947fFE6d9EfeD5ba68b306F2E/logo.png"
+    },
+    {
+      "address": "0x496Bb259D0117E89B2e73433524e9838c3073e60",
+      "chainId": 1116,
+      "name": "UnityCore",
+      "symbol": "UCORE",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x496Bb259D0117E89B2e73433524e9838c3073e60/logo.png"
     }
   ]
 }
