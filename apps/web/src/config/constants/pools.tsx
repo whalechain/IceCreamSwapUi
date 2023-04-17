@@ -91,28 +91,6 @@ export const livePools: SerializedPoolConfig[] = [
     tokenPerBlock: '0.038',
     version: 2,
   },
-  {
-    sousId: 12,
-    stakingToken: coreTokens.usdtrain,
-    earningToken: coreTokens.usdtrain,
-    contractAddress: {
-      1116: '0x072501B86fd40EC9cBF3aC032096fc9945A83aC8',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '115740740',
-    version: 2,
-  },
-  {
-    sousId: 13,
-    stakingToken: coreTokens.fsxm,
-    earningToken: coreTokens.fsxm,
-    contractAddress: {
-      1116: '0x1753e17c9b4dedca9cfb879f7a5eaf16554e942f',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '57.87',
-    version: 2,
-  },
     /*
   {
     sousId: 17,
@@ -228,6 +206,28 @@ const finishedPools = [
     earningToken: coreTokens.fsxm,
     contractAddress: {
       1116: '0xb947fb0c93fae288e25033181e148492c050f32c',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '57.87',
+    version: 2,
+  },
+  {
+    sousId: 12,
+    stakingToken: coreTokens.usdtrain,
+    earningToken: coreTokens.usdtrain,
+    contractAddress: {
+      1116: '0x072501B86fd40EC9cBF3aC032096fc9945A83aC8',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '115740740',
+    version: 2,
+  },
+  {
+    sousId: 13,
+    stakingToken: coreTokens.fsxm,
+    earningToken: coreTokens.fsxm,
+    contractAddress: {
+      1116: '0x1753e17c9b4dedca9cfb879f7a5eaf16554e942f',
     },
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '57.87',
