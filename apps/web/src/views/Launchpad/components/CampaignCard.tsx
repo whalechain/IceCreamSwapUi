@@ -98,7 +98,6 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           </Flex>
           <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
         </Flex>
-        <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px">Listing price increase</Text>
           <Text fontSize="16px">50%</Text>
