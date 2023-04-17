@@ -212,7 +212,12 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
                 Number(multiCallResult[index * 12 + 11][0].toString()) /
                 Number(multiCallResult[index * 12 + 2][0].toString()),
             }
-          }),
+          })
+          .map((c) => ({
+            ...c,
+            progress: c.progress > 0.995 ? 1 : c.progress,
+            hardCapProgress: c.hardCapProgress > 0.995 ? 1 : c.hardCapProgress,
+          })),
         ...campaigns.filter((c) => c.address === 'dummy'),
       ]
     },

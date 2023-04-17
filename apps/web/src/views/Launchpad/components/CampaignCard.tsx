@@ -102,8 +102,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           <Text fontSize="16px">Listing price increase</Text>
           <Text fontSize="16px">50%</Text>
         </Flex>
-        {
-          /*
+        {/*
         {campaign.liquidity_rate.toNumber() > 0 ? (
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px">Liquidity</Text>
@@ -130,7 +129,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           </Flex>
         )}
         {started ? (
-          campaign.isLive ? (
+          campaign.isLive && campaign.progress !== 1 ? (
             status === 'connected' ? (
               canBuy?.data ? (
                 <Button onClick={onPresentBuyModal}>Contribute</Button>
@@ -148,7 +147,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
             ) : (
               <ConnectWalletButton />
             )
-          ) : contributed.data?.gt(0) ? (
+          ) : contributed.data?.gt(0) && !campaign.isLive ? (
             campaign.collected.gt(campaign.softCap) ? (
               <Button
                 disabled={claiming}
