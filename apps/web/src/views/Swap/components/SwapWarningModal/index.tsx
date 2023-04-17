@@ -6,6 +6,7 @@ import { WrappedTokenInfo } from '@pancakeswap/token-lists'
 import SwapWarningTokensConfig from 'config/constants/swapWarningTokens'
 import Acknowledgement from './Acknowledgement'
 import ScamWarning from './ScamWarning'
+import ImpersonationWarning from './ImpersonationWarning'
 
 const StyledModalContainer = styled(ModalContainer)`
   max-width: 440px;
@@ -33,6 +34,10 @@ const SwapWarningModal: React.FC<React.PropsWithChildren<SwapWarningModalProps>>
     [SwapWarningTokensConfig.future_ai.address]: {
       symbol: SwapWarningTokensConfig.future_ai.symbol,
       component: <ScamWarning />,
+    },
+    [SwapWarningTokensConfig.icedao.address]: {
+      symbol: SwapWarningTokensConfig.icedao.symbol,
+      component: <ImpersonationWarning />,
     },
   }
 
