@@ -96,6 +96,7 @@ export interface CampaignData {
   dummyRate?: string
   dummyMaxContrib?: string
   dummySoftCap?: string
+  startDate?: number
   dummyHardCap?: string
   isLive: boolean
 }
