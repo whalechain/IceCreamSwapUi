@@ -94,6 +94,13 @@ const farms: SerializedFarmConfig[] = [
         quoteToken: coreTokens.wcore,
     },
     {
+        pid: 21,
+        lpSymbol: 'WOOF/CORE LP',
+        lpAddress: '0xc1816acdd64e380b5f69203df96e3d30603e29fc',
+        token: coreTokens.woof,
+        quoteToken: coreTokens.wcore,
+    },
+    {
         pid: 11,
         lpSymbol: 'CTOMB-SCORE LP',
         lpAddress: '0x529be42298329b3296b591ea3e5e48af0d99ef53',
