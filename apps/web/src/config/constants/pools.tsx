@@ -15,47 +15,36 @@ export const livePools: SerializedPoolConfig[] = [
   // souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
   {
-    sousId: 14,
-    stakingToken: coreTokens.ice,
-    earningToken: coreTokens.fsxm,
+    sousId: 25,
+    stakingToken: coreTokens.ucore,
+    earningToken: coreTokens.ucore,
     contractAddress: {
-      1116: '0xb947fb0c93fae288e25033181e148492c050f32c',
+      1116: '0x592feb264e4fc819279f001b5c23efb12d77d78d',
     },
     poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '57.87',
+    tokenPerBlock: '0.192',
     version: 2,
   },
   {
-    sousId: 15,
-    stakingToken: coreTokens.ice,
-    earningToken: coreTokens.coreshiba,
+    sousId: 23,
+    stakingToken: coreTokens.miidas,
+    earningToken: coreTokens.ice,
     contractAddress: {
-      1116: '0x1e94d69785533a2CEDBA25E512BFAfc2Cc2c2bcf',
+      1116: '0xb5dd384a9890ad725935fb602e49f64e8ab60716',
     },
     poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '5.8',
+    tokenPerBlock: '0.00106',
     version: 2,
   },
   {
-    sousId: 16,
-    stakingToken: coreTokens.ice,
-    earningToken: coreTokens.usdtrain,
+    sousId: 24,
+    stakingToken: coreTokens.block,
+    earningToken: coreTokens.block,
     contractAddress: {
-      1116: '0x4905A81167519B4fE63d8816e0c7Ee7030258b51',
+      1116: '0x920704424e7930e3d133fae25f633b74589d72c3',
     },
     poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '23000000',
-    version: 2,
-  },
-  {
-    sousId: 2,
-    stakingToken: xdcTokens.ice,
-    earningToken: xdcTokens.btcx,
-    contractAddress: {
-      50: '0x7b7387513444D4336e5a7E9cF75A2Bc7a38721A9',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '0.02093',
+    tokenPerBlock: '0.239',
     version: 2,
   },
   {
@@ -81,17 +70,6 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
-    sousId: 6,
-    stakingToken: coreTokens.bcore,
-    earningToken: coreTokens.bcore,
-    contractAddress: {
-      1116: '0x5CA06A5A6393382B6d8EcEEC6EC23A667eC85850',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '1.66',
-    version: 2,
-  },
-  {
     sousId: 7,
     stakingToken: coreTokens.kishu,
     earningToken: coreTokens.kishu,
@@ -103,17 +81,6 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
-    sousId: 8,
-    stakingToken: coreTokens.gte,
-    earningToken: coreTokens.gte,
-    contractAddress: {
-      1116: '0xA34506a08ea9F4CF83732D52449909ce631b65B6',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '23.1481',
-    version: 2,
-  },
-  {
     sousId: 9,
     stakingToken: coreTokens.word,
     earningToken: coreTokens.word,
@@ -122,50 +89,6 @@ export const livePools: SerializedPoolConfig[] = [
     },
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '0.038',
-    version: 2,
-  },
-  {
-    sousId: 10,
-    stakingToken: coreTokens.coreshiba,
-    earningToken: coreTokens.coreshiba,
-    contractAddress: {
-      1116: '0x04C433cd75054Ca73C048807B9b927077Fe0C5a0',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '4.63',
-    version: 2,
-  },
-  {
-    sousId: 11,
-    stakingToken: coreTokens.hobo,
-    earningToken: coreTokens.hobo,
-    contractAddress: {
-      1116: '0x091616e68eb6858B1EDFf2b95772038d1243aB0c',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '0.000578',
-    version: 2,
-  },
-  {
-    sousId: 12,
-    stakingToken: coreTokens.usdtrain,
-    earningToken: coreTokens.usdtrain,
-    contractAddress: {
-      1116: '0x072501B86fd40EC9cBF3aC032096fc9945A83aC8',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '115740740',
-    version: 2,
-  },
-  {
-    sousId: 13,
-    stakingToken: coreTokens.fsxm,
-    earningToken: coreTokens.fsxm,
-    contractAddress: {
-      1116: '0x1753e17c9b4dedca9cfb879f7a5eaf16554e942f',
-    },
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '57.87',
     version: 2,
   },
     /*
@@ -245,6 +168,72 @@ export const livePools: SerializedPoolConfig[] = [
 // known finished pools
 const finishedPools = [
   {
+    sousId: 15,
+    stakingToken: coreTokens.ice,
+    earningToken: coreTokens.coreshiba,
+    contractAddress: {
+      1116: '0x1e94d69785533a2CEDBA25E512BFAfc2Cc2c2bcf',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '5.8',
+    version: 2,
+  },
+  {
+    sousId: 16,
+    stakingToken: coreTokens.ice,
+    earningToken: coreTokens.usdtrain,
+    contractAddress: {
+      1116: '0x4905A81167519B4fE63d8816e0c7Ee7030258b51',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '23000000',
+    version: 2,
+  },
+  {
+    sousId: 2,
+    stakingToken: xdcTokens.ice,
+    earningToken: xdcTokens.btcx,
+    contractAddress: {
+      50: '0x7b7387513444D4336e5a7E9cF75A2Bc7a38721A9',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.02093',
+    version: 2,
+  },
+  {
+    sousId: 14,
+    stakingToken: coreTokens.ice,
+    earningToken: coreTokens.fsxm,
+    contractAddress: {
+      1116: '0xb947fb0c93fae288e25033181e148492c050f32c',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '57.87',
+    version: 2,
+  },
+  {
+    sousId: 12,
+    stakingToken: coreTokens.usdtrain,
+    earningToken: coreTokens.usdtrain,
+    contractAddress: {
+      1116: '0x072501B86fd40EC9cBF3aC032096fc9945A83aC8',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '115740740',
+    version: 2,
+  },
+  {
+    sousId: 13,
+    stakingToken: coreTokens.fsxm,
+    earningToken: coreTokens.fsxm,
+    contractAddress: {
+      1116: '0x1753e17c9b4dedca9cfb879f7a5eaf16554e942f',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '57.87',
+    version: 2,
+  },
+  {
     sousId: 5,
     stakingToken: coreTokens.aicore,
     earningToken: coreTokens.aicore,
@@ -253,6 +242,50 @@ const finishedPools = [
     },
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '50',
+    version: 2,
+  },
+  {
+    sousId: 6,
+    stakingToken: coreTokens.bcore,
+    earningToken: coreTokens.bcore,
+    contractAddress: {
+      1116: '0x5CA06A5A6393382B6d8EcEEC6EC23A667eC85850',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '1.66',
+    version: 2,
+  },
+  {
+    sousId: 8,
+    stakingToken: coreTokens.gte,
+    earningToken: coreTokens.gte,
+    contractAddress: {
+      1116: '0xA34506a08ea9F4CF83732D52449909ce631b65B6',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '23.1481',
+    version: 2,
+  },
+  {
+    sousId: 10,
+    stakingToken: coreTokens.coreshiba,
+    earningToken: coreTokens.coreshiba,
+    contractAddress: {
+      1116: '0x04C433cd75054Ca73C048807B9b927077Fe0C5a0',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '4.63',
+    version: 2,
+  },
+  {
+    sousId: 11,
+    stakingToken: coreTokens.hobo,
+    earningToken: coreTokens.hobo,
+    contractAddress: {
+      1116: '0x091616e68eb6858B1EDFf2b95772038d1243aB0c',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.000578',
     version: 2,
   },
 ].map((p) => ({

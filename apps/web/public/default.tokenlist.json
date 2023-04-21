@@ -1283,9 +1283,41 @@
       "address": "0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3",
       "chainId": 1116,
       "name": "CORE BUNNY",
-      "symbol": "CORE BUNNY",
+      "symbol": "CBUNNY",
       "decimals": 18,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x6F8BF0Ca89b8936AA498c7A2C75815Eecca328F3/logo.png"
+    },
+    {
+      "address": "0xcfd38184c30832917A2871695F91e5e61bBD41fF",
+      "chainId": 1116,
+      "name": "Miidas NFT",
+      "symbol": "Miidas",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xcfd38184c30832917A2871695F91e5e61bBD41fF/logo.png"
+    },
+    {
+      "address": "0xbFf24592345094DFA4d6f75aFF5BE79AbCbC9bD9",
+      "chainId": 1116,
+      "name": "BlockVerse",
+      "symbol": "BLOCK",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xbFf24592345094DFA4d6f75aFF5BE79AbCbC9bD9/logo.png"
+    },
+    {
+      "address": "0x98564E70c7fCC6d947fFE6d9EfeD5ba68b306F2E",
+      "chainId": 1116,
+      "name": "Ignore Fud",
+      "symbol": "4TOKEN",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x98564E70c7fCC6d947fFE6d9EfeD5ba68b306F2E/logo.png"
+    },
+    {
+      "address": "0x496Bb259D0117E89B2e73433524e9838c3073e60",
+      "chainId": 1116,
+      "name": "UnityCore",
+      "symbol": "UCORE",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x496Bb259D0117E89B2e73433524e9838c3073e60/logo.png"
     }
   ]
 }

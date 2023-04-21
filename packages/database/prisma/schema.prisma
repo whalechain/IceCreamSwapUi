@@ -32,6 +32,12 @@ model Campaign {
   reddit String?
   description String
   tags String[]
+  deleted Boolean @default(false)
+  startDate Int?
+  dummyRate String?
+  dummyMaxContrib String?
+  dummyHardCap String?
+  dummySoftCap String?
 }
 
 model Kyc {
