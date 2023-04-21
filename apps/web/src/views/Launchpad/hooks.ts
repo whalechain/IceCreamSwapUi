@@ -93,10 +93,10 @@ export interface CampaignData {
   progress: number
   hardCapProgress: number
   deleted: boolean
-  startDate?: number
   dummyRate?: string
   dummyMaxContrib?: string
   dummySoftCap?: string
+  startDate?: number
   dummyHardCap?: string
   isLive: boolean
 }
@@ -173,7 +173,7 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
               },
               {
                 address: campaign.address,
-                name: 'raisedToken',
+                name: campaign.address === '0x6189bCe52857e83E0F6D0390Bdf3aC8C7Bac6104' ? 'token' : 'raisedToken',
               },
               {
                 address: campaign.address,
@@ -191,26 +191,26 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
           .map((campaign, index: number) => {
             return {
               ...campaign,
-              tokenAddress: multiCallResult[index * 12][0],
-              raisedToken: multiCallResult[index * 12 + 12][0],
-              isLive: multiCallResult[index * 12 + 13][0],
-              softCap: multiCallResult[index * 12 + 1][0],
-              hardCap: multiCallResult[index * 12 + 2][0],
-              start_date: multiCallResult[index * 12 + 3][0],
-              end_date: multiCallResult[index * 12 + 4][0],
-              rate: multiCallResult[index * 12 + 5][0],
-              min_allowed: multiCallResult[index * 12 + 6][0],
-              max_allowed: multiCallResult[index * 12 + 7][0],
-              pool_rate: multiCallResult[index * 12 + 8][0],
-              lock_duration: multiCallResult[index * 12 + 9][0],
-              liquidity_rate: multiCallResult[index * 12 + 10][0],
-              collected: multiCallResult[index * 12 + 11][0],
+              tokenAddress: multiCallResult[index * 14][0],
+              raisedToken: multiCallResult[index * 14 + 12][0],
+              isLive: multiCallResult[index * 14 + 13][0],
+              softCap: multiCallResult[index * 14 + 1][0],
+              hardCap: multiCallResult[index * 14 + 2][0],
+              start_date: multiCallResult[index * 14 + 3][0],
+              end_date: multiCallResult[index * 14 + 4][0],
+              rate: multiCallResult[index * 14 + 5][0],
+              min_allowed: multiCallResult[index * 14 + 6][0],
+              max_allowed: multiCallResult[index * 14 + 7][0],
+              pool_rate: multiCallResult[index * 14 + 8][0],
+              lock_duration: multiCallResult[index * 14 + 9][0],
+              liquidity_rate: multiCallResult[index * 14 + 10][0],
+              collected: multiCallResult[index * 14 + 11][0],
               progress:
-                Number(multiCallResult[index * 12 + 11][0].toString()) /
-                Number(multiCallResult[index * 12 + 1][0].toString()),
+                Number(multiCallResult[index * 14 + 11][0].toString()) /
+                Number(multiCallResult[index * 14 + 1][0].toString()),
               hardCapProgress:
-                Number(multiCallResult[index * 12 + 11][0].toString()) /
-                Number(multiCallResult[index * 12 + 2][0].toString()),
+                Number(multiCallResult[index * 14 + 11][0].toString()) /
+                Number(multiCallResult[index * 14 + 2][0].toString()),
             }
           })
           .map((c) => ({
