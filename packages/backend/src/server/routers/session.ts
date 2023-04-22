@@ -19,8 +19,10 @@ const getCurrentNonce = (key: string) => {
   return secretHash.digest('hex')
 }
 
+type UserQuery = Partial<Pick<User, 'wallet' | 'name' | 'role'>> & { isLoggedIn: boolean }
+
 export const sessionRouter = router({
-  user: publicProcedure.query(async ({ ctx }) => {
+  user: publicProcedure.query<UserQuery>(async ({ ctx }) => {
     if (ctx.session.user) {
       return { ...ctx.session.user, isLoggedIn: true }
     }

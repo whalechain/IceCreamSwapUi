@@ -1,6 +1,6 @@
-import { httpBatchLink } from '@trpc/client'
+import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
 import { createTRPCNext } from '@trpc/next'
-import { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 import type { AppRouter } from '../server/routers/_app'
 
 function getBaseUrl() {
@@ -34,6 +34,18 @@ export const trpc = createTRPCNext<AppRouter>({
    * @link https://trpc.io/docs/ssr
    * */
   ssr: true,
+})
+
+export const trpcClient = createTRPCProxyClient<AppRouter>({
+  links: [
+    httpBatchLink({
+      /**
+       * If you want to use SSR, you need to use the server's full URL
+       * @link https://trpc.io/docs/ssr
+       * */
+      url: `${getBaseUrl()}/api/trpc`,
+    }),
+  ],
 })
 
 export type RouterInput = inferRouterInputs<AppRouter>

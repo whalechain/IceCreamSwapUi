@@ -28,6 +28,7 @@ import { SupportedChainsProvider, useSupportedChains } from 'hooks/useSupportedC
 import { CHAIN_IDS } from 'utils/wagmi'
 import { poppins } from 'style/font'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { trpc } from '@icecreamswap/backend'
 
 const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
 
@@ -182,4 +183,4 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 }
 
-export default MyApp
+export default trpc.withTRPC(MyApp)

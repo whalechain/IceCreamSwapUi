@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { Menu as UikitMenu, NextLinkFromReactRouter } from '@pancakeswap/uikit'
 import { useTranslation, languageList } from '@pancakeswap/localization'
@@ -48,19 +48,25 @@ const Menu = (props) => {
     return activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items
   }, [activeMenuItem?.hideSubNav, activeMenuItem?.items, activeSubMenuItem, menuItems])
 
+  const linkComponent = useCallback((linkProps) => {
+    return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
+  }, [])
+
+  const rightSide = useMemo(() => {
+    return (
+      <>
+        <GlobalSettings mode={SettingsMode.GLOBAL} />
+        <NetworkSwitcher />
+        <UserMenu />
+      </>
+    )
+  }, [])
+
   return (
     <>
       <UikitMenu
-        linkComponent={(linkProps) => {
-          return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
-        }}
-        rightSide={
-          <>
-            <GlobalSettings mode={SettingsMode.GLOBAL} />
-            <NetworkSwitcher />
-            <UserMenu />
-          </>
-        }
+        linkComponent={linkComponent}
+        rightSide={rightSide}
         banner={showPhishingWarningBanner && typeof window !== 'undefined' && <PhishingWarningBanner />}
         isDark={isDark}
         toggleTheme={toggleTheme}

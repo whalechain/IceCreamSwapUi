@@ -1,1 +1,2 @@
-export { nextApiHandler } from './server/nextApiHandler'
+export { trpc, trpcClient } from './utils/trpc'
+export type { RouterInput, RouterOutput } from './utils/trpc'
