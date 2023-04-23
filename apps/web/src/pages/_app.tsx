@@ -183,4 +183,5 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 }
 
+// @ts-expect-error strict null checks missing in tsconfig
 export default trpc.withTRPC(MyApp)
