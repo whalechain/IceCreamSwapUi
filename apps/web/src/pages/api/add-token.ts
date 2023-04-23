@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       symbol,
       name,
       decimals,
-      logo,
       chainId,
     },
   })
