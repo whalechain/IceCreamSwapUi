@@ -160,6 +160,9 @@ const config = {
       },
     ]
   },
+  typescript: {
+    tsconfigPath: 'tsconfig.build.json',
+  }
 }
 
 export default withSentryConfig(withBundleAnalyzer(config), sentryWebpackPluginOptions)

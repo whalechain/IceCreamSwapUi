@@ -15,6 +15,7 @@ export default async function handler(req, res) {
     } catch (e) {
       console.error(`Error fetching logo ${token.logoURI}`)
     }
+    // @ts-ignore
     await trpcClient.token.add.mutate({
       logo: logoUri,
       chainId: token.chainId,

@@ -49,6 +49,7 @@ export const AddToken: React.FC = () => {
       setValue('tokenDecimals', token.decimals)
     }
   })
+  // @ts-ignore
   const submit = trpc.token.add.useMutation()
 
   return (
@@ -57,6 +58,7 @@ export const AddToken: React.FC = () => {
         <form
           onSubmit={handleSubmit((data) => {
             if (!chainId) return
+            // @ts-ignore
             submit
               .mutateAsync({
                 ...data,
@@ -104,7 +106,9 @@ export const AddToken: React.FC = () => {
             {errors.logo && <FormError>{errors.logo.message}</FormError>}
           </Flex>
           <Logo src={`data:image/png;base64,${logo.blob}`} />
-          <Button type="submit">Create Token</Button>
+          <Button type="submit" disabled={submit.isLoading}>
+            Create Token
+          </Button>
         </form>
       </FormProvider>
     </AppWrapper>
