@@ -3,8 +3,8 @@ import { gql } from 'graphql-request'
 import { GetStaticProps } from 'next'
 import { SWRConfig } from 'swr'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
-import { bitQueryServerClient, infoServerClient } from 'utils/graphql'
-import { CHAIN_IDS } from 'utils/wagmi'
+import { bitQueryServerClient, infoServerClient } from '../utils/graphql'
+import { CHAIN_IDS } from '../utils/wagmi'
 import Home from '../views/Home'
 
 const IndexPage = ({ totalTx30Days, addressCount30Days, tvl }) => {

@@ -1,13 +1,14 @@
-import { infoClientBITGERT, infoStableSwapClient } from 'utils/graphql'
+import { infoClientBITGERT, infoStableSwapClient } from '../../utils/graphql'
 import {
   INFO_CLIENT_BITGERT,
   BLOCKS_CLIENT_BITGERT,
   INFO_CLIENT_XDC,
   INFO_CLIENT_CORE,
-  BLOCKS_CLIENT_XDC, BLOCKS_CLIENT_CORE
-} from 'config/constants/endpoints'
+  BLOCKS_CLIENT_XDC,
+  BLOCKS_CLIENT_CORE,
+} from '../../config/constants/endpoints'
 import { ChainId } from '@pancakeswap/sdk'
-import {PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START} from 'config/constants/info'
+import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from '../../config/constants/info'
 import { GraphQLClient } from 'graphql-request'
 
 export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE'
@@ -65,12 +66,12 @@ export const multiChainScan = {
 }
 
 export const multiChainTokenBlackList = {
-  BITGERT: [""],
-  DOGECHAIN: [""],
-  DOKEN: [""],
-  FUSE: [""],
-  XDC: [""],
-  CORE: [""],
+  BITGERT: [''],
+  DOGECHAIN: [''],
+  DOKEN: [''],
+  FUSE: [''],
+  XDC: [''],
+  CORE: [''],
 }
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {

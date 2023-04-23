@@ -10,12 +10,12 @@ import {
   UserMenuItem,
   UserMenuVariant,
 } from '@pancakeswap/uikit'
-import ConnectWalletButton from 'components/ConnectWalletButton'
-import Trans from 'components/Trans'
-import { useActiveChainId } from 'hooks/useActiveChainId'
-import useAuth from 'hooks/useAuth'
+import ConnectWalletButton from '../../ConnectWalletButton'
+import Trans from '../../Trans'
+import { useActiveChainId } from '../../../hooks/useActiveChainId'
+import useAuth from '../../../hooks/useAuth'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { usePendingTransactions } from 'state/transactions/hooks'
+import { usePendingTransactions } from '../../../state/transactions/hooks'
 import { useAccount } from 'wagmi'
 import WalletModal, { WalletView } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'

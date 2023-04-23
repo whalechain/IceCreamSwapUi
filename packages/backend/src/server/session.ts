@@ -19,9 +19,9 @@ const roleLevel = {
   [Role.USER]: 0,
 }
 
-export const isRole = (user: User, role: Role) => roleLevel[user.role] >= roleLevel[role]
+export const isRole = (user: Session['user'], role: Role) => roleLevel[user?.role || Role.USER] >= roleLevel[role]
 
-export const isMod = (user: User) => isRole(user, Role.MOD)
-export const isAdmin = (user: User) => isRole(user, Role.ADMIN)
+export const isMod = (user: Session['user']) => isRole(user, Role.MOD)
+export const isAdmin = (user: Session['user']) => isRole(user, Role.ADMIN)
 
 export type { User }

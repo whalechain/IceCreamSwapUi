@@ -54,6 +54,10 @@ const config = {
   async rewrites() {
     return [
       {
+        source: '/default.tokenlist.json',
+        destination: "/api/trpc/token.defaultList"
+      },
+      {
         source: '/info/token/:address',
         destination: '/info/tokens/:address',
       },

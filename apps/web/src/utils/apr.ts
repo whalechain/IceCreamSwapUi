@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { ChainId } from '@pancakeswap/sdk'
-import { blocksPerYear } from 'config'
-import lpAprs32520 from 'config/constants/lpAprs/32520.json'
-import lpAprs1116 from 'config/constants/lpAprs/1116.json'
+import { blocksPerYear } from '../config'
+import lpAprs32520 from '../config/constants/lpAprs/32520.json'
+import lpAprs1116 from '../config/constants/lpAprs/1116.json'
 
 const getLpApr = (chainId: number) => {
   switch (chainId) {
