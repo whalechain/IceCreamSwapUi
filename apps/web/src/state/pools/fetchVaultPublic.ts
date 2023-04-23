@@ -92,9 +92,9 @@ export const fetchVaultFees = async (chainId: ChainId, cakeVaultAddress = cakeVa
       name: method,
     }))
 
-    // @ts-ignore fix chainId support
     const [[performanceFee], [withdrawalFee], [withdrawalFeePeriod]] = await multicallv2(
       { abi: cakeVaultAbi, calls },
+      // @ts-ignore fix chainId support
       chainId,
     )
 
