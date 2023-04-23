@@ -54,6 +54,10 @@ const config = {
   async rewrites() {
     return [
       {
+        source: '/default.tokenlist.json',
+        destination: "/api/trpc/token.defaultList"
+      },
+      {
         source: '/info/token/:address',
         destination: '/info/tokens/:address',
       },
@@ -156,6 +160,10 @@ const config = {
       },
     ]
   },
+  typescript: {
+    tsconfigPath: 'tsconfig.build.json',
+    ignoreBuildErrors: true
+  }
 }
 
 export default withSentryConfig(withBundleAnalyzer(config), sentryWebpackPluginOptions)

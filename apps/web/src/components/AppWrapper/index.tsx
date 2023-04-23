@@ -1,9 +1,9 @@
 import { AtomBox } from '@pancakeswap/ui'
 import { ArrowBackIcon, Flex, Heading, IconButton, Text } from '@pancakeswap/uikit'
-import { AppBody } from 'components/App'
+import { AppBody } from '../App'
 import { useRouter } from 'next/router'
 import { PropsWithChildren } from 'react'
-import Page from 'views/Page'
+import Page from '../../views/Page'
 import { AppWrapperBody, AppWrapperContainer } from './styles'
 
 interface AppWrapperProps extends PropsWithChildren {

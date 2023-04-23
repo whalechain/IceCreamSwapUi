@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Signer } from '@ethersproject/abstract-signer'
 import type { Provider } from '@ethersproject/providers'
-import { provider } from 'utils/wagmi'
+import { provider } from './wagmi'
 import { Contract } from '@ethersproject/contracts'
-import poolsConfig from 'config/constants/pools'
-import { PoolCategory } from 'config/constants/types'
+import poolsConfig from '../config/constants/pools'
+import { PoolCategory } from '../config/constants/types'
 import { ICE } from '@pancakeswap/tokens'
 
 // Addresses
@@ -45,26 +45,26 @@ import {
   getNonBscVaultAddress,
   getCrossFarmingSenderAddress,
   getCrossFarmingReceiverAddress,
-} from 'utils/addressHelpers'
+} from './addressHelpers'
 
 // ABI
 import profileABI from 'config/abi/pancakeProfile.json'
 import pancakeBunniesAbi from 'config/abi/pancakeBunnies.json'
 import bunnyFactoryAbi from 'config/abi/bunnyFactory.json'
 import bunnySpecialAbi from 'config/abi/bunnySpecial.json'
-import bep20Abi from 'config/abi/erc20.json'
-import erc721Abi from 'config/abi/erc721.json'
-import lpTokenAbi from 'config/abi/lpToken.json'
-import cakeAbi from 'config/abi/cake.json'
-import ifoV1Abi from 'config/abi/ifoV1.json'
-import ifoV2Abi from 'config/abi/ifoV2.json'
+import bep20Abi from '../config/abi/erc20.json'
+import erc721Abi from '../config/abi/erc721.json'
+import lpTokenAbi from '../config/abi/lpToken.json'
+import cakeAbi from '../config/abi/cake.json'
+import ifoV1Abi from '../config/abi/ifoV1.json'
+import ifoV2Abi from '../config/abi/ifoV2.json'
 import pointCenterIfo from 'config/abi/pointCenterIfo.json'
 import lotteryV2Abi from 'config/abi/lotteryV2.json'
-import masterChef from 'config/abi/masterchef.json'
+import masterChef from '../config/abi/masterchef.json'
 import masterChefV1 from 'config/abi/masterchefV1.json'
-import sousChef from 'config/abi/sousChef.json'
-import sousChefV2 from 'config/abi/sousChefV2.json'
-import sousChefBnb from 'config/abi/sousChefBnb.json'
+import sousChef from '../config/abi/sousChef.json'
+import sousChefV2 from '../config/abi/sousChefV2.json'
+import sousChefBnb from '../config/abi/sousChefBnb.json'
 import claimRefundAbi from 'config/abi/claimRefund.json'
 import tradingCompetitionEasterAbi from 'config/abi/tradingCompetitionEaster.json'
 import tradingCompetitionFanTokenAbi from 'config/abi/tradingCompetitionFanToken.json'
@@ -76,7 +76,7 @@ import cakeFlexibleSideVaultV2Abi from 'config/abi/cakeFlexibleSideVaultV2.json'
 import predictionsAbi from 'config/abi/predictions.json'
 import predictionsV1Abi from 'config/abi/predictionsV1.json'
 import chainlinkOracleAbi from 'config/abi/chainlinkOracle.json'
-import MultiCallAbi from 'config/abi/Multicall.json'
+import MultiCallAbi from '../config/abi/Multicall.json'
 import bunnySpecialCakeVaultAbi from 'config/abi/bunnySpecialCakeVault.json'
 import bunnySpecialPredictionAbi from 'config/abi/bunnySpecialPrediction.json'
 import bunnySpecialLotteryAbi from 'config/abi/bunnySpecialLottery.json'
@@ -89,9 +89,9 @@ import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
 import potteryVaultAbi from 'config/abi/potteryVaultAbi.json'
 import potteryDrawAbi from 'config/abi/potteryDrawAbi.json'
-import zapAbi from 'config/abi/zap.json'
+import zapAbi from '../config/abi/zap.json'
 import iCakeAbi from 'config/abi/iCake.json'
-import ifoV3Abi from 'config/abi/ifoV3.json'
+import ifoV3Abi from '../config/abi/ifoV3.json'
 import cakePredictionsAbi from 'config/abi/cakePredictions.json'
 import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
 import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
@@ -151,7 +151,7 @@ import type {
   CrossFarmingSender,
   CrossFarmingReceiver,
   CrossFarmingProxy,
-} from 'config/abi/types'
+} from '../config/abi/types'
 import { ChainId } from '@pancakeswap/sdk'
 
 export const getContract = ({
