@@ -3,7 +3,7 @@ import { createContext } from './context'
 import { appRouter } from './routers/_app'
 
 export const nextApiHandler = createNextApiHandler({
-  router: appRouter,
+  router: appRouter as any,
   createContext,
   onError: ({ error }) => {
     if (error.code === 'INTERNAL_SERVER_ERROR') {

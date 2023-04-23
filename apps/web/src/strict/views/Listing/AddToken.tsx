@@ -36,7 +36,10 @@ export const AddToken: React.FC = () => {
   const [logo, setLogo] = useState({ fileName: '', blob: '' })
   useEffect(() => {
     const a = async () => {
-      if (!logoFile) return
+      if (!logoFile) {
+        setLogo({ fileName: '', blob: '' })
+        return
+      }
       setLogo({ fileName: logoFile[0].name, blob: await convertImage(logoFile[0]) })
     }
     a()
@@ -67,6 +70,9 @@ export const AddToken: React.FC = () => {
               })
               .then(() => {
                 toast.toastSuccess('Token added')
+                Object.keys(schema.shape).forEach((key) => {
+                  form.resetField(key as keyof FormValues)
+                })
               })
               .catch((e) => {
                 toast.toastError(e.message)
