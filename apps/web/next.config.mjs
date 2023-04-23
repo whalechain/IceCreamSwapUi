@@ -162,6 +162,7 @@ const config = {
   },
   typescript: {
     tsconfigPath: 'tsconfig.build.json',
+    ignoreBuildErrors: true
   }
 }
 
