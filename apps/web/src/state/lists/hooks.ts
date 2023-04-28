@@ -18,6 +18,7 @@ import { getDefaultTokenList } from '../../strict/utils/tokenlist'
 import UNSUPPORTED_TOKEN_LIST from '../../../public/unsupported.tokenlist.json'
 import WARNING_TOKEN_LIST from '../../../public/warning.tokenlist.json'
 import { listsAtom } from './lists'
+import { loadable } from 'jotai/utils'
 
 type TokenAddressMap = TTokenAddressMap<ChainId>
 
@@ -208,8 +209,8 @@ export function useInactiveListUrls() {
 
 // get all the tokens from active lists, combine with local default tokens
 export function useCombinedActiveList(): TokenAddressMap {
-  const activeTokens = useAtomValue(combinedTokenMapFromActiveUrlsAtom)
-  return activeTokens
+  const activeTokens = useAtomValue(loadable(combinedTokenMapFromActiveUrlsAtom))
+  return activeTokens.state === 'hasData' ? activeTokens.data : {}
 }
 
 // all tokens from inactive lists
