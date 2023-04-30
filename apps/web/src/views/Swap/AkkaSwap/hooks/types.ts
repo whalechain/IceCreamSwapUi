@@ -31,6 +31,7 @@ export interface AkkaRouterInfoResponseType {
   returnAmount: string
   returnAmountWei: string
   returnAmountInUsd: number
+  returnAmountWithoutTaxWei: string
   routes: BitgertRouteResponseDto
 }
 

@@ -133,8 +133,8 @@ export default function Swap() {
   }, [independentField])
 
   // Check if pancakeswap route is better than akka route or not
-  useEffect(() => {
-    if (akkaRouterTrade?.route?.returnAmountWei && v2Trade?.outputAmount) {
+  useEffect(() => {    
+    if (akkaRouterTrade?.route?.returnAmountWithoutTaxWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
         captureMessage(`AKKA: RateError`, {
