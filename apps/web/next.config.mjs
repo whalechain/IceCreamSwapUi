@@ -54,6 +54,10 @@ const config = {
   async rewrites() {
     return [
       {
+        source: '/default.tokenlist.json',
+        destination: "/api/trpc/token.defaultList"
+      },
+      {
         source: '/info/token/:address',
         destination: '/info/tokens/:address',
       },
@@ -64,6 +68,10 @@ const config = {
       {
         source: '/info/pair/:address',
         destination: '/info/pools/:address',
+      },
+      {
+        source: '/kyc-meta',
+        destination: '/api/kyc-meta',
       }
     ]
   },
@@ -106,6 +114,16 @@ const config = {
         permanent: true,
       },
       {
+        source: '/discord',
+        destination: 'https://discord.gg/rx6WGBPTty',
+        permanent: false,
+      },
+      {
+        source: '/telegram',
+        destination: 'https://t.me/Icecreamswap_com',
+        permanent: false,
+      },
+      {
         source: '/swap/:outputCurrency',
         destination: '/swap?outputCurrency=:outputCurrency',
         permanent: true,
@@ -142,6 +160,10 @@ const config = {
       },
     ]
   },
+  typescript: {
+    tsconfigPath: 'tsconfig.build.json',
+    ignoreBuildErrors: true
+  }
 }
 
 export default withSentryConfig(withBundleAnalyzer(config), sentryWebpackPluginOptions)

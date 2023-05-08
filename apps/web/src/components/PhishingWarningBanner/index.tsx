@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Text, Flex, Box, CloseIcon, IconButton, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { usePhishingBannerManager } from 'state/user/hooks'
+import { usePhishingBannerManager } from '../../state/user/hooks'
 
 const Container = styled(Flex)`
   overflow: hidden;

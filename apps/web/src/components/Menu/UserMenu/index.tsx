@@ -10,15 +10,16 @@ import {
   UserMenuItem,
   UserMenuVariant,
 } from '@pancakeswap/uikit'
-import ConnectWalletButton from 'components/ConnectWalletButton'
-import Trans from 'components/Trans'
-import { useActiveChainId } from 'hooks/useActiveChainId'
-import useAuth from 'hooks/useAuth'
-import { useEffect, useState } from 'react'
-import { usePendingTransactions } from 'state/transactions/hooks'
+import ConnectWalletButton from '../../ConnectWalletButton'
+import Trans from '../../Trans'
+import { useActiveChainId } from '../../../hooks/useActiveChainId'
+import useAuth from '../../../hooks/useAuth'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { usePendingTransactions } from '../../../state/transactions/hooks'
 import { useAccount } from 'wagmi'
 import WalletModal, { WalletView } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'
+import LoginButton from '../../../strict/components/LoginButton'
 
 const UserMenu = () => {
   const { t } = useTranslation()
@@ -43,15 +44,15 @@ const UserMenu = () => {
     }
   }, [hasPendingTransactions, pendingNumber, t])
 
-  const onClickWalletMenu = (): void => {
+  const onClickWalletMenu = useCallback((): void => {
     if (isWrongNetwork) {
       onPresentWrongNetworkModal()
     } else {
       onPresentWalletModal()
     }
-  }
+  }, [isWrongNetwork, onPresentWalletModal, onPresentWrongNetworkModal])
 
-  const UserMenuItems = () => {
+  const UserMenuItems = useCallback(() => {
     return (
       <>
         <WalletUserMenuItem isWrongNetwork={isWrongNetwork} onPresentWalletModal={onClickWalletMenu} />
@@ -60,6 +61,7 @@ const UserMenu = () => {
           {hasPendingTransactions && <RefreshIcon spin />}
         </UserMenuItem>
         <UserMenuDivider />
+        <LoginButton />
         <UserMenuItem as="button" onClick={logout}>
           <Flex alignItems="center" justifyContent="space-between" width="100%">
             {t('Disconnect')}
@@ -68,12 +70,13 @@ const UserMenu = () => {
         </UserMenuItem>
       </>
     )
-  }
+  }, [hasPendingTransactions, isWrongNetwork, logout, onClickWalletMenu, onPresentTransactionModal, t])
+  const menu = useCallback(({ isOpen }) => (isOpen ? <UserMenuItems /> : null), [UserMenuItems])
 
   if (account) {
     return (
       <UIKitUserMenu account={account} avatarSrc={avatarSrc} text={userMenuText} variant={userMenuVariable}>
-        {({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
+        {menu}
       </UIKitUserMenu>
     )
   }
@@ -81,7 +84,7 @@ const UserMenu = () => {
   if (isWrongNetwork) {
     return (
       <UIKitUserMenu text={t('Network')} variant="danger">
-        {({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
+        {menu}
       </UIKitUserMenu>
     )
   }

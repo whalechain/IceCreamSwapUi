@@ -21,7 +21,10 @@ import {
   SUPPORT_LOCKS,
 } from '../../../config/constants/supportChains'
 
-export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
+export type ConfigMenuDropDownItemsType = DropdownMenuItems & {
+  hideSubNav?: boolean
+  items?: ConfigMenuDropDownItemsType[]
+}
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
   items?: ConfigMenuDropDownItemsType[]
 }
@@ -207,6 +210,37 @@ const config: (
           label: t('Locks'),
           href: '/locks',
           supportChainIds: SUPPORT_LOCKS,
+        },
+        {
+          label: t('KYC'),
+          href: '/kyc',
+          supportChainIds: [1116],
+          items: [
+            {
+              label: t('KYC'),
+              href: '/kyc',
+            },
+            {
+              label: t('KYC Checker'),
+              href: '/kyc-checker',
+            },
+          ],
+        },
+
+        {
+          label: t('KYC Checker'),
+          href: '/kyc-checker',
+          supportChainIds: [1116],
+          items: [
+            {
+              label: t('KYC'),
+              href: '/kyc',
+            },
+            {
+              label: t('KYC Checker'),
+              href: '/kyc-checker',
+            },
+          ],
         },
         {
           label: t('Wiki'),

@@ -23,7 +23,8 @@ export const core: IceChain = {
     blockCreated: 852772,
   },
   locks: {
-    factoryAddress: '0xA48E76d95619f4c9838Df19FDeE690a06581b5dD',
+    factoryAddress: '0xFDfD00471d8bebA97B40f5D1599b7A84C16dd7d2',
+    factoryAddress2: '0xA48E76d95619f4c9838Df19FDeE690a06581b5dD',
   },
   tokenDeployer: {
     address: '0x3d14cB33D5A4ce59625C32291719691953061903',
@@ -40,4 +41,10 @@ export const core: IceChain = {
     initCodeHash: INIT_CODE_HASH,
   },
   campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
+  kyc: {
+    stableCoin: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+    fee: 3,
+    feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E',
+    tokenAddress: '0x913E332d552b98355587BBa82b1256BCAdbCeD48',
+  },
 }

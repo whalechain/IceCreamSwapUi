@@ -1,35 +1,36 @@
 import '@pancakeswap/ui/css/reset.css'
 import { Flex, ResetCSS, Spinner, ToastListener } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
-import GlobalCheckClaimStatus from 'components/GlobalCheckClaimStatus'
-import { NetworkModal } from 'components/NetworkModal'
-import { FixedSubgraphHealthIndicator } from 'components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
-import { useAccountEventListener } from 'hooks/useAccountEventListener'
-import useEagerConnect from 'hooks/useEagerConnect'
-import useEagerConnectMP from 'hooks/useEagerConnect.bmp'
-import useSentryUser from 'hooks/useSentryUser'
-import useThemeCookie from 'hooks/useThemeCookie'
-import useUserAgent from 'hooks/useUserAgent'
+import GlobalCheckClaimStatus from '../components/GlobalCheckClaimStatus'
+import { NetworkModal } from '../components/NetworkModal'
+import { FixedSubgraphHealthIndicator } from '../components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
+import { useAccountEventListener } from '../hooks/useAccountEventListener'
+import useEagerConnect from '../hooks/useEagerConnect'
+import useEagerConnectMP from '../hooks/useEagerConnect.bmp'
+import useSentryUser from '../hooks/useSentryUser'
+import useThemeCookie from '../hooks/useThemeCookie'
+import useUserAgent from '../hooks/useUserAgent'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { Fragment, useEffect } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
-import { persistor, useStore } from 'state'
-import { usePollBlockNumber } from 'state/block/hooks'
-import TransactionsDetailModal from 'components/TransactionDetailModal'
+import { persistor, useStore } from '../state'
+import { usePollBlockNumber } from '../state/block/hooks'
+import TransactionsDetailModal from '../components/TransactionDetailModal'
 import { Blocklist, Updaters } from '..'
 import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
 import GlobalStyle from '../style/Global'
-import { SupportedChainsProvider, useSupportedChains } from 'hooks/useSupportedChains'
-import { CHAIN_IDS } from 'utils/wagmi'
-import { poppins } from 'style/font'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { SupportedChainsProvider, useSupportedChains } from '../hooks/useSupportedChains'
+import { CHAIN_IDS } from '../utils/wagmi'
+import { poppins } from '../style/font'
+import useActiveWeb3React from '../hooks/useActiveWeb3React'
+import { trpc } from '@icecreamswap/backend'
 
-const EasterEgg = dynamic(() => import('components/EasterEgg'), { ssr: false })
+const EasterEgg = dynamic(() => import('../components/EasterEgg'), { ssr: false })
 
 // This config is required for number formatting
 BigNumber.config({
@@ -85,7 +86,7 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on Bitgert (Brise), XDC, Binance smart chain (BSC), CORE, Shardeum, Dogechain, Doken and Fuse blockchain."
+          content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on CORE, XDC, Binance smart chain (BSC), Bitgert (Brise), Dogechain, Doken and Fuse via our decentralized Smart contracts."
         />
         <title>IceCreamSwap</title>
       </Head>
@@ -182,4 +183,5 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 }
 
-export default MyApp
+// @ts-expect-error strict null checks missing in tsconfig
+export default trpc.withTRPC(MyApp)

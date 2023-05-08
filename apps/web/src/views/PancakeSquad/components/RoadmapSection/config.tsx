@@ -11,7 +11,7 @@ const config = ({ t }: FAQsType) => [
     description: [
       'Launch of the Swap and liquidity provision functionality on Bitgert',
       'Multiple IceCream airdrops to the community',
-      'Add support for all bridged Bitgert tokens from the official stablecoin bridge',
+      'Add Bitgert bridged tokens to the default token list',
       'Create an analytics page for the swap to show all pools, their liquidity, volume and much more',
     ],
     reached: '06-2022',
@@ -51,7 +51,7 @@ const config = ({ t }: FAQsType) => [
     icon: '👨‍💻',
     description: [
       'Upgrade from Uniswap based UI to Pancakeswap based UI',
-      'Upgrade from weekly AirDrops to continuouse liqudiity farming rewards'
+      'Upgrade from weekly AirDrops to continuouse liqudiity farming'
     ],
     reached: '12-2022',
   },
@@ -60,7 +60,7 @@ const config = ({ t }: FAQsType) => [
     icon: '👨‍💻',
     description: [
       'Integrate Bridge UI directly in the swap UI for a seamless experience',
-      'Add smart routing capabilitys to drastically reduce price impact and save users a lot of money'
+      'Add smart routing capability\'s to drastically reduce price impact and greatly increase swap outputs'
     ],
     reached: '01-2023',
   },
@@ -69,8 +69,8 @@ const config = ({ t }: FAQsType) => [
     icon: '🚀',
     description: [
       'First Dex and Bridge on Core Dao mainnet',
-      'list many new projects on Core Dao',
-      'created liquid staking CORE token StakedCore(SCORE)'
+      'add many new projects on Core Dao to default list',
+      'created liquid staking CORE token StakedCore(SCORE) smart contracts'
     ],
     reached: '02-2023',
   },
@@ -80,14 +80,14 @@ const config = ({ t }: FAQsType) => [
     description: [
       'Release LaunchPad',
       'Release Soulbound KYC token to drastically reduce scams',
-      'Provide best prices on any chain through accessing the entire liquidity on the chain'
+      'Provide optimized swaps on supported chains through accessing the entire liquidity on the chain'
     ],
     reached: '03-2023',
   },
   {
     title: t('Mass expansion'),
     icon: '🚀🚀',
-    description: ['expand to a lot of blockchains and provide the best prices on all of them through our advanced smart routing'],
+    description: ['expand to a lot of blockchains and provide optimal dex routing on them thanks to our smart routing'],
     reached: '05-2023',
   },
 ]

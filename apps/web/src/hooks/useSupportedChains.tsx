@@ -1,4 +1,4 @@
-import chainName from 'config/constants/chainName'
+import chainName from '../config/constants/chainName'
 import { createContext, PropsWithChildren, useContext } from 'react'
 
 const SupportedChainsContext = createContext<number[]>([])

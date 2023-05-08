@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { DEFAULT_META, getCustomMeta } from 'config/constants/meta'
+import { DEFAULT_META, getCustomMeta } from '../../config/constants/meta'
 import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
 import Container from './Container'
 

@@ -7,6 +7,7 @@ import header from './images/header.png'
 import rocket from './images/rocket.png'
 import Image from 'next/image'
 import { tokens } from '@pancakeswap/ui'
+import CampaignCardDummy from './components/CampaignCardDummy'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -76,9 +77,13 @@ const LaunchpadList: React.FC = () => {
         {campaigns.data?.length > 0 && (
           <Grid gridGap="32px" gridTemplateColumns={['1fr', null, null, 'repeat(2, 1fr)', 'repeat(3, 1fr)']}>
             {campaigns.data.length === 1 && <div />}
-            {campaigns.data.map((launchpad) => (
-              <CampaignCard key={launchpad.id} campaign={launchpad} />
-            ))}
+            {campaigns.data.map((launchpad) =>
+              launchpad.address === 'dummy' ? (
+                <CampaignCardDummy key={launchpad.id} campaign={launchpad} />
+              ) : (
+                <CampaignCard key={launchpad.id} campaign={launchpad} />
+              ),
+            )}
           </Grid>
         )}
         <Flex justifyContent="center" width="100%">

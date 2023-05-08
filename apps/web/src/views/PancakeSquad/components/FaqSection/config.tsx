@@ -7,7 +7,7 @@ type FAQsType = {
 
 const config = ({ t }: FAQsType) => [
   {
-    title: t('Is the Swap audited?'),
+    title: t('Are the Swap contracts audited?'),
     description: [t('The Swap uses the unmodified, audited and battle tested Uniswap V2 smart contracts. One could argue that the UniswapV2 contracts are the most tested smart contracts in the whole DeFi space.')],
   },
   {
@@ -22,7 +22,7 @@ const config = ({ t }: FAQsType) => [
     title: t('How much reward will I get for providing liquidity?'),
     description: [
       t(
-        '5/6 (83%) of the trading fees will be distributed across all liquidity providers. Also there are Farming pools to earn additional ICE rewards and some tokens like SCORE even generate rewards on their own',
+        '5/6 (83%) of the trading fees are distributed by the dex smart contract to all liquidity providers. Also there are Farming pools to receive additional ICE tokens and some tokens like SCORE even generate rewards through securing the Blockchain',
       ),
     ],
   },

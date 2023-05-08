@@ -9,10 +9,18 @@ interface SwapConfig {
 
 interface LocksConfig {
   factoryAddress: string
+  factoryAddress2?: string
 }
 
 interface TokenDeployerConfig {
   address: string
+}
+
+interface KycConfig {
+  stableCoin: string
+  fee: number
+  feeWallet: string
+  tokenAddress: string
 }
 
 interface ChainBase {
@@ -28,6 +36,7 @@ interface ChainBase {
     decimals: number
   }
   campaignFactory?: string
+  kyc?: KycConfig
 }
 
 type IceChain = ChainBase & Chain

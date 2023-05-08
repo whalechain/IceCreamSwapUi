@@ -8,9 +8,10 @@ import { utils } from 'ethers'
 import { CampaignData, useCampaign, useGivenAmount } from '../hooks'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import useNativeCurrency from 'hooks/useNativeCurrency'
-import { useNativeBalances } from 'state/wallet/hooks'
+import { useNativeBalances, useTokenBalances } from 'state/wallet/hooks'
 import { CurrencyAmount } from '@pancakeswap/sdk'
 import { useTransactionAdder } from 'state/transactions/hooks'
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 
 interface DepositModalProps {
   campaign: CampaignData
@@ -23,11 +24,11 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const [step, setStep] = useState<Steps>('preview')
   const { onDismiss } = useModalContext()
   const token = useToken(campaign?.tokenAddress)
+  const raisedToken = useToken(campaign?.raisedToken)
   const { address, status } = useAccount()
   const campaignInstance = useCampaign(campaign?.address)
-  const nativeCurrency = useNativeCurrency()
-  const balances = useNativeBalances([address])
-  const balance = (balances ?? {})[address]
+  const balances = useTokenBalances(address, raisedToken && [raisedToken])
+  const balance = (balances ?? {})[raisedToken?.address ?? '']
   const contributed = useGivenAmount(campaign?.address, address)
   const addTransaction = useTransactionAdder()
 
@@ -39,11 +40,8 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
     CurrencyAmount.fromRawAmount(balance?.currency, utils.parseUnits(amount, token?.decimals || 18) as any)
 
   const handleDeposit = async () => {
-    // const initialSupply = utils.parseUnits(String(formValues?.initialSupply || '0'), 18)
-    // const maxSupply = utils.parseUnits(String(formValues?.maxSupply || '0'), 18)
-    const tx = await campaignInstance?.buyTokens({
-      value: utils.parseEther(amount),
-    })
+    // @ts-expect-error ABI not up to date
+    const tx = await campaignInstance?.buyTokens(utils.parseEther(amount))
     setStep('transfer')
     addTransaction(tx, {
       summary: `Contribute ${amount} to ${token?.symbol}`,
@@ -58,6 +56,15 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
 
   const allowed = contributed.data ? campaign.max_allowed.sub(contributed.data) : campaign.max_allowed
   const canContribute = !amount || utils.parseEther(amount).lte(allowed)
+
+  const [approvalState, approve] = useApproveCallback(
+    CurrencyAmount.fromRawAmount(
+      raisedToken,
+      utils.parseUnits(Number(amount) ? amount : '0', raisedToken?.decimals || 18) as any,
+    ),
+    campaign.address,
+    true,
+  )
 
   const preview = (
     <>
@@ -78,14 +85,13 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
           onMax={() => {
             setAmount(balance?.toExact() || '0')
           }}
-          currency={nativeCurrency}
+          currency={raisedToken}
           id="campaign-currency-input"
           hideManage
           showCommonBases={false}
           showNative={false}
         />
       </Flex>
-      Test
       <Flex flexDirection="column">
         <Text>You will recieve</Text>
         <Text>
@@ -100,9 +106,15 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
         </Text>
       ) : undefined}
       {status === 'connected' ? (
-        <Button style={{ flexGrow: 1 }} onClick={handleDeposit} disabled={!canContribute}>
-          Confirm
-        </Button>
+        approvalState !== ApprovalState.APPROVED ? (
+          <Button style={{ flexGrow: 1 }} onClick={approve} disabled={!canContribute}>
+            Approve
+          </Button>
+        ) : (
+          <Button style={{ flexGrow: 1 }} onClick={handleDeposit} disabled={!canContribute}>
+            Confirm
+          </Button>
+        )
       ) : (
         <ConnectWalletButton />
       )}

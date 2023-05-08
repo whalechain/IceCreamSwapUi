@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from 'next/image'
 import { HelpIcon } from '@pancakeswap/uikit'
-import { isChainSupported } from 'utils/wagmi'
+import { isChainSupported } from '../../utils/wagmi'
 import { memo } from 'react'
 import logo32520 from '../../../public/images/chains/32520.png'
 import logo2000 from '../../../public/images/chains/2000.png'
