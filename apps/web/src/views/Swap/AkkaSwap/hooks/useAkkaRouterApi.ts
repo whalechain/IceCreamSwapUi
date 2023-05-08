@@ -8,7 +8,7 @@ import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCurrency } from 'hooks/Tokens'
 import { captureMessage } from '@sentry/nextjs'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (
@@ -25,7 +25,7 @@ export const useAkkaRouterArgs = (
   } = useSwapState()
   const inputCurrency = useCurrency(inputCurrencyId)
   const { chainId } = useActiveChainId()
-  const { account } = useWeb3React()
+  const { account } = useActiveWeb3React()
   const API_URL = chainId === ChainId.CORE ? 'https://api.akka.foundation' : 'https://icecream.akka.finance'
   const [, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
   const fetcher: Fetcher<AkkaRouterArgsResponseType> = (url) =>
