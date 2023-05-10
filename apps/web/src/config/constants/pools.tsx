@@ -137,6 +137,14 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
     */
+].map((p) => ({
+  ...p,
+  stakingToken: p.stakingToken.serialize,
+  earningToken: p.earningToken.serialize,
+}))
+
+// known finished pools
+const finishedPools = [
   {
     sousId: 19,
     stakingToken: coreTokens.cfee,
@@ -180,15 +188,7 @@ export const livePools: SerializedPoolConfig[] = [
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '0.0231',
     version: 2,
-  }
-].map((p) => ({
-  ...p,
-  stakingToken: p.stakingToken.serialize,
-  earningToken: p.earningToken.serialize,
-}))
-
-// known finished pools
-const finishedPools = [
+  },
   {
     sousId: 23,
     stakingToken: coreTokens.miidas,
