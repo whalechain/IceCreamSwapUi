@@ -134,6 +134,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
         lpAddress: '0xb7f513A716D78a4148d02C1b4Ec33E60e5887AB4',
         token: coreTokens.ucore,
         quoteToken: coreTokens.ice,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0x78b3478A465194a9c69021A2FA9774764f3d8483',
+        token: coreTokens.bcore_new,
+        quoteToken: coreTokens.wcore,
     }
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 

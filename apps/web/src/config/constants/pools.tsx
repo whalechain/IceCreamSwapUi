@@ -37,14 +37,25 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
-    sousId: 23,
-    stakingToken: coreTokens.miidas,
-    earningToken: coreTokens.ice,
+    sousId: 26,
+    stakingToken: coreTokens.bcore_new,
+    earningToken: coreTokens.bcore_new,
     contractAddress: {
-      1116: '0xb5dd384a9890ad725935fb602e49f64e8ab60716',
+      1116: '0x2c36b4ff3a77ff44bd335e9e73628b16238d277b',
     },
     poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '0.00106',
+    tokenPerBlock: '115.74074074',
+    version: 2,
+  },
+  {
+    sousId: 27,
+    stakingToken: coreTokens.woof,
+    earningToken: coreTokens.woof,
+    contractAddress: {
+      1116: '0x60c63d1855ba9b876c39b2f2422d1495caaee7ba',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.0347',
     version: 2,
   },
   {
@@ -178,6 +189,17 @@ export const livePools: SerializedPoolConfig[] = [
 
 // known finished pools
 const finishedPools = [
+  {
+    sousId: 23,
+    stakingToken: coreTokens.miidas,
+    earningToken: coreTokens.ice,
+    contractAddress: {
+      1116: '0xb5dd384a9890ad725935fb602e49f64e8ab60716',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.00106',
+    version: 2,
+  },
   {
     sousId: 15,
     stakingToken: coreTokens.ice,
