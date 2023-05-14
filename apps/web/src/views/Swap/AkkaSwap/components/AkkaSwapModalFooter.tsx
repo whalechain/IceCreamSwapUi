@@ -43,7 +43,7 @@ export default function AkkaSwapModalFooter({
   const treasuryFeePercent = `${(TREASURY_FEE * 100).toFixed(4)}%`
   const buyBackFeePercent = `${(BUYBACK_FEE * 100).toFixed(4)}%`
   const { chainId } = useActiveChainId()
-  const fee = trade?.route?.routes[chainId.toString()]?.map((item, index) => {
+  const fee = trade?.route?.routes?.[chainId.toString()]?.map((item, index) => {
     return item.inputAmount * item.routes[0].operations.length * 0.003
   })
   const realizedLPFee = fee.reduce((accumulator, value) => {

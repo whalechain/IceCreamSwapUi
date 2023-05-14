@@ -7,7 +7,8 @@ import useSWR, { Fetcher, useSWRConfig } from 'swr'
 import { AkkaRouterArgsResponseType, AkkaRouterInfoResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCurrency } from 'hooks/Tokens'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { captureMessage } from '@sentry/nextjs'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 // Api for smart contract args (use this api to call akka contract easily)
 export const useAkkaRouterArgs = (
@@ -23,18 +24,25 @@ export const useAkkaRouterArgs = (
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
   const inputCurrency = useCurrency(inputCurrencyId)
-  const [isAkkSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
-    useIsAkkaSwapModeStatus()
+  const { chainId } = useActiveChainId()
+  const { account } = useActiveWeb3React()
+  const API_URL = chainId === ChainId.CORE ? 'https://api.akka.foundation' : 'https://icecream.akka.finance'
+  const [, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
   const fetcher: Fetcher<AkkaRouterArgsResponseType> = (url) =>
     fetch(url).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
+        captureMessage('AKKA: Unsupported Token (Swap 500)', {
+          tags: {
+            chain_id: chainId,
+            amount: amount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+            fromToken: inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address,
+            toToken: outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address,
+          },
+        })
       }
       return r.json()
     })
-  const { chainId } = useActiveChainId()
-  const { account } = useWeb3React()
-  const API_URL = chainId === ChainId.CORE ? 'https://api.akka.foundation' : 'https://icecream.akka.finance'
   const { data, error } = useSWR(
     `${API_URL}/swap?token0=${
       inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address
@@ -70,12 +78,19 @@ export const useAkkaRouterRoute = (
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
   const inputCurrency = useCurrency(inputCurrencyId)
-  const [isAkkSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
-    useIsAkkaSwapModeStatus()
+  const [, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
   const fetcher: Fetcher<AkkaRouterInfoResponseType> = (url) =>
     fetch(url).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
+        captureMessage('AKKA: Unsupported Token (Route 400)', {
+          tags: {
+            chain_id: chainId,
+            amount: amount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+            fromToken: inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address,
+            toToken: outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address,
+          },
+        })
       }
       return r.json()
     })
