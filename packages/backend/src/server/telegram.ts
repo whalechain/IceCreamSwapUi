@@ -6,6 +6,5 @@ export const sendTelegramMessage = async (message: string) => {
   url.searchParams.set('chat_id', telegramChatId!)
   url.searchParams.set('text', message)
   url.searchParams.set('parse_mode', 'Markdown')
-  const response = await fetch(url)
-  console.log(await response.text())
+  await fetch(url)
 }
