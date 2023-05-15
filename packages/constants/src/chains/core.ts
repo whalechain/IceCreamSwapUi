@@ -46,5 +46,6 @@ export const core: IceChain = {
     fee: 3,
     feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E',
     tokenAddress: '0x913E332d552b98355587BBa82b1256BCAdbCeD48',
+    contractKycMinter: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E',
   },
 }

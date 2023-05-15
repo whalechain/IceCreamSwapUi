@@ -16,6 +16,7 @@ export const sessionOptions: IronSessionOptions = {
 const roleLevel = {
   [Role.ADMIN]: 10,
   [Role.MOD]: 5,
+  [Role.KYC]: 1,
   [Role.USER]: 0,
 }
 
@@ -23,5 +24,6 @@ export const isRole = (user: Session['user'], role: Role) => roleLevel[user?.rol
 
 export const isMod = (user: Session['user']) => isRole(user, Role.MOD)
 export const isAdmin = (user: Session['user']) => isRole(user, Role.ADMIN)
+export const isKyc = (user: Session['user']) => isRole(user, Role.KYC)
 
 export type { User }

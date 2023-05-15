@@ -63,7 +63,10 @@ export const sessionRouter = router({
       if (userData) {
         session.user = userData
       } else {
-        session.user = { wallet: input.address, name: 'Anonymous', role: 'USER' }
+        const kyc = await prisma.kyc.findFirst({
+          where: { address: input.address },
+        })
+        session.user = { wallet: input.address.toLowerCase(), name: 'Anonymous', role: kyc ? 'KYC' : 'USER' }
       }
       await session.save()
     }),

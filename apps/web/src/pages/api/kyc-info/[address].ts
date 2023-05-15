@@ -11,5 +11,5 @@ export default async function handler(req, res) {
     },
   })
 
-  return res.json(kyc?.status || 'unverified')
+  return res.json(kyc || { status: 'unverified' })
 }

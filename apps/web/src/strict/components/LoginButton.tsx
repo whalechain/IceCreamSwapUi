@@ -32,7 +32,7 @@ const LoginButton: React.FC = () => {
 
   return user.data?.isLoggedIn ? (
     <UserMenuItem as="button" disabled={false} onClick={onLogout}>
-      {t('Logout')} ({user.data?.name})
+      {t('Logout')} {`(${user.data?.role === 'KYC' ? 'Kyc' : user.data?.name})`}
       <LogoutIcon />
     </UserMenuItem>
   ) : (

@@ -1,21 +1,11 @@
-import { Box, Button, Flex, Heading, Input, PageHeader, Text } from '@pancakeswap/uikit'
+import { Box, Flex, Heading, Input, PageHeader, Text } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
-import { useAccount, useSigner } from 'wagmi'
-import ConnectWalletButton from 'components/ConnectWalletButton'
 import useSWR from 'swr'
 import { useActiveChain } from 'hooks/useActiveChain'
-import { useToken } from 'hooks/Tokens'
-import { Contract, utils } from 'ethers'
-import { ERC20_ABI } from 'config/abi/erc20'
-import { ERC20 } from '@chainsafe/chainbridge-contracts'
-import Link from 'next/link'
-import { useTransactionAdder } from 'state/transactions/hooks'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
 import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
-import AddToWallet from 'views/CreateToken/components/AddToWallet'
-import useTokenBalance from 'hooks/useTokenBalance'
 import { useState } from 'react'
 
 const H1 = styled(Heading)`
@@ -44,14 +34,13 @@ const ImgWrapper = styled.div`
 `
 
 export const KycChecker: React.FC = () => {
-  const chain = useActiveChain()
   const [input, setInput] = useState('')
   const paid = useSWR(
     input?.length === 42 ? `kyc/${input}` : null,
     async () => {
       const response = await fetch(`api/kyc-info/${input}`)
       const data = await response.json()
-      return data
+      return data.status
     },
     { refreshInterval: 2000 },
   )
