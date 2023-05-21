@@ -58,4 +58,6 @@ export const coreTokens = {
   miidas: new ERC20Token(ChainId.CORE, '0xcfd38184c30832917A2871695F91e5e61bBD41fF', 6, 'Miidas', 'Miidas NFT'),
   block: new ERC20Token(ChainId.CORE, '0xbFf24592345094DFA4d6f75aFF5BE79AbCbC9bD9', 8, 'BLOCK', 'BlockVerse'),
   ucore: new ERC20Token(ChainId.CORE, '0x496Bb259D0117E89B2e73433524e9838c3073e60', 18, 'UCORE', 'UnityCore'),
+  crystal: new ERC20Token(ChainId.CORE, '0x005133502d02ddDe90D5f5283E4Af0F33A4a4db2', 18, 'CRYSTAL', 'CRYSTAL STONES'),
+  maxi: new ERC20Token(ChainId.CORE, '0xDd5d49910c5D475c984EE891A928De6658d2042d', 18, 'MAXL', 'Maxi Protocol'),
 }
