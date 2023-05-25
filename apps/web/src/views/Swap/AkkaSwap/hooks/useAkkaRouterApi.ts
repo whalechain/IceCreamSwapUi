@@ -32,14 +32,14 @@ export const useAkkaRouterArgs = (
     fetch(url).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
-        captureMessage('AKKA: Unsupported Token (Swap 500)', {
-          tags: {
-            chain_id: chainId,
-            amount: amount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-            fromToken: inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address,
-            toToken: outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address,
-          },
-        })
+        // captureMessage('AKKA: Unsupported Token (Swap 500)', {
+        //   tags: {
+        //     chain_id: chainId,
+        //     amount: amount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+        //     fromToken: inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address,
+        //     toToken: outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address,
+        //   },
+        // })
       }
       return r.json()
     })
@@ -83,14 +83,14 @@ export const useAkkaRouterRoute = (
     fetch(url).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
-        captureMessage('AKKA: Unsupported Token (Route 400)', {
-          tags: {
-            chain_id: chainId,
-            amount: amount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-            fromToken: inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address,
-            toToken: outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address,
-          },
-        })
+        // captureMessage('AKKA: Unsupported Token (Route 400)', {
+        //   tags: {
+        //     chain_id: chainId,
+        //     amount: amount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+        //     fromToken: inputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token0?.wrapped?.address,
+        //     toToken: outputCurrencyId === NATIVE[chainId].symbol ? NATIVE_TOKEN_ADDRESS : token1?.wrapped?.address,
+        //   },
+        // })
       }
       return r.json()
     })
