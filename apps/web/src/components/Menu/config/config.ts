@@ -224,9 +224,12 @@ const config: (
               label: t('KYC Checker'),
               href: '/kyc-checker',
             },
+            {
+              label: t('KYC Delegator'),
+              href: '/kyc-delegator',
+            },
           ],
         },
-
         {
           label: t('KYC Checker'),
           href: '/kyc-checker',
@@ -239,6 +242,29 @@ const config: (
             {
               label: t('KYC Checker'),
               href: '/kyc-checker',
+            },
+            {
+              label: t('KYC Delegator'),
+              href: '/kyc-delegator',
+            },
+          ],
+        },
+        {
+          label: t('KYC Delegator'),
+          href: '/kyc-delegator',
+          supportChainIds: [1116],
+          items: [
+            {
+              label: t('KYC'),
+              href: '/kyc',
+            },
+            {
+              label: t('KYC Checker'),
+              href: '/kyc-checker',
+            },
+            {
+              label: t('KYC Delegator'),
+              href: '/kyc-delegator',
             },
           ],
         },
