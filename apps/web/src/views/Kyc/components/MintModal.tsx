@@ -45,12 +45,12 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
     if (!minter || !sig.data) return
     const { signature, tokenId, targetAddress } = sig.data
     console.log('args', targetAddress, tokenId, signature)
-    // const tx = await minter?.delegate(targetAddress, tokenId, signature)
-    // setStep('transfer')
-    // addTransaction(tx, {
-    //   summary: `Minting KYC delegation for ${target}`,
-    // })
-    // await tx?.wait(1)
+    const tx = await minter?.delegate(targetAddress, tokenId, signature)
+    setStep('transfer')
+    addTransaction(tx, {
+      summary: `Minting KYC delegation for ${target}`,
+    })
+    await tx?.wait(1)
     await submitDelegation.mutateAsync({
       chainId: chain.id,
       sourceAddress: address,
