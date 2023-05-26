@@ -3,7 +3,7 @@ import { isMod } from '../session'
 import { publicProcedure, router } from '../trpc'
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { prisma } from '../prisma'
-import { Listed } from '@icecreamswap/database'
+import { Listed, Token } from '@icecreamswap/database'
 
 export const tokenRouter = router({
   add: publicProcedure
@@ -51,11 +51,26 @@ export const tokenRouter = router({
       })
     }),
   defaultList: publicProcedure.query(async () => {
-    const tokens = await prisma.token.findMany({
+    const tokens: (Token & { tags?: string[] })[] = await prisma.token.findMany({
       where: {
         listed: Listed.DEFAULT_LIST,
       },
     })
+    const kycs = await prisma.delegation.findMany({
+      where: {
+        target: {
+          in: tokens.map((token) => token.address),
+        },
+      },
+    })
+    kycs.forEach((kyc) => {
+      const token = tokens.find((t) => t.address === kyc.target)
+      if (token) {
+        token.tags = token.tags || []
+        token.tags.push('KYCed')
+      }
+    })
+
     return {
       name: 'IceCreamSwap Default',
       timestamp: new Date().toISOString(),
@@ -74,6 +89,7 @@ export const tokenRouter = router({
         chainId: token.chainId,
         decimals: token.decimals,
         logoURI: `https://${process.env.S3_BUCKET_NAME}.s3.amazonaws.com/token/${token.chainId}/${token.address}.png`,
+        tags: token.tags || [],
       })),
     }
   }),

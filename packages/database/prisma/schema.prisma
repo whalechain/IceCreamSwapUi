@@ -55,17 +55,25 @@ model Kyc {
   transactionHash String
   status          String
   Delegation      Delegation[]
+  tokenId         Int?
+}
+
+enum DelegationStatus {
+  PENDING
+  APPROVED
+  MINTED
+  REJECTED
 }
 
 model Delegation {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   source    Kyc      @relation(fields: [kycId], references: [id])
   target    String
   chainId   Int
-  status    String
+  status    DelegationStatus @default(PENDING)
+  tokenId   Int?
   kycId     Int
-
-  @@id([chainId, target])
 }
 
 model Flags {

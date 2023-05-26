@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Input, Link, PageHeader, Text } from '@pancakeswap/uikit'
+import { Box, Button, Flex, Heading, Input, Link, PageHeader, Text, useModal } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
 import useSWR from 'swr'
 import { useActiveChain } from 'hooks/useActiveChain'
@@ -15,7 +15,9 @@ import minterAbi from './minterAbi.json'
 import { utils } from 'ethers'
 import { useUser } from '../../strict/hooks/useUser'
 import { useDelegateKyc } from '../../strict/hooks/useDelegateKyc'
-import LoginButton from 'strict/components/LoginButton'
+import { useKycDelegation } from '../../strict/hooks/useKycDelegation'
+import { useOnLogin } from '../../strict/hooks/useLogin'
+import BuyModal from './components/MintModal'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -69,7 +71,44 @@ export const KycDelegator: React.FC = () => {
   const { isDark } = useTheme()
   const user = useUser()
   const delegate = useDelegateKyc()
-  console.log(user.data)
+  const onLogin = useOnLogin(signer, address)
+  const [onPresentBuyModal] = useModal(<BuyModal target={input} />, true, true, `buyModal-${input}`)
+  const delegation = useKycDelegation({
+    chainId: chain.id,
+    targetAddress: input,
+    sourceAddress: user.data?.wallet,
+  })
+  let action: React.ReactNode = ''
+  if (delegation.data?.status === 'PENDING') {
+    action = <Heading>Waiting for Validation</Heading>
+  } else if (delegation.data?.status === 'REJECTED') {
+    action = <Heading>Your Delegation was Rejected</Heading>
+  } else if (delegation.data?.status === 'MINTED') {
+    action = <Heading>Your Delegation was Minted ✔️</Heading>
+  } else if (delegation.data?.status === 'APPROVED') {
+    action = <Button onClick={onPresentBuyModal}>Mint Kyc NFT</Button>
+  } else {
+    action = !user.data?.isLoggedIn ? (
+      <Button onClick={onLogin}>Login</Button>
+    ) : (
+      <Button
+        onClick={() => {
+          delegate
+            .mutateAsync({
+              chainId: chain.id,
+              targetAddress: input,
+              sourceAddress: user.data.wallet,
+            })
+            .then(() => {
+              delegation.refetch()
+            })
+        }}
+        isLoading={delegate.isLoading}
+      >
+        Send for validation
+      </Button>
+    )
+  }
 
   return (
     <Box background={isDark ? 'linear-gradient(135deg, #1d1c21 0%, #141317 100%)' : undefined}>
@@ -110,21 +149,7 @@ export const KycDelegator: React.FC = () => {
             <Text>
               Pay {fee.data?.feeAmountFormatted} {token?.symbol} to delegate your KYC status to this contract.
             </Text>
-            {!user.data ? (
-              <LoginButton />
-            ) : (
-              <Button
-                onClick={() => {
-                  delegate.mutate({
-                    chainId: chain.id,
-                    targetAddress: input,
-                    sourceAddress: user.data.wallet,
-                  })
-                }}
-              >
-                Send for validation
-              </Button>
-            )}
+            {action}
           </Flex>
         )}
       </Page>
