@@ -137,16 +137,16 @@ export default function Swap() {
     if (akkaRouterTrade?.route?.returnAmountWithoutTaxWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
-        captureMessage(`AKKA: RateError`, {
-          tags: {
-            chain_id: chainId,
-            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
-            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
-            pksRate: v2Trade?.outputAmount.toExact(),
-            akkaRate: akkaRouterTrade?.route?.returnAmountWei,
-          },
-        })
+        // captureMessage(`AKKA: RateError`, {
+        //   tags: {
+        //     chain_id: chainId,
+        //     amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+        //     fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+        //     toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+        //     pksRate: v2Trade?.outputAmount.toExact(),
+        //     akkaRate: akkaRouterTrade?.route?.returnAmountWei,
+        //   },
+        // })
       } else {
         toggleSetAkkaModeToTrue()
       }
