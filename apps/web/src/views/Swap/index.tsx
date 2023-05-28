@@ -133,7 +133,7 @@ export default function Swap() {
   }, [independentField])
 
   // Check if pancakeswap route is better than akka route or not
-  useEffect(() => {    
+  useEffect(() => {
     if (akkaRouterTrade?.route?.returnAmountWithoutTaxWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
@@ -157,7 +157,7 @@ export default function Swap() {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
         if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
-          if (akkaRouterTrade?.args) {
+          if (akkaRouterTrade?.args?.amountIn && akkaRouterTrade?.args?.amountOutMin && akkaRouterTrade?.args?.data) {
             if (chainId === ChainId.CORE) {
               akkaCoreContract.estimateGas[methodName](
                 akkaRouterTrade?.args?.amountIn,
