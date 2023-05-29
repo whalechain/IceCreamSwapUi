@@ -61,6 +61,7 @@ export const tokenRouter = router({
         target: {
           in: tokens.map((token) => token.address),
         },
+        status: 'MINTED',
       },
     })
     kycs.forEach((kyc) => {
