@@ -90,14 +90,6 @@ const chains = [
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
       {
-        address: '0xB1bd2BAbC83606c54728E14a4C49671b7F68bFED',
-        name: 'Young Parrot',
-        symbol: 'YPC',
-        imageUri:
-          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
-        resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
-      },
-      {
         address: '0x71Ef0A490E53Cc177F640169b0347Be4d0f23cc9',
         name: 'HotDoge',
         symbol: 'HOTDOGE',
@@ -110,6 +102,14 @@ const chains = [
         symbol: 'ROYALE',
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/binance/assets/0x7a89fae255957C190ac8552f559be0Ad0401A081/logo.png',
         resourceId: '0x00000000000000000000007a89fae255957C190ac8552f559be0Ad0401A08101',
+      },
+      {
+        address: '0xf8F82F2CE26E7840f15B7f0C7ecF8b7f73e035Ca',
+        name: 'Young Parrot',
+        symbol: 'YPC',
+        imageUri:
+            'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
+        resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
       },
     ],
   },
