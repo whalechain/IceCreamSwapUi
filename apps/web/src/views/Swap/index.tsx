@@ -26,7 +26,7 @@ import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import SwapTab, { SwapType } from './components/SwapTab'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaAlternateModeActive, useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
 import { useUserSlippageTolerance } from 'state/user/hooks'
@@ -87,11 +87,13 @@ export default function Swap() {
     parsedAmount: akkaParsedAmount,
     inputError: akkaSwapInputError,
   } = useAkkaSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, allowedSlippage)
+
   const {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
+
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
@@ -120,6 +122,20 @@ export default function Swap() {
     toggleSetAkkaContractModeToFalse,
     toggleSetAkkaContractModeToTrue,
   ] = useIsAkkaContractSwapModeActive()
+
+  const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
+
+  useEffect(() => {
+    console.log(isAkkaSwapMode);
+    console.log(isAkkaSwapActive);
+    console.log(isAkkaContractSwapMode);
+    console.log(isAkkaAlternateActive);
+  }, [isAkkaSwapMode, isAkkaSwapActive, isAkkaContractSwapMode, isAkkaAlternateActive, akkaRouterTrade])
+
+  useEffect(() => {
+    toggleSetAkkaAlternateActiveToFalse()
+    toggleSetAkkaModeToFalse()
+  }, [typedValue])
 
   const { chainId } = useActiveWeb3React()
 
@@ -188,7 +204,11 @@ export default function Swap() {
                   }
                 })
                 .catch((error) => {
-                  toggleSetAkkaContractModeToFalse()
+                  console.log(error);
+                  console.log("test");
+
+                  toggleSetAkkaContractModeToTrue()
+                  toggleSetAkkaAlternateActiveToTrue()
                   captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                     tags: {
                       chain_id: chainId,

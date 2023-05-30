@@ -28,3 +28,7 @@ export const akkaSwapActive = createAction<{
 export const akkaSwapContractActive = createAction<{
   isAkkaSwapContractActive: boolean
 }>('global/akkaSwapContractActive')
+
+export const akkaAlternateActive = createAction<{
+  isAkkaAlternateActive: boolean
+}>('global/akkaAlternateActive')

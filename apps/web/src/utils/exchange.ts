@@ -19,6 +19,7 @@ import { useContract } from 'hooks/useContract'
 import { StableTrade } from 'views/Swap/StableSwap/hooks/useStableTradeExactIn'
 import { Field } from '../state/swap/actions'
 import { AkkaRouterCore } from 'config/abi/types'
+import { useIsAkkaAlternateModeActive } from 'state/global/hooks'
 
 // converts a basis points value to a sdk percent
 export function basisPointsToPercent(num: number): Percent {
@@ -46,7 +47,8 @@ export function useAkkaRouterContract() {
 }
 
 export function useAkkaRouterCoreContract() {
-  return useContract<AkkaRouterCore>(ROUTER_ADDRESS[ChainId.CORE].Akka, AKKA_CORE_ABI, true)
+  const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
+  return useContract<AkkaRouterCore>(isAkkaAlternateActive ? "0x493b4cD63Ec250AEA097168248f87338E7F90134" : ROUTER_ADDRESS[ChainId.CORE].Akka, AKKA_CORE_ABI, true)
 }
 
 // computes price breakdown for the trade
