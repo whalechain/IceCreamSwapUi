@@ -188,7 +188,7 @@ Chain: ${chain.network}
         chainId: z.number(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const { targetAddress, sourceAddress, chainId } = input
       const delegationTokenId = await getDelegationTokenId(sourceAddress, targetAddress, chainId)
       await prisma.delegation.updateMany({
