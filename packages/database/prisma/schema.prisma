@@ -48,12 +48,32 @@ model Campaign {
 }
 
 model Kyc {
-  id              Int      @id @default(autoincrement())
-  createdAt       DateTime @default(now())
-  address         String   @unique
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  address         String       @unique
   chainId         Int
   transactionHash String
   status          String
+  Delegation      Delegation[]
+  tokenId         Int?
+}
+
+enum DelegationStatus {
+  PENDING
+  APPROVED
+  MINTED
+  REJECTED
+}
+
+model Delegation {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  source    Kyc      @relation(fields: [kycId], references: [id])
+  target    String
+  chainId   Int
+  status    DelegationStatus @default(PENDING)
+  tokenId   Int?
+  kycId     Int
 }
 
 model Flags {
@@ -66,6 +86,7 @@ model Flags {
 enum Role {
   ADMIN
   MOD
+  KYC
   USER
 }
 

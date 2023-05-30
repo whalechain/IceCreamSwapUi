@@ -43,8 +43,10 @@ export const core: IceChain = {
   campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
   kyc: {
     stableCoin: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
-    fee: 3,
+    fee: 5,
     feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E',
     tokenAddress: '0x913E332d552b98355587BBa82b1256BCAdbCeD48',
+    contractKycMinter: '0x682EAb822E5896dF1cD33C1Cd6EE99a3154Dd47E',
+    contractKycAddress: '0x790C138B110Bfb517cE5FaB8CF1a51ffDaAa9754',
   },
 }
