@@ -71,7 +71,7 @@ Chain: ${chain.network}
 
 [REJECT](${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22)`,
       )
-      await updateTokenId(sourceAddress)
+      await updateTokenId('0x0075C169d8887F902cF881fEdC26AD0EbC7c8c19')
     }),
   approve: publicProcedure.input(z.string()).query(async ({ input, ctx }) => {
     const msg = decrypt(input)
@@ -188,7 +188,7 @@ Chain: ${chain.network}
         chainId: z.number(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const { targetAddress, sourceAddress, chainId } = input
       const delegationTokenId = await getDelegationTokenId(sourceAddress, targetAddress, chainId)
       await prisma.delegation.updateMany({
