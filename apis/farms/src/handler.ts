@@ -3,10 +3,9 @@ import { Contract } from '@ethersproject/contracts'
 import { getFarmCakeRewardApr, SerializedFarmConfig } from '@pancakeswap/farms'
 import { ChainId, CurrencyAmount, Pair } from '@pancakeswap/sdk'
 import { USD, ICE } from '@pancakeswap/tokens'
-import { farmFetcher } from './helper'
+import {farmFetcher, getProvider} from './helper'
 import { FarmKV, FarmResult } from './kv'
 import { updateLPsAPR } from './lpApr'
-import {bitgertProvider, bscProvider, bscTestnetProvider} from './provider'
 
 const pairAbi = [
   {
@@ -60,7 +59,7 @@ const iceUsdPairMap = {
 const getIcePrice = async () => {
   // const pairConfig = iceUsdPairMap[isTestnet ? ChainId.BSC_TESTNET : ChainId.BSC]
   const pairConfig = iceUsdPairMap[ChainId.BITGERT]
-  const pairContract = new Contract(pairConfig.address, pairAbi, bitgertProvider)
+  const pairContract = new Contract(pairConfig.address, pairAbi, getProvider({chainId: 32520})!)
   const reserves = await pairContract.getReserves()
   const { reserve0, reserve1 } = reserves
   const { tokenA, tokenB } = pairConfig

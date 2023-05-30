@@ -83,7 +83,7 @@ const Staked: React.FunctionComponent<React.PropsWithChildren<StackedActionProps
   const handleApprove = vaultKey ? handleVaultApprove : handlePoolApprove
   const pendingTx = vaultKey ? pendingVaultTx : pendingPoolTx
 
-  const isBnbPool = poolCategory === PoolCategory.BINANCE
+  const isBnbPool = poolCategory === PoolCategory.BINANCE || poolCategory === PoolCategory.BINANCE_AUTO
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakedBalance = userData?.stakedBalance ? new BigNumber(userData.stakedBalance) : BIG_ZERO
   const isNotVaultAndHasStake = !vaultKey && stakedBalance.gt(0)

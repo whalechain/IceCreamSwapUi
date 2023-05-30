@@ -15,6 +15,17 @@ export const livePools: SerializedPoolConfig[] = [
   // souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
   {
+    sousId: 31,
+    stakingToken: coreTokens.core,
+    earningToken: coreTokens.core,
+    contractAddress: {
+      1116: '0xa6DE0Db4467B8aEd86F9Fa6e67BD2917708B4508',
+    },
+    poolCategory: PoolCategory.BINANCE_AUTO,
+    tokenPerBlock: '0.000000003',
+    version: 2,
+  },
+  {
     sousId: 2,
     stakingToken: xdcTokens.ice,
     earningToken: xdcTokens.btcx,

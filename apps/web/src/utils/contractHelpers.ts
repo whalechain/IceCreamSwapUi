@@ -192,7 +192,7 @@ export const getSouschefContract = (id: number, chainId: ChainId, signer?: Signe
   if (!(chainId in config.contractAddress)) {
     return null
   }
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
+  const abi = config.poolCategory === PoolCategory.BINANCE || config.poolCategory === PoolCategory.BINANCE_AUTO ? sousChefBnb : sousChef
   return getContract({ abi, address: getAddress(config.contractAddress, chainId), signer }) as SousChef
 }
 

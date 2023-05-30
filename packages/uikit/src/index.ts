@@ -1,4 +1,6 @@
 // Components
+import {PoolCategory} from "./widgets/Pool";
+
 export * from "./components";
 // Hooks
 export * from "./hooks";
@@ -14,6 +16,8 @@ export * as Liquidity from "./widgets/Liquidity";
 export * from "./widgets/Farm";
 export * as Pool from "./widgets/Pool";
 export * as PoolHelpers from "./widgets/Pool/helpers";
+
+export { PoolCategory } from "./widgets/Pool/types";
 
 // Theme
 export { default as ResetCSS } from "./ResetCSS";
