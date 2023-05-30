@@ -67,9 +67,9 @@ Target: [${targetAddress}](${explorerUrl}/address/${targetAddress})
 Source: [${sourceAddress}](${explorerUrl}/address/${sourceAddress})
 Chain: ${chain.network}
 
-[APPROVE](${baseUri}/api/trpc/kyc.approve?input=%22${encrypted}%22)
+APPROVE \`${baseUri}/api/trpc/kyc.approve?input=%22${encrypted}%22)\`
 
-[REJECT](${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22)`,
+REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22)\``,
       )
       await updateTokenId(sourceAddress)
     }),
