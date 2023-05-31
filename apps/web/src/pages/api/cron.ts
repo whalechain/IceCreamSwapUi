@@ -6,7 +6,8 @@ const client = new PrismaClient()
 export default async function handler(req, res) {
   const delegations = await client.delegation.findMany({
     where: {
-      status: 'APPROVED',
+      status: { in: ['MINTED', 'APPROVED'] },
+      tokenId: null,
     },
     include: {
       source: true,
