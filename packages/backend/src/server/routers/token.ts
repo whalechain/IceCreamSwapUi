@@ -60,6 +60,7 @@ export const tokenRouter = router({
       where: {
         target: {
           in: tokens.map((token) => token.address),
+          mode: 'insensitive',
         },
         status: 'MINTED',
       },
