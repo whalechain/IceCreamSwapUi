@@ -39,6 +39,7 @@ import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedCha
 import { useBalance } from 'wagmi'
 import chainName from 'config/constants/chainName'
 import { captureMessage } from '@sentry/nextjs'
+import { akkaAlternateActive } from 'state/global/actions'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -204,11 +205,14 @@ export default function Swap() {
                   }
                 })
                 .catch((error) => {
-                  console.log(error);
-                  console.log("test");
-
-                  toggleSetAkkaContractModeToTrue()
-                  toggleSetAkkaAlternateActiveToTrue()
+                  if (isAkkaAlternateActive) {
+                    toggleSetAkkaContractModeToFalse()
+                    toggleSetAkkaAlternateActiveToFalse()
+                  }
+                  else {
+                    toggleSetAkkaContractModeToTrue()
+                    toggleSetAkkaAlternateActiveToTrue()
+                  }
                   captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                     tags: {
                       chain_id: chainId,
