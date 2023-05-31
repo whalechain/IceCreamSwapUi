@@ -66,7 +66,7 @@ export const tokenRouter = router({
       },
     })
     kycs.forEach((kyc) => {
-      const token = tokens.find((t) => t.address === kyc.target)
+      const token = tokens.find((t) => t.address.toLowerCase() === kyc.target.toLowerCase())
       if (token) {
         token.tags = token.tags || []
         token.tags.push('KYCed')
