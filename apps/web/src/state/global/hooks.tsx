@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState, useAppDispatch } from '../index'
-import { akkaSwapActive, akkaSwapContractActive, akkaSwapStatus } from './actions'
+import { akkaAlternateActive, akkaSwapActive, akkaSwapContractActive, akkaSwapStatus } from './actions'
 
 // Get Farm Harvest
 export function useFarmHarvestTransaction() {
@@ -81,3 +81,25 @@ export function useIsAkkaContractSwapModeActive(): [boolean, () => void, () => v
   return [isAkkaContractSwapMode, toggleSetAkkaContractMode, toggleSetAkkaContractModeToFalse, toggleSetAkkaContractModeToTrue]
 }
 
+export function useIsAkkaAlternateActive(): boolean {
+  return useSelector<AppState, AppState['global']['isAkkaAlternateActive']>((state) => state.global.isAkkaAlternateActive)
+}
+
+export function useIsAkkaAlternateModeActive(): [boolean, () => void, () => void, () => void] {
+  const dispatch = useAppDispatch()
+  const isAkkaAlternateActive = useIsAkkaAlternateActive()
+
+  const toggleSetAkkaAlternateActive = useCallback(() => {
+    dispatch(akkaAlternateActive({ isAkkaAlternateActive: !isAkkaAlternateActive }))
+  }, [isAkkaAlternateActive, dispatch])
+
+  const toggleSetAkkaAlternateActiveToFalse = useCallback(() => {
+    dispatch(akkaAlternateActive({ isAkkaAlternateActive: false }))
+  }, [isAkkaAlternateActive, dispatch])
+
+  const toggleSetAkkaAlternateActiveToTrue = useCallback(() => {
+    dispatch(akkaAlternateActive({ isAkkaAlternateActive: true }))
+  }, [isAkkaAlternateActive, dispatch])
+
+  return [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue]
+}

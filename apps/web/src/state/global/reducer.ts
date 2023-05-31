@@ -7,12 +7,14 @@ import {
   akkaSwapStatus,
   akkaSwapActive,
   akkaSwapContractActive,
+  akkaAlternateActive,
 } from './actions'
 
 export interface GlobalState {
   isAkkaSwap: boolean
   isAkkaSwapActive: boolean
   isAkkaSwapContractActive: boolean
+  isAkkaAlternateActive: boolean
   showFarmTransactionModal: boolean
   pickedFarmTransactionModalTx: {
     tx: string
@@ -24,6 +26,7 @@ export const initialState: GlobalState = {
   isAkkaSwap: false,
   isAkkaSwapActive: true,
   isAkkaSwapContractActive: false,
+  isAkkaAlternateActive: false,
   showFarmTransactionModal: false,
   pickedFarmTransactionModalTx: {
     tx: '',
@@ -44,6 +47,9 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(akkaSwapContractActive, (state, { payload: { isAkkaSwapContractActive } }) => {
       state.isAkkaSwapContractActive = isAkkaSwapContractActive
+    })
+    .addCase(akkaAlternateActive, (state, { payload: { isAkkaAlternateActive } }) => {
+      state.isAkkaAlternateActive = isAkkaAlternateActive
     })
     .addCase(pickFarmTransactionTx, (state, { payload: { tx, chainId } }) => {
       state.pickedFarmTransactionModalTx = { tx, chainId }

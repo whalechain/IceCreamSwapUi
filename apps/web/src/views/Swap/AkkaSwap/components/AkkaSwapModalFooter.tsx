@@ -46,9 +46,9 @@ export default function AkkaSwapModalFooter({
   const fee = trade?.route?.routes?.[chainId.toString()]?.map((item, index) => {
     return item.inputAmount * item.routes[0].operations.length * 0.003
   })
-  const realizedLPFee = fee.reduce((accumulator, value) => {
+  const realizedLPFee = fee ? fee.reduce((accumulator, value) => {
     return accumulator + value
-  }, 0)
+  }, 0) : null
 
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
   return (
@@ -64,7 +64,7 @@ export default function AkkaSwapModalFooter({
             {priceImpact.toFixed(3)}%
           </Text>
         </RowBetween>
-        {trade.route.returnAmountInUsd - trade.route.bestAlt > 0 &&
+        {trade?.route?.returnAmountInUsd - trade?.route?.bestAlt > 0 &&
           <RowBetween>
             <RowFixed>
               <Text fontSize="14px" color="textSubtle">
@@ -94,7 +94,7 @@ export default function AkkaSwapModalFooter({
           </RowFixed>
           <Text fontSize="14px">
             {realizedLPFee
-              ? `${realizedLPFee?.toFixed(6)} ${trade.route.routes[chainId.toString()][0].routes[0].operationsSeperated[0].operations[0].offerToken[3]
+              ? `${realizedLPFee?.toFixed(6)} ${trade?.route?.routes[chainId.toString()][0].routes[0].operationsSeperated[0].operations[0].offerToken[3]
               }`
               : '-'}
           </Text>

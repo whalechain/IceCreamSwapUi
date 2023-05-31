@@ -26,7 +26,7 @@ import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import SwapTab, { SwapType } from './components/SwapTab'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useIsAkkaAlternateModeActive, useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
 import { useUserSlippageTolerance } from 'state/user/hooks'
@@ -39,6 +39,7 @@ import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedCha
 import { useBalance } from 'wagmi'
 import chainName from 'config/constants/chainName'
 import { captureMessage } from '@sentry/nextjs'
+import { akkaAlternateActive } from 'state/global/actions'
 
 export default function Swap() {
   const { isMobile } = useMatchBreakpoints()
@@ -87,11 +88,13 @@ export default function Swap() {
     parsedAmount: akkaParsedAmount,
     inputError: akkaSwapInputError,
   } = useAkkaSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, allowedSlippage)
+
   const {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
+
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
@@ -121,6 +124,20 @@ export default function Swap() {
     toggleSetAkkaContractModeToTrue,
   ] = useIsAkkaContractSwapModeActive()
 
+  const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
+
+  useEffect(() => {
+    console.log(isAkkaSwapMode);
+    console.log(isAkkaSwapActive);
+    console.log(isAkkaContractSwapMode);
+    console.log(isAkkaAlternateActive);
+  }, [isAkkaSwapMode, isAkkaSwapActive, isAkkaContractSwapMode, isAkkaAlternateActive, akkaRouterTrade])
+
+  useEffect(() => {
+    toggleSetAkkaAlternateActiveToFalse()
+    toggleSetAkkaModeToFalse()
+  }, [typedValue, inputCurrencyId, outputCurrencyId])
+
   const { chainId } = useActiveWeb3React()
 
   // Check Independent Field for AKKA
@@ -133,20 +150,20 @@ export default function Swap() {
   }, [independentField])
 
   // Check if pancakeswap route is better than akka route or not
-  useEffect(() => {    
+  useEffect(() => {
     if (akkaRouterTrade?.route?.returnAmountWithoutTaxWei && v2Trade?.outputAmount) {
       if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
         toggleSetAkkaModeToFalse()
-        captureMessage(`AKKA: RateError`, {
-          tags: {
-            chain_id: chainId,
-            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
-            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
-            pksRate: v2Trade?.outputAmount.toExact(),
-            akkaRate: akkaRouterTrade?.route?.returnAmountWei,
-          },
-        })
+        // captureMessage(`AKKA: RateError`, {
+        //   tags: {
+        //     chain_id: chainId,
+        //     amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+        //     fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+        //     toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+        //     pksRate: v2Trade?.outputAmount.toExact(),
+        //     akkaRate: akkaRouterTrade?.route?.returnAmountWei,
+        //   },
+        // })
       } else {
         toggleSetAkkaModeToTrue()
       }
@@ -157,7 +174,7 @@ export default function Swap() {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
         if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
-          if (akkaRouterTrade?.args) {
+          if (akkaRouterTrade?.args?.amountIn && akkaRouterTrade?.args?.amountOutMin && akkaRouterTrade?.args?.data) {
             if (chainId === ChainId.CORE) {
               akkaCoreContract.estimateGas[methodName](
                 akkaRouterTrade?.args?.amountIn,
@@ -188,7 +205,14 @@ export default function Swap() {
                   }
                 })
                 .catch((error) => {
-                  toggleSetAkkaContractModeToFalse()
+                  if (isAkkaAlternateActive) {
+                    toggleSetAkkaContractModeToFalse()
+                    toggleSetAkkaAlternateActiveToFalse()
+                  }
+                  else {
+                    toggleSetAkkaContractModeToTrue()
+                    toggleSetAkkaAlternateActiveToTrue()
+                  }
                   captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                     tags: {
                       chain_id: chainId,
