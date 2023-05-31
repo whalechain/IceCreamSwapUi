@@ -135,7 +135,7 @@ export default function Swap() {
   useEffect(() => {
     toggleSetAkkaAlternateActiveToFalse()
     toggleSetAkkaModeToFalse()
-  }, [typedValue])
+  }, [typedValue, inputCurrencyId, outputCurrencyId])
 
   const { chainId } = useActiveWeb3React()
 
