@@ -198,9 +198,9 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
         },
         where: {
           source: {
-            address: sourceAddress.toLowerCase(),
+            address: { equals: sourceAddress.toLowerCase(), mode: 'insensitive' },
           },
-          target: targetAddress,
+          target: { equals: targetAddress, mode: 'insensitive' },
         },
       })
     }),
