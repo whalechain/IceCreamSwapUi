@@ -72,7 +72,7 @@ export const Airdrop: React.FC = () => {
     } else if (state === 'success') {
       action = <Text>Succesfully submitted for airdrop. 🥳</Text>
     } else if (state === 'invalid-sig') {
-      action = <Text>Invalid signature. Please try again</Text>
+      action = <Text>Invalid signature. Please try again!</Text>
     } else if (state === '24h') {
       action = <Text>You have already submitted for airdrop. You can resubmit later!</Text>
     } else {
