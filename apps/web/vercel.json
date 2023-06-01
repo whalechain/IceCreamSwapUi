@@ -1,5 +1,5 @@
 {
-  "crons": [
+  "crons-disabled": [
     {
       "path": "/api/cron",
       "schedule": "* * * * *"
