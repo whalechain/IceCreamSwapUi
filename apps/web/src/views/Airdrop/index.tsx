@@ -74,7 +74,7 @@ export const Airdrop: React.FC = () => {
     } else if (state === 'invalid-sig') {
       action = <Text>Invalid signature. Please try again</Text>
     } else if (state === '24h') {
-      action = <Text>You have already submitted for airdrop. You can come back later to try again</Text>
+      action = <Text>You have already submitted for airdrop. You can resubmit later</Text>
     } else {
       action = (
         <Button height="40px" width="100%" onClick={onSubmit}>
