@@ -191,6 +191,7 @@ export default function Swap() {
                   }
                 })
                 .catch((error) => {
+                  toggleSetAkkaContractModeToFalse()
                   captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                     tags: {
                       chain_id: chainId,
