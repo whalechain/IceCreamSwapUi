@@ -37,6 +37,17 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
+    sousId: 31,
+    stakingToken: coreTokens.hobo,
+    earningToken: coreTokens.hobo,
+    contractAddress: {
+      1116: '0x8fda52109c29dacb2e990f8909f1b56b30266dd1',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.868',
+    version: 2,
+  },
+  {
     sousId: 28,
     stakingToken: coreTokens.miidas,
     earningToken: coreTokens.miidas,
