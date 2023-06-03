@@ -10,6 +10,7 @@ import {
   Link,
   Heading,
   Message,
+  Button,
 } from '@pancakeswap/uikit'
 import { EXCHANGE_DOCS_URLS, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { AppBody } from 'components/App'
@@ -87,6 +88,8 @@ export default function Swap() {
     currencyBalances: akkaCurrencyBalances,
     parsedAmount: akkaParsedAmount,
     inputError: akkaSwapInputError,
+    mutateAkkaRoute,
+    isLoading
   } = useAkkaSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, allowedSlippage)
 
   const {
@@ -123,6 +126,20 @@ export default function Swap() {
     toggleSetAkkaContractModeToFalse,
     toggleSetAkkaContractModeToTrue,
   ] = useIsAkkaContractSwapModeActive()
+
+  const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
+
+  // useEffect(() => {
+  //   console.log(isAkkaSwapMode);
+  //   console.log(isAkkaSwapActive);
+  //   console.log(isAkkaContractSwapMode);
+  //   console.log(isAkkaAlternateActive);
+  // }, [isAkkaSwapMode, isAkkaSwapActive, isAkkaContractSwapMode, isAkkaAlternateActive, akkaRouterTrade])
+
+  useEffect(() => {
+    toggleSetAkkaAlternateActiveToFalse()
+    toggleSetAkkaModeToFalse()
+  }, [typedValue, inputCurrencyId, outputCurrencyId])
 
   const { chainId } = useActiveWeb3React()
 
@@ -191,7 +208,14 @@ export default function Swap() {
                   }
                 })
                 .catch((error) => {
-                  toggleSetAkkaContractModeToFalse()
+                  if (isAkkaAlternateActive) {
+                    toggleSetAkkaContractModeToFalse()
+                    toggleSetAkkaAlternateActiveToFalse()
+                  }
+                  else {
+                    toggleSetAkkaContractModeToTrue()
+                    toggleSetAkkaAlternateActiveToTrue()
+                  }
                   captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                     tags: {
                       chain_id: chainId,
@@ -251,7 +275,7 @@ export default function Swap() {
     } else {
       toggleSetAkkaContractModeToTrue()
     }
-  }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
+  }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade, independentField])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
   const supportedChains = useSupportedChains()

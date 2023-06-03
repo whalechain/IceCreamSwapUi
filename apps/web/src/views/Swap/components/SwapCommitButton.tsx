@@ -52,6 +52,7 @@ interface SwapCommitButtonPropsType {
   allowedSlippage: number
   parsedIndepentFieldAmount: CurrencyAmount<Currency>
   onUserInput: (field: Field, typedValue: string) => void
+  isLoading: boolean
 }
 
 export default function SwapCommitButton({
@@ -73,6 +74,7 @@ export default function SwapCommitButton({
   allowedSlippage,
   parsedIndepentFieldAmount,
   onUserInput,
+  isLoading
 }: SwapCommitButtonPropsType) {
   const { t } = useTranslation()
   const [singleHopOnly] = useUserSingleHopOnly()
@@ -274,8 +276,8 @@ export default function SwapCommitButton({
             {priceImpactSeverity > 3 && !isExpertMode
               ? t('Price Impact High')
               : priceImpactSeverity > 2
-              ? t('Swap Anyway')
-              : t('Swap')}
+                ? t('Swap Anyway')
+                : t('Swap')}
           </CommitButton>
         </RowBetween>
         <Column style={{ marginTop: '1rem' }}>
@@ -288,23 +290,33 @@ export default function SwapCommitButton({
 
   return (
     <>
-      <CommitButton
-        variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
-        onClick={() => {
-          onSwapHandler()
-        }}
-        id="swap-button"
-        width="100%"
-        disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
-      >
-        {swapInputError ||
-          (priceImpactSeverity > 3 && !isExpertMode
-            ? t('Price Impact Too High')
-            : priceImpactSeverity > 2
-            ? t('Swap Anyway')
-            : t('Swap'))}
-      </CommitButton>
-
+      {isLoading ?
+        <CommitButton
+          variant={isValid ? 'primary' : 'danger'}
+          id="swap-button"
+          width="100%"
+          disabled={true}
+        >
+          Wait for AKKA Route ...
+        </CommitButton>
+        :
+        <CommitButton
+          variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
+          onClick={() => {
+            onSwapHandler()
+          }}
+          id="swap-button"
+          width="100%"
+          disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
+        >
+          {swapInputError ||
+            (priceImpactSeverity > 3 && !isExpertMode
+              ? t('Price Impact Too High')
+              : priceImpactSeverity > 2
+                ? t('Swap Anyway')
+                : t('Swap'))}
+        </CommitButton>
+      }
       {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
     </>
   )

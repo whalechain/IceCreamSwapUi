@@ -141,13 +141,13 @@ export default function SwapForm() {
 
   const parsedAmounts = showWrap
     ? {
-        [Field.INPUT]: parsedAmount,
-        [Field.OUTPUT]: parsedAmount,
-      }
+      [Field.INPUT]: parsedAmount,
+      [Field.OUTPUT]: parsedAmount,
+    }
     : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
+      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+    }
 
   // Take swap information from AKKA router
   const {
@@ -155,6 +155,8 @@ export default function SwapForm() {
     currencyBalances: akkaCurrencyBalances,
     parsedAmount: akkaParsedAmount,
     inputError: akkaSwapInputError,
+    mutateAkkaRoute,
+    isLoading: isAkkaLoading
   } = useAkkaSwapInfo(
     independentField,
     parsedAmounts[Field.INPUT]?.toExact(),
@@ -206,10 +208,10 @@ export default function SwapForm() {
       setAkkaApprovalSubmitted(true)
     }
   }, [akkaApproval, akkaApprovalSubmitted])
-  
+
   const maxAmountInput: CurrencyAmount<Currency> | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
-  
+
   const handleInputSelect = useCallback(
     (newCurrencyInput) => {
       setApprovalSubmitted(false) // reset 2 step UI for approvals
@@ -287,6 +289,7 @@ export default function SwapForm() {
         subtitle={t('Trade tokens in an instant')}
         hasAmount={hasAmount}
         onRefreshPrice={onRefreshPrice}
+        mutateAkkaRoute={mutateAkkaRoute}
       />
       <Wrapper id="swap-page" style={{ minHeight: '412px' }}>
         <AutoColumn gap="sm">
@@ -326,11 +329,11 @@ export default function SwapForm() {
           <CurrencyInputPanel
             value={
               isAkkaSwapMode &&
-              isAkkaSwapActive &&
-              isAkkaContractSwapMode &&
-              akkaRouterTrade &&
-              akkaRouterTrade?.route &&
-              typedValue !== ''
+                isAkkaSwapActive &&
+                isAkkaContractSwapMode &&
+                akkaRouterTrade &&
+                akkaRouterTrade?.route &&
+                typedValue !== ''
                 ? formatNumber(Number(akkaRouterTrade.route.returnAmount))
                 : formattedAmounts[Field.OUTPUT]
             }
@@ -406,6 +409,7 @@ export default function SwapForm() {
               onUserInput={onUserInput}
               inputAmountInDollar={inputAmountInDollar}
               outputAmountInDollar={outputAmountInDollar}
+              isLoading={isAkkaLoading}
             />
           ) : (
             <SwapCommitButton
@@ -427,6 +431,7 @@ export default function SwapForm() {
               recipient={recipient}
               allowedSlippage={allowedSlippage}
               onUserInput={onUserInput}
+              isLoading={isAkkaLoading}
             />
           )}
         </Box>

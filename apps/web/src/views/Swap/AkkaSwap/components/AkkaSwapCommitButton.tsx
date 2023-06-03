@@ -44,6 +44,7 @@ interface AkkaSwapCommitButtonPropsType {
   onUserInput: (field: Field, typedValue: string) => void
   inputAmountInDollar: number
   outputAmountInDollar: number
+  isLoading: boolean
 }
 
 export default function AkkaSwapCommitButton({
@@ -59,7 +60,8 @@ export default function AkkaSwapCommitButton({
   allowedSlippage,
   onUserInput,
   inputAmountInDollar,
-  outputAmountInDollar
+  outputAmountInDollar,
+  isLoading
 }: AkkaSwapCommitButtonPropsType) {
   const { t } = useTranslation()
   // the callback to execute the swap
@@ -205,17 +207,30 @@ export default function AkkaSwapCommitButton({
 
   return (
     <>
-      <CommitButton
-        variant={isValid ? 'primary' : 'danger'}
-        onClick={() => {
-          onSwapHandler()
-        }}
-        id="swap-button"
-        width="100%"
-        disabled={!isValid}
-      >
-        {swapInputError || t('Swap')}
-      </CommitButton>
+      {isLoading ?
+        <CommitButton
+          variant={isValid ? 'primary' : 'danger'}
+          id="swap-button"
+          width="100%"
+          disabled={true}
+        >
+          Wait for AKKA Route ...
+        </CommitButton>
+        :
+        <CommitButton
+          variant={isValid ? 'primary' : 'danger'}
+          onClick={() => {
+            onSwapHandler()
+          }}
+          id="swap-button"
+          width="100%"
+          disabled={!isValid}
+        >
+          {swapInputError || t('Swap')}
+        </CommitButton>}
+
+
+
 
       {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
     </>
