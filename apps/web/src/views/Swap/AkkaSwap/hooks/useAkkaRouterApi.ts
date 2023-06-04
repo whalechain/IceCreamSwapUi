@@ -68,7 +68,7 @@ export const useAkkaRouterArgs = (
     fetcher,
     {
       refreshInterval: FAST_INTERVAL,
-      revalidateIfStale: false,
+      revalidateIfStale: true,
       revalidateOnFocus: false,
       revalidateOnReconnect: false
     },
@@ -133,7 +133,7 @@ export const useAkkaRouterRoute = (
     fetcher,
     {
       refreshInterval: FAST_INTERVAL,
-      revalidateIfStale: false,
+      revalidateIfStale: true,
       revalidateOnFocus: false,
       revalidateOnReconnect: false
     },
@@ -155,8 +155,6 @@ export const useAkkaRouterRouteWithArgs = (
     route.mutate()
     args.mutate()
   }
-  console.log("1", route.isRouteLoading);
-  console.log("2", args.isArgsLoading);
 
   const isLoading = route.isRouteLoading && args.isArgsLoading
 

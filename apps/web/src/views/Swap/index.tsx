@@ -179,6 +179,8 @@ export default function Swap() {
         if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
           if (akkaRouterTrade?.args?.amountIn && akkaRouterTrade?.args?.amountOutMin && akkaRouterTrade?.args?.data) {
             if (chainId === ChainId.CORE) {
+              console.log(akkaCoreContract);
+              
               akkaCoreContract.estimateGas[methodName](
                 akkaRouterTrade?.args?.amountIn,
                 akkaRouterTrade?.args?.amountOutMin,
@@ -208,9 +210,11 @@ export default function Swap() {
                   }
                 })
                 .catch((error) => {
+                  console.log(isAkkaAlternateActive);
+                  
                   if (isAkkaAlternateActive) {
                     toggleSetAkkaContractModeToFalse()
-                    toggleSetAkkaAlternateActiveToFalse()
+                    // toggleSetAkkaAlternateActiveToFalse()
                   }
                   else {
                     toggleSetAkkaContractModeToTrue()

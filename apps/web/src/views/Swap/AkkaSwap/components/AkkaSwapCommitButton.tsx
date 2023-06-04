@@ -229,9 +229,6 @@ export default function AkkaSwapCommitButton({
           {swapInputError || t('Swap')}
         </CommitButton>}
 
-
-
-
       {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
     </>
   )
