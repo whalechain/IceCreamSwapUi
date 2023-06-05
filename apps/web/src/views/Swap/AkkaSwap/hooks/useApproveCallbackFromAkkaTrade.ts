@@ -10,5 +10,5 @@ export function useApproveCallbackFromAkkaTrade(inputAmount: CurrencyAmount<Curr
   const amountToApprove = useMemo(() => inputAmount || undefined, [inputAmount])
   const { chainId } = useActiveChainId()
   const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
-  return useApproveCallback(amountToApprove, isAkkaAlternateActive && chainId === ChainId.CORE ? "0x493b4cD63Ec250AEA097168248f87338E7F90134" : ROUTER_ADDRESS[chainId].Akka)
+  return useApproveCallback(amountToApprove, isAkkaAlternateActive && chainId === ChainId.CORE ? ROUTER_ADDRESS[ChainId.CORE].AkkaAlternate : ROUTER_ADDRESS[chainId].Akka)
 }
