@@ -203,7 +203,7 @@ export default function SwapCommitButton({
       <CommitButton
         variant='primary'
         width="100%"
-        disabled={true}
+        disabled
       >
         Wait for AKKA Route ...
       </CommitButton>
@@ -219,15 +219,6 @@ export default function SwapCommitButton({
   }
 
   if (!account) {
-    if (isLoading) {
-      return <CommitButton
-        variant='primary'
-        width="100%"
-        disabled={true}
-      >
-        Wait for AKKA Route ...
-      </CommitButton>
-    }
     return <ConnectWalletButton width="100%" />
   }
 
