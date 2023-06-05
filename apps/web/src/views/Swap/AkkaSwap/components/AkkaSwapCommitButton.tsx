@@ -122,6 +122,7 @@ export default function AkkaSwapCommitButton({
       customOnDismiss={handleConfirmDismiss}
       inputAmountInDollar={inputAmountInDollar}
       outputAmountInDollar={outputAmountInDollar}
+      isLoading={isLoading}
     />,
     true,
     true,
@@ -142,7 +143,28 @@ export default function AkkaSwapCommitButton({
     }
   }, [isExpertMode, handleSwap, trade])
 
+  if (isLoading) {
+    return (
+      <CommitButton
+        variant='primary'
+        width="100%"
+        disabled={true}
+      >
+        Wait for AKKA Route ...
+      </CommitButton>
+    )
+  }
+
   if (!account) {
+    if (isLoading) {
+      return <CommitButton
+        variant='primary'
+        width="100%"
+        disabled={true}
+      >
+        Wait for AKKA Route ...
+      </CommitButton>
+    }
     return <ConnectWalletButton width="100%" />
   }
 
@@ -207,27 +229,17 @@ export default function AkkaSwapCommitButton({
 
   return (
     <>
-      {isLoading ?
-        <CommitButton
-          variant={isValid ? 'primary' : 'danger'}
-          id="swap-button"
-          width="100%"
-          disabled={true}
-        >
-          Wait for AKKA Route ...
-        </CommitButton>
-        :
-        <CommitButton
-          variant={isValid ? 'primary' : 'danger'}
-          onClick={() => {
-            onSwapHandler()
-          }}
-          id="swap-button"
-          width="100%"
-          disabled={!isValid}
-        >
-          {swapInputError || t('Swap')}
-        </CommitButton>}
+      <CommitButton
+        variant={isValid ? 'primary' : 'danger'}
+        onClick={() => {
+          onSwapHandler()
+        }}
+        id="swap-button"
+        width="100%"
+        disabled={!isValid}
+      >
+        {swapInputError || t('Swap')}
+      </CommitButton>
 
       {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
     </>

@@ -156,7 +156,7 @@ export const useAkkaRouterRouteWithArgs = (
     args.mutate()
   }
 
-  const isLoading = route.isRouteLoading && args.isArgsLoading
+  const isLoading = route.isRouteLoading || args.isArgsLoading || route.isValidating || args.isValidating
 
   return {
     route,

@@ -11,6 +11,7 @@ import { TOTAL_FEE, LP_HOLDERS_FEE, TREASURY_FEE, BUYBACK_FEE } from 'config/con
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 import { AkkaRouterTrade } from '../hooks/types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
+import { CommitButton } from 'components/CommitButton'
 
 const SwapModalFooterContainer = styled(AutoColumn)`
   margin-top: 24px;
@@ -26,14 +27,16 @@ export default function AkkaSwapModalFooter({
   onConfirm,
   swapErrorMessage,
   inputAmountInDollar,
-  outputAmountInDollar
+  outputAmountInDollar,
+  isLoading
 }: {
   trade: AkkaRouterTrade
   isEnoughInputBalance: boolean
   onConfirm: () => void
   swapErrorMessage?: string | undefined
   inputAmountInDollar: number
-  outputAmountInDollar: number
+  outputAmountInDollar: number,
+  isLoading: boolean
 }) {
   const { t } = useTranslation()
   const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -102,9 +105,21 @@ export default function AkkaSwapModalFooter({
       </SwapModalFooterContainer>
 
       <AutoRow>
-        <Button variant="primary" onClick={onConfirm} mt="12px" id="confirm-swap-or-send" width="100%">
-          {t('Confirm Swap')}
-        </Button>
+        {isLoading ?
+          <CommitButton
+            variant='primary'
+            width="100%"
+            disabled={true}
+            mt="12px"
+          >
+            Wait for AKKA Route ...
+          </CommitButton>
+          :
+          <Button variant="primary" onClick={onConfirm} mt="12px" id="confirm-swap-or-send" width="100%">
+            {t('Confirm Swap')}
+          </Button>
+        }
+
 
         {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
       </AutoRow>

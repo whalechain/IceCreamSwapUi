@@ -198,6 +198,18 @@ export default function SwapCommitButton({
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
+  if (isLoading) {
+    return (
+      <CommitButton
+        variant='primary'
+        width="100%"
+        disabled={true}
+      >
+        Wait for AKKA Route ...
+      </CommitButton>
+    )
+  }
+
   if (swapIsUnsupported) {
     return (
       <Button width="100%" disabled>
@@ -207,6 +219,15 @@ export default function SwapCommitButton({
   }
 
   if (!account) {
+    if (isLoading) {
+      return <CommitButton
+        variant='primary'
+        width="100%"
+        disabled={true}
+      >
+        Wait for AKKA Route ...
+      </CommitButton>
+    }
     return <ConnectWalletButton width="100%" />
   }
 
@@ -290,33 +311,23 @@ export default function SwapCommitButton({
 
   return (
     <>
-      {isLoading ?
-        <CommitButton
-          variant={isValid ? 'primary' : 'danger'}
-          id="swap-button"
-          width="100%"
-          disabled={true}
-        >
-          Wait for AKKA Route ...
-        </CommitButton>
-        :
-        <CommitButton
-          variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
-          onClick={() => {
-            onSwapHandler()
-          }}
-          id="swap-button"
-          width="100%"
-          disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
-        >
-          {swapInputError ||
-            (priceImpactSeverity > 3 && !isExpertMode
-              ? t('Price Impact Too High')
-              : priceImpactSeverity > 2
-                ? t('Swap Anyway')
-                : t('Swap'))}
-        </CommitButton>
-      }
+      <CommitButton
+        variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
+        onClick={() => {
+          onSwapHandler()
+        }}
+        id="swap-button"
+        width="100%"
+        disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
+      >
+        {swapInputError ||
+          (priceImpactSeverity > 3 && !isExpertMode
+            ? t('Price Impact Too High')
+            : priceImpactSeverity > 2
+              ? t('Swap Anyway')
+              : t('Swap'))}
+      </CommitButton>
+
       {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
     </>
   )
