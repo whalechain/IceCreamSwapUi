@@ -21,6 +21,8 @@ interface KycConfig {
   fee: number
   feeWallet: string
   tokenAddress: string
+  contractKycMinter: string
+  contractKycAddress: string
 }
 
 interface ChainBase {

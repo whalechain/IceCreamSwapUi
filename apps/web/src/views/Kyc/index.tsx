@@ -52,7 +52,7 @@ export const Kyc: React.FC = () => {
     async () => {
       const response = await fetch(`api/kyc-info/${address}`)
       const data = await response.json()
-      return data
+      return data.status
     },
     { refreshInterval: 2000 },
   )
