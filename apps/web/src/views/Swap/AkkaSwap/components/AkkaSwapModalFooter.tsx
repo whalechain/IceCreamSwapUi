@@ -109,7 +109,7 @@ export default function AkkaSwapModalFooter({
           <CommitButton
             variant='primary'
             width="100%"
-            disabled={true}
+            disabled
             mt="12px"
           >
             Wait for AKKA Route ...
