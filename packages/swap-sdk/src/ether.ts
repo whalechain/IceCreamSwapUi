@@ -1,6 +1,6 @@
 import invariant from 'tiny-invariant'
 import { Currency, NativeCurrency, Token } from '@pancakeswap/swap-sdk-core'
-import { ChainId, WETH9 } from './constants'
+import { WETH9 } from './constants'
 
 /**
  * Ether is the main usage of a 'native' currency, i.e. for Ethereum mainnet and all testnets
@@ -11,7 +11,7 @@ export class Ether extends NativeCurrency {
   }
 
   public get wrapped(): Token {
-    const weth9 = WETH9[this.chainId as ChainId.ETHEREUM | ChainId.GOERLI]
+    const weth9 = WETH9[this.chainId]
 
     invariant(!!weth9, 'WRAPPED')
 

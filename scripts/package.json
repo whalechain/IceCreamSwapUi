@@ -7,7 +7,6 @@
     "node-fetch": "^2.6.7",
     "bignumber.js": "^9.1.1",
     "lodash": "^4.17.21",
-    "@pancakeswap/aptos-swap-sdk": "workspace:*",
     "@pancakeswap/farms": "workspace:*",
     "@pancakeswap/sdk": "workspace:*",
     "graphql-request": "^5.0.0"

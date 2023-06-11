@@ -12,8 +12,7 @@
     "@pancakeswap/localization": "workspace:*",
     "@pancakeswap/tokens": "workspace:*",
     "@pancakeswap/token-lists": "workspace:*",
-    "@pancakeswap/awgmi": "workspace:*",
-    "@pancakeswap/aptos-swap-sdk": "workspace:*"
+    "@pancakeswap/awgmi": "workspace:*"
   },
   "devDependencies": {
     "styled-components": "^5.3.3",
@@ -29,9 +28,6 @@
   },
   "peerDependenciesMeta": {
     "@pancakeswap/awgmi": {
-      "optional": true
-    },
-    "@pancakeswap/aptos-swap-sdk": {
       "optional": true
     }
   }
