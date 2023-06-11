@@ -1,16 +1,13 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { ChainId } from '@pancakeswap/sdk'
 import { SubMenuItems } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import { useEffect } from 'react'
-import { useGetChainName } from 'state/info/hooks'
 import { useRouter } from 'next/router'
-import { useActiveChainId } from 'hooks/useActiveChainId'
+import { useChainNameByQuery, useMultiChainPath } from 'state/info/hooks'
 import InfoNav from './components/InfoNav'
 
 export const InfoPageLayout = ({ children }) => {
   const router = useRouter()
-  const chainName = useGetChainName()
+  const chainName = useChainNameByQuery()
+  const chainPath = useMultiChainPath()
   const { t } = useTranslation()
 
   /*
@@ -21,8 +18,23 @@ export const InfoPageLayout = ({ children }) => {
   */
 
   const isStableSwap = router.query.type === 'stableSwap'
+
   return (
     <>
+      <SubMenuItems
+        items={[
+          {
+            label: t('V3'),
+            href: `/info/v3${chainPath}`,
+          },
+          {
+            label: t('V2'),
+            href: `/info${chainPath}`,
+          }
+        ]}
+        activeItem={isStableSwap ? '/info?type=stableSwap' : `/info${chainPath}`}
+      />
+
       <InfoNav isStableSwap={isStableSwap} />
       {children}
     </>

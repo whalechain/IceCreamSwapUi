@@ -1,11 +1,8 @@
-import { Currency } from '@pancakeswap/sdk'
+import { Currency, WNATIVE } from '@pancakeswap/sdk'
 import useTheme from 'hooks/useTheme'
 import { useCallback, useState } from 'react'
 import BnbWbnbNotice from './BnbWbnbNotice'
-import { BNB_ADDRESS } from './constants'
 import PriceChart from './PriceChart'
-import { getTokenAddress } from './utils'
-import useActiveWeb3React from "../../../../hooks/useActiveWeb3React";
 
 type PriceChartContainerProps = {
   inputCurrencyId: string
@@ -23,10 +20,8 @@ type PriceChartContainerProps = {
 }
 
 const PriceChartContainer: React.FC<React.PropsWithChildren<PriceChartContainerProps>> = ({
-  inputCurrencyId,
   inputCurrency,
   outputCurrency,
-  outputCurrencyId,
   isChartExpanded,
   setIsChartExpanded,
   isChartDisplayed,
@@ -34,10 +29,9 @@ const PriceChartContainer: React.FC<React.PropsWithChildren<PriceChartContainerP
   isFullWidthContainer = false,
   currentSwapPrice,
 }) => {
-  const { chainId } = useActiveWeb3React()
-  const token0Address = getTokenAddress(inputCurrencyId, chainId)
-  const token1Address = getTokenAddress(outputCurrencyId, chainId)
-  const [isPairReversed, setIsPairReversed] = useState(true)
+  const token0Address = inputCurrency?.wrapped.address?.toLocaleLowerCase()
+  const token1Address = outputCurrency?.wrapped.address?.toLocaleLowerCase()
+  const [isPairReversed, setIsPairReversed] = useState(false)
   const togglePairReversed = useCallback(() => setIsPairReversed((prePairReversed) => !prePairReversed), [])
 
   const { isDark } = useTheme()
@@ -46,9 +40,13 @@ const PriceChartContainer: React.FC<React.PropsWithChildren<PriceChartContainerP
     return null
   }
 
-  const isBnbWbnb = token0Address === BNB_ADDRESS && token1Address === BNB_ADDRESS
+  const isWrap =
+    inputCurrency &&
+    outputCurrency &&
+    WNATIVE[inputCurrency.chainId].equals(inputCurrency.wrapped) &&
+    WNATIVE[outputCurrency.chainId].equals(outputCurrency.wrapped)
 
-  if (isBnbWbnb) {
+  if (isWrap) {
     return <BnbWbnbNotice isDark={isDark} isChartExpanded={isChartExpanded} />
   }
 

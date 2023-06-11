@@ -17,7 +17,8 @@ const A = styled.a``;
  * temporary solution for migrating React Router to Next.js Link
  */
 const NextLinkFromReactRouter = forwardRef<any, LinkProps>(({ to, replace, children, prefetch, ...props }, ref) => (
-  <NextLink href={to as string} replace={replace} passHref prefetch={false} legacyBehavior>
+  // Add legacyBehavior to avoid hydration error
+  <NextLink legacyBehavior href={to as string} replace={replace} passHref prefetch={false} legacyBehavior>
     <A ref={ref} {...props}>
       {children}
     </A>

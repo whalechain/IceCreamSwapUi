@@ -6,16 +6,15 @@ import {
   SerializedLockedCakeVault,
   VaultKey,
 } from '../types'
-import { SerializedFarm } from '@pancakeswap/farms'
 import { deserializeToken } from '@pancakeswap/token-lists'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
+import { DeserializedPool } from '@pancakeswap/pools'
 import { isAddress } from '../../utils'
 import { convertSharesToCake } from '../../views/Pools/helpers'
 import { Token } from '@pancakeswap/sdk'
-import { Pool } from '@pancakeswap/uikit'
 
 type UserData =
-  | Pool.DeserializedPool<Token>['userData']
+  | DeserializedPool<Token>['userData']
   | {
       allowance: number | string
       stakingTokenBalance: number | string
@@ -43,29 +42,29 @@ const transformProfileRequirement = (profileRequirement?: { required: boolean; t
     : undefined
 }
 
-export const transformPool = (pool: SerializedPool): Pool.DeserializedPool<Token> => {
+export const transformPool = (pool: SerializedPool): DeserializedPool<Token> => {
   const {
     totalStaked,
     stakingLimit,
-    numberBlocksForUserLimit,
+    numberSecondsForUserLimit,
     userData,
     stakingToken,
     earningToken,
     profileRequirement,
-    startBlock,
+    startTimestamp,
     ...rest
   } = pool
 
   return {
     ...rest,
-    startBlock,
+    startTimestamp,
     profileRequirement: transformProfileRequirement(profileRequirement),
     stakingToken: deserializeToken(stakingToken),
     earningToken: deserializeToken(earningToken),
     userData: transformUserData(userData),
     totalStaked: new BigNumber(totalStaked),
     stakingLimit: new BigNumber(stakingLimit),
-    stakingLimitEndBlock: numberBlocksForUserLimit + startBlock,
+    stakingLimitEndTimestamp: numberSecondsForUserLimit + startTimestamp,
   }
 }
 
@@ -156,7 +155,14 @@ export const transformVault = (vaultKey: VaultKey, vault: SerializedCakeVault): 
   }
 }
 
-export const getTokenPricesFromFarm = (farms: SerializedFarm[]) => {
+export const getTokenPricesFromFarm = (
+  farms: {
+    quoteToken: { address: string }
+    token: { address: string }
+    quoteTokenPriceBusd: string
+    tokenPriceBusd: string
+  }[],
+) => {
   return farms.reduce((prices, farm) => {
     const quoteTokenAddress = isAddress(farm.quoteToken.address)
     const tokenAddress = isAddress(farm.token.address)

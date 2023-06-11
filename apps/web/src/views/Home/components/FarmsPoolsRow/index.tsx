@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
-import { ChainId, Token } from '@pancakeswap/sdk'
-import { useActiveChainId } from 'hooks/useActiveChainId'
+import { Token } from '@pancakeswap/sdk'
 import { Flex, Box, SwapVertIcon, IconButton, Pool } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import useIntersectionObserver from 'hooks/useIntersectionObserver'
+import { useIntersectionObserver } from '@pancakeswap/hooks'
 import useGetTopFarmsByApr from 'views/Home/hooks/useGetTopFarmsByApr'
 import useGetTopPoolsByApr from 'views/Home/hooks/useGetTopPoolsByApr'
 import { vaultPoolConfig } from 'config/constants/pools'
@@ -29,10 +28,9 @@ const Grid = styled.div`
 const FarmsPoolsRow = () => {
   const [showFarms, setShowFarms] = useState(true)
   const { t } = useTranslation()
-  const { chainId } = useActiveChainId()
   const { observerRef, isIntersecting } = useIntersectionObserver()
-  const { topFarms, fetched } = useGetTopFarmsByApr(isIntersecting)
-  const { topPools } = useGetTopPoolsByApr(fetched && isIntersecting)
+  const { topFarms, fetched, chainId } = useGetTopFarmsByApr(isIntersecting)
+  const { topPools } = useGetTopPoolsByApr(fetched && isIntersecting, chainId)
   const { lockedApy } = useVaultApy()
 
   const timer = useRef<ReturnType<typeof setTimeout>>(null)
@@ -54,16 +52,19 @@ const FarmsPoolsRow = () => {
     }
   }, [timer, isLoaded, startTimer])
 
-  const getPoolText = (pool: Pool.DeserializedPool<Token>) => {
-    if (pool.vaultKey) {
-      return vaultPoolConfig[pool.vaultKey].name
-    }
+  const getPoolText = useCallback(
+    (pool: Pool.DeserializedPool<Token>) => {
+      if (pool.vaultKey) {
+        return vaultPoolConfig[pool.vaultKey].name
+      }
 
-    return t('Stake %stakingSymbol% - Earn %earningSymbol%', {
-      earningSymbol: pool.earningToken.symbol,
-      stakingSymbol: pool.stakingToken.symbol,
-    })
-  }
+      return t('Stake %stakingSymbol% - Earn %earningSymbol%', {
+        earningSymbol: pool.earningToken.symbol,
+        stakingSymbol: pool.stakingToken.symbol,
+      })
+    },
+    [t],
+  )
 
   return (
     <div ref={observerRef}>
@@ -91,7 +92,12 @@ const FarmsPoolsRow = () => {
               <TopFarmPool
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
-                title={topFarm?.lpSymbol}
+                title={
+                  topFarm?.lpSymbol &&
+                  // eslint-disable-next-line no-useless-concat
+                  `${topFarm?.lpSymbol}` + `${topFarm?.version === 3 ? ` v${topFarm.version}` : ''}`
+                }
+                version={topFarm?.version}
                 percentage={topFarm?.apr + topFarm?.lpRewardsApr}
                 index={index}
                 visible={showFarms}

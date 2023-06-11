@@ -25,13 +25,15 @@ const InfoNav: React.FC<{ isStableSwap: boolean }> = ({ isStableSwap }) => {
   const isPools = router.pathname === `/info${chainPath && `/[chainName]`}/pools`
   const isTokens = router.pathname === `/info${chainPath && `/[chainName]`}/tokens`
   const stableSwapQuery = isStableSwap ? '?type=stableSwap' : ''
-  let activeIndex = 0
-  if (isPools) {
-    activeIndex = 1
-  }
-  if (isTokens) {
-    activeIndex = 2
-  }
+  const activeIndex = useMemo(() => {
+    if (router?.pathname?.includes('/pairs')) {
+      return 1
+    }
+    if (router?.pathname?.includes('/tokens')) {
+      return 2
+    }
+    return 0
+  }, [router.pathname])
   return (
     <NavWrapper>
       <Flex>

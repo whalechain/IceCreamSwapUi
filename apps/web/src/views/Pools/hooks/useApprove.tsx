@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import { Contract } from '@ethersproject/contracts'
+import { useAccount } from 'wagmi'
+import { Contract } from 'ethers'
 import { MaxUint256 } from '@ethersproject/constants'
 import { useAppDispatch } from 'state'
 import { updateUserAllowance } from 'state/actions'
@@ -13,16 +13,17 @@ import useCatchTxError from 'hooks/useCatchTxError'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useCakeApprovalStatus from 'hooks/useCakeApprovalStatus'
 import useCakeApprove from 'hooks/useCakeApprove'
-import {useActiveChainId} from "../../../hooks/useActiveChainId";
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol) => {
   const { toastSuccess } = useToast()
+  const { chainId } = useActiveChainId()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { chainId } = useActiveChainId()
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const sousChefContract = useSousChef(sousId)
 
   const handleApprove = useCallback(async () => {
@@ -39,6 +40,7 @@ export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol)
       dispatch(updateUserAllowance({ sousId, account, chainId }))
     }
   }, [
+    chainId,
     account,
     dispatch,
     lpContract,

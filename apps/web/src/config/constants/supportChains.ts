@@ -1,7 +1,7 @@
 import { SUPPORT_FARMS } from '@pancakeswap/farms'
 import { chains, ChainId } from '@icecreamswap/constants'
 
-export { SUPPORT_FARMS }
+export const SUPPORT_FARMS = [ChainId.BSC, ChainId.BSC_TESTNET, ChainId.ETHEREUM, ChainId.GOERLI]
 
 export const SUPPORT_ONLY_BITGERT = [ChainId.BITGERT]
 

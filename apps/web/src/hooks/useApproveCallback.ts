@@ -3,11 +3,11 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useTranslation } from '@pancakeswap/localization'
 import { ChainId, Currency, CurrencyAmount, Trade, TradeType } from '@pancakeswap/sdk'
 import { useToast } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import { ROUTER_ADDRESS } from 'config/constants/exchange'
 import { useCallback, useMemo } from 'react'
 import { useIsAkkaSwap } from 'state/global/hooks'
-import { logError } from 'utils/sentry'
+import { isUserRejected, logError } from 'utils/sentry'
 import { Field } from '../state/swap/actions'
 import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
 import { calculateGasMargin } from '../utils'
@@ -30,7 +30,7 @@ export function useApproveCallback(
   spender?: string,
   exactApproval = false,
 ): [ApprovalState, () => Promise<void>] {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { t } = useTranslation()
   const { toastError } = useToast()
@@ -91,8 +91,14 @@ export function useApproveCallback(
     const estimatedGas = await tokenContract.estimateGas.approve(spender, MaxUint256).catch(() => {
       // general fallback for tokens who restrict approval amounts
       useExact = true
-      return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString())
+      return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString()).catch(() => {
+        console.error('estimate gas failure')
+        toastError(t('Error'), t('Unexpected error. Could not estimate gas for the approve.'))
+        return null
+      })
     })
+
+    if (!estimatedGas) return undefined
 
     return callWithGasPrice(
       tokenContract,
@@ -113,7 +119,7 @@ export function useApproveCallback(
       .catch((error: any) => {
         logError(error)
         console.error('Failed to approve token', error)
-        if (error?.code !== 4001) {
+        if (!isUserRejected(error)) {
           toastError(t('Error'), error.message)
         }
         throw error

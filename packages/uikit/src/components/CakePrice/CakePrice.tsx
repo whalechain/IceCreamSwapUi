@@ -9,6 +9,7 @@ export interface Props {
   color?: keyof Colors;
   cakePriceUsd?: number;
   showSkeleton?: boolean;
+  chainId: number;
 }
 
 const PriceLink = styled.a`
@@ -28,6 +29,7 @@ const CakePrice: React.FC<React.PropsWithChildren<Props>> = ({
   cakePriceUsd,
   color = "textSubtle",
   showSkeleton = true,
+  chainId,
 }) => {
   return cakePriceUsd ? (
     <PriceLink

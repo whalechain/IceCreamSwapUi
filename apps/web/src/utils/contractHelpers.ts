@@ -1,31 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { Signer } from '@ethersproject/abstract-signer'
+import type { Signer } from 'ethers'
 import type { Provider } from '@ethersproject/providers'
 import { provider } from './wagmi'
 import { Contract } from '@ethersproject/contracts'
 import poolsConfig from '../config/constants/pools'
 import { PoolCategory } from '../config/constants/types'
 import { ICE } from '@pancakeswap/tokens'
+import { provider } from 'utils/wagmi'
+import { Contract } from 'ethers'
+import { CAKE } from '@pancakeswap/tokens'
 
 // Addresses
 import {
-  getAddress,
   getPancakeProfileAddress,
-  getPancakeBunniesAddress,
   getBunnyFactoryAddress,
-  getBunnySpecialAddress,
   getLotteryV2Address,
   getMasterChefAddress,
   getMasterChefV1Address,
   getPointCenterIfoAddress,
-  getClaimRefundAddress,
   getTradingCompetitionAddressEaster,
-  getEasterNftAddress,
   getCakeVaultAddress,
-  getMulticallAddress,
-  getBunnySpecialCakeVaultAddress,
-  getBunnySpecialPredictionAddress,
-  getBunnySpecialLotteryAddress,
   getFarmAuctionAddress,
   getAnniversaryAchievement,
   getNftMarketAddress,
@@ -34,10 +28,8 @@ import {
   getTradingCompetitionAddressFanToken,
   getTradingCompetitionAddressMobox,
   getTradingCompetitionAddressMoD,
-  getBunnySpecialXmasAddress,
   getICakeAddress,
   getPotteryDrawAddress,
-  getZapAddress,
   getCakeFlexibleSideVaultAddress,
   getPredictionsV1Address,
   getBCakeFarmBoosterAddress,
@@ -45,13 +37,16 @@ import {
   getNonBscVaultAddress,
   getCrossFarmingSenderAddress,
   getCrossFarmingReceiverAddress,
+  getStableSwapNativeHelperAddress,
+  getTradingRewardAddress,
+  getMasterChefV3Address,
+  getV3MigratorAddress,
+  getV3AirdropAddress,
 } from './addressHelpers'
 
 // ABI
 import profileABI from 'config/abi/pancakeProfile.json'
-import pancakeBunniesAbi from 'config/abi/pancakeBunnies.json'
 import bunnyFactoryAbi from 'config/abi/bunnyFactory.json'
-import bunnySpecialAbi from 'config/abi/bunnySpecial.json'
 import bep20Abi from '../config/abi/erc20.json'
 import erc721Abi from '../config/abi/erc721.json'
 import lpTokenAbi from '../config/abi/lpToken.json'
@@ -70,7 +65,6 @@ import tradingCompetitionEasterAbi from 'config/abi/tradingCompetitionEaster.jso
 import tradingCompetitionFanTokenAbi from 'config/abi/tradingCompetitionFanToken.json'
 import tradingCompetitionMoboxAbi from 'config/abi/tradingCompetitionMobox.json'
 import tradingCompetitionMoDAbi from 'config/abi/tradingCompetitionMoD.json'
-import easterNftAbi from 'config/abi/easterNft.json'
 import cakeVaultV2Abi from 'config/abi/cakeVaultV2.json'
 import cakeFlexibleSideVaultV2Abi from 'config/abi/cakeFlexibleSideVaultV2.json'
 import predictionsAbi from 'config/abi/predictions.json'
@@ -100,6 +94,14 @@ import nonBscVault from 'config/abi/nonBscVault.json'
 import crossFarmingSenderAbi from 'config/abi/crossFarmingSender.json'
 import crossFarmingReceiverAbi from 'config/abi/crossFarmingReceiver.json'
 import crossFarmingProxyAbi from 'config/abi/crossFarmingProxy.json'
+import stableSwapNativeHelperAbi from 'config/abi/stableSwapNativeHelper.json'
+import sid from 'config/abi/SID.json'
+import uns from 'config/abi/UNS.json'
+import sidResolver from 'config/abi/SIDResolver.json'
+import tradingRewardABI from 'config/abi/tradingReward.json'
+import masterChefV3Abi from 'config/abi/masterChefV3.json'
+import v3MigratorAbi from 'config/abi/v3Migrator.json'
+import V3AirdropAbi from 'config/abi/v3Airdrop.json'
 
 // Types
 import type {
@@ -113,23 +115,13 @@ import type {
   Erc721,
   Cake,
   BunnyFactory,
-  PancakeBunnies,
   PancakeProfile,
   LotteryV2,
   Masterchef,
   MasterchefV1,
-  SousChef,
-  SousChefV2,
-  BunnySpecial,
   LpToken,
-  ClaimRefund,
   TradingCompetitionEaster,
   TradingCompetitionFanToken,
-  EasterNft,
-  Multicall,
-  BunnySpecialCakeVault,
-  BunnySpecialPrediction,
-  BunnySpecialLottery,
   NftMarket,
   NftSale,
   PancakeSquad,
@@ -142,7 +134,6 @@ import type {
   TradingCompetitionMoD,
   PotteryVaultAbi,
   PotteryDrawAbi,
-  Zap,
   PredictionsV1,
   BCakeFarmBooster,
   BCakeFarmBoosterProxyFactory,
@@ -151,6 +142,14 @@ import type {
   CrossFarmingSender,
   CrossFarmingReceiver,
   CrossFarmingProxy,
+  StableSwapNativeHelper,
+  SID,
+  SIDResolver,
+  TradingReward,
+  MasterChefV3,
+  V3Migrator,
+  V3Airdrop,
+  UNS,
 } from '../config/abi/types'
 import { ChainId } from '@pancakeswap/sdk'
 
@@ -462,6 +461,18 @@ return getContract({ abi: nonBscVault, address: getNonBscVaultAddress(chainId), 
    */
 }
 
+export const getSidContract = (address: string, chainId: number) => {
+  return getContract({ abi: sid, address, chainId }) as SID
+}
+
+export const getUnsContract = (address: string, chainId?: ChainId, signer?: Signer | Provider) => {
+  return getContract({ abi: uns, chainId, address, signer }) as UNS
+}
+
+export const getSidResolverContract = (address: string, signer?: Signer | Provider) => {
+  return getContract({ abi: sidResolver, address, signer }) as SIDResolver
+}
+
 export const getCrossFarmingSenderContract = (signer?: Signer | Provider, chainId?: number) => {
   return null
   /*
@@ -493,4 +504,48 @@ export const getCrossFarmingProxyContract = (
 ) => {
   return null
   // return getContract({ abi: crossFarmingProxyAbi, address: proxyContractAddress, chainId, signer }) as CrossFarmingProxy
+}
+
+export const getStableSwapNativeHelperContract = (signer?: Signer | Provider, chainId?: number) => {
+  return getContract({
+    abi: stableSwapNativeHelperAbi,
+    address: getStableSwapNativeHelperAddress(chainId),
+    chainId,
+    signer,
+  }) as StableSwapNativeHelper
+}
+
+export const getMasterChefV3Contract = (signer?: Signer | Provider, chainId?: number) => {
+  return getContract({
+    abi: masterChefV3Abi,
+    address: getMasterChefV3Address(chainId),
+    chainId,
+    signer,
+  }) as MasterChefV3
+}
+
+export const getV3MigratorContract = (signer?: Signer | Provider, chainId?: number) => {
+  return getContract({
+    abi: v3MigratorAbi,
+    address: getV3MigratorAddress(chainId),
+    chainId,
+    signer,
+  }) as V3Migrator
+}
+
+export const getTradingRewardContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({
+    abi: tradingRewardABI,
+    address: getTradingRewardAddress(chainId),
+    signer,
+    chainId,
+  }) as TradingReward
+}
+
+export const getV3AirdropContract = (signer?: Signer | Provider) => {
+  return getContract({
+    abi: V3AirdropAbi,
+    address: getV3AirdropAddress(),
+    signer,
+  }) as V3Airdrop
 }

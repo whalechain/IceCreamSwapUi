@@ -1,10 +1,14 @@
 import { Button, Flex, Heading, Link, NextLinkFromReactRouter } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from '@pancakeswap/localization'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
+import { ChainId } from '@pancakeswap/sdk'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import styled, { keyframes } from 'styled-components'
 import hero from '../../../../public/images/home/hero-home.png'
+import { ASSET_CDN } from 'config/constants/endpoints'
+import CompositeImage, { CompositeImageProps } from './CompositeImage'
 import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
 
 const flyingAnim = () => keyframes`
@@ -47,7 +51,8 @@ const BunnyWrapper = styled.div`
 
 const Hero = () => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
+  const { chainId } = useActiveChainId()
 
   return (
     <>

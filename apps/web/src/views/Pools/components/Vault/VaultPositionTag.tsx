@@ -12,7 +12,7 @@ import {
 } from '@pancakeswap/uikit'
 import Trans from 'components/Trans'
 import { useTranslation } from '@pancakeswap/localization'
-import { FC, ReactNode, useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { DeserializedLockedVaultUser } from 'state/types'
 import { VaultPosition, getVaultPosition } from 'utils/cakePool'
 
@@ -41,6 +41,14 @@ const iconConfig: Record<VaultPosition, any> = {
   [VaultPosition.AfterBurning]: HotIcon,
 }
 
+const iconColorConfig: Record<VaultPosition, any> = {
+  [VaultPosition.None]: null,
+  [VaultPosition.Flexible]: 'white',
+  [VaultPosition.Locked]: 'white',
+  [VaultPosition.LockedEnd]: null,
+  [VaultPosition.AfterBurning]: null,
+}
+
 const positionLabel: Record<VaultPosition, ReactNode> = {
   [VaultPosition.None]: '',
   [VaultPosition.Flexible]: <Trans>Flexible</Trans>,
@@ -49,16 +57,16 @@ const positionLabel: Record<VaultPosition, ReactNode> = {
   [VaultPosition.AfterBurning]: <Trans>After Burning</Trans>,
 }
 
-const VaultPositionTag: FC<React.PropsWithChildren<{ position: VaultPosition }>> = ({ position }) => {
+const VaultPositionTag: React.FC<React.PropsWithChildren<{ position: VaultPosition }>> = ({ position }) => {
   return (
     <Tag {...tagConfig[position]}>
-      <Box as={iconConfig[position]} mr="4px" />
+      <Box as={iconConfig[position]} mr="4px" color={iconColorConfig[position]} />
       {positionLabel[position]}
     </Tag>
   )
 }
 
-export const VaultPositionTagWithLabel: FC<
+export const VaultPositionTagWithLabel: React.FC<
   React.PropsWithChildren<{ userData: DeserializedLockedVaultUser } & FlexGapProps>
 > = ({ userData, ...props }) => {
   const { t } = useTranslation()

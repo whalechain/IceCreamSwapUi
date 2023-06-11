@@ -2,16 +2,18 @@ import { Flex, Heading, Skeleton, Text, Balance } from '@pancakeswap/uikit'
 import cakeAbi from 'config/abi/cake.json'
 import { bscTokens } from '@pancakeswap/tokens'
 import { useTranslation } from '@pancakeswap/localization'
-import useIntersectionObserver from 'hooks/useIntersectionObserver'
+import { useIntersectionObserver } from '@pancakeswap/hooks'
 import { useEffect, useState } from 'react'
-import { usePriceCakeBusd } from 'state/farms/hooks'
+import { usePriceCakeUSD } from 'state/farms/hooks'
 import styled from 'styled-components'
-import { formatBigNumber, formatLocalisedCompactNumber } from '@pancakeswap/utils/formatBalance'
-import { multicallv2 } from 'utils/multicall'
+import { formatBigNumber, formatLocalisedCompactNumber, formatNumber } from '@pancakeswap/utils/formatBalance'
+import { multicallv3 } from 'utils/multicall'
+import { getCakeVaultAddress } from 'utils/addressHelpers'
 import useSWR from 'swr'
 import { SLOW_INTERVAL } from 'config/constants'
-import { BigNumber } from '@ethersproject/bignumber'
-import { getCakeVaultV2Contract } from 'utils/contractHelpers'
+import cakeVaultV2Abi from 'config/abi/cakeVaultV2.json'
+import { BigNumber } from 'ethers'
+import { useCakeEmissionPerBlock } from 'views/Home/hooks/useCakeEmissionPerBlock'
 import {useActiveChainId} from "../../../hooks/useActiveChainId";
 
 const StyledColumn = styled(Flex)<{ noMobileBorder?: boolean; noDesktopBorder?: boolean }>`
@@ -62,8 +64,6 @@ const Grid = styled.div`
   }
 `
 
-const emissionsPerBlock = 11.16
-
 /**
  * User (Planet Finance) built a contract on top of our original manual ICE pool,
  * but the contract was written in such a way that when we performed the migration from Masterchef v1 to v2, the tokens were stuck.
@@ -73,13 +73,15 @@ const emissionsPerBlock = 11.16
  * https://bscscan.com/tx/0xd5ffea4d9925d2f79249a4ce05efd4459ed179152ea5072a2df73cd4b9e88ba7
  */
 const planetFinanceBurnedTokensWei = BigNumber.from('637407922445268000000000')
-const cakeVault = getCakeVaultV2Contract()
+const cakeVaultAddress = getCakeVaultAddress()
 
 const CakeDataRow = () => {
   const { t } = useTranslation()
   const { chainId } = useActiveChainId()
   const { observerRef, isIntersecting } = useIntersectionObserver()
   const [loadData, setLoadData] = useState(false)
+  const emissionsPerBlock = useCakeEmissionPerBlock(loadData)
+
   const {
     data: { cakeSupply, burnedBalance, circulatingSupply } = {
       cakeSupply: 0,
@@ -89,26 +91,23 @@ const CakeDataRow = () => {
   } = useSWR(
     loadData ? ['cakeDataRow'] : null,
     async () => {
-      const totalSupplyCall = { address: bscTokens.cake.address, name: 'totalSupply' }
+      const totalSupplyCall = { abi: cakeAbi, address: bscTokens.cake.address, name: 'totalSupply' }
       const burnedTokenCall = {
+        abi: cakeAbi,
         address: bscTokens.cake.address,
         name: 'balanceOf',
         params: ['0x000000000000000000000000000000000000dEaD'],
       }
-      const [tokenDataResultRaw, totalLockedAmount] = await Promise.all([
-        // @ts-ignore fix chainId support
-        multicallv2({
-          abi: cakeAbi,
-          calls: [totalSupplyCall, burnedTokenCall],
-          chainId,
-          options: {
-            requireSuccess: false,
-          },
-        }),
-        cakeVault.totalLockedAmount(),
-      ])
-      const [totalSupply, burned] = tokenDataResultRaw.flat()
+      const cakeVaultCall = {
+        abi: cakeVaultV2Abi,
+        address: cakeVaultAddress,
+        name: 'totalLockedAmount',
+      }
 
+      const [[totalSupply], [burned], [totalLockedAmount]] = await multicallv3({
+        calls: [totalSupplyCall, burnedTokenCall, cakeVaultCall],
+        allowFailure: true,
+      })
       const totalBurned = planetFinanceBurnedTokensWei.add(burned)
       const circulating = totalSupply.sub(totalBurned.add(totalLockedAmount))
 
@@ -122,7 +121,7 @@ const CakeDataRow = () => {
       refreshInterval: SLOW_INTERVAL,
     },
   )
-  const cakePriceBusd = usePriceCakeBusd()
+  const cakePriceBusd = usePriceCakeUSD()
   const mcap = cakePriceBusd.times(circulatingSupply)
   const mcapString = formatLocalisedCompactNumber(mcap.toNumber())
 
@@ -177,7 +176,11 @@ const CakeDataRow = () => {
       <StyledColumn style={{ gridArea: 'f' }}>
         <Text color="textSubtle">{t('Current emissions')}</Text>
 
-        <Heading scale="lg">{t('%cakeEmissions%/block', { cakeEmissions: emissionsPerBlock })}</Heading>
+        {emissionsPerBlock ? (
+          <Heading scale="lg">{t('%cakeEmissions%/block', { cakeEmissions: formatNumber(emissionsPerBlock) })}</Heading>
+        ) : (
+          <Skeleton height={24} width={126} my="4px" />
+        )}
       </StyledColumn>
     </Grid>
   )

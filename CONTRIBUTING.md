@@ -8,8 +8,8 @@ You can start by reading our [Contribution guidelines](https://docs.icecreamswap
 Install the dependencies
 
 ```shell
-yarn
-yarn dev
+pnpm i
+pnpm dev
 ```
 
 Don't forget to setup your IDE with `eslint` and `prettier`.
@@ -27,7 +27,7 @@ Don't forget to setup your IDE with `eslint` and `prettier`.
 
 ## Tests
 
-Run tests with `yarn test`.
+Run tests with `pnpm test`.
 
 ## Issue reports
 

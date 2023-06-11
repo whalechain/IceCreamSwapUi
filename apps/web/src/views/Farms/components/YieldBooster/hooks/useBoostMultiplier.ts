@@ -1,12 +1,12 @@
 import { useBCakeFarmBoosterContract, useMasterchef } from 'hooks/useContract'
 import farmBoosterAbi from 'config/abi/farmBooster.json'
 import masterChefAbi from 'config/abi/masterchef.json'
-import { FixedNumber } from '@ethersproject/bignumber'
+import { FixedNumber } from 'ethers'
 import { multicallv2 } from 'utils/multicall'
 import { useCallback } from 'react'
 import useSWR from 'swr'
 import _toNumber from 'lodash/toNumber'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import { YieldBoosterState } from './useYieldBoosterState'
 import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
@@ -96,7 +96,7 @@ export default function useBoostMultiplier({ pid, boosterState, proxyAddress }):
   const masterChefContract = useMasterchef()
 
   const { chainId } = useActiveChainId()
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
 
   const shouldGetFromSC = [YieldBoosterState.DEACTIVE, YieldBoosterState.ACTIVE, YieldBoosterState.MAX].includes(
     boosterState,

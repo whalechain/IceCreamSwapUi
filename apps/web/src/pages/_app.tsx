@@ -1,12 +1,15 @@
 import '@pancakeswap/ui/css/reset.css'
 import { Flex, ResetCSS, Spinner, ToastListener } from '@pancakeswap/uikit'
+import { ScrollToTopButtonV2 } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from '../components/GlobalCheckClaimStatus'
 import { NetworkModal } from '../components/NetworkModal'
 import { FixedSubgraphHealthIndicator } from '../components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
+import TransactionsDetailModal from 'components/TransactionDetailModal'
 import { useAccountEventListener } from '../hooks/useAccountEventListener'
 import useEagerConnect from '../hooks/useEagerConnect'
 import useEagerConnectMP from '../hooks/useEagerConnect.bmp'
+import useLockedEndNotification from 'hooks/useLockedEndNotification'
 import useSentryUser from '../hooks/useSentryUser'
 import useThemeCookie from '../hooks/useThemeCookie'
 import useUserAgent from '../hooks/useUserAgent'
@@ -15,11 +18,16 @@ import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { Fragment, useEffect } from 'react'
+import { DefaultSeo } from 'next-seo'
+import { PageMeta } from 'components/Layout/Page'
 import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, useStore } from 'state'
+import { usePollBlockNumber } from 'state/block/hooks'
 import { persistor, useStore } from '../state'
 import { usePollBlockNumber } from '../state/block/hooks'
 import TransactionsDetailModal from '../components/TransactionDetailModal'
 import { Blocklist, Updaters } from '..'
+import { SEO } from '../../next-seo.config'
 import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
 import Providers from '../Providers'
@@ -31,6 +39,12 @@ import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import { trpc } from '@icecreamswap/backend'
 
 const EasterEgg = dynamic(() => import('../components/EasterEgg'), { ssr: false })
+
+// @ts-ignore
+// eslint-disable-next-line func-names
+BigInt.prototype.toJSON = function () {
+  return this.toString()
+}
 
 // This config is required for number formatting
 BigNumber.config({
@@ -45,6 +59,7 @@ function GlobalHooks() {
   useAccountEventListener()
   useSentryUser()
   useThemeCookie()
+  useLockedEndNotification()
   return null
 }
 
@@ -54,6 +69,7 @@ function MPGlobalHooks() {
   useUserAgent()
   useAccountEventListener()
   useSentryUser()
+  useLockedEndNotification()
   return null
 }
 
@@ -90,8 +106,14 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         />
         <title>IceCreamSwap</title>
       </Head>
-      <main>
+            <DefaultSeo {...SEO} />
+
         <Providers store={store}>
+          <PageMeta />
+                {(Component as NextPageWithLayout).Meta && (
+                  // @ts-ignore
+                  <Component.Meta {...pageProps} />
+                )}
           <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
             <Blocklist>
               {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
@@ -105,7 +127,6 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
             </Blocklist>
           </SupportedChainsProvider>
         </Providers>
-      </main>
       {/* <Script */}
       {/*   strategy="afterInteractive" */}
       {/*   id="google-tag" */}
@@ -134,6 +155,11 @@ type NextPageWithLayout = NextPage & {
    * @default [ChainId.BSC]
    * */
   chains?: number[]
+  isShowScrollToTopButton?: true
+  /**
+   * Meta component for page, hacky solution for static build page to avoid `PersistGate` which blocks the page from rendering
+   */
+  Meta?: React.FC<React.PropsWithChildren<unknown>>
 }
 
 type AppPropsWithLayout = AppProps & {
@@ -160,6 +186,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   // Use the layout defined at the page level, if available
   const Layout = Component.Layout || Fragment
   const ShowMenu = Component.mp ? Fragment : Menu
+  const isShowScrollToTopButton = Component.isShowScrollToTopButton || true
 
   return (
     <ProductionErrorBoundary>
@@ -179,6 +206,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <FixedSubgraphHealthIndicator />
       <NetworkModal pageSupportedChains={Component.chains} />
       <TransactionsDetailModal />
+      {isShowScrollToTopButton && <ScrollToTopButtonV2 />}
     </ProductionErrorBoundary>
   )
 }

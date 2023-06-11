@@ -13,9 +13,9 @@ import { useEffect, useState, useMemo } from 'react'
 import { VaultKey } from 'state/types'
 import { useVaultPoolByKey } from 'state/pools/hooks'
 import { getRoi } from '@pancakeswap/utils/compoundApyHelpers'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { Token } from '@pancakeswap/sdk'
 
+import { useAccount } from 'wagmi'
 import LockDurationField from '../LockedPool/Common/LockDurationField'
 import { weeksToSeconds } from '../utils/formatSecondsToWeeks'
 
@@ -32,7 +32,7 @@ export const VaultRoiCalculatorModal = ({
 
   const { getLockedApy, flexibleApy } = useVaultApy()
   const { t } = useTranslation()
-  const { account } = useActiveWeb3React()
+  const { address: account } = useAccount()
 
   const [cakeVaultView, setCakeVaultView] = useState(initialView || 0)
 
@@ -50,8 +50,11 @@ export const VaultRoiCalculatorModal = ({
     return cakeVaultView === 0 ? flexibleApy : getLockedApy(duration)
   }, [cakeVaultView, getLockedApy, flexibleApy, duration])
 
+  const [isMaxSelected, setIsMaxSelected] = useState(false)
+
   return (
     <RoiCalculatorModal
+      isLocked={cakeVaultView === 1}
       account={account}
       stakingTokenSymbol={pool.stakingToken.symbol}
       apy={+apy}
@@ -67,6 +70,7 @@ export const VaultRoiCalculatorModal = ({
       stakingTokenBalance={
         pool.userData?.stakingTokenBalance ? cakeAsBigNumber.plus(pool.userData?.stakingTokenBalance) : cakeAsBigNumber
       }
+      stakingTokenDecimals={pool.stakingToken.decimals}
       autoCompoundFrequency={1}
       strategy={
         cakeVaultView
@@ -101,7 +105,13 @@ export const VaultRoiCalculatorModal = ({
     >
       {cakeVaultView && (
         <Box mt="16px">
-          <LockDurationField duration={duration} setDuration={setDuration} isOverMax={false} />
+          <LockDurationField
+            duration={duration}
+            setDuration={setDuration}
+            isOverMax={false}
+            isMaxSelected={isMaxSelected}
+            setIsMaxSelected={setIsMaxSelected}
+          />
         </Box>
       )}
     </RoiCalculatorModal>

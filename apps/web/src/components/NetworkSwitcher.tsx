@@ -24,6 +24,8 @@ import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { chains } from '../utils/wagmi'
 import { useNetwork } from 'wagmi'
+import Image from 'next/image'
+import { ASSET_CDN } from 'config/constants/endpoints'
 
 import { ChainLogo } from './Logo/ChainLogo'
 import chainName from '../config/constants/chainName'
@@ -118,6 +120,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
   const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
   const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
   const { account } = useWeb3React()
+  const router = useRouter()
 
   useNetworkConnectorUpdater()
 
@@ -128,7 +131,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
   const symbol = NATIVE[foundChain?.id]?.symbol ?? foundChain?.nativeCurrency?.symbol
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t('Unable to switch network. Please try it on your wallet'),
-    { placement: 'auto' },
+    { placement: 'bottom' },
   )
 
   const cannotChangeNetwork = !canSwitch
@@ -145,7 +148,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
         pr="8px"
         placement="bottom"
         variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'}
-        avatarSrc={`/images/chains/${chainId}.png`}
+        avatarSrc={`${ASSET_CDN}/web/chains/${chainId}.png`}
         disabled={cannotChangeNetwork}
         text={
           isLoading ? (

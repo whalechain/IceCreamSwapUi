@@ -1,21 +1,17 @@
-import {
-  Flex,
-  Text,
-  Button,
-  IconButton,
-  AddIcon,
-  MinusIcon,
-  useModal,
-  Skeleton,
-  useTooltip,
-  Balance,
-} from "@pancakeswap/uikit";
 import BigNumber from "bignumber.js";
 import { ReactElement } from "react";
 import { useTranslation } from "@pancakeswap/localization";
 import { getBalanceNumber } from "@pancakeswap/utils/formatBalance";
 import { DeserializedPool } from "./types";
 import NotEnoughTokensModal from "../Modal/NotEnoughTokensModal";
+import { Button, IconButton } from "../../components/Button";
+import { Text } from "../../components/Text";
+import { Flex } from "../../components/Box";
+import { Balance } from "../../components/Balance";
+import { Skeleton } from "../../components/Skeleton";
+import { useModal } from "../Modal";
+import { useTooltip } from "../../hooks/useTooltip";
+import { MinusIcon, AddIcon } from "../../components/Svg";
 
 interface StakeActionsPropsType<T> {
   pool: DeserializedPool<T>;
@@ -24,6 +20,7 @@ interface StakeActionsPropsType<T> {
   isBnbPool: boolean;
   isStaked: ConstrainBoolean;
   isLoading?: boolean;
+  hideLocateAddress?: boolean;
 }
 
 export interface StakeModalPropsType<T> {
@@ -43,15 +40,22 @@ export function withStakeActions<T>(StakeModal: (props: StakeModalPropsType<T>) 
     isBnbPool,
     isStaked,
     isLoading = false,
+    hideLocateAddress = false,
   }: StakeActionsPropsType<T>) => {
     const { stakingToken, stakingTokenPrice, stakingLimit, isFinished, userData } = pool;
     const { t } = useTranslation();
     const stakedTokenBalance = getBalanceNumber(stakedBalance, stakingToken?.decimals);
     const stakedTokenDollarBalance = stakingTokenPrice
-      ? getBalanceNumber(stakedBalance.multipliedBy(stakingTokenPrice), stakingToken?.decimals)
+      ? getBalanceNumber(stakedBalance?.multipliedBy(stakingTokenPrice), stakingToken?.decimals)
       : 0;
 
-    const [onPresentTokenRequired] = useModal(<NotEnoughTokensModal tokenSymbol={stakingToken?.symbol || ""} />);
+    const [onPresentTokenRequired] = useModal(
+      <NotEnoughTokensModal
+        hideLocateAddress={hideLocateAddress}
+        tokenAddress={stakingToken.address}
+        tokenSymbol={stakingToken?.symbol || ""}
+      />
+    );
 
     const [onPresentStake] = useModal(
       <StakeModal

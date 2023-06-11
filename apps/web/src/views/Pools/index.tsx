@@ -1,7 +1,6 @@
-import { createPortal } from 'react-dom'
 import styled from 'styled-components'
 
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import {
   Heading,
   Flex,
@@ -10,25 +9,24 @@ import {
   FlexLayout,
   PageHeader,
   Loading,
-  ScrollToTopButtonV2,
-  Pool,
-  ViewMode,
-} from '@pancakeswap/uikit'
+   Pool, ViewMode } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { usePoolsPageFetch, usePoolsWithVault } from 'state/pools/hooks'
 import Page from 'components/Layout/Page'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from '@pancakeswap/sdk'
 import { TokenPairImage } from 'components/TokenImage'
+import { useActiveChainId } from 'hooks/useActiveChainId'
+import { V3SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
 
 import CardActions from './components/PoolCard/CardActions'
 import AprRow from './components/PoolCard/AprRow'
 import CardFooter from './components/PoolCard/CardFooter'
 import CakeVaultCard from './components/CakeVaultCard'
-import PoolsTable from './components/PoolsTable/PoolsTable'
 import PoolControls from './components/PoolControls'
 import {SUPPORT_STAKING} from "../../config/constants/supportChains";
 import {useActiveChainId} from "../../hooks/useActiveChainId";
+import PoolRow, { VaultPoolRow } from './components/PoolsTable/PoolRow'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -50,7 +48,8 @@ const FinishedTextLink = styled(Link)`
 
 const Pools = () => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
+  const { chainId } = useActiveChainId()
   const { pools: allPools, userDataLoaded } = usePoolsWithVault()
   const { chainId } = useActiveChainId()
 
@@ -77,12 +76,16 @@ const Pools = () => {
           {({ chosenPools, viewMode, stakedOnly, normalizedUrlSearch, showFinishedPools }) => (
             <>
               {/*
-              {showFinishedPools && (
+              {showFinishedPools && chainId === ChainId.BSC && (
                 <FinishedTextContainer>
                   <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
                     {t('Looking for v1 ICE syrup pools?')}
                   </Text>
-                  <FinishedTextLink href="/migration" fontSize={['16px', null, '20px']} color="failure">
+                  <FinishedTextLink
+                    href="https://v1-farms.pancakeswap.finance/pools/history"
+                    fontSize={['16px', null, '20px']}
+                    color="failure"
+                  >
                     {t('Go to migration page')}.
                   </FinishedTextLink>
                 </FinishedTextContainer>
@@ -130,7 +133,25 @@ const Pools = () => {
                   )}
                 </CardLayout>
               ) : (
-                <PoolsTable urlSearch={normalizedUrlSearch} pools={chosenPools} account={account} />
+                <Pool.PoolsTable>
+                  {chosenPools.map((pool) =>
+                    pool.vaultKey ? (
+                      <VaultPoolRow
+                        initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
+                        key={pool.vaultKey}
+                        vaultKey={pool.vaultKey}
+                        account={account}
+                      />
+                    ) : (
+                      <PoolRow
+                        initialActivity={normalizedUrlSearch.toLowerCase() === pool.earningToken.symbol?.toLowerCase()}
+                        key={pool.sousId}
+                        sousId={pool.sousId}
+                        account={account}
+                      />
+                    ),
+                  )}
+                </Pool.PoolsTable>
               )}
               {/*
               <Image
@@ -145,8 +166,8 @@ const Pools = () => {
             </>
           )}
         </PoolControls>
+        <V3SubgraphHealthIndicator />
       </Page>
-      {createPortal(<ScrollToTopButtonV2 />, document.body)}
     </>
   )
 }

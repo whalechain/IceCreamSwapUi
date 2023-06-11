@@ -9,7 +9,7 @@ import { MultiChainName, getMultiChainQueryEndPointWithStableSwap, checkIsStable
  */
 const TOKEN_TRANSACTIONS = () => {
   return gql`
-    query tokenTransactions($address: Bytes!) {
+    query tokenTransactions($address: String!) {
       mintsAs0: mints(first: 10, orderBy: timestamp, orderDirection: desc, where: {pair_: {token0: $address}}) {
         id
         timestamp

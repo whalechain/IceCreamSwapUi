@@ -1,8 +1,12 @@
 import { multicallAddresses } from '@pancakeswap/multicall'
 import { masterChefAddresses } from '@pancakeswap/farms'
+import { masterChefV3Addresses } from '@pancakeswap/farms'
+import { DEPLOYER_ADDRESSES } from '@pancakeswap/v3-sdk'
+import { V3_QUOTER_ADDRESSES } from '@pancakeswap/smart-router/evm'
 
 export default {
   masterChef: masterChefAddresses,
+  masterChefV3: masterChefV3Addresses,
   masterChefV1: {
     97: '0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9',
     56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
@@ -30,7 +34,7 @@ export default {
   },
   claimRefund: {
     56: '0xE7e53A7e9E3Cf6b840f167eF69519175c497e149',
-    97: '',
+    97: '0x',
   },
   pointCenterIfo: {
     56: '0x3C6919b132462C1FEc572c6300E83191f4F0012a',
@@ -46,15 +50,15 @@ export default {
   },
   tradingCompetitionFanToken: {
     56: '0xA8FECf847e28aa1Df39E995a45b7FCfb91b676d4',
-    97: '',
+    97: '0x',
   },
   tradingCompetitionMobox: {
     56: '0x1C5161CdB145dE35a8961F82b065fd1F75C3BaDf',
-    97: '',
+    97: '0x',
   },
   tradingCompetitionMoD: {
     56: '0xbDd9a61c67ee16c10f5E37b1D0c907a9EC959f33',
-    97: '',
+    97: '0x',
   },
   easterNft: {
     56: '0x23c41D28A239dDCAABd1bb1deF8d057189510066',
@@ -66,35 +70,35 @@ export default {
   },
   cakeFlexibleSideVault: {
     56: '0x615e896A8C2CA8470A2e9dc2E9552998f8658Ea0',
-    97: '',
+    97: '0x',
   },
   predictionsBNB: {
     56: '0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA',
-    97: '',
+    97: '0x',
   },
   predictionsICE: {
     56: '0x0E3A8078EDD2021dadcdE733C6b4a86E51EE8f07',
-    97: '',
+    97: '0x',
   },
   chainlinkOracleBNB: {
-    56: '0xD276fCF34D54A926773c399eBAa772C12ec394aC',
-    97: '',
+    56: '0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE',
+    97: '0x',
   },
   chainlinkOracleICE: {
     56: '0xB6064eD41d4f67e353768aA239cA86f4F73665a1',
-    97: '',
+    97: '0x',
   },
   predictionsV1: {
     56: '0x516ffd7d1e0ca40b1879935b2de87cb20fc1124b',
-    97: '',
+    97: '0x',
   },
   bunnySpecialCakeVault: {
     56: '0x5B4a770Abe7Eafb2601CA4dF9d73EA99363E60a4',
-    97: '',
+    97: '0x',
   },
   bunnySpecialPrediction: {
     56: '0x342c99e9aC24157657095eC69CB04b73257e7A9C',
-    97: '',
+    97: '0x',
   },
   bunnySpecialLottery: {
     56: '0x24ED31d31C5868e5a96aA77fdcB890f3511fa0b2',
@@ -102,7 +106,7 @@ export default {
   },
   bunnySpecialXmas: {
     56: '0x59EdDF3c21509dA3b0aCCd7c5ccc596d930f4783',
-    97: '',
+    97: '0x',
   },
   farmAuction: {
     56: '0xb92Ab7c1edcb273AbA24b0656cEb3681654805D2',
@@ -128,22 +132,25 @@ export default {
     56: '0x01871991587d5671f3A2d4E2BcDC22F4E026396e',
     97: '0xDB9D365b50E62fce747A90515D2bd1254A16EbB9',
   },
-  // TODO: multi
   zap: {
     56: '0xD4c4a7C55c9f7B3c48bafb6E8643Ba79F42418dF',
     97: '0xD85835207054F25620109bdc745EC1D1f84F04e1',
   },
+  stableSwapNativeHelper: {
+    56: '0x52E5D1e24A4308ef1A221C949cb2F7cbbAFEE090',
+    97: '0x6e4B1D7C65E86f1723720a5fE8993f0908108b64',
+  },
   iCake: {
     56: '0x3C458828D1622F5f4d526eb0d24Da8C4Eb8F07b1',
-    97: '',
+    97: '0x',
   },
   bCakeFarmBooster: {
     56: '0xE4FAa3Ef5A9708C894435B0F39c2B440936A3A52',
-    97: '',
+    97: '0x',
   },
   bCakeFarmBoosterProxyFactory: {
     56: '0x2C36221bF724c60E9FEE3dd44e2da8017a8EF3BA',
-    97: '',
+    97: '0x',
   },
   nonBscVault: {
     56: '0xE6c904424417D03451fADd6E3f5b6c26BcC43841', // Only for pass contracts test
@@ -159,4 +166,33 @@ export default {
     56: '0x0726a8C8206b9eC0AfB788df5adb36a8AEDB13c2',
     97: '0xBab5d3B6bA24E185f216419f3ba07f03984bF983',
   },
-}
+  mmLinkedPool: {
+    1: '0x9Ca2A439810524250E543BA8fB6E88578aF242BC',
+    5: '0x7bb894Ca487568dD55054193c3238d7B1f46BB92',
+    56: '0xfEACb05b373f1A08E68235bA7FC92636b92ced01',
+  },
+  tradingReward: {
+    1: '0x',
+    56: '0xa842a4AD40FEbbd034fbeF25C7a880464a90e695',
+    97: '0x',
+  },
+  nftPositionManager: {
+    1: '0x46A15B0b27311cedF172AB29E4f4766fbE7F4364',
+    5: '0x427bF5b37357632377eCbEC9de3626C71A5396c1',
+    56: '0x46A15B0b27311cedF172AB29E4f4766fbE7F4364',
+    97: '0x427bF5b37357632377eCbEC9de3626C71A5396c1',
+  },
+  v3PoolDeployer: DEPLOYER_ADDRESSES,
+  v3Migrator: {
+    1: '0xbC203d7f83677c7ed3F7acEc959963E7F4ECC5C2',
+    5: '0x46A15B0b27311cedF172AB29E4f4766fbE7F4364',
+    56: '0xbC203d7f83677c7ed3F7acEc959963E7F4ECC5C2',
+    97: '0x46A15B0b27311cedF172AB29E4f4766fbE7F4364',
+  },
+  quoter: V3_QUOTER_ADDRESSES,
+  v3Airdrop: {
+    1: '0x',
+    56: '0xe934d2C5bE5db0295A4de3177762A9E8c74Ae4f4',
+    97: '0x',
+  },
+} as const satisfies Record<string, Record<number, `0x${string}`>>

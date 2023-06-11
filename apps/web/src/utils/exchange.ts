@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Fraction, JSBI, Percent, Trade, TradeType } from '@pancakeswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Trade, TradeType } from '@pancakeswap/sdk'
 import IPancakeRouter02ABI from 'config/abi/IPancakeRouter02.json'
 import { AkkaRouter } from 'config/abi/types/AkkaRouter'
 import AKKA_ABI from '../config/abi/AkkaRouter.json'
@@ -14,25 +14,26 @@ import {
   ONE_HUNDRED_PERCENT,
   ROUTER_ADDRESS,
 } from 'config/constants/exchange'
+import { StableTrade } from 'config/constants/types'
+
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useContract } from 'hooks/useContract'
-import { StableTrade } from 'views/Swap/StableSwap/hooks/useStableTradeExactIn'
 import { Field } from '../state/swap/actions'
 import { AkkaRouterCore } from 'config/abi/types'
 import { useIsAkkaAlternateModeActive } from 'state/global/hooks'
 
 // converts a basis points value to a sdk percent
 export function basisPointsToPercent(num: number): Percent {
-  return new Percent(JSBI.BigInt(num), BIPS_BASE)
+  return new Percent(BigInt(num), BIPS_BASE)
 }
 
-export function calculateSlippageAmount(value: CurrencyAmount<Currency>, slippage: number): [JSBI, JSBI] {
+export function calculateSlippageAmount(value: CurrencyAmount<Currency>, slippage: number): [bigint, bigint] {
   if (slippage < 0 || slippage > 10000) {
     throw Error(`Unexpected slippage value: ${slippage}`)
   }
   return [
-    JSBI.divide(JSBI.multiply(value.quotient, JSBI.BigInt(10000 - slippage)), BIPS_BASE),
-    JSBI.divide(JSBI.multiply(value.quotient, JSBI.BigInt(10000 + slippage)), BIPS_BASE),
+    (value.quotient * BigInt(10000 - slippage)) / BIPS_BASE,
+    (value.quotient * BigInt(10000 + slippage)) / BIPS_BASE,
   ]
 }
 
@@ -51,7 +52,7 @@ export function useAkkaRouterCoreContract() {
 }
 
 // computes price breakdown for the trade
-export function computeTradePriceBreakdown(trade?: Trade<Currency, Currency, TradeType> | null): {
+export function computeTradePriceBreakdown(trade: Trade<Currency, Currency, TradeType> | null): {
   priceImpactWithoutFee: Percent | undefined
   realizedLPFee: CurrencyAmount<Currency> | undefined | null
 } {
@@ -67,7 +68,7 @@ export function computeTradePriceBreakdown(trade?: Trade<Currency, Currency, Tra
     )
 
   // remove lp fees from price impact
-  const priceImpactWithoutFeeFraction = trade && realizedLPFee ? trade.priceImpact.subtract(realizedLPFee) : undefined
+  const priceImpactWithoutFeeFraction = trade && realizedLPFee ? trade?.priceImpact.subtract(realizedLPFee) : undefined
 
   // the x*y=k impact
   const priceImpactWithoutFeePercent = priceImpactWithoutFeeFraction
@@ -87,6 +88,7 @@ export function computeTradePriceBreakdown(trade?: Trade<Currency, Currency, Tra
 }
 
 // computes the minimum amount out and maximum amount in for a trade given a user specified allowed slippage in bips
+
 export function computeSlippageAdjustedAmounts(
   trade: Trade<Currency, Currency, TradeType> | StableTrade | undefined,
   allowedSlippage: number,
@@ -106,7 +108,10 @@ export function warningSeverity(priceImpact: Percent | undefined): 0 | 1 | 2 | 3
   return 0
 }
 
-export function formatExecutionPrice(trade?: Trade<Currency, Currency, TradeType>, inverted?: boolean): string {
+export function formatExecutionPrice(
+  trade?: Trade<Currency, Currency, TradeType> | StableTrade,
+  inverted?: boolean,
+): string {
   if (!trade) {
     return ''
   }

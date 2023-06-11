@@ -1,18 +1,20 @@
+import { Currency } from '@pancakeswap/sdk'
+import { ChevronRightIcon, Flex, Text } from '@pancakeswap/uikit'
 import { Fragment, memo } from 'react'
-import { Trade, Currency, TradeType } from '@pancakeswap/sdk'
-import { Text, Flex, ChevronRightIcon } from '@pancakeswap/uikit'
 import { unwrappedToken } from 'utils/wrappedCurrency'
 
-export default memo(function SwapRoute({ trade }: { trade: Trade<Currency, Currency, TradeType> }) {
+export default memo(function SwapRoute({ path }: { path: Currency[] }) {
   return (
     <Flex flexWrap="wrap" width="100%" justifyContent="flex-end" alignItems="center">
-      {trade.route.path.map((token, i, path) => {
+      {path.map((token, i) => {
         const isLastItem: boolean = i === path.length - 1
-        const currency = unwrappedToken(token)
+        const currency = token.isToken ? unwrappedToken(token) : token
         return (
-          <Fragment key={token.address}>
+          // There might be same token appear more than once
+          // eslint-disable-next-line react/no-array-index-key
+          <Fragment key={`${currency.symbol}_${i}`}>
             <Flex alignItems="end">
-              <Text fontSize="14px" ml="0.125rem" mr="0.125rem">
+              <Text fontSize="14px" ml="0.125rem" mr="0.125rem" color="textSubtle">
                 {currency.symbol}
               </Text>
             </Flex>

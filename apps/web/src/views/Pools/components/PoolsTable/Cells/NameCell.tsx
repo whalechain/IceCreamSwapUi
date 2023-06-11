@@ -3,20 +3,19 @@ import BigNumber from 'bignumber.js'
 import { TokenPairImage } from 'components/TokenImage'
 import { vaultPoolConfig } from 'config/constants/pools'
 import { useTranslation } from '@pancakeswap/localization'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { useVaultPoolByKey } from 'state/pools/hooks'
 import { VaultKey, DeserializedLockedCakeVault } from 'state/types'
 import styled from 'styled-components'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { getVaultPosition, VaultPosition, VaultPositionParams } from 'utils/cakePool'
 import { Token } from '@pancakeswap/sdk'
-import BaseCell, { CellContent } from './BaseCell'
 
 interface NameCellProps {
   pool: Pool.DeserializedPool<Token>
 }
 
-const StyledCell = styled(BaseCell)`
+const StyledCell = styled(Pool.BaseCell)`
   flex: 5;
   flex-direction: row;
   padding-left: 12px;
@@ -54,16 +53,36 @@ const NameCell: React.FC<React.PropsWithChildren<NameCellProps>> = ({ pool }) =>
     subtitle = vaultPoolConfig[vaultKey].description
   }
 
+  const isLoaded = useMemo(() => {
+    if (pool.vaultKey) {
+      return totalCakeInVault && totalCakeInVault.gte(0)
+    }
+    return totalStaked && totalStaked.gte(0)
+  }, [pool.vaultKey, totalCakeInVault, totalStaked])
+
   return (
     <StyledCell role="cell">
-      {(totalStaked && totalStaked.gte(0)) || (totalCakeInVault && totalCakeInVault.gte(0)) ? (
+      {isLoaded ? (
         <>
           {vaultKey ? (
-            <UITokenPairImage {...vaultPoolConfig[vaultKey].tokenImage} mr="8px" width={40} height={40} />
+            <UITokenPairImage
+              {...vaultPoolConfig[vaultKey].tokenImage}
+              mr="8px"
+              width={40}
+              height={40}
+              style={{ minWidth: 40 }}
+            />
           ) : (
-            <TokenPairImage primaryToken={earningToken} secondaryToken={stakingToken} mr="8px" width={40} height={40} />
+            <TokenPairImage
+              primaryToken={earningToken}
+              secondaryToken={stakingToken}
+              mr="8px"
+              width={40}
+              height={40}
+              style={{ minWidth: 40 }}
+            />
           )}
-          <CellContent>
+          <Pool.CellContent>
             {showStakedTag &&
               (vaultKey === VaultKey.CakeVault ? (
                 <StakedCakeStatus
@@ -84,15 +103,15 @@ const NameCell: React.FC<React.PropsWithChildren<NameCellProps>> = ({ pool }) =>
                 {subtitle}
               </Text>
             )}
-          </CellContent>
+          </Pool.CellContent>
         </>
       ) : (
         <>
           <Skeleton mr="8px" width={36} height={36} variant="circle" />
-          <CellContent>
+          <Pool.CellContent>
             <Skeleton width={30} height={12} mb="4px" />
             <Skeleton width={65} height={12} />
-          </CellContent>
+          </Pool.CellContent>
         </>
       )}
     </StyledCell>

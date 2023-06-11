@@ -1,10 +1,10 @@
 import { Currency, WNATIVE } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTranslation } from '@pancakeswap/localization'
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
-import { useTransactionAdder } from '../state/transactions/hooks'
-import { useCurrencyBalance } from '../state/wallet/hooks'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import { useWNativeContract } from './useContract'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 
@@ -27,7 +27,7 @@ export default function useWrapCallback(
   typedValue: string | undefined,
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
   const { t } = useTranslation()
-  const { chainId, account } = useActiveWeb3React()
+  const { account, chainId } = useAccountActiveChain()
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWNativeContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
@@ -97,4 +97,10 @@ export default function useWrapCallback(
     }
     return NOT_APPLICABLE
   }, [wbnbContract, chainId, inputCurrency, outputCurrency, t, inputAmount, balance, addTransaction, callWithGasPrice])
+}
+
+export function useIsWrapping(currencyA: Currency | undefined, currencyB: Currency | undefined, value?: string) {
+  const { wrapType } = useWrapCallback(currencyA, currencyB, value)
+
+  return wrapType !== WrapType.NOT_APPLICABLE
 }

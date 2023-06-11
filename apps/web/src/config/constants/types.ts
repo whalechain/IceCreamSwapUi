@@ -1,8 +1,7 @@
+import type { FarmConfigBaseProps, SerializedFarmConfig } from '@pancakeswap/farms'
+import { ChainId, Currency, CurrencyAmount, Percent, Price, Token, Trade, TradeType } from '@pancakeswap/sdk'
+import { LegacyTradeWithStableSwap as TradeWithStableSwap } from '@pancakeswap/smart-router/evm'
 import BigNumber from 'bignumber.js'
-import { Token, ChainId } from '@pancakeswap/sdk'
-import { SerializedWrappedToken } from '@pancakeswap/token-lists'
-import type { SerializedFarmConfig, FarmConfigBaseProps } from '@pancakeswap/farms'
-
 // a list of tokens by chain
 export type ChainMap<T> = {
   readonly [chainId in ChainId]: T
@@ -43,7 +42,7 @@ interface IfoPoolInfo {
   saleAmount?: string
   raiseAmount: string
   cakeToBurn?: string
-  distributionRatio: number // Range [0-1]
+  distributionRatio?: number // Range [0-1]
 }
 
 export interface Ifo {
@@ -53,7 +52,6 @@ export interface Ifo {
   name: string
   currency: Token
   token: Token
-  releaseBlockNumber: number
   articleUrl: string
   campaignId: string
   tokenOfferingPrice: number
@@ -76,26 +74,6 @@ export enum PoolCategory {
 }
 
 export type { SerializedFarmConfig, FarmConfigBaseProps }
-
-interface PoolConfigBaseProps {
-  sousId: number
-  contractAddress: Address
-  poolCategory: PoolCategory
-  tokenPerBlock: string
-  isFinished?: boolean
-  enableEmergencyWithdraw?: boolean
-  version?: number
-}
-
-export interface SerializedPoolConfig extends PoolConfigBaseProps {
-  earningToken: SerializedWrappedToken
-  stakingToken: SerializedWrappedToken
-}
-
-export interface DeserializedPoolConfig extends PoolConfigBaseProps {
-  earningToken: Token
-  stakingToken: Token
-}
 
 export type Images = {
   lg: string
@@ -217,4 +195,34 @@ export enum FetchStatus {
   Fetching = 'FETCHING',
   Fetched = 'FETCHED',
   Failed = 'FAILED',
+}
+
+export const isStableSwap = (trade: ITrade): trade is StableTrade => {
+  return (
+    Boolean((trade as StableTrade)?.maximumAmountIn) &&
+    !(trade as Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType>)?.route
+  )
+}
+
+export type ITrade =
+  | Trade<Currency, Currency, TradeType>
+  | StableTrade
+  | TradeWithStableSwap<Currency, Currency, TradeType>
+  | undefined
+
+export type V2TradeAndStableSwap = Trade<Currency, Currency, TradeType> | StableTrade | undefined
+
+export interface StableTrade {
+  tradeType: TradeType
+  inputAmount: CurrencyAmount<Currency>
+  outputAmount: CurrencyAmount<Currency>
+  executionPrice: Price<Currency, Currency>
+  priceImpact: null
+  maximumAmountIn: (slippaged: Percent) => CurrencyAmount<Currency>
+  minimumAmountOut: (slippaged: Percent) => CurrencyAmount<Currency>
+}
+
+export enum Bound {
+  LOWER = 'LOWER',
+  UPPER = 'UPPER',
 }

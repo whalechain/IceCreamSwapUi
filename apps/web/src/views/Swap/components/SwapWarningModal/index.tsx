@@ -7,6 +7,8 @@ import SwapWarningTokensConfig from 'config/constants/swapWarningTokens'
 import Acknowledgement from './Acknowledgement'
 import ScamWarning from './ScamWarning'
 import ImpersonationWarning from './ImpersonationWarning'
+import ABNBWarning from './ABNBWarning'
+import XCADWarning from './XCADWarning'
 
 const StyledModalContainer = styled(ModalContainer)`
   max-width: 440px;
@@ -39,12 +41,20 @@ const SwapWarningModal: React.FC<React.PropsWithChildren<SwapWarningModalProps>>
       symbol: SwapWarningTokensConfig.icedao.symbol,
       component: <ImpersonationWarning />,
     },
+    [SwapWarningTokensConfig.abnbc.address]: {
+      symbol: SwapWarningTokensConfig.abnbc.symbol,
+      component: <ABNBWarning />,
+    },
+    [SwapWarningTokensConfig.xcad.address]: {
+      symbol: SwapWarningTokensConfig.xcad.symbol,
+      component: <XCADWarning />,
+    },
   }
 
   const SWAP_WARNING = TOKEN_WARNINGS[swapCurrency.address]
 
   return (
-    <StyledModalContainer $minWidth="280px">
+    <StyledModalContainer minWidth="280px">
       <ModalHeader background={theme.colors.gradientCardHeader}>
         <Heading p="12px 24px">{t('Notice for trading %symbol%', { symbol: SWAP_WARNING.symbol })}</Heading>
       </ModalHeader>

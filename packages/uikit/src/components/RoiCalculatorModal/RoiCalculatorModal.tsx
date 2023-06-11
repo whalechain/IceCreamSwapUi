@@ -31,9 +31,10 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-const ScrollableContainer = styled.div`
+export const ScrollableContainer = styled.div`
   padding: 24px;
   max-height: 500px;
+  overflow-x: hidden;
   overflow-y: auto;
   ${({ theme }) => theme.mediaQueries.sm} {
     max-height: none;
@@ -60,6 +61,7 @@ export interface RoiCalculatorModalProps {
   linkLabel: string;
   linkHref: string;
   stakingTokenBalance: BigNumber;
+  stakingTokenDecimals: number;
   stakingTokenSymbol: string;
   stakingTokenPrice: number;
   earningTokenSymbol?: string;
@@ -71,9 +73,15 @@ export interface RoiCalculatorModalProps {
   initialValue?: string;
   strategy?: any;
   header?: React.ReactNode;
+  rewardCakePerSecond?: boolean;
   onBack?: () => void;
   onDismiss?: () => void;
   bCakeCalculatorSlot?: (stakingTokenBalance: string) => React.ReactNode;
+  isLocked?: boolean;
+  stableSwapAddress?: string;
+  stableLpFee?: number;
+  farmCakePerSecond?: string;
+  totalMultipliers?: string;
   showBooster?: boolean;
 }
 
@@ -98,9 +106,16 @@ const RoiCalculatorModal: React.FC<React.PropsWithChildren<RoiCalculatorModalPro
   strategy,
   header,
   children,
+  stakingTokenDecimals,
+  rewardCakePerSecond,
   onBack,
   onDismiss,
   bCakeCalculatorSlot,
+  isLocked = false,
+  stableSwapAddress,
+  stableLpFee,
+  farmCakePerSecond,
+  totalMultipliers,
   showBooster = false,
 }) => {
   const { t } = useTranslation();
@@ -205,6 +220,7 @@ const RoiCalculatorModal: React.FC<React.PropsWithChildren<RoiCalculatorModalPro
             placeholder="0.00"
             value={editingValue}
             unit={editingUnit}
+            decimals={stakingTokenDecimals}
             onUserInput={onUserInput}
             switchEditingUnits={toggleEditingCurrency}
             onFocus={onBalanceFocus}
@@ -236,7 +252,9 @@ const RoiCalculatorModal: React.FC<React.PropsWithChildren<RoiCalculatorModalPro
               style={{ textTransform: "uppercase" }}
               disabled={isDisableMyBalance}
               onClick={() =>
-                setPrincipalFromUSDValue(getBalanceNumber(stakingTokenBalance.times(stakingTokenPrice)).toString())
+                setPrincipalFromUSDValue(
+                  getBalanceNumber(stakingTokenBalance.times(stakingTokenPrice), stakingTokenDecimals).toString()
+                )
               }
             >
               {t("My Balance")}
@@ -308,6 +326,12 @@ const RoiCalculatorModal: React.FC<React.PropsWithChildren<RoiCalculatorModalPro
         linkLabel={linkLabel}
         linkHref={linkHref}
         performanceFee={performanceFee}
+        rewardCakePerSecond={rewardCakePerSecond}
+        isLocked={isLocked}
+        stableSwapAddress={stableSwapAddress}
+        stableLpFee={stableLpFee}
+        farmCakePerSecond={farmCakePerSecond}
+        totalMultipliers={totalMultipliers}
       />
     </StyledModal>
   );

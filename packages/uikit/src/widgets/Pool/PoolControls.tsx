@@ -75,6 +75,7 @@ interface PoolControlsPropsType<T> {
   setViewMode: (s: ViewMode) => void;
   account: string;
   threshHold: number;
+  hideViewMode?: boolean;
 }
 
 export function PoolControls<T>({
@@ -86,6 +87,7 @@ export function PoolControls<T>({
   setViewMode,
   account,
   threshHold,
+  hideViewMode = false,
 }: PoolControlsPropsType<T>) {
   const router = useRouter();
   const { t } = useTranslation();
@@ -103,7 +105,10 @@ export function PoolControls<T>({
 
   const [finishedPools, openPools] = useMemo(() => partition(pools, (pool) => pool.isFinished), [pools]);
   const openPoolsWithStartBlockFilter = useMemo(
-    () => openPools.filter((pool) => (threshHold > 0 && pool.startBlock ? Number(pool.startBlock) < threshHold : true)),
+    () =>
+      openPools.filter((pool) =>
+        threshHold > 0 && pool.startTimestamp ? Number(pool.startTimestamp) < threshHold : true
+      ),
     [threshHold, openPools]
   );
   const stakedOnlyFinishedPools = useMemo(
@@ -182,6 +187,7 @@ export function PoolControls<T>({
           hasStakeInFinishedPools={hasStakeInFinishedPools}
           viewMode={viewMode}
           setViewMode={setViewMode}
+          hideViewMode={hideViewMode}
         />
         <FilterContainer>
           <LabelWrapper>

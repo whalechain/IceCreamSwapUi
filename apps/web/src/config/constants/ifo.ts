@@ -7,22 +7,68 @@ import { Ifo } from './types'
 const ifos: Ifo[] = [
     /*
   {
+    id: 'arena',
+    address: '0xC7d259712a26fa33a9a94cFB58964a67dAB27095',
+    isActive: false,
+    name: 'ARENA',
+    plannedStartTime: 1673870400, // Mon Jan 16 2023 12:00:00 UTC
+    poolBasic: {
+      raiseAmount: '$350,000',
+    },
+    poolUnlimited: {
+      raiseAmount: '$1,050,000',
+    },
+    currency: bscTokens.cake,
+    token: bscTokens.arena,
+    campaignId: '512100000',
+    articleUrl:
+      'https://pancakeswap.finance/voting/proposal/0x06598b682d9f33ec5ea0c2acf8eba13dea7c63fa08dd2c4dfd7bc7af16920d51',
+    tokenOfferingPrice: 0.04,
+    version: 3.2,
+    twitterUrl: 'https://twitter.com/ESPL_GLOBAL',
+    description:
+      'The Esports Players League (ESPL) Arena is a platform that hosts global Esports tournaments and coordinates different aspects such as setting of tournament parameters, score-keeping, prize pool payouts via crypto and more.',
+    vestingTitle: 'Use $ARENA to enjoy premium features on ESPL’s Esports tournament platform',
+  },
+  {
+    id: 'squad',
+    address: '0x57eb2e676863435a140f8bc2a0f0e955c36ed446',
+    isActive: false,
+    cIFO: true,
+    name: 'SQUAD',
+    plannedStartTime: 1671105600,
+    poolBasic: {
+      raiseAmount: '$350,000',
+    },
+    poolUnlimited: {
+      raiseAmount: '$525,000',
+    },
+    currency: bscTokens.cake,
+    token: bscTokens.squad,
+    campaignId: '512000000',
+    articleUrl:
+      'https://pancakeswap.finance/voting/proposal/0x0557149d1dc2f12f4c97b68f9d214fc52acd64aa67b29bde91e19caef30a3153',
+    tokenOfferingPrice: 0.035,
+    version: 3.2,
+    twitterUrl: 'https://twitter.com/Superpow_Squad',
+    description:
+      'Superpower Squad a super-hero themed mobile shooter with 6 game play modes. It has undergone 3 years of game development from an established gaming studio with the help of crypto native partners.',
+    vestingTitle: "$SQUAD - Utility token in Superpower Squad's world, lock into SuperDao to participate Governance.",
+  },
+  {
     id: 'mgp',
     address: '0x3fe5a79d4264fe65a1a9e3938286428a0e2e214d',
-    isActive: true,
+    isActive: false,
     name: 'MGP',
     plannedStartTime: 1666872000,
     poolBasic: {
       raiseAmount: '$437,500',
-      distributionRatio: 0.25,
     },
     poolUnlimited: {
       raiseAmount: '$1,312,500',
-      distributionRatio: 0.75,
     },
     currency: bscTokens.cake,
     token: bscTokens.mgp,
-    releaseBlockNumber: 21595548,
     campaignId: '511900000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/0x5bbaee587df5b7e9b52e2b35f35f30afa08e15ab7098c73cb2503319c8d8ce44',
@@ -41,15 +87,12 @@ const ifos: Ifo[] = [
     name: 'WMX',
     poolBasic: {
       raiseAmount: '$300,000',
-      distributionRatio: 0.25,
     },
     poolUnlimited: {
       raiseAmount: '$900,000',
-      distributionRatio: 0.75,
     },
     currency: bscTokens.cake,
     token: bscTokens.wmx,
-    releaseBlockNumber: 22242441,
     campaignId: '511800000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/0x8bef379b1f3e1f42e180d877edd3ef5b11476300f9de37196904ca4c2070b470',
@@ -67,15 +110,12 @@ const ifos: Ifo[] = [
     name: 'KRS',
     poolBasic: {
       raiseAmount: '$420,000',
-      distributionRatio: 0.4,
     },
     poolUnlimited: {
       raiseAmount: '$630,000',
-      distributionRatio: 0.6,
     },
     currency: bscTokens.cake,
     token: bscTokens.krs,
-    releaseBlockNumber: 21970879,
     campaignId: '511700000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/bafkreicqqvgqpwtnhmlfdwz3ya3hnjm6nvgqbf3fpi4vbxmvqyv6yi3enu',
@@ -92,15 +132,12 @@ const ifos: Ifo[] = [
     name: 'CO',
     poolBasic: {
       raiseAmount: '$367,500',
-      distributionRatio: 0.25,
     },
     poolUnlimited: {
       raiseAmount: '$1,102,500',
-      distributionRatio: 0.75,
     },
     currency: bscTokens.cake,
     token: bscTokens.co,
-    releaseBlockNumber: 21615380,
     campaignId: '511600000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/bafkreiddual5o7vzfcwuazw3lgckis66hka4xytqkttqg2wjtea5pywohy',
@@ -119,15 +156,12 @@ const ifos: Ifo[] = [
     name: 'HOOP',
     poolBasic: {
       raiseAmount: '$357,472.50',
-      distributionRatio: 0.3,
     },
     poolUnlimited: {
       raiseAmount: '$834,102.50',
-      distributionRatio: 0.7,
     },
     currency: bscTokens.cake,
     token: bscTokens.hoop,
-    releaseBlockNumber: 21525900,
     campaignId: '511500000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/bafkreicsc2nevwvyp7ot5ewkmujvor3bcafh372kuxzncojqbuabnpwupe',
@@ -144,15 +178,12 @@ const ifos: Ifo[] = [
     name: 'WOM',
     poolBasic: {
       raiseAmount: '$210,000',
-      distributionRatio: 0.1,
     },
     poolUnlimited: {
       raiseAmount: '$1,890,000',
-      distributionRatio: 0.9,
     },
     currency: bscTokens.cake,
     token: bscTokens.wom,
-    releaseBlockNumber: 20685666,
     campaignId: '511400000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/bafkreieqv7mbzmumyftstt6l32x6okfzq4syrea7k5zbqgohhcekcvbduu',
@@ -169,15 +200,12 @@ const ifos: Ifo[] = [
     name: 'Meta Apes ($PEEL)',
     poolBasic: {
       raiseAmount: '$400,000',
-      distributionRatio: 0.2,
     },
     poolUnlimited: {
       raiseAmount: '$1,600,000',
-      distributionRatio: 0.8,
     },
     currency: bscTokens.cake,
     token: bscTokens.peel,
-    releaseBlockNumber: 19964276,
     campaignId: '511300000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/bafkreibomj5nilvyckdro7ztmm62syt55dcfnonxs63ji6hm2ijq35lru4',
@@ -195,15 +223,12 @@ const ifos: Ifo[] = [
     name: 'TRIVIA',
     poolBasic: {
       raiseAmount: '$350,000',
-      distributionRatio: 0.2,
     },
     poolUnlimited: {
       raiseAmount: '$1,400,000',
-      distributionRatio: 0.8,
     },
     currency: bscTokens.cake,
     token: bscTokens.trivia,
-    releaseBlockNumber: 19273145,
     campaignId: '511200000',
     articleUrl:
       'https://icecreamswap.com/voting/proposal/bafkreihrc2d55vrowbn2oajzs77ffv73g4hzch2e7wulnuccmbwl5u4hvq',
@@ -222,15 +247,12 @@ const ifos: Ifo[] = [
     name: 'DUET',
     poolBasic: {
       raiseAmount: '$360,000',
-      distributionRatio: 0.2,
     },
     poolUnlimited: {
       raiseAmount: '$1,440,000',
-      distributionRatio: 0.8,
     },
     currency: bscTokens.cake,
     token: bscTokens.duet,
-    releaseBlockNumber: null,
     campaignId: '511190000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmXwoYYd8rkahVbxiGKsTa4rYRRFWPxhRGAHy3hVwK3Q2z',
     tokenOfferingPrice: 0.3,
@@ -247,15 +269,12 @@ const ifos: Ifo[] = [
     name: 'ERA (Game of Truth)',
     poolBasic: {
       raiseAmount: '$360,000',
-      distributionRatio: 0.2,
     },
     poolUnlimited: {
       raiseAmount: '$1,440,000',
-      distributionRatio: 0.8,
     },
     currency: bscTokens.cake,
     token: bscTokens.era,
-    releaseBlockNumber: 15156634,
     campaignId: '511180000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmTfN1SKnFidF6XCDcpga7zAf69mFfhb26Zy9b85dYskxW',
     tokenOfferingPrice: 0.09,
@@ -272,15 +291,12 @@ const ifos: Ifo[] = [
     name: 'Froyo Games (FROYO)',
     poolBasic: {
       raiseAmount: '$1,200,000',
-      distributionRatio: 0.3,
     },
     poolUnlimited: {
       raiseAmount: '$2,800,000',
-      distributionRatio: 0.7,
     },
     currency: bscTokens.cake,
     token: bscTokens.froyo,
-    releaseBlockNumber: 14297000,
     campaignId: '511170000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmRhc4oC73jk4zxU4YkP1kudKHeq6qamgYA1sWoh6XJnks',
     tokenOfferingPrice: 0.06,
@@ -296,15 +312,12 @@ const ifos: Ifo[] = [
     name: 'Diviner Protocol (DPT)',
     poolBasic: {
       raiseAmount: '$180,000',
-      distributionRatio: 0.3,
     },
     poolUnlimited: {
       raiseAmount: '$420,000',
-      distributionRatio: 0.7,
     },
     currency: bscTokens.cake,
     token: bscTokens.dpt,
-    releaseBlockNumber: 13491500,
     campaignId: '511160000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmQqpknHvuQwshVP259qFxfQsxiWbQ9SLMebohDeRwRzKg',
     tokenOfferingPrice: 0.025,
@@ -327,7 +340,6 @@ const ifos: Ifo[] = [
     },
     currency: bscTokens.cake,
     token: bscTokens.santos,
-    releaseBlockNumber: 13097777,
     campaignId: '511150000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmUqRxjwZCWeZWEdgV2vHJ6hex7jMW7i247NKFas73xc8j',
     tokenOfferingPrice: 2.5,
@@ -350,7 +362,6 @@ const ifos: Ifo[] = [
     },
     currency: bscTokens.cake,
     token: bscTokens.porto,
-    releaseBlockNumber: 12687500,
     campaignId: '511140000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmaakXYpydAwCgTuSPe3R2ZNraRtkCbK6iBRqBCCdzqKEG',
     tokenOfferingPrice: 2,
@@ -373,7 +384,6 @@ const ifos: Ifo[] = [
     },
     currency: bscTokens.cake,
     token: bscTokens.dar,
-    releaseBlockNumber: 12335455,
     campaignId: '511130000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmeJenHcbY45eQxLRebzvpNk5qSCrj2wM1t4EAMHotFoJL',
     tokenOfferingPrice: 0.075,
@@ -398,7 +408,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.dkt,
-    releaseBlockNumber: 12130750,
     campaignId: '511120000',
     articleUrl: 'https://icecreamswap.com/voting/proposal/QmTRWdW9a65fAkyJy1wrAJRU548fNMAZhRUDrSxzMDLmwk',
     tokenOfferingPrice: 1.75,
@@ -423,7 +432,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.kalm,
-    releaseBlockNumber: 7707736,
     campaignId: '511110000',
     articleUrl: 'https://pancakeswap.medium.com/kalmar-kalm-ifo-to-be-hosted-on-pancakeswap-4540059753e4',
     tokenOfferingPrice: 2.0,
@@ -448,7 +456,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.hotcross,
-    releaseBlockNumber: 7477900,
     campaignId: '511100000',
     articleUrl: 'https://pancakeswap.medium.com/hot-cross-hotcross-ifo-to-be-hosted-on-pancakeswap-10e70f1f6841',
     tokenOfferingPrice: 0.05,
@@ -473,7 +480,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.hzn,
-    releaseBlockNumber: 6581111,
     campaignId: '511090000',
     articleUrl: 'https://pancakeswap.medium.com/horizon-protocol-hzn-ifo-to-be-hosted-on-pancakeswap-51f79601c9d8',
     tokenOfferingPrice: 0.25,
@@ -492,7 +498,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.belt,
-    releaseBlockNumber: 5493919,
     campaignId: '511080000',
     articleUrl: 'https://pancakeswap.medium.com/belt-fi-belt-ifo-to-be-hosted-on-pancakeswap-353585117e32',
     tokenOfferingPrice: null,
@@ -511,7 +516,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.watch,
-    releaseBlockNumber: 5294924,
     campaignId: '511070000',
     articleUrl: 'https://pancakeswap.medium.com/yieldwatch-watch-ifo-to-be-hosted-on-pancakeswap-d24301f17241',
     tokenOfferingPrice: null,
@@ -530,7 +534,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.bry,
-    releaseBlockNumber: 4750968,
     campaignId: '511060000',
     articleUrl: 'https://pancakeswap.medium.com/berry-bry-ifo-to-be-hosted-on-pancakeswap-b4f9095e9cdb',
     tokenOfferingPrice: null,
@@ -549,7 +552,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.wsote,
-    releaseBlockNumber: 4086064,
     campaignId: '511050000',
     articleUrl: 'https://pancakeswap.medium.com/soteria-sota-ifo-to-be-hosted-on-pancakeswap-64b727c272ae',
     tokenOfferingPrice: null,
@@ -568,7 +570,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.helmet,
-    releaseBlockNumber: 3771926,
     campaignId: '511040000',
     articleUrl: 'https://pancakeswap.medium.com/1-000-000-helmet-helmet-ifo-to-be-hosted-on-pancakeswap-3379a2a89a67',
     tokenOfferingPrice: null,
@@ -587,7 +588,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.ten,
-    releaseBlockNumber: 3483883,
     campaignId: '511030000',
     articleUrl: 'https://pancakeswap.medium.com/tenet-ten-ifo-to-be-hosted-on-pancakeswap-b7e1eb4cb272',
     tokenOfferingPrice: null,
@@ -606,7 +606,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.ditto,
-    releaseBlockNumber: 3279767,
     campaignId: '511020000',
     articleUrl: 'https://pancakeswap.medium.com/ditto-money-ditto-ifo-to-be-hosted-on-pancakeswap-342da3059a66',
     tokenOfferingPrice: null,
@@ -625,7 +624,6 @@ const ifos: Ifo[] = [
     },
     currency: cakeBnbLpToken,
     token: bscTokens.blink,
-    releaseBlockNumber: 3279767,
     campaignId: '511010000',
     articleUrl: 'https://medium.com/pancakeswap/1-000-000-ifo-blink-joins-pancakeswap-15841800bdd8',
     tokenOfferingPrice: null,

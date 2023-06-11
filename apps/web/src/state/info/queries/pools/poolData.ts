@@ -1,17 +1,17 @@
 /* eslint-disable no-param-reassign */
 import { gql } from 'graphql-request'
-import { useEffect, useState } from 'react'
-import mapValues from 'lodash/mapValues'
-import { PoolData, Block } from 'state/info/types'
+import { Block, PoolData } from 'state/info/types'
 import { getChangeForPeriod } from 'utils/getChangeForPeriod'
 import { getLpFeesAndApr } from 'utils/getLpFeesAndApr'
-import { getDeltaTimestamps } from 'utils/getDeltaTimestamps'
-import { useBlocksFromTimestamps } from 'views/Info/hooks/useBlocksFromTimestamps'
-import { getPercentChange } from 'views/Info/utils/infoDataHelpers'
-import { useGetChainName } from '../../hooks'
-import { MultiChainName, multiChainQueryMainToken, getMultiChainQueryEndPointWithStableSwap } from '../../constant'
+import { getAmountChange, getPercentChange } from 'views/Info/utils/infoDataHelpers'
+
+import {
+  MultiChainName,
+  checkIsStableSwap,
+  getMultiChainQueryEndPointWithStableSwap,
+  multiChainQueryMainToken,
+} from '../../constant'
 import { fetchTopPoolAddresses } from './topPools'
-import { getPairTokenMap } from '../helpers'
 
 interface PoolFields {
   id: string
@@ -19,6 +19,7 @@ interface PoolFields {
   reserve1: string
   reserveUSD: string
   volumeUSD: string
+  volumeOutUSD?: string
   token0Price: string
   token1Price: string
   token0?: {
@@ -34,13 +35,17 @@ interface PoolFields {
 }
 
 export interface FormattedPoolFields
-  extends Omit<PoolFields, 'volumeUSD' | 'reserveUSD' | 'reserve0' | 'reserve1' | 'token0Price' | 'token1Price'> {
+  extends Omit<
+    PoolFields,
+    'volumeUSD' | 'reserveUSD' | 'reserve0' | 'reserve1' | 'token0Price' | 'token1Price' | 'volumeOutUSD'
+  > {
   volumeUSD: number
   reserveUSD: number
   reserve0: number
   reserve1: number
   token0Price: number
   token1Price: number
+  volumeOutUSD?: number
 }
 
 interface PoolsQueryResponse {
@@ -59,6 +64,8 @@ interface PoolsQueryResponse {
 const POOL_AT_BLOCK = (chainName: MultiChainName, block: number | null, pools: string[]) => {
   const blockString = block ? `block: {number: ${block}}` : ``
   const addressesString = `["${pools.join('","')}"]`
+  const volumeOutUSDString = checkIsStableSwap() ? 'volumeOutUSD' : ''
+
   return `pairs(
     where: { id_in: ${addressesString} }
     ${blockString}
@@ -70,8 +77,19 @@ const POOL_AT_BLOCK = (chainName: MultiChainName, block: number | null, pools: s
     reserve1
     reserveUSD
     volumeUSD
+    ${volumeOutUSDString}
     token0Price
     token1Price
+    token0 {
+      id
+      symbol
+      name
+    }
+    token1 {
+      id
+      symbol
+      name
+    }
   }`
 }
 
@@ -81,9 +99,9 @@ export const fetchPoolData = async (
   block7d: number,
   block14d: number,
   poolAddresses: string[],
-  chainName: MultiChainName,
+  chainName: MultiChainName = "CORE",
+  chainName: MultiChainName = 'BSC',
 ) => {
-  const pairTokenMap = await getPairTokenMap(poolAddresses, chainName)
   try {
     const query = gql`
       query pools {
@@ -91,26 +109,11 @@ export const fetchPoolData = async (
         oneDayAgo: ${POOL_AT_BLOCK(chainName, block24h, poolAddresses)}
         twoDaysAgo: ${POOL_AT_BLOCK(chainName, block48h, poolAddresses)}
         oneWeekAgo: ${POOL_AT_BLOCK(chainName, block7d, poolAddresses)}
+        twoWeeksAgo: ${POOL_AT_BLOCK(chainName, block14d, poolAddresses)}
       }
     `
-
     const data = await getMultiChainQueryEndPointWithStableSwap(chainName).request<PoolsQueryResponse>(query)
-    const dataWithTokenInfo = mapValues(data, (poolFieldsArray) => {
-      return poolFieldsArray
-        ? poolFieldsArray
-            .map((poolFields) => {
-              const pairTokenResult = pairTokenMap[poolFields.id]
-              return pairTokenResult
-                ? {
-                    ...poolFields,
-                    ...pairTokenResult,
-                  }
-                : null
-            })
-            .filter(Boolean)
-        : null
-    })
-    return { data: dataWithTokenInfo, error: false }
+    return { data, error: false }
   } catch (error) {
     console.error('Failed to fetch pool data', error)
     return { error: true }
@@ -123,10 +126,11 @@ export const parsePoolData = (pairs?: PoolFields[]) => {
     return {}
   }
   return pairs.reduce((accum: { [address: string]: FormattedPoolFields }, poolData) => {
-    const { volumeUSD, reserveUSD, reserve0, reserve1, token0Price, token1Price } = poolData
-    accum[poolData.id] = {
+    const { volumeUSD, reserveUSD, reserve0, reserve1, token0Price, token1Price, volumeOutUSD } = poolData
+    accum[poolData.id.toLowerCase()] = {
       ...poolData,
       volumeUSD: parseFloat(volumeUSD),
+      volumeOutUSD: volumeOutUSD && parseFloat(volumeOutUSD),
       reserveUSD: parseFloat(reserveUSD),
       reserve0: parseFloat(reserve0),
       reserve1: parseFloat(reserve1),
@@ -135,121 +139,6 @@ export const parsePoolData = (pairs?: PoolFields[]) => {
     }
     return accum
   }, {})
-}
-
-interface PoolDatas {
-  error: boolean
-  data?: {
-    [address: string]: PoolData
-  }
-}
-
-/**
- * Fetch top pools by liquidity
- */
-const usePoolDatas = (poolAddresses: string[]): PoolDatas => {
-  const [fetchState, setFetchState] = useState<PoolDatas>({ error: false })
-  const [t24h, t48h, t7d, t14d] = getDeltaTimestamps()
-  const { blocks, error: blockError } = useBlocksFromTimestamps([t24h, t48h, t7d, t14d])
-  const [block24h, block48h, block7d, block14d] = blocks ?? []
-  const chainName = useGetChainName()
-
-  useEffect(() => {
-    const fetch = async () => {
-      const { error, data } = await fetchPoolData(
-        block24h?.number,
-        block48h?.number,
-        block7d?.number,
-        block14d?.number,
-        poolAddresses,
-        chainName,
-      )
-      if (error) {
-        setFetchState({ error: true })
-      } else {
-        const formattedPoolData = parsePoolData(data?.now)
-        const formattedPoolData24h = parsePoolData(data?.oneDayAgo)
-        const formattedPoolData48h = parsePoolData(data?.twoDaysAgo)
-        const formattedPoolData7d = parsePoolData(data?.oneWeekAgo)
-        const formattedPoolData14d = parsePoolData(data?.twoWeeksAgo)
-
-        // Calculate data and format
-        const formatted = poolAddresses.reduce((accum: { [address: string]: PoolData }, address) => {
-          // Undefined data is possible if pool is brand new and didn't exist one day ago or week ago.
-          const current: FormattedPoolFields | undefined = formattedPoolData[address]
-          const oneDay: FormattedPoolFields | undefined = formattedPoolData24h[address]
-          const twoDays: FormattedPoolFields | undefined = formattedPoolData48h[address]
-          const week: FormattedPoolFields | undefined = formattedPoolData7d[address]
-          const twoWeeks: FormattedPoolFields | undefined = formattedPoolData14d[address]
-
-          const [volumeUSD, volumeUSDChange] = getChangeForPeriod(
-            current?.volumeUSD,
-            oneDay?.volumeUSD,
-            twoDays?.volumeUSD,
-          )
-          const [volumeUSDWeek, volumeUSDChangeWeek] = getChangeForPeriod(
-            current?.volumeUSD,
-            week?.volumeUSD,
-            twoWeeks?.volumeUSD,
-          )
-
-          const liquidityUSD = current ? current.reserveUSD : 0
-
-          const liquidityUSDChange = getPercentChange(current?.reserveUSD, oneDay?.reserveUSD)
-
-          const liquidityToken0 = current ? current.reserve0 : 0
-          const liquidityToken1 = current ? current.reserve1 : 0
-
-          const { totalFees24h, totalFees7d, lpFees24h, lpFees7d, lpApr7d } = getLpFeesAndApr(
-            volumeUSD,
-            volumeUSDWeek,
-            liquidityUSD,
-          )
-
-          if (current) {
-            accum[address] = {
-              address,
-              token0: {
-                address: current.token0.id,
-                name: current.token0.name,
-                symbol: current.token0.symbol,
-              },
-              token1: {
-                address: current.token1.id,
-                name: current.token1.name,
-                symbol: current.token1.symbol,
-              },
-              token0Price: current.token0Price,
-              token1Price: current.token1Price,
-              volumeUSD,
-              volumeUSDChange,
-              volumeUSDWeek,
-              volumeUSDChangeWeek,
-              totalFees24h,
-              totalFees7d,
-              lpFees24h,
-              lpFees7d,
-              lpApr7d,
-              liquidityUSD,
-              liquidityUSDChange,
-              liquidityToken0,
-              liquidityToken1,
-            }
-          }
-
-          return accum
-        }, {})
-        setFetchState({ data: formatted, error: false })
-      }
-    }
-
-    const allBlocksAvailable = block24h?.number && block48h?.number && block7d?.number && block14d?.number
-    if (poolAddresses.length > 0 && allBlocksAvailable && !blockError) {
-      fetch()
-    }
-  }, [poolAddresses, block24h, block48h, block7d, block14d, blockError, chainName])
-
-  return fetchState
 }
 
 export const fetchAllPoolDataWithAddress = async (
@@ -284,6 +173,8 @@ export const fetchAllPoolDataWithAddress = async (
     const twoWeeks: FormattedPoolFields | undefined = formattedPoolData14d[address]
 
     const [volumeUSD, volumeUSDChange] = getChangeForPeriod(current?.volumeUSD, oneDay?.volumeUSD, twoDays?.volumeUSD)
+    const volumeOutUSD = current?.volumeOutUSD && getAmountChange(current?.volumeOutUSD, oneDay?.volumeOutUSD)
+    const volumeOutUSDWeek = current?.volumeOutUSD && getAmountChange(current?.volumeOutUSD, week?.volumeOutUSD)
     const [volumeUSDWeek, volumeUSDChangeWeek] = getChangeForPeriod(
       current?.volumeUSD,
       week?.volumeUSD,
@@ -308,14 +199,14 @@ export const fetchAllPoolDataWithAddress = async (
         data: {
           address,
           token0: {
-            address: current.token0.id,
-            name: current.token0.name,
-            symbol: current.token0.symbol,
+            address: current?.token0?.id ?? '',
+            name: current?.token0?.name ?? '',
+            symbol: current?.token0?.symbol ?? '',
           },
           token1: {
-            address: current.token1.id,
-            name: current.token1.name,
-            symbol: current.token1.symbol,
+            address: current?.token1?.id ?? '',
+            name: current?.token1?.name ?? '',
+            symbol: current?.token1?.symbol ?? '',
           },
           token0Price: current.token0Price,
           token1Price: current.token1Price,
@@ -332,6 +223,8 @@ export const fetchAllPoolDataWithAddress = async (
           liquidityUSDChange,
           liquidityToken0,
           liquidityToken1,
+          volumeOutUSD,
+          volumeOutUSDWeek,
         },
       }
     }
@@ -345,5 +238,3 @@ export const fetchAllPoolData = async (blocks: Block[], chainName: MultiChainNam
   const poolAddresses = await fetchTopPoolAddresses(chainName)
   return fetchAllPoolDataWithAddress(blocks, chainName, poolAddresses)
 }
-
-export default usePoolDatas

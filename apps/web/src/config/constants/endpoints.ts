@@ -10,6 +10,14 @@ export const INFO_CLIENT_CORE = 'https://graph-core.icecreamswap.com/subgraphs/n
 export const BLOCKS_CLIENT_CORE = 'https://graph-core.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core'
 
 
+export const INFO_CLIENT = 'https://proxy-worker.pancake-swap.workers.dev/bsc-exchange'
+export const V3_BSC_INFO_CLIENT = `https://open-platform.nodereal.io/${
+  process.env.NEXT_PUBLIC_NODE_REAL_API_INFO || process.env.NEXT_PUBLIC_NODE_REAL_API_ETH
+}/pancakeswap-v3/graphql`
+
+export const INFO_CLIENT_ETH = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exhange-eth'
+export const BLOCKS_CLIENT = 'https://api.thegraph.com/subgraphs/name/pancakeswap/blocks'
+export const BLOCKS_CLIENT_ETH = 'https://api.thegraph.com/subgraphs/name/blocklytics/ethereum-blocks'
 
 export const STABLESWAP_SUBGRAPH_CLIENT = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-stableswap'
 export const GRAPH_HEALTH = 'https://api.thegraph.com/index-node/graphql'
@@ -18,14 +26,13 @@ export const FARM_API = 'https://farms.pancake-swap.workers.dev'
 
 export const BIT_QUERY = 'https://graphql.bitquery.io'
 
-export const ACCESS_RISK_API = 'https://red.alert.pancakeswap.com/red-api'
+export const ACCESS_RISK_API = '/api/risk'
 
 export const CELER_API = 'https://api.celerscan.com/scan'
 
 export const INFO_CLIENT_WITH_CHAIN = {
-  [ChainId.BITGERT]: INFO_CLIENT_BITGERT,
-  [ChainId.XDC]: INFO_CLIENT_XDC,
-  [ChainId.CORE]: INFO_CLIENT_CORE,
+  [ChainId.BSC]: 'https://bsc.streamingfast.io/subgraphs/name/pancakeswap/exchange-v2',
+  [ChainId.ETHEREUM]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exhange-eth',
 }
 
 export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
@@ -33,3 +40,18 @@ export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
   [ChainId.XDC]: BLOCKS_CLIENT_XDC,
   [ChainId.CORE]: BLOCKS_CLIENT_CORE,
 }
+
+export const ASSET_CDN = 'https://assets.pancakeswap.finance'
+
+export const V3_SUBGRAPH_URLS = {
+  [ChainId.ETHEREUM]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-eth',
+  [ChainId.GOERLI]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-goerli',
+  [ChainId.BSC]: `https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-bsc`,
+  [ChainId.BSC_TESTNET]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-chapel',
+} satisfies Record<ChainId, string>
+
+export const TRADING_REWARD_API = 'https://pancake-trading-fee-rebate-api.pancake.run/api/v1'
+
+export const QUOTING_API = `${process.env.NEXT_PUBLIC_QUOTING_API}/v0/quote`
+
+export const FARMS_API = 'https://farms-api.pancakeswap.com'

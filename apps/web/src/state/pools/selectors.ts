@@ -40,7 +40,7 @@ export const poolsWithVaultSelector = createSelector(
 
     let cakeAutoVault
     if (cakePool) {
-      cakeAutoVault = {
+      cakeAutoVault = cakePool && {
           ...cakePool,
           ...deserializedLockedCakeVault,
           vaultKey: VaultKey.CakeVault,
@@ -52,7 +52,7 @@ export const poolsWithVaultSelector = createSelector(
     const hasFlexibleSideSharesStaked = deserializedFlexibleSideCakeVault.userData.userShares.gt(0)
 
     const cakeAutoFlexibleSideVault =
-      lockedVaultPosition > VaultPosition.Flexible || hasFlexibleSideSharesStaked
+      cakePool && (lockedVaultPosition > VaultPosition.Flexible || hasFlexibleSideSharesStaked)
         ? [
             {
               ...cakePool,
@@ -62,7 +62,12 @@ export const poolsWithVaultSelector = createSelector(
             },
           ]
         : []
-    return { pools: [...(cakeAutoVault? [cakeAutoVault]: []), ...cakeAutoFlexibleSideVault, ...withoutCakePool], userDataLoaded }
+
+    const allPools = [...cakeAutoFlexibleSideVault, ...withoutCakePool]
+    if (cakeAutoVault) {
+      allPools.unshift(cakeAutoVault)
+    }
+    return { pools: allPools, userDataLoaded }
   },
 )
 

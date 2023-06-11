@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react'
 import { useTranslation } from '@pancakeswap/localization'
-import { createChart, IChartApi } from 'lightweight-charts'
+import { ColorType, createChart, IChartApi } from 'lightweight-charts'
 import { format } from 'date-fns'
-import { useTheme } from 'styled-components'
-import { CandleChartLoader } from 'views/Info/components/ChartLoaders'
+import { useTheme } from '@pancakeswap/hooks'
+import { CandleChartLoader } from 'components/ChartLoaders'
 import { baseColors, lightColors, darkColors } from '@pancakeswap/ui/tokens/colors'
 
 const CANDLE_CHART_HEIGHT = 250
@@ -15,7 +15,7 @@ export type LineChartProps = {
 } & React.HTMLAttributes<HTMLDivElement>
 
 const CandleChart = ({ data, setValue, setLabel, ...rest }: LineChartProps) => {
-  const theme = useTheme()
+  const { theme } = useTheme()
   const {
     currentLanguage: { locale },
   } = useTranslation()
@@ -48,7 +48,10 @@ const CandleChart = ({ data, setValue, setLabel, ...rest }: LineChartProps) => {
         height: CANDLE_CHART_HEIGHT,
         width: chartRef.current.parentElement.clientWidth - 32,
         layout: {
-          backgroundColor: 'transparent',
+          background: {
+            type: ColorType.Solid,
+            color: 'transparent',
+          },
           textColor: theme.colors.textSubtle,
           fontFamily: 'var(--font-poppins), sans-serif',
           fontSize: 12,
@@ -145,7 +148,7 @@ const CandleChart = ({ data, setValue, setLabel, ...rest }: LineChartProps) => {
             minute: '2-digit',
             timeZone: 'UTC',
           })} (UTC)`
-          const parsed = param.seriesPrices.get(series) as { open: number } | undefined
+          const parsed = param.seriesData.get(series) as { open: number } | undefined
           if (setValue) setValue(parsed?.open)
           if (setLabel) setLabel(time)
         }

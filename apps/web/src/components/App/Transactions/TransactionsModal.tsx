@@ -5,10 +5,10 @@ import isEmpty from 'lodash/isEmpty'
 import groupBy from 'lodash/groupBy'
 import { useAllSortedRecentTransactions } from '../../../state/transactions/hooks'
 import { TransactionDetails } from 'state/transactions/reducer'
-import { useAppDispatch } from '../../../state'
-import { clearAllTransactions } from '../../../state/transactions/actions'
-import { chains } from '../../../utils/wagmi'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAppDispatch } from 'state'
+import { clearAllTransactions } from 'state/transactions/actions'
+import { chains } from 'utils/wagmi'
+import { useAccount } from 'wagmi'
 import { AutoRow } from '../../Layout/Row'
 import Transaction from './Transaction'
 import ConnectWalletButton from '../../ConnectWalletButton'
@@ -24,7 +24,7 @@ function renderTransactions(transactions: TransactionDetails[], chainId: number)
 }
 
 const TransactionsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ onDismiss }) => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const dispatch = useAppDispatch()
   const sortedRecentTransactions = useAllSortedRecentTransactions()
 

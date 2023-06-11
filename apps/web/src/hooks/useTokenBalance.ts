@@ -1,19 +1,20 @@
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import BigNumber from 'bignumber.js'
 import { ICE } from '@pancakeswap/tokens'
 import { FAST_INTERVAL } from '../config/constants'
-import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
+import { BigNumber as EthersBigNumber } from 'ethers'
 import { Zero } from '@ethersproject/constants'
 import { ChainId } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
 import useSWR from 'swr'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { bitgertRpcProvider, bscRpcProvider } from '../utils/providers'
+import { useWeb3React } from '@pancakeswap/wagmi'
 import { useTokenContract } from './useContract'
 import { useSWRContract } from './useSWRContract'
 
 const useTokenBalance = (tokenAddress: string, forceBitgert?: boolean) => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
 
   const contract = useTokenContract(tokenAddress, false)
 
@@ -41,7 +42,7 @@ const useTokenBalance = (tokenAddress: string, forceBitgert?: boolean) => {
 }
 
 export const useGetBnbBalance = () => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const { status, data, mutate } = useSWR([account, 'bnbBalance'], async () => {
     return bscRpcProvider.getBalance(account)
   })

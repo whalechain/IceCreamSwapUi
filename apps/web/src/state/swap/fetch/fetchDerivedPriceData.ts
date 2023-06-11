@@ -1,19 +1,70 @@
-import orderBy from 'lodash/orderBy'
+import { ChainId } from '@pancakeswap/sdk'
+import { INFO_CLIENT, INFO_CLIENT_ETH, STABLESWAP_SUBGRAPH_CLIENT, V3_SUBGRAPH_URLS } from 'config/constants/endpoints'
 import { ONE_DAY_UNIX, ONE_HOUR_SECONDS } from 'config/constants/info'
-import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
 import { getUnixTime, startOfHour, sub } from 'date-fns'
-import { Block } from 'state/info/types'
-import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
+import request from 'graphql-request'
 import mapValues from 'lodash/mapValues'
-import { getDerivedPrices, getDerivedPricesQueryConstructor } from '../queries/getDerivedPrices'
+import orderBy from 'lodash/orderBy'
+import { multiChainName } from 'state/info/constant'
+import { Block } from 'state/info/types'
+import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
+import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
+import { getTVL, getDerivedPrices, getDerivedPricesQueryConstructor } from '../queries/getDerivedPrices'
 import { PairDataTimeWindowEnum } from '../types'
-import {MultiChainName, multiChainQueryEndPoint, multiChainQueryMainToken} from "../../info/constant";
 
-const getTokenDerivedBnbPrices = async (tokenAddress: string, blocks: Block[], chainName: MultiChainName) => {
+const PROTOCOL = ['v2', 'v3', 'stable'] as const
+type Protocol = (typeof PROTOCOL)[number]
+
+type ProtocolEndpoint = Record<Protocol, string>
+
+const SWAP_INFO_BY_CHAIN = {
+  [ChainId.BSC]: {
+    v2: INFO_CLIENT,
+    stable: STABLESWAP_SUBGRAPH_CLIENT,
+    // v3: V3_SUBGRAPH_URLS[ChainId.BSC],
+  },
+  [ChainId.ETHEREUM]: {
+    v2: INFO_CLIENT_ETH,
+    // v3: V3_SUBGRAPH_URLS[ChainId.ETHEREUM],
+  },
+  [ChainId.BSC_TESTNET]: {
+    v3: V3_SUBGRAPH_URLS[ChainId.BSC_TESTNET],
+  },
+  [ChainId.GOERLI]: {},
+} satisfies Record<ChainId, Partial<ProtocolEndpoint>>
+
+export const getTokenBestTvlProtocol = async (tokenAddress: string, chainId: ChainId): Promise<Protocol | null> => {
+  const infos = SWAP_INFO_BY_CHAIN[chainId]
+  if (infos) {
+    const [v2, v3, stable] = await Promise.allSettled([
+      'v2' in infos ? request(infos.v2, getTVL(tokenAddress.toLowerCase())) : Promise.resolve(),
+      'v3' in infos ? request(infos.v3, getTVL(tokenAddress.toLowerCase(), true)) : Promise.resolve(),
+      'stable' in infos ? request(infos.stable, getTVL(tokenAddress.toLowerCase())) : Promise.resolve(),
+    ])
+
+    const results = [v2, v3, stable]
+    let bestProtocol: Protocol = 'v2'
+    let bestTVL = 0
+    for (const [index, result] of results.entries()) {
+      if (result.status === 'fulfilled' && result.value && result.value.token) {
+        if (+result.value.token.totalValueLocked > bestTVL) {
+          bestTVL = +result.value.token.totalValueLocked
+          bestProtocol = PROTOCOL[index]
+        }
+      }
+    }
+
+    return bestProtocol
+  }
+
+  return null
+}
+
+const getTokenDerivedUSDCPrices = async (tokenAddress: string, blocks: Block[], endpoint: string) => {
   const rawPrices: any | undefined = await multiQuery(
     getDerivedPricesQueryConstructor,
-    getDerivedPrices(tokenAddress, blocks, chainName),
-    multiChainQueryEndPoint[chainName],
+    getDerivedPrices(tokenAddress, blocks),
+    endpoint,
     200,
   )
 
@@ -23,29 +74,27 @@ const getTokenDerivedBnbPrices = async (tokenAddress: string, blocks: Block[], c
   }
 
   const prices = mapValues(rawPrices, (value) => {
-    return value[0]
+    return value.derivedUSD
   })
 
   // format token BNB price results
   const tokenPrices: {
     tokenAddress: string
     timestamp: string
-    derivedBNB: number
+    derivedUSD: number
   }[] = []
 
   // Get Token prices in BNB
   Object.keys(prices).forEach((priceKey) => {
     const timestamp = priceKey.split('t')[1]
-    const derivedKey = `derived${multiChainQueryMainToken[chainName]}`
-    if (timestamp && prices[priceKey]) {
+    if (timestamp) {
       tokenPrices.push({
         tokenAddress,
         timestamp,
-        derivedBNB: parseFloat(prices[priceKey][derivedKey]),
+        derivedUSD: prices[priceKey] ? parseFloat(prices[priceKey]) : 0,
       })
     }
   })
-  console.info(tokenPrices)
 
   return orderBy(tokenPrices, (tokenPrice) => parseInt(tokenPrice.timestamp, 10))
 }
@@ -86,30 +135,35 @@ const fetchDerivedPriceData = async (
   token0Address: string,
   token1Address: string,
   timeWindow: PairDataTimeWindowEnum,
-  chainName: MultiChainName,
+  protocol0: Protocol,
+  protocol1: Protocol,
+  chainId: ChainId,
 ) => {
   const interval = getInterval(timeWindow)
   const endTimestamp = getUnixTime(new Date())
   const startTimestamp = getUnixTime(startOfHour(sub(endTimestamp * 1000, { days: getSkipDaysToStart(timeWindow) })))
   const timestamps = []
   let time = startTimestamp
+  if (!SWAP_INFO_BY_CHAIN[chainId][protocol0] || !SWAP_INFO_BY_CHAIN[chainId][protocol1]) {
+    return null
+  }
   while (time <= endTimestamp) {
     timestamps.push(time)
     time += interval
   }
 
   try {
-    const blocks = await getBlocksFromTimestamps(timestamps, 'asc', 500, chainName)
+    const blocks = await getBlocksFromTimestamps(timestamps, 'asc', 500, multiChainName[chainId])
     if (!blocks || blocks.length === 0) {
       console.error('Error fetching blocks for timestamps', timestamps)
       return null
     }
-
-    const [token0DerivedBnb, token1DerivedBnb] = await Promise.all([
-      getTokenDerivedBnbPrices(token0Address, blocks, chainName),
-      getTokenDerivedBnbPrices(token1Address, blocks, chainName),
+    blocks.pop() // the bsc graph is 32 block behind so pop the last
+    const [token0DerivedUSD, token1DerivedUSD] = await Promise.all([
+      getTokenDerivedUSDCPrices(token0Address, blocks, SWAP_INFO_BY_CHAIN[chainId][protocol0]),
+      getTokenDerivedUSDCPrices(token1Address, blocks, SWAP_INFO_BY_CHAIN[chainId][protocol1]),
     ])
-    return { token0DerivedBnb, token1DerivedBnb }
+    return { token0DerivedUSD, token1DerivedUSD }
   } catch (error) {
     console.error('Failed to fetched derived price data for chart', error)
     return null

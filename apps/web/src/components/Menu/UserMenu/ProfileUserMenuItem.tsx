@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import NextLink from 'next/link'
 import { Flex, Skeleton, UserMenuItem } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import { useTranslation } from '@pancakeswap/localization'
 
 interface ProfileUserMenuItemProps {
@@ -22,7 +22,7 @@ const ProfileUserMenuItem: React.FC<React.PropsWithChildren<ProfileUserMenuItemP
   hasProfile,
   disabled,
 }) => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const { t } = useTranslation()
 
   if (isLoading) {
@@ -36,7 +36,7 @@ const ProfileUserMenuItem: React.FC<React.PropsWithChildren<ProfileUserMenuItemP
   if (!hasProfile) {
     return (
       <NextLink href="/create-profile" passHref prefetch={false}>
-        <UserMenuItem as="a" disabled={disabled}>
+        <UserMenuItem disabled={disabled}>
           <Flex alignItems="center" justifyContent="space-between" width="100%">
             {t('Make a Profile')}
             <Dot />
@@ -48,9 +48,7 @@ const ProfileUserMenuItem: React.FC<React.PropsWithChildren<ProfileUserMenuItemP
 
   return (
     <NextLink href={`/profile/${account?.toLowerCase()}/achievements`} passHref prefetch={false}>
-      <UserMenuItem as="a" disabled={disabled}>
-        {t('Your Profile')}
-      </UserMenuItem>
+      <UserMenuItem disabled={disabled}>{t('Your Profile')}</UserMenuItem>
     </NextLink>
   )
 }

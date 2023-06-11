@@ -4,15 +4,27 @@ import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 import { UNSUPPORTED_LIST_URLS } from '../../config/constants/lists'
 import { EXCHANGE_PAGE_PATHS } from '../../config/constants/exchange'
 import useWeb3Provider from '../../hooks/useActiveWeb3React'
+import { getVersionUpgrade, VersionUpgrade } from '@pancakeswap/token-lists'
+import { acceptListUpdate, updateListVersion, useFetchListCallback } from '@pancakeswap/token-lists/react'
+import { EXCHANGE_PAGE_PATHS } from 'config/constants/exchange'
+import { UNSUPPORTED_LIST_URLS } from 'config/constants/lists'
+import { useProvider } from 'wagmi'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useAllLists, useActiveListUrls } from './hooks'
 import { useListState } from './lists'
+import { useEffect, useMemo } from 'react'
+import { useAllLists } from 'state/lists/hooks'
+import useSWRImmutable from 'swr/immutable'
+import { useActiveListUrls } from './hooks'
+import { useListState, useListStateReady, initialState } from './lists'
 
 export default function Updater(): null {
-  const { provider } = useWeb3Provider()
-  const [, dispatch] = useListState()
-  const isWindowVisible = useIsWindowVisible()
+  const { chainId } = useActiveChainId()
+  const provider = useProvider({ chainId })
+
+  const [listState, dispatch] = useListState()
   const router = useRouter()
   const includeListUpdater = useMemo(() => {
     return EXCHANGE_PAGE_PATHS.some((item) => {
@@ -20,47 +32,60 @@ export default function Updater(): null {
     })
   }, [router.pathname])
 
+  const isReady = useListStateReady()
+
   // get all loaded lists, and the active urls
   const lists = useAllLists()
   const activeListUrls = useActiveListUrls()
 
   useEffect(() => {
-    dispatch(updateListVersion())
-  }, [dispatch])
+    if (isReady) {
+      dispatch(updateListVersion())
+    }
+  }, [dispatch, isReady])
 
   const fetchList = useFetchListCallback(dispatch)
-  const fetchAllListsCallback = useCallback(() => {
-    if (!isWindowVisible) return
-    Object.keys(lists).forEach((url) =>
-      fetchList(url).catch((error) => console.debug('interval list fetching error', error)),
-    )
-  }, [fetchList, isWindowVisible, lists])
-
-  // fetch all lists every 10 minutes, but only after we initialize library and page has currency input
-  useInterval(fetchAllListsCallback, provider ? 1000 * 60 * 10 : null, true, includeListUpdater)
 
   // whenever a list is not loaded and not loading, try again to load it
-  useEffect(() => {
+  useSWRImmutable(isReady && ['first-fetch-token-list', lists], () => {
     Object.keys(lists).forEach((listUrl) => {
       const list = lists[listUrl]
       if (!list.current && !list.loadingRequestId && !list.error) {
         fetchList(listUrl).catch((error) => console.debug('list added fetching error', error))
       }
     })
-  }, [fetchList, provider, lists])
+  })
+
+  useSWRImmutable(
+    includeListUpdater && isReady && listState !== initialState ? ['token-list'] : null,
+    async () => {
+      return Promise.all(
+        Object.keys(lists).map((url) =>
+          fetchList(url).catch((error) => console.debug('interval list fetching error', error)),
+        ),
+      )
+    },
+    {
+      dedupingInterval: 1000 * 60 * 10,
+      refreshInterval: 1000 * 60 * 10,
+    },
+  )
 
   // if any lists from unsupported lists are loaded, check them too (in case new updates since last visit)
   useEffect(() => {
-    Object.keys(UNSUPPORTED_LIST_URLS).forEach((listUrl) => {
-      const list = lists[listUrl]
-      if (!list || (!list.current && !list.loadingRequestId && !list.error)) {
-        fetchList(listUrl).catch((error) => console.debug('list added fetching error', error))
-      }
-    })
-  }, [fetchList, provider, lists])
+    if (isReady) {
+      Object.keys(UNSUPPORTED_LIST_URLS).forEach((listUrl) => {
+        const list = lists[listUrl]
+        if (!list || (!list.current && !list.loadingRequestId && !list.error)) {
+          fetchList(listUrl).catch((error) => console.debug('list added fetching error', error))
+        }
+      })
+    }
+  }, [fetchList, provider, lists, isReady])
 
   // automatically update lists if versions are minor/patch
   useEffect(() => {
+    if (!isReady) return
     Object.keys(lists).forEach((listUrl) => {
       const list = lists[listUrl]
       if (list.current && list.pendingUpdate) {
@@ -77,7 +102,7 @@ export default function Updater(): null {
         }
       }
     })
-  }, [dispatch, lists, activeListUrls])
+  }, [dispatch, lists, activeListUrls, isReady])
 
   return null
 }

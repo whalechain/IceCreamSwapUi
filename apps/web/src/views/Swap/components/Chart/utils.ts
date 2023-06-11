@@ -23,6 +23,10 @@ export const getTimeWindowChange = (lineChartData) => {
   }
 }
 
+/**
+ *
+ * @deprecated not multi chain compatible
+ */
 export const getTokenAddress = (tokenAddress: undefined | string, chainId: number) => {
   if (!tokenAddress) {
     return ''

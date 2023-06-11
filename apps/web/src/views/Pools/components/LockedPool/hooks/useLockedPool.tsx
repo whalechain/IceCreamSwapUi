@@ -1,6 +1,8 @@
 import { useState, useCallback, Dispatch, SetStateAction } from 'react'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
+import { useSWRConfig } from 'swr'
 import { useTranslation } from '@pancakeswap/localization'
+import { ONE_WEEK_DEFAULT } from '@pancakeswap/pools'
 import { useAppDispatch } from 'state'
 import { useBUSDCakeAmount } from 'hooks/useBUSDPrice'
 import { useVaultPoolContract } from 'hooks/useContract'
@@ -10,8 +12,9 @@ import { useToast } from '@pancakeswap/uikit'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { fetchCakeVaultUserData } from 'state/pools'
 import { Token } from '@pancakeswap/sdk'
-import { ONE_WEEK_DEFAULT, vaultPoolConfig } from 'config/constants/pools'
+import { vaultPoolConfig } from 'config/constants/pools'
 import { VaultKey } from 'state/types'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
@@ -38,14 +41,16 @@ export default function useLockedPool(hookArgs: HookArgs): HookReturn {
   const { lockedAmount, stakingToken, onDismiss, prepConfirmArg, defaultDuration = ONE_WEEK_DEFAULT } = hookArgs
 
   const dispatch = useAppDispatch()
+  const { chainId } = useActiveChainId()
 
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const { chainId } = useActiveChainId()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const vaultPoolContract = useVaultPoolContract(VaultKey.CakeVault)
   const { callWithGasPrice } = useCallWithGasPrice()
 
   const { t } = useTranslation()
+  const { mutate } = useSWRConfig()
   const { toastSuccess } = useToast()
   const [duration, setDuration] = useState(() => defaultDuration)
   const usdValueStaked = useBUSDCakeAmount(lockedAmount.toNumber())
@@ -72,9 +77,21 @@ export default function useLockedPool(hookArgs: HookArgs): HookReturn {
         )
         onDismiss?.()
         dispatch(fetchCakeVaultUserData({ account, chainId }))
+        mutate(['userCakeLockStatus', account])
       }
     },
-    [fetchWithCatchTxError, toastSuccess, dispatch, onDismiss, account, vaultPoolContract, t, callWithGasPrice, chainId],
+    [
+      fetchWithCatchTxError,
+      toastSuccess,
+      dispatch,
+      onDismiss,
+      account,
+      vaultPoolContract,
+      t,
+      callWithGasPrice,
+      mutate,
+      chainId,
+    ],
   )
 
   const handleConfirmClick = useCallback(async () => {

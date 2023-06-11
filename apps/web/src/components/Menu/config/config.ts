@@ -78,8 +78,8 @@ const config: (
           label: t('Perpetual'),
           href: `https://perp.icecreamswap.com/${perpLangMap(languageCode)}/futures/BTCUSDT?theme=${perpTheme(
             isDark,
-          )}`,
-          supportChainIds: SUPPORT_ONLY_BSC,
+          }),
+          confirmModalId: 'usCitizenConfirmModal',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
         {
@@ -128,6 +128,10 @@ const config: (
       fillIcon: TrophyFillIcon,
       supportChainIds: SUPPORT_ONLY_BSC,
       items: [
+        {
+          label: t('Trading Reward'),
+          href: '/trading-reward',
+        },
         {
           label: t('Trading Competition'),
           href: '/competition',
@@ -289,13 +293,17 @@ const config: (
       items: [
         {
           label: t('Info'),
-          href: '/info',
+          href: '/info/v3',
         },
         {
           label: t('IFO'),
           href: '/ifo',
           supportChainIds: SUPPORT_ONLY_BSC,
           image: '/images/ifos/ifo-bunny.png',
+        },
+        {
+          label: t('Affiliate Program'),
+          href: '/affiliates-program',
         },
         {
           label: t('Voting'),
@@ -317,7 +325,7 @@ const config: (
         },
         {
           label: t('Blog'),
-          href: 'https://medium.com/pancakeswap',
+          href: 'https://blog.pancakeswap.finance',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
         {

@@ -3,10 +3,11 @@ import styled from "styled-components";
 import Flex from "../Box/Flex";
 import { TabMenuProps } from "./types";
 
-const Wrapper = styled(Flex)<{ fullWidth?: boolean }>`
-  border-bottom: 2px solid ${({ theme }) => theme.colors.input};
+const Wrapper = styled(Flex)<{ fullWidth?: boolean; isShowBorderBottom?: boolean }>`
+  border-bottom: ${({ isShowBorderBottom, theme }) =>
+    isShowBorderBottom ? `2px solid ${theme.colors.input}` : "none"};
   overflow-x: scroll;
-  padding: ${({ fullWidth }) => (fullWidth ? 0 : "16px")};
+  padding: ${({ fullWidth }) => (fullWidth ? 0 : "16px 16px 0 16px")};
 
   ::-webkit-scrollbar {
     display: none;
@@ -33,16 +34,17 @@ const Inner = styled(Flex)<{ fullWidth?: boolean; gap?: string }>`
   flex-grow: ${({ fullWidth }) => (fullWidth ? 1 : 0)};
 `;
 
-const ButtonMenu: React.FC<React.PropsWithChildren<TabMenuProps>> = ({
+const TabMenu: React.FC<React.PropsWithChildren<TabMenuProps>> = ({
   activeIndex = 0,
   onItemClick,
   children,
   fullWidth,
   gap,
   isColorInverse = false,
+  isShowBorderBottom = true,
 }) => {
   return (
-    <Wrapper p={["0 4px", "0 16px"]} fullWidth={fullWidth}>
+    <Wrapper p={["0 4px", "0 16px"]} fullWidth={fullWidth} isShowBorderBottom={isShowBorderBottom}>
       <Inner fullWidth={fullWidth} gap={gap}>
         {Children.map(children, (child: ReactElement, index) => {
           const isActive = activeIndex === index;
@@ -63,4 +65,4 @@ const ButtonMenu: React.FC<React.PropsWithChildren<TabMenuProps>> = ({
   );
 };
 
-export default ButtonMenu;
+export default TabMenu;

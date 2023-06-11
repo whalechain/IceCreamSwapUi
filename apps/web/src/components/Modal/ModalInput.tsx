@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Text, Button, Input, InputProps, Flex, Link } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { parseUnits } from '@ethersproject/units'
+import { parseUnits } from 'ethers/lib/utils'
 import { formatBigNumber } from '@pancakeswap/utils/formatBalance'
 
 interface ModalInputProps {
@@ -100,7 +100,7 @@ const ModalInput: React.FC<React.PropsWithChildren<ModalInputProps>> = ({
         <StyledErrorMessage fontSize="14px" color="failure">
           {t('No tokens to stake')}:{' '}
           <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
-            {t('Get %symbol%', { symbol })}
+            {t('Add %symbol%', { symbol })}
           </Link>
         </StyledErrorMessage>
       )}

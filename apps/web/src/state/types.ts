@@ -1,22 +1,15 @@
-import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
-import { parseUnits } from '@ethersproject/units'
+import { BigNumber as EthersBigNumber } from 'ethers'
+import { parseUnits } from 'ethers/lib/utils'
 import { SerializedFarmsState } from '@pancakeswap/farms'
 import { Token } from '@pancakeswap/sdk'
+import { SerializedPoolWithInfo } from '@pancakeswap/pools'
 import BigNumber from 'bignumber.js'
-import {
-  CampaignType,
-  FetchStatus,
-  LotteryStatus,
-  LotteryTicket,
-  SerializedPoolConfig,
-  Team,
-  TranslatableText,
-} from 'config/constants/types'
+import { CampaignType, FetchStatus, LotteryStatus, LotteryTicket, Team, TranslatableText } from 'config/constants/types'
 
 export enum GAS_PRICE {
-  default = '5',
-  fast = '6',
-  instant = '7',
+  default = '3',
+  fast = '4',
+  instant = '5',
   testnet = '10',
 }
 
@@ -42,30 +35,8 @@ export enum VaultKey {
   IfoPool = 'ifoPool',
 }
 
-interface CorePoolProps {
-  startBlock?: number
-  endBlock?: number
-  apr?: number
-  rawApr?: number
-  stakingTokenPrice?: number
-  earningTokenPrice?: number
-  vaultKey?: VaultKey
-}
-
-export interface SerializedPool extends SerializedPoolConfig, CorePoolProps {
-  totalStaked?: SerializedBigNumber
-  stakingLimit?: SerializedBigNumber
-  numberBlocksForUserLimit?: number
-  profileRequirement?: {
-    required: boolean
-    thresholdPoints: SerializedBigNumber
-  }
-  userData?: {
-    allowance: SerializedBigNumber
-    stakingTokenBalance: SerializedBigNumber
-    stakedBalance: SerializedBigNumber
-    pendingReward: SerializedBigNumber
-  }
+export type SerializedPool = SerializedPoolWithInfo & {
+  numberSecondsForUserLimit?: number
 }
 
 export interface Profile {
@@ -115,6 +86,7 @@ export interface DeserializedVaultUser {
   cakeAtLastUserAction: BigNumber
   lastDepositedTime: string
   lastUserActionTime: string
+  lockedAmount: BigNumber
   balance: {
     cakeAsNumberBalance: number
     cakeAsBigNumber: BigNumber

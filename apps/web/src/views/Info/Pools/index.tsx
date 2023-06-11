@@ -1,24 +1,25 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Card, Heading, Text } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
+import useInfoUserSavedTokensAndPools from 'hooks/useInfoUserSavedTokensAndPoolsList'
 import { useMemo } from 'react'
-import { useAllPoolDataSWR, usePoolDatasSWR } from 'state/info/hooks'
-import { useWatchlistPools } from 'state/user/hooks'
+import { useChainIdByQuery, usePoolDatasSWR } from 'state/info/hooks'
 import PoolTable from 'views/Info/components/InfoTables/PoolsTable'
+import { usePoolsData } from '../hooks/usePoolsData'
 
 const PoolsOverview: React.FC<React.PropsWithChildren> = () => {
   const { t } = useTranslation()
-
-  // get all the pool datas that exist
-  const allPoolData = useAllPoolDataSWR()
-  const poolDatas = useMemo(() => {
-    return Object.values(allPoolData)
-      .map((pool) => pool.data)
-      .filter((pool) => pool)
-  }, [allPoolData])
-
-  const [savedPools] = useWatchlistPools()
+  const { poolsData, stableSwapsAprs } = usePoolsData()
+  const chainId = useChainIdByQuery()
+  const { savedPools } = useInfoUserSavedTokensAndPools(chainId)
   const watchlistPools = usePoolDatasSWR(savedPools)
+  const watchlistPoolsData = useMemo(
+    () =>
+      watchlistPools.map((pool) => {
+        return { ...pool, ...(stableSwapsAprs && { lpApr7d: stableSwapsAprs[pool.address] }) }
+      }),
+    [watchlistPools, stableSwapsAprs],
+  )
 
   return (
     <Page>
@@ -27,17 +28,17 @@ const PoolsOverview: React.FC<React.PropsWithChildren> = () => {
       </Heading>
       <Card>
         {watchlistPools.length > 0 ? (
-          <PoolTable poolDatas={watchlistPools} />
+          <PoolTable poolDatas={watchlistPoolsData} />
         ) : (
           <Text px="24px" py="16px">
-            {t('Saved pools will appear here')}
+            {t('Saved pairs will appear here')}
           </Text>
         )}
       </Card>
       <Heading scale="lg" mt="40px" mb="16px" id="info-pools-title">
-        {t('All Pools')}
+        {t('All Pairs')}
       </Heading>
-      <PoolTable poolDatas={poolDatas} />
+      <PoolTable poolDatas={poolsData} />
     </Page>
   )
 }

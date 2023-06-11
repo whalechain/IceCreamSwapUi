@@ -1,56 +1,57 @@
-import { useCallback, useEffect, useState, useMemo } from 'react'
-import { useRouter } from 'next/router'
-import { CurrencyAmount, Token, Trade, TradeType, Currency, Percent, ChainId } from '@pancakeswap/sdk'
-import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
-import {
-  Button,
-  Box,
-  Flex,
-  useModal,
-  BottomDrawer,
-  Link,
-  useMatchBreakpoints,
-  Swap as SwapUI,
-} from '@pancakeswap/uikit'
-import AccessRisk from 'views/Swap/components/AccessRisk'
 import { useTranslation } from '@pancakeswap/localization'
-import { AutoColumn } from 'components/Layout/Column'
-import CurrencyInputPanel from 'components/CurrencyInputPanel'
+import { Currency, CurrencyAmount, Percent, Token, Trade, TradeType } from '@pancakeswap/sdk'
+import {
+  BottomDrawer,
+  Box,
+  Button,
+  Flex,
+  Link,
+  Swap as SwapUI,
+  useMatchBreakpoints,
+  useModal,
+  AutoColumn,
+} from '@pancakeswap/uikit'
+import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
 import { AppBody } from 'components/App'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import useGelatoLimitOrders from 'hooks/limitOrders/useGelatoLimitOrders'
-import useGasOverhead from 'hooks/limitOrders/useGasOverhead'
-import useTheme from 'hooks/useTheme'
-import { ApprovalState, useApproveCallbackFromInputCurrencyAmount } from 'hooks/useApproveCallback'
-import { Field } from 'state/limitOrders/types'
-import { useDefaultsFromURLSearch } from 'state/limitOrders/hooks'
-import { maxAmountSpend } from 'utils/maxAmountSpend'
+import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { GELATO_NATIVE } from 'config/constants'
 import { LIMIT_ORDERS_DOCS_URL } from 'config/constants/exchange'
+import { SUPPORT_ONLY_BSC } from 'config/constants/supportChains'
+import useGasOverhead from 'hooks/limitOrders/useGasOverhead'
+import useGelatoLimitOrders from 'hooks/limitOrders/useGelatoLimitOrders'
+import { ApprovalState, useApproveCallbackFromInputCurrencyAmount } from 'hooks/useApproveCallback'
+import useTheme from 'hooks/useTheme'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDefaultsFromURLSearch } from 'state/limitOrders/hooks'
+import { Field } from 'state/limitOrders/types'
 import { useExchangeChartManager } from 'state/user/hooks'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
+import AccessRisk from 'views/Swap/components/AccessRisk'
 import PriceChartContainer from 'views/Swap/components/Chart/PriceChartContainer'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import ClaimWarning from './components/ClaimWarning'
 
-import { Wrapper, StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
+import { CommonBasesType } from 'components/SearchModal/types'
+import { useAllTokens, useCurrency } from 'hooks/Tokens'
+import { currencyId } from 'utils/currencyId'
+import useAccountActiveChain from 'hooks/useAccountActiveChain'
+import ImportTokenWarningModal from '../../components/ImportTokenWarningModal'
+import ClaimWarning from './components/ClaimWarning'
+import Page from '../Page'
+import { ConfirmLimitOrderModal } from './components/ConfirmLimitOrderModal'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
 import LimitOrderPrice from './components/LimitOrderPrice'
-import SwitchTokensButton from './components/SwitchTokensButton'
-import Page from '../Page'
 import LimitOrderTable from './components/LimitOrderTable'
-import { ConfirmLimitOrderModal } from './components/ConfirmLimitOrderModal'
+import SwitchTokensButton from './components/SwitchTokensButton'
+import { StyledInputCurrencyWrapper, StyledSwapContainer, Wrapper } from './styles'
 import getRatePercentageDifference from './utils/getRatePercentageDifference'
-import { useCurrency, useAllTokens } from '../../hooks/Tokens'
-import ImportTokenWarningModal from '../../components/ImportTokenWarningModal'
-import { CommonBasesType } from '../../components/SearchModal/types'
-import { currencyId } from '../../utils/currencyId'
 
 const LimitOrders = () => {
   // Helpers
-  const { account, chainId } = useWeb3React()
+  const { account, chainId } = useAccountActiveChain()
   const { t } = useTranslation()
   const router = useRouter()
-  const { isMobile, isTablet } = useMatchBreakpoints()
+  const { isMobile, isTablet, isDesktop } = useMatchBreakpoints()
   const { theme } = useTheme()
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartExpanded, setIsChartExpanded] = useState(false)
@@ -133,7 +134,6 @@ const LimitOrders = () => {
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
   const maxAmountInput: CurrencyAmount<Currency> | undefined = maxAmountSpend(currencyBalances.input)
-  const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts.input?.equalTo(maxAmountInput))
 
   // Trade execution price is always "in MUL mode", even if UI handles DIV rate
   const currentMarketRate = trade?.executionPrice
@@ -302,7 +302,9 @@ const LimitOrders = () => {
       currentMarketRateInverted={currentMarketRate?.invert().toSignificant(4)}
       limitPrice={price?.toSignificant(6)}
       limitPriceInverted={price?.invert().toSignificant(6)}
-      percentageRateDifference={parseFloat(percentageRateDifference?.toSignificant(3)).toLocaleString(undefined, {
+      percentageRateDifference={parseFloat(
+        percentageRateDifference ? percentageRateDifference.toSignificant(3) : '',
+      ).toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 3,
       })}
@@ -348,7 +350,7 @@ const LimitOrders = () => {
         mb={isSideFooter ? null : '24px'}
         mt={isChartExpanded ? '24px' : null}
       >
-        {!isMobile && (
+        {isDesktop && (
           <Flex width={isChartExpanded ? '100%' : '50%'} maxWidth="928px" flexDirection="column">
             <PriceChartContainer
               inputCurrencyId={currencyIds.input}
@@ -383,7 +385,8 @@ const LimitOrders = () => {
                       label={independentField === Field.OUTPUT ? t('From (estimated)') : t('From')}
                       value={formattedAmounts.input}
                       showQuickInputButton
-                      showMaxButton={!atMaxAmountInput}
+                      showMaxButton
+                      maxAmount={maxAmountInput}
                       currency={currencies.input}
                       onUserInput={handleTypeInput}
                       onPercentInput={handlePercentInput}
@@ -393,7 +396,14 @@ const LimitOrders = () => {
                       id="limit-order-currency-input"
                       showCommonBases
                       commonBasesType={CommonBasesType.SWAP_LIMITORDER}
+                      showUSDPrice
                     />
+
+                    <Box id="yo">
+                      {isAccessTokenSupported && currencies.input && currencies.input.isToken && (
+                        <AccessRisk token={currencies.input} />
+                      )}
+                    </Box>
 
                     <SwitchTokensButton
                       handleSwitchTokens={handleTokenSwitch}
@@ -410,10 +420,11 @@ const LimitOrders = () => {
                       id="limit-order-currency-output"
                       showCommonBases
                       commonBasesType={CommonBasesType.SWAP_LIMITORDER}
+                      showUSDPrice
                     />
                     <Box>
-                      {isAccessTokenSupported && (
-                        <AccessRisk inputCurrency={currencies.input} outputCurrency={currencies.output} />
+                      {isAccessTokenSupported && currencies.output && currencies.output.isToken && (
+                        <AccessRisk token={currencies.output} />
                       )}
                     </Box>
                     <LimitOrderPrice
@@ -484,7 +495,7 @@ const LimitOrders = () => {
               </AppBody>
             </StyledInputCurrencyWrapper>
           </StyledSwapContainer>
-          {isMobile && (
+          {!isDesktop && (
             <Flex mt="24px" width="100%">
               <LimitOrderTable isCompact />
             </Flex>
@@ -508,6 +519,7 @@ const LimitOrders = () => {
             setIsChartExpanded={setIsChartExpanded}
             isChartDisplayed={isChartDisplayed}
             currentSwapPrice={singleTokenPrice}
+            isFullWidthContainer
             isMobile
           />
         }

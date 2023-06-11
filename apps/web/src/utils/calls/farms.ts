@@ -1,33 +1,30 @@
-import { Contract } from '@ethersproject/contracts'
+import { Contract } from 'ethers'
 import BigNumber from 'bignumber.js'
-import { BOOSTED_FARM_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
+import { DEFAULT_TOKEN_DECIMAL, DEFAULT_GAS_LIMIT } from 'config'
 import { getNonBscVaultContractFee, MessageTypes } from 'views/Farms/hooks/getNonBscVaultFee'
+import { logGTMClickStakeFarmEvent } from 'utils/customGTMEventTracking'
 
-const options = {
-  gasLimit: BOOSTED_FARM_GAS_LIMIT,
-}
-
-export const stakeFarm = async (masterChefContract: Contract, pid, amount, gasPrice) => {
+export const stakeFarm = async (masterChefContract: Contract, pid, amount, gasPrice, gasLimit?: number) => {
   const value = new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString()
-
+  logGTMClickStakeFarmEvent()
   return masterChefContract.deposit(pid, value, {
-    ...options,
+    gasLimit: gasLimit || DEFAULT_GAS_LIMIT,
     gasPrice,
   })
 }
 
-export const unstakeFarm = async (masterChefContract, pid, amount, gasPrice) => {
+export const unstakeFarm = async (masterChefContract, pid, amount, gasPrice, gasLimit?: number) => {
   const value = new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString()
 
   return masterChefContract.withdraw(pid, value, {
-    ...options,
+    gasLimit: gasLimit || DEFAULT_GAS_LIMIT,
     gasPrice,
   })
 }
 
-export const harvestFarm = async (masterChefContract, pid, gasPrice) => {
+export const harvestFarm = async (masterChefContract, pid, gasPrice, gasLimit?: number) => {
   return masterChefContract.deposit(pid, '0', {
-    ...options,
+    gasLimit: gasLimit || DEFAULT_GAS_LIMIT,
     gasPrice,
   })
 }
@@ -44,6 +41,7 @@ export const nonBscStakeFarm = async (contract, pid, amount, gasPrice, account, 
     messageType: MessageTypes.Deposit,
   })
   console.info(totalFee, 'stake totalFee')
+  logGTMClickStakeFarmEvent()
   return contract.deposit(pid, value, { value: totalFee })
 }
 

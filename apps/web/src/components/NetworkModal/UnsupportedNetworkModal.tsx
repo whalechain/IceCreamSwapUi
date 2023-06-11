@@ -43,6 +43,15 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
           {t('Currently %feature% is only supported on', { feature: typeof title === 'string' ? title : 'this page' })}{' '}
           {supportedMainnetChains?.map((c) => c.name).join(', ')}
         </Text>
+        <div style={{ textAlign: 'center' }}>
+          <Image
+            layout="fixed"
+            width={194}
+            height={175}
+            src="/images/check-your-network.png"
+            alt="check your network"
+          />
+        </div>
         <Message variant="warning">
           <MessageText>{t('Please switch your network to continue.')}</MessageText>
         </Message>

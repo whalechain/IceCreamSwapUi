@@ -1,4 +1,4 @@
-import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
+import { BigNumber, FixedNumber } from 'ethers'
 import { WeiPerEther } from '@ethersproject/constants'
 import _toString from 'lodash/toString'
 import { blocksPerYear } from 'config'
@@ -8,7 +8,7 @@ import { useCakeVault } from 'state/pools/hooks'
 import useSWRImmutable from 'swr/immutable'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
-import { BOOST_WEIGHT, DURATION_FACTOR, MAX_LOCK_DURATION } from 'config/constants/pools'
+import { BOOST_WEIGHT, DURATION_FACTOR, MAX_LOCK_DURATION } from '@pancakeswap/pools'
 import { multicallv2 } from '../utils/multicall'
 import {useActiveChainId} from "./useActiveChainId";
 

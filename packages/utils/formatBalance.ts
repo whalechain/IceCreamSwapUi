@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js'
-import { BigNumber as EthersBigNumber, FixedNumber } from '@ethersproject/bignumber'
-import { formatUnits } from '@ethersproject/units'
+import { BigNumber as EthersBigNumber, FixedNumber } from 'ethers'
+import { formatUnits } from 'ethers/lib/utils'
 import { getLanguageCodeFromLS } from '@pancakeswap/localization'
-import { getFullDecimalMultiplier } from '@pancakeswap/utils/getFullDecimalMultiplier'
+import _trimEnd from 'lodash/trimEnd'
+import { getFullDecimalMultiplier } from './getFullDecimalMultiplier'
 
 /**
  * Take a formatted amount, e.g. 15 BNB and convert it to full decimal value, e.g. 15000000000000000
@@ -11,7 +12,7 @@ export const getDecimalAmount = (amount: BigNumber, decimals = 18) => {
   return new BigNumber(amount).times(getFullDecimalMultiplier(decimals))
 }
 
-export const getBalanceAmount = (amount: BigNumber, decimals = 18) => {
+export const getBalanceAmount = (amount: BigNumber, decimals: number | undefined = 18) => {
   return new BigNumber(amount).dividedBy(getFullDecimalMultiplier(decimals))
 }
 
@@ -23,7 +24,9 @@ export const getBalanceNumber = (balance: BigNumber, decimals = 18) => {
 }
 
 export const getFullDisplayBalance = (balance: BigNumber, decimals = 18, displayDecimals?: number): string => {
-  return getBalanceAmount(balance, decimals).toFixed(displayDecimals as number)
+  const stringNumber = getBalanceAmount(balance, decimals).toFixed(displayDecimals as number)
+
+  return displayDecimals ? _trimEnd(_trimEnd(stringNumber, '0'), '.') : stringNumber
 }
 
 /**
@@ -87,8 +90,8 @@ export const formatLocalisedCompactNumber = (number: number): string => {
 
 export default formatLocalisedCompactNumber
 
-export const formatLpBalance = (balance: BigNumber) => {
-  const stakedBalanceBigNumber = getBalanceAmount(balance)
+export const formatLpBalance = (balance: BigNumber, decimals: number) => {
+  const stakedBalanceBigNumber = getBalanceAmount(balance, decimals)
   if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.00001)) {
     return '< 0.00001'
   }

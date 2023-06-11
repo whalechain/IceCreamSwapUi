@@ -14,37 +14,40 @@ If you want to contribute, please refer to the [contributing guidelines](./CONTR
 
 - [Info](doc/Info.md)
 
-> Install dependencies using **yarn**
+> Install dependencies using [pnpm](https://pnpm.io)
 
 ## `apps/web`
+
 <details>
 <summary>
 How to start
 </summary>
 
 ```sh
-yarn
+pnpm i
 ```
 
 start the development server
+
 ```sh
-yarn dev
+pnpm dev
 ```
 
 build with production mode
+
 ```sh
-yarn build
+pnpm build
 
 # start the application after build
-yarn start
+pnpm start
 ```
+
 </details>
 
 ## Packages
 
-| Package                                                       | Description                                                                                                            |
-|---------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| [sdk](/packages/swap-sdk)                                     | An SDK for building applications on top of Pancakeswap                                                                 |
-| [swap-sdk-core](/packages/swap-sdk-core)                      | Swap SDK Shared code                                                                                                   |
-| [wagmi](/packages/wagmi)                                      | Extension for [wagmi](https://github.com/wagmi-dev/wagmi), including bsc chain and binance wallet connector            |
-
+| Package                                  | Description                                                                                                 |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [sdk](/packages/swap-sdk)                | An SDK for building applications on top of Pancakeswap                                                      |
+| [swap-sdk-core](/packages/swap-sdk-core) | Swap SDK Shared code                                                                                        |
+| [wagmi](/packages/wagmi)                 | Extension for [wagmi](https://github.com/wagmi-dev/wagmi), including bsc chain and binance wallet connector |

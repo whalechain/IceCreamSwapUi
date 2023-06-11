@@ -1,5 +1,5 @@
 import { Box, CardBody, CardProps, Flex, Text, TokenPairImage, FlexGap, Skeleton, Pool } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { vaultPoolConfig } from 'config/constants/pools'
 import { useTranslation } from '@pancakeswap/localization'
@@ -21,7 +21,7 @@ const StyledCardBody = styled(CardBody)<{ isLoading: boolean }>`
 `
 
 interface CakeVaultProps extends CardProps {
-  pool: Pool.DeserializedPool<Token>
+  pool?: Pool.DeserializedPool<Token>
   showStakedOnly: boolean
   defaultFooterExpanded?: boolean
   showICake?: boolean
@@ -51,20 +51,26 @@ export const CakeVaultDetail: React.FC<React.PropsWithChildren<CakeVaultDetailPr
 }) => {
   const { t } = useTranslation()
 
+  const isLocked = (vaultPool as DeserializedLockedCakeVault)?.userData?.locked
+
+  if (!pool) {
+    return null
+  }
+
   return (
     <>
       <StyledCardBody isLoading={isLoading}>
         {account && pool.vaultKey === VaultKey.CakeVault && (
           <VaultPositionTagWithLabel userData={(vaultPool as DeserializedLockedCakeVault).userData} />
         )}
-        {account &&
-        pool.vaultKey === VaultKey.CakeVault &&
-        (vaultPool as DeserializedLockedCakeVault).userData.locked ? (
+        {account && pool.vaultKey === VaultKey.CakeVault && isLocked ? (
           <LockedStakingApy
             userData={(vaultPool as DeserializedLockedCakeVault).userData}
             stakingToken={pool?.stakingToken}
             stakingTokenBalance={pool?.userData?.stakingTokenBalance}
             showICake={showICake}
+            pool={pool}
+            account={account}
           />
         ) : (
           <>
@@ -99,7 +105,7 @@ export const CakeVaultDetail: React.FC<React.PropsWithChildren<CakeVaultDetailPr
           </>
         )}
       </StyledCardBody>
-      <CardFooter defaultExpanded={defaultFooterExpanded} pool={pool} account={account} />
+      <CardFooter isLocked={isLocked} defaultExpanded={defaultFooterExpanded} pool={pool} account={account} />
     </>
   )
 }
@@ -112,10 +118,10 @@ const CakeVaultCard: React.FC<React.PropsWithChildren<CakeVaultProps>> = ({
   showSkeleton = true,
   ...props
 }) => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
 
-  const vaultPool = useVaultPoolByKey(pool.vaultKey)
-  const { totalStaked } = pool
+  const vaultPool = useVaultPoolByKey(pool?.vaultKey || VaultKey.CakeVault)
+  const totalStaked = pool?.totalStaked
 
   const {
     userData: { userShares, isLoading: isVaultUserDataLoading },
@@ -123,9 +129,9 @@ const CakeVaultCard: React.FC<React.PropsWithChildren<CakeVaultProps>> = ({
   } = vaultPool
 
   const accountHasSharesStaked = userShares && userShares.gt(0)
-  const isLoading = !pool.userData || isVaultUserDataLoading
+  const isLoading = !pool?.userData || isVaultUserDataLoading
 
-  if (showStakedOnly && !accountHasSharesStaked) {
+  if (!pool || (showStakedOnly && !accountHasSharesStaked)) {
     return null
   }
 

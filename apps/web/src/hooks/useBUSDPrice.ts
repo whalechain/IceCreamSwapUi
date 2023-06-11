@@ -2,13 +2,14 @@ import {
   ChainId,
   Currency,
   CurrencyAmount,
-  JSBI,
   Pair,
   Price,
   Token,
   WNATIVE,
   ERC20Token,
   WETH9,
+  WETH9,
+  TradeType,
 } from '@pancakeswap/sdk'
 import { FAST_INTERVAL } from '../config/constants'
 import { USD, ICE } from '@pancakeswap/tokens'
@@ -16,14 +17,146 @@ import { useMemo } from 'react'
 import useSWR from 'swr'
 import getLpAddress from '../utils/getLpAddress'
 import { multiplyPriceByAmount } from '../utils/prices'
+import useSWRImmutable from 'swr/immutable'
+import getLpAddress from 'utils/getLpAddress'
+import { multiplyPriceByAmount } from 'utils/prices'
+import { useCakePriceAsBN } from '@pancakeswap/utils/useCakePrice'
+import { getFullDecimalMultiplier } from '@pancakeswap/utils/getFullDecimalMultiplier'
+import { computeTradePriceBreakdown } from 'views/Swap/V3Swap/utils/exchange'
+import { isChainTestnet } from 'utils/wagmi'
 import { useProvider } from 'wagmi'
+import { warningSeverity } from 'utils/exchange'
 import { usePairContract } from './useContract'
-import { PairState, usePairs } from './usePairs'
+import { PairState, useV2Pairs } from './usePairs'
 import { useActiveChainId } from './useActiveChainId'
+import { useBestAMMTrade } from './useBestAMMTrade'
+
+type UseStablecoinPriceConfig = {
+  enabled?: boolean
+  hideIfPriceImpactTooHigh?: boolean
+}
+const DEFAULT_CONFIG: UseStablecoinPriceConfig = {
+  enabled: true,
+  hideIfPriceImpactTooHigh: false,
+}
+
+export function useStablecoinPrice(
+  currency?: Currency,
+  config: UseStablecoinPriceConfig = DEFAULT_CONFIG,
+): Price<Currency, Currency> | undefined {
+  const { chainId: currentChainId } = useActiveChainId()
+  const chainId = currency?.chainId
+  const { enabled, hideIfPriceImpactTooHigh } = { ...DEFAULT_CONFIG, ...config }
+
+  const cakePrice = useCakePriceAsBN()
+  const stableCoin = chainId in ChainId ? STABLE_COIN[chainId as ChainId] : undefined
+  const isCake = currency?.wrapped.equals(CAKE[chainId])
+
+  const isStableCoin = currency?.wrapped.equals(stableCoin)
+
+  const shouldEnabled = currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
+
+  const enableLlama = currency?.chainId === ChainId.ETHEREUM && shouldEnabled
+
+  // we don't have too many AMM pools on ethereum yet, try to get it from api
+  const { data: priceFromLlama, isLoading } = useSWRImmutable<string>(
+    enableLlama && ['fiat-price-ethereum', currency],
+    async () => {
+      const address = currency.isToken ? currency.address : WETH9[ChainId.ETHEREUM].address
+      return fetch(`https://coins.llama.fi/prices/current/ethereum:${address}`) // <3 llama
+        .then((res) => res.json())
+        .then(
+          (res) => res?.coins?.[`ethereum:${address}`]?.confidence > 0.9 && res?.coins?.[`ethereum:${address}`]?.price,
+        )
+    },
+    {
+      dedupingInterval: 30_000,
+      refreshInterval: 30_000,
+    },
+  )
+
+  const amountOut = useMemo(
+    () => (stableCoin ? CurrencyAmount.fromRawAmount(stableCoin, 5 * 10 ** stableCoin.decimals) : undefined),
+    [stableCoin],
+  )
+
+  const { trade } = useBestAMMTrade({
+    amount: amountOut,
+    currency,
+    baseCurrency: stableCoin,
+    tradeType: TradeType.EXACT_OUTPUT,
+    maxSplits: 0,
+    enabled: enableLlama ? !isLoading && !priceFromLlama : shouldEnabled,
+    autoRevalidate: false,
+    type: 'api',
+  })
+
+  const price = useMemo(() => {
+    if (!currency || !stableCoin || !enabled) {
+      return undefined
+    }
+
+    if (isCake && cakePrice) {
+      return new Price(
+        currency,
+        stableCoin,
+        1 * 10 ** currency.decimals,
+        getFullDecimalMultiplier(stableCoin.decimals).times(cakePrice.toFixed(stableCoin.decimals)).toString(),
+      )
+    }
+
+    // handle stable coin
+    if (isStableCoin) {
+      return new Price(stableCoin, stableCoin, '1', '1')
+    }
+
+    if (priceFromLlama && enableLlama) {
+      return new Price(
+        currency,
+        stableCoin,
+        1 * 10 ** currency.decimals,
+        getFullDecimalMultiplier(stableCoin.decimals)
+          .times(parseFloat(priceFromLlama).toFixed(stableCoin.decimals))
+          .toString(),
+      )
+    }
+
+    if (trade) {
+      const { inputAmount, outputAmount } = trade
+
+      // if price impact is too high, don't show price
+      if (hideIfPriceImpactTooHigh) {
+        const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+
+        if (!priceImpactWithoutFee || warningSeverity(priceImpactWithoutFee) > 2) {
+          return undefined
+        }
+      }
+
+      return new Price(currency, stableCoin, inputAmount.quotient, outputAmount.quotient)
+    }
+
+    return undefined
+  }, [
+    currency,
+    stableCoin,
+    enabled,
+    isCake,
+    cakePrice,
+    isStableCoin,
+    priceFromLlama,
+    enableLlama,
+    trade,
+    hideIfPriceImpactTooHigh,
+  ])
+
+  return price
+}
 
 /**
  * Returns the price in BUSD of the input currency
  * @param currency currency to compute the BUSD price of
+ * @deprecated it's using v2 pair
  */
 export default function useBUSDPrice(currency?: Currency): Price<Currency, Currency> | undefined {
   const { chainId } = useActiveChainId()
@@ -39,11 +172,16 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
     ],
     [wnative, stable, chainId, currency, wrapped],
   )
-  const [[bnbPairState, bnbPair], [busdPairState, busdPair], [busdBnbPairState, busdBnbPair]] = usePairs(tokenPairs)
+  const [[bnbPairState, bnbPair], [busdPairState, busdPair], [busdBnbPairState, busdBnbPair]] = useV2Pairs(tokenPairs)
 
   return useMemo(() => {
     if (!currency || !wrapped || !chainId || !wnative) {
       return undefined
+    }
+
+    // handle busd
+    if (wrapped.equals(stable)) {
+      return new Price(stable, stable, '1', '1')
     }
 
     const isBUSDPairExist =
@@ -60,10 +198,6 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
       }
       return undefined
     }
-    // handle busd
-    if (wrapped.equals(stable)) {
-      return new Price(stable, stable, '1', '1')
-    }
 
     const isBnbPairExist =
       bnbPair &&
@@ -77,10 +211,10 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
       busdBnbPair.reserve1.greaterThan('0')
 
     const bnbPairBNBAmount = isBnbPairExist && bnbPair?.reserveOf(wnative)
-    const bnbPairBNBBUSDValue: JSBI =
+    const bnbPairBNBBUSDValue: bigint =
       bnbPairBNBAmount && isBUSDPairExist && isBusdBnbPairExist
         ? busdBnbPair.priceOf(wnative).quote(bnbPairBNBAmount).quotient
-        : JSBI.BigInt(0)
+        : 0n
 
     // all other tokens
     // first try the busd pair
@@ -113,6 +247,9 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
   ])
 }
 
+/**
+ * @deprecated it's using v2 pair
+ */
 export const usePriceByPairs = (currencyA?: Currency, currencyB?: Currency) => {
   const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
   const pairAddress = getLpAddress(tokenA, tokenB, currencyA.chainId)
@@ -142,17 +279,24 @@ export const usePriceByPairs = (currencyA?: Currency, currencyB?: Currency) => {
   return price
 }
 
-export const useBUSDCurrencyAmount = (currency?: Currency, amount?: number): number | undefined => {
-  const busdPrice = useBUSDPrice(currency)
-  if (!amount) {
-    return undefined
-  }
-  if (busdPrice) {
-    return multiplyPriceByAmount(busdPrice, amount)
+export const useStablecoinPriceAmount = (
+  currency?: Currency,
+  amount?: number,
+  config?: UseStablecoinPriceConfig,
+): number | undefined => {
+  const stablePrice = useStablecoinPrice(currency, { enabled: !!currency, ...config })
+
+  if (amount) {
+    if (stablePrice) {
+      return multiplyPriceByAmount(stablePrice, amount)
+    }
   }
   return undefined
 }
 
+/**
+ * @deprecated it's using v2 pair, use `useStablecoinPriceAsBN` instead
+ */
 export const useBUSDCakeAmount = (amount: number): number | undefined => {
   const cakeBusdPrice = useCakeBusdPrice()
   if (cakeBusdPrice) {
@@ -161,7 +305,10 @@ export const useBUSDCakeAmount = (amount: number): number | undefined => {
   return undefined
 }
 
-// @Note: only fetch from one pair
+/**
+ * @deprecated it's using v2 pair, use `useCakePriceAsBN` instead
+ * @Note: only fetch from one pair
+ */
 export const useCakeBusdPrice = (
   { forceMainnet } = { forceMainnet: false },
 ): Price<ERC20Token, ERC20Token> | undefined => {
@@ -174,6 +321,11 @@ export const useCakeBusdPrice = (
   const cake: Token = ICE[ChainId.BITGERT]
   return usePriceByPairs(USD[cake.chainId], cake)
 }
+
+/**
+ * @deprecated it's using v2 pair
+ * @Note: only fetch from one pair
+ */
 
 // @Note: only fetch from one pair
 export const useBNBBusdPrice = (

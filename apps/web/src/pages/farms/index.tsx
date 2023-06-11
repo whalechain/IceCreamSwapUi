@@ -1,17 +1,18 @@
 import { useContext } from 'react'
 import { SUPPORT_FARMS } from 'config/constants/supportChains'
-import { FarmsPageLayout, FarmsContext } from 'views/Farms'
-import FarmCard from 'views/Farms/components/FarmCard/FarmCard'
+import { FarmsV3PageLayout, FarmsV3Context } from 'views/Farms'
+import { FarmV3Card } from 'views/Farms/components/FarmCard/V3/FarmV3Card'
 import { getDisplayApr } from 'views/Farms/components/getDisplayApr'
-import { usePriceCakeBusd } from 'state/farms/hooks'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { usePriceCakeUSD } from 'state/farms/hooks'
+import { useAccount } from 'wagmi'
+import FarmCard from 'views/Farms/components/FarmCard/FarmCard'
 import ProxyFarmContainer, {
   YieldBoosterStateContext,
 } from 'views/Farms/components/YieldBooster/components/ProxyFarmContainer'
 
-const ProxyFarmCardContainer = ({ farm }) => {
-  const { account } = useWeb3React()
-  const cakePrice = usePriceCakeBusd()
+export const ProxyFarmCardContainer = ({ farm }) => {
+  const { address: account } = useAccount()
+  const cakePrice = usePriceCakeUSD()
 
   const { proxyFarm, shouldUseProxyFarm } = useContext(YieldBoosterStateContext)
   const finalFarm = shouldUseProxyFarm ? proxyFarm : farm
@@ -29,32 +30,45 @@ const ProxyFarmCardContainer = ({ farm }) => {
 }
 
 const FarmsPage = () => {
-  const { account } = useWeb3React()
-  const { chosenFarmsMemoized } = useContext(FarmsContext)
-  const cakePrice = usePriceCakeBusd()
+  const { address: account } = useAccount()
+  const { chosenFarmsMemoized } = useContext(FarmsV3Context)
+  const cakePrice = usePriceCakeUSD()
+
   return (
     <>
-      {chosenFarmsMemoized.map((farm) =>
-        farm.boosted ? (
-          <ProxyFarmContainer farm={farm} key={farm.pid}>
-            <ProxyFarmCardContainer farm={farm} />
-          </ProxyFarmContainer>
-        ) : (
-          <FarmCard
-            key={farm.pid}
+      {chosenFarmsMemoized?.map((farm) => {
+        if (farm.version === 2) {
+          return farm.boosted ? (
+            <ProxyFarmContainer farm={farm} key={`${farm.pid}-${farm.version}`}>
+              <ProxyFarmCardContainer farm={farm} />
+            </ProxyFarmContainer>
+          ) : (
+            <FarmCard
+              key={`${farm.pid}-${farm.version}`}
+              farm={farm}
+              displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
+              cakePrice={cakePrice}
+              account={account}
+              removed={false}
+            />
+          )
+        }
+
+        return (
+          <FarmV3Card
+            key={`${farm.pid}-${farm.version}`}
             farm={farm}
-            displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
             cakePrice={cakePrice}
             account={account}
             removed={false}
           />
-        ),
-      )}
+        )
+      })}
     </>
   )
 }
 
-FarmsPage.Layout = FarmsPageLayout
+FarmsPage.Layout = FarmsV3PageLayout
 
 FarmsPage.chains = SUPPORT_FARMS
 

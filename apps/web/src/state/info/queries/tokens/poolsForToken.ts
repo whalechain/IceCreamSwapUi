@@ -12,7 +12,7 @@ import {
 const POOLS_FOR_TOKEN = (chainName: MultiChainName) => {
   const transactionGT = 100
   return gql`
-  query poolsForToken($address: Bytes!, $blacklist: [String!]) {
+  query poolsForToken($address: String!, $blacklist: [String!]) {
     asToken0: pairs(
       first: 15
       orderBy: trackedReserve${multiChainQueryMainToken[chainName]}
@@ -59,7 +59,10 @@ const fetchPoolsForToken = async (
     )
     return {
       error: false,
-      addresses: data.asToken0.concat(data.asToken1).map((p) => p.id),
+      addresses: data.asToken0
+        .concat(data.asToken1)
+        .map((p) => p.id)
+        .map((d) => d.toLowerCase()),
     }
   } catch (error) {
     console.error(`Failed to fetch pools for token ${address}`, error)

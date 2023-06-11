@@ -1,19 +1,18 @@
 import { useEffect, useMemo } from 'react'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useAccount } from 'wagmi'
 import { batch, useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
 import { useFastRefreshEffect, useSlowRefreshEffect } from 'hooks/useRefreshEffect'
-import { featureFarmApiAtom, useFeatureFlag } from 'hooks/useFeatureFlag'
 import { FAST_INTERVAL } from 'config/constants'
 import useSWRImmutable from 'swr/immutable'
 import { getFarmConfig } from '@pancakeswap/farms/constants'
-import { livePools } from 'config/constants/pools'
 import { Pool } from '@pancakeswap/uikit'
 import {ChainId, Token, WETH9} from '@pancakeswap/sdk'
 import { USD, ICE } from '@pancakeswap/tokens'
+import { getLivePoolsConfig } from '@pancakeswap/pools'
 
 import { useActiveChainId } from 'hooks/useActiveChainId'
+import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import {
   fetchPoolsPublicDataAsync,
   fetchPoolsUserDataAsync,
@@ -28,6 +27,7 @@ import {
   fetchCakeFlexibleSideVaultFees,
   fetchCakePoolUserDataAsync,
   fetchCakePoolPublicDataAsync,
+  setInitialPoolConfig,
 } from '.'
 import { VaultKey } from '../types'
 import { fetchFarmsPublicDataAsync } from '../farms'
@@ -40,14 +40,23 @@ import {
   makeVaultPoolWithKeySelector,
 } from './selectors'
 
-const lPoolAddresses = livePools.filter(({ sousId }) => sousId !== 0).map(({ earningToken }) => earningToken.address)
-
 // Only fetch farms for live pools
 const getActiveFarms = async (chainId: number) => {
   const farmsConfig = await getFarmConfig(chainId)
   const weth = WETH9[chainId]
   const usd = USD[chainId]
   const ice = ICE[chainId]
+
+  const farmsConfig = (await getFarmConfig(chainId)) || []
+  const livePools = getLivePoolsConfig(chainId) || []
+  const lPoolAddresses = livePools
+    .filter(({ sousId }) => sousId !== 0)
+    .map(({ earningToken, stakingToken }) => {
+      if (earningToken.symbol === 'CAKE') {
+        return stakingToken.address
+      }
+      return earningToken.address
+    })
 
   return farmsConfig
     .filter(
@@ -60,7 +69,7 @@ const getActiveFarms = async (chainId: number) => {
 }
 
 const getCakePriceFarms = async (chainId: number) => {
-  const farmsConfig = await getFarmConfig(chainId)
+  const farmsConfig = (await getFarmConfig(chainId)) || []
   const weth = WETH9[chainId]
   const usd = USD[chainId]
   const ice = ICE[chainId]
@@ -77,24 +86,20 @@ const getCakePriceFarms = async (chainId: number) => {
 export const useFetchPublicPoolsData = () => {
   const dispatch = useAppDispatch()
   const { chainId } = useActiveChainId()
-  const farmFlag = useFeatureFlag(featureFarmApiAtom)
 
-  useSlowRefreshEffect(
-    (currentBlock) => {
-      const fetchPoolsDataWithFarms = async () => {
-        const activeFarms = await getActiveFarms(chainId)
-        await dispatch(fetchFarmsPublicDataAsync({ pids: activeFarms, chainId, flag: farmFlag }))
+  useSlowRefreshEffect(() => {
+    const fetchPoolsDataWithFarms = async () => {
+      const activeFarms = await getActiveFarms(chainId)
+      await dispatch(fetchFarmsPublicDataAsync({ pids: activeFarms, chainId }))
 
-        batch(() => {
-          dispatch(fetchPoolsPublicDataAsync(currentBlock, chainId))
-          dispatch(fetchPoolsStakingLimitsAsync(chainId))
-        })
-      }
+      batch(() => {
+        dispatch(fetchPoolsPublicDataAsync(chainId))
+        dispatch(fetchPoolsStakingLimitsAsync(chainId))
+      })
+    }
 
-      fetchPoolsDataWithFarms()
-    },
-    [dispatch, chainId, farmFlag],
-  )
+    fetchPoolsDataWithFarms()
+  }, [dispatch, chainId])
 }
 
 export const usePool = (sousId: number): { pool: Pool.DeserializedPool<Token>; userDataLoaded: boolean } => {
@@ -112,40 +117,57 @@ export const useDeserializedPoolByVaultKey = (vaultKey) => {
   return useSelector(vaultPoolWithKeySelector)
 }
 
-export const usePoolsPageFetch = () => {
-  const { account } = useWeb3React()
+export const usePoolsConfigInitialize = () => {
   const dispatch = useAppDispatch()
   const { chainId } = useActiveChainId()
+  useEffect(() => {
+    if (chainId) {
+      dispatch(setInitialPoolConfig({ chainId }))
+    }
+  }, [dispatch, chainId])
+}
+
+export const usePoolsPageFetch = () => {
+  const dispatch = useAppDispatch()
+  const { account, chainId } = useAccountActiveChain()
+
+  usePoolsConfigInitialize()
+
   useFetchPublicPoolsData()
 
   useFastRefreshEffect(() => {
-    batch(() => {
-      dispatch(fetchCakeVaultPublicData(chainId))
-      dispatch(fetchCakeFlexibleSideVaultPublicData(chainId))
-      dispatch(fetchIfoPublicDataAsync())
-      if (account) {
-        dispatch(fetchPoolsUserDataAsync({ account, chainId }))
-        dispatch(fetchCakeVaultUserData({ account, chainId }))
-        dispatch(fetchCakeFlexibleSideVaultUserData({ account }))
-      }
-    })
-  }, [account, dispatch, chainId])
+    if (chainId) {
+      batch(() => {
+        dispatch(fetchCakeVaultPublicData(chainId))
+        dispatch(fetchCakeFlexibleSideVaultPublicData(chainId))
+        dispatch(fetchIfoPublicDataAsync(chainId))
+        if (account) {
+          dispatch(fetchPoolsUserDataAsync({ account, chainId }))
+          dispatch(fetchCakeVaultUserData({ account, chainId }))
+          dispatch(fetchCakeFlexibleSideVaultUserData({ account, chainId }))
+        }
+      })
+    }
+  }, [account, chainId, dispatch, chainId])
 
   useEffect(() => {
-    batch(() => {
-      dispatch(fetchCakeVaultFees(chainId))
-      dispatch(fetchCakeFlexibleSideVaultFees(chainId))
-    })
+    if (chainId) {
+      batch(() => {
+        dispatch(fetchCakeVaultFees(chainId))
+        dispatch(fetchCakeFlexibleSideVaultFees(chainId))
+      })
+    }
   }, [dispatch, chainId])
 }
 
 export const useCakeVaultUserData = () => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const { chainId } = useActiveChainId()
   const dispatch = useAppDispatch()
+  const { chainId } = useActiveChainId()
 
   useFastRefreshEffect(() => {
-    if (account) {
+    if (account && chainId) {
       dispatch(fetchCakeVaultUserData({ account, chainId }))
     }
   }, [account, dispatch, chainId])
@@ -153,25 +175,29 @@ export const useCakeVaultUserData = () => {
 
 export const useCakeVaultPublicData = (chainId: ChainId) => {
   const dispatch = useAppDispatch()
+  const { chainId } = useActiveChainId()
   useFastRefreshEffect(() => {
-    dispatch(fetchCakeVaultPublicData(chainId))
+    if (chainId) {
+      dispatch(fetchCakeVaultPublicData(chainId))
+    }
   }, [dispatch, chainId])
 }
 
 export const useFetchIfo = () => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useAccountActiveChain()
   const dispatch = useAppDispatch()
-  const farmFlag = useFeatureFlag(featureFarmApiAtom)
+
+  usePoolsConfigInitialize()
 
   useSWRImmutable(
-    'fetchIfoPublicData',
+    chainId && ['fetchIfoPublicData', chainId],
     async () => {
       const cakePriceFarms = await getCakePriceFarms(chainId)
-      await dispatch(fetchFarmsPublicDataAsync({ pids: cakePriceFarms, chainId, flag: farmFlag }))
+      await dispatch(fetchFarmsPublicDataAsync({ pids: cakePriceFarms, chainId }))
       batch(() => {
         dispatch(fetchCakePoolPublicDataAsync(chainId))
         dispatch(fetchCakeVaultPublicData(chainId))
-        dispatch(fetchIfoPublicDataAsync())
+        dispatch(fetchIfoPublicDataAsync(chainId))
       })
     },
     {
@@ -180,12 +206,12 @@ export const useFetchIfo = () => {
   )
 
   useSWRImmutable(
-    account && 'fetchIfoUserData',
+    account && chainId && ['fetchIfoUserData', account, chainId],
     async () => {
       batch(() => {
-        dispatch(fetchCakePoolUserDataAsync(account, chainId))
+        dispatch(fetchCakePoolUserDataAsync({ account, chainId }))
         dispatch(fetchCakeVaultUserData({ account, chainId }))
-        dispatch(fetchUserIfoCreditDataAsync(account))
+        dispatch(fetchUserIfoCreditDataAsync({ account, chainId }))
       })
     },
     {
@@ -193,7 +219,7 @@ export const useFetchIfo = () => {
     },
   )
 
-  useSWRImmutable('fetchCakeVaultFees', async () => {
+  useSWRImmutable(chainId && ['fetchCakeVaultFees', chainId], async () => {
     dispatch(fetchCakeVaultFees(chainId))
   })
 }

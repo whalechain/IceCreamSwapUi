@@ -8,19 +8,22 @@ import {
   Skeleton,
   Text,
   CopyAddress,
+  FlexGap,
 } from '@pancakeswap/uikit'
-import { ChainId } from '@pancakeswap/sdk'
+import { ChainId, WNATIVE } from '@pancakeswap/sdk'
 import { FetchStatus } from '../../../config/constants/types'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import { useTranslation } from '@pancakeswap/localization'
 import useAuth from '../../../hooks/useAuth'
 import useNativeCurrency from '../../../hooks/useNativeCurrency'
-import { useGetCakeBalance } from '../../../hooks/useTokenBalance'
+import useTokenBalance, { useGetCakeBalance } from '../../../hooks/useTokenBalance'
 import { ChainLogo } from '../../Logo/ChainLogo'
 
 import { getBlockExploreLink, getBlockExploreName } from '../../../utils'
-import { formatBigNumber } from '@pancakeswap/utils/formatBalance'
+import { formatBigNumber, getFullDisplayBalance } from '@pancakeswap/utils/formatBalance'
 import { useBalance } from 'wagmi'
+import { useDomainNameForAddress } from 'hooks/useDomain'
+import CakeBenefitsCard from './CakeBenefitsCard'
 
 const COLORS = {
   ETH: '#627EEA',
@@ -38,7 +41,15 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
   const { chain, chainId, account } = useActiveWeb3React()
   // const bnbBalance = useBalance({ addressOrName: account, chainId: ChainId.BSC })
   const nativeBalance = useBalance({ addressOrName: account })
+  const { account, chainId, chain } = useActiveWeb3React()
+  const { domainName } = useDomainNameForAddress(account)
+  const isBSC = chainId === ChainId.BSC
+  const bnbBalance = useBalance({ address: account, chainId: ChainId.BSC })
   const native = useNativeCurrency()
+  const wNativeToken = !isBSC ? WNATIVE[chainId] : null
+  const wBNBToken = WNATIVE[ChainId.BSC]
+  const { balance: wNativeBalance, fetchStatus: wNativeFetchStatus } = useTokenBalance(wNativeToken?.address)
+  const { balance: wBNBBalance, fetchStatus: wBNBFetchStatus } = useTokenBalance(wBNBToken?.address, true)
   const { balance: cakeBalance, fetchStatus: cakeFetchStatus } = useGetCakeBalance()
   const { logout } = useAuth()
 
@@ -52,7 +63,10 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
       <Text color="secondary" fontSize="12px" textTransform="uppercase" fontWeight="bold" mb="8px">
         {t('Your Address')}
       </Text>
-      <CopyAddress tooltipMessage={t('Copied')} account={account} mb="24px" />
+      <FlexGap flexDirection="column" mb="24px" gap="8px">
+        <CopyAddress tooltipMessage={t('Copied')} account={account} />
+        {domainName ? <Text color="textSubtle">{domainName}</Text> : null}
+      </FlexGap>
       {hasLowNativeBalance && (
         <Message variant="warning" mb="24px">
           <Box>
@@ -92,6 +106,18 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
               <Text>{formatBigNumber(nativeBalance.data.value, 6)}</Text>
             )}
           </Flex>
+          {wNativeBalance.gt(0) && (
+            <Flex alignItems="center" justifyContent="space-between">
+              <Text color="textSubtle">
+                {wNativeToken.symbol} {t('Balance')}
+              </Text>
+              {wNativeFetchStatus !== FetchStatus.Fetched ? (
+                <Skeleton height="22px" width="60px" />
+              ) : (
+                <Text>{getFullDisplayBalance(wNativeBalance, wNativeToken.decimals, 6)}</Text>
+              )}
+            </Flex>
+          )}
         </Box>
       )}
       <Box mb="24px">
@@ -104,7 +130,8 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
           )}
         </Flex>
       </Box>
-      <Button variant="secondary" width="100%" onClick={handleLogout}>
+      <CakeBenefitsCard onDismiss={onDismiss} />
+      <Button variant="secondary" width="100%" minHeight={48} onClick={handleLogout}>
         {t('Disconnect Wallet')}
       </Button>
     </>

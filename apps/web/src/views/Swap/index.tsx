@@ -1,3 +1,7 @@
+import { useTranslation } from '@pancakeswap/localization'
+import { Currency } from '@pancakeswap/sdk'
+import { BottomDrawer, Flex, Modal, ModalV2, useMatchBreakpoints } from '@pancakeswap/uikit'
+import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
 import { useEffect, useContext, useState } from 'react'
 import { JSBI, NATIVE, Currency, ChainId } from '@pancakeswap/sdk'
 import {
@@ -13,17 +17,22 @@ import {
 } from '@pancakeswap/uikit'
 import { EXCHANGE_DOCS_URLS, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { AppBody } from 'components/App'
+import { useRouter } from 'next/router'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
+import { currencyId } from 'utils/currencyId'
 
+import { useSwapHotTokenDisplay } from 'hooks/useSwapHotTokenDisplay'
 import { useCurrency } from '../../hooks/Tokens'
 import { Field } from '../../state/swap/actions'
 import { useSwapState, useSingleTokenSwapInfo, useDerivedSwapInfo } from '../../state/swap/hooks'
+import { useDefaultsFromURLSearch, useSingleTokenSwapInfo, useSwapState } from '../../state/swap/hooks'
 import Page from '../Page'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
-
-import SwapForm from './components/SwapForm'
-import StableSwapFormContainer from './StableSwap'
+import HotTokenList from './components/HotTokenList'
+import useWarningImport from './hooks/useWarningImport'
+import { V3SwapForm } from './V3Swap'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
-import SwapTab, { SwapType } from './components/SwapTab'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useIsAkkaAlternateModeActive, useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
@@ -42,9 +51,29 @@ import { captureMessage } from '@sentry/nextjs'
 import { akkaAlternateActive } from 'state/global/actions'
 
 export default function Swap() {
-  const { isMobile } = useMatchBreakpoints()
+  const { query } = useRouter()
+  const { isDesktop } = useMatchBreakpoints()
   const { isChartExpanded, isChartDisplayed, setIsChartDisplayed, setIsChartExpanded, isChartSupported } =
     useContext(SwapFeaturesContext)
+  const [isSwapHotTokenDisplay, setIsSwapHotTokenDisplay] = useSwapHotTokenDisplay()
+  const { t } = useTranslation()
+  const [firstTime, setFirstTime] = useState(true)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const toggleChartDisplayed = () => {
+    setIsChartDisplayed((currentIsChartDisplayed) => !currentIsChartDisplayed)
+  }
+
+  useEffect(() => {
+    if (firstTime && query.showTradingReward) {
+      setFirstTime(false)
+      setIsSwapHotTokenDisplay(true)
+
+      if (!isSwapHotTokenDisplay && isChartDisplayed) {
+        toggleChartDisplayed()
+      }
+    }
+  }, [firstTime, isChartDisplayed, isSwapHotTokenDisplay, query, setIsSwapHotTokenDisplay, toggleChartDisplayed])
 
   const { account } = useWeb3React()
 
@@ -254,6 +283,24 @@ export default function Swap() {
   }, [akkaApproval, isConnected, parsedAmounts, parsedAmount, akkaRouterTrade])
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
+  const warningSwapHandler = useWarningImport()
+  useDefaultsFromURLSearch()
+  const { onCurrencySelection } = useSwapActionHandlers()
+
+  const handleOutputSelect = useCallback(
+    (newCurrencyOutput: Currency) => {
+      onCurrencySelection(Field.OUTPUT, newCurrencyOutput)
+      warningSwapHandler(newCurrencyOutput)
+
+      const newCurrencyOutputId = currencyId(newCurrencyOutput)
+      if (newCurrencyOutputId === inputCurrencyId) {
+        replaceBrowserHistory('inputCurrency', outputCurrencyId)
+      }
+      replaceBrowserHistory('outputCurrency', newCurrencyOutputId)
+    },
+
+    [inputCurrencyId, outputCurrencyId, onCurrencySelection, warningSwapHandler],
+  )
   const supportedChains = useSupportedChains()
   const supportedChainNames = useSupportedChainList()
   const balance = useBalance({ addressOrName: account })
@@ -273,8 +320,8 @@ export default function Swap() {
           </span>
         </Message>
       )}
-      <Flex marginBottom="4em" width={['328px', , '100%']} height="100%" justifyContent="center" position="relative">
-        {!isMobile && isChartSupported && (
+      <Flex marginBottom="4em" width={['328px', '100%']} height="100%" justifyContent="center" position="relative" alignItems="flex-start">
+        {isDesktop && isChartSupported && (
           <PriceChartContainer
             inputCurrencyId={inputCurrencyId}
             inputCurrency={currencies[Field.INPUT]}
@@ -286,7 +333,7 @@ export default function Swap() {
             currentSwapPrice={singleTokenPrice}
           />
         )}
-        {isChartSupported && (
+        {!isDesktop && isChartSupported && (
           <BottomDrawer
             content={
               <PriceChartContainer
@@ -298,6 +345,7 @@ export default function Swap() {
                 setIsChartExpanded={setIsChartExpanded}
                 isChartDisplayed={isChartDisplayed}
                 currentSwapPrice={singleTokenPrice}
+                isFullWidthContainer
                 isMobile
               />
             }
@@ -305,45 +353,31 @@ export default function Swap() {
             setIsOpen={setIsChartDisplayed}
           />
         )}
-        {isChainSupported && (
-          <Flex flexDirection="column">
-            <StyledSwapContainer $isChartExpanded={isChartExpanded}>
-              <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
-                <AppBody>
-                  <SwapTab>
-                    {(swapTypeState) =>
-                      swapTypeState === SwapType.STABLE_SWAP ? <StableSwapFormContainer /> : <SwapForm />
-                    }
-                  </SwapTab>
-                </AppBody>
-              </StyledInputCurrencyWrapper>
-            </StyledSwapContainer>
-            {isChartExpanded && (
-              <Box display={['none', null, null, 'block']} width="100%" height="100%">
-                <SwapUI.Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
-              </Box>
-            )}
-            {/* <Text marginTop="36px" maxWidth="560px" lineHeight="125%" padding="24px"> */}
-            {/*   <Heading marginBottom="16px">About our Swap</Heading> */}
-            {/*   Our swap is the <i>number one</i> DEX that supports{' '} */}
-            {/*   <Link href="/core" display="inline-flex"> */}
-            {/*     CoreDao */}
-            {/*   </Link> */}
-            {/*   . The swap is highly secured by running on audited smart contracts based on UniSwap V2. You are able to */}
-            {/*   trade your tokens with the best price and the lowest slippage. We are able to provide low price slippage */}
-            {/*   even with high token amounts transferred. This is possible due to our integration of the{' '} */}
-            {/*   <Link href="https://akka.finance" external display="inline-flex" target="_blank"> */}
-            {/*     Akka Router */}
-            {/*   </Link> */}
-            {/*   . Our DEX is supporting a wide range of Chains counting {supportedChains.length} chains. Which are{' '} */}
-            {/*   {supportedChainNames}. If you want to learn more about our swap, please visit our{' '} */}
-            {/*   <Link href="https://wiki.icecreamswap.com/dex/swap" display="inline-flex" external target="_blank"> */}
-            {/*     Wiki */}
-            {/*   </Link> */}
-            {/*   . */}
-            {/* </Text> */}
-          </Flex>
-        )}
+        {isDesktop && isSwapHotTokenDisplay && <HotTokenList handleOutputSelect={handleOutputSelect} />}
+        <ModalV2 isOpen={!isDesktop && isSwapHotTokenDisplay} onDismiss={() => setIsSwapHotTokenDisplay(false)}>
+          <Modal
+            style={{ padding: 0 }}
+            title={t('Top Token')}
+            onDismiss={() => setIsSwapHotTokenDisplay(false)}
+            bodyPadding="0px"
+          >
+            <HotTokenList
+              handleOutputSelect={(newCurrencyOutput: Currency) => {
+                handleOutputSelect(newCurrencyOutput)
+                setIsSwapHotTokenDisplay(false)
+              }}
+            />
+          </Modal>
+        </ModalV2>
+        <Flex flexDirection="column">
+          <StyledSwapContainer $isChartExpanded={isChartExpanded}>
+            <StyledInputCurrencyWrapper mt={isChartExpanded ? '24px' : '0'}>
+              <AppBody>
+                <V3SwapForm />
+              </AppBody>
+            </StyledInputCurrencyWrapper>
+          </StyledSwapContainer>
+        </Flex>
       </Flex>
     </Page>
   )

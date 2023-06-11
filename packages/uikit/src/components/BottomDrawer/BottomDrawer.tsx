@@ -1,6 +1,6 @@
+import { useDelayedUnmount } from "@pancakeswap/hooks";
 import React, { useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import useDelayedUnmount from "../../hooks/useDelayedUnmount";
 import { useMatchBreakpoints } from "../../contexts";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import getPortalRoot from "../../util/getPortalRoot";
@@ -13,20 +13,20 @@ import { DrawerContainer } from "./styles";
 interface BottomDrawerProps {
   content: React.ReactNode;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 const BottomDrawer: React.FC<React.PropsWithChildren<BottomDrawerProps>> = ({ content, isOpen, setIsOpen }) => {
   const ref = useRef<HTMLDivElement>(null);
   const shouldRender = useDelayedUnmount(isOpen, 350);
-  const { isMobile } = useMatchBreakpoints();
+  const { isDesktop } = useMatchBreakpoints();
 
   useOnClickOutside(
     ref?.current,
     useCallback(() => setIsOpen(false), [setIsOpen])
   );
 
-  if (!shouldRender || !isMobile) {
+  if (!shouldRender || isDesktop) {
     return null;
   }
 

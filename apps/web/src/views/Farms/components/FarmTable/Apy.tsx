@@ -22,6 +22,10 @@ export interface ApyProps {
   strikethrough?: boolean
   useTooltipText?: boolean
   boosted?: boolean
+  stableSwapAddress?: string
+  stableLpFee?: number
+  farmCakePerSecond?: string
+  totalMultipliers?: string
 }
 
 const Container = styled.div`
@@ -62,6 +66,10 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
   lpRewardsApr,
   useTooltipText = true,
   boosted,
+  stableSwapAddress,
+  stableLpFee,
+  farmCakePerSecond,
+  totalMultipliers,
 }) => {
   const { chainId } = useActiveChainId()
   const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAddress, tokenAddress, chainId })
@@ -85,6 +93,10 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
           useTooltipText={useTooltipText}
           hideButton={hideButton}
           boosted={boosted}
+          stableSwapAddress={stableSwapAddress}
+          stableLpFee={stableLpFee}
+          farmCakePerSecond={farmCakePerSecond}
+          totalMultipliers={totalMultipliers}
         />
       ) : (
         <AprWrapper>

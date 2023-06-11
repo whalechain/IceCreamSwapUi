@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import BundleAnalyzer from '@next/bundle-analyzer'
 import { withSentryConfig } from '@sentry/nextjs'
+import { withAxiom } from 'next-axiom'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import BundleAnalyzer from '@next/bundle-analyzer'
+import smartRouterPkgs from '@pancakeswap/smart-router/package.json' assert { type: 'json' }
+import { withWebSecurityHeaders } from '@pancakeswap/next-config/withWebSecurityHeaders'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const withBundleAnalyzer = BundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -16,13 +24,18 @@ const sentryWebpackPluginOptions =
         //   urlPrefix, include, ignore
         silent: false, // Logging when deploying to check if there is any problem
         validate: true,
-        // For all available options, see:
+        hideSourceMaps: false,
         // https://github.com/getsentry/sentry-webpack-plugin#options.
       }
     : {
+        hideSourceMaps: false,
         silent: true, // Suppresses all logs
         dryRun: !process.env.SENTRY_AUTH_TOKEN,
       }
+
+const workerDeps = Object.keys(smartRouterPkgs.dependencies)
+  .map((d) => d.replace('@pancakeswap/', 'packages/'))
+  .concat(['/packages/smart-router/', '/packages/swap-sdk/', '/packages/token-lists/'])
 
 /** @type {import('next').NextConfig} */
 const config = {
@@ -30,7 +43,12 @@ const config = {
     styledComponents: true,
   },
   experimental: {
-    swcPlugins: [["swc-plugin-vanilla-extract", {}]]
+    swcPlugins: [["swc-plugin-vanilla-extract", {}]],
+    scrollRestoration: true,
+    outputFileTracingRoot: path.join(__dirname, '../../'),
+    outputFileTracingExcludes: {
+      '*': ['**@swc+core*', '**/@esbuild**'],
+    },
   },
   transpilePackages: [
     '@pancakeswap/ui',
@@ -45,6 +63,11 @@ const config = {
     '@pancakeswap/tokens',
     '@wagmi',
     'wagmi',
+    '@pancakeswap/farms',
+    '@pancakeswap/pools',
+    '@pancakeswap/localization',
+    '@pancakeswap/hooks',
+    '@pancakeswap/utils',
   ],
   reactStrictMode: true,
   swcMinify: true,
@@ -66,10 +89,6 @@ const config = {
         destination: '/info/pools/:address',
       },
       {
-        source: '/info/pair/:address',
-        destination: '/info/pools/:address',
-      },
-      {
         source: '/kyc-meta',
         destination: '/api/kyc-meta',
       }
@@ -77,6 +96,15 @@ const config = {
   },
   async headers() {
     return [
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, immutable, max-age=31536000',
+          },
+        ],
+      },
       {
         source: '/logo.png',
         headers: [
@@ -158,6 +186,26 @@ const config = {
         destination: '/nfts',
         permanent: true,
       },
+      {
+        source: '/info/pools',
+        destination: '/info/pairs',
+        permanent: true,
+      },
+      {
+        source: '/info/pools/:address',
+        destination: '/info/pairs/:address',
+        permanent: true,
+      },
+      {
+        source: '/api/v3/:chainId/farms/liquidity/:address',
+        destination: 'https://farms-api.pancakeswap.com/v3/:chainId/liquidity/:address',
+        permanent: false,
+      },
+      {
+        source: '/images/tokens/:address',
+        destination: 'https://tokens.pancakeswap.finance/images/:address',
+        permanent: false,
+      }
     ]
   },
   typescript: {
@@ -166,4 +214,7 @@ const config = {
   }
 }
 
-export default withSentryConfig(withBundleAnalyzer(config), sentryWebpackPluginOptions)
+
+export default withBundleAnalyzer(
+  withSentryConfig(withAxiom(withWebSecurityHeaders(config)), sentryWebpackPluginOptions),
+)

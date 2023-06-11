@@ -1,11 +1,15 @@
 /* eslint-disable no-var */
 /* eslint-disable vars-on-top */
+import { useEffect } from 'react'
 import { renderHook } from '@testing-library/react-hooks'
+import { useAtom } from 'jotai'
 import { DEFAULT_OUTPUT_CURRENCY } from 'config/constants/exchange'
 import { parse } from 'querystring'
+import { Mock, vi } from 'vitest'
+import { swapReducerAtom } from 'state/swap/reducer'
 import { useCurrency } from 'hooks/Tokens'
 import { createReduxWrapper } from 'testUtils'
-import { Field } from './actions'
+import { Field, replaceSwapState } from './actions'
 import { queryParametersToSwapState, useDerivedSwapInfo, useSwapState } from './hooks'
 
 describe('hooks', () => {
@@ -96,10 +100,10 @@ describe('hooks', () => {
 })
 
 // weird bug on jest Reference Error, must use `var` here
-var mockUseActiveWeb3React: jest.Mock
+var mockUseActiveWeb3React: Mock
 
-jest.mock('../../hooks/useActiveWeb3React', () => {
-  mockUseActiveWeb3React = jest.fn().mockReturnValue({
+vi.mock('../../hooks/useActiveWeb3React', () => {
+  mockUseActiveWeb3React = vi.fn().mockReturnValue({
     chainId: 56,
   })
   return {
@@ -108,14 +112,15 @@ jest.mock('../../hooks/useActiveWeb3React', () => {
   }
 })
 
-var mockUseWeb3React: jest.Mock
+var mockAccount: Mock
 
-jest.mock('@pancakeswap/wagmi', () => {
-  mockUseWeb3React = jest.fn().mockReturnValue({})
-  const original = jest.requireActual('@pancakeswap/wagmi') // Step 2.
+vi.mock('wagmi', async () => {
+  mockAccount = vi.fn().mockReturnValue({})
+  const original = await vi.importActual('wagmi') // Step 2.
   return {
+    // @ts-ignore
     ...original,
-    useWeb3React: mockUseWeb3React,
+    useAccount: mockAccount,
   }
 })
 
@@ -138,17 +143,29 @@ describe('#useDerivedSwapInfo', () => {
     )
     expect(result.current.inputError).toBe('Connect Wallet')
 
-    mockUseWeb3React.mockReturnValue({ account: '0x33edFBc4934baACc78f4d317bc07639119dd3e78' })
+    mockAccount.mockReturnValue({ address: '0x33edFBc4934baACc78f4d317bc07639119dd3e78' })
     rerender()
 
     expect(result.current.inputError).toBe('Enter an amount')
-    mockUseWeb3React.mockClear()
+    mockAccount.mockClear()
   })
 
   it('should show [Enter a recipient] Error', async () => {
-    mockUseWeb3React.mockReturnValue({ account: '0x33edFBc4934baACc78f4d317bc07639119dd3e78' })
+    mockAccount.mockReturnValue({ address: '0x33edFBc4934baACc78f4d317bc07639119dd3e78' })
     const { result, rerender } = renderHook(
       () => {
+        const [, dispatch] = useAtom(swapReducerAtom)
+        useEffect(() => {
+          dispatch(
+            replaceSwapState({
+              field: Field.INPUT,
+              typedValue: '0.11',
+              inputCurrencyId: 'BNB',
+              outputCurrencyId: 'BNB',
+              recipient: undefined,
+            }),
+          )
+        }, [dispatch])
         const {
           independentField,
           typedValue,
@@ -161,25 +178,30 @@ describe('#useDerivedSwapInfo', () => {
         return useDerivedSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, recipient)
       },
       {
-        wrapper: createReduxWrapper({
-          swap: {
-            typedValue: '0.11',
-            [Field.INPUT]: { currencyId: 'BNB' },
-            [Field.OUTPUT]: { currencyId: 'BNB' },
-          },
-        }),
+        wrapper: createReduxWrapper(),
       },
     )
 
     rerender()
-
     expect(result.current.inputError).toBe('Enter a recipient')
-    mockUseWeb3React.mockClear()
+    mockAccount.mockClear()
   })
 
   it('should return undefined when no pair', async () => {
     const { result } = renderHook(
       () => {
+        const [, dispatch] = useAtom(swapReducerAtom)
+        useEffect(() => {
+          dispatch(
+            replaceSwapState({
+              field: Field.INPUT,
+              typedValue: '',
+              inputCurrencyId: '',
+              outputCurrencyId: '',
+              recipient: null,
+            }),
+          )
+        }, [dispatch])
         const {
           independentField,
           typedValue,

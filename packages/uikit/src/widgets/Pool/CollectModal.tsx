@@ -1,7 +1,12 @@
 import { useTranslation } from "@pancakeswap/localization";
-import { AutoRenewIcon, Button, Flex, Heading, Modal, Text } from "@pancakeswap/uikit";
 import { formatNumber } from "@pancakeswap/utils/formatBalance";
 import { useTheme } from "styled-components";
+import { Flex } from "../../components/Box";
+import { Heading } from "../../components/Heading";
+import { Button } from "../../components/Button";
+import { Text } from "../../components/Text";
+import { AutoRenewIcon } from "../../components/Svg";
+import { Modal } from "../Modal";
 import getThemeValue from "../../util/getThemeValue";
 
 export interface CollectModalProps {
@@ -12,6 +17,8 @@ export interface CollectModalProps {
   sousId: number;
   isBnbPool: boolean;
   onDismiss?: () => void;
+  poolAddress?: string;
+  earningTokenAddress?: string;
 }
 
 export interface CollectModalWithHandlerProps extends Omit<CollectModalProps, "isBnbPool" | "sousId"> {
@@ -36,16 +43,16 @@ export function CollectModal({
       onDismiss={onDismiss}
       headerBackground={getThemeValue(theme, "colors.gradientCardHeader")}
     >
-      <Flex justifyContent="space-between" alignItems="center" mb="24px">
+      <Flex justifyContent="space-between" alignItems="center" mb="8px">
         <Text>{t("Harvesting")}:</Text>
-        <Flex flexDirection="column">
-          <Heading>
-            {formattedBalance} {earningTokenSymbol}
-          </Heading>
-          {earningsDollarValue > 0 && (
-            <Text fontSize="12px" color="textSubtle">{`~${formatNumber(earningsDollarValue)} USD`}</Text>
-          )}
-        </Flex>
+      </Flex>
+      <Flex flexDirection="column" mb="24px">
+        <Heading>
+          {formattedBalance} {earningTokenSymbol}
+        </Heading>
+        {earningsDollarValue > 0 && (
+          <Text fontSize="12px" color="textSubtle">{`~${formatNumber(earningsDollarValue)} USD`}</Text>
+        )}
       </Flex>
 
       <Button

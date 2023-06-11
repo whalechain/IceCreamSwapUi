@@ -3,9 +3,10 @@ import { ArrowDropDownIcon, Box, Button, Text, useModal, Flex, BoxProps } from '
 import CurrencySearchModal, { CurrencySearchModalProps } from 'components/SearchModal/CurrencySearchModal'
 import { useTranslation } from '@pancakeswap/localization'
 import { formatNumber } from '@pancakeswap/utils/formatBalance'
+import { formatAmount } from '@pancakeswap/utils/formatFractions'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import useBUSDPrice from 'hooks/useBUSDPrice'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import { CurrencyLogo } from '../Logo'
 import { RowBetween, AutoRow } from '../Layout/Row'
 
@@ -59,7 +60,7 @@ export const CurrencySelect = ({
   hideBalance,
   ...props
 }: CurrencySelectProps) => {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
 
   const selectedCurrencyBalance = useCurrencyBalance(
     account ?? undefined,
@@ -111,7 +112,7 @@ export const CurrencySelect = ({
             <Text color="textSubtle" fontSize="12px">
               {t('Balance')}:
             </Text>
-            <Text fontSize="12px">{selectedCurrencyBalance?.toSignificant(6) ?? t('Loading')}</Text>
+            <Text fontSize="12px">{formatAmount(selectedCurrencyBalance, 6) ?? t('Loading')}</Text>
           </AutoRow>
           <RowBetween>
             <div />

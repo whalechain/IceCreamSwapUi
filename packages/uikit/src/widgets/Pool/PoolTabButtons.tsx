@@ -40,11 +40,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  a {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
   ${({ theme }) => theme.mediaQueries.sm} {
     margin-left: 16px;
   }
@@ -56,6 +51,7 @@ interface PoolTableButtonsPropsType {
   viewMode: ViewMode;
   setViewMode: (s: ViewMode) => void;
   hasStakeInFinishedPools: boolean;
+  hideViewMode?: boolean;
 }
 
 const PoolTabButtons = ({
@@ -64,6 +60,7 @@ const PoolTabButtons = ({
   hasStakeInFinishedPools,
   viewMode,
   setViewMode,
+  hideViewMode = false,
 }: PoolTableButtonsPropsType) => {
   const router = useRouter();
 
@@ -71,7 +68,9 @@ const PoolTabButtons = ({
 
   const isExact = router.pathname === "/pools" || router.pathname === "/_mp/pools";
 
-  const viewModeToggle = <ToggleView idPrefix="clickPool" viewMode={viewMode} onToggle={setViewMode} />;
+  const viewModeToggle = hideViewMode ? null : (
+    <ToggleView idPrefix="clickPool" viewMode={viewMode} onToggle={setViewMode} />
+  );
 
   const liveOrFinishedSwitch = (
     <Wrapper>
@@ -98,8 +97,8 @@ const PoolTabButtons = ({
   return (
     <ViewControls>
       {viewModeToggle}
-      {stakedOnlySwitch}
       {liveOrFinishedSwitch}
+      {stakedOnlySwitch}
     </ViewControls>
   );
 };

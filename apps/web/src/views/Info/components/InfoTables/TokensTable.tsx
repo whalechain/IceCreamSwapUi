@@ -10,7 +10,8 @@ import {
   useMatchBreakpoints,
   NextLinkFromReactRouter,
 } from '@pancakeswap/uikit'
-import { useGetChainName, useMultiChainPath, useStableSwapPath } from 'state/info/hooks'
+import { useMultiChainPath, useStableSwapPath, useChainNameByQuery } from 'state/info/hooks'
+import { v2SubgraphTokenName } from 'state/info/constant'
 import { TokenData } from 'state/info/types'
 import { CurrencyLogo } from 'views/Info/components/CurrencyLogo'
 import Percent from 'views/Info/components/Percent'
@@ -98,9 +99,10 @@ const TableLoader: React.FC<React.PropsWithChildren> = () => {
 
 const DataRow: React.FC<React.PropsWithChildren<{ tokenData: TokenData; index: number }>> = ({ tokenData, index }) => {
   const { isXs, isSm } = useMatchBreakpoints()
-  const chainName = useGetChainName()
   const chianPath = useMultiChainPath()
+  const chainName = useChainNameByQuery()
   const stableSwapPath = useStableSwapPath()
+
   return (
     <LinkWrapper to={`/info${chianPath}/tokens/${tokenData.address}${stableSwapPath}`}>
       <ResponsiveGrid>
@@ -108,11 +110,11 @@ const DataRow: React.FC<React.PropsWithChildren<{ tokenData: TokenData; index: n
           <Text>{index + 1}</Text>
         </Flex>
         <Flex alignItems="center">
-          <ResponsiveLogo address={tokenData.address} chainName={chainName} />
+          <ResponsiveLogo size="24px" address={tokenData.address} chainName={chainName} />
           {(isXs || isSm) && <Text ml="8px">{tokenData.symbol}</Text>}
           {!isXs && !isSm && (
             <Flex marginLeft="10px">
-              <Text>{tokenData.name}</Text>
+              <Text>{v2SubgraphTokenName[tokenData.address] ?? tokenData.name}</Text>
               <Text ml="8px">({tokenData.symbol})</Text>
             </Flex>
           )}

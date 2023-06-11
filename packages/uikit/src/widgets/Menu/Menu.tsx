@@ -1,7 +1,7 @@
 import { useIsMounted } from "@pancakeswap/hooks";
 import { AtomBox } from "@pancakeswap/ui/components/AtomBox";
 import throttle from "lodash/throttle";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import styled from "styled-components";
 import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
@@ -88,7 +88,9 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   activeSubItem,
   langs,
   buyCakeLabel,
+  buyCakeLink,
   children,
+  chainId,
 }) => {
   const hasSubLinks = subLinks && subLinks.length > 0;
   const { isMobile } = useMatchBreakpoints();
@@ -134,9 +136,9 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
 
   const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
   const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
-
+  const providerValue = useMemo(() => ({ linkComponent }), [linkComponent]);
   return (
-    <MenuContext.Provider value={{ linkComponent }}>
+    <MenuContext.Provider value={providerValue}>
       <AtomBox
         asChild
         minHeight={{
@@ -156,7 +158,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               </Flex>
               <Flex alignItems="center" height="100%">
                 <AtomBox mr="12px" display={{ xs: "none", lg: "block" }}>
-                  <CakePrice showSkeleton={false} cakePriceUsd={cakePriceUsd} />
+                  <CakePrice chainId={chainId} showSkeleton={false} cakePriceUsd={cakePriceUsd} />
                 </AtomBox>
                 <Box mt="4px">
                   <LangSelector
@@ -199,6 +201,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
       </AtomBox>
       {/*
       <Footer
+        chainId={chainId}
         items={footerLinks}
         isDark={isDark}
         toggleTheme={toggleTheme}
@@ -207,6 +210,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         currentLang={currentLang}
         cakePriceUsd={cakePriceUsd}
         buyCakeLabel={buyCakeLabel}
+        buyCakeLink={buyCakeLink}
         mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
       />
       */}

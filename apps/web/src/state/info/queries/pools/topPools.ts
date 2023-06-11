@@ -20,13 +20,14 @@ interface TopPoolsResponse {
  */
 const fetchTopPools = async (chainName: MultiChainName, timestamp24hAgo: number): Promise<string[]> => {
   const isStableSwap = checkIsStableSwap()
+  const firstCount = isStableSwap ? 100 : 30
   let whereCondition = `where: { dailyVolumeUSD_gt: 10, token0_not_in: $blacklist, token1_not_in: $blacklist, date_gt: ${timestamp24hAgo} }`
-  if (isStableSwap) whereCondition = ''
+  if (isStableSwap) whereCondition = `where: { date_gt: ${timestamp24hAgo}}`
   try {
     const query = gql`
       query topPools($blacklist: [String!]) {
         pairDayDatas(
-          first: 30
+          first: ${firstCount}
           ${whereCondition}
           orderBy: dailyVolumeUSD
           orderDirection: desc

@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Skeleton, Text, CalculateIcon, useModal, Balance, Pool } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
+import { MAX_LOCK_DURATION } from '@pancakeswap/pools'
+import { Token } from '@pancakeswap/sdk'
 import { DeserializedLockedVaultUser, VaultKey, DeserializedVaultUser } from 'state/types'
 import { useVaultApy } from 'hooks/useVaultApy'
 import { VaultPosition } from 'utils/cakePool'
-import { MAX_LOCK_DURATION } from 'config/constants/pools'
-import { Token } from '@pancakeswap/sdk'
 
 import { VaultRoiCalculatorModal } from '../../Vault/VaultRoiCalculatorModal'
 
@@ -61,7 +61,7 @@ const CakeVaultApr: React.FC<React.PropsWithChildren<CakeVaultAprProps>> = ({ po
         <Box marginX="8px" mb="8px">
           <Flex justifyContent="space-between">
             <Text fontSize="16px" color="textSubtle" textAlign="left">
-              {t('Locked APY')}
+              {t('Locked APR')}
             </Text>
             {lockedApy ? (
               <Flex alignItems="center" justifyContent="flex-start">

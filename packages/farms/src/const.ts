@@ -5,7 +5,10 @@ export const FIXED_ZERO = FixedNumber.from(0)
 export const FIXED_ONE = FixedNumber.from(1)
 export const FIXED_TWO = FixedNumber.from(2)
 
+export const FIXED_100 = FixedNumber.from(100)
 export const FIXED_TEN_IN_POWER_18 = FixedNumber.from(getFullDecimalMultiplier(18))
+
+export const FARM_AUCTION_HOSTING_IN_SECONDS = 691200
 
 export const masterChefAddresses = {
   32520: '0x090B19ea55b93C969EC98E1D8E3db0695698efCa',

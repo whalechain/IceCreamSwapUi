@@ -11,14 +11,17 @@ import {
   Text,
   useTooltip,
   useMatchBreakpoints,
+  MessageText,
+  Message,
 } from '@pancakeswap/uikit'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from '@pancakeswap/localization'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import NextLink from 'next/link'
 import styled, { useTheme } from 'styled-components'
+import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import { useBCakeProxyContractAddress } from '../hooks/useBCakeProxyContractAddress'
+import useBCakeProxyBalance from '../hooks/useBCakeProxyBalance'
 import { useUserBoosterStatus } from '../hooks/useUserBoosterStatus'
 import { useUserLockedCakeStatus } from '../hooks/useUserLockedCakeStatus'
 import CreateProxyButton from './YieldBooster/components/CreateProxyButton'
@@ -65,6 +68,22 @@ const StyledCardFooter = styled(CardFooter)`
     background-color: ${({ theme }) => theme.colors.cardBorder};
   }
 `
+
+export const BCakeProxyCakeBalanceCard = () => {
+  const { t } = useTranslation()
+  const { bCakeProxyBalance, bCakeProxyDisplayBalance, isLoading } = useBCakeProxyBalance()
+  return !isLoading && bCakeProxyBalance > 0 ? (
+    <Message marginBottom="8px" variant="warning">
+      <MessageText>
+        {t(
+          'There is %amount% CAKE in the proxy booster contract. In order to harvest that amount you should withdraw, deposit or harvest one of the boosted farms.',
+          { amount: bCakeProxyDisplayBalance },
+        )}
+      </MessageText>
+    </Message>
+  ) : null
+}
+
 export const useBCakeTooltipContent = () => {
   const { t } = useTranslation()
   const tooltipContent = (
@@ -110,6 +129,7 @@ export const BCakeBoosterCard = () => {
           </Box>
         </StyledCardBody>
         <StyledCardFooter>
+          <BCakeProxyCakeBalanceCard />
           <CardContent />
         </StyledCardFooter>
       </Card>
@@ -119,7 +139,7 @@ export const BCakeBoosterCard = () => {
 
 const CardContent: React.FC = () => {
   const { t } = useTranslation()
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useAccountActiveChain()
   const { proxyCreated, refreshProxyAddress } = useBCakeProxyContractAddress(account, chainId)
   const { maxBoostCounts, remainingCounts } = useUserBoosterStatus(account)
   const { locked, lockedEnd } = useUserLockedCakeStatus()
@@ -147,7 +167,7 @@ const CardContent: React.FC = () => {
           {t('An active fixed-term ICE staking position is required for activating farm yield boosters.')}
         </Text>
         <NextLink href="/pools" passHref prefetch={false}>
-          <Button as="a" width="100%" style={{ backgroundColor: theme.colors.textSubtle }}>
+          <Button width="100%" style={{ backgroundColor: theme.colors.textSubtle }}>
             {t('Go to Pool')}
           </Button>
         </NextLink>
@@ -163,7 +183,7 @@ const CardContent: React.FC = () => {
           {t('An active fixed-term ICE staking position is required for activating farm yield boosters.')}
         </Text>
         <NextLink href="/pools" passHref prefetch={false}>
-          <Button as="a" width="100%" style={{ backgroundColor: theme.colors.textSubtle }}>
+          <Button width="100%" style={{ backgroundColor: theme.colors.textSubtle }}>
             {t('Go to Pool')}
           </Button>
         </NextLink>

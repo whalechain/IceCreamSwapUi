@@ -2,7 +2,7 @@ import { Flex, Text, IconButton, AddIcon, MinusIcon, useModal, Skeleton, Box, Ba
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { VaultKey } from 'state/types'
-import { usePriceCakeBusd } from 'state/farms/hooks'
+import { usePriceCakeUSD } from 'state/farms/hooks'
 import { useVaultPoolByKey } from 'state/pools/hooks'
 import { Token } from '@pancakeswap/sdk'
 import NotEnoughTokensModal from '../../Modals/NotEnoughTokensModal'
@@ -28,7 +28,7 @@ const HasSharesActions: React.FC<React.PropsWithChildren<HasStakeActionProps>> =
 
   const { stakingToken } = pool
 
-  const cakePriceBusd = usePriceCakeBusd()
+  const cakePriceBusd = usePriceCakeUSD()
   const stakedDollarValue = cakePriceBusd.gt(0)
     ? getBalanceNumber(cakeAsBigNumber.multipliedBy(cakePriceBusd), stakingToken.decimals)
     : 0
@@ -41,7 +41,7 @@ const HasSharesActions: React.FC<React.PropsWithChildren<HasStakeActionProps>> =
     <VaultStakeModal stakingMax={cakeAsBigNumber} pool={pool} isRemovingStake />,
     true,
     true,
-    'withdraw-vault',
+    `withdraw-vault-${pool.sousId}-${pool.vaultKey}`,
   )
 
   return (
@@ -65,7 +65,13 @@ const HasSharesActions: React.FC<React.PropsWithChildren<HasStakeActionProps>> =
           </Text>
         </Flex>
         <Flex>
-          <IconButton variant="secondary" onClick={onPresentUnstake} mr="6px">
+          <IconButton
+            variant="secondary"
+            onClick={() => {
+              onPresentUnstake()
+            }}
+            mr="6px"
+          >
             <MinusIcon color="primary" width="24px" />
           </IconButton>
           <IconButton variant="secondary" onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>

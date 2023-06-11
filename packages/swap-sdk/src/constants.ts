@@ -1,6 +1,11 @@
+import { Percent } from '@pancakeswap/swap-sdk-core'
 import { ERC20Token } from './entities/token'
 import { ChainId, chains } from '@icecreamswap/constants'
 
+export const ZERO_PERCENT = new Percent('0')
+export const ONE_HUNDRED_PERCENT = new Percent('1')
+
+export const FACTORY_ADDRESS = '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'
 export { ChainId }
 
 export const FACTORY_ADDRESS_MAP: Record<number, string> = chains

@@ -1,21 +1,24 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "@pancakeswap/localization";
 import { getApy } from "@pancakeswap/utils/compoundApyHelpers";
+import { useMemo, useState } from "react";
+import styled from "styled-components";
 
-import { Flex, Box, Grid } from "../Box";
-import { Text } from "../Text";
-import { HelpIcon } from "../Svg";
-import { LinkExternal } from "../Link";
-import { ExpandableLabel } from "../Button";
+import { BIG_ONE_HUNDRED } from "@pancakeswap/utils/bigNumber";
 import { useTooltip } from "../../hooks/useTooltip";
+import { Box, Flex, Grid } from "../Box";
+import { ExpandableLabel } from "../Button";
+import { Link, LinkExternal } from "../Link";
+import { HelpIcon } from "../Svg";
+import { Text } from "../Text";
+import { FarmMultiplierInfo } from "../../widgets/Farm/components/FarmMultiplierInfo";
 
-const Footer = styled(Flex)`
+export const Footer = styled(Flex)`
   width: 100%;
   background: ${({ theme }) => theme.colors.dropdown};
 `;
 
-const BulletList = styled.ul`
+export const BulletList = styled.ul`
   list-style-type: none;
   margin-top: 16px;
   padding: 0;
@@ -44,6 +47,12 @@ interface RoiCalculatorFooterProps {
   linkLabel: string;
   linkHref: string;
   performanceFee: number;
+  rewardCakePerSecond?: boolean;
+  isLocked?: boolean;
+  stableSwapAddress?: string;
+  stableLpFee?: number;
+  farmCakePerSecond?: string;
+  totalMultipliers?: string;
 }
 
 const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterProps>> = ({
@@ -57,27 +66,26 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
   linkLabel,
   linkHref,
   performanceFee,
+  rewardCakePerSecond,
+  isLocked = false,
+  stableSwapAddress,
+  stableLpFee,
+  farmCakePerSecond,
+  totalMultipliers,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
+  const isAptos = rewardCakePerSecond === true;
+
+  const multiplierTooltipContent = FarmMultiplierInfo({
+    farmCakePerSecond: farmCakePerSecond ?? "-",
+    totalMultipliers: totalMultipliers ?? "-",
+  });
   const {
     targetRef: multiplierRef,
     tooltip: multiplierTooltip,
     tooltipVisible: multiplierTooltipVisible,
-  } = useTooltip(
-    <>
-      <Text>
-        {t(
-          "The Multiplier represents the proportion of ICE rewards each farm receives, as a proportion of the ICE distributed each block."
-        )}
-      </Text>
-      <Text my="24px">
-        {t("For example, if a 1x farm received 1 ICE per block, a 40x farm would receive 40 ICE per block.")}
-      </Text>
-      <Text>{t("This amount is already included in all APR calculations for the farm.")}</Text>
-    </>,
-    { placement: "top-end", tooltipOffset: [20, 10] }
-  );
+  } = useTooltip(multiplierTooltipContent, { placement: "top-end", tooltipOffset: [20, 10] });
 
   const gridRowCount = isFarm ? 4 : 2;
 
@@ -92,10 +100,10 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
             {!isFarm && (
               <>
                 <Text color="textSubtle" small>
-                  {Number.isFinite(apy) && apy !== 0 ? t("APY") : t("APR")}
+                  {Number.isFinite(apy) && apy !== 0 && !isLocked ? t("APY") : t("APR")}
                 </Text>
                 <Text small textAlign="right">
-                  {Number.isFinite(apy) && apy !== 0 ? apy.toFixed(2) : apr.toFixed(2)}%
+                  {Number.isFinite(apy) && apy !== 0 ? apy.toFixed(2) : apr?.toFixed(2)}%
                 </Text>
               </>
             )}
@@ -117,7 +125,7 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
                   *{t("LP Rewards APR")}
                 </Text>
                 <Text small textAlign="right">
-                  {lpRewardsAPR?.toFixed(2) === "0" ? "-" : lpRewardsAPR?.toFixed(2)}%
+                  {lpRewardsAPR === "0" || !lpRewardsAPR ? "-" : lpRewardsAPR}%
                 </Text>
               </>
             )}
@@ -159,15 +167,40 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
                 {t("Calculated based on current rates.")}
               </Text>
             </li>
-            {/*
-            isFarm && (
-              <li>
-                <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline">
-                  {t("LP rewards: 0.25% trading fees, distributed proportionally among LP token holders.")}
-                </Text>
-              </li>
-            )
-            */}
+            {isFarm && (
+              <>
+                <li>
+                  <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline">
+                    {t("LP rewards: %percent%% trading fees, distributed proportionally among LP token holders.", {
+                      percent: stableSwapAddress && stableLpFee ? BIG_ONE_HUNDRED.times(stableLpFee).toNumber() : 0.17,
+                    })}
+                  </Text>
+                </li>
+                <li>
+                  {isAptos ? (
+                    <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline">
+                      {t(
+                        "To provide stable estimates, APR figures are calculated and updated daily using volume data from CoinMarketCap"
+                      )}
+                    </Text>
+                  ) : (
+                    <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline">
+                      {t(
+                        "To provide stable estimates, APR figures are calculated once per day on the farm page. For real time APR, please visit the"
+                      )}
+                      <Link
+                        style={{ display: "inline-block" }}
+                        fontSize="12px"
+                        ml="3px"
+                        href={`/info${stableSwapAddress ? `/pairs/${stableSwapAddress}?type=stableSwap` : ""}`}
+                      >
+                        {t("Info Page")}
+                      </Link>
+                    </Text>
+                  )}
+                </li>
+              </>
+            )}
             <li>
               <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline" lineHeight={1.1}>
                 {t(

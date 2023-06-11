@@ -1,18 +1,24 @@
 import { getUnixTime } from 'date-fns'
 import { gql } from 'graphql-request'
+import orderBy from 'lodash/orderBy'
+
+import { PriceChartEntry } from 'state/info/types'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
 import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
-import { PriceChartEntry } from 'state/info/types'
-import orderBy from 'lodash/orderBy'
-import { MultiChainName, multiChainQueryMainToken, multiChainQueryEndPoint } from '../../constant'
+import {
+  MultiChainName,
+  multiChainQueryMainToken,
+  checkIsStableSwap,
+  getMultiChainQueryEndPointWithStableSwap,
+} from '../../constant'
 
 const getPriceSubqueries = (chainName: MultiChainName, tokenAddress: string, blocks: any) =>
   blocks.map(
     (block: any) => `
-      t${block.timestamp}:token(id:"${tokenAddress}", block: { number: ${block.number} }) { 
+      t${block.timestamp}:token(id:"${tokenAddress}", block: { number: ${block.number} }) {
         derived${multiChainQueryMainToken[chainName]}
       }
-      b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) { 
+      b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) {
         ${multiChainQueryMainToken[chainName].toLowerCase()}Price
       }
     `,
@@ -48,7 +54,13 @@ const fetchTokenPriceData = async (
   }
   try {
     const blocks = await getBlocksFromTimestamps(timestamps, 'asc', 500, chainName)
-    if (!blocks || blocks.length === 0) {
+    const blocksLength = blocks?.length ?? 0
+    if (blocksLength > 0 && chainName === 'BSC' && !checkIsStableSwap()) {
+      const data = blocks[blocksLength - 1]
+      blocks[blocksLength - 1] = { timestamp: data.timestamp, number: data.number - 32 }
+      // nodeReal will sync the the 32 block before latest
+    }
+    if (!blocks || blocksLength === 0) {
       console.error('Error fetching blocks for timestamps', timestamps)
       return {
         error: false,
@@ -58,7 +70,7 @@ const fetchTokenPriceData = async (
     const prices: any | undefined = await multiQuery(
       priceQueryConstructor,
       getPriceSubqueries(chainName, address, blocks),
-      multiChainQueryEndPoint[chainName],
+      getMultiChainQueryEndPointWithStableSwap(chainName),
       200,
     )
 

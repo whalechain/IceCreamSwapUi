@@ -9,10 +9,12 @@ export type FooterLinkType = {
 export type FooterProps = {
   items: FooterLinkType[];
   buyCakeLabel: string;
+  buyCakeLink: string;
   isDark: boolean;
   toggleTheme: (isDark: boolean) => void;
   cakePriceUsd?: number;
   currentLang: string;
   langs: Language[];
+  chainId: number;
   setLang: (lang: Language) => void;
 } & FlexProps;

@@ -2,15 +2,19 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useCallback, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { Order } from '@gelatonetwork/limit-orders-lib'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
+import { AppState, useAppDispatch } from 'state'
 import pickBy from 'lodash/pickBy'
 import mapValues from 'lodash/mapValues'
 import keyBy from 'lodash/keyBy'
 import orderBy from 'lodash/orderBy'
 import omitBy from 'lodash/omitBy'
 import isEmpty from 'lodash/isEmpty'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
+
 import { useActiveChainId } from '../../hooks/useActiveChainId'
+import { FeeAmount } from '@pancakeswap/v3-sdk'
+
+import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import { TransactionDetails } from './reducer'
 import {
   addTransaction,
@@ -19,7 +23,6 @@ import {
   FarmTransactionStatus,
   NonBscFarmStepType,
 } from './actions'
-import { AppState, useAppDispatch } from '../index'
 
 // helper that can take a ethers library transaction response and add it to the list of transactions
 export function useTransactionAdder(): (
@@ -32,9 +35,21 @@ export function useTransactionAdder(): (
     type?: TransactionType
     order?: Order
     nonBscFarm?: NonBscFarmTransactionType
+    // add/remove pool
+    baseCurrencyId?: string
+    quoteCurrencyId?: string
+    expectedAmountBaseRaw?: string
+    expectedAmountQuoteRaw?: string
+    feeAmount?: FeeAmount
+    createPool?: boolean
+    // fee collect
+    currencyId0?: string
+    currencyId1?: string
+    expectedCurrencyOwed0?: string
+    expectedCurrencyOwed1?: string
   },
 ) => void {
-  const { chainId, account } = useActiveWeb3React()
+  const { account, chainId } = useAccountActiveChain()
   const dispatch = useAppDispatch()
 
   return useCallback(
@@ -86,7 +101,7 @@ export function useTransactionAdder(): (
 
 // returns all the transactions
 export function useAllTransactions(): { [chainId: number]: { [txHash: string]: TransactionDetails } } {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
 
   const state: {
     [chainId: number]: {
@@ -128,7 +143,7 @@ export function useAllActiveChainTransactions(): { [txHash: string]: Transaction
 }
 
 export function useAllChainTransactions(chainId: number): { [txHash: string]: TransactionDetails } {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
 
   const state = useSelector<AppState, AppState['transactions']>((s) => s.transactions)
 
@@ -156,7 +171,7 @@ export function useIsTransactionPending(transactionHash?: string): boolean {
  * @param tx to check for recency
  */
 export function isTransactionRecent(tx: TransactionDetails): boolean {
-  return new Date().getTime() - tx.addedTime < 86_400_000
+  return Date.now() - tx.addedTime < 86_400_000
 }
 
 // returns whether a token has a pending approval transaction
@@ -209,7 +224,7 @@ export function usePendingTransactions(): {
 
   const nonBscFarmPendingList = sortedRecentTransactions
     .filter((tx) => pending.includes(tx.hash) && !!tx.nonBscFarm)
-    .map((tx) => ({ txid: tx.hash, lpAddress: tx.nonBscFarm.lpAddress, type: tx.nonBscFarm.type }))
+    .map((tx) => ({ txid: tx?.hash, lpAddress: tx?.nonBscFarm?.lpAddress, type: tx?.nonBscFarm?.type }))
 
   return {
     hasPendingTransactions,

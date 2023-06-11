@@ -1,4 +1,3 @@
-import React from "react";
 import { renderWithProvider } from "../../testHelpers";
 import { Alert } from "../../components/Alert";
 
@@ -12,6 +11,7 @@ it("renders correctly", () => {
       -ms-flex-item-align: center;
       align-self: center;
       fill: currentColor;
+      color: currentColor;
       -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
       flex-shrink: 0;
@@ -101,6 +101,7 @@ it("renders correctly", () => {
             class="c6"
             color="text"
             font-size="16px"
+            style="word-break: break-all;"
           >
             Description
           </p>

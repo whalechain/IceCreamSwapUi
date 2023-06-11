@@ -1,8 +1,8 @@
-import React from "react";
+import { vi } from "vitest";
 import { renderWithProvider } from "../../testHelpers";
 import Checkbox from "../../components/Checkbox/Checkbox";
 
-const handleChange = jest.fn();
+const handleChange = vi.fn();
 
 it("renders correctly", () => {
   const { asFragment } = renderWithProvider(<Checkbox checked onChange={handleChange} />);
@@ -23,7 +23,7 @@ it("renders correctly", () => {
       transition: background-color 0.2s ease-in-out;
       border: 0;
       border-radius: 8px;
-      background-color: var(--colors-input);
+      background-color: var(--colors-cardBorder);
       box-shadow: var(--shadows-inset);
     }
 
@@ -56,6 +56,7 @@ it("renders correctly", () => {
     }
 
     .c0:checked {
+      border: 0;
       background-color: var(--colors-success);
     }
 
@@ -64,6 +65,7 @@ it("renders correctly", () => {
     }
 
     .c0:disabled {
+      border: 0;
       cursor: default;
       opacity: 0.6;
     }

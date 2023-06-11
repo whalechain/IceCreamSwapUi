@@ -1,33 +1,43 @@
-import { Trade, TradeType, Currency } from '@pancakeswap/sdk'
-import { Text, QuestionHelper } from '@pancakeswap/uikit'
-import { Field } from 'state/swap/actions'
 import { useTranslation } from '@pancakeswap/localization'
-import { useUserSlippageTolerance } from 'state/user/hooks'
-import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from 'utils/exchange'
-import { AutoColumn } from 'components/Layout/Column'
-import { TOTAL_FEE, LP_HOLDERS_FEE, TREASURY_FEE, BUYBACK_FEE } from 'config/constants/info'
+import { Currency, CurrencyAmount, Percent, TradeType } from '@pancakeswap/sdk'
+import { LegacyPair as Pair } from '@pancakeswap/smart-router/evm'
+import { Modal, ModalV2, QuestionHelper, SearchIcon, Text, Flex, Link, AutoColumn } from '@pancakeswap/uikit'
+import { formatAmount } from '@pancakeswap/utils/formatFractions'
+import { useState, memo } from 'react'
+
 import { RowBetween, RowFixed } from 'components/Layout/Row'
+import { RoutingSettingsButton } from 'components/Menu/GlobalSettings/SettingsModal'
+import { Field } from 'state/swap/actions'
 import FormattedPriceImpact from './FormattedPriceImpact'
+import { RouterViewer } from './RouterViewer'
 import SwapRoute from './SwapRoute'
 
-function TradeSummary({
-  trade,
-  allowedSlippage,
+export const TradeSummary = memo(function TradeSummary({
+  inputAmount,
+  outputAmount,
+  tradeType,
+  slippageAdjustedAmounts,
+  priceImpactWithoutFee,
+  realizedLPFee,
+  isMM = false,
 }: {
-  trade: Trade<Currency, Currency, TradeType>
-  allowedSlippage: number
+  hasStablePair?: boolean
+  inputAmount?: CurrencyAmount<Currency>
+  outputAmount?: CurrencyAmount<Currency>
+  tradeType?: TradeType
+  slippageAdjustedAmounts: {
+    INPUT?: CurrencyAmount<Currency>
+    OUTPUT?: CurrencyAmount<Currency>
+  }
+  priceImpactWithoutFee?: Percent
+  realizedLPFee?: CurrencyAmount<Currency>
+  isMM?: boolean
 }) {
   const { t } = useTranslation()
-  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
-  const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
-
-  const totalFeePercent = `${(TOTAL_FEE * 100).toFixed(2)}%`
-  const lpHoldersFeePercent = `${(LP_HOLDERS_FEE * 100).toFixed(2)}%`
-  const treasuryFeePercent = `${(TREASURY_FEE * 100).toFixed(4)}%`
+  const isExactIn = tradeType === TradeType.EXACT_INPUT
 
   return (
-    <AutoColumn style={{ padding: '0 16px' }}>
+    <AutoColumn style={{ padding: '0 24px' }}>
       <RowBetween>
         <RowFixed>
           <Text fontSize="14px" color="textSubtle">
@@ -38,75 +48,147 @@ function TradeSummary({
               'Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.',
             )}
             ml="4px"
-            placement="top-start"
+            placement="top"
           />
         </RowFixed>
         <RowFixed>
           <Text fontSize="14px">
             {isExactIn
-              ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ??
-              '-'
-              : `${slippageAdjustedAmounts[Field.INPUT]?.toSignificant(4)} ${trade.inputAmount.currency.symbol}` ?? '-'}
+              ? `${formatAmount(slippageAdjustedAmounts[Field.OUTPUT], 4)} ${outputAmount.currency.symbol}` ?? '-'
+              : `${formatAmount(slippageAdjustedAmounts[Field.INPUT], 4)} ${inputAmount.currency.symbol}` ?? '-'}
           </Text>
         </RowFixed>
       </RowBetween>
-      <RowBetween>
-        <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
-            {t('Price Impact')}
-          </Text>
-          <QuestionHelper
-            text={t('The difference between the market price and estimated price due to trade size.')}
-            ml="4px"
-            placement="top-start"
-          />
-        </RowFixed>
-        <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
-      </RowBetween>
+      {priceImpactWithoutFee && (
+        <RowBetween style={{ padding: '4px 0 0 0' }}>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              {t('Price Impact')}
+            </Text>
+            <QuestionHelper
+              text={
+                <>
+                  <Text>
+                    <Text bold display="inline-block">
+                      {t('AMM')}
+                    </Text>
+                    {`: ${t('The difference between the market price and estimated price due to trade size.')}`}
+                  </Text>
+                  <Text mt="10px">
+                    <Text bold display="inline-block">
+                      {t('MM')}
+                    </Text>
+                    {`: ${t('No slippage against quote from market maker')}`}
+                  </Text>
+                </>
+              }
+              ml="4px"
+              placement="top"
+            />
+          </RowFixed>
 
-      <RowBetween>
-        <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
-            {t('Liquidity Provider Fee')}
-          </Text>
-          <QuestionHelper
-            text={
-              <>
-                <Text mb="12px">{t('For each trade a 0.3% fee is paid')}</Text>
-                <Text>- {t('0.25% to LP token holders')}</Text>
-                <Text>- {t('0.05% towards IceCream treasury')}</Text>
-              </>
-            }
-            ml="4px"
-            placement="top-start"
-          />
-        </RowFixed>
-        <Text fontSize="14px">
-          {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
-        </Text>
-      </RowBetween>
+          {isMM ? <Text color="textSubtle">--</Text> : <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />}
+        </RowBetween>
+      )}
+
+      {realizedLPFee && (
+        <RowBetween style={{ padding: '4px 0 0 0' }}>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              {t('Trading Fee')}
+            </Text>
+            <QuestionHelper
+              text={
+                <>
+                  <Text mb="12px">
+                    <Text bold display="inline-block">
+                      {t('AMM')}
+                    </Text>
+                    :{' '}
+                    {t(
+                      'Fee ranging from 0.1% to 0.01% depending on the pool fee tier. You can check the fee tier by clicking the magnifier icon under the “Route” section.',
+                    )}
+                  </Text>
+                  <Text mt="12px">
+                    <Link
+                      style={{ display: 'inline' }}
+                      ml="4px"
+                      external
+                      href="https://wiki.icecreamswap.com/dex/swap#fees"
+                    >
+                      {t('Fee Breakdown and Tokenomics')}
+                    </Link>
+                  </Text>
+                  <Text mt="10px">
+                    <Text bold display="inline-block">
+                      {t('MM')}
+                    </Text>
+                    :{' '}
+                    {t(
+                      'IceCreamSwap does not charge any fees for trades. However, the market makers charge an implied fee of 0.05% (non-stablecoin) / 0.01% (stablecoin) factored into the quotes provided by them.',
+                    )}
+                  </Text>
+                </>
+              }
+              ml="4px"
+              placement="top"
+            />
+          </RowFixed>
+          <Text fontSize="14px">{`${formatAmount(realizedLPFee, 4)} ${inputAmount.currency.symbol}`}</Text>
+        </RowBetween>
+      )}
     </AutoColumn>
   )
-}
+})
 
 export interface AdvancedSwapDetailsProps {
-  trade?: Trade<Currency, Currency, TradeType>
+  hasStablePair?: boolean
+  pairs?: Pair[]
+  path?: Currency[]
+  priceImpactWithoutFee?: Percent
+  realizedLPFee?: CurrencyAmount<Currency>
+  slippageAdjustedAmounts?: {
+    INPUT?: CurrencyAmount<Currency>
+    OUTPUT?: CurrencyAmount<Currency>
+  }
+  inputAmount?: CurrencyAmount<Currency>
+  outputAmount?: CurrencyAmount<Currency>
+  tradeType?: TradeType
+  isMM?: boolean
 }
 
-export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
+export const AdvancedSwapDetails = memo(function AdvancedSwapDetails({
+  pairs,
+  path,
+  priceImpactWithoutFee,
+  realizedLPFee,
+  slippageAdjustedAmounts,
+  inputAmount,
+  outputAmount,
+  tradeType,
+  hasStablePair,
+  isMM = false,
+}: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
-  const [allowedSlippage] = useUserSlippageTolerance()
-
-  const showRoute = Boolean(trade && trade.route.path.length > 2)
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const showRoute = Boolean(path && path.length > 1)
   return (
     <AutoColumn gap="0px">
-      {trade && (
+      {inputAmount && (
         <>
-          <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
+          <TradeSummary
+            inputAmount={inputAmount}
+            outputAmount={outputAmount}
+            tradeType={tradeType}
+            slippageAdjustedAmounts={slippageAdjustedAmounts}
+            priceImpactWithoutFee={priceImpactWithoutFee}
+            realizedLPFee={realizedLPFee}
+            hasStablePair={hasStablePair}
+            isMM={isMM}
+          />
           {showRoute && (
             <>
-              <RowBetween style={{ padding: '0 16px' }}>
+              <RowBetween style={{ padding: '0 24px' }}>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
                   <Text fontSize="14px" color="textSubtle">
                     {t('Route')}
@@ -114,10 +196,39 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                   <QuestionHelper
                     text={t('Routing through these tokens resulted in the best price for your trade.')}
                     ml="4px"
-                    placement="top-start"
+                    placement="top"
                   />
                 </span>
-                <SwapRoute trade={trade} />
+                <SwapRoute path={path} />
+                <SearchIcon style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)} />
+                <ModalV2 closeOnOverlayClick isOpen={isModalOpen} onDismiss={() => setIsModalOpen(false)}>
+                  <Modal
+                    title={
+                      <Flex justifyContent="center">
+                        {t('Route')}{' '}
+                        <QuestionHelper
+                          text={t(
+                            'Route is automatically calculated based on your routing preference to achieve the best price for your trade.',
+                          )}
+                          ml="4px"
+                          placement="top"
+                        />
+                      </Flex>
+                    }
+                    onDismiss={() => setIsModalOpen(false)}
+                  >
+                    <RouterViewer
+                      isMM={isMM}
+                      inputCurrency={inputAmount.currency}
+                      pairs={pairs}
+                      path={path}
+                      outputCurrency={outputAmount.currency}
+                    />
+                    <Flex mt="3em" width="100%" justifyContent="center">
+                      <RoutingSettingsButton />
+                    </Flex>
+                  </Modal>
+                </ModalV2>
               </RowBetween>
             </>
           )}
@@ -125,4 +236,4 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
       )}
     </AutoColumn>
   )
-}
+})

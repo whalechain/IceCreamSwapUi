@@ -5,10 +5,10 @@ import { useTranslation } from '@pancakeswap/localization'
 
 interface TopFarmPoolProps {
   title: ReactNode
+  version?: 2 | 3
   percentage: number
   index: number
   visible: boolean
-  isApy?: boolean
 }
 
 const StyledWrapper = styled(Flex)<{ index: number }>`
@@ -36,13 +36,7 @@ const AbsoluteWrapper = styled(Flex)<{ visible: boolean; index: number; topOffse
       : `padding-right: 16px;`}
 `
 
-const TopFarmPool: React.FC<React.PropsWithChildren<TopFarmPoolProps>> = ({
-  title,
-  percentage,
-  index,
-  visible,
-  isApy,
-}) => {
+const TopFarmPool: React.FC<React.PropsWithChildren<TopFarmPoolProps>> = ({ title, percentage, index, visible }) => {
   const { t } = useTranslation()
 
   const topOffset = () => {
@@ -69,7 +63,6 @@ const TopFarmPool: React.FC<React.PropsWithChildren<TopFarmPoolProps>> = ({
         )}
         {percentage ? (
           <FlexGap gap="4px">
-            {isApy && t('Up to')}
             <Balance lineHeight="1.1" fontSize="16px" bold unit="%" value={percentage} />
           </FlexGap>
         ) : (
@@ -77,7 +70,7 @@ const TopFarmPool: React.FC<React.PropsWithChildren<TopFarmPoolProps>> = ({
         )}
         {percentage ? (
           <Text fontSize="16px" color="textSubtle">
-            {isApy ? t('APY') : t('APR')}
+            {t('APR')}
           </Text>
         ) : (
           <Skeleton width={30} height={16} mt="4px" />

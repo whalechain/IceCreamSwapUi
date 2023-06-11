@@ -1,4 +1,5 @@
 import { getUnixTime, sub } from 'date-fns'
+import { formatEther } from 'ethers/lib/utils'
 import { gql } from 'graphql-request'
 import { GetStaticProps } from 'next'
 import { SWRConfig } from 'swr'
@@ -31,8 +32,8 @@ const tvl = 6082955532.115718
 
 export const getStaticProps: GetStaticProps = async () => {
   const totalTxQuery = gql`
-    query TotalTransactions($id: ID!, $block: Block_height) {
-      pancakeFactory(id: $id, block: $block) {
+    query TotalTransactions($block: Block_height) {
+      pancakeFactory(block: $block) {
         totalTransactions
       }
     }
@@ -44,6 +45,34 @@ export const getStaticProps: GetStaticProps = async () => {
     totalTx30Days: txCount,
     addressCount30Days: addressCount,
     tvl,
+  }
+
+  try {
+    const [days30AgoBlock] = await getBlocksFromTimestamps([getUnixTime(days30Ago)])
+
+    if (!days30AgoBlock) {
+      throw new Error('No block found for 30 days ago')
+    }
+
+    const totalTx = await infoServerClient.request<any>(totalTxQuery)
+    const totalTx30DaysAgo = await infoServerClient.request<any>(totalTxQuery, {
+      block: {
+        number: days30AgoBlock.number,
+      },
+    })
+
+    if (
+      totalTx?.pancakeFactory?.totalTransactions &&
+      totalTx30DaysAgo?.pancakeFactory?.totalTransactions &&
+      parseInt(totalTx.pancakeFactory.totalTransactions) > parseInt(totalTx30DaysAgo.pancakeFactory.totalTransactions)
+    ) {
+      results.totalTx30Days =
+        parseInt(totalTx.pancakeFactory.totalTransactions) - parseInt(totalTx30DaysAgo.pancakeFactory.totalTransactions)
+    }
+  } catch (error) {
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error when fetching total tx count', error)
+    }
   }
 
   const usersQuery = gql`
@@ -58,7 +87,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   if (process.env.BIT_QUERY_HEADER) {
     try {
-      const result = await bitQueryServerClient.request(usersQuery, {
+      const result = await bitQueryServerClient.request<any>(usersQuery, {
         since: days30Ago.toISOString(),
         till: new Date().toISOString(),
       })
@@ -69,6 +98,26 @@ export const getStaticProps: GetStaticProps = async () => {
       if (process.env.NODE_ENV === 'production') {
         console.error('Error when fetching address count', error)
       }
+    }
+  }
+
+  try {
+    const result = await infoServerClient.request<any>(gql`
+      query tvl {
+        pancakeFactories(first: 1) {
+          totalLiquidityUSD
+        }
+      }
+    `)
+    const cake = await (await fetch('https://farms-api.pancakeswap.com/price/cake')).json()
+    const { totalLiquidityUSD } = result.pancakeFactories[0]
+    const cakeVaultV2 = getCakeVaultAddress()
+    const cakeContract = getCakeContract()
+    const totalCakeInVault = await cakeContract.balanceOf(cakeVaultV2)
+    results.tvl = parseFloat(formatEther(totalCakeInVault)) * cake.price + parseFloat(totalLiquidityUSD)
+  } catch (error) {
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error when fetching tvl stats', error)
     }
   }
 

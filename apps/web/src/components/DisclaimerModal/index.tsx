@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, ReactNode } from 'react'
 import {
   ModalContainer,
   ModalBody,
@@ -24,9 +24,14 @@ interface CheckType {
 interface RiskDisclaimerProps extends InjectedModalProps {
   onSuccess: () => void
   checks: CheckType[]
-  header: string
+  header: ReactNode
+  modalHeader?: string
   id: string
-  subtitle?: string
+  footer?: ReactNode
+  subtitle?: ReactNode
+  hideConfirm?: boolean
+  headerStyle?: React.CSSProperties
+  footerStyle?: React.CSSProperties
 }
 
 const GradientModalHeader = styled(ModalHeader)`
@@ -45,6 +50,11 @@ const DisclaimerModal: React.FC<React.PropsWithChildren<RiskDisclaimerProps>> = 
   checks,
   header,
   subtitle,
+  hideConfirm,
+  modalHeader,
+  footer,
+  headerStyle,
+  footerStyle,
 }) => {
   const [checkState, setCheckState] = useState(checks || [])
   const { t } = useTranslation()
@@ -66,19 +76,19 @@ const DisclaimerModal: React.FC<React.PropsWithChildren<RiskDisclaimerProps>> = 
 
   const handleConfirm = useCallback(() => {
     onSuccess()
-    onDismiss()
+    onDismiss?.()
   }, [onSuccess, onDismiss])
 
   return (
-    <ModalContainer title={t('Welcome!')} $minWidth="320px" id={id}>
+    <ModalContainer title={modalHeader || t('Welcome!')} minWidth="320px" id={id}>
       <GradientModalHeader>
         <ModalTitle>
-          <Heading scale="lg">{t('Welcome!')}</Heading>
+          <Heading scale="lg">{modalHeader || t('Welcome!')}</Heading>
         </ModalTitle>
       </GradientModalHeader>
       <ModalBody p="24px" maxWidth={['100%', '100%', '100%', '400px']}>
         <Box maxHeight="300px" overflowY="auto">
-          <Heading as="h3" mb="24px">
+          <Heading as="h3" mb="24px" style={headerStyle}>
             {header}
           </Heading>
           {subtitle && (
@@ -106,14 +116,21 @@ const DisclaimerModal: React.FC<React.PropsWithChildren<RiskDisclaimerProps>> = 
             </label>
           ))}
         </Box>
-        <Button
-          id={`${id}-continue`}
-          width="100%"
-          onClick={handleConfirm}
-          disabled={checkState.some((check) => !check.value)}
-        >
-          {t('Continue')}
-        </Button>
+        {footer && (
+          <Heading as="h3" mb="24px" style={footerStyle}>
+            {footer}
+          </Heading>
+        )}
+        {!hideConfirm && (
+          <Button
+            id={`${id}-continue`}
+            width="100%"
+            onClick={handleConfirm}
+            disabled={checkState.some((check) => !check.value)}
+          >
+            {t('Continue')}
+          </Button>
+        )}
       </ModalBody>
     </ModalContainer>
   )

@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useTranslation } from '@pancakeswap/localization'
+import { ChainId } from '@pancakeswap/sdk'
 import {
   Box,
   Breadcrumbs,
@@ -8,30 +9,35 @@ import {
   Flex,
   Heading,
   Image,
-  Link as UIKitLink,
   LinkExternal,
+  NextLinkFromReactRouter,
   Spinner,
   Text,
+  Link as UIKitLink,
   useMatchBreakpoints,
-  NextLinkFromReactRouter,
 } from '@pancakeswap/uikit'
+import useInfoUserSavedTokensAndPools from 'hooks/useInfoUserSavedTokensAndPoolsList'
+import { NextSeo } from 'next-seo'
+
 import truncateHash from '@pancakeswap/utils/truncateHash'
 import Page from 'components/Layout/Page'
+import { CHAIN_QUERY_NAME } from 'config/chains'
 import { ONE_HOUR_SECONDS } from 'config/constants/info'
 import { Duration } from 'date-fns'
 import { useMemo } from 'react'
-import { multiChainId, multiChainScan } from 'state/info/constant'
+import { multiChainId, multiChainScan, v2SubgraphTokenName } from 'state/info/constant'
 import {
-  useGetChainName,
+  useChainIdByQuery,
+  useChainNameByQuery,
   useMultiChainPath,
   usePoolDatasSWR,
   usePoolsForTokenSWR,
+  useStableSwapPath,
   useTokenChartDataSWR,
   useTokenDataSWR,
   useTokenPriceDataSWR,
   useTokenTransactionsSWR,
 } from 'state/info/hooks'
-import { useWatchlistTokens } from 'state/user/hooks'
 import styled from 'styled-components'
 import { getBlockExploreLink } from 'utils'
 import { formatAmount } from 'utils/formatInfoNumbers'
@@ -68,6 +74,8 @@ const DEFAULT_TIME_WINDOW: Duration = { weeks: 1 }
 const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = ({ routeAddress }) => {
   const { isXs, isSm } = useMatchBreakpoints()
   const { t } = useTranslation()
+  const chainId = useChainIdByQuery()
+  const { savedTokens, addToken } = useInfoUserSavedTokensAndPools(chainId)
 
   // In case somebody pastes checksummed address into url (since GraphQL expects lowercase address)
   const address = routeAddress.toLowerCase()
@@ -76,7 +84,7 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
 
   const tokenData = useTokenDataSWR(address)
   const poolsForToken = usePoolsForTokenSWR(address)
-  const poolDatas = usePoolDatasSWR(poolsForToken ?? [])
+  const poolDatas = usePoolDatasSWR(useMemo(() => poolsForToken ?? [], [poolsForToken]))
   const transactions = useTokenTransactionsSWR(address)
   const chartData = useTokenChartDataSWR(address)
 
@@ -88,7 +96,7 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
       return [
         ...priceData,
         {
-          time: new Date().getTime() / 1000,
+          time: Date.now() / 1000,
           open: priceData[priceData.length - 1].close,
           close: tokenData?.priceUSD,
           high: tokenData?.priceUSD,
@@ -99,17 +107,19 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
     return undefined
   }, [priceData, tokenData])
 
-  const [watchlistTokens, addWatchlistToken] = useWatchlistTokens()
   const chainPath = useMultiChainPath()
-  const chainName = useGetChainName()
+  const chainName = useChainNameByQuery()
+  const infoTypeParam = useStableSwapPath()
+
   return (
-    <Page symbol={tokenData?.symbol}>
+    <Page>
+      <NextSeo title={tokenData?.symbol} />
       {tokenData ? (
         !tokenData.exists ? (
           <Card>
             <Box p="16px">
               <Text>
-                {t('No pool has been created with this token yet. Create one')}
+                {t('No pair has been created with this token yet. Create one')}
                 <NextLinkFromReactRouter style={{ display: 'inline', marginLeft: '6px' }} to={`/add/${address}`}>
                   {t('here.')}
                 </NextLinkFromReactRouter>
@@ -121,10 +131,10 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
             {/* Stuff on top */}
             <Flex justifyContent="space-between" mb="24px" flexDirection={['column', 'column', 'row']}>
               <Breadcrumbs mb="32px">
-                <NextLinkFromReactRouter to={`/info${chainPath}`}>
+                <NextLinkFromReactRouter to={`/info${chainPath}${infoTypeParam}`}>
                   <Text color="primary">{t('Info')}</Text>
                 </NextLinkFromReactRouter>
-                <NextLinkFromReactRouter to={`/info${chainPath}/tokens`}>
+                <NextLinkFromReactRouter to={`/info${chainPath}/tokens${infoTypeParam}`}>
                   <Text color="primary">{t('Tokens')}</Text>
                 </NextLinkFromReactRouter>
                 <Flex>
@@ -134,6 +144,7 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
               </Breadcrumbs>
               <Flex justifyContent={[null, null, 'flex-end']} mt={['8px', '8px', 0]}>
                 <LinkExternal
+                  isBscScan={multiChainId[chainName] === ChainId.BSC}
                   mr="8px"
                   color="primary"
                   href={getBlockExploreLink(address, 'address', multiChainId[chainName])}
@@ -145,7 +156,7 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
                     <Image src="/images/CMC-logo.svg" height={22} width={22} alt={t('View token on CoinMarketCap')} />
                   </StyledCMCLink>
                 )}
-                <SaveIcon fill={watchlistTokens.includes(address)} onClick={() => addWatchlistToken(address)} />
+                <SaveIcon fill={savedTokens.includes(address)} onClick={() => addToken(address)} />
               </Flex>
             </Flex>
             <Flex justifyContent="space-between" flexDirection={['column', 'column', 'column', 'row']}>
@@ -159,7 +170,7 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
                     fontSize={isXs || isSm ? '24px' : '40px'}
                     id="info-token-name-title"
                   >
-                    {tokenData.name}
+                    {v2SubgraphTokenName[tokenData.address] ?? tokenData.name}
                   </Text>
                   <Text ml="12px" lineHeight="1" color="textSubtle" fontSize={isXs || isSm ? '14px' : '20px'}>
                     ({tokenData.symbol})
@@ -173,12 +184,12 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
                 </Flex>
               </Flex>
               <Flex>
-                <NextLinkFromReactRouter to={`/add/${address}?chainId=${multiChainId[chainName]}`}>
+                <NextLinkFromReactRouter to={`/add/${address}?chain=${CHAIN_QUERY_NAME[chainId]}`}>
                   <Button mr="8px" variant="secondary">
                     {t('Add Liquidity')}
                   </Button>
                 </NextLinkFromReactRouter>
-                <NextLinkFromReactRouter to={`/swap?inputCurrency=${address}&chainId=${multiChainId[chainName]}`}>
+                <NextLinkFromReactRouter to={`/swap?outputCurrency=${address}&chainId=${multiChainId[chainName]}`}>
                   <Button>{t('Trade')}</Button>
                 </NextLinkFromReactRouter>
               </Flex>
@@ -230,7 +241,7 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
 
             {/* pools and transaction tables */}
             <Heading scale="lg" mb="16px" mt="40px">
-              {t('Pools')}
+              {t('Pairs')}
             </Heading>
 
             <PoolTable poolDatas={poolDatas} />

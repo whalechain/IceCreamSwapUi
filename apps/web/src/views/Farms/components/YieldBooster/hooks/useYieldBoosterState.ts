@@ -1,4 +1,3 @@
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useFarmUser } from 'state/farms/hooks'
 import { useBCakeFarmBoosterContract } from 'hooks/useContract'
 import { useSWRMulticall } from 'hooks/useSWRContract'
@@ -8,8 +7,8 @@ import { useUserBoosterStatus } from 'views/Farms/hooks/useUserBoosterStatus'
 import { useBCakeProxyContractAddress } from 'views/Farms/hooks/useBCakeProxyContractAddress'
 import { useUserLockedCakeStatus } from 'views/Farms/hooks/useUserLockedCakeStatus'
 import { useCallback } from 'react'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
+import { useAccount } from 'wagmi'
+import useAccountActiveChain from 'hooks/useAccountActiveChain'
 
 export enum YieldBoosterState {
   UNCONNECTED,
@@ -26,7 +25,7 @@ export enum YieldBoosterState {
 
 function useIsPoolActive(pid: number) {
   const farmBoosterContract = useBCakeFarmBoosterContract()
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const { chainId } = useActiveChainId()
 
   const { data, mutate } = useSWRMulticall(
@@ -48,7 +47,7 @@ interface UseYieldBoosterStateArgs {
 
 export default function useYieldBoosterState(yieldBoosterStateArgs: UseYieldBoosterStateArgs) {
   const { farmPid } = yieldBoosterStateArgs
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useAccountActiveChain()
   const { remainingCounts, refreshActivePools } = useUserBoosterStatus(account)
   const { locked, lockedEnd } = useUserLockedCakeStatus()
   const { stakedBalance, proxy } = useFarmUser(farmPid)

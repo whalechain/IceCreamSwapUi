@@ -2,11 +2,13 @@
 import { useMemo } from 'react'
 import { ChainId } from '@pancakeswap/sdk'
 import { useActiveIfoWithBlocks } from 'hooks/useActiveIfoWithBlocks'
+import { useUserCakeLockStatus } from 'hooks/useUserCakeLockStatus'
+import { useMemo } from 'react'
 import { useChainCurrentBlock } from 'state/block/hooks'
 import { PotteryDepositStatus } from 'state/types'
 import { getStatus } from 'views/Ifos/hooks/helpers'
-import { usePotteryStatus } from './usePotteryStatus'
 import { useCompetitionStatus } from './useCompetitionStatus'
+import { usePotteryStatus } from './usePotteryStatus'
 import { useVotingStatus } from './useVotingStatus'
 import { useChainId } from '@pancakeswap/awgmi/src'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
@@ -21,6 +23,8 @@ export const useMenuItemsStatus = (): Record<string, string> => {
   const competitionStatus = useCompetitionStatus()
   const potteryStatus = usePotteryStatus()
   const votingStatus = useVotingStatus()
+  const isUserLocked = useUserCakeLockStatus()
+  const tradingRewardStatus = useTradingRewardStatus()
 
   const ifoStatus =
     currentBlock && activeIfo && activeIfo.endBlock > currentBlock
@@ -35,7 +39,13 @@ export const useMenuItemsStatus = (): Record<string, string> => {
         '/pottery': 'pot_open',
       }),
       ...(votingStatus && {
-        '/voting': 'vote_now',
+        '/voting': votingStatus,
+      }),
+      ...(isUserLocked && {
+        '/pools': 'lock_end',
+      }),
+      ...(tradingRewardStatus && {
+        '/trading-reward': tradingRewardStatus,
       }),
     }
   }, [competitionStatus, ifoStatus, potteryStatus, votingStatus])

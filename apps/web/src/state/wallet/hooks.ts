@@ -1,6 +1,6 @@
-import { Currency, CurrencyAmount, JSBI, Native, Token } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, Native, Token } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import ERC20_INTERFACE from 'config/abi/erc20'
 import { useAllTokens } from 'hooks/Tokens'
 import { useMulticallContract } from 'hooks/useContract'
@@ -34,7 +34,7 @@ export function useNativeBalances(uncheckedAddresses?: (string | undefined)[]): 
     () =>
       addresses.reduce<{ [address: string]: CurrencyAmount<Native> }>((memo, address, i) => {
         const value = results?.[i]?.result?.[0]
-        if (value) memo[address] = CurrencyAmount.fromRawAmount(native, JSBI.BigInt(value.toString()))
+        if (value) memo[address] = CurrencyAmount.fromRawAmount(native, BigInt(value.toString()))
         return memo
       }, {}),
     [addresses, results, native],
@@ -70,8 +70,8 @@ export function useTokenBalancesWithLoadingIndicator(
         address && validatedTokens.length > 0
           ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token, i) => {
               const value = balances?.[i]?.result?.[0]
-              const amount = value ? JSBI.BigInt(value.toString()) : undefined
-              if (amount) {
+              const amount = value ? BigInt(value.toString()) : undefined
+              if (typeof amount !== 'undefined') {
                 memo[token.address] = CurrencyAmount.fromRawAmount(token, amount)
               }
               return memo
@@ -92,7 +92,10 @@ export function useTokenBalances(
 
 // get the balance for a single token/account combo
 export function useTokenBalance(account?: string, token?: Token): CurrencyAmount<Token> | undefined {
-  const tokenBalances = useTokenBalances(account, [token])
+  const tokenBalances = useTokenBalances(
+    account,
+    useMemo(() => [token], [token]),
+  )
   if (!token) return undefined
   return tokenBalances[token.address]
 }
@@ -103,13 +106,15 @@ export function useCurrencyBalances(
 ): (CurrencyAmount<Currency> | undefined)[] {
   const tokens = useMemo(
     () => currencies?.filter((currency): currency is Token => currency?.isToken) ?? [],
-    [currencies],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...currencies],
   )
 
   const tokenBalances = useTokenBalances(account, tokens)
   const containsNative: boolean = useMemo(
     () => currencies?.some((currency) => currency?.isNative) ?? false,
-    [currencies],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...currencies],
   )
   const uncheckedAddresses = useMemo(() => (containsNative ? [account] : []), [containsNative, account])
   const nativeBalance = useNativeBalances(uncheckedAddresses)
@@ -122,17 +127,21 @@ export function useCurrencyBalances(
         if (currency?.isNative) return nativeBalance[account]
         return undefined
       }) ?? [],
-    [account, currencies, nativeBalance, tokenBalances],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [account, ...currencies, nativeBalance, tokenBalances],
   )
 }
 
 export function useCurrencyBalance(account?: string, currency?: Currency): CurrencyAmount<Currency> | undefined {
-  return useCurrencyBalances(account, [currency])[0]
+  return useCurrencyBalances(
+    account,
+    useMemo(() => [currency], [currency]),
+  )[0]
 }
 
 // mimics useAllBalances
 export function useAllTokenBalances(): { [tokenAddress: string]: CurrencyAmount<Token> | undefined } {
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const allTokens = useAllTokens()
   const allTokensArray = useMemo(() => Object.values(allTokens ?? {}), [allTokens])
   const balances = useTokenBalances(account ?? undefined, allTokensArray)

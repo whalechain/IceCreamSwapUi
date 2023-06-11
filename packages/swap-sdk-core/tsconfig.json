@@ -1,12 +1,14 @@
 {
-  "include": ["src", "test"],
+  "extends": "@pancakeswap/tsconfig/base",
+  "include": ["src"],
+  "exclude": ["./dist/**"],
   "compilerOptions": {
-    "target": "es2018",
+    "outDir": "./dist",
+    "target": "es2020",
     "module": "esnext",
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
-    "rootDir": "./",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -19,8 +21,9 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": ["vitest/globals"]
   }
 }

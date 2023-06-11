@@ -1,24 +1,30 @@
-import React from "react";
-import { Flex, TooltipText, useTooltip } from "@pancakeswap/uikit";
+import React, { ReactNode } from "react";
 import { useTranslation } from "@pancakeswap/localization";
+import { Flex } from "../../components/Box";
+import { TooltipText } from "../../components/Text";
+import { useTooltip } from "../../hooks";
 
-export const AprRowWithToolTip: React.FC<React.PropsWithChildren<{ isVaultKey: boolean, forceApy?: boolean }>> = ({
+export const AprRowWithToolTip: React.FC<React.PropsWithChildren<{ questionTooltip?: ReactNode, forceApy?: boolean }>> = ({
   children,
+  questionTooltip,
   isVaultKey,
   forceApy= false,
 }) => {
   const { t } = useTranslation();
 
-  const tooltipContent = isVaultKey
-    ? t("This pool's rewards are compounded automatically")
-    : t("This pool’s rewards aren’t compounded automatically, so make sure to compound regularly");
+  const tooltipContent = t(
+    "Calculated based on current rates and subject to change based on various external variables. It is a rough estimate provided for convenience only, and by no means represents guaranteed returns."
+  );
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(tooltipContent, { placement: "bottom-start" });
 
   return (
     <Flex alignItems="center" justifyContent="space-between">
       {tooltipVisible && tooltip}
-      <TooltipText ref={targetRef}>{isVaultKey || forceApy ? `${t("APY")}:` : `${t("APR")}:`}</TooltipText>
+      <Flex>      <TooltipText ref={targetRef}>{isVaultKey || forceApy ? `${t("APY")}:` : `${t("APR")}:`}</TooltipText>
+
+        {questionTooltip}
+      </Flex>
       {children}
     </Flex>
   );

@@ -1,15 +1,14 @@
-import { Interface, FunctionFragment } from '@ethersproject/abi'
-import { BigNumber } from '@ethersproject/bignumber'
-import { Contract } from '@ethersproject/contracts'
-import { useEffect, useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { Interface, FunctionFragment } from 'ethers/lib/utils'
+import { BigNumber, Contract } from 'ethers'
+import { useCallback, useEffect, useMemo } from 'react'
 import {
   useSWRConfig,
   // eslint-disable-next-line camelcase
   unstable_serialize,
 } from 'swr'
 import { useActiveChainId } from '../../hooks/useActiveChainId'
-import { AppState, useAppDispatch } from '../index'
+import { useAtom } from 'jotai'
+import { multicallReducerAtom } from 'state/multicall/reducer'
 import {
   addMulticallListeners,
   Call,
@@ -17,7 +16,12 @@ import {
   parseCallKey,
   toCallKey,
   ListenerOptions,
+  ListenerOptionsWithGas,
 } from './actions'
+
+export interface CallStateResult extends ReadonlyArray<any> {
+  readonly [key: string]: any
+}
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any
@@ -55,10 +59,7 @@ export const NEVER_RELOAD: ListenerOptions = {
 // the lowest level call for subscribing to contract data
 function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): CallResult[] {
   const { chainId } = useActiveChainId()
-  const callResults = useSelector<AppState, AppState['multicall']['callResults']>(
-    (state) => state.multicall.callResults,
-  )
-  const dispatch = useAppDispatch()
+  const [{ callResults }, dispatch] = useAtom(multicallReducerAtom)
 
   const serializedCallKeys: string = useMemo(
     () =>
@@ -114,7 +115,7 @@ function useCallsData(calls: (Call | undefined)[], options?: ListenerOptions): C
   )
 }
 
-interface CallState {
+export interface CallState {
   readonly valid: boolean
   // the result, or undefined if loading or errored/no data
   readonly result: Result | undefined
@@ -124,10 +125,38 @@ interface CallState {
   readonly syncing: boolean
   // true if the call was made and is synced, but the return data is invalid
   readonly error: boolean
+  readonly blockNumber?: number
 }
 
 const INVALID_CALL_STATE: CallState = { valid: false, result: undefined, loading: false, syncing: false, error: false }
 const LOADING_CALL_STATE: CallState = { valid: true, result: undefined, loading: true, syncing: true, error: false }
+
+// Converts CallResult[] to CallState[], only updating if call states have changed.
+// Ensures that CallState results remain referentially stable when unchanged, preventing
+// spurious re-renders which would otherwise occur because mapping always creates a new object.
+export function useCallStates(
+  results: CallResult[],
+  contractInterface: Interface | undefined,
+  fragment: ((i: number) => FunctionFragment | undefined) | FunctionFragment | undefined,
+  latestBlockNumber: number | undefined,
+): CallState[] {
+  // Avoid refreshing the results with every changing block number (eg latestBlockNumber).
+  // Instead, only refresh the results if they need to be synced - if there is a result which is stale, for which blockNumber < latestBlockNumber.
+  const syncingBlockNumber = useMemo(() => {
+    const lowestBlockNumber = results.reduce<number | undefined>(
+      (memo, result) => (result.blockNumber ? Math.min(memo ?? result.blockNumber, result.blockNumber) : memo),
+      undefined,
+    )
+    return Math.max(lowestBlockNumber ?? 0, latestBlockNumber ?? 0)
+  }, [results, latestBlockNumber])
+
+  return useMemo(() => {
+    return results.map((result, i) => {
+      const resultFragment = typeof fragment === 'function' ? fragment(i) : fragment
+      return toCallState(result, contractInterface, resultFragment, syncingBlockNumber)
+    })
+  }, [contractInterface, fragment, results, syncingBlockNumber])
+}
 
 function toCallState(
   callResult: CallResult | undefined,
@@ -154,6 +183,7 @@ function toCallState(
         error: true,
         syncing,
         result,
+        blockNumber,
       }
     }
   }
@@ -163,7 +193,98 @@ function toCallState(
     syncing,
     result,
     error: !success,
+    blockNumber,
   }
+}
+
+export interface MultiContractsMultiMethodsCallInput {
+  contract: Contract | null | undefined
+  methodName: string
+  inputs?: OptionalMethodInputs
+}
+
+export function useMultiContractsMultiMethods(
+  callInputs: MultiContractsMultiMethodsCallInput[],
+  options?: ListenerOptions,
+) {
+  const { chainId } = useActiveChainId()
+
+  const { calls, fragments, contracts } = useMemo(() => {
+    if (!callInputs || !callInputs.length) {
+      return { calls: [], fragments: [], contracts: [] }
+    }
+    const validFragments: FunctionFragment[] = []
+    const validContracts: Contract[] = []
+    const validCalls: Call[] = []
+    for (const { methodName, inputs, contract } of callInputs) {
+      const fragment = contract?.interface.getFunction(methodName)
+      if (!contract || !fragment) {
+        // eslint-disable-next-line no-continue
+        continue
+      }
+      validFragments.push(fragment)
+      validContracts.push(contract)
+      validCalls.push({
+        address: contract.address,
+        callData: contract.interface.encodeFunctionData(fragment, inputs),
+      })
+    }
+    return { calls: validCalls, fragments: validFragments, contracts: validContracts }
+  }, [callInputs])
+
+  const results = useCallsData(calls, options)
+
+  const { cache } = useSWRConfig()
+
+  return useMemo(() => {
+    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))?.data
+    return results.map((result, i) => toCallState(result, contracts[i]?.interface, fragments[i], currentBlockNumber))
+  }, [cache, chainId, results, fragments, contracts])
+}
+
+export function useSingleContractMultiMethods(
+  contract: Contract | null | undefined,
+  callInputs: {
+    methodName: string
+    inputs?: OptionalMethodInputs
+  }[],
+  options?: ListenerOptions,
+) {
+  const multiInputs = useMemo(() => callInputs.map((callInput) => ({ ...callInput, contract })), [callInputs, contract])
+  return useMultiContractsMultiMethods(multiInputs, options)
+}
+
+export function useSingleContractWithCallData(
+  contract: Contract | null | undefined,
+  callDatas: string[],
+  options?: ListenerOptionsWithGas,
+): CallState[] {
+  const { chainId } = useActiveChainId()
+
+  const { gasRequired } = options ?? {}
+
+  // Create call objects
+  const calls = useMemo(() => {
+    if (!contract) return []
+    return callDatas.map<Call>((callData) => ({
+      address: contract.address,
+      callData,
+      gasRequired,
+    }))
+  }, [callDatas, contract, gasRequired])
+
+  const results = useCallsData(calls, options)
+
+  const { cache } = useSWRConfig()
+
+  const fragment = useCallback(
+    (i: number) => contract?.interface?.getFunction(callDatas[i].substring(0, 10)),
+    [callDatas, contract],
+  )
+
+  const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))?.data
+
+  return useCallStates(results, contract?.interface, fragment, currentBlockNumber)
 }
 
 export function useSingleContractMultipleData(
@@ -193,7 +314,7 @@ export function useSingleContractMultipleData(
   const { cache } = useSWRConfig()
 
   return useMemo(() => {
-    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))
+    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))?.data
     return results.map((result) => toCallState(result, contract?.interface, fragment, currentBlockNumber))
   }, [cache, chainId, results, contract?.interface, fragment])
 }
@@ -235,7 +356,7 @@ export function useMultipleContractSingleData(
   const { cache } = useSWRConfig()
 
   return useMemo(() => {
-    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))
+    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))?.data
     return results.map((result) => toCallState(result, contractInterface, fragment, currentBlockNumber))
   }, [cache, chainId, results, contractInterface, fragment])
 }
@@ -244,7 +365,7 @@ export function useSingleCallResult(
   contract: Contract | null | undefined,
   methodName: string,
   inputs?: OptionalMethodInputs,
-  options?: ListenerOptions,
+  options?: ListenerOptionsWithGas,
 ): CallState {
   const fragment = useMemo(() => contract?.interface?.getFunction(methodName), [contract, methodName])
 
@@ -260,11 +381,12 @@ export function useSingleCallResult(
   }, [contract, fragment, inputs])
 
   const result = useCallsData(calls, options)[0]
+
   const { cache } = useSWRConfig()
   const { chainId } = useActiveChainId()
 
   return useMemo(() => {
-    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))
+    const currentBlockNumber = cache.get(unstable_serialize(['blockNumber', chainId]))?.data
     return toCallState(result, contract?.interface, fragment, currentBlockNumber)
   }, [cache, chainId, result, contract?.interface, fragment])
 }

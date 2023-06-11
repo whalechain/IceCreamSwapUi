@@ -1,7 +1,6 @@
 import { Flex, UserMenuItem, WarningIcon } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import { useBalance } from 'wagmi'
+import { useAccount, useBalance } from 'wagmi'
 import { LOW_NATIVE_BALANCE } from './WalletModal'
 
 interface WalletUserMenuItemProps {
@@ -14,8 +13,8 @@ const WalletUserMenuItem: React.FC<React.PropsWithChildren<WalletUserMenuItemPro
   onPresentWalletModal,
 }) => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
-  const { data, isFetched } = useBalance({ addressOrName: account })
+  const { address: account } = useAccount()
+  const { data, isFetched } = useBalance({ address: account })
   const hasLowNativeBalance = isFetched && data && data.value.lte(LOW_NATIVE_BALANCE)
 
   return (

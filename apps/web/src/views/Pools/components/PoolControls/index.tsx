@@ -1,15 +1,17 @@
-import { useWeb3React } from '@pancakeswap/wagmi'
+import { useAccount } from 'wagmi'
 import { Pool } from '@pancakeswap/uikit'
 import { useUserPoolStakedOnly, useUserPoolsViewMode } from 'state/user/hooks'
-import { useInitialBlock } from 'state/block/hooks'
+import { useInitialBlockTimestamp } from 'state/block/hooks'
 import { Token } from '@pancakeswap/sdk'
 import { getChain } from "@icecreamswap/constants"
 import {useActiveChainId} from "../../../../hooks/useActiveChainId";
 
+const POOL_START_THRESHOLD = 60 * 4
+
 export default function PoolControlsContainer(props) {
   const [stakedOnly, setStakedOnly] = useUserPoolStakedOnly()
   const [viewMode, setViewMode] = useUserPoolsViewMode()
-  const { account } = useWeb3React()
+  const { address: account } = useAccount()
   const initialBlock = useInitialBlock()
   const { chainId } = useActiveChainId()
   const poolStartBlockThreshold = (60 / getChain(chainId).blockInterval) * 60  // show pool 60 min before it goes live

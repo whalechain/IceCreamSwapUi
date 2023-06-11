@@ -1,6 +1,5 @@
 {
-  "extends": "tsconfig/react-library.json",
-  "include": ["global.d.ts"],
+  "extends": "@pancakeswap/tsconfig/react-library.json",
   "compilerOptions": {
     "target": "ES2015"
   }
