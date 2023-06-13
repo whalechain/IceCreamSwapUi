@@ -65,7 +65,7 @@ const iceUsdPairMap = {
     tokenA: ICE[ChainId.XODEX],
     tokenB: USD[ChainId.XODEX],
   },
-}
+}  // todo: make dynamic
 
 const getIcePrice = async () => {
   // const pairConfig = iceUsdPairMap[isTestnet ? ChainId.BSC_TESTNET : ChainId.BSC]
