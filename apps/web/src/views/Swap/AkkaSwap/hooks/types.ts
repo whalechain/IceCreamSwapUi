@@ -23,6 +23,11 @@ export interface AkkaRouterTrade {
   args: AkkaRouterArgsResponseType
 }
 
+export interface AkkaRouterResponseType {
+  route: AkkaRouterInfoResponseType
+  swap: AkkaRouterArgsResponseType
+}
+
 export interface AkkaRouterInfoResponseType {
   inputAmount: string
   inputAmountWei: number

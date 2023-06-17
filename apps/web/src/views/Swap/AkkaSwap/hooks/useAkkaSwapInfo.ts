@@ -81,8 +81,8 @@ export function useAkkaSwapInfo(
     currencyBalances,
     parsedAmount,
     trade: {
-      route: keysToCamel(route?.data) ?? null,
-      args: args?.data ?? null,
+      route: keysToCamel(route?.data?.route) ?? null,
+      args: args?.data?.swap ?? null,
     },
     inputError,
     mutateAkkaRoute,

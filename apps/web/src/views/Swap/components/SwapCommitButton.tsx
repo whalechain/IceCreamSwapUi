@@ -205,7 +205,7 @@ export default function SwapCommitButton({
         width="100%"
         disabled
       >
-        Wait for AKKA Route ...
+        Finding the best route ...
       </CommitButton>
     )
   }

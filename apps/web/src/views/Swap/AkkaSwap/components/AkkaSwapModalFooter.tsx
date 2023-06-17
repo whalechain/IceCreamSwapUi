@@ -112,7 +112,7 @@ export default function AkkaSwapModalFooter({
             disabled
             mt="12px"
           >
-            Wait for AKKA Route ...
+            Finding the best route ...
           </CommitButton>
           :
           <Button variant="primary" onClick={onConfirm} mt="12px" id="confirm-swap-or-send" width="100%">
