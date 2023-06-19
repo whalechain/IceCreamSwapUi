@@ -57,7 +57,7 @@ export default function AkkaSwapModalFooter({
         <RowBetween>
           <RowFixed>
             <Text fontSize="14px" color="textSubtle">
-              Price Impact
+              {t('Price Impact')}
             </Text>
           </RowFixed>
           <Text fontSize="14px" color="textSubtle">
@@ -68,7 +68,7 @@ export default function AkkaSwapModalFooter({
           <RowBetween>
             <RowFixed>
               <Text fontSize="14px" color="textSubtle">
-                You Save
+                {t('You Save')}
               </Text>
             </RowFixed>
             <Text fontSize="14px" color="textSubtle">

@@ -6,8 +6,10 @@ import { useRouter } from 'next/router'
 import TokenInput from 'components/TokenInput'
 import { Currency } from '@pancakeswap/sdk'
 import AppWrapper from 'components/AppWrapper'
+import { useTranslation } from '@pancakeswap/localization'
 
 export const LocksOverview: React.FC = () => {
+  const { t } = useTranslation()
   const [token, setToken] = useState<Currency>()
   const { isMobile } = useMatchBreakpoints()
   const { data: locks } = useLocksByUser()
@@ -18,11 +20,11 @@ export const LocksOverview: React.FC = () => {
   }
 
   return (
-    <AppWrapper title="Locks" subtitle="Lock your tokens for a fixed period">
+    <AppWrapper title={t('Locks')} subtitle={t('Lock your tokens for a fixed period')}>
       <Flex flexDirection="column" gap="0.75em">
-        <Text>Token Address</Text>
+        <Text>{t('Token Address')}</Text>
         <Text color="textSubtle" fontSize="14px" textAlign="start">
-          View and Create Locks
+          {t('View and Create Locks')}
         </Text>
         <Flex alignItems="start" gap="1em" flexDirection={isMobile ? 'column' : 'row'} justifyContent="stretch">
           {/* <AddressInput value={tokenAddress} onChange={setTokenAddress} /> */}
@@ -30,21 +32,21 @@ export const LocksOverview: React.FC = () => {
             <TokenInput currency={token} onCurrencySelect={setToken} showNative={false} showCommonBases={false} />
           </Input>
           <Button onClick={handleSearch} height="40px" width={isMobile && '100%'}>
-            Go
+            {t('Go')}
           </Button>
         </Flex>
         {locks?.length ? (
           <>
             <Heading as="h2" marginY="3">
-              My Locks
+              {t('My Locks')}
             </Heading>
             <Table>
               {!isMobile && (
                 <thead>
                   <tr>
-                    <Td>Token</Td>
-                    <Td>Amount</Td>
-                    <Td>Claimable</Td>
+                    <Td>{t('Token')}</Td>
+                    <Td>{t('Amount')}</Td>
+                    <Td>{t('Claimable')}</Td>
                     <Td />
                   </tr>
                 </thead>

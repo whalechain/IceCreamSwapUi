@@ -12,6 +12,9 @@ import kycAbi from '../../abi/kyc.json'
 import contractKycAbi from '../../abi/contractKyc.json'
 import { getDeploymentUrl } from '../getDeploymentUrl'
 import { solidityKeccak256 } from 'ethers/lib/utils'
+import { useTranslation } from '@pancakeswap/localization'
+
+const { t } = useTranslation()
 
 const core = getChain(1116)!
 const provider = new providers.JsonRpcProvider(core.rpcUrls.default)
@@ -26,12 +29,12 @@ export const kycRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       if (!ctx.session?.user || !isKyc(ctx.session.user)) {
-        throw new Error('Unauthorized')
+        throw new Error(t('Unauthorized'))
       }
       const { targetAddress, sourceAddress, chainId } = input
       const chain = getChain(chainId)
       if (!chain) {
-        throw new Error('Invalid chain')
+        throw new Error(t('Invalid chain'))
       }
       if (
         await prisma.delegation.findFirst({
@@ -44,7 +47,7 @@ export const kycRouter = router({
           },
         })
       ) {
-        throw new Error('Delegation already exists')
+        throw new Error(t('Delegation already exists'))
       }
       await prisma.delegation.create({
         data: {
@@ -88,7 +91,7 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
         status: 'APPROVED',
       },
     })
-    return `Delegation approved: ${targetAddress} -> ${sourceAddress}`
+    return `${t('Delegation approved')}: ${targetAddress} -> ${sourceAddress}`
   }),
   reject: publicProcedure.input(z.string()).query(async ({ input, ctx }) => {
     const msg = decrypt(input)
@@ -105,7 +108,7 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
         status: 'REJECTED',
       },
     })
-    return `Delegation rejected: ${targetAddress} -> ${sourceAddress}`
+    return `${t('Delegation rejected')}: ${targetAddress} -> ${sourceAddress}`
   }),
   getDelegation: publicProcedure
     .input(
@@ -119,7 +122,7 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
       const { targetAddress, sourceAddress, chainId } = input
       const chain = getChain(chainId)
       if (!chain) {
-        throw new Error('Invalid chain')
+        throw new Error(t('Invalid chain'))
       }
       const delegation = await prisma.delegation.findFirst({
         where: {
@@ -146,12 +149,12 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
         !isKyc(ctx.session.user) ||
         input.sourceAddress.toLowerCase() !== ctx.session.user.wallet.toLowerCase()
       ) {
-        throw new Error('Unauthorized')
+        throw new Error(t('Unauthorized'))
       }
       const { targetAddress, sourceAddress, chainId } = input
       const chain = getChain(chainId)
       if (!chain) {
-        throw new Error('Invalid chain')
+        throw new Error(t('Invalid chain'))
       }
       const delegation = await prisma.delegation.findFirst({
         where: {
@@ -163,7 +166,7 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
         },
       })
       if (!delegation || delegation.status !== 'APPROVED') {
-        throw new Error('Delegation not approved')
+        throw new Error(t('Delegation not approved'))
       }
       const kyc = await prisma.kyc.findFirst({
         where: {
@@ -171,7 +174,7 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
         },
       })
       if (!kyc) {
-        throw new Error('KYC not found')
+        throw new Error(t('KYC not found'))
       }
       const msg = solidityKeccak256(['uint256', 'uint256', 'address'], [chainId, kyc.tokenId, targetAddress])
       const signer = new Wallet(process.env.KYC_MINTER as string, provider)
@@ -261,19 +264,19 @@ const getDelegationTokenId = async (sourceAddress: string, targetAddress: string
     },
   })
   if (!kyc) {
-    throw new Error('KYC not found')
+    throw new Error(t('KYC not found'))
   }
   try {
     tokenId = await contractKyc.tokenOfOwnerByIndex(targetAddress, 0)
   } catch (e) {
-    throw new Error('Invalid target address')
+    throw new Error(t('Invalid target address'))
   }
   const sourceKycTokenId = await contractKyc.delegators(tokenId)
   if (sourceKycTokenId.toNumber() !== kyc.tokenId) {
-    throw new Error('Invalid source address')
+    throw new Error(t(''))
   }
   if (kyc.tokenId !== sourceKycTokenId.toNumber()) {
-    throw new Error('Invalid token id')
+    throw new Error(t('Invalid token id'))
   }
   return Number(tokenId.toString())
 }

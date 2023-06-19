@@ -337,7 +337,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
               {t('Farms')}
             </FarmH1>
             <FarmH2 scale="lg" color="text">
-              {t('Stake LP tokens to earn.')}
+              {t('Stake LP tokens to earn')}
             </FarmH2>
             {/*
             <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>

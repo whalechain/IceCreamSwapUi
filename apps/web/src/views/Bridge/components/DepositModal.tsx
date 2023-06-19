@@ -11,6 +11,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 import BridgeSuccess from '../assets/bridge-success.png'
 import chainName from 'config/constants/chainName'
+import { useTranslation } from '@pancakeswap/localization'
+
+const { t } = useTranslation()
 
 interface DepositModalProps {
   bridge: ReturnType<typeof useBridge>
@@ -19,13 +22,13 @@ interface DepositModalProps {
 }
 
 const titleByStatus: Record<Exclude<TransactionStatus, TransactionError>, string> = {
-  'Approve 0': 'Waiting for approval',
-  Approve: 'Waiting for approval',
-  Deposit: 'Waiting for deposit',
-  'In Transit': 'Transit',
-  'Transfer Completed': 'Transfer Completed',
-  'Transfer Aborted': 'Transfer Failed',
-  'Initializing Transfer': 'Initializing Transfer',
+  'Approve 0': t('Waiting for approval'),
+  Approve: t('Waiting for approval'),
+  Deposit: t('Waiting for deposit'),
+  'In Transit': t('Transit'),
+  'Transfer Completed': t('Transfer Completed'),
+  'Transfer Aborted': t('Transfer Failed'),
+  'Initializing Transfer': t('Initializing Transfer'),
 }
 
 const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve }) => {
@@ -45,9 +48,9 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
 
   const title = transactionStatus
     ? isTransactionError(transactionStatus)
-      ? 'Transaction Failed'
+      ? t('Transaction Failed')
       : titleByStatus[transactionStatus]
-    : 'Confirm Bridge Transfer'
+    : t('Confirm Bridge Transfer')
 
   const selectedToken =
     currency instanceof ERC20Token
@@ -75,7 +78,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
       <Flex justifyContent="center">
         <Spinner />
       </Flex>
-      <Text>Please confirm the transaction in your wallet</Text>
+      <Text>{t('Please confirm the transaction in your wallet')}</Text>
     </>
   )
 
@@ -84,7 +87,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
       <Flex justifyContent="center">
         <Spinner />
       </Flex>
-      <Text>Please wait for the transfer to complete</Text>
+      <Text>{t('Please wait for the transfer to complete')}</Text>
     </>
   )
 
@@ -93,8 +96,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
       <Flex justifyContent="center">
         <Spinner />
       </Flex>
-      <Text>Transfer in transit</Text>
-      <Text>Please wait the transaction will take a few minutes</Text>
+      <Text>{t('Transfer in transit')}</Text>
+      <Text>{t('Please wait, the transaction will take a few minutes')}</Text>
     </>
   )
 
@@ -115,7 +118,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
           <CurrencyLogo currency={currency} />
-          <span>Amount</span>
+          <span>{t('Amount')}</span>
         </Text>
         <Text fontSize="1em">
           {formatAmount(depositAmount)} {currency?.symbol}
@@ -130,10 +133,10 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
               disabled={hasApproval}
               isLoading={waitingForApproval}
             >
-              Approve
+              {t('Approve')}
             </Button>
             <Button style={{ flexGrow: 1 }} onClick={handleDeposit} disabled={!hasApproval}>
-              Confirm
+              {t('Confirm')}
             </Button>
           </Flex>
           <Column style={{ marginTop: '1rem' }}>
@@ -142,7 +145,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
         </>
       ) : (
         <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
-          Confirm
+          {t('Confirm')}
         </Button>
       )}
     </>
@@ -155,8 +158,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
           <Image src={BridgeSuccess} alt="success" />
         </span>
       </Flex>
-      <Text>Congratulations! Your transfer has been completed.</Text>
-      <Button onClick={handleDismiss}>Close</Button>
+      <Text>{t('Congratulations! Your transfer has been completed.')}</Text>
+      <Button onClick={handleDismiss}>{t('Close')}</Button>
     </>
   )
 
@@ -164,7 +167,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
     Deposit: waitingForDeposit,
     'In Transit': transferInTransit,
     'Transfer Completed': transferCompleted,
-    'Transfer Aborted': <Text>Transfer Failed</Text>,
+    'Transfer Aborted': <Text>{t('Transfer Failed')}</Text>,
     'Initializing Transfer': waitingForTransfer,
   }
 
@@ -189,14 +192,14 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
 
 const TransactionError: React.FC<{ error: TransactionError }> = ({ error }) => {
   let { message } = error
-  if (error.status === 4001) message = 'Action has been rejected by the user.'
+  if (error.status === 4001) message = t('Action has been rejected by the user.')
   return (
     <>
       <Flex justifyContent="center" flexDirection="column">
         {error.status > 5000 && <Text fontSize="1.5em">RPC Error</Text>}
         <Text>{message}</Text>
         {error.status > 5000 && (
-          <Text fontSize="1.5em">Please try again later. When this issue persists please contact the support.</Text>
+          <Text fontSize="1.5em">{t('Please try again later. When this issue persists please contact the support.')}</Text>
         )}
       </Flex>
     </>

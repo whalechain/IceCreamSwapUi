@@ -18,6 +18,7 @@ import { useDelegateKyc } from '../../strict/hooks/useDelegateKyc'
 import { useKycDelegation } from '../../strict/hooks/useKycDelegation'
 import { useOnLogin } from '../../strict/hooks/useLogin'
 import BuyModal from './components/MintModal'
+import { useTranslation } from '@pancakeswap/localization'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -45,6 +46,7 @@ const ImgWrapper = styled.div`
 `
 
 export const KycDelegator: React.FC = () => {
+  const { t } = useTranslation()
   const [input, setInput] = useState('')
   const chain = useActiveChain()
   const { address, status } = useAccount()
@@ -80,16 +82,16 @@ export const KycDelegator: React.FC = () => {
   })
   let action: React.ReactNode = ''
   if (delegation.data?.status === 'PENDING') {
-    action = <Heading>Waiting for Validation</Heading>
+    action = <Heading>{t('Waiting for Validation')}</Heading>
   } else if (delegation.data?.status === 'REJECTED') {
-    action = <Heading>Your Delegation was Rejected</Heading>
+    action = <Heading>{t('Your Delegation was Rejected')}</Heading>
   } else if (delegation.data?.status === 'MINTED') {
-    action = <Heading>Your Delegation was Minted ✔️</Heading>
+    action = <Heading>{t('Your Delegation was Minted')} ✔️</Heading>
   } else if (delegation.data?.status === 'APPROVED') {
-    action = <Button onClick={onPresentBuyModal}>Mint Kyc NFT</Button>
+    action = <Button onClick={onPresentBuyModal}>{t('Mint KYC NFT')}</Button>
   } else {
     action = !user.data?.isLoggedIn ? (
-      <Button onClick={onLogin}>Login</Button>
+      <Button onClick={onLogin}>{t('Login')}</Button>
     ) : (
       <Button
         onClick={() => {
@@ -105,7 +107,7 @@ export const KycDelegator: React.FC = () => {
         }}
         isLoading={delegate.isLoading}
       >
-        Send for validation
+        {t('Send for validation')}
       </Button>
     )
   }
@@ -125,9 +127,9 @@ export const KycDelegator: React.FC = () => {
         <Flex maxWidth="800px" margin="auto">
           <Box>
             <H1 as="h1" color={tokens.colors.dark.secondary} scale="xxl">
-              KYC Delegator
+              {t('KYC Delegator')}
             </H1>
-            <H2 color="#F4EEFF">Delegator your KYC to your own contracts</H2>
+            <H2 color="#F4EEFF">{t('Delegator your KYC to your own contracts')}</H2>
           </Box>
           <ImgWrapper>
             <img src={kycAsset.src} alt="kyc" />
@@ -137,18 +139,18 @@ export const KycDelegator: React.FC = () => {
       <Page style={{ maxWidth: '800px' }}>
         {paid.data === 'unverified' ? (
           <Flex flexDirection="column" gap="0.75em">
-            <Heading>You are not KYCed yet please KYC your wallet first</Heading>
-            <Link href="/kyc">Get your KYC</Link>
+            <Heading>{t('You are not KYCed yet please KYC your wallet first')}</Heading>
+            <Link href="/kyc">{t('Get your KYC')}</Link>
           </Flex>
         ) : (
           <Flex flexDirection="column" gap="0.75em">
-            <Text>Enter the address of the contract you want to delegate your KYC status to.</Text>
-            <Text>E.g. your token address.</Text>
+            <Text>{t('Enter the address of the contract you want to delegate your KYC status to.')}</Text>
+            <Text>{t('E.g. your token address.')}</Text>
             <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch" marginTop="1em">
               <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="0x12345..." />
             </Flex>
             <Text>
-              After verification, you pay {fee.data?.feeAmountFormatted} {token?.symbol} to delegate your KYC status to this contract.
+              {t('After verification, you pay %fee% %symbol% to delegate your KYC status to this contract.', {fee: fee.data?.feeAmountFormatted, symbol: token?.symbol})}
             </Text>
             {action}
           </Flex>

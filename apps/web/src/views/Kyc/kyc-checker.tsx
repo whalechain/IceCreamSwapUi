@@ -6,6 +6,7 @@ import kycAsset from './images/KYC.png'
 import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
 import { useState } from 'react'
+import { useTranslation } from '@pancakeswap/localization'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -33,6 +34,7 @@ const ImgWrapper = styled.div`
 `
 
 export const KycChecker: React.FC = () => {
+  const { t } = useTranslation()
   const [input, setInput] = useState('')
   const paid = useSWR(
     input?.length === 42 ? `kyc/${input}` : null,
@@ -56,19 +58,19 @@ export const KycChecker: React.FC = () => {
   if (paid.data?.type === 'kyc' && paid.data?.status === 'verified') {
     status = (
       <Text color="success" bold>
-        KYCed ✔️
+        {t('KYCed')} ✔️
       </Text>
     )
   } else if (paid.data?.type === 'delegation' && paid.data?.status === 'MINTED') {
     status = (
       <Text color="success" bold>
-        KYCed throgh delegation from {paid.data?.source?.address} ✔️
+        {t('KYCed through delegation from')} {paid.data?.source?.address} ✔️
       </Text>
     )
   } else {
     status = (
       <Text color="warning" bold>
-        Not KYCed ❌
+        {t('Not KYCed')} ❌
       </Text>
     )
   }
@@ -87,9 +89,9 @@ export const KycChecker: React.FC = () => {
         <Flex maxWidth="800px" margin="auto">
           <Box>
             <H1 as="h1" color={tokens.colors.dark.secondary} scale="xxl">
-              KYC Checker
+              {t('KYC Checker')}
             </H1>
-            <H2 color="#F4EEFF">Check others KYC status</H2>
+            <H2 color="#F4EEFF">{t('Check others KYC status')}</H2>
           </Box>
           <ImgWrapper>
             <img src={kycAsset.src} alt="kyc" />
@@ -98,7 +100,7 @@ export const KycChecker: React.FC = () => {
       </PageHeader>
       <Page style={{ maxWidth: '800px' }}>
         <Flex flexDirection="column" gap="0.75em">
-          <Text>Enter the address of the wallet you want to check the KYC status of.</Text>
+          <Text>{t('Enter the address of the wallet you want to check the KYC status of.')}</Text>
           <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch" marginTop="1em">
             <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="0x12345..." />
             <Heading>{status}</Heading>

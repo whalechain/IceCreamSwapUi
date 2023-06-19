@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import { convertImage } from './convert-image'
 import { trpc } from '@icecreamswap/backend'
 import { useActiveChainId } from '../../../hooks/useActiveChainId'
+import { useTranslation } from '@pancakeswap/localization'
 
 const Logo = styled.img`
   width: 128px;
@@ -19,6 +20,7 @@ const Logo = styled.img`
 `
 
 export const AddToken: React.FC = () => {
+  const { t } = useTranslation()
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
   })
@@ -81,27 +83,27 @@ export const AddToken: React.FC = () => {
           style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}
         >
           <Flex flexDirection="column">
-            <Text>Token Address</Text>
-            <Input placeholder="Token Address" {...register('tokenAddress')} />
+            <Text>{t('Token Address')}</Text>
+            <Input placeholder={t('Token Address')} {...register('tokenAddress')} />
             {errors.tokenAddress && <FormError>{errors.tokenAddress.message}</FormError>}
           </Flex>
           <Flex flexDirection="column">
-            <Text>Token Name</Text>
-            <Input placeholder="Token Name" {...register('tokenName')} />
+            <Text>{t('Token Name')}</Text>
+            <Input placeholder={t('Token Name')} {...register('tokenName')} />
             {errors.tokenName && <FormError>{errors.tokenName.message}</FormError>}
           </Flex>
           <Flex flexDirection="column">
-            <Text>Token Symbol</Text>
-            <Input placeholder="Token Symbol" {...register('tokenSymbol')} />
+            <Text>{t('Token Symbol')}</Text>
+            <Input placeholder={t('Token Symbol')} {...register('tokenSymbol')} />
             {errors.tokenSymbol && <FormError>{errors.tokenSymbol.message}</FormError>}
           </Flex>
           <Flex flexDirection="column">
-            <Text>Token Decimals</Text>
-            <Input type="number" placeholder="Token Decimals" {...register('tokenDecimals')} />
+            <Text>{t('Token Decimals')}</Text>
+            <Input type="number" placeholder={t('Token Decimals')} {...register('tokenDecimals')} />
             {errors.tokenDecimals && <FormError>{errors.tokenDecimals.message}</FormError>}
           </Flex>
           <Flex flexDirection="column">
-            <Text>Logo</Text>
+            <Text>{t('Logo')}</Text>
             <FileInput
               accept={{
                 'image/png': ['.png'],
@@ -113,7 +115,7 @@ export const AddToken: React.FC = () => {
           </Flex>
           <Logo src={`data:image/png;base64,${logo.blob}`} />
           <Button type="submit" disabled={submit.isLoading}>
-            Create Token
+            {t('Create Token')}
           </Button>
         </form>
       </FormProvider>

@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useBridge } from '../BridgeProvider'
 import { useDeposit } from '../hooks/useDeposit'
 import DepositModal from './DepositModal'
+import { useTranslation } from '@pancakeswap/localization'
 
 interface DepositButtonProps {
   validateForm: () => Promise<boolean>
@@ -12,6 +13,7 @@ interface DepositButtonProps {
 }
 
 const DepositButton: React.FC<DepositButtonProps> = (props) => {
+  const { t } = useTranslation()
   const { validateForm, setHasSubmitted } = props
   const { account } = useWeb3React()
 
@@ -46,7 +48,7 @@ const DepositButton: React.FC<DepositButtonProps> = (props) => {
         setHasSubmitted(true)
       }}
     >
-      Bridge
+      {t('Bridge Now')}
     </Button>
   )
 }
