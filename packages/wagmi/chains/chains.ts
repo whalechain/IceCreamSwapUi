@@ -226,15 +226,15 @@ export const xdc: Chain = {
 }
 
 export const shardeumTestnet: Chain = {
-  id: 8082,
+  id: 8081,
   name: 'Shardeum Betanet',
   network: 'shardeum',
   rpcUrls: {
-    public: 'https://sphinx.shardeum.org/',
-    default: 'https://sphinx.shardeum.org/',
+    public: 'https://dapps.shardeum.org/',
+    default: 'https://dapps.shardeum.org/',
   },
   blockExplorers: {
-    default: { name: 'Shardeum betanet Explorer', url: 'https://explorer-sphinx.shardeum.org/' },
+    default: { name: 'Shardeum betanet Explorer', url: 'https://explorer-dapps.shardeum.org/' },
   },
   nativeCurrency: {
     name: 'SHM',

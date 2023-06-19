@@ -6,7 +6,7 @@ export enum ChainId {
   DOKEN = 61916,
   FUSE = 122,
   XDC = 50,
-  SHARDEUM_TEST = 8082,
+  SHARDEUM_TEST = 8081,
   BSC = 56,
 }
 

@@ -29,7 +29,7 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
     Icecream: ROUTER_ADDRESS_COMMON,
   },
   [ChainId.SHARDEUM_TEST]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
+    Icecream: "0x43891084581fD07Ee1189f3a2f04e51c26a95B77",
   },
 }
 

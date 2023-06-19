@@ -748,7 +748,7 @@
       "address": "0xBD2e577dEa54602C7c367fa144981c8ACA6FD570",
       "symbol": "ICE",
       "decimals": 18,
-      "chainId": 8082,
+      "chainId": 8081,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png"
     },
     {
@@ -756,7 +756,7 @@
       "address": "0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42",
       "symbol": "USDT",
       "decimals": 18,
-      "chainId": 8082,
+      "chainId": 8081,
       "logoURI": "https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png"
     }
   ]
