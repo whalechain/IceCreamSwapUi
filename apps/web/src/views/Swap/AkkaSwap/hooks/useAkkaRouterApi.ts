@@ -31,7 +31,7 @@ export const useAkkaRouterApi = (
   } = useSwapState()
   const inputCurrency = useCurrency(inputCurrencyId)
   const outputCurrency = useCurrency(outputCurrencyId)
-  const [, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
+  const [isAkkaSwapMode, , toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] = useIsAkkaSwapModeStatus()
   const {
     v2Trade,
     currencyBalances,
@@ -54,7 +54,6 @@ export const useAkkaRouterApi = (
   // Take swap information from pancakeswap router
   const fetcher: Fetcher<AkkaRouterResponseType> = async (url) => {
     setIsRouteLoading(true)
-    toggleSetAkkaModeToFalse()
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), 3500);
     const res = await fetch(url, { signal: controller.signal }).then((r) => {
