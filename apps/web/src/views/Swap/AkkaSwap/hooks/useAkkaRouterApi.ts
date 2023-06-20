@@ -71,23 +71,23 @@ export const useAkkaRouterApi = (
       }
       return r.json()
     })
-      .then((res) => {
-        if (v2Trade.outputAmount.lessThan(JSBI.BigInt(res.route.return_amount_without_tax_wei))) {
+      .then((response) => {
+        if (v2Trade.outputAmount.lessThan(JSBI.BigInt(response.route.return_amount_without_tax_wei))) {
           if (isConnected) {
             if (akkaApproval === ApprovalState.APPROVED) {
               if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
                 if (chainId === ChainId.CORE) {
                   akkaV2Contract.estimateGas[methodName](
-                    res.swap.amountIn,
-                    res.swap.amountOutMin,
-                    res.swap.data,
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
                     account,
-                    res.swap.akkaFee.fee,
-                    res.swap.akkaFee.v,
-                    res.swap.akkaFee.r,
-                    res.swap.akkaFee.s,
+                    response.swap.akkaFee.fee,
+                    response.swap.akkaFee.v,
+                    response.swap.akkaFee.r,
+                    response.swap.akkaFee.s,
                     {
-                      value: inputCurrencyId === NATIVE[chainId].symbol ? res.swap.amountIn : '0',
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
                     },
                   )
                     .then((data) => {
@@ -119,16 +119,16 @@ export const useAkkaRouterApi = (
                 }
                 if (chainId === ChainId.XDC) {
                   akkaV2Contract.estimateGas[methodName](
-                    res.swap.amountIn,
-                    res.swap.amountOutMin,
-                    res.swap.data,
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
                     account,
-                    res.swap.akkaFee.fee,
-                    res.swap.akkaFee.v,
-                    res.swap.akkaFee.r,
-                    res.swap.akkaFee.s,
+                    response.swap.akkaFee.fee,
+                    response.swap.akkaFee.v,
+                    response.swap.akkaFee.r,
+                    response.swap.akkaFee.s,
                     {
-                      value: inputCurrencyId === NATIVE[chainId].symbol ? res.swap.amountIn : '0',
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
                     },
                   )
                     .then((data) => {
@@ -160,14 +160,14 @@ export const useAkkaRouterApi = (
                 }
                 if (chainId === ChainId.BITGERT) {
                   akkaContract.estimateGas[methodName](
-                    res.swap.amountIn,
-                    res.swap.amountOutMin,
-                    res.swap.data,
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
                     [],
                     [],
                     account,
                     {
-                      value: inputCurrencyId === NATIVE[chainId].symbol ? res.swap.amountIn : '0',
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
                     },
                   )
                     .then((data) => {
@@ -214,7 +214,7 @@ export const useAkkaRouterApi = (
           toggleSetAkkaModeToFalse()
         }
         clearTimeout(id);
-        return res
+        return response
       })
       .finally(() => {
         setIsRouteLoading(false)
@@ -262,7 +262,7 @@ export const useAkkaRouterRouteWithArgs = (
   const isLoading = route.isRouteLoading || route.isValidating
 
   return {
-    route: route,
+    route,
     args: route,
     mutateAkkaRoute,
     isLoading
