@@ -60,6 +60,7 @@ export const useAkkaRouterApi = (
     const res = await fetch(url, { signal: controller.signal }).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
+        return
         // captureMessage('AKKA: Unsupported Token (Route 400)', {
         //   tags: {
         //     chain_id: chainId,
@@ -72,6 +73,14 @@ export const useAkkaRouterApi = (
       return r.json()
     })
       .then((response) => {
+        if (response === undefined) {
+          toggleSetAkkaModeToFalse()
+          return response
+        }
+        if (response !== undefined && v2Trade === undefined) {
+          toggleSetAkkaModeToTrue()
+          return response
+        }
         if (v2Trade.outputAmount.lessThan(JSBI.BigInt(response.route.return_amount_without_tax_wei))) {
           if (isConnected) {
             if (akkaApproval === ApprovalState.APPROVED) {
@@ -107,6 +116,7 @@ export const useAkkaRouterApi = (
                     })
                     .catch((error) => {
                       toggleSetAkkaModeToFalse()
+                      console.log(error);
                       captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                         tags: {
                           chain_id: chainId,
@@ -148,6 +158,7 @@ export const useAkkaRouterApi = (
                     })
                     .catch((error) => {
                       toggleSetAkkaModeToFalse()
+                      console.log(error);
                       captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                         tags: {
                           chain_id: chainId,
@@ -187,6 +198,7 @@ export const useAkkaRouterApi = (
                     })
                     .catch((error) => {
                       toggleSetAkkaModeToFalse()
+                      console.log(error);
                       captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
                         tags: {
                           chain_id: chainId,
