@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useMemo, useContext } from 'react'
 import { Currency, CurrencyAmount, NATIVE, Percent } from '@pancakeswap/sdk'
-import { Button, ArrowDownIcon, Box, Skeleton, Swap as SwapUI, Message, MessageText, Text } from '@pancakeswap/uikit'
+import { Button, ArrowDownIcon, Box, Skeleton, Swap as SwapUI, Message, MessageText, Text, useModal } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -141,22 +141,6 @@ export default function SwapForm() {
       [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
     }
 
-  // Take swap information from AKKA router
-  const {
-    trade: akkaRouterTrade,
-    currencyBalances: akkaCurrencyBalances,
-    parsedAmount: akkaParsedAmount,
-    inputError: akkaSwapInputError,
-    mutateAkkaRoute,
-    isLoading: isAkkaLoading
-  } = useAkkaSwapInfo(
-    independentField,
-    parsedAmounts[Field.INPUT]?.toExact(),
-    inputCurrency,
-    outputCurrency,
-    allowedSlippage,
-  )
-    
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
 
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
@@ -189,6 +173,22 @@ export default function SwapForm() {
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
   const [akkaApprovalSubmitted, setAkkaApprovalSubmitted] = useState<boolean>(false)
 
+  // Take swap information from AKKA router
+  const {
+    trade: akkaRouterTrade,
+    currencyBalances: akkaCurrencyBalances,
+    parsedAmount: akkaParsedAmount,
+    inputError: akkaSwapInputError,
+    mutateAkkaRoute,
+    isLoading: isAkkaLoading
+  } = useAkkaSwapInfo(
+    independentField,
+    parsedAmounts[Field.INPUT]?.toExact(),
+    inputCurrency,
+    outputCurrency,
+    allowedSlippage
+  )
+
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
     if (approval === ApprovalState.PENDING) {
@@ -201,12 +201,26 @@ export default function SwapForm() {
     }
   }, [akkaApproval, akkaApprovalSubmitted])
 
+  useEffect(() => {
+    if (akkaApproval === ApprovalState.APPROVED) {
+      mutateAkkaRoute()
+    }
+  }, [akkaApproval])
+
+  const [, , isAkkaConfirmModalOpen] = useModal('confirmSwapModal')
+  useEffect(() => {
+    if (isAkkaConfirmModalOpen === false) {
+      mutateAkkaRoute()
+    }
+  }, [isAkkaConfirmModalOpen])
+
   const maxAmountInput: CurrencyAmount<Currency> | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   const handleInputSelect = useCallback(
     (newCurrencyInput) => {
       setApprovalSubmitted(false) // reset 2 step UI for approvals
+      setAkkaApprovalSubmitted(false)
       onCurrencySelection(Field.INPUT, newCurrencyInput)
 
       warningSwapHandler(newCurrencyInput)
@@ -306,6 +320,7 @@ export default function SwapForm() {
               <SwapUI.SwitchButton
                 onClick={() => {
                   setApprovalSubmitted(false) // reset 2 step UI for approvals
+                  setAkkaApprovalSubmitted(false)
                   onSwitchTokens()
                   replaceBrowserHistory('inputCurrency', outputCurrencyId)
                   replaceBrowserHistory('outputCurrency', inputCurrencyId)

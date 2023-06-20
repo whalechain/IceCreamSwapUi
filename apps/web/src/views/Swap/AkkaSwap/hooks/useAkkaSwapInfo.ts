@@ -43,7 +43,7 @@ export function useAkkaSwapInfo(
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
   const { route, args, mutateAkkaRoute, isLoading } = useAkkaRouterRouteWithArgs(inputCurrency, outputCurrency, parsedAmount, allowedSlippage)
-
+  
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
     [Field.OUTPUT]: relevantTokenBalances[1],

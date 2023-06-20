@@ -46,9 +46,9 @@ export function useAkkaRouterContract() {
   return useContract<AkkaRouter>(ROUTER_ADDRESS[chainId].Akka, AKKA_ABI, true)
 }
 
-export function useAkkaRouterCoreContract() {
-  const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
-  return useContract<AkkaRouterCore>(isAkkaAlternateActive ? ROUTER_ADDRESS[ChainId.CORE].AkkaAlternate : ROUTER_ADDRESS[ChainId.CORE].Akka, AKKA_CORE_ABI, true)
+export function useAkkaRouterV2Contract() {
+  const { chainId } = useActiveChainId()
+  return useContract<AkkaRouterCore>(ROUTER_ADDRESS[chainId].Akka, AKKA_CORE_ABI, true)
 }
 
 // computes price breakdown for the trade

@@ -31,9 +31,6 @@ import { useIsAkkaAlternateModeActive, useIsAkkaContractSwapModeActive, useIsAkk
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
 import { useUserSlippageTolerance } from 'state/user/hooks'
-import { useAkkaRouterContract, useAkkaRouterCoreContract } from 'utils/exchange'
-import { ApprovalState } from 'hooks/useApproveCallback'
-import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedChains'
@@ -82,16 +79,6 @@ export default function Swap() {
     inputError: swapInputError,
   } = useDerivedSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, recipient)
 
-  // Take swap information from AKKA router
-  const {
-    trade: akkaRouterTrade,
-    currencyBalances: akkaCurrencyBalances,
-    parsedAmount: akkaParsedAmount,
-    inputError: akkaSwapInputError,
-    mutateAkkaRoute,
-    isLoading
-  } = useAkkaSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, allowedSlippage)
-
   const {
     wrapType,
     execute: onWrap,
@@ -109,27 +96,7 @@ export default function Swap() {
       [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
       [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
     }
-  const akkaContract = useAkkaRouterContract()
-  const akkaCoreContract = useAkkaRouterCoreContract()
   const { isConnected } = useWeb3React()
-  const methodName = 'multiPathSwap'
-  const [akkaApproval, akkaApproveCallback] = useApproveCallbackFromAkkaTrade(parsedAmounts[Field.INPUT])
-
-  // isAkkaSwapActive checks if akka router is generally active or not
-  const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] =
-    useIsAkkaSwapModeActive()
-
-  // isAkkaContractSwapMode checks if this is akka router form or not from redux
-  const [
-    isAkkaContractSwapMode,
-    toggleSetAkkaContractMode,
-    toggleSetAkkaContractModeToFalse,
-    toggleSetAkkaContractModeToTrue,
-  ] = useIsAkkaContractSwapModeActive()
-
-  const [isAkkaAlternateActive, toggleSetAkkaAlternateActive, toggleSetAkkaAlternateActiveToFalse, toggleSetAkkaAlternateActiveToTrue] = useIsAkkaAlternateModeActive()
-
-  const { chainId } = useActiveWeb3React()
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
   const supportedChains = useSupportedChains()

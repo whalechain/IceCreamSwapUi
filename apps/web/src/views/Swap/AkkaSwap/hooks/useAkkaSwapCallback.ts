@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
-import { useAkkaRouterContract, useAkkaRouterCoreContract } from 'utils/exchange'
+import { useAkkaRouterContract, useAkkaRouterV2Contract } from 'utils/exchange'
 import { AkkaRouterTrade } from './types'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
@@ -20,7 +20,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
   multiPathSwap: () => Promise<string>
 } {
   const akkaContract = useAkkaRouterContract()
-  const akkaCoreContract = useAkkaRouterCoreContract()
+  const akkaV2Contract = useAkkaRouterV2Contract()
 
   const { callWithGasPrice } = useCallWithGasPrice()
   const addTransaction = useTransactionAdder()
@@ -43,10 +43,10 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
     const methodName = 'multiPathSwap'
 
     return {
-      multiPathSwap: args ? chainId === ChainId.CORE ?
+      multiPathSwap: args ? chainId === ChainId.CORE || chainId === ChainId.XDC ?
         async () => {
 
-          const gasLimitCalc = await akkaCoreContract.estimateGas[methodName](
+          const gasLimitCalc = await akkaV2Contract.estimateGas[methodName](
             args?.amountIn,
             args?.amountOutMin,
             args?.data,
@@ -64,7 +64,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             })
 
           const tx = await callWithGasPrice(
-            akkaCoreContract,
+            akkaV2Contract,
             methodName,
             [
               args?.amountIn,
