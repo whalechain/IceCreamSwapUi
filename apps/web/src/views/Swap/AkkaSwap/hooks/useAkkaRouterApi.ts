@@ -60,7 +60,7 @@ export const useAkkaRouterApi = (
     const res = await fetch(url, { signal: controller.signal }).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()
-        return
+        return undefined
         // captureMessage('AKKA: Unsupported Token (Route 400)', {
         //   tags: {
         //     chain_id: chainId,
