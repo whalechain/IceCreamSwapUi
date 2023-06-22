@@ -54,6 +54,7 @@ export default function AkkaSwapModalFooter({
   }, 0) : null
 
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
+
   return (
     <>
       <SwapModalFooterContainer>
@@ -64,7 +65,7 @@ export default function AkkaSwapModalFooter({
             </Text>
           </RowFixed>
           <Text fontSize="14px" color="textSubtle">
-            {priceImpact.toFixed(3)}%
+            {Number.isNaN(priceImpact) ? trade?.route?.priceImpact.toFixed(3) : priceImpact.toFixed(3)}%
           </Text>
         </RowBetween>
         {trade?.route?.returnAmountInUsd - trade?.route?.bestAlt > 0 &&
