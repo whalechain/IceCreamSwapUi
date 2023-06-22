@@ -1,8 +1,5 @@
 import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
 import IceChain from '../ice-chain'
-import { useTranslation } from '@pancakeswap/localization'
-
-const { t } = useTranslation()
 
 export const core: IceChain = {
   id: 1116,
@@ -14,7 +11,7 @@ export const core: IceChain = {
     default: 'https://rpc.coredao.org/',
   },
   blockExplorers: {
-    default: { name: t('CORE Explorer'), url: 'https://scan.coredao.org' },
+    default: { name: 'CORE Explorer', url: 'https://scan.coredao.org' },
   },
   nativeCurrency: {
     name: 'CORE',

@@ -149,7 +149,7 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                     </Heading>
                     <Text>
                       {claimed ? (
-                        {t('Fully Claimed')}
+                        t('Fully Claimed')
                       ) : lock.start_time.mul(1000).toNumber() < Date.now() ? (
                         `${format(lock.amountToUnlock)} ${t('claimable')}`
                       ) : (

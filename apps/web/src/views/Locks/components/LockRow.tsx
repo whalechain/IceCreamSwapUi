@@ -60,7 +60,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
         <RowStyled>
           <Td color={lock.amountToUnlock?.gt(0) && theme.colors.success}>
             {claimed ? (
-              {t('Fully Claimed')}
+              t('Fully Claimed')
             ) : lock.amountToUnlock?.gt(0) ? (
               format(lock.amountToUnlock)
             ) : (
@@ -112,7 +112,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
       <Td>
         <Link href={`/locks/lock/${lock.lockId}`} passHref legacyBehavior>
           <Button as="a" variant="subtle" scale="sm" style={{ fontSize: '0.75rem', textAlign: 'center' }}>
-            {isMobile ? t('View') : 'View Details'}
+            {isMobile ? t('View') : t('View Details')}
           </Button>
         </Link>
       </Td>

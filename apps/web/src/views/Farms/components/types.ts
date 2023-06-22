@@ -1,8 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { DeserializedFarm } from '@pancakeswap/farms'
-import { useTranslation } from '@pancakeswap/localization'
-
-const { t } = useTranslation()
 
 export type TableProps = {
   data?: TableDataTypes[]
@@ -44,13 +41,13 @@ export const MobileColumnSchema: ColumnsDefTypes[] = [
     id: 2,
     name: 'earned',
     sortable: true,
-    label: t('Earned'),
+    label: 'Earned',
   },
   {
     id: 3,
     name: 'apr',
     sortable: true,
-    label: t('APR'),
+    label: 'APR',
   },
   {
     id: 6,
@@ -77,25 +74,25 @@ export const DesktopColumnSchema: ColumnsDefTypes[] = [
     id: 3,
     name: 'earned',
     sortable: true,
-    label: t('Earned'),
+    label: 'Earned',
   },
   {
     id: 4,
     name: 'apr',
     sortable: true,
-    label: t('APR'),
+    label: 'APR',
   },
   {
     id: 5,
     name: 'liquidity',
     sortable: true,
-    label: t('Liquidity'),
+    label: 'Liquidity',
   },
   {
     id: 6,
     name: 'multiplier',
     sortable: true,
-    label: t('Multiplier'),
+    label: 'Multiplier',
   },
   {
     id: 7,

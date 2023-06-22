@@ -9,9 +9,9 @@ import earnIce from '../../../../../public/images/home/earn/ice.png'
 export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Trade anything anywhere, hassle free'),
   bodyText: t(
-      'IceCreamSwap contracts lets everyone trade any token on multiple chains. ' +
-      'A intuitive UI lets both new and experienced DeFi users easily interact with the IceCreamSwap smart contracts. ' +
-      'As the first DEX implementing route splitting, the best possible output with the lowest slippage can be archived. '
+      'IceCreamSwap contracts let everyone trade any token on multiple chains. ' +
+      'An intuitive UI lets both new and experienced DeFi users easily interact with the IceCreamSwap smart contracts. ' +
+      'As the first DEX implementing route splitting, the best possible output with the lowest slippage can be achieved.'
   ),
   reverse: false,
   primaryButton: {

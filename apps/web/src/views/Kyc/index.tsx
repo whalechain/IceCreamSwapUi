@@ -149,7 +149,7 @@ export const Kyc: React.FC = () => {
             {t('The IceCream KYC-Soulbound Token allows you to publicly prove you have been KYCed with IceCreamSwap. For projects that means you can get access to extra functionality and greatly increase your communities and other projects trust. For Users this means you might receive AirDrops where the KYC token is a prerequisite so projects are sure they don&apos;t AirDrop to bots.')}
           </Text>
           <Text>
-            {t('To get your token, you will need to pay a fee of %fee% %symbol%. After you pay, you will be redirected to a KYC form, where you will need to provide your identity information. After you submit the form, your token will be sent to your wallet. The whole process just takes a few minutes.'), {fee: chain.kyc?.fee, symbol: token?.symbol }}
+            {t('To get your token, you will need to pay a fee of %fee% %symbol%. After you pay, you will be redirected to a KYC form, where you will need to provide your identity information. After you submit the form, your token will be sent to your wallet. The whole process just takes a few minutes.', {fee: chain.kyc?.fee, symbol: token?.symbol })}
           </Text>
           <Flex alignItems="center" gap="1em" flexDirection="column" justifyContent="stretch" marginTop="1em">
             {action}

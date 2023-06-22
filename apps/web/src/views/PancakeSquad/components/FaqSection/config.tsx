@@ -30,14 +30,14 @@ const config = ({ t }: FAQsType) => [
     title: t('Which chains are supported?'),
     description: [
       <Text as="p" color="textSubtle" fontSize="16px">
-        {t('Currently we are supporting CORE, Binance smart chain (BSC), XDC, Bitgert (Brise), XoDex, Dogechain, Doken, Fuse and soon Shardeum blockchains. For an always up to date list please take a look at our')}{' '}
+        {t('Currently we are supporting CORE, Binance smart chain (BSC), XDC, Bitgert (Brise), XoDex, Dogechain, Doken, Fuse and soon Shardeum blockchains. For an always up to date list please take a look at our')}
         <Link
           display="inline-flex"
           color="text"
           title="IceCreamSwap Wiki"
           href="https://wiki.icecreamswap.com/intro/multichain"
         >
-          {t('Wiki')}
+          {t(' Wiki')}
         </Link>
         .
       </Text>,
@@ -56,7 +56,7 @@ const config = ({ t }: FAQsType) => [
       t('0x54051D9DbE99687867090d95fe15C3D3E35512Ba DoKEN'),
       t('0x867f08A3ab824b42e8058a1B48e32E1dF205b092 Fuse'),
       <Text as="p" color="textSubtle" fontSize="16px">
-        {t('An up to date list of all IceCream addresses for all supported chains can be found on our')}{' '}
+        {t('An up to date list of all IceCream addresses for all supported chains can be found on our')}
         <Link
           display="inline-flex"
           color="text"
@@ -64,7 +64,7 @@ const config = ({ t }: FAQsType) => [
           external
           href="https://wiki.icecreamswap.com/intro/ice"
         >
-          {t('Wiki')}
+          {t(' Wiki')}
         </Link>
       </Text>,
     ],
@@ -73,8 +73,8 @@ const config = ({ t }: FAQsType) => [
     title: t('What are the Router and Factory addresses?'),
     description: [
       t('The router and factory addresses are the same on every supported chain:'),
-      t('Router02') + ': 0xBb5e1777A331ED93E07cF043363e48d320eb96c4',
-      t('Factory') + ': 0x9E6d21E759A7A288b80eef94E4737D313D31c13f',
+      `${t('Router02')} : 0xBb5e1777A331ED93E07cF043363e48d320eb96c4`,
+      `${t('Factory')} : 0x9E6d21E759A7A288b80eef94E4737D313D31c13f`,
     ],
   },
 ]

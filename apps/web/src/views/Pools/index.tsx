@@ -66,7 +66,7 @@ const Pools = () => {
             <Heading as="h1" scale="xxl" color="secondary" mb="24px">
               {t('Staking Pools')}
             </Heading>
-            <Heading scale="md" color="text">
+            <Heading scale="lg" color="text">
               {t('Earn passive income while you sleep')}
             </Heading>
           </Flex>

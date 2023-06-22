@@ -13,22 +13,10 @@ import BridgeSuccess from '../assets/bridge-success.png'
 import chainName from 'config/constants/chainName'
 import { useTranslation } from '@pancakeswap/localization'
 
-const { t } = useTranslation()
-
 interface DepositModalProps {
   bridge: ReturnType<typeof useBridge>
   deposit: ReturnType<typeof useDeposit>['deposit']
   approve: ReturnType<typeof useDeposit>['approve']
-}
-
-const titleByStatus: Record<Exclude<TransactionStatus, TransactionError>, string> = {
-  'Approve 0': t('Waiting for approval'),
-  Approve: t('Waiting for approval'),
-  Deposit: t('Waiting for deposit'),
-  'In Transit': t('Transit'),
-  'Transfer Completed': t('Transfer Completed'),
-  'Transfer Aborted': t('Transfer Failed'),
-  'Initializing Transfer': t('Initializing Transfer'),
 }
 
 const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve }) => {
@@ -45,6 +33,17 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
   } = bridge
   const { onDismiss } = useModalContext()
   const [waitingForApproval, setWaitingForApproval] = useState(false)
+  const { t } = useTranslation()
+
+  const titleByStatus: Record<Exclude<TransactionStatus, TransactionError>, string> = {
+    'Approve 0': t('Waiting for approval'),
+    Approve: t('Waiting for approval'),
+    Deposit: t('Waiting for deposit'),
+    'In Transit': t('Transit'),
+    'Transfer Completed': t('Transfer Completed'),
+    'Transfer Aborted': t('Transfer Failed'),
+    'Initializing Transfer': t('Initializing Transfer'),
+  }
 
   const title = transactionStatus
     ? isTransactionError(transactionStatus)

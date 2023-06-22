@@ -60,7 +60,7 @@ const config = ({ t }: FAQsType) => [
     icon: '👨‍💻',
     description: [
       t('Integrate Bridge UI directly in the swap UI for a seamless experience'),
-      t('Add smart routing capability\'s to drastically reduce price impact and greatly increase swap outputs')
+      t("Add smart routing capability's to drastically reduce price impact and greatly increase swap outputs")
     ],
     reached: '01-2023',
   },
