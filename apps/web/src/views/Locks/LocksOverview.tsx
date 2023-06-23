@@ -33,7 +33,7 @@ export const LocksOverview: React.FC = () => {
           <Input as="div" padding="0px" display="flex" alignItems="center">
             <TokenInput currency={token} onCurrencySelect={setToken} showNative={false} showCommonBases={false} />
           </Input>
-          <Button onClick={handleSearch} height="40px" width={isMobile && '100%'}>
+          <Button onClick={handleSearch} height="40px" width={isMobile ? '100%' : '20%'}>
             {t('Go')}
           </Button>
         </Flex>
