@@ -6,12 +6,9 @@ import { isAddress } from 'utils'
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
 import { Field } from 'state/swap/actions'
 import { useCurrencyBalances } from 'state/wallet/hooks'
-import { AkkaRouterInfoResponseType, AkkaRouterTrade } from './types'
+import { AkkaRouterTrade } from './types'
 import { useAkkaRouterRouteWithArgs } from './useAkkaRouterApi'
-import { useIsAkkaSwapModeStatus } from 'state/global/hooks'
-import { useEffect } from 'react'
 import { keysToCamel } from 'utils/snakeToCamel'
-import { KeyedMutator } from 'swr'
 
 // from the current swap inputs, compute the best trade and return it.
 export function useAkkaSwapInfo(
@@ -43,7 +40,7 @@ export function useAkkaSwapInfo(
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
   const { route, args, mutateAkkaRoute, isLoading } = useAkkaRouterRouteWithArgs(inputCurrency, outputCurrency, parsedAmount, allowedSlippage)
-  
+
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
     [Field.OUTPUT]: relevantTokenBalances[1],

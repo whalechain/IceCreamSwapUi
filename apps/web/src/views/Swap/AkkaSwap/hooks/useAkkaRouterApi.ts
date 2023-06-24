@@ -3,7 +3,7 @@ import { FAST_INTERVAL, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { Field } from 'state/swap/actions'
 import { useDerivedSwapInfo, useSwapState } from 'state/swap/hooks'
-import useSWR, { Fetcher, useSWRConfig } from 'swr'
+import useSWR, { Fetcher } from 'swr'
 import { AkkaRouterResponseType } from './types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCurrency } from 'hooks/Tokens'
@@ -55,7 +55,7 @@ export const useAkkaRouterApi = (
   const fetcher: Fetcher<AkkaRouterResponseType> = async (url) => {
     setIsRouteLoading(true)
     const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), 3500);
+    const id = setTimeout(() => controller.abort(), 5000);
     const res = await fetch(url, { signal: controller.signal }).then((r) => {
       if (r.status !== 200) {
         toggleSetAkkaModeToFalse()

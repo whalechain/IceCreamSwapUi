@@ -64,10 +64,6 @@ export default function Swap() {
 
   const { chainId: walletChainId } = useWeb3React()
 
-  // isAkkaSwapMode checks if this is akka router form or not from redux
-  const [isAkkaSwapMode, toggleSetAkkaMode, toggleSetAkkaModeToFalse, toggleSetAkkaModeToTrue] =
-    useIsAkkaSwapModeStatus()
-
   // get custom setting values for user
   const [allowedSlippage] = useUserSlippageTolerance()
 
