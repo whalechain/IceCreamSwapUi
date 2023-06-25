@@ -7,8 +7,8 @@ export const bitgert: IceChain = {
   features: ['swap', 'bridge', 'info', 'farms', 'staking', 'locks'],
   network: 'bitgert',
   rpcUrls: {
-    public: 'https://rpc.icecreamswap.com',
-    default: 'https://rpc.icecreamswap.com',
+    public: { http: ['https://rpc.icecreamswap.com'] },
+    default: { http: ['https://rpc.icecreamswap.com'] },
   },
   blockExplorers: {
     default: { name: 'Brisescan', url: 'https://brisescan.com' },
@@ -19,9 +19,11 @@ export const bitgert: IceChain = {
     decimals: 18,
   },
   blockInterval: 15,
-  multicall: {
-    address: '0x2490b172F7de4f518713fB03E6D3f57B558c9964',
-    blockCreated: 1541584,
+  contracts: {
+    multicall3: {
+      address: '0x2490b172F7de4f518713fB03E6D3f57B558c9964',
+      blockCreated: 1541584,
+    },
   },
   locks: {
     factoryAddress: '0x9Cf1e91106CA675040a4eC9647f875785bCcAB71',

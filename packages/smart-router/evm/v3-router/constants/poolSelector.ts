@@ -21,30 +21,6 @@ export const V3_DEFAULT_POOL_SELECTOR_CONFIG: { [chain: number]: PoolSelectorCon
     topNWithEachBaseToken: 3,
     topNWithBaseToken: 4,
   },
-  [ChainId.BSC_TESTNET]: {
-    topN: 2,
-    topNDirectSwaps: 2,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 3,
-    topNWithBaseToken: 4,
-  },
-  [ChainId.ETHEREUM]: {
-    topN: 2,
-    topNDirectSwaps: 2,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 3,
-    topNWithBaseToken: 4,
-  },
-  [ChainId.GOERLI]: {
-    topN: 2,
-    topNDirectSwaps: 2,
-    topNTokenInOut: 2,
-    topNSecondHop: 1,
-    topNWithEachBaseToken: 3,
-    topNWithBaseToken: 4,
-  },
 }
 
 // Use to configure pool selector config when getting quote from specific tokens

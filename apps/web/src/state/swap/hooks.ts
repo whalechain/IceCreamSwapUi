@@ -1,6 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Currency, CurrencyAmount, Price, Trade, TradeType } from '@pancakeswap/sdk'
-import { CAKE, USDC } from '@pancakeswap/tokens'
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
 import { useUserSlippage } from '@pancakeswap/utils/user'
 import { SLOW_INTERVAL } from 'config/constants'
@@ -18,7 +17,6 @@ import useSWRImmutable from 'swr/immutable'
 import { isAddress } from 'utils'
 import { computeSlippageAdjustedAmounts } from 'utils/exchange'
 import { ICE, USD } from '@pancakeswap/tokens'
-import getLpAddress from 'utils/getLpAddress'
 import { getTokenAddress } from 'views/Swap/components/Chart/utils'
 import { useAccount } from 'wagmi'
 import { useCurrencyBalances } from '../wallet/hooks'
@@ -27,10 +25,7 @@ import fetchDerivedPriceData, { getTokenBestTvlProtocol } from './fetch/fetchDer
 import { normalizeDerivedChartData, normalizeDerivedPairDataByActiveToken } from './normalizers'
 import { SwapState, swapReducerAtom } from './reducer'
 import { PairDataTimeWindowEnum } from './types'
-import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
-import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
-import { pairHasEnoughLiquidity } from './fetch/utils'
-import { useGetChainName } from '../info/hooks'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 export function useSwapState() {
   return useAtomValue(swapReducerAtom)

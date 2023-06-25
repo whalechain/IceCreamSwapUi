@@ -4,7 +4,6 @@ import { withSentryConfig } from '@sentry/nextjs'
 import { withAxiom } from 'next-axiom'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import BundleAnalyzer from '@next/bundle-analyzer'
 import smartRouterPkgs from '@pancakeswap/smart-router/package.json' assert { type: 'json' }
 import { withWebSecurityHeaders } from '@pancakeswap/next-config/withWebSecurityHeaders'
 

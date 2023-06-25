@@ -7,8 +7,8 @@ export const fuse: IceChain = {
   features: ['swap', 'bridge'],
   network: 'fuse',
   rpcUrls: {
-    public: 'https://rpc.fuse.io',
-    default: 'https://rpc.fuse.io',
+    public: { http: ['https://rpc.fuse.io'] },
+    default: { http: ['https://rpc.fuse.io'] },
   },
   blockExplorers: {
     default: { name: 'Fuse Explorer', url: 'https://explorer.fuse.io' },
@@ -19,9 +19,11 @@ export const fuse: IceChain = {
     decimals: 18,
   },
   blockInterval: 5,
-  multicall: {
-    address: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
-    blockCreated: 20060779,
+  contracts: {
+    multicall3: {
+      address: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
+      blockCreated: 20060779,
+    },
   },
   wrappedNative: {
     address: '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629',

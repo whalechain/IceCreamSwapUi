@@ -7,8 +7,8 @@ export const dogechain: IceChain = {
   features: ['swap', 'bridge'],
   network: 'dogechain',
   rpcUrls: {
-    public: 'https://rpc.dogechain.dog',
-    default: 'https://rpc.dogechain.dog',
+    public: { http: ['https://rpc.dogechain.dog'] },
+    default: { http: ['https://rpc.dogechain.dog'] },
   },
   blockExplorers: {
     default: { name: 'Dogechain Explorer', url: 'https://explorer.dogechain.dog' },
@@ -19,9 +19,11 @@ export const dogechain: IceChain = {
     decimals: 18,
   },
   blockInterval: 2,
-  multicall: {
-    address: '0x3d2e33eb61677869d87ac92d3c8891ec5c57fa5b',
-    blockCreated: 4308714,
+  contracts: {
+    multicall3: {
+      address: '0x3d2e33eb61677869d87ac92d3c8891ec5c57fa5b',
+      blockCreated: 4308714,
+    },
   },
   wrappedNative: {
     address: '0xB7ddC6414bf4F5515b52D8BdD69973Ae205ff101',

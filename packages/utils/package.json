@@ -11,8 +11,7 @@
     "lodash": "^4.17.21",
     "@pancakeswap/localization": "workspace:*",
     "@pancakeswap/tokens": "workspace:*",
-    "@pancakeswap/token-lists": "workspace:*",
-    "@pancakeswap/awgmi": "workspace:*"
+    "@pancakeswap/token-lists": "workspace:*"
   },
   "devDependencies": {
     "styled-components": "^5.3.3",
@@ -25,10 +24,5 @@
     "vitest": "^0.30.1",
     "swr": "^2.1.3",
     "jotai": "^2.0.3"
-  },
-  "peerDependenciesMeta": {
-    "@pancakeswap/awgmi": {
-      "optional": true
-    }
   }
 }

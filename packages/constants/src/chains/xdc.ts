@@ -7,8 +7,8 @@ export const xdc: IceChain = {
   features: ['swap', 'bridge', 'farms', 'staking', 'locks'],
   network: 'xdc',
   rpcUrls: {
-    public: 'https://erpc.xinfin.network',
-    default: 'https://erpc.xinfin.network',
+    public: { http: ['https://erpc.xinfin.network'] },
+    default: { http: ['https://erpc.xinfin.network'] },
   },
   blockExplorers: {
     default: { name: 'XDC Explorer', url: 'https://xdcscan.io' },
@@ -19,9 +19,11 @@ export const xdc: IceChain = {
     decimals: 18,
   },
   blockInterval: 2,
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 53792616,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 53792616,
+    },
   },
   locks: {
     factoryAddress: '0xE4d6908351B613143AF81aaC6e34Eaa4b72acF5B',

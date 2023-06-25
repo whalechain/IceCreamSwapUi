@@ -7,8 +7,8 @@ export const dokenchain: IceChain = {
   features: ['swap'],
   network: 'doken',
   rpcUrls: {
-    public: 'https://nyrpc.doken.dev',
-    default: 'https://nyrpc.doken.dev',
+    public: { http: ['https://nyrpc.doken.dev'] },
+    default: { http: ['https://nyrpc.doken.dev'] },
   },
   blockExplorers: {
     default: { name: 'Doken Explorer', url: 'https://explorer.doken.dev' },
@@ -19,9 +19,11 @@ export const dokenchain: IceChain = {
     decimals: 18,
   },
   blockInterval: 10,
-  multicall: {
-    address: '0xb999ea90607a826a3e6e6646b404c3c7d11fa39d',
-    blockCreated: 451563,
+  contracts: {
+    multicall3: {
+      address: '0xb999ea90607a826a3e6e6646b404c3c7d11fa39d',
+      blockCreated: 451563,
+    },
   },
   wrappedNative: {
     address: '0x27b45bCC26e01Ed50B4080A405D1c492FEe89d63',

@@ -20,10 +20,7 @@ import { BATCH_MULTICALL_CONFIGS } from '../../constants/multicall'
 const DEFAULT_BATCH_RETRIES = 2
 
 const SUCCESS_RATE_CONFIG = {
-  [ChainId.BSC_TESTNET]: 0.1,
   [ChainId.BSC]: 0.1,
-  [ChainId.ETHEREUM]: 0.1,
-  [ChainId.GOERLI]: 0.1,
 }
 
 type V3Inputs = [string, string]
@@ -124,10 +121,7 @@ function onChainQuoteProviderFactory({ getQuoteFunctionName, getQuoterAddress, a
         }
 
         const chainId: ChainId = routes[0].amount.currency.chainId
-        const multicallConfigs =
-          multicallConfigsOverride?.[chainId] ||
-          BATCH_MULTICALL_CONFIGS[chainId] ||
-          BATCH_MULTICALL_CONFIGS[ChainId.ETHEREUM]
+        const multicallConfigs = multicallConfigsOverride?.[chainId] || BATCH_MULTICALL_CONFIGS[chainId]
         const chainProvider = onChainProvider({ chainId })
         let { multicallChunk, gasLimitOverride } = multicallConfigs.defaultConfig
         const { gasErrorFailureOverride, successRateFailureOverrides } = multicallConfigs

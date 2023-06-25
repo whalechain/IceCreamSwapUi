@@ -7,8 +7,8 @@ export const xodex: IceChain = {
   features: ['swap', 'bridge'],
   network: 'xodex',
   rpcUrls: {
-    public: 'https://xo-dex.io',
-    default: 'https://xo-dex.io',
+    public: { http: ['https://xo-dex.io'] },
+    default: { http: ['https://xo-dex.io'] },
   },
   blockExplorers: {
     default: { name: 'XoDex Explorer', url: 'https://explorer.xo-dex.com' },
@@ -18,9 +18,11 @@ export const xodex: IceChain = {
     symbol: 'XODEX',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 4339985,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 4339985,
+    },
   },
   blockInterval: 3.6,
   wrappedNative: {
