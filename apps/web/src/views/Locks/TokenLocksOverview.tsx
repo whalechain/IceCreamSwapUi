@@ -10,8 +10,10 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import NextLink from 'next/link'
 import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
+import { useTranslation } from '@pancakeswap/localization'
 
 export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }) => {
+  const { t } = useTranslation()
   const { isMobile } = useMatchBreakpoints()
   const { data: locks } = useLocksByToken(tokenAddress)
   const { address } = useAccount()
@@ -38,11 +40,11 @@ export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenA
     <AppWrapper
       backlink="/locks"
       hasBackButton
-      title={`Locks of ${token?.name}`}
-      subtitle="Lock your tokens for a fixed period"
+      title={`${t('Locks of')} ${token?.name}`}
+      subtitle={t('Lock your tokens for a fixed period')}
     >
       <Flex flexDirection="column" gap="0.75em">
-        <Text>Token Address:</Text>
+        <Text>{t('Token Address')}:</Text>
         <Text color="textSubtle" fontSize="14px" textAlign="start">
           <Link
             external
@@ -54,24 +56,24 @@ export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenA
             {tokenAddress}
           </Link>
         </Text>
-        <Text>{`Currently Locked ${format(tokensLocked)} ${token?.symbol}`}</Text>
+        <Text>{`${t('Currently Locked')} ${format(tokensLocked)} ${token?.symbol}`}</Text>
         {address ? (
           <NextLink href={`/locks/${tokenAddress}/create`} passHref legacyBehavior>
-            <Button as="a">Create Lock</Button>
+            <Button as="a">{t('Create Lock')}</Button>
           </NextLink>
         ) : (
           <ConnectWalletButton />
         )}
         <Heading as="h2" marginY="3">
-          Locks
+          {t('Locks')}
         </Heading>
         <Table>
           {!isMobile && (
             <thead>
               <tr>
-                <Td>Token</Td>
-                <Td>Amount</Td>
-                <Td>Claimable</Td>
+                <Td>{t('Token')}</Td>
+                <Td>{t('Amount')}</Td>
+                <Td>{t('Claimable')}</Td>
                 <Td />
               </tr>
             </thead>

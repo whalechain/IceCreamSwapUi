@@ -17,6 +17,7 @@ import CreateModal from './components/CreateModal'
 import { CurrencyAmount } from '@pancakeswap/sdk'
 import FormError from 'views/Bridge/components/FormError'
 import AppWrapper from 'components/AppWrapper'
+import { useTranslation } from '@pancakeswap/localization'
 
 const getNow = () => {
   const now = new Date()
@@ -26,6 +27,7 @@ const getNow = () => {
 }
 
 export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }) => {
+  const { t } = useTranslation()
   const { data: locks } = useLocksByToken(tokenAddress)
   const { account } = useWeb3React()
 
@@ -45,7 +47,7 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
   const [error, setError] = useState<string | null>(null)
   const validate = () => {
     if (!amount) {
-      setError('Please enter an amount')
+      setError(t('Please enter an amount'))
       return false
     }
     const balanceString = balance?.toExact() || '0'
@@ -54,11 +56,11 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
         BigNumber.from(utils.parseUnits(balanceString, token?.decimals || 18)),
       )
     ) {
-      setError('Insufficient balance')
+      setError(t('Insufficient balance'))
       return false
     }
     if (vesting && startingDate > endingDate) {
-      setError('Starting date must be before ending date')
+      setError(t('Starting date must be before ending date'))
       return false
     }
     setError(null)
@@ -80,12 +82,12 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
   )
 
   return (
-    <AppWrapper hasBackButton title={`Locks of ${token?.name}`} subtitle="Lock your tokens for a fixed period">
+    <AppWrapper hasBackButton title={`${t('Locks of')} ${token?.name}`} subtitle={t('Lock your tokens for a fixed period')}>
       <Flex flexDirection="column" gap="0.75em">
         <Heading as="h2" marginY="3">
-          Creating Lock for {token?.name}
+          {t('Creating Lock for')} {token?.name}
         </Heading>
-        <Text>Token Address:</Text>
+        <Text>{t('Token Address')}:</Text>
         <Text color="textSubtle" fontSize="14px" textAlign="start" maxWidth="calc(100vw - 48px)">
           <Link
             external
@@ -128,17 +130,17 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
             scale="sm"
           />
           <Text ml="10px" style={{ userSelect: 'none' }} onClick={() => setVesting(!vesting)}>
-            Use Vesting
+            {t('Use Vesting')}
           </Text>
         </Flex>
-        <Text>{vesting ? 'Starting Date:' : 'Unlock Date:'}</Text>
+        <Text>{vesting ? t('Starting Date:') : t('Unlock Date:')}</Text>
         <DatePicker value={startingDate} onChange={setStartingDate} min={minDate} />
         {vesting && (
           <>
-            <Text>Ending Date:</Text>
+            <Text>{t('Ending Date')}:</Text>
             <DatePicker value={endingDate} onChange={setEndingDate} min={startingDate} />
             <Text>
-              Vesting Duration:{' '}
+              {t('Vesting Duration')}:{' '}
               {formatDuration(
                 intervalToDuration({
                   start: startingDate,
@@ -154,7 +156,7 @@ export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }
             if (validate()) onPresentCreateModal()
           }}
         >
-          Create
+          {t('Create')}
         </Button>
       </Flex>
     </AppWrapper>

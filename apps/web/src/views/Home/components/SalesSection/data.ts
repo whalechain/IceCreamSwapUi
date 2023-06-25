@@ -11,7 +11,7 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
   bodyText: t(
       'IceCreamSwap contracts let everyone trade any token on multiple chains. ' +
       'An intuitive UI lets both new and experienced DeFi users easily interact with the IceCreamSwap smart contracts. ' +
-      'As the first DEX implementing route splitting, the best possible output with the lowest slippage can be achieved. '
+      'As the first DEX implementing route splitting, the best possible output with the lowest slippage can be achieved.'
   ),
   reverse: false,
   primaryButton: {
@@ -20,7 +20,7 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/get-started/swap',
+    to: 'https://wiki.icecreamswap.com/dex/swap',
     text: t('Learn'),
     external: true,
   },
@@ -39,16 +39,16 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
       'A novel approach of a second (redundant) security layer will make the IceCream Bridge even more secure ' +
       'than the audited and battle tested code it is built on top of. ' +
       'All bridge reserves are transparent on chain and can be verified any time. ' +
-      'Due to its universal implementation even universal message parsing and NFTs will be supported by the Bridge.',
+      'Due to its universal implementation, even universal message parsing and NFTs will be supported by the Bridge.',
   ),
   reverse: true,
   primaryButton: {
-    to: 'https://bridge.icecreamswap.com',
-    text: 'Bridge Now',
+    to: '/bridge',
+    text: t('Bridge Now'),
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/get-started/bridge',
+    to: 'https://wiki.icecreamswap.com/dex/bridge',
     text: t('Learn'),
     external: true,
   },
@@ -61,8 +61,8 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
 })
 
 export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
-  headingText: t('Earn, receive ICE tokens when providing liquidity.'),
-  bodyText: t('Thanks to liquidity farming pools, you can receive ICE tokens when you provide liquidity.'),
+  headingText: t('Earn, receive ICE tokens when providing liquidity'),
+  bodyText: t('Thanks to liquidity farming pools, you can receive ICE tokens when you provide liquidity'),
   reverse: false,
   primaryButton: {
     to: '/farms',
@@ -70,7 +70,7 @@ export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/get-started/pool',
+    to: 'https://wiki.icecreamswap.com/dex/farm',
     text: t('Learn'),
     external: true,
   },
