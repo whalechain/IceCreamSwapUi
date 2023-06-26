@@ -17,13 +17,13 @@ export const { provider, chains } = configureChains(CHAINS, [
   jsonRpcProvider({
     rpc: (chain) => {
       return PUBLIC_NODES[chain.id]
-              ? {
-                  http:
-                    typeof PUBLIC_NODES[chain.id] === 'string'
-                      ? (PUBLIC_NODES[chain.id] as string)
-                      : PUBLIC_NODES[chain.id][0],
-                }
-              : { http: chain.rpcUrls.default.http[0] }
+        ? {
+            http:
+              typeof PUBLIC_NODES[chain.id] === 'string'
+                ? (PUBLIC_NODES[chain.id] as string)
+                : PUBLIC_NODES[chain.id][0],
+          }
+        : { http: chain.rpcUrls.default.http[0] }
     },
   }),
 ])
@@ -85,8 +85,6 @@ export const trustWalletConnector = new TrustWalletConnector({
     shimChainChangedDisconnect: true,
   },
 })
-
-export const bscConnector = new BinanceWalletConnector({ chains })
 
 class BitKeepConnector extends InjectedConnector {
   provider?: Window['ethereum']

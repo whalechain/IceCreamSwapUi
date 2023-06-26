@@ -1,7 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Swap } from '@pancakeswap/uikit'
-import { PageMeta } from '../components/Layout/Page'
-import { EXCHANGE_DOCS_URLS } from '../config/constants'
 import { ChainId } from '@pancakeswap/sdk'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { EXCHANGE_HELP_URLS } from 'config/constants'

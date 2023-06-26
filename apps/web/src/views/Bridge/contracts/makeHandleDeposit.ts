@@ -146,7 +146,7 @@ const makeHandleDeposit = (
       setDepositNonce(`${depositEvent!.args!.depositNonce.toString()}`)
       setTransactionStatus('In Transit')
 
-      return
+      
     } catch (error) {
       console.error(error)
       if (typeof error === 'object' && 'code' in error && 'message' in error) {

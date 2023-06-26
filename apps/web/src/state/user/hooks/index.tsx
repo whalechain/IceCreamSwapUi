@@ -1,4 +1,4 @@
-import { Pair, ERC20Token } from '@pancakeswap/sdk'
+import { Pair, ERC20Token, ChainId } from '@pancakeswap/sdk'
 import { deserializeToken } from '@pancakeswap/token-lists'
 import flatMap from 'lodash/flatMap'
 import { getFarmConfig } from '@pancakeswap/farms/constants'
@@ -264,13 +264,13 @@ export function useRemoveUserAddedToken(): (chainId: number, address: string) =>
   )
 }
 
-const GasPriceContext = createContext('')
+const GasPriceContext = createContext<ReturnType<typeof useGasPriceRaw>>(null)
 
 export const GasPriceProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return <GasPriceContext.Provider value={useGasPriceRaw()}>{children}</GasPriceContext.Provider>
 }
 
-export function useFeeDataWithGasPrice(): string {
+export function useFeeDataWithGasPrice(): ReturnType<typeof useGasPriceRaw> {
   return useContext(GasPriceContext)
 }
 
@@ -284,7 +284,7 @@ export function useGasPriceRaw(chainIdOverride?: number): {
   const gasPrice = useGasPrice(chainId)
   const { data } = useFeeData({
     chainId,
-    enabled: chainId !== ChainId.BSC && chainId !== ChainId.BSC_TESTNET,
+    enabled: chainId !== ChainId.BSC,
     watch: true,
   })
 
@@ -310,7 +310,9 @@ export function useGasPrice(chainIdOverride?: number): string | undefined {
   const { data: signer } = useSigner({ chainId })
   const userGas = useSelector<AppState, AppState['user']['gasPrice']>((state) => state.user.gasPrice)
   const { data: bscProviderGasPrice = GAS_PRICE_GWEI.default } = useSWR(
-    signer && false /*chainId === ChainId.BSC*/ && userGas === GAS_PRICE_GWEI.rpcDefault && ['bscProviderGasPrice', signer],
+    signer &&
+      false /* chainId === ChainId.BSC */ &&
+      userGas === GAS_PRICE_GWEI.rpcDefault && ['bscProviderGasPrice', signer],
     async () => {
       const gasPrice = await signer?.getGasPrice()
       return gasPrice?.toString()
@@ -323,7 +325,6 @@ export function useGasPrice(chainIdOverride?: number): string | undefined {
   if (chainId === ChainId.BSC) {
     return userGas === GAS_PRICE_GWEI.rpcDefault ? bscProviderGasPrice : userGas
   }
-  */
   return undefined
 }
 

@@ -8,31 +8,50 @@ import {
   Modal,
   InjectedModalProps,
   ThemeSwitcher,
-  Box,
+  ExpertModal,
   QuestionHelper,
   PreTitle,
+  ModalV2,
 } from '@pancakeswap/uikit'
-import {
-  useAudioModeManager,
-  useExpertModeManager,
-  useSubgraphHealthIndicatorManager,
-  useUserExpertModeAcknowledgementShow,
-  useUserSingleHopOnly,
-  useUserUsernameVisibility,
-} from '../../../state/user/hooks'
 import { ChainId } from '@pancakeswap/sdk'
 import { SUPPORT_ZAP } from '../../../config/constants/supportChains'
+import { useSubgraphHealthIndicatorManager, useUserUsernameVisibility } from 'state/user/hooks'
 import { useSwapActionHandlers } from '../../../state/swap/useSwapActionHandlers'
 import { useActiveChainId } from '../../../hooks/useActiveChainId'
 import { useTranslation } from '@pancakeswap/localization'
 import useTheme from '../../../hooks/useTheme'
-import TransactionSettings from './TransactionSettings'
-import ExpertModal from './ExpertModal'
+import {
+  useAudioPlay,
+  useExpertMode,
+  useUserSingleHopOnly,
+  useUserExpertModeAcknowledgement,
+} from '@pancakeswap/utils/user'
 import GasSettings from './GasSettings'
 import TransactionSettings from './TransactionSettings'
+import { useUserTokenRisk } from 'state/user/hooks/useUserTokenRisk'
+import {
+  useOnlyOneAMMSourceEnabled,
+  useUserSplitRouteEnable,
+  useUserStableSwapEnable,
+  useUserV2SwapEnable,
+  useUserV3SwapEnable,
+  useRoutingSettingChanged,
+} from 'state/user/smartRouter'
 import { SettingsMode } from './types'
 import { useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from '../../../state/global/hooks'
-import { ButtonProps } from '@pancakeswap/uikit/src/components'
+import {
+  AutoColumn,
+  AutoRow,
+  Button,
+  ButtonProps,
+  Checkbox,
+  Message,
+  MessageText,
+  NotificationDot,
+  RowFixed,
+} from '@pancakeswap/uikit/src/components'
+import { AtomBox } from '@pancakeswap/ui'
+import { useMMLinkedPoolByDefault } from 'state/user/mmLinkedPool'
 
 const ScrollableContainer = styled(Flex)`
   flex-direction: column;
@@ -68,19 +87,21 @@ export const withCustomOnDismiss =
   }
 
 const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ onDismiss, mode }) => {
-  const [showConfirmExpertModal, setShowConfirmExpertModal] = useState(false)
-  const [showExpertModeAcknowledgement, setShowExpertModeAcknowledgement] = useUserExpertModeAcknowledgementShow()
-  const [expertMode, toggleExpertMode] = useExpertModeManager()
   const [singleHopOnly, setSingleHopOnly] = useUserSingleHopOnly()
   // const [audioPlay, toggleSetAudioMode] = useAudioModeManager()
-  const [zapMode, toggleZapMode] = useZapModeManager()
+  // isAkkaSwapActive checks if akka router is generally active or not
+  const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] =
+    useIsAkkaSwapModeActive()
+
+  const [showConfirmExpertModal, setShowConfirmExpertModal] = useState(false)
+  const [showExpertModeAcknowledgement, setShowExpertModeAcknowledgement] = useUserExpertModeAcknowledgement()
+  const [expertMode, setExpertMode] = useExpertMode()
+  const [audioPlay, setAudioMode] = useAudioPlay()
   const [subgraphHealth, setSubgraphHealth] = useSubgraphHealthIndicatorManager()
   const [userUsernameVisibility, setUserUsernameVisibility] = useUserUsernameVisibility()
   const { onChangeRecipient } = useSwapActionHandlers()
   const { chainId } = useActiveChainId()
-  // isAkkaSwapActive checks if akka router is generally active or not
-  const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] =
-    useIsAkkaSwapModeActive()
+  const [tokenRisk, setTokenRisk] = useUserTokenRisk()
 
   const { t } = useTranslation()
   const { isDark, setTheme } = useTheme()

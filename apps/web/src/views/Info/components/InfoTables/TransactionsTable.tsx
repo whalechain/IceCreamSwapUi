@@ -15,7 +15,7 @@ import { getBlockExploreLink } from 'utils'
 import { formatAmount } from 'utils/formatInfoNumbers'
 import { useDomainNameForAddress } from 'hooks/useDomain'
 import { Arrow, Break, ClickableColumnHeader, PageButtons, TableWrapper } from './shared'
-import {useActiveChainId} from "../../../../hooks/useActiveChainId";
+import { useActiveChainId } from '../../../../hooks/useActiveChainId'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -108,8 +108,7 @@ const DataRow: React.FC<React.PropsWithChildren<{ transaction: Transaction }>> =
   const { domainName } = useDomainNameForAddress(transaction.sender)
   return (
     <ResponsiveGrid>
-      <LinkExternalisBscScan
-        href={getBlockExploreLink(transaction.hash, 'transaction', chainId)}>
+      <LinkExternal isBscScan href={getBlockExploreLink(transaction.hash, 'transaction', chainId)}>
         <Text>
           {transaction.type === TransactionType.MINT
             ? t('Add %token0% and %token1%', { token0: transaction.token0Symbol, token1: transaction.token1Symbol })
@@ -125,10 +124,7 @@ const DataRow: React.FC<React.PropsWithChildren<{ transaction: Transaction }>> =
       <Text>
         <Text>{`${formatAmount(abs1)} ${transaction.token1Symbol}`}</Text>
       </Text>
-      <LinkExternal
-        isBscScan
-        href={getBlockExploreLink(transaction.sender, 'address', chainId)}
-      >
+      <LinkExternal isBscScan href={getBlockExploreLink(transaction.sender, 'address', chainId)}>
         {domainName || truncateHash(transaction.sender)}
       </LinkExternal>
       <Text>{formatDistanceToNowStrict(parseInt(transaction.timestamp, 10) * 1000)}</Text>

@@ -1,4 +1,4 @@
-import { infoClientBITGERT, infoStableSwapClient } from '../../utils/graphql'
+import { infoStableSwapClient } from '../../utils/graphql'
 import {
   INFO_CLIENT_BITGERT,
   BLOCKS_CLIENT_BITGERT,

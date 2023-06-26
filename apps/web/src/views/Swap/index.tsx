@@ -1,54 +1,42 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Currency } from '@pancakeswap/sdk'
-import { BottomDrawer, Flex, Modal, ModalV2, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { ChainId, Currency, NATIVE } from '@pancakeswap/sdk'
+import { BottomDrawer, Flex, Link, Message, Modal, ModalV2, useMatchBreakpoints } from '@pancakeswap/uikit'
 import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
-import { useEffect, useContext, useState } from 'react'
-import { JSBI, NATIVE, Currency, ChainId } from '@pancakeswap/sdk'
-import {
-  Box,
-  Flex,
-  BottomDrawer,
-  useMatchBreakpoints,
-  Text,
-  Swap as SwapUI,
-  Link,
-  Heading,
-  Message,
-} from '@pancakeswap/uikit'
-import { EXCHANGE_DOCS_URLS, NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { AppBody } from 'components/App'
+import { NATIVE_TOKEN_ADDRESS } from 'config/constants'
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 import { currencyId } from 'utils/currencyId'
-
+import { useUserSlippage } from '@pancakeswap/utils/user'
+import { useWeb3React } from '@pancakeswap/wagmi'
+import { captureMessage } from '@sentry/nextjs'
+import chainName from 'config/constants/chainName'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { ApprovalState } from 'hooks/useApproveCallback'
+import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedChains'
 import { useSwapHotTokenDisplay } from 'hooks/useSwapHotTokenDisplay'
+import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
+import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
+import { useAkkaRouterContract, useAkkaRouterCoreContract } from 'utils/exchange'
+import { useBalance } from 'wagmi'
 import { useCurrency } from '../../hooks/Tokens'
 import { Field } from '../../state/swap/actions'
-import { useSwapState, useSingleTokenSwapInfo, useDerivedSwapInfo } from '../../state/swap/hooks'
-import { useDefaultsFromURLSearch, useSingleTokenSwapInfo, useSwapState } from '../../state/swap/hooks'
+import {
+  useDefaultsFromURLSearch,
+  useDerivedSwapInfo,
+  useSingleTokenSwapInfo,
+  useSwapState,
+} from '../../state/swap/hooks'
 import Page from '../Page'
+import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
+import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
 import HotTokenList from './components/HotTokenList'
 import useWarningImport from './hooks/useWarningImport'
-import { V3SwapForm } from './V3Swap'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
-import { useWeb3React } from '@pancakeswap/wagmi'
-import { useIsAkkaAlternateModeActive, useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
-import { useActiveChainId } from 'hooks/useActiveChainId'
-import { useAkkaSwapInfo } from './AkkaSwap/hooks/useAkkaSwapInfo'
-import { useUserSlippageTolerance } from 'state/user/hooks'
-import { useAkkaRouterContract, useAkkaRouterCoreContract } from 'utils/exchange'
-import { ApprovalState } from 'hooks/useApproveCallback'
-import { useApproveCallbackFromAkkaTrade } from './AkkaSwap/hooks/useApproveCallbackFromAkkaTrade'
-import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useSupportedChainList, useSupportedChains } from 'hooks/useSupportedChains'
-import { useBalance } from 'wagmi'
-import chainName from 'config/constants/chainName'
-import { captureMessage } from '@sentry/nextjs'
-import { akkaAlternateActive } from 'state/global/actions'
+import { V3SwapForm } from './V3Swap'
 
 export default function Swap() {
   const { query } = useRouter()
@@ -100,7 +88,7 @@ export default function Swap() {
     useIsAkkaSwapModeStatus()
 
   // get custom setting values for user
-  const [allowedSlippage] = useUserSlippageTolerance()
+  const [allowedSlippage] = useUserSlippage()
 
   // Take swap information from pancakeswap router
   const {
@@ -128,13 +116,13 @@ export default function Swap() {
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
     ? {
-      [Field.INPUT]: parsedAmount,
-      [Field.OUTPUT]: parsedAmount,
-    }
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
     : {
-      [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-      [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-    }
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
   const akkaContract = useAkkaRouterContract()
   const akkaCoreContract = useAkkaRouterCoreContract()
   const { isConnected } = useWeb3React()
@@ -167,7 +155,7 @@ export default function Swap() {
   // Check if pancakeswap route is better than akka route or not
   useEffect(() => {
     if (akkaRouterTrade?.route?.returnAmountWithoutTaxWei && v2Trade?.outputAmount) {
-      if (v2Trade?.outputAmount.greaterThan(JSBI.BigInt(akkaRouterTrade?.route?.returnAmountWei))) {
+      if (v2Trade?.outputAmount.greaterThan(akkaRouterTrade?.route?.returnAmountWei)) {
         toggleSetAkkaModeToFalse()
         // captureMessage(`AKKA: RateError`, {
         //   tags: {
@@ -188,7 +176,12 @@ export default function Swap() {
   useEffect(() => {
     if (isConnected) {
       if (akkaApproval === ApprovalState.APPROVED) {
-        if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
+        if (
+          currencyBalances[Field.INPUT] &&
+          parsedAmount &&
+          (currencyBalances[Field.INPUT].greaterThan(parsedAmount) ||
+            currencyBalances[Field.INPUT].equalTo(parsedAmount))
+        ) {
           if (akkaRouterTrade?.args?.amountIn && akkaRouterTrade?.args?.amountOutMin && akkaRouterTrade?.args?.data) {
             if (chainId === ChainId.CORE) {
               akkaCoreContract.estimateGas[methodName](
@@ -213,8 +206,14 @@ export default function Swap() {
                       tags: {
                         chain_id: chainId,
                         amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-                        fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
-                        toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                        fromToken:
+                          inputCurrencyId === NATIVE[chainId]?.symbol
+                            ? NATIVE_TOKEN_ADDRESS
+                            : inputCurrency?.wrapped?.address,
+                        toToken:
+                          outputCurrencyId === NATIVE[chainId]?.symbol
+                            ? NATIVE_TOKEN_ADDRESS
+                            : outputCurrency?.wrapped?.address,
                       },
                     })
                   }
@@ -225,13 +224,18 @@ export default function Swap() {
                     tags: {
                       chain_id: chainId,
                       amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-                      fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
-                      toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                      fromToken:
+                        inputCurrencyId === NATIVE[chainId]?.symbol
+                          ? NATIVE_TOKEN_ADDRESS
+                          : inputCurrency?.wrapped?.address,
+                      toToken:
+                        outputCurrencyId === NATIVE[chainId]?.symbol
+                          ? NATIVE_TOKEN_ADDRESS
+                          : outputCurrency?.wrapped?.address,
                     },
                   })
                 })
-            }
-            else {
+            } else {
               akkaContract.estimateGas[methodName](
                 akkaRouterTrade?.args?.amountIn,
                 akkaRouterTrade?.args?.amountOutMin,
@@ -252,8 +256,14 @@ export default function Swap() {
                       tags: {
                         chain_id: chainId,
                         amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-                        fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
-                        toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                        fromToken:
+                          inputCurrencyId === NATIVE[chainId]?.symbol
+                            ? NATIVE_TOKEN_ADDRESS
+                            : inputCurrency?.wrapped?.address,
+                        toToken:
+                          outputCurrencyId === NATIVE[chainId]?.symbol
+                            ? NATIVE_TOKEN_ADDRESS
+                            : outputCurrency?.wrapped?.address,
                       },
                     })
                   }
@@ -264,8 +274,14 @@ export default function Swap() {
                     tags: {
                       chain_id: chainId,
                       amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
-                      fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
-                      toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                      fromToken:
+                        inputCurrencyId === NATIVE[chainId]?.symbol
+                          ? NATIVE_TOKEN_ADDRESS
+                          : inputCurrency?.wrapped?.address,
+                      toToken:
+                        outputCurrencyId === NATIVE[chainId]?.symbol
+                          ? NATIVE_TOKEN_ADDRESS
+                          : outputCurrency?.wrapped?.address,
                     },
                   })
                 })
@@ -303,7 +319,7 @@ export default function Swap() {
   )
   const supportedChains = useSupportedChains()
   const supportedChainNames = useSupportedChainList()
-  const balance = useBalance({ addressOrName: account })
+  const balance = useBalance({ address: account })
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
   const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
 
@@ -320,7 +336,14 @@ export default function Swap() {
           </span>
         </Message>
       )}
-      <Flex marginBottom="4em" width={['328px', '100%']} height="100%" justifyContent="center" position="relative" alignItems="flex-start">
+      <Flex
+        marginBottom="4em"
+        width={['328px', '100%']}
+        height="100%"
+        justifyContent="center"
+        position="relative"
+        alignItems="flex-start"
+      >
         {isDesktop && isChartSupported && (
           <PriceChartContainer
             inputCurrencyId={inputCurrencyId}

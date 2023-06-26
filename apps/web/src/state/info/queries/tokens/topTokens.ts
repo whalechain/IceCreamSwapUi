@@ -8,7 +8,6 @@ import {
   getMultiChainQueryEndPointWithStableSwap,
   checkIsStableSwap,
   multiChainTokenBlackList,
-  multiChainTokenWhiteList,
 } from '../../constant'
 
 interface TopTokensResponse {
@@ -66,7 +65,7 @@ const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number
       )
       return union(
         data.tokens.map((t) => t.id),
-        multiChainTokenWhiteList[chainName],
+        undefined,
       )
     }
     const data = await getMultiChainQueryEndPointWithStableSwap(chainName).request<TopTokensResponse>(query, {
@@ -75,7 +74,7 @@ const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number
     // tokenDayDatas id has compound id "0xTOKENADDRESS-NUMBERS", extracting token address with .split('-')
     return union(
       data.tokenDayDatas.map((t) => t.id.split('-')[0]),
-      multiChainTokenWhiteList[chainName],
+      undefined,
     )
   } catch (error) {
     console.warn('fetchTopTokens', { chainName, timestamp24hAgo })

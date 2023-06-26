@@ -39,7 +39,7 @@ export default function AkkaSwapModalHeader({
   const inputTextColor = 'text'
 
   const amount = trade?.route?.inputAmount
-  const symbol = inputCurrency.symbol
+  const {symbol} = inputCurrency
 
   const tradeInfoText = t('Output is estimated. You will receive at least or the transaction will revert.')
 

@@ -1,10 +1,10 @@
+import { SUPPORT_SWAP } from 'config/constants/supportChains'
 import { useCurrency } from 'hooks/Tokens'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import RemoveLiquidity, { RemoveLiquidityV2Layout } from 'views/RemoveLiquidity'
 import RemoveStableLiquidity, { RemoveLiquidityStableLayout } from 'views/RemoveLiquidity/RemoveStableLiquidity'
 import useStableConfig, { StableConfigContext } from 'views/Swap/hooks/useStableConfig'
-import {SUPPORT_SWAP} from "../../config/constants/supportChains";
 
 const RemoveLiquidityPage = () => {
   const router = useRouter()

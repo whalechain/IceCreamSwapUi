@@ -1,19 +1,5 @@
-import { useState, useMemo, useCallback } from 'react'
-import { Currency } from '@pancakeswap/sdk'
-import { useTranslation } from '@pancakeswap/localization'
-import { Flex, Button, HelpIcon, useTooltip, Text, Link, useToast } from '@pancakeswap/uikit'
-import { fetchRiskToken, RiskTokenInfo } from 'views/Swap/hooks/fetchTokenRisk'
-import RiskMessage from 'views/Swap/components/AccessRisk/RiskMessage'
-import { tokenListFromOfficialsUrlsAtom } from 'state/lists/hooks'
-import merge from 'lodash/merge'
-import keyBy from 'lodash/keyBy'
-import groupBy from 'lodash/groupBy'
-import mapValues from 'lodash/mapValues'
-import { useAtomValue } from 'jotai'
-import { loadable } from 'jotai/utils'
 import { Trans, useTranslation } from '@pancakeswap/localization'
 import { ERC20Token, Token } from '@pancakeswap/sdk'
-import isUndefinedOrNull from '@pancakeswap/utils/isUndefinedOrNull'
 import {
   Button,
   Dots,
@@ -21,15 +7,19 @@ import {
   HelpIcon,
   IconButton,
   Link,
+  promotedGradient,
   RefreshIcon,
   Tag,
   Text,
+  useToast,
   useTooltip,
-  promotedGradient,
 } from '@pancakeswap/uikit'
+import isUndefinedOrNull from '@pancakeswap/utils/isUndefinedOrNull'
+import { useAtomValue } from 'jotai'
+import { loadable } from 'jotai/utils'
 import { useMemo, useState } from 'react'
+import { tokenListFromOfficialsUrlsAtom, useAllLists } from 'state/lists/hooks'
 import { useUserTokenRisk } from 'state/user/hooks/useUserTokenRisk'
-import { useAllLists } from 'state/lists/hooks'
 import styled from 'styled-components'
 import useSWRImmutable from 'swr/immutable'
 import { fetchRiskToken, TOKEN_RISK } from 'views/Swap/hooks/fetchTokenRisk'
@@ -49,9 +39,6 @@ function RetryRisk({ onClick }: { onClick: () => void }) {
   const { toastInfo } = useToast()
   const tokenMap = useAtomValue(loadable(tokenListFromOfficialsUrlsAtom))
 
-  const { address: outputAddress, chainId: outputChainId } = useMemo(
-    () => (outputCurrency as any) ?? {},
-    [outputCurrency],
   const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)
   const displayTooltip = () => {
     setIsTooltipDisplayed(true)

@@ -5,10 +5,9 @@ import { provider } from './wagmi'
 import { Contract } from '@ethersproject/contracts'
 import poolsConfig from '../config/constants/pools'
 import { PoolCategory } from '../config/constants/types'
-import { ICE } from '@pancakeswap/tokens'
+import { ICE , CAKE } from '@pancakeswap/tokens'
 import { provider } from 'utils/wagmi'
 import { Contract } from 'ethers'
-import { CAKE } from '@pancakeswap/tokens'
 
 // Addresses
 import {
