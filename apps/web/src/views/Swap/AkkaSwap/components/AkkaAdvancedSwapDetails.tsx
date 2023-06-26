@@ -25,7 +25,7 @@ function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar }: { ro
           </Text>
         </RowFixed>
         <Text fontSize="14px" color="textSubtle">
-          {priceImpact?.toFixed(3)}%
+          {Number.isNaN(priceImpact) ? route?.priceImpact.toFixed(3) : priceImpact.toFixed(3)}%
         </Text>
       </RowBetween>
       {route?.returnAmountInUsd - route?.bestAlt > 0 &&

@@ -11,6 +11,7 @@ export type ChainMap<T> = {
 export interface RouterAddressTypes {
   Icecream: string
   Akka?: string
+  AkkaAlternate?: string
 }
 
 export type ChainTokenList = ChainMap<Token[]>

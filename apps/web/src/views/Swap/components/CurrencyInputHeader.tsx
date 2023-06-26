@@ -25,6 +25,7 @@ interface Props {
   isChartDisplayed?: boolean
   hasAmount: boolean
   onRefreshPrice: () => void
+  mutateAkkaRoute: () => void
 }
 
 const ColoredIconButton = styled(IconButton)`
@@ -36,6 +37,7 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
   subtitle,
   hasAmount,
   onRefreshPrice,
+  mutateAkkaRoute
 }) => {
   const { isChartSupported, isChartDisplayed, setIsChartDisplayed } = useContext(SwapFeaturesContext)
   const [expertMode] = useExpertModeManager()
@@ -43,7 +45,10 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
     setIsChartDisplayed((currentIsChartDisplayed) => !currentIsChartDisplayed)
   }
   const [onPresentTransactionsModal] = useModal(<TransactionsModal />)
-  const handleOnClick = useCallback(() => onRefreshPrice?.(), [onRefreshPrice])
+  const handleOnClick = useCallback(() => {
+    mutateAkkaRoute?.()
+    onRefreshPrice?.()
+  }, [onRefreshPrice])
 
   return (
     <Swap.CurrencyInputHeader

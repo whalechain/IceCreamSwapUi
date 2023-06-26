@@ -52,6 +52,7 @@ interface SwapCommitButtonPropsType {
   allowedSlippage: number
   parsedIndepentFieldAmount: CurrencyAmount<Currency>
   onUserInput: (field: Field, typedValue: string) => void
+  isLoading: boolean
 }
 
 export default function SwapCommitButton({
@@ -73,6 +74,7 @@ export default function SwapCommitButton({
   allowedSlippage,
   parsedIndepentFieldAmount,
   onUserInput,
+  isLoading
 }: SwapCommitButtonPropsType) {
   const { t } = useTranslation()
   const [singleHopOnly] = useUserSingleHopOnly()
@@ -196,6 +198,18 @@ export default function SwapCommitButton({
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
+  if (isLoading) {
+    return (
+      <CommitButton
+        variant='primary'
+        width="100%"
+        disabled
+      >
+        Finding the best route ...
+      </CommitButton>
+    )
+  }
+
   if (swapIsUnsupported) {
     return (
       <Button width="100%" disabled>
@@ -274,8 +288,8 @@ export default function SwapCommitButton({
             {priceImpactSeverity > 3 && !isExpertMode
               ? t('Price Impact High')
               : priceImpactSeverity > 2
-              ? t('Swap Anyway')
-              : t('Swap')}
+                ? t('Swap Anyway')
+                : t('Swap')}
           </CommitButton>
         </RowBetween>
         <Column style={{ marginTop: '1rem' }}>
@@ -301,8 +315,8 @@ export default function SwapCommitButton({
           (priceImpactSeverity > 3 && !isExpertMode
             ? t('Price Impact Too High')
             : priceImpactSeverity > 2
-            ? t('Swap Anyway')
-            : t('Swap'))}
+              ? t('Swap Anyway')
+              : t('Swap'))}
       </CommitButton>
 
       {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
