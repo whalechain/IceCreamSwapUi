@@ -86,11 +86,11 @@ const Hero = () => {
             {t('IceCream brings people together')}
           </Heading>
           <Heading as="p" scale="md" mb="24px">
-            Trade, Earn, Bridge and Launch on {" "}
+            {t('Trade, Earn, Bridge and Launch on')} {" "}
             <Link href="/core" display="inline-flex">
               CORE
             </Link>
-            , XDC, Binance smart chain (BSC), Bitgert (Brise), Shardeum, XoDex, Dogechain, Doken and Fuse with our decentralized smart contracts.
+            {t(', XDC, Binance smart chain (BSC), Bitgert (Brise), Shardeum, XoDex, Dogechain, Doken and Fuse with our decentralized smart contracts.')}
           </Heading>
           <Flex>
             {!account && <ConnectWalletButton mr="8px" />}

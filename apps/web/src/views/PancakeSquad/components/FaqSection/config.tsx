@@ -8,13 +8,13 @@ type FAQsType = {
 const config = ({ t }: FAQsType) => [
   {
     title: t('Are the Swap contracts audited?'),
-    description: [t('The Swap uses the unmodified, audited and battle tested Uniswap V2 smart contracts. One could argue that the UniswapV2 contracts are the most tested smart contracts in the whole DeFi space.')],
+    description: [t('The Swap uses the unmodified, audited and battle tested Uniswap V2 smart contracts. One could argue that the Uniswap V2 contracts are the most tested smart contracts in the whole DeFi space.')],
   },
   {
     title: t('How is the Bridge secured?'),
     description: [
       t(
-        'The IceCream bridge builds on top of the industry leading ChainBridge codebase. This codebase has multiple audits and is used in many huge bridges like the Dogechain bridge or Meter passport',
+        'The IceCream bridge builds on top of the industry leading ChainBridge codebase. This codebase has multiple audits and is used in many huge bridges like the Dogechain bridge or Meter passport.',
       ),
     ],
   },
@@ -22,23 +22,22 @@ const config = ({ t }: FAQsType) => [
     title: t('How much reward will I get for providing liquidity?'),
     description: [
       t(
-        '5/6 (83%) of the trading fees are distributed by the dex smart contract to all liquidity providers. Also there are Farming pools to receive additional ICE tokens and some tokens like SCORE even generate rewards through securing the Blockchain',
+        '5/6 (83%) of the trading fees are distributed by the dex smart contract to all liquidity providers. Also there are Farming pools to receive additional ICE tokens and some tokens like SCORE even generate rewards through securing the Blockchain.',
       ),
     ],
   },
   {
-    title: t('Which Chains are supported?'),
+    title: t('Which chains are supported?'),
     description: [
       <Text as="p" color="textSubtle" fontSize="16px">
-        Currently we are supporting CORE, Binance smart chain (BSC), XDC, Bitgert (Brise), XoDex, Dogechain, Doken, Fuse and
-        soon Shardeum blockchains. For an always up to date list please take a look at our{' '}
+        {t('Currently we are supporting CORE, Binance smart chain (BSC), XDC, Bitgert (Brise), XoDex, Dogechain, Doken, Fuse and soon Shardeum blockchains. For an always up to date list please take a look at our')}
         <Link
           display="inline-flex"
           color="text"
           title="IceCreamSwap Wiki"
-          href="https://wiki.icecreamswap.com/introduction/ice"
+          href="https://wiki.icecreamswap.com/intro/multichain"
         >
-          Wiki
+          {t(' Wiki')}
         </Link>
         .
       </Text>,
@@ -57,25 +56,25 @@ const config = ({ t }: FAQsType) => [
       t('0x54051D9DbE99687867090d95fe15C3D3E35512Ba DoKEN'),
       t('0x867f08A3ab824b42e8058a1B48e32E1dF205b092 Fuse'),
       <Text as="p" color="textSubtle" fontSize="16px">
-        An up to date list of all IceCream addresses for all supported chains can be found on our{' '}
+        {t('An up to date list of all IceCream addresses for all supported chains can be found on our')}
         <Link
           display="inline-flex"
           color="text"
-          title="IceCreamSwap Wiki"
+          title={t('Wiki')}
           external
           href="https://wiki.icecreamswap.com/intro/ice"
         >
-          Wiki
+          {t(' Wiki')}
         </Link>
       </Text>,
     ],
   },
   {
-    title: t('what are the Router and Factory addresses?'),
+    title: t('What are the Router and Factory addresses?'),
     description: [
       t('The router and factory addresses are the same on every supported chain:'),
-      t('Factory: 0x9E6d21E759A7A288b80eef94E4737D313D31c13f'),
-      t('Router02: 0xBb5e1777A331ED93E07cF043363e48d320eb96c4'),
+      `${t('Router02')} : 0xBb5e1777A331ED93E07cF043363e48d320eb96c4`,
+      `${t('Factory')} : 0x9E6d21E759A7A288b80eef94E4737D313D31c13f`,
     ],
   },
 ]

@@ -42,7 +42,7 @@ const evmNativeStableLpMap = {
     stable: 'USDT',
   },
   [ChainId.XODEX]: {
-    address: '0x0000000000000000000000000000000000000000',  // todo: add XoDex stable LP
+    address: '0xe3dd2db66c31b79ed7f4308a182262a904056a19',
     wNative: 'WXODEX',
     stable: 'USDT',
   },

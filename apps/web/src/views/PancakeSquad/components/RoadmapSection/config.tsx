@@ -9,10 +9,10 @@ const config = ({ t }: FAQsType) => [
     icon: '🚀',
     title: t('Launch'),
     description: [
-      'Launch of the Swap and liquidity provision functionality on Bitgert',
-      'Multiple IceCream airdrops to the community',
-      'Add Bitgert bridged tokens to the default token list',
-      'Create an analytics page for the swap to show all pools, their liquidity, volume and much more',
+      t('Launch of the Swap and liquidity provision functionality on Bitgert'),
+      t('Multiple IceCream airdrops to the community'),
+      t('Add Bitgert bridged tokens to the default token list'),
+      t('Create an analytics page for the swap to show all pools, their liquidity, volume and much more'),
     ],
     reached: '06-2022',
   },
@@ -20,10 +20,10 @@ const config = ({ t }: FAQsType) => [
     title: t('Partnerships'),
     icon: '👨‍',
     description: [
-      'Partner with and list Bitgert Projects',
-      'AMA sessions to spread the word and inform users',
-      'Work very close with the Bitgert blockchain team',
-      'More IceCream Airdrops',
+      t('Partner with and list Bitgert projects'),
+      t('AMA sessions to spread the word and inform users'),
+      t('Work very close with the Bitgert blockchain team'),
+      t('More IceCream Airdrops'),
     ],
     reached: '07-2022',
   },
@@ -31,9 +31,9 @@ const config = ({ t }: FAQsType) => [
     title: t('Multi Chain'),
     icon: '🌐',
     description: [
-      'Add more chains to our Bridge (Doken and Fuse)',
-      'More AirDrops',
-      'Super reliable Bridge'
+      t('Add more chains to our Bridge (Doken and Fuse)'),
+      t('More AirDrops'),
+      t('Super reliable Bridge')
     ],
     reached: '10-2022',
   },
@@ -41,8 +41,8 @@ const config = ({ t }: FAQsType) => [
     title: t('Expansion'),
     icon: '🚀',
     description: [
-      'Partnerships with many big upcoming chains',
-      'More AirDrops'
+      t('Partnerships with many big upcoming chains'),
+      t('More AirDrops')
     ],
     reached: '11-2022',
   },
@@ -50,8 +50,8 @@ const config = ({ t }: FAQsType) => [
     title: t('UI upgrades'),
     icon: '👨‍💻',
     description: [
-      'Upgrade from Uniswap based UI to Pancakeswap based UI',
-      'Upgrade from weekly AirDrops to continuouse liqudiity farming'
+      t('Upgrade from Uniswap based UI to Pancakeswap based UI'),
+      t('Upgrade from weekly AirDrops to continuous liquidity farming')
     ],
     reached: '12-2022',
   },
@@ -59,8 +59,8 @@ const config = ({ t }: FAQsType) => [
     title: t('Bridge UI upgrade and smart routing'),
     icon: '👨‍💻',
     description: [
-      'Integrate Bridge UI directly in the swap UI for a seamless experience',
-      'Add smart routing capability\'s to drastically reduce price impact and greatly increase swap outputs'
+      t('Integrate Bridge UI directly in the swap UI for a seamless experience'),
+      t("Add smart routing capability's to drastically reduce price impact and greatly increase swap outputs")
     ],
     reached: '01-2023',
   },
@@ -68,9 +68,9 @@ const config = ({ t }: FAQsType) => [
     title: t('CORE DAO expansion'),
     icon: '🚀',
     description: [
-      'First Dex and Bridge on Core Dao mainnet',
-      'add many new projects on Core Dao to default list',
-      'created liquid staking CORE token StakedCore(SCORE) smart contracts'
+      t('First Dex and Bridge on Core Dao mainnet'),
+      t('Add many new projects on Core Dao to default list'),
+      t('Create liquid staking CORE token StakedCore(SCORE) smart contracts')
     ],
     reached: '02-2023',
   },
@@ -78,16 +78,16 @@ const config = ({ t }: FAQsType) => [
     title: t('Launchpad, KYC token and enhanced smart routing'),
     icon: '🌔',
     description: [
-      'Release LaunchPad',
-      'Release Soulbound KYC token to drastically reduce scams',
-      'Provide optimized swaps on supported chains through accessing the entire liquidity on the chain'
+      t('Release LaunchPad'),
+      t('Release Soulbound KYC token to drastically reduce scams'),
+      t('Provide optimized swaps on supported chains through accessing the entire liquidity on the chain')
     ],
     reached: '03-2023',
   },
   {
     title: t('Mass expansion'),
     icon: '🚀🚀',
-    description: ['expand to a lot of blockchains and provide optimal dex routing on them thanks to our smart routing'],
+    description: [t('Expand to a lot of blockchains and provide optimal dex routing on them thanks to our smart routing')],
     reached: '05-2023',
   },
 ]

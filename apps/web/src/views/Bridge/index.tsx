@@ -21,8 +21,10 @@ import { formatAmount } from './formatter'
 import chainName from 'config/constants/chainName'
 import { SUPPORT_BRIDGE } from 'config/constants/supportChains'
 import { useSupportedChainList } from 'hooks/useSupportedChains'
+import { useTranslation } from '@pancakeswap/localization'
 
 const Bridge = () => {
+  const { t } = useTranslation()
   const { account, chainId: accountChainId } = useWeb3React()
   const { switchNetworkAsync } = useSwitchNetwork()
   const { chainId: routerChainId } = useRouter().query
@@ -89,14 +91,14 @@ const Bridge = () => {
               <AppBody>
                 <AtomBox width="full" alignItems="center" flexDirection="column" padding="24px" borderBottom="1">
                   <AtomBox display="flex" width="full" alignItems="center" justifyContent="center">
-                    <Heading as="h2">Bridge</Heading>
+                    <Heading as="h2">{t('Bridge')}</Heading>
                   </AtomBox>
                   <Text color="textSubtle" fontSize="14px" textAlign="center">
-                    Transfer tokens between chains
+                    {t('Transfer tokens between chains')}
                   </Text>
                 </AtomBox>
                 <StyledBridgeBody>
-                  Home Chain
+                  {t('Home Chain')}
                   <Select
                     options={homeChainOptions}
                     onOptionChange={(option) => {
@@ -104,7 +106,7 @@ const Bridge = () => {
                     }}
                     value={chainId}
                   />
-                  Target Chain
+                  {t('Target Chain')}
                   <Select
                     options={targetChainOptions}
                     onOptionChange={(option) => {
@@ -146,12 +148,12 @@ const Bridge = () => {
                       scale="sm"
                     />
                     <Text ml="10px" style={{ userSelect: 'none' }} onClick={() => setToOtherAddress(!toOtherAddress)}>
-                      Send tokens to a different address
+                      {t('Send tokens to a different address')}
                     </Text>
                   </Flex>
                   {toOtherAddress && (
                     <Flex flexDirection="column">
-                      <Text>Recipient Address</Text>
+                      <Text>{t('Recipient Address')}</Text>
                       <Input
                         placeholder="0xXXXXXXXXXXXXXXX…"
                         value={recipient}
@@ -164,13 +166,13 @@ const Bridge = () => {
                   {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && tax.bridgeFeeCurrency && (
                     <>
                       <Flex justifyContent="space-between">
-                        <span>Transfer Amount</span>
+                        <span>{t('Transfer Amount')}</span>
                         <pre>
                           {formatAmount(depositAmount)} {currency.name}
                         </pre>
                       </Flex>
                       <Flex justifyContent="space-between">
-                        <span>Bridge Fee</span>
+                        <span>{t('Bridge Fee')}</span>
                         <pre>
                           {formatAmount(tax.bridgeFee ?? '0')} {tax.bridgeFeeCurrency.name}
                         </pre>

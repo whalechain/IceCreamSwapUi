@@ -12,6 +12,7 @@ import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { BigNumber, utils } from 'ethers'
 import { useActiveChainId } from 'hooks/useActiveChainId'
+import { useTranslation } from '@pancakeswap/localization'
 
 interface DepositModalProps {
   formValues: FormValues
@@ -35,6 +36,7 @@ const hasFeatures = (formValues: FormValues) => {
 type Steps = 'preview' | 'transfer' | 'completed'
 
 const CreateModal: React.FC<DepositModalProps> = (props) => {
+  const { t } = useTranslation()
   const { formValues } = props
   const [step, setStep] = useState<Steps>('preview')
   const { onDismiss } = useModalContext()
@@ -91,7 +93,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
     if (token) {
       addToken(token)
     } else {
-      console.error('No token found')
+      console.error(t('No token found'))
     }
   }, [addToken, token])
 
@@ -112,31 +114,31 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         </Text>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between">
-        <Text fontSize="1em">Initial Supply</Text>
+        <Text fontSize="1em">{t('Initial Supply')}</Text>
         <Text fontSize="1em">{formValues?.initialSupply}</Text>
       </Flex>
-      {hasFeatures(formValues) && <Heading>Features</Heading>}
+      {hasFeatures(formValues) && <Heading>{t('Features')}</Heading>}
       {formValues?.burnable && (
         <Flex alignItems="center" justifyContent="space-between">
-          <Text fontSize="1em">Burnable</Text>
-          <Text fontSize="1em">Yes</Text>
+          <Text fontSize="1em">{t('Burnable')}</Text>
+          <Text fontSize="1em">{t('Yes')}</Text>
         </Flex>
       )}
       {formValues?.mintable && (
         <>
           <Flex alignItems="center" justifyContent="space-between">
-            <Text fontSize="1em">Mintable</Text>
+            <Text fontSize="1em">{t('Mintable')}</Text>
             <Text fontSize="1em">Yes</Text>
           </Flex>
           <Flex alignItems="center" justifyContent="space-between">
-            <Text fontSize="1em">Max Supply</Text>
+            <Text fontSize="1em">{t('Max Supply')}</Text>
             <Text fontSize="1em">{formValues?.maxSupply}</Text>
           </Flex>
         </>
       )}
       {status === 'connected' ? (
         <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
-          Confirm
+          {t('Confirm')}
         </Button>
       ) : (
         <ConnectWalletButton />
@@ -148,14 +150,14 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
     <>
       <Text>Token created Successful!</Text>
       <Text display="inline" style={{ wordBreak: 'break-all' }}>
-        Token Address: {tokenAddress}
+        {t('Token Address')}: {tokenAddress}
       </Text>
-      <Text>What&apos;s next?</Text>
+      <Text>{t('What&apos;s next?')}</Text>
       <Button
         onClick={handleAddToken}
         disabled={userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress)}
       >
-        {userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress) ? 'Imported' : 'Import to Swap'}
+        {userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress) ? t('Imported') : t('Import to Swap')}
       </Button>
       <AddToWallet
         tokenAddress={tokenAddress!}
@@ -164,7 +166,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         tokenImage={formValues?.logo?.blob}
       />
       <Button onClick={handleDismiss} variant="secondary">
-        Close
+        {t('Close')}
       </Button>
     </>
   )
@@ -174,7 +176,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       <Flex justifyContent="center">
         <Spinner />
       </Flex>
-      <Text>Your Token is being created</Text>
+      <Text>{t('Your Token is being created')}</Text>
     </>
   )
 
@@ -185,7 +187,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   }
 
   return (
-    <Modal title="Creating Token" onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
+    <Modal title={t('Creating Token')} onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
       <Flex flexDirection="column" alignItems="stretch" style={{ gap: '1em' }}>
         {steps[step]}
       </Flex>

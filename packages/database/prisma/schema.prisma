@@ -98,3 +98,11 @@ model User {
   name      String
   Token     Token[]
 }
+
+model Airdrop {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  campaign  String
+  address   String
+  ip        String
+}

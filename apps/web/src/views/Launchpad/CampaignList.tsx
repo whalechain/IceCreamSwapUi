@@ -8,6 +8,7 @@ import rocket from './images/rocket.png'
 import Image from 'next/image'
 import { tokens } from '@pancakeswap/ui'
 import CampaignCardDummy from './components/CampaignCardDummy'
+import { useTranslation } from '@pancakeswap/localization'
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -47,6 +48,7 @@ const Rocket2 = styled.div`
 `
 
 const LaunchpadList: React.FC = () => {
+  const { t } = useTranslation()
   const campaigns = useCampaigns({})
   const { isDark } = useTheme()
 
@@ -66,9 +68,9 @@ const LaunchpadList: React.FC = () => {
           </Rocket>
           <Flex flexDirection="column">
             <H1 as="h1" color={tokens.colors.dark.secondary} scale="xxl">
-              Launchpad
+              {t('Launchpad')}
             </H1>
-            <H2 color="#F4EEFF">Be the first investing in new Projects</H2>
+            <H2 color="#F4EEFF">{t('Be the first investing in new projects')}</H2>
             <Filler />
           </Flex>
         </Flex>

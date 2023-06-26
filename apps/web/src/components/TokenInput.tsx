@@ -3,6 +3,7 @@ import { ChevronDownIcon, Flex, useModal, Text } from '@pancakeswap/uikit'
 import { CurrencySelectButton } from './CurrencyInputPanel'
 import { CurrencyLogo } from './Logo'
 import CurrencySearchModal from './SearchModal/CurrencySearchModal'
+import { useTranslation } from '@pancakeswap/localization'
 
 interface Props {
   onCurrencySelect?: (currency: Currency) => void
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const TokenInput: React.FC<Props> = (props) => {
+  const { t } = useTranslation()
   const { onCurrencySelect, currency, tokens, showNative, showCommonBases, commonBasesType, hideManage, disabled } =
     props
 
@@ -49,7 +51,7 @@ const TokenInput: React.FC<Props> = (props) => {
                 currency.symbol.length - 5,
                 currency.symbol.length,
               )}`
-            : currency?.symbol) || 'Select a Token'}
+            : currency?.symbol) || t('Select a Token')}
         </Text>
         {!disabled && <ChevronDownIcon />}
       </Flex>
