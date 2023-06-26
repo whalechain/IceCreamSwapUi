@@ -19,7 +19,7 @@ export const livePools: SerializedPoolConfig[] = [
     stakingToken: coreTokens.core,
     earningToken: coreTokens.core,
     contractAddress: {
-      1116: '0xb2AdB33483C4E551341e8704CceaaA0172Fb0C33',
+      1116: '0xc2B52FE5CC42826f4b222590Ef50CeE840d7a976',
     },
     poolCategory: PoolCategory.BINANCE_AUTO,
     tokenPerBlock: '0.000000003',
