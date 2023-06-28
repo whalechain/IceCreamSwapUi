@@ -64,6 +64,7 @@ export const multiChainScan = {
   XDC: 'XDCScan',
   CORE: 'CoreScan',
   XODEX: 'XODEXScan',
+  SHARDEUM_TEST: 'ShardeumTestnetScan',
 }
 
 export const multiChainTokenBlackList = {

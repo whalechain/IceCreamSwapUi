@@ -6,6 +6,7 @@ import { fuseTokens } from './122'
 import { xdcTokens } from './50'
 import { coreTokens } from "./1116";
 import { xodexTokens } from "./2415";
+import { shardeumTestnetTokens } from "./8081";
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
@@ -16,6 +17,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BSC]: bitgertTokens.usdti,  // todo: add proper BSC USDT
   [ChainId.CORE]: coreTokens.usdt,
   [ChainId.XODEX]: xodexTokens.usdt,
+  [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.usdt,
 }
 
 export const ICE: Record<ChainId, ERC20Token> = {
@@ -27,4 +29,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.BSC]: bitgertTokens.ice,  // todo: add proper BSC ICE
   [ChainId.CORE]: coreTokens.ice,
   [ChainId.XODEX]: xodexTokens.ice,
+  [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.ice,
 }

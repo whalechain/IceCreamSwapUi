@@ -7,4 +7,5 @@ export * from './122'
 export * from './50'
 export * from './1116'
 export * from './2415'
+export * from './8081'
 export const bscTokens = {} as any
