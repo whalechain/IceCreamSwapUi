@@ -56,39 +56,7 @@ const config: (
       href: '/swap',
       supportChainIds: SUPPORT_SWAP,
       showItemsOnMobile: false,
-      items: [
-        {
-          label: t('Swap'),
-          href: '/swap',
-        },
-        /*
-        {
-          label: t('Limit'),
-          href: '/limit-orders',
-          supportChainIds: SUPPORT_ONLY_BSC,
-          image: '/images/decorations/3d-coin.png',
-        },
-           */
-        {
-          label: t('Liquidity'),
-          href: '/liquidity',
-        },
-        /*
-        {
-          label: t('Perpetual'),
-          href: `https://perp.icecreamswap.com/${perpLangMap(languageCode)}/futures/BTCUSDT?theme=${perpTheme(
-            isDark,
-          )}`,
-          supportChainIds: SUPPORT_ONLY_BSC,
-          type: DropdownMenuItemType.EXTERNAL_LINK,
-        },
-        {
-          label: t('Bridge'),
-          href: 'https://bridge.icecreamswap.com/',
-          type: DropdownMenuItemType.EXTERNAL_LINK,
-        },
-           */
-      ].map((item) => addMenuItemSupported(item, chainId)),
+      items: [],
     },
     {
       label: t('Earn'),
@@ -99,6 +67,10 @@ const config: (
       showItemsOnMobile: false,
       supportChainIds: [...SUPPORT_FARMS, ...SUPPORT_STAKING],
       items: [
+        {
+          label: t('Liquidity'),
+          href: '/liquidity',
+        },
         {
           label: t('Liquidity Farms'),
           href: '/farms',
