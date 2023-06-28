@@ -150,7 +150,7 @@ export default function AkkaSwapCommitButton({
         width="100%"
         disabled
       >
-        Finding the best route ...
+        {t('Finding the best route ...')}
       </CommitButton>
     )
   }

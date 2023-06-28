@@ -9,6 +9,7 @@ import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useLocks } from '../hooks'
 import { useRouter } from 'next/router'
 import { renderDate } from '../../../utils/renderDate'
+import { useTranslation } from '@pancakeswap/localization'
 
 interface DepositModalProps {
   amount: CurrencyAmount<Currency>
@@ -17,6 +18,7 @@ interface DepositModalProps {
 }
 
 const CreateModal: React.FC<DepositModalProps> = (props) => {
+  const { t } = useTranslation()
   const { amount, startingDate, duration } = props
   const [finished, setFinished] = useState(false)
   const locks = useLocks()
@@ -52,7 +54,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
           <CurrencyLogo currency={amount.currency} />
-          <span>Amount</span>
+          <span>{t('Amount')}</span>
         </Text>
         <Text fontSize="1em">
           {formatAmount(amount.toExact())} {amount?.currency?.symbol}
@@ -60,14 +62,14 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       </Flex>
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
-          Claimable starting at
+          {t('Claimable starting at')}
         </Text>
         <Text fontSize="1em">{renderDate(startingDate.getTime())}</Text>
       </Flex>
       {duration ? (
         <Flex alignItems="center" justifyContent="space-between">
           <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
-            Claimable ending at
+            {t(' Claimable ending at')}
           </Text>
           <Text fontSize="1em">{renderDate(startingDate.getTime() + duration * 1000)}</Text>
         </Flex>
@@ -81,10 +83,10 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
               disabled={approvalState !== ApprovalState.NOT_APPROVED}
               isLoading={approvalState === ApprovalState.PENDING}
             >
-              Approve
+              {t('Approve')}
             </Button>
             <Button style={{ flexGrow: 1 }} onClick={handleDeposit} disabled={approvalState !== ApprovalState.APPROVED}>
-              Confirm
+              {t('Confirm')}
             </Button>
           </Flex>
           <Column style={{ marginTop: '1rem' }}>
@@ -93,7 +95,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         </>
       ) : (
         <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
-          Confirm
+          {t('Confirm')}
         </Button>
       )}
     </>
@@ -101,15 +103,15 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
 
   const transferCompleted = (
     <>
-      <Text>The Lock has been created!</Text>
-      <Button onClick={handleDismiss}>Close</Button>
+      <Text>{t('The lock has been created!')}</Text>
+      <Button onClick={handleDismiss}>{t('Close')}</Button>
     </>
   )
 
   const content = finished ? transferCompleted : preview
 
   return (
-    <Modal title="Creating Lock" onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
+    <Modal title={t('Creating Lock')} onDismiss={handleDismiss} minWidth="min(100vw, 426px)">
       <Flex flexDirection="column" alignItems="stretch" style={{ gap: '1em' }}>
         {content}
       </Flex>
