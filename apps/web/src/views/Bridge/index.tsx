@@ -139,29 +139,33 @@ const Bridge = () => {
                     />
                     {formErrors.currency && <FormError>{formErrors.currency}</FormError>}
                   </div>
-                  <Flex alignItems="center">
-                    <Checkbox
-                      name="own-address"
-                      type="checkbox"
-                      checked={toOtherAddress}
-                      onChange={() => setToOtherAddress(!toOtherAddress)}
-                      scale="sm"
-                    />
-                    <Text ml="10px" style={{ userSelect: 'none' }} onClick={() => setToOtherAddress(!toOtherAddress)}>
-                      {t('Send tokens to a different address')}
-                    </Text>
-                  </Flex>
-                  {toOtherAddress && (
-                    <Flex flexDirection="column">
-                      <Text>{t('Recipient Address')}</Text>
-                      <Input
-                        placeholder="0xXXXXXXXXXXXXXXX…"
-                        value={recipient}
-                        onChange={(e) => setRecipient(e.target.value)}
+                  {
+                    /*
+                    <Flex alignItems="center">
+                      <Checkbox
+                        name="own-address"
+                        type="checkbox"
+                        checked={toOtherAddress}
+                        onChange={() => setToOtherAddress(!toOtherAddress)}
+                        scale="sm"
                       />
-                      {formErrors.recipient && <FormError>{formErrors.recipient}</FormError>}
+                      <Text ml="10px" style={{ userSelect: 'none' }} onClick={() => setToOtherAddress(!toOtherAddress)}>
+                        {t('Send tokens to a different address')}
+                      </Text>
                     </Flex>
+                    {toOtherAddress && (
+                      <Flex flexDirection="column">
+                        <Text>{t('Recipient Address')}</Text>
+                        <Input
+                          placeholder="0xXXXXXXXXXXXXXXX…"
+                          value={recipient}
+                          onChange={(e) => setRecipient(e.target.value)}
+                        />
+                        {formErrors.recipient && <FormError>{formErrors.recipient}</FormError>}
+                      </Flex>
                   )}
+                    */
+                  }
                   <Divider margin="0px" />
                   {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && tax.bridgeFeeCurrency && (
                     <>
