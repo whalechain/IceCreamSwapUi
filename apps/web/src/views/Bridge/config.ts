@@ -111,6 +111,13 @@ const chains = [
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
         resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
       },
+      {
+        address: '0x0938a5d325A8496c186Cf122946e9dD22f8a625b',
+        name: 'Digital Files',
+        symbol: 'DIFI',
+        imageUri: 'https://www.bscscan.com/token/images/difi_32.png?v=093',
+        resourceId: '0x00000000000000000000000938a5d325A8496c186Cf122946e9dD22f8a625b01',
+      },
     ],
   },
   {
@@ -689,6 +696,13 @@ const chains = [
         symbol: '$3DC',
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0x979A34f98b9a1bF2B38fD18f5c038423e4902db9/logo.png',
         resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
+      },
+      {
+        address: '0x2C291980Eeabd3571cEE64e76e8c481E773919Ac',
+        name: 'Digital Files',
+        symbol: 'DIFI',
+        imageUri: 'https://www.bscscan.com/token/images/difi_32.png?v=093',
+        resourceId: '0x00000000000000000000000938a5d325A8496c186Cf122946e9dD22f8a625b01',
       },
     ],
   },
