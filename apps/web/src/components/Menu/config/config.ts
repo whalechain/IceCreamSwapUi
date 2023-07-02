@@ -270,7 +270,7 @@ const config: (
         },
         {
           label: t('Wiki'),
-          href: 'https://wiki.icecreamswap.com',
+          href: languageCode === 'zh-cn' ? 'https://wiki.icecreamswap.com/v/zh' : 'https://wiki.icecreamswap.com',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
         // {
