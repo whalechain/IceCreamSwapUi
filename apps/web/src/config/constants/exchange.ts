@@ -1,4 +1,4 @@
-import {ChainId, JSBI, Percent, Token} from '@pancakeswap/sdk'
+import { ChainId, JSBI, Percent, Token } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 import {
   bitgertTokens,
@@ -17,6 +17,7 @@ export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4
 export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0x25507a7323b04FD2687E72875aC4456C95782915'
 export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0x8AB50AC5b3Ce4436Ad15EBA720a6e6264D3321A8'
 export const ROUTER_ADDRESS_COMMON_AKKA_CORE = '0x5f3B7b49c5763045a6571dEe9A2b13ccd2407daA'
+export const ROUTER_ADDRESS_COMMON_AKKA_TELOS = '0x67770F918D1F7Fac8eaA2266977bA81D8F46d300'
 
 export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   [ChainId.BITGERT]: {
@@ -51,6 +52,7 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   },
   [ChainId.TELOS]: {
     Icecream: ROUTER_ADDRESS_COMMON,
+    Akka: ROUTER_ADDRESS_COMMON_AKKA_TELOS,
   },
 }
 
