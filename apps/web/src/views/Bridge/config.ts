@@ -749,6 +749,33 @@ const chains = [
       },
     ],
   },
+  {
+    domainId: 9,
+    networkId: 40,
+    name: 'Telos',
+    decimals: 18,
+    bridgeAddress: '0xce6c9c70f91c6797873EFC80505f972290A88f5D',
+    rpcUrl: 'https://mainnet.telos.net/evm',
+    type: 'Ethereum',
+    nativeTokenSymbol: 'TLOS',
+    tokens: [
+      {
+        address: '0xB25cB6a275a8D6a613228FB161eB3627b50EB696',
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0xc57F0eb99363e747D637B17BBdB4e1AB85e60631',
+        name: 'Tether USD',
+        symbol: 'USDT',
+        imageUri:
+            'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
+        resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+    ],
+  },
 ]
 
 export type BridgeChain = typeof chains[number]

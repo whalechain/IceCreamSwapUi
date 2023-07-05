@@ -7,8 +7,9 @@ import { fuse } from './fuse'
 import { xdc } from './xdc'
 import { xodex } from "./xodex";
 import { shardeumTestnet } from "./shardeumTestnet";
+import { telos } from "./telos";
 
-export const chainMap = { bitgert, bsc, core, dogechain, dokenchain, fuse, xdc, xodex, shardeumTestnet }
+export const chainMap = { core, bitgert, bsc, xdc, telos, dogechain, fuse, xodex, dokenchain, shardeumTestnet }
 export const chains = Object.values(chainMap)
 
 export const getChain = (chainId: number) => {
@@ -16,13 +17,14 @@ export const getChain = (chainId: number) => {
 }
 
 export enum ChainId {
+  CORE = core.id,
   BITGERT = bitgert.id,
   BSC = bsc.id,
-  CORE = core.id,
-  DOGE = dogechain.id,
-  DOKEN = dokenchain.id,
-  FUSE = fuse.id,
   XDC = xdc.id,
+  TELOS = telos.id,
+  DOGE = dogechain.id,
+  FUSE = fuse.id,
   XODEX = xodex.id,
+  DOKEN = dokenchain.id,
   SHARDEUM_TEST = shardeumTestnet.id,
 }
