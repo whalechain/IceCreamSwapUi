@@ -2,7 +2,16 @@ import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
-import { Flex, CardFooter, ExpandableLabel, HelpIcon, useTooltip, Farm as FarmUI, Pool } from '@pancakeswap/uikit'
+import {
+  Flex,
+  CardFooter,
+  ExpandableLabel,
+  HelpIcon,
+  useTooltip,
+  Farm as FarmUI,
+  Pool,
+  PoolCategory
+} from '@pancakeswap/uikit'
 import { Token } from '@pancakeswap/sdk'
 import PoolStatsInfo from '../../PoolStatsInfo'
 
@@ -30,16 +39,17 @@ const ExpandedWrapper = styled(Flex)`
 `
 
 const Footer: React.FC<React.PropsWithChildren<FooterProps>> = ({ pool, account, defaultExpanded, children }) => {
-  const { vaultKey } = pool
+  const { vaultKey, poolCategory } = pool
   const { t } = useTranslation()
   const [isExpanded, setIsExpanded] = useState(defaultExpanded || false)
+  const isAuto = vaultKey || poolCategory === PoolCategory.AUTO || poolCategory === PoolCategory.BINANCE_AUTO
 
   const manualTooltipText = t('You must harvest and compound your earnings from this pool manually.')
   const autoTooltipText = t(
     'Rewards are distributed and included into your staking balance automatically. There’s no need to manually compound your rewards.',
   )
 
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(vaultKey ? autoTooltipText : manualTooltipText, {
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(isAuto ? autoTooltipText : manualTooltipText, {
     placement: 'bottom',
   })
 
@@ -47,7 +57,7 @@ const Footer: React.FC<React.PropsWithChildren<FooterProps>> = ({ pool, account,
     <CardFooter>
       <ExpandableButtonWrapper>
         <Flex alignItems="center">
-          {vaultKey ? <CompoundingPoolTag /> : <ManualPoolTag />}
+          {isAuto ? <CompoundingPoolTag /> : <ManualPoolTag />}
           {tooltipVisible && tooltip}
           <Flex ref={targetRef}>
             <HelpIcon ml="4px" width="20px" height="20px" color="textSubtle" />

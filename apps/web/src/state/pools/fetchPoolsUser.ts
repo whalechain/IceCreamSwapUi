@@ -3,15 +3,17 @@ import sousChefABI from '../../config/abi/sousChef.json'
 import erc20ABI from '../../config/abi/erc20.json'
 import multicall from '../../utils/multicall'
 import { getAddress } from '../../utils/addressHelpers'
-import { bscRpcProvider } from '../../utils/providers'
 import BigNumber from 'bignumber.js'
 import uniq from 'lodash/uniq'
 import fromPairs from 'lodash/fromPairs'
+import {PoolCategory} from "../../config/constants/types";
+import {StaticJsonRpcProvider} from "@ethersproject/providers";
+import { getChain } from '@icecreamswap/constants'
 
 // Pool 0, Cake / Cake is a different kind of contract (master chef)
 // BNB pools use the native BNB token (wrapping ? unwrapping is done at the contract level)
-const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
-const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
+const nonBnbPools = poolsConfig.filter((pool) => pool.poolCategory !== PoolCategory.BINANCE && pool.poolCategory !== PoolCategory.BINANCE_AUTO)
+const bnbPools = poolsConfig.filter((pool) => pool.poolCategory === PoolCategory.BINANCE || pool.poolCategory === PoolCategory.BINANCE_AUTO)
 const nonMasterPools = poolsConfig.filter((pool) => pool.sousId !== 0)
 
 export const fetchPoolsAllowance = async (account, chainId) => {
@@ -43,7 +45,7 @@ export const fetchUserBalances = async (account, chainId) => {
   }))
   const [tokenBalancesRaw, bnbBalance] = await Promise.all([
     multicall(erc20ABI, calls, chainId),
-    bscRpcProvider.getBalance(account),
+      new StaticJsonRpcProvider(getChain(chainId).rpcUrls.default).getBalance(account),
   ])
   const tokenBalances = fromPairs(tokens.map((token, index) => [token, tokenBalancesRaw[index]]))
 

@@ -202,7 +202,7 @@ export const fetchPoolsPublicDataAsync =
           const earningTokenAddress = isAddress(pool.earningToken.address)
           const earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
           const apr = !isPoolFinished
-            ? getPoolApr(
+            ?pool.fixedApr && parseFloat(pool.fixedApr) || getPoolApr(
                 stakingTokenPrice,
                 earningTokenPrice,
                 getBalanceNumber(new BigNumber(totalStaking.totalStaked), pool.stakingToken.decimals),

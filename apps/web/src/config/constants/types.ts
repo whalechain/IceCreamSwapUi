@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Token, ChainId } from '@pancakeswap/sdk'
 import { SerializedWrappedToken } from '@pancakeswap/token-lists'
 import type { SerializedFarmConfig, FarmConfigBaseProps } from '@pancakeswap/farms'
+import { PoolCategory } from "@pancakeswap/uikit"
 
 // a list of tokens by chain
 export type ChainMap<T> = {
@@ -69,12 +70,7 @@ export interface Ifo {
   [PoolIds.poolUnlimited]: IfoPoolInfo
 }
 
-export enum PoolCategory {
-  'COMMUNITY' = 'Community',
-  'CORE' = 'Core',
-  'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
-  'AUTO' = 'Auto',
-}
+export { PoolCategory }
 
 export type { SerializedFarmConfig, FarmConfigBaseProps }
 
@@ -82,7 +78,8 @@ interface PoolConfigBaseProps {
   sousId: number
   contractAddress: Address
   poolCategory: PoolCategory
-  tokenPerBlock: string
+  tokenPerBlock?: string
+  fixedApr?: string
   isFinished?: boolean
   enableEmergencyWithdraw?: boolean
   version?: number
