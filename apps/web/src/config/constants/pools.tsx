@@ -15,7 +15,7 @@ export const livePools: SerializedPoolConfig[] = [
   // souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
   {
-    sousId: 31,
+    sousId: 35,
     stakingToken: coreTokens.core,
     earningToken: coreTokens.core,
     contractAddress: {
