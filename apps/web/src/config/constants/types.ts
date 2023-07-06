@@ -77,7 +77,8 @@ interface PoolConfigBaseProps {
   sousId: number
   contractAddress: Address
   poolCategory: PoolCategory
-  tokenPerBlock: string
+  tokenPerBlock?: string
+  fixedApr?: string
   isFinished?: boolean
   enableEmergencyWithdraw?: boolean
   version?: number
