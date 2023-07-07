@@ -22,7 +22,7 @@ const DropDownListContainer = styled.div`
   min-width: 136px;
   height: 0;
   position: absolute;
-  overflow: hidden;
+  overflow: auto;
   background: ${({ theme }) => theme.colors.input};
   z-index: ${({ theme }) => theme.zIndices.dropdown + 100};
   transition: transform 0.15s, opacity 0.15s;
@@ -30,6 +30,7 @@ const DropDownListContainer = styled.div`
   transform-origin: top;
   opacity: 0;
   width: 100%;
+  max-height: 200px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     min-width: 168px;
