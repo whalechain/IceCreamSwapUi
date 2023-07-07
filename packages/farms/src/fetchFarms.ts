@@ -46,6 +46,11 @@ const evmNativeStableLpMap = {
     wNative: 'WXODEX',
     stable: 'USDT',
   },
+  [ChainId.TELOS]: {
+    address: '0x86CA8345bDa0D6052E93f07BE4dcC680Af927d53',
+    wNative: 'WTLOS',
+    stable: 'USDT',
+  },
 }
 
 export const getTokenAmount = (balance: FixedNumber, decimals: number) => {
