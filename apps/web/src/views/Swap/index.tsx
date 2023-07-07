@@ -38,8 +38,10 @@ import { useBalance } from 'wagmi'
 import chainName from 'config/constants/chainName'
 import { captureMessage } from '@sentry/nextjs'
 import { akkaAlternateActive } from 'state/global/actions'
+import { useTranslation } from '@pancakeswap/localization'
 
 export default function Swap() {
+  const { t } = useTranslation()
   const { isMobile } = useMatchBreakpoints()
   const { isChartExpanded, isChartDisplayed, setIsChartDisplayed, setIsChartExpanded, isChartSupported } =
     useContext(SwapFeaturesContext)
@@ -106,11 +108,11 @@ export default function Swap() {
       {isConnectedAndHasNoBalance && (
         <Message variant="info" mb="16px">
           <span>
-            It looks like you don&apos;t have any {chainName[walletChainId]} tokens. Simply{'  '}
+            {t("It looks like you don't have any %chain% tokens. Simply", {chain: chainName[walletChainId]})}{' '}
             <Link href="/bridge" display="inline-flex">
-              bridge
+              {t('bridge')}
             </Link>{' '}
-            any token to {chainName[walletChainId]} and recieve a free gasdrop.
+            {t('any token to %chain% and recieve a free gasdrop.', {chain: chainName[walletChainId]})}
           </span>
         </Message>
       )}
