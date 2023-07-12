@@ -22,7 +22,7 @@ export const livePools: SerializedPoolConfig[] = [
       1116: '0xFd072F40E17070f975890D1772d6fdC7Cb44a63b',
     },
     poolCategory: PoolCategory.BINANCE_AUTO,
-    fixedApr: '28.0',
+    fixedApr: '26.0',
     version: 2,
   },
   {
