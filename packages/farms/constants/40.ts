@@ -23,6 +23,7 @@ const farms: SerializedFarmConfig[] = [
     token: telosTokens.wtlos,
     quoteToken: telosTokens.usdt,
   },
+  /*
   {
     pid: 2,
     lpSymbol: 'TLOS-USDT(Multichain.org) LP',
@@ -30,6 +31,7 @@ const farms: SerializedFarmConfig[] = [
     token: telosTokens.wtlos,
     quoteToken: telosTokens.usdt_m,
   }
+   */
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default farms
