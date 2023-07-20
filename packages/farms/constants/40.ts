@@ -29,6 +29,13 @@ const farms: SerializedFarmConfig[] = [
     lpAddress: '0x722A5e8adbCD9929ebe8Bc6BE916F827823Ae65e',
     token: telosTokens.usdt_m,
     quoteToken: telosTokens.wtlos,
+  },
+  {
+    pid: 4,
+    lpSymbol: 'TLOS-USDC(Multichain.org) LP',
+    lpAddress: '0xAC58b49eB3B74F0FF14833C1c1aA100a453929a8',
+    token: telosTokens.usdc_m,
+    quoteToken: telosTokens.wtlos,
   }
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
