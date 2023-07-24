@@ -37,6 +37,28 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
+    sousId: 37,
+    stakingToken: coreTokens.block,
+    earningToken: coreTokens.block,
+    contractAddress: {
+      1116: '0xdf3ab9de4f88c6cdf922e4e6dd23ea58412d9b1b',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.399106',
+    version: 2,
+  },
+  {
+    sousId: 38,
+    stakingToken: coreTokens.musk,
+    earningToken: coreTokens.musk,
+    contractAddress: {
+      1116: '0xdf276b139fb7f8637ecdffb2e28c2bc824c4c2eb',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.26340996',
+    version: 2,
+  },
+  {
     sousId: 25,
     stakingToken: coreTokens.ucore,
     earningToken: coreTokens.ucore,
