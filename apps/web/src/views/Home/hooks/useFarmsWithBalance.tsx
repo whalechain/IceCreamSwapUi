@@ -10,7 +10,7 @@ import { useFarmsLength } from 'state/farms/hooks'
 import { getFarmConfig } from '@pancakeswap/farms/constants'
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { useBCakeProxyContract, useMasterchef, useMasterchefV3 } from 'hooks/useContract'
-import { CAKE } from '@pancakeswap/tokens'
+import { ICE } from '@pancakeswap/tokens'
 import { useMemo } from 'react'
 import { useStakedPositionsByUser } from 'state/farmsV3/hooks'
 import { useV3TokenIdsByAccount } from 'hooks/v3/useV3Positions'
@@ -56,7 +56,7 @@ const useFarmsWithBalance = () => {
       contract.address !== masterChefContract.address && bCakeProxy
         ? {
             abi: cakeAbi,
-            address: CAKE[chainId].address,
+            address: ICE[chainId].address,
             name: 'balanceOf',
             params: [bCakeProxy.address],
           }

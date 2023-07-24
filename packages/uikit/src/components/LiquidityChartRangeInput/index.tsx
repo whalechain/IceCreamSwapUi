@@ -16,7 +16,6 @@ import { ZoomLevels, Bound, TickDataRaw } from "./types";
 import { AutoColumn } from "../Column";
 import Loader from "./Loader";
 import { ChartDisableIcon, LineGraphIcon } from "../Svg";
-import { BunnyKnownPlaceholder } from "../BunnyKnownPlaceholder";
 
 const ZOOM_LEVELS: Record<FeeAmount, ZoomLevels> = {
   [FeeAmount.LOWEST]: {
@@ -170,7 +169,7 @@ export function LiquidityChartRangeInput({
   return (
     <AutoColumn gap="md" style={{ minHeight: "200px", width: "100%", marginBottom: "16px" }}>
       {isUninitialized ? (
-        <InfoBox message={t("Your position will appear here.")} icon={<BunnyKnownPlaceholder />} />
+        <InfoBox message={t("Your position will appear here.")} icon={null} />
       ) : isLoading ? (
         <InfoBox icon={<Loader size="40px" stroke={theme.colors.text} />} />
       ) : error ? (

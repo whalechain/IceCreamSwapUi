@@ -7,7 +7,7 @@ import { FAST_INTERVAL } from 'config/constants'
 import useSWRImmutable from 'swr/immutable'
 import { getFarmConfig } from '@pancakeswap/farms/constants'
 import { Pool } from '@pancakeswap/uikit'
-import {ChainId, Token, WETH9} from '@pancakeswap/sdk'
+import { ChainId, Token, WETH9 } from '@pancakeswap/sdk'
 import { USD, ICE } from '@pancakeswap/tokens'
 import { getLivePoolsConfig } from '@pancakeswap/pools'
 
@@ -42,7 +42,6 @@ import {
 
 // Only fetch farms for live pools
 const getActiveFarms = async (chainId: number) => {
-  const farmsConfig = await getFarmConfig(chainId)
   const weth = WETH9[chainId]
   const usd = USD[chainId]
   const ice = ICE[chainId]
@@ -52,7 +51,7 @@ const getActiveFarms = async (chainId: number) => {
   const lPoolAddresses = livePools
     .filter(({ sousId }) => sousId !== 0)
     .map(({ earningToken, stakingToken }) => {
-      if (earningToken.symbol === 'CAKE') {
+      if (earningToken.symbol === 'ICE') {
         return stakingToken.address
       }
       return earningToken.address
@@ -61,9 +60,9 @@ const getActiveFarms = async (chainId: number) => {
   return farmsConfig
     .filter(
       ({ token, pid, quoteToken }) =>
-        ((token.symbol === ice.symbol && quoteToken.symbol === weth.symbol) ||
-          (token.symbol === usd.symbol && quoteToken.symbol === weth.symbol) ||
-          lPoolAddresses.find((poolAddress) => poolAddress === token.address)),
+        (token.symbol === ice.symbol && quoteToken.symbol === weth.symbol) ||
+        (token.symbol === usd.symbol && quoteToken.symbol === weth.symbol) ||
+        lPoolAddresses.find((poolAddress) => poolAddress === token.address),
     )
     .map((farm) => farm.pid)
 }
@@ -77,8 +76,8 @@ const getCakePriceFarms = async (chainId: number) => {
   return farmsConfig
     .filter(
       ({ token, pid, quoteToken }) =>
-        ((token.symbol === ice.symbol && quoteToken.symbol === weth.symbol) ||
-          (token.symbol === usd.symbol && quoteToken.symbol === weth.symbol)),
+        (token.symbol === ice.symbol && quoteToken.symbol === weth.symbol) ||
+        (token.symbol === usd.symbol && quoteToken.symbol === weth.symbol),
     )
     .map((farm) => farm.pid)
 }
@@ -148,7 +147,7 @@ export const usePoolsPageFetch = () => {
         }
       })
     }
-  }, [account, chainId, dispatch, chainId])
+  }, [account, chainId, dispatch])
 
   useEffect(() => {
     if (chainId) {
@@ -164,7 +163,6 @@ export const useCakeVaultUserData = () => {
   const { address: account } = useAccount()
   const { chainId } = useActiveChainId()
   const dispatch = useAppDispatch()
-  const { chainId } = useActiveChainId()
 
   useFastRefreshEffect(() => {
     if (account && chainId) {
@@ -175,7 +173,6 @@ export const useCakeVaultUserData = () => {
 
 export const useCakeVaultPublicData = (chainId: ChainId) => {
   const dispatch = useAppDispatch()
-  const { chainId } = useActiveChainId()
   useFastRefreshEffect(() => {
     if (chainId) {
       dispatch(fetchCakeVaultPublicData(chainId))

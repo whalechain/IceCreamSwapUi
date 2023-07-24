@@ -165,14 +165,6 @@ export function useSwapCallback(
               },
               type: 'swap',
             })
-            logSwap({
-              chainId,
-              inputAmount,
-              outputAmount,
-              input: trade.inputAmount.currency,
-              output: trade.outputAmount.currency,
-              type: 'MarketMakerSwap',
-            })
             logTx({ account, chainId, hash: response.hash })
 
             return response.hash

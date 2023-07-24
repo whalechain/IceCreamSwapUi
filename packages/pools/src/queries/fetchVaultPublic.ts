@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { ChainId } from '@pancakeswap/sdk'
-import { CAKE } from '@pancakeswap/tokens'
+import { ICE } from '@pancakeswap/tokens'
 import { createMulticall } from '@pancakeswap/multicall'
 
 import cakeAbi from '../abis/Cake.json'
@@ -29,7 +29,7 @@ export const fetchPublicVaultData = async ({
 
     const cakeBalanceOfCall = {
       abi: cakeAbi,
-      address: CAKE[ChainId.BSC].address,
+      address: ICE[ChainId.BSC].address,
       name: 'balanceOf',
       params: [cakeVaultAddress],
     }
@@ -74,7 +74,7 @@ export const fetchPublicFlexibleSideVaultData = async ({
 
     const cakeBalanceOfCall = {
       abi: cakeAbi,
-      address: CAKE[ChainId.BSC].address,
+      address: ICE[ChainId.BSC].address,
       name: 'balanceOf',
       params: [cakeVaultAddress],
     }

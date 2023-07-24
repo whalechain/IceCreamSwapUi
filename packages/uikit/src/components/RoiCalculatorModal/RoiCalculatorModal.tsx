@@ -16,7 +16,7 @@ import { Text } from "../Text";
 import { HelpIcon } from "../Svg";
 import { Button } from "../Button";
 import { Checkbox } from "../Checkbox";
-import { Modal } from "../../widgets/Modal";
+import Modal from "../../widgets/Modal/Modal";
 import { BalanceInput } from "../BalanceInput";
 import { useTooltip } from "../../hooks/useTooltip";
 import { ButtonMenu, ButtonMenuItem } from "../ButtonMenu";
@@ -122,13 +122,13 @@ const RoiCalculatorModal: React.FC<React.PropsWithChildren<RoiCalculatorModalPro
   const balanceInputRef = useRef<HTMLInputElement | null>(null);
 
   const lpRewardsAPR = useMemo(
-      () =>
-          isFarm && apr
-              ? Number.isFinite(Number(displayApr)) && Number.isFinite(apr)
-                  ? Math.max(Number(displayApr) - apr, 0)
-                  : null
-              : null,
-      [isFarm, displayApr, apr]
+    () =>
+      isFarm && apr
+        ? Number.isFinite(Number(displayApr)) && Number.isFinite(apr)
+          ? Math.max(Number(displayApr) - apr, 0)
+          : null
+        : null,
+    [isFarm, displayApr, apr]
   );
 
   const {

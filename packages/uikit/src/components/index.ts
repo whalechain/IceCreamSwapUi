@@ -60,7 +60,6 @@ export * from "./LangSelector";
 export * from "./ReactMarkdown";
 export * from "./DateStep";
 export * from "./ReleasedChart";
-export * from "./BunnyKnownPlaceholder";
 export * from "./DropdownMenu";
 export * from "./LiquidityChartRangeInput";
 export * from "./CurrencyInput";

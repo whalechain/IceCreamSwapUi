@@ -29,13 +29,13 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   // [ChainId.ETHEREUM]: [WNATIVE[ChainId.ETHEREUM], USDC[ChainId.ETHEREUM], USDT[ChainId.ETHEREUM], WBTC_ETH],
   // [ChainId.GOERLI]: [WNATIVE[ChainId.GOERLI], USDC[ChainId.GOERLI], BUSD[ChainId.GOERLI]],
   [ChainId.BSC]: [
-    bscTokens.wbnb,
-    bscTokens.cake,
-    bscTokens.busd,
-    bscTokens.usdt,
-    bscTokens.btcb,
-    bscTokens.eth,
-    bscTokens.usdc,
+    // bscTokens.wbnb,
+    // bscTokens.cake,
+    // bscTokens.busd,
+    // bscTokens.usdt,
+    // bscTokens.btcb,
+    // bscTokens.eth,
+    // bscTokens.usdc,
   ],
   // [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.cake, bscTestnetTokens.busd],
 }
@@ -49,18 +49,16 @@ export const ADDITIONAL_BASES: {
 } = {
   [ChainId.BSC]: {
     // SNFTS-SFUND
-    [bscTokens.snfts.address]: [bscTokens.sfund],
-
-    [bscTokens.ankr.address]: [bscTokens.ankrbnb],
-    [bscTokens.ankrbnb.address]: [bscTokens.ankrETH, bscTokens.ankr],
-    [bscTokens.ankrETH.address]: [bscTokens.ankrbnb],
-
-    // REVV - EDU
-    [bscTokens.revv.address]: [bscTokens.edu],
-    [bscTokens.edu.address]: [bscTokens.revv],
-    // unshETH - USH
-    [bscTokens.unshETH.address]: [bscTokens.ush],
-    [bscTokens.ush.address]: [bscTokens.unshETH],
+    // [bscTokens.snfts.address]: [bscTokens.sfund],
+    // [bscTokens.ankr.address]: [bscTokens.ankrbnb],
+    // [bscTokens.ankrbnb.address]: [bscTokens.ankrETH, bscTokens.ankr],
+    // [bscTokens.ankrETH.address]: [bscTokens.ankrbnb],
+    // // REVV - EDU
+    // [bscTokens.revv.address]: [bscTokens.edu],
+    // [bscTokens.edu.address]: [bscTokens.revv],
+    // // unshETH - USH
+    // [bscTokens.unshETH.address]: [bscTokens.ush],
+    // [bscTokens.ush.address]: [bscTokens.unshETH],
   },
   // [ChainId.ETHEREUM]: {
   //   // alETH - ALCX
@@ -78,7 +76,7 @@ export const CUSTOM_BASES: {
   [chainId in ChainId]?: { [tokenAddress: string]: Token[] }
 } = {
   [ChainId.BSC]: {
-    [bscTokens.axlusdc.address]: [bscTokens.usdt],
+    // [bscTokens.axlusdc.address]: [bscTokens.usdt],
   },
 }
 
@@ -100,7 +98,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   //   WBNB[ChainId.ETHEREUM],
   // ],
   // [ChainId.GOERLI]: [USDC[ChainId.GOERLI], WNATIVE[ChainId.GOERLI], BUSD[ChainId.GOERLI]],
-  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.dai, bscTokens.busd, bscTokens.usdt, bscTokens.cake],
+  // [ChainId.BSC]: [bscTokens.wbnb, bscTokens.dai, bscTokens.busd, bscTokens.usdt, bscTokens.cake],
   // [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.cake, bscTestnetTokens.busd],
 }
 
@@ -114,9 +112,9 @@ export const PINNED_PAIRS: {
   //   [WBNB[ChainId.ETHEREUM], USDT[ChainId.ETHEREUM]],
   //   [WBNB[ChainId.ETHEREUM], WNATIVE[ChainId.ETHEREUM]],
   // ],
-  [ChainId.BSC]: [
-    [bscTokens.cake, bscTokens.wbnb],
-    [bscTokens.busd, bscTokens.usdt],
-    [bscTokens.dai, bscTokens.usdt],
-  ],
+  // [ChainId.BSC]: [
+  //   [bscTokens.cake, bscTokens.wbnb],
+  //   [bscTokens.busd, bscTokens.usdt],
+  //   [bscTokens.dai, bscTokens.usdt],
+  // ],
 }

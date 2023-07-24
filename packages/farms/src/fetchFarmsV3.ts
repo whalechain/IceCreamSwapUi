@@ -1,6 +1,6 @@
 import { Call, MultiCallV2 } from '@pancakeswap/multicall'
 import { ChainId, ERC20Token } from '@pancakeswap/sdk'
-import { CAKE } from '@pancakeswap/tokens'
+import { ICE } from '@pancakeswap/tokens'
 import { tickToPrice } from '@pancakeswap/v3-sdk'
 import BN from 'bignumber.js'
 import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
@@ -437,18 +437,18 @@ export function getFarmsPrices(
       tokenPriceBusd = new BN(commonPrice[farm.token.address])
     }
 
-    // try price via CAKE
+    // try price via ICE
     if (
       tokenPriceBusd.isZero() &&
-      farm.token.chainId in CAKE &&
-      farm.token.equals(CAKE[farm.token.chainId as keyof typeof CAKE])
+      farm.token.chainId in ICE &&
+      farm.token.equals(ICE[farm.token.chainId as keyof typeof ICE])
     ) {
       tokenPriceBusd = new BN(cakePriceUSD)
     }
     if (
       quoteTokenPriceBusd.isZero() &&
-      farm.quoteToken.chainId in CAKE &&
-      farm.quoteToken.equals(CAKE[farm.quoteToken.chainId as keyof typeof CAKE])
+      farm.quoteToken.chainId in ICE &&
+      farm.quoteToken.equals(ICE[farm.quoteToken.chainId as keyof typeof ICE])
     ) {
       quoteTokenPriceBusd = new BN(cakePriceUSD)
     }

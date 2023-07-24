@@ -76,7 +76,7 @@ export const BCakeProxyCakeBalanceCard = () => {
     <Message marginBottom="8px" variant="warning">
       <MessageText>
         {t(
-          'There is %amount% CAKE in the proxy booster contract. In order to harvest that amount you should withdraw, deposit or harvest one of the boosted farms.',
+          'There is %amount% ICE in the proxy booster contract. In order to harvest that amount you should withdraw, deposit or harvest one of the boosted farms.',
           { amount: bCakeProxyDisplayBalance },
         )}
       </MessageText>

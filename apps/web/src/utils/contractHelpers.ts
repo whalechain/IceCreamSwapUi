@@ -2,11 +2,9 @@
 import type { Signer } from 'ethers'
 import type { Provider } from '@ethersproject/providers'
 import { provider } from './wagmi'
-import { Contract } from '@ethersproject/contracts'
 import poolsConfig from '../config/constants/pools'
 import { PoolCategory } from '../config/constants/types'
-import { ICE , CAKE } from '@pancakeswap/tokens'
-import { provider } from 'utils/wagmi'
+import { ICE } from '@pancakeswap/tokens'
 import { Contract } from 'ethers'
 
 // Addresses

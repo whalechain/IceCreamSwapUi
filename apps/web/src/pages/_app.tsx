@@ -1,10 +1,9 @@
 import '@pancakeswap/ui/css/reset.css'
-import { Flex, ResetCSS, Spinner, ToastListener , ScrollToTopButtonV2 } from '@pancakeswap/uikit'
+import { Flex, ResetCSS, Spinner, ToastListener, ScrollToTopButtonV2 } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from '../components/GlobalCheckClaimStatus'
 import { NetworkModal } from '../components/NetworkModal'
 import { FixedSubgraphHealthIndicator } from '../components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
-import TransactionsDetailModal from 'components/TransactionDetailModal'
 import { useAccountEventListener } from '../hooks/useAccountEventListener'
 import useEagerConnect from '../hooks/useEagerConnect'
 import useEagerConnectMP from '../hooks/useEagerConnect.bmp'
@@ -20,8 +19,6 @@ import { Fragment, useEffect } from 'react'
 import { DefaultSeo } from 'next-seo'
 import { PageMeta } from 'components/Layout/Page'
 import { PersistGate } from 'redux-persist/integration/react'
-import { persistor, useStore } from 'state'
-import { usePollBlockNumber } from 'state/block/hooks'
 import { persistor, useStore } from '../state'
 import { usePollBlockNumber } from '../state/block/hooks'
 import TransactionsDetailModal from '../components/TransactionDetailModal'
@@ -105,27 +102,27 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         />
         <title>IceCreamSwap</title>
       </Head>
-            <DefaultSeo {...SEO} />
+      <DefaultSeo {...SEO} />
 
-        <Providers store={store}>
-          <PageMeta />
-                {(Component as NextPageWithLayout).Meta && (
-                  // @ts-ignore
-                  <Component.Meta {...pageProps} />
-                )}
-          <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
-            <Blocklist>
-              {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
-              <ResetCSS />
-              <GlobalStyle />
-              <GlobalCheckClaimStatus excludeLocations={[]} />
-              <PersistGate loading={null} persistor={persistor}>
-                <Updaters />
-                <App {...props} />
-              </PersistGate>
-            </Blocklist>
-          </SupportedChainsProvider>
-        </Providers>
+      <Providers store={store}>
+        <PageMeta />
+        {(Component as NextPageWithLayout).Meta && (
+          // @ts-ignore
+          <Component.Meta {...pageProps} />
+        )}
+        <SupportedChainsProvider supportedChains={(props as AppPropsWithLayout).Component.chains || CHAIN_IDS}>
+          <Blocklist>
+            {(Component as NextPageWithLayout).mp ? <MPGlobalHooks /> : <GlobalHooks />}
+            <ResetCSS />
+            <GlobalStyle />
+            <GlobalCheckClaimStatus excludeLocations={[]} />
+            <PersistGate loading={null} persistor={persistor}>
+              <Updaters />
+              <App {...props} />
+            </PersistGate>
+          </Blocklist>
+        </SupportedChainsProvider>
+      </Providers>
       {/* <Script */}
       {/*   strategy="afterInteractive" */}
       {/*   id="google-tag" */}

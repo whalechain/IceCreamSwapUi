@@ -5,7 +5,7 @@ import masterChefAbi from 'config/abi/masterchef.json'
 import { getMasterChefAddress } from 'utils/addressHelpers'
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 
-const CAKE_PER_BLOCK = 40
+const ICE_PER_BLOCK = 40
 const masterChefAddress = getMasterChefAddress()
 
 export const useCakeEmissionPerBlock = (inView?: boolean) => {
@@ -21,7 +21,7 @@ export const useCakeEmissionPerBlock = (inView?: boolean) => {
     })
 
     const balance = getBalanceNumber(cakePerBlockToBurn)
-    return new BigNumber(CAKE_PER_BLOCK).minus(balance).toNumber()
+    return new BigNumber(ICE_PER_BLOCK).minus(balance).toNumber()
   })
 
   return emissionsPerBlock

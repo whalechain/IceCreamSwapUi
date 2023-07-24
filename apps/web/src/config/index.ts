@@ -1,5 +1,5 @@
 import { getFullDecimalMultiplier } from '@pancakeswap/utils/getFullDecimalMultiplier'
-import { getChain } from "@icecreamswap/constants"
+import { getChain } from '@icecreamswap/constants'
 
 export const BITGERT_BLOCK_TIME = 15
 
@@ -9,7 +9,9 @@ export const DEFAULT_TOKEN_DECIMAL = getFullDecimalMultiplier(18)
 export const BOOSTED_FARM_GAS_LIMIT = 500000
 export const IPFS_GATEWAY = 'https://ipfs.io/ipfs'
 export const SECONDS_PER_YEAR = 365 * 24 * 60 * 60
+export const BSC_BLOCK_TIME = 3
 
 export const blocksPerYear = (chainId: number) => {
-    return SECONDS_PER_YEAR / getChain(chainId).blockInterval
+  return SECONDS_PER_YEAR / getChain(chainId).blockInterval
 }
+export const DEFAULT_GAS_LIMIT = 200000

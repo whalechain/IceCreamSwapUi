@@ -1,5 +1,5 @@
 import { ChainId } from '@pancakeswap/sdk'
-import { isStableFarm, SerializedFarmConfig } from '..'
+import { isStableFarm, SerializedFarmConfig } from '../src'
 
 let logged = false
 

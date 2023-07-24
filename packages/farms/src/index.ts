@@ -13,13 +13,12 @@ import {
 } from './fetchFarmsV3'
 import { ComputedFarmConfigV3, FarmV3DataWithPrice } from './types'
 import { chains } from '@icecreamswap/constants'
+import { ChainId } from '@pancakeswap/sdk'
 
 export const SUPPORT_FARMS = chains.filter((chain) => chain.features.includes('farms')).map((chain) => chain.id)
 export const bCakeSupportedChainId = []
 export { masterChefAddresses } from './const'
-const supportedChainId = [ChainId.GOERLI, ChainId.BSC, ChainId.BSC_TESTNET, ChainId.ETHEREUM]
-const supportedChainIdV3 = [ChainId.GOERLI, ChainId.BSC, ChainId.BSC_TESTNET, ChainId.ETHEREUM]
-export const bCakeSupportedChainId = [ChainId.BSC]
+const supportedChainIdV3: number[] = []
 
 export function createFarmFetcher(multicallv2: MultiCallV2) {
   const fetchFarms = async (params: Pick<FetchFarmsParams, 'chainId' | 'farms'>) => {
@@ -120,7 +119,7 @@ export function createFarmFetcherV3(multicallv2: MultiCallV2) {
     getCakeAprAndTVL,
     isChainSupported: (chainId: number) => supportedChainIdV3.includes(chainId),
     supportedChainId: supportedChainIdV3,
-    isTestnet: (chainId: number) => ![ChainId.BSC, ChainId.ETHEREUM].includes(chainId),
+    isTestnet: (chainId: number) => false,
   }
 }
 
@@ -129,7 +128,7 @@ export * from './v2/farmsPriceHelpers'
 export * from './types'
 export * from './v2/deserializeFarmUserData'
 export * from './v2/deserializeFarm'
-export { FARM_AUCTION_HOSTING_IN_SECONDS } from './const'
 export * from './v2/filterFarmsByQuery'
+export { getFarmsPriceHelperLpFiles } from '../constants/priceHelperLps/getFarmsPriceHelperLpFiles'
 
 export { masterChefV3Addresses, fetchCommonTokenUSDValue }

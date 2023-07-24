@@ -73,7 +73,7 @@ const Hero = () => {
 
   return (
     <>
-      <style jsx global>
+      <style>
         {`
           .slide-svg-dark {
             display: none;

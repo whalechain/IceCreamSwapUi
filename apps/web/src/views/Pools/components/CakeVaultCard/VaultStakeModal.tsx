@@ -37,14 +37,13 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import { vaultPoolConfig } from 'config/constants/pools'
 import { getFullDecimalMultiplier } from '@pancakeswap/utils/getFullDecimalMultiplier'
 import { Token } from '@pancakeswap/sdk'
-import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 
 import { VaultRoiCalculatorModal } from '../Vault/VaultRoiCalculatorModal'
 import ConvertToLock from '../LockedPool/Common/ConvertToLock'
 import FeeSummary from './FeeSummary'
 import { MIN_LOCK_AMOUNT, convertCakeToShares } from '../../helpers'
-import {useActiveChainId} from "../../../../hooks/useActiveChainId";
+import { useActiveChainId } from '../../../../hooks/useActiveChainId'
 
 interface VaultStakeModalProps {
   pool: Pool.DeserializedPool<Token>
@@ -81,7 +80,6 @@ const VaultStakeModal: React.FC<React.PropsWithChildren<VaultStakeModalProps>> =
   const { chainId } = useActiveChainId()
   const { stakingToken, earningTokenPrice, vaultKey } = pool
   const { address: account } = useAccount()
-  const { chainId } = useActiveChainId()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const vaultPoolContract = useVaultPoolContract(pool.vaultKey)
   const { callWithGasPrice } = useCallWithGasPrice()

@@ -22,7 +22,6 @@ export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol)
   const { callWithGasPrice } = useCallWithGasPrice()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const { chainId } = useActiveChainId()
   const { address: account } = useAccount()
   const sousChefContract = useSousChef(sousId)
 

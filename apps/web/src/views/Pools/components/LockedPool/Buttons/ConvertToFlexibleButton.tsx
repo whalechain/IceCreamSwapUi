@@ -11,16 +11,14 @@ import { useVaultPoolContract } from 'hooks/useContract'
 import { useAppDispatch } from 'state'
 import { fetchCakeVaultUserData } from 'state/pools'
 import { VaultKey } from 'state/types'
-import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
+import { useActiveChainId } from '../../../../../hooks/useActiveChainId'
 import { useSWRConfig } from 'swr'
-import { useActiveChainId } from 'hooks/useActiveChainId'
 
 const ConvertToFlexibleButton: React.FC<React.PropsWithChildren<ButtonProps>> = (props) => {
   const dispatch = useAppDispatch()
   const { chainId } = useActiveChainId()
 
   const { address: account } = useAccount()
-  const { chainId } = useActiveChainId()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const vaultPoolContract = useVaultPoolContract(VaultKey.CakeVault)
   const { callWithGasPrice } = useCallWithGasPrice()

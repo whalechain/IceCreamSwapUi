@@ -4,16 +4,16 @@ import { Contract } from '@ethersproject/contracts'
 import { ChainId } from '@pancakeswap/sdk'
 
 import cakeAbi from '../abis/ICake.json'
-import { ICAKE } from '../constants/contracts'
+import { IICE } from '../constants/contracts'
 import { OnChainProvider } from '../types'
 import { getContractAddress } from '../utils'
 
 const getIfoCreditAddressContract = (chainId: ChainId, provider: OnChainProvider) => {
-  const address = getContractAddress(ICAKE, chainId)
+  const address = getContractAddress(IICE, chainId)
   if (!address) {
-    throw new Error(`ICAKE not supported on chain ${chainId}`)
+    throw new Error(`IICE not supported on chain ${chainId}`)
   }
-  return new Contract(getContractAddress(ICAKE, chainId), cakeAbi, provider({ chainId }))
+  return new Contract(getContractAddress(IICE, chainId), cakeAbi, provider({ chainId }))
 }
 
 export const fetchPublicIfoData = async (chainId: ChainId, provider: OnChainProvider) => {

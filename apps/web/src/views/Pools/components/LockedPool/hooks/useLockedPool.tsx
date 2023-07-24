@@ -14,12 +14,11 @@ import { fetchCakeVaultUserData } from 'state/pools'
 import { Token } from '@pancakeswap/sdk'
 import { vaultPoolConfig } from 'config/constants/pools'
 import { VaultKey } from 'state/types'
-import { useActiveChainId } from 'hooks/useActiveChainId'
 
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { PrepConfirmArg } from '../types'
-import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
+import { useActiveChainId } from '../../../../../hooks/useActiveChainId'
 
 interface HookArgs {
   lockedAmount: BigNumber
@@ -41,7 +40,6 @@ export default function useLockedPool(hookArgs: HookArgs): HookReturn {
   const { lockedAmount, stakingToken, onDismiss, prepConfirmArg, defaultDuration = ONE_WEEK_DEFAULT } = hookArgs
 
   const dispatch = useAppDispatch()
-  const { chainId } = useActiveChainId()
 
   const { address: account } = useAccount()
   const { chainId } = useActiveChainId()

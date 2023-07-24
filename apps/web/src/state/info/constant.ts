@@ -10,6 +10,7 @@ import {
 import { ChainId } from '@pancakeswap/sdk'
 import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from '../../config/constants/info'
 import { GraphQLClient } from 'graphql-request'
+import { chains } from '@icecreamswap/constants'
 
 export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX'
 
@@ -83,3 +84,7 @@ export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainNa
 }
 
 export const checkIsStableSwap = () => window.location.href.includes('stableSwap')
+
+export const multiChainName = chains.map((chain) => chain.network.toUpperCase())
+
+export const v2SubgraphTokenName = chains.map((chain) => chain.network.toUpperCase())

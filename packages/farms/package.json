@@ -19,6 +19,7 @@
     "@pancakeswap/sdk": "workspace:*",
     "@pancakeswap/v3-sdk": "workspace:*",
     "@pancakeswap/tokens": "workspace:*",
+    "@icecreamswap/constants": "workspace:*",
     "@pancakeswap/token-lists": "workspace:*",
     "@pancakeswap/multicall": "workspace:*",
     "@pancakeswap/utils": "workspace:*",

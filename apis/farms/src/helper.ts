@@ -4,7 +4,7 @@ import { createFarmFetcher } from '@pancakeswap/farms'
 import { createMulticall } from '@pancakeswap/multicall'
 import { bscProvider, bscTestnetProvider, goerliProvider, ethProvider } from './provider'
 
-export const getProvider = ({ chainId }: { chainId?: number }) => {
+export const getProvider = ({ chainId }: { chainId?: number }): any => {
   switch (chainId) {
     case 56:
       return bscProvider
@@ -19,7 +19,7 @@ export const getProvider = ({ chainId }: { chainId?: number }) => {
   }
 }
 
-export const { multicallv2, multicallv3 } = createMulticall(getProvider)
+export const { multicallv2, multicallv3 } = createMulticall(getProvider) as any
 
 export const farmFetcher = createFarmFetcher(multicallv2)
 

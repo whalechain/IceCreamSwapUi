@@ -1,14 +1,15 @@
 import { ChainId, Percent, Token } from '@pancakeswap/sdk'
 import { BigNumber } from 'ethers'
-import { bitgertTokens, coreTokens, dogechainTokens, dokenTokens, fuseTokens, xdcTokens, xodexTokens } from '@pancakeswap/tokens'
+import {
+  bitgertTokens,
+  coreTokens,
+  dogechainTokens,
+  dokenTokens,
+  fuseTokens,
+  xdcTokens,
+  xodexTokens,
+} from '@pancakeswap/tokens'
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
-
-export const CHAIN_REFRESH_TIME = {
-  [ChainId.ETHEREUM]: 12_000,
-  [ChainId.GOERLI]: 12_000,
-  [ChainId.BSC]: 6_000,
-  [ChainId.BSC_TESTNET]: 6_000,
-} as const satisfies Record<ChainId, number>
 
 export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4'
 export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0x25507a7323b04FD2687E72875aC4456C95782915'
@@ -51,13 +52,6 @@ export const CHAIN_REFRESH_TIME = {
   [ChainId.BSC]: 6_000,
   [ChainId.BSC_TESTNET]: 6_000,
 } as const satisfies Record<ChainId, number>
-
-export const ROUTER_ADDRESS: ChainMap<string> = {
-  [ChainId.ETHEREUM]: '0xEfF92A263d31888d860bD50809A8D171709b7b1c',
-  [ChainId.GOERLI]: '0xEfF92A263d31888d860bD50809A8D171709b7b1c',
-  [ChainId.BSC]: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
-  [ChainId.BSC_TESTNET]: '0xD99D1c33F9fC3444f8101754aBC46c52416550D1',
-}
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {

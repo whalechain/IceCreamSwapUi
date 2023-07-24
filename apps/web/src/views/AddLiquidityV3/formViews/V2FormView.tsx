@@ -1,15 +1,6 @@
 import { CommonBasesType } from 'components/SearchModal/types'
 
-import {
-  AutoColumn,
-  Button,
-  Dots,
-  RowBetween,
-  Text,
-  Box,
-  BunnyKnownPlaceholder,
-  DynamicSection,
-} from '@pancakeswap/uikit'
+import { AutoColumn, Button, Dots, RowBetween, Text, Box, DynamicSection } from '@pancakeswap/uikit'
 import { logGTMClickAddLiquidityEvent } from 'utils/customGTMEventTracking'
 
 import { CommitButton } from 'components/CommitButton'
@@ -167,7 +158,7 @@ export default function V2FormView({
       <RightContainer>
         <AutoColumn pt="12px" gap="24px">
           <DynamicSection disabled gap="12px">
-            <InfoBox message={t('Your position will appear here.')} icon={<BunnyKnownPlaceholder />} />
+            <InfoBox message={t('Your position will appear here.')} icon={null} />
             <RangeSelector
               getDecrementLower={mockFn}
               getIncrementLower={mockFn}

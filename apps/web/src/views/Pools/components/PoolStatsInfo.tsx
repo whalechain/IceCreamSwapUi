@@ -9,12 +9,11 @@ import { useVaultPoolByKey } from 'state/pools/hooks'
 import { VaultKey } from 'state/types'
 import { getVaultPoolAddress } from 'utils/addressHelpers'
 import { getPoolBlockInfo } from 'views/Pools/helpers'
-import { useActiveChainId } from 'hooks/useActiveChainId'
 import { getBlockExploreLink } from 'utils'
 import { getTokenInfoPath } from 'state/info/utils'
 import MaxStakeRow from './MaxStakeRow'
 import { AprInfo, DurationAvg, PerformanceFee, TotalLocked } from './Stat'
-import {useActiveChainId} from "../../../hooks/useActiveChainId";
+import { useActiveChainId } from '../../../hooks/useActiveChainId'
 
 interface ExpandedFooterProps {
   pool: Pool.DeserializedPool<Token>

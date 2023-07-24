@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useTranslation } from "@pancakeswap/localization";
 import { getApy } from "@pancakeswap/utils/compoundApyHelpers";
 import { useMemo, useState } from "react";
-import styled from "styled-components";
 
 import { BIG_ONE_HUNDRED } from "@pancakeswap/utils/bigNumber";
 import { useTooltip } from "../../hooks/useTooltip";
@@ -125,7 +124,7 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
                   *{t("LP Rewards APR")}
                 </Text>
                 <Text small textAlign="right">
-                  {lpRewardsAPR === "0" || !lpRewardsAPR ? "-" : lpRewardsAPR}%
+                  {lpRewardsAPR === 0 || !lpRewardsAPR ? "-" : lpRewardsAPR}%
                 </Text>
               </>
             )}

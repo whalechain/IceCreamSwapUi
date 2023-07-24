@@ -70,9 +70,9 @@ export const FarmV3Card: React.FC<React.PropsWithChildren<FarmCardProps>> = ({
   const farmCakePerSecond = getFarmCakePerSecond(farm.poolWeight)
 
   const lpLabel = farm.lpSymbol && farm.lpSymbol.replace(/pancake/gi, '')
-  const earnLabel = t('CAKE + Fees')
+  const earnLabel = t('ICE + Fees')
   const { lpAddress } = farm
-  const isPromotedFarm = farm.token.symbol === 'CAKE'
+  const isPromotedFarm = farm.token.symbol === 'ICE'
 
   const infoUrl = useMemo(() => {
     return `/info/v3${multiChainPaths[chainId]}/pairs/${lpAddress}?chain=${CHAIN_QUERY_NAME[chainId]}`
@@ -86,7 +86,7 @@ export const FarmV3Card: React.FC<React.PropsWithChildren<FarmCardProps>> = ({
     <>
       <Text>
         {t(
-          'Global APR calculated using the total amount of active & staked liquidity with the pool CAKE reward emissions.',
+          'Global APR calculated using the total amount of active & staked liquidity with the pool ICE reward emissions.',
         )}
       </Text>
       <br />

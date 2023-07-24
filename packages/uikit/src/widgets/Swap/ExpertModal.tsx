@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import { useExpertModeManager } from '../../../state/user/hooks'
-import { useTranslation } from '@pancakeswap/localization'
 import { useState } from "react";
 import { useTranslation } from "@pancakeswap/localization";
 import { Button } from "../../components/Button";

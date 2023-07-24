@@ -3,15 +3,7 @@ import { useMemo, memo } from "react";
 import styled from "styled-components";
 import { SpaceProps } from "styled-system";
 
-import {
-  Flex,
-  ButtonMenuItem,
-  SwapLineChart,
-  PairDataTimeWindowEnum,
-  Box,
-  Text,
-  BunnyKnownPlaceholder,
-} from "../../components";
+import { Flex, ButtonMenuItem, SwapLineChart, PairDataTimeWindowEnum, Box, Text } from "../../components";
 import { PriceData } from "./types";
 import { FullWidthButtonMenu } from "./FullWidthButtonMenu";
 
@@ -74,7 +66,6 @@ export const PriceChart = memo(function PriceChart({
       </Box>
     ) : (
       <Flex mt="0.5em" width="100%" flexDirection="column" alignItems="center" height="200px" justifyContent="center">
-        <BunnyKnownPlaceholder />
         <Text mt="1em" bold>
           {t("Price will appear here")}
         </Text>

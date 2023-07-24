@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import {PoolCategory, SerializedPoolConfig} from './types'
-import {bitgertTokens, coreTokens, xdcTokens} from '@pancakeswap/tokens'
+import { PoolCategory } from './types'
+import { bitgertTokens, coreTokens, xdcTokens } from '@pancakeswap/tokens'
 
 export const MAX_LOCK_DURATION = 31536000
 export const UNLOCK_FREE_DURATION = 604800
@@ -8,10 +8,9 @@ export const ONE_WEEK_DEFAULT = 604800
 export const BOOST_WEIGHT = BigNumber.from('20000000000000')
 export const DURATION_FACTOR = BigNumber.from('31536000')
 
-export const vaultPoolConfig = {
-} as const
+export const vaultPoolConfig = {} as const
 
-export const livePools: SerializedPoolConfig[] = [
+export const livePools = [
   // souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
   {
@@ -190,7 +189,7 @@ export const livePools: SerializedPoolConfig[] = [
     tokenPerBlock: '0.038',
     version: 2,
   },
-    /*
+  /*
   {
     sousId: 17,
     stakingToken: coreTokens.ice,
@@ -393,7 +392,5 @@ const finishedPools = [
   stakingToken: p.stakingToken.serialize,
   earningToken: p.earningToken.serialize,
 }))
-
-
 
 export default [...livePools, ...finishedPools]

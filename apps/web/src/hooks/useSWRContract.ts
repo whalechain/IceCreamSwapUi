@@ -13,8 +13,6 @@ import useSWR, {
 import { multicallv2, MulticallOptions, Call } from '../utils/multicall'
 import { MaybeContract, ContractMethodName, ContractMethodParams } from '../utils/types'
 import { ChainId } from '@pancakeswap/sdk'
-import { multicallv2, MulticallOptions, Call } from 'utils/multicall'
-import { MaybeContract, ContractMethodName, ContractMethodParams } from 'utils/types'
 import { BlockingData } from 'swr/_internal'
 
 declare module 'swr' {

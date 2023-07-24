@@ -19,7 +19,7 @@ export const footerLinks: FooterLinkType[] = [
         href: "https://docs.icecreamswap.com/contact-us/telegram",
       },
       {
-        label: "CAKE",
+        label: "ICE",
         href: "https://docs.icecreamswap.com/tokenomics/cake",
       },
       {

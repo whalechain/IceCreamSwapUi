@@ -1,8 +1,8 @@
-import React, {createContext, useEffect, useMemo, useState} from 'react'
-import {useMatchBreakpoints} from '@pancakeswap/uikit'
-import {useExchangeChartManager} from 'state/user/hooks'
-import {useActiveChainId} from 'hooks/useActiveChainId'
-import {SUPPORT_INFO} from "../../config/constants/supportChains";
+import React, { createContext, useEffect, useMemo, useState } from 'react'
+import { useMatchBreakpoints } from '@pancakeswap/uikit'
+import { useExchangeChartManager } from 'state/user/hooks'
+import { useActiveChainId } from 'hooks/useActiveChainId'
+import { SUPPORT_INFO } from '../../config/constants/supportChains'
 
 export const SwapFeaturesContext = createContext<{
   isChartSupported: boolean
@@ -29,8 +29,6 @@ const CHART_SUPPORT_CHAIN_IDS = [
   ChainId.BSC_TESTNET,
   // ChainId.ETHEREUM
 ]
-const ACCESS_TOKEN_SUPPORT_CHAIN_IDS = [ChainId.BSC]
-const STABLE_SUPPORT_CHAIN_IDS = [ChainId.BSC_TESTNET, ChainId.BSC]
 
 export const SwapFeaturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { isMobile } = useMatchBreakpoints()

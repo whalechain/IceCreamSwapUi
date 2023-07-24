@@ -24,6 +24,7 @@ export default async function handler(req, res) {
     method: 'GET',
     headers: {
       'Client-Id': process.env.SYNAPS_CLIENT_ID,
+      // eslint-disable-next-line camelcase
       'Session-Id': session_id,
       'Api-Key': process.env.SYNAPS_API_KEY,
     },
@@ -50,7 +51,7 @@ export default async function handler(req, res) {
     },
   })
 
-  const provider = new JsonRpcProvider(chainMap.core.rpcUrls.default)
+  const provider = new JsonRpcProvider(chainMap.core.rpcUrls.default.http)
 
   const signer = new Wallet(process.env.KYC_MINTER, provider)
 

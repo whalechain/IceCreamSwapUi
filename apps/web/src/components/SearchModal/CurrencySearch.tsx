@@ -117,7 +117,8 @@ function CurrencySearch({
 
   const showNative: boolean =
     useMemo(() => {
-      if (tokensToShow) return falseconst s = debouncedQuery.toLowerCase().trim()
+      if (tokensToShow) return false
+      const s = debouncedQuery.toLowerCase().trim()
       return native && native.symbol?.toLowerCase?.()?.indexOf(s) !== -1
     }, [debouncedQuery, native, tokensToShow]) &&
     (props.showNative || typeof props.showNative === 'undefined')

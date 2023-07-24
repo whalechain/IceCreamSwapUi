@@ -45,7 +45,7 @@ export type TokenAddressMap<TChainId extends number> = Readonly<{
 }>
 
 export function deserializeToken(serializedToken: SerializedWrappedToken): Token {
-  if (serializedToken.logoURI) {
+  if (serializedToken?.logoURI) {
     return new WrappedTokenInfo({
       chainId: serializedToken.chainId,
       address: serializedToken.address,
@@ -56,11 +56,11 @@ export function deserializeToken(serializedToken: SerializedWrappedToken): Token
     })
   }
   return new Token(
-    serializedToken.chainId,
-    serializedToken.address,
-    serializedToken.decimals,
-    serializedToken.symbol,
-    serializedToken.name,
-    serializedToken.projectLink,
+    serializedToken?.chainId,
+    serializedToken?.address,
+    serializedToken?.decimals,
+    serializedToken?.symbol,
+    serializedToken?.name,
+    serializedToken?.projectLink,
   )
 }

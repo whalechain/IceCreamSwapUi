@@ -8,7 +8,6 @@ import {
   WNATIVE,
   ERC20Token,
   WETH9,
-  WETH9,
   TradeType,
 } from '@pancakeswap/sdk'
 import { FAST_INTERVAL } from '../config/constants'
@@ -18,8 +17,6 @@ import useSWR from 'swr'
 import getLpAddress from '../utils/getLpAddress'
 import { multiplyPriceByAmount } from '../utils/prices'
 import useSWRImmutable from 'swr/immutable'
-import getLpAddress from 'utils/getLpAddress'
-import { multiplyPriceByAmount } from 'utils/prices'
 import { useCakePriceAsBN } from '@pancakeswap/utils/useCakePrice'
 import { getFullDecimalMultiplier } from '@pancakeswap/utils/getFullDecimalMultiplier'
 import { computeTradePriceBreakdown } from 'views/Swap/V3Swap/utils/exchange'
@@ -50,7 +47,7 @@ export function useStablecoinPrice(
 
   const cakePrice = useCakePriceAsBN()
   const stableCoin = chainId in ChainId ? STABLE_COIN[chainId as ChainId] : undefined
-  const isCake = currency?.wrapped.equals(CAKE[chainId])
+  const isCake = currency?.wrapped.equals(ICE[chainId])
 
   const isStableCoin = currency?.wrapped.equals(stableCoin)
 

@@ -13,7 +13,8 @@
     "isolatedModules": true,
     "types": ["next"],
     "declaration": true,
-    "noEmit": true
+    "noEmit": true,
+    "target": "ESNext"
   },
   "include": ["src"],
   "exclude": ["node_modules"]

@@ -6,12 +6,14 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import smartRouterPkgs from '@pancakeswap/smart-router/package.json' assert { type: 'json' }
 import { withWebSecurityHeaders } from '@pancakeswap/next-config/withWebSecurityHeaders'
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const withBundleAnalyzer = BundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
+const withVanillaExtract = createVanillaExtractPlugin()
 
 const sentryWebpackPluginOptions =
   process.env.VERCEL_ENV === 'production'
@@ -42,7 +44,6 @@ const config = {
     styledComponents: true,
   },
   experimental: {
-    swcPlugins: [["swc-plugin-vanilla-extract", {}]],
     scrollRestoration: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
     outputFileTracingExcludes: {
@@ -62,11 +63,8 @@ const config = {
     '@pancakeswap/tokens',
     '@wagmi',
     'wagmi',
-    '@pancakeswap/farms',
     '@pancakeswap/pools',
-    '@pancakeswap/localization',
-    '@pancakeswap/hooks',
-    '@pancakeswap/utils',
+    'react-countup',
   ],
   reactStrictMode: true,
   swcMinify: true,
@@ -215,5 +213,5 @@ const config = {
 
 
 export default withBundleAnalyzer(
-  withSentryConfig(withAxiom(withWebSecurityHeaders(config)), sentryWebpackPluginOptions),
+  withVanillaExtract(withSentryConfig(withAxiom(withWebSecurityHeaders(config)), sentryWebpackPluginOptions)),
 )

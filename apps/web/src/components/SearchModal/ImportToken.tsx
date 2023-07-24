@@ -26,7 +26,6 @@ import { chains } from 'utils/wagmi'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { WrappedTokenInfo } from '@pancakeswap/token-lists'
 import AccessRisk from 'views/Swap/components/AccessRisk'
-import { SUPPORT_ONLY_BSC } from 'config/constants/supportChains'
 import { fetchRiskToken, TOKEN_RISK } from 'views/Swap/hooks/fetchTokenRisk'
 
 interface ImportProps {
@@ -124,7 +123,6 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
                 </>
               )}
             </Grid>
-            {token && SUPPORT_ONLY_BSC.includes(token.chainId) && <AccessRisk token={token} />}
           </Flex>
         )
       })}

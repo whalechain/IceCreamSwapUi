@@ -6,10 +6,9 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useAppDispatch } from 'state'
 import { updateUserBalance, updateUserPendingReward, updateUserStakedBalance } from 'state/pools'
-import { useActiveChainId } from 'hooks/useActiveChainId'
 
 import useHarvestPool from '../../hooks/useHarvestPool'
-import {useActiveChainId} from "../../../../hooks/useActiveChainId";
+import { useActiveChainId } from '../../../../hooks/useActiveChainId'
 
 export const CollectModalContainer = ({
   earningTokenSymbol,
@@ -19,7 +18,6 @@ export const CollectModalContainer = ({
   ...rest
 }: React.PropsWithChildren<Pool.CollectModalProps>) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveChainId()
   const { toastSuccess } = useToast()
   const { chainId } = useActiveChainId()
   const { address: account } = useAccount()

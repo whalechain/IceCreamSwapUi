@@ -23,7 +23,6 @@ import { getBlockExploreLink, getBlockExploreName } from '../../../utils'
 import { formatBigNumber, getFullDisplayBalance } from '@pancakeswap/utils/formatBalance'
 import { useBalance } from 'wagmi'
 import { useDomainNameForAddress } from 'hooks/useDomain'
-import CakeBenefitsCard from './CakeBenefitsCard'
 
 const COLORS = {
   ETH: '#627EEA',
@@ -41,7 +40,6 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
   const { chain, chainId, account } = useActiveWeb3React()
   // const bnbBalance = useBalance({ addressOrName: account, chainId: ChainId.BSC })
   const nativeBalance = useBalance({ addressOrName: account })
-  const { account, chainId, chain } = useActiveWeb3React()
   const { domainName } = useDomainNameForAddress(account)
   const isBSC = chainId === ChainId.BSC
   const bnbBalance = useBalance({ address: account, chainId: ChainId.BSC })
@@ -130,7 +128,6 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
           )}
         </Flex>
       </Box>
-      <CakeBenefitsCard onDismiss={onDismiss} />
       <Button variant="secondary" width="100%" minHeight={48} onClick={handleLogout}>
         {t('Disconnect Wallet')}
       </Button>

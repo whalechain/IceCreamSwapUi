@@ -8,7 +8,6 @@ import { ChainId, Currency } from '@pancakeswap/sdk'
 import styled from 'styled-components'
 import TokenTable from './SwapTokenTable'
 import { useTokenHighLightList } from './useList'
-import useTradingRewardTokenList from '../../hooks/useTradingRewardTokenList'
 
 const Wrapper = styled.div`
   padding-top: 10px;

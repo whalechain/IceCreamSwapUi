@@ -99,8 +99,7 @@ export const fetchPoolData = async (
   block7d: number,
   block14d: number,
   poolAddresses: string[],
-  chainName: MultiChainName = "CORE",
-  chainName: MultiChainName = 'BSC',
+  chainName: MultiChainName = 'CORE',
 ) => {
   try {
     const query = gql`

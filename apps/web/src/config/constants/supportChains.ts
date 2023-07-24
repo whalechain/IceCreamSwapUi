@@ -1,7 +1,6 @@
-import { SUPPORT_FARMS } from '@pancakeswap/farms'
 import { chains, ChainId } from '@icecreamswap/constants'
 
-export const SUPPORT_FARMS = [ChainId.BSC, ChainId.BSC_TESTNET, ChainId.ETHEREUM, ChainId.GOERLI]
+export const SUPPORT_FARMS = chains.filter((chain) => chain.features.includes('farms')).map((chain) => chain.id)
 
 export const SUPPORT_ONLY_BITGERT = [ChainId.BITGERT]
 

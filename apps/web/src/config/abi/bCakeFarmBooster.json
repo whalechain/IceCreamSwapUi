@@ -151,14 +151,14 @@
   },
   {
     "inputs": [],
-    "name": "CAKE",
+    "name": "ICE",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "CAKE_POOL",
+    "name": "ICE_POOL",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"

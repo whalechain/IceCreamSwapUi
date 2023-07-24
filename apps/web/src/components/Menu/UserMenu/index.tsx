@@ -16,7 +16,6 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import useAuth from 'hooks/useAuth'
 import NextLink from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
-import { useProfile } from 'state/profile/hooks'
 import { usePendingTransactions } from 'state/transactions/hooks'
 import { useAccount } from 'wagmi'
 import { useDomainNameForAddress } from 'hooks/useDomain'
@@ -34,8 +33,7 @@ const UserMenuItems = () => {
   const [onPresentWrongNetworkModal] = useModal(<WalletModal initialView={WalletView.WRONG_NETWORK} />)
   const avatarSrc = undefined
   const { chainId, isWrongNetwork } = useActiveChainId()
-  const { isInitialized, isLoading, profile } = useProfile()
-  const hasProfile = isInitialized && !!profile
+  const hasProfile = false
 
   const onClickWalletMenu = useCallback((): void => {
     if (isWrongNetwork) {
@@ -70,7 +68,6 @@ const UserMenu = () => {
   const { domainName, avatar } = useDomainNameForAddress(account)
   const { isWrongNetwork } = useActiveChainId()
   const { hasPendingTransactions, pendingNumber } = usePendingTransactions()
-  const { profile } = useProfile()
   const [userMenuText, setUserMenuText] = useState<string>('')
   const [userMenuVariable, setUserMenuVariable] = useState<UserMenuVariant>('default')
 
