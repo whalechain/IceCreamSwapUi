@@ -9,7 +9,8 @@ import {
   xdcTokens,
   xodexTokens,
   shardeumTestnetTokens,
-  telosTokens
+  telosTokens,
+  shimmerTestnetTokens
 } from '@pancakeswap/tokens'
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
@@ -54,6 +55,9 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
     Icecream: ROUTER_ADDRESS_COMMON,
     Akka: ROUTER_ADDRESS_COMMON_AKKA_TELOS,
   },
+  [ChainId.SHIMMER_TEST]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
+  },
 }
 
 // used to construct intermediary pairs for trading
@@ -67,6 +71,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
 }
 
 /**
@@ -93,6 +98,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.XODEX]: [xodexTokens.ice, xodexTokens.usdt],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -144,6 +150,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -177,6 +184,10 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.TELOS]: [
     [telosTokens.wtlos, telosTokens.ice],
     [telosTokens.usdt, telosTokens.ice],
+  ],
+  [ChainId.SHIMMER_TEST]: [
+    [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice],
+    [shimmerTestnetTokens.usdt, shimmerTestnetTokens.ice],
   ],
 }
 
