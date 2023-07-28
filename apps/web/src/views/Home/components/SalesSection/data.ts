@@ -9,7 +9,7 @@ import earnIce from '../../../../../public/images/home/earn/ice.png'
 export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Trade anything anywhere, hassle free'),
   bodyText: t(
-    'Seamless trading across multiple Chains with the best rates thanks to the build in DEX aggregator.'
+    'Seamless trading across multiple chains with the best rates thanks to the built-in DEX aggregator.'
   ),
   reverse: false,
   primaryButton: {
@@ -34,8 +34,8 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Bridge securely between many chains'),
   bodyText: t(
     'IceCreamSwap allows direct bridging between many chains with ' +
-      'its audited and battle tested SmartContracts. ' +
-      'The unique build in faucet automatically drops you native tokens when you bridge to a new chain.'
+      'its audited and battle tested smart contracts. ' +
+      'The unique built-in faucet automatically drops you native tokens when you bridge to a new chain.'
   ),
   reverse: true,
   primaryButton: {
@@ -58,7 +58,7 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
 
 export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Earn, receive ICE tokens when providing liquidity'),
-  bodyText: t('With liquidity farms, you can boost your Passive Income APY for liquidity provision'),
+  bodyText: t('With liquidity farms, you can boost your passive income APY for liquidity provision.'),
   reverse: false,
   primaryButton: {
     to: '/farms',
