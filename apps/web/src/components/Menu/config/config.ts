@@ -18,8 +18,8 @@ import {
   SUPPORT_INFO,
   SUPPORT_SWAP,
   SUPPORT_BRIDGE,
-  SUPPORT_LOCKS,
-} from '../../../config/constants/supportChains'
+  SUPPORT_LOCKS, SUPPORT_LAUNCHPAD
+} from "../../../config/constants/supportChains";
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & {
   hideSubNav?: boolean
@@ -192,6 +192,7 @@ const config: (
       icon: RocketIcon,
       hideSubNav: true,
       showItemsOnMobile: false,
+      supportChainIds: SUPPORT_LAUNCHPAD,
       items: [],
     },
     {

@@ -1,6 +1,6 @@
 import { Chain } from 'wagmi'
 
-type ChainFeature = 'swap' | 'bridge' | 'info' | 'farms' | 'staking' | 'locks'
+type ChainFeature = 'swap' | 'bridge' | 'info' | 'farms' | 'staking' | 'locks' | 'launchpad'
 
 interface SwapConfig {
   factoryAddress: string
