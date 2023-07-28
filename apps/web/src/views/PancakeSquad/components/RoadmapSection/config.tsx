@@ -76,7 +76,7 @@ const config = ({ t }: FAQsType) => [
   },
   {
     title: t('Launchpad, KYC token and enhanced smart routing'),
-    icon: '🌔',
+    icon: '🛡️',
     description: [
       t('Release LaunchPad'),
       t('Release Soulbound KYC token to drastically reduce scams'),
@@ -85,10 +85,45 @@ const config = ({ t }: FAQsType) => [
     reached: '03-2023',
   },
   {
+    title: t('Expansion and infrastructure upgrades'),
+    icon: '🌐',
+    description: [
+      t('Expand to Telos, Shardeum Testnet and Shimmer Testnet'),
+      t('Upgrade infrastructure to have a unified high availability Infrastructure to run all our services on'),
+    ],
+    reached: '07-2023',
+  },
+  {
+    title: t('Audits'),
+    icon: '🛡️',
+    description: [
+      t('release of audit reports of all our smart contracts'),
+    ],
+    reached: '08-2023',
+  },
+  {
+    title: t('Trustless Bridge Upgrade and Concentrated Liquidity'),
+    icon: '🔥',
+    description: [
+      t('Upgrade our DEX to support concentrated liquidity to drastically reduce slippage and increase capital efficiency'),
+      t('Upgrade our Bridge to work in a fully trustless manner by utilizing an optimistic approach'),
+    ],
+    reached: '09-2023',
+  },
+  {
+    title: t('Bridge speed upgrade and basic Price oracles'),
+    icon: '⏩',
+    description: [
+      t('Add an insured speed boost to the Bridge, which offloads the risk to the insurer and completes Bridge near instant'),
+      t('Adds price oracle for bridged tokens as well as on request'),
+    ],
+    reached: '10-2023',
+  },
+  {
     title: t('Mass expansion'),
     icon: '🚀🚀',
     description: [t('Expand to a lot of blockchains and provide optimal dex routing on them thanks to our smart routing')],
-    reached: '05-2023',
+    reached: '11-2023',
   },
 ]
 export default config
