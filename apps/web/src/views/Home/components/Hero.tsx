@@ -86,11 +86,24 @@ const Hero = () => {
             {t('IceCream brings people together')}
           </Heading>
           <Heading as="p" scale="md" mb="24px">
-            {t('Trade, Earn, Bridge and Launch on')} {" "}
-            <Link href="/core" display="inline-flex">
-              CORE
-            </Link>
-            {t(', XDC, Binance smart chain (BSC), Bitgert (Brise), Shardeum, XoDex, Dogechain, Doken and Fuse with our decentralized smart contracts.')}
+            {/* todo: make links display somewhat like the text, maybe a small underline or so. */}
+            <Link href="https://icecreamswap.com/swap" display="inline-flex">DEX</Link>{", "}
+            <Link href="https://icecreamswap.com/swap" display="inline-flex">DEX aggregator</Link>{", "}
+            <Link href="https://chainlist.org" display="inline-flex">RPC</Link>{", "}
+            {"Block Explorer, "}
+            <Link href="https://icecreamswap.com/kyc" display="inline-flex">KYC</Link>{", "}
+            <Link href="https://icecreamswap.com/launchpad" display="inline-flex">Launchpad</Link>{" and "}
+            <Link href="https://icecreamswap.com/bridge" display="inline-flex">Bridge</Link>{" on "}
+            <Link href="https://coredao.org/" display="inline-flex">CORE DAO</Link>{", "}
+            <Link href="https://www.telos.net/" display="inline-flex">Telos</Link>{", "}
+            <Link href="https://bitgert.com/" display="inline-flex">Bitgert</Link>{", "}
+            <Link href="https://xinfin.org/" display="inline-flex">XDC</Link>{", "}
+            <Link href="https://shardeum.org/" display="inline-flex">Shardeum</Link>{", "}
+            <Link href="https://shimmer.network/" display="inline-flex">Shimmer</Link>{", "}
+            <Link href="https://www.bnbchain.org/en/smartChain" display="inline-flex">BSC</Link>{", "}
+            <Link href="https://www.xo-dex.com/" display="inline-flex">Xodex</Link>{", "}
+            <Link href="https://dogechain.dog/" display="inline-flex">Dogechain</Link>{" and "}
+            <Link href="https://www.fuse.io/" display="inline-flex">Fuse</Link>.
           </Heading>
           <Flex>
             {!account && <ConnectWalletButton mr="8px" />}

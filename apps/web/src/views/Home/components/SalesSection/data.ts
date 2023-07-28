@@ -9,9 +9,7 @@ import earnIce from '../../../../../public/images/home/earn/ice.png'
 export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Trade anything anywhere, hassle free'),
   bodyText: t(
-      'IceCreamSwap contracts let everyone trade any token on multiple chains. ' +
-      'An intuitive UI lets both new and experienced DeFi users easily interact with the IceCreamSwap smart contracts. ' +
-      'As the first DEX implementing route splitting, the best possible output with the lowest slippage can be achieved.'
+    'Seamless trading across multiple Chains with the best rates thanks to the build in DEX aggregator.'
   ),
   reverse: false,
   primaryButton: {
@@ -35,11 +33,9 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
 export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Bridge securely between many chains'),
   bodyText: t(
-    'IceCreamSwap allows direct bridging between many chains. ' +
-      'A novel approach of a second (redundant) security layer will make the IceCream Bridge even more secure ' +
-      'than the audited and battle tested code it is built on top of. ' +
-      'All bridge reserves are transparent on chain and can be verified any time. ' +
-      'Due to its universal implementation, even universal message parsing and NFTs will be supported by the Bridge.',
+    'IceCreamSwap allows direct bridging between many chains with ' +
+      'its audited and battle tested SmartContracts. ' +
+      'The unique build in faucet automatically drops you native tokens when you bridge to a new chain.'
   ),
   reverse: true,
   primaryButton: {
@@ -62,7 +58,7 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
 
 export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Earn, receive ICE tokens when providing liquidity'),
-  bodyText: t('Thanks to liquidity farming pools, you can receive ICE tokens when you provide liquidity'),
+  bodyText: t('With liquidity farms, you can boost your Passive Income APY for liquidity provision'),
   reverse: false,
   primaryButton: {
     to: '/farms',
