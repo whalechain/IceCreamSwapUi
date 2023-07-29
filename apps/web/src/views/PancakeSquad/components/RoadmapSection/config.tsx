@@ -94,10 +94,11 @@ const config = ({ t }: FAQsType) => [
     reached: '07-2023',
   },
   {
-    title: t('Audits'),
+    title: t('Audits and expansion'),
     icon: '🛡️',
     description: [
       t('release of audit reports of all our smart contracts'),
+      t('Add support for Base chain'),
     ],
     reached: '08-2023',
   },
