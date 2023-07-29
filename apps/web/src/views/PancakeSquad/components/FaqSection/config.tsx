@@ -9,8 +9,8 @@ const config = ({ t }: FAQsType) => [
   {
     title: t('What is IceCreamSwap building?'),
     description: [
-      t('A one stop DeFi solution which users and founders can utilize on all chains and whichever DeFi utility they are searching for.'),
-      t('This removes the need to search for new utility providers on every blockchain and unifies all utility\'s in a single, simple to use, interface.')
+      t('A one stop DeFi solution which users and founders can utilize on all chains and whichever DeFi utility they are searching for.' +
+      " This removes the need to search for new utility providers on every blockchain and unifies all utility's in a single, simple to use, interface.")
     ],
   },
   {
