@@ -7,6 +7,13 @@ type FAQsType = {
 
 const config = ({ t }: FAQsType) => [
   {
+    title: t('What is IceCreamSwap building?'),
+    description: [
+      t('A one stop DeFi solution which users and founders can utilize on all chains and whichever DeFi utility they are searching for.'),
+      t('This removes the need to search for new utility providers on every blockchain and unifies all utility\'s in a single, simple to use, interface.')
+    ],
+  },
+  {
     title: t('Are the Swap contracts audited?'),
     description: [t('The Swap uses the unmodified, audited and battle tested Uniswap V2 smart contracts. One could argue that the Uniswap V2 contracts are the most tested smart contracts in the whole DeFi space.')],
   },
@@ -30,7 +37,7 @@ const config = ({ t }: FAQsType) => [
     title: t('Which chains are supported?'),
     description: [
       <Text as="p" color="textSubtle" fontSize="16px">
-        {t('Currently we are supporting CORE, Binance smart chain (BSC), XDC, Bitgert (Brise), XoDex, Dogechain, Doken, Fuse and soon Shardeum blockchains. For an always up to date list please take a look at our')}
+        {t('Currently we are supporting CORE, Telos, Bitgert (Brise), XDC, Shardeum, Binance smart chain (BSC), XoDex, Dogechain and Fuse Chains, as well as soon Iota Shimmer. For an always up to date list please take a look at our')}
         <Link
           display="inline-flex"
           color="text"

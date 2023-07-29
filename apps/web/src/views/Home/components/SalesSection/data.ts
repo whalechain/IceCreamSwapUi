@@ -9,7 +9,7 @@ import earnIce from '../../../../../public/images/home/earn/ice.png'
 export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Trade anything anywhere, hassle free'),
   bodyText: t(
-    'Seamless trading across multiple chains with the best rates thanks to the built-in DEX aggregator.'
+    'Seamless trading on many chains with the best rates thanks to the build-in DEX aggregator.'
   ),
   reverse: false,
   primaryButton: {
