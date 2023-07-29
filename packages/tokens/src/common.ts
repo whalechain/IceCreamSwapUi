@@ -8,6 +8,7 @@ import { coreTokens } from "./1116";
 import { xodexTokens } from "./2415";
 import { shardeumTestnetTokens } from "./8081";
 import {telosTokens} from "./40";
+import { baseTokens } from "./8453";
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
@@ -20,6 +21,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.XODEX]: xodexTokens.usdt,
   [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.usdt,
   [ChainId.TELOS]: telosTokens.usdt,
+  [ChainId.BASE]: baseTokens.usdt,
 }
 
 export const ICE: Record<ChainId, ERC20Token> = {
@@ -33,4 +35,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.XODEX]: xodexTokens.ice,
   [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.ice,
   [ChainId.TELOS]: telosTokens.ice,
+  [ChainId.BASE]: baseTokens.ice,
 }
