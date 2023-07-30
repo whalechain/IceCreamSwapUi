@@ -26,15 +26,4 @@ export const V3_DEFAULT_POOL_SELECTOR_CONFIG: { [chain: number]: PoolSelectorCon
 // Use to configure pool selector config when getting quote from specific tokens
 // Allow to increase or decrese the number of candidate pools to calculate routes from
 export const V3_TOKEN_POOL_SELECTOR_CONFIG: { [chain: number]: { [key: string]: Partial<PoolSelectorConfig> } } = {
-  [ChainId.BSC]: {
-    [bscTokens.ankr.address]: {
-      topNTokenInOut: 4,
-    },
-    [bscTokens.ankrbnb.address]: {
-      topNTokenInOut: 4,
-    },
-    [bscTokens.ankrETH.address]: {
-      topNTokenInOut: 4,
-    },
-  },
 }
