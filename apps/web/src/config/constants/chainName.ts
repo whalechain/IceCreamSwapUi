@@ -11,6 +11,7 @@ const chainName: Record<ChainId, string> = {
   [ChainId.XODEX]: 'XODEX',
   [ChainId.SHARDEUM_TEST]: 'Shardeum (Testnet)',
   [ChainId.TELOS]: 'Telos',
+  [ChainId.SHIMMER_TEST]: 'Shimmer (Testnet)',
 }
 
 export default chainName
