@@ -2,10 +2,8 @@ import { BinanceWalletConnector } from '@pancakeswap/wagmi/connectors/binanceWal
 import { BloctoConnector } from '@pancakeswap/wagmi/connectors/blocto'
 import { TrustWalletConnector } from '@pancakeswap/wagmi/connectors/trustWallet'
 import { CHAINS } from 'config/chains'
-import { PUBLIC_NODES } from 'config/nodes'
 import memoize from 'lodash/memoize'
 import { configureChains, createClient } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { LedgerConnector } from 'wagmi/connectors/ledger'
@@ -16,14 +14,7 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 export const { provider, chains } = configureChains(CHAINS, [
   jsonRpcProvider({
     rpc: (chain) => {
-      return PUBLIC_NODES[chain.id]
-        ? {
-            http:
-              typeof PUBLIC_NODES[chain.id] === 'string'
-                ? (PUBLIC_NODES[chain.id] as string)
-                : PUBLIC_NODES[chain.id][0],
-          }
-        : { http: chain.rpcUrls.default.http[0] }
+      return { http: chain.rpcUrls.default.http[0] }
     },
   }),
 ])
@@ -101,7 +92,6 @@ export const bitKeepConnector = new BitKeepConnector({
   chains,
   options: {
     shimDisconnect: false,
-    shimChainChangedDisconnect: true,
   },
 })
 
@@ -121,7 +111,6 @@ export const naboxConnector = new NaboxConnector({
   chains,
   options: {
     shimDisconnect: false,
-    shimChainChangedDisconnect: true,
   },
 })
 
@@ -141,7 +130,6 @@ export const okxConnector = new OkxConnector({
   chains,
   options: {
     shimDisconnect: true,
-    shimChainChangedDisconnect: true,
   },
 })
 

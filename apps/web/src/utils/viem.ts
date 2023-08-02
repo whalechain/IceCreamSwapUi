@@ -1,17 +1,17 @@
 import { ChainId } from '@pancakeswap/sdk'
 import { OnChainProvider } from '@pancakeswap/smart-router/evm'
 import { CHAINS } from 'config/chains'
-import { PUBLIC_NODES } from 'config/nodes'
 import { createPublicClient, http, fallback, PublicClient } from 'viem'
 
 const clients = CHAINS.reduce((prev, cur) => {
-  const isSingle = !Array.isArray(PUBLIC_NODES[cur.id])
+  const rpcs = cur.rpcUrls.public.http
+  const isSingle = rpcs.length === 1
   const transport = isSingle
-    ? http(PUBLIC_NODES[cur.id] as string, {
+    ? http(rpcs[0], {
         timeout: 15_000,
       })
     : fallback(
-        (PUBLIC_NODES[cur.id] as string[]).map((url) =>
+      rpcs.map((url) =>
           http(url, {
             timeout: 15_000,
           }),

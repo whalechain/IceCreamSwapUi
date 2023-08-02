@@ -1,7 +1,6 @@
 import { ChainId } from '@pancakeswap/sdk'
 import { OnChainProvider } from '@pancakeswap/smart-router/evm'
 import { CHAINS } from 'config/chains'
-import { SERVER_NODES } from 'config/nodes'
 import { createPublicClient, http } from 'viem'
 
 const clients = CHAINS.reduce((prev, cur) => {
@@ -9,7 +8,7 @@ const clients = CHAINS.reduce((prev, cur) => {
     ...prev,
     [cur.id]: createPublicClient({
       chain: cur,
-      transport: http(SERVER_NODES[cur.id]),
+      transport: http(cur.rpcUrls.default.http[0]),
     }),
   }
 }, {} as Record<ChainId, ReturnType<typeof createPublicClient>>)
