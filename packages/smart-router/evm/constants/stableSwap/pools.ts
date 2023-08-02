@@ -14,6 +14,6 @@ export const STABLE_SUPPORTED_CHAIN_IDS: ReadonlyArray<ChainId> = [] as const //
 
 export type StableSupportedChainId = (typeof STABLE_SUPPORTED_CHAIN_IDS)[number]
 
-export const STABLE_POOL_MAP = {
+export const STABLE_POOL_MAP: {[p: number]: StableSwapPool[]} = {
   // [ChainId.BSC]: bscPools,
 } satisfies StableSwapPoolMap<StableSupportedChainId>
