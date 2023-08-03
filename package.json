@@ -40,9 +40,11 @@
     "node": ">=16.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.16.2",
     "@changesets/cli": "^2.25.0",
+    "@pancakeswap/eslint-config-pancake": "workspace:*",
+    "@pancakeswap/tsconfig": "workspace:*",
     "@stylelint/postcss-css-in-js": "^0.37.2",
+    "@types/node": "^18.16.2",
     "eslint-plugin-lodash": "^7.4.0",
     "eslint-plugin-strict-null-checks": "0.0.21",
     "husky": "^7.0.0",
@@ -58,10 +60,8 @@
     "stylelint-config-styled-components": "^0.1.1",
     "tilg": "^0.1.1",
     "tsx": "^3.12.6",
-    "@pancakeswap/tsconfig": "workspace:*",
-    "@pancakeswap/eslint-config-pancake": "workspace:*",
-    "typescript": "^4.9.4",
     "turbo": "1.8.3",
+    "typescript": "^4.9.4",
     "vitest": "^0.27.2"
   },
   "volta": {
@@ -69,8 +69,13 @@
   },
   "dependencies": {
     "encoding": "^0.1.13",
-    "ws": "^8.13.0",
     "patch-package": "^6.5.1",
-    "postinstall-postinstall": "^2.1.0"
+    "postinstall-postinstall": "^2.1.0",
+    "ws": "^8.13.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@wagmi/core@0.10.11": "patches/@wagmi__core@0.10.11.patch"
+    }
   }
 }

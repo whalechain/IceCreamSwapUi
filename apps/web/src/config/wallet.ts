@@ -3,7 +3,7 @@ import { WalletFilledIcon } from '@pancakeswap/uikit'
 import type { ExtendEthereum } from 'global'
 import { isFirefox } from 'react-device-detect'
 import { getTrustWalletProvider } from '@pancakeswap/wagmi/connectors/trustWallet'
-import { walletConnectNoQrCodeConnector } from '../utils/wagmi'
+import { metaMaskConnector, walletConnectNoQrCodeConnector } from '../utils/wagmi'
 import { ASSET_CDN } from './constants/endpoints'
 
 export enum ConnectorNames {
