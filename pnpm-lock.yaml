@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@wagmi/core@0.10.11':
+    hash: wr6p6dnzjwi26pdxulxeexrd3e
+    path: patches/@wagmi__core@0.10.11.patch
+
 importers:
 
   .:
@@ -457,7 +462,7 @@ importers:
         version: 4.29.12(react-dom@18.2.0)(react@18.2.0)
       '@wagmi/core':
         specifier: ^0.10.10
-        version: 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
+        version: 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
       ajv:
         specifier: ^6.12.3
         version: 6.12.6
@@ -1742,7 +1747,7 @@ importers:
         version: 18.2.11
       '@wagmi/core':
         specifier: ^0.10.10
-        version: 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)
+        version: 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)
       react:
         specifier: ^18.0.0
         version: 18.2.0
@@ -5540,6 +5545,7 @@ packages:
 
   /@emotion/memoize@0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -6911,7 +6917,7 @@ packages:
     dependencies:
       '@gnosis.pm/safe-apps-provider': 0.15.1(encoding@0.1.13)
       '@gnosis.pm/safe-apps-sdk': 7.8.0(encoding@0.1.13)
-      '@wagmi/core': 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
+      '@wagmi/core': 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -12768,7 +12774,7 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.0.2
       '@safe-global/safe-apps-provider': 0.15.2(encoding@0.1.13)
       '@safe-global/safe-apps-sdk': 7.11.0(encoding@0.1.13)
-      '@wagmi/core': 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)
+      '@wagmi/core': 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)
       '@walletconnect/ethereum-provider': 2.7.2(@web3modal/standalone@2.4.3)(encoding@0.1.13)
       '@walletconnect/legacy-provider': 2.0.0(encoding@0.1.13)
       '@web3modal/standalone': 2.4.3(react@18.2.0)
@@ -12803,7 +12809,7 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.0.2
       '@safe-global/safe-apps-provider': 0.15.2(encoding@0.1.13)
       '@safe-global/safe-apps-sdk': 7.11.0(encoding@0.1.13)
-      '@wagmi/core': 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
+      '@wagmi/core': 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
       '@walletconnect/ethereum-provider': 2.7.2(@web3modal/standalone@2.4.3)(encoding@0.1.13)
       '@walletconnect/legacy-provider': 2.0.0(encoding@0.1.13)
       '@web3modal/standalone': 2.4.3(react@18.2.0)
@@ -12823,7 +12829,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5):
+  /@wagmi/core@0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5):
     resolution: {integrity: sha512-WOmG2RG65U6i+p09/aFztFSLPCeC+CYnkPh+OXrxQ8Q3m829983sH7xUTRbFAl561lRevUHmB+XS/na+Oj2bYQ==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -12850,8 +12856,9 @@ packages:
       - supports-color
       - utf-8-validate
       - zod
+    patched: true
 
-  /@wagmi/core@0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4):
+  /@wagmi/core@0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4):
     resolution: {integrity: sha512-WOmG2RG65U6i+p09/aFztFSLPCeC+CYnkPh+OXrxQ8Q3m829983sH7xUTRbFAl561lRevUHmB+XS/na+Oj2bYQ==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -12879,6 +12886,7 @@ packages:
       - utf-8-validate
       - zod
     dev: false
+    patched: true
 
   /@walletconnect/core@2.7.2:
     resolution: {integrity: sha512-gInSwh3uLpTEkDGArfOFoOVgiXW+zkZJpGqfARVi5fhSxsnL1jYNpqO2k8KAXUPfB4MIzLyaGruiaywncLAczA==}
@@ -13586,6 +13594,7 @@ packages:
   /amdefine@1.0.1:
     resolution: {integrity: sha512-S2Hw0TtNkMJhIabBwIojKL9YHO5T0n5eNqWJ7Lrlel/zDbftQpxpapi8tZs3X1HWa+u+QeydGmzzNU0m09+Rcg==}
     engines: {node: '>=0.4.2'}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -29424,7 +29433,7 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.29.11
       '@tanstack/react-query': 4.29.12(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.29.12(@tanstack/react-query@4.29.12)
-      '@wagmi/core': 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)
+      '@wagmi/core': 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)
       abitype: 0.3.0(typescript@4.9.5)(zod@3.21.4)
       ethers: 5.7.2
       react: 18.2.0
@@ -29456,7 +29465,7 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.29.11
       '@tanstack/react-query': 4.29.12(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.29.12(@tanstack/react-query@4.29.12)
-      '@wagmi/core': 0.10.11(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
+      '@wagmi/core': 0.10.11(patch_hash=wr6p6dnzjwi26pdxulxeexrd3e)(encoding@0.1.13)(ethers@5.7.2)(react@18.2.0)(typescript@4.9.5)(zod@3.21.4)
       abitype: 0.3.0(typescript@4.9.5)(zod@3.21.4)
       ethers: 5.7.2
       react: 18.2.0
