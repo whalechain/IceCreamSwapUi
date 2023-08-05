@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const core: IceChain = {
   id: 1116,
   name: 'Core Blockchain',
-  features: ['swap', 'bridge', 'farms', 'info', 'locks', 'staking'],
+  features: ['swap', 'bridge', 'farms', 'locks', 'staking'],
   network: 'core',
   rpcUrls: {
     public: { http: ['https://rpc.coredao.org/'] },

@@ -38,7 +38,8 @@ const HotTokenList: React.FC<{ handleOutputSelect: (newCurrencyOutput: Currency)
   const [index, setIndex] = useState(0)
   const { isMobile } = useMatchBreakpoints()
   const [confirmed, setConfirmed] = useState(false)
-  const { tokenPairs } = useTradingRewardTokenList()
+  // const { tokenPairs } = useTradingRewardTokenList()
+  const tokenPairs = null
 
   useEffect(() => {
     if (query.showTradingReward) {

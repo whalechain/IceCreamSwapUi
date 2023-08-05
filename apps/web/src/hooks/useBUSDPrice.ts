@@ -46,7 +46,7 @@ export function useStablecoinPrice(
   const { enabled, hideIfPriceImpactTooHigh } = { ...DEFAULT_CONFIG, ...config }
 
   const cakePrice = useCakePriceAsBN()
-  const stableCoin = chainId in ChainId ? STABLE_COIN[chainId as ChainId] : undefined
+  const stableCoin = chainId in ChainId ? USD[chainId as ChainId] : undefined
   const isCake = currency?.wrapped.equals(ICE[chainId])
 
   const isStableCoin = currency?.wrapped.equals(stableCoin)

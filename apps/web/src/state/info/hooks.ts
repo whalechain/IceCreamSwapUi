@@ -305,8 +305,10 @@ export const useGetChainName = () => {
 export const useChainNameByQuery = () => {
   const { query } = useRouter()
   const chainName = useMemo(() => {
-    if (query?.chainName === 'eth') return 'ETH'
-    return 'BSC'
+    if (typeof query?.chain === "string") {
+      return query.chain.toUpperCase()
+    }
+    return undefined
   }, [query])
   return chainName
 }

@@ -21,18 +21,16 @@ const blocksQueryConstructor = (subqueries: string[]) => {
 
 /**
  * @notice Fetches block objects for an array of timestamps.
- * @param {Array} timestamps
  */
 export const getBlocksFromTimestamps = async (
   timestamps: number[],
   sortDirection: 'asc' | 'desc' | undefined = 'desc',
   skipCount: number | undefined = 500,
-  chainName: MultiChainNameExtend | undefined = 'BITGERT',
+  chainName: MultiChainNameExtend,
 ): Promise<Block[]> => {
   if (timestamps?.length === 0) {
     return []
   }
-
   const fetchedData: any = await multiQuery(
     blocksQueryConstructor,
     getBlockSubqueries(timestamps),
