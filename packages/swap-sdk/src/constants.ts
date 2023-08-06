@@ -5,7 +5,7 @@ import { ChainId, chains } from '@icecreamswap/constants'
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')
 
-export const FACTORY_ADDRESS = '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'
+// export const FACTORY_ADDRESS = '0x9e6d21e759a7a288b80eef94e4737d313d31c13f'
 export { ChainId }
 
 export const FACTORY_ADDRESS_MAP: Record<number, string> = chains

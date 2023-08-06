@@ -77,10 +77,8 @@ const worker2 =
 
 // Revalidate interval in milliseconds
 const REVALIDATE_AFTER = {
-  [ChainId.BSC_TESTNET]: 15_000,
   [ChainId.BSC]: 15_000,
-  [ChainId.ETHEREUM]: 20_000,
-  [ChainId.GOERLI]: 20_000,
+  [ChainId.CORE]: 15_000,
 }
 
 interface FactoryOptions {
