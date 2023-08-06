@@ -9,22 +9,22 @@ export const FEE_AMOUNT_DETAIL: Record<
   { label: string; description: ReactNode; supportedChains: ChainId[] }
 > = {
   [FeeAmount.LOWEST]: {
-    label: '0.01',
-    description: 'Best for very stable pairs.',
-    supportedChains: CHAIN_IDS,
-  },
-  [FeeAmount.LOW]: {
-    label: '0.05',
+    label: '0.1',
     description: 'Best for stable pairs.',
     supportedChains: CHAIN_IDS,
   },
+  [FeeAmount.LOW]: {
+    label: '0.3',
+    description: 'Best for average pairs.',
+    supportedChains: CHAIN_IDS,
+  },
   [FeeAmount.MEDIUM]: {
-    label: '0.25',
-    description: 'Best for most pairs.',
+    label: '1',
+    description: 'Best for volatile pairs.',
     supportedChains: CHAIN_IDS,
   },
   [FeeAmount.HIGH]: {
-    label: '1',
+    label: '5',
     description: 'Best for exotic pairs.',
     supportedChains: CHAIN_IDS,
   },
