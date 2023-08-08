@@ -10,8 +10,9 @@ import {
   xodexTokens,
   shardeumTestnetTokens,
   telosTokens,
-  shimmerTestnetTokens
-} from '@pancakeswap/tokens'
+  shimmerTestnetTokens,
+  baseTokens
+} from '@pancakeswap/tokens';
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
 export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4'
@@ -58,6 +59,9 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   [ChainId.SHIMMER_TEST]: {
     Icecream: ROUTER_ADDRESS_COMMON,
   },
+  [ChainId.BASE]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
+  },
 }
 
 // used to construct intermediary pairs for trading
@@ -72,6 +76,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
+  [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
 }
 
 /**
@@ -99,6 +104,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
+  [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -151,6 +157,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
+  [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -188,6 +195,10 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.SHIMMER_TEST]: [
     [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice],
     [shimmerTestnetTokens.usdt, shimmerTestnetTokens.ice],
+  ],
+  [ChainId.BASE]: [
+    [baseTokens.weth, baseTokens.ice],
+    [baseTokens.usdt, baseTokens.ice],
   ],
 }
 

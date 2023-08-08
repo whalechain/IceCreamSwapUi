@@ -10,4 +10,5 @@ export * from './2415'
 export * from './8081'
 export * from './40'
 export * from './1072'
+export * from './8453'
 export const bscTokens = {} as any
