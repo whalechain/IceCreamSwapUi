@@ -1,4 +1,4 @@
-import { Button, Checkbox, Flex, Heading, Input, Text, useModal } from '@pancakeswap/uikit'
+import { Button, Flex, Heading, Input, Text, useModal } from '@pancakeswap/uikit'
 import AppWrapper from 'components/AppWrapper'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -17,10 +17,8 @@ export const CreateToken: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = form
 
-  const mintable = watch('mintable')
   const [onPresentCreateModal] = useModal(<CreateModal formValues={formValues} />, true, true, 'tokenCreateModal')
 
   return (
@@ -59,28 +57,39 @@ export const CreateToken: React.FC = () => {
             <Input type="number" placeholder="Initial Supply" {...register('initialSupply')} />
             {errors.initialSupply && <FormError>{errors.initialSupply.message}</FormError>}
           </Flex>
+          <br/>
           <Heading as="h3" size="sm">
-            Features
+            Taxes
           </Heading>
-          <Flex alignItems="center">
-            <Checkbox type="checkbox" {...register('burnable')} scale="sm" id="burnable" />
-            <Text as="label" ml="10px" style={{ userSelect: 'none' }} htmlFor="burnable">
-              Burnable
-            </Text>
+          <Flex flexDirection="column">
+            <Text>Buy Tax</Text>
+            <Input type="number" placeholder="0%" {...register('buyTax')} />
+            {errors.buyTax && <FormError>{errors.buyTax.message}</FormError>}
           </Flex>
-          <Flex alignItems="center">
-            <Checkbox type="checkbox" {...register('mintable')} scale="sm" id="mintable" />
-            <Text as="label" ml="10px" style={{ userSelect: 'none' }} htmlFor="mintable">
-              Mintable
-            </Text>
+          <Flex flexDirection="column">
+            <Text>Sell Tax</Text>
+            <Input type="number" placeholder="0%" {...register('sellTax')} />
+            {errors.sellTax && <FormError>{errors.sellTax.message}</FormError>}
           </Flex>
-          {mintable && (
-            <Flex flexDirection="column">
-              <Text>Max Supply</Text>
-              <Input type="number" placeholder="Max Supply" {...register('maxSupply')} />
-              {errors.maxSupply && <FormError>{errors.maxSupply.message}</FormError>}
-            </Flex>
-          )}
+          <br/>
+          <Heading as="h3" size="sm">
+            Tax distribution
+          </Heading>
+          <Flex flexDirection="column">
+            <Text>Marketing Distribution</Text>
+            <Input type="number" placeholder="0%" {...register('marketingDistribution')} />
+            {errors.marketingDistribution && <FormError>{errors.marketingDistribution.message}</FormError>}
+          </Flex>
+          <Flex flexDirection="column">
+            <Text>Dividend Distribution</Text>
+            <Input type="number" placeholder="0%" {...register('dividendDistribution')} />
+            {errors.dividendDistribution && <FormError>{errors.dividendDistribution.message}</FormError>}
+          </Flex>
+          <Flex flexDirection="column">
+            <Text>Auto-Liquidity Distribution</Text>
+            <Input type="number" placeholder="0%" {...register('liquidityDistribution')} />
+            {errors.liquidityDistribution && <FormError>{errors.liquidityDistribution.message}</FormError>}
+          </Flex>
           <Button type="submit">Create Token</Button>
         </form>
       </FormProvider>

@@ -29,7 +29,7 @@ interface ChainBase {
   features: ChainFeature[]
   swap?: SwapConfig
   locks?: LocksConfig
-  tokenDeployer?: TokenDeployerConfig
+  tokenDeployerDividend?: TokenDeployerConfig
   blockInterval: number
   wrappedNative: {
     name: string

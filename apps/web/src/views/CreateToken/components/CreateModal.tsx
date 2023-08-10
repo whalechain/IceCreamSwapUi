@@ -1,5 +1,4 @@
 import { Flex, Modal, useModalContext, Text, Button, Heading, Spinner } from '@pancakeswap/uikit'
-import { formatAmount } from '../../Bridge/formatter'
 import { useCallback, useState } from 'react'
 import { FormValues } from '../create-schema'
 import styled from 'styled-components'
@@ -7,12 +6,12 @@ import { useAddUserToken } from 'state/user/hooks'
 import { useToken } from 'hooks/Tokens'
 import useUserAddedTokens from 'state/user/hooks/useUserAddedTokens'
 import AddToWallet from './AddToWallet'
-import useTokenDeployer from '../useTokenDeployer'
 import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { BigNumber, utils } from 'ethers'
+import { utils } from 'ethers'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useTranslation } from '@pancakeswap/localization'
+import useTokenDeployerDividend from "../useTokenDeployer";
 
 interface DepositModalProps {
   formValues: FormValues
@@ -29,10 +28,6 @@ const Subtitle = styled.span`
   color: ${({ theme }) => theme.colors.textSubtle};
 `
 
-const hasFeatures = (formValues: FormValues) => {
-  return formValues?.burnable || formValues?.mintable
-}
-
 type Steps = 'preview' | 'transfer' | 'completed'
 
 const CreateModal: React.FC<DepositModalProps> = (props) => {
@@ -43,29 +38,26 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const { chainId } = useActiveChainId()
   const [tokenAddress, setTokenAddress] = useState<string | null>(null)
   const token = useToken(tokenAddress)
-  const tokenDeployer = useTokenDeployer()
+  const tokenDeployer = useTokenDeployerDividend()
   const { address, status } = useAccount()
 
   const handleDeposit = async () => {
     const initialSupply = utils.parseUnits(String(formValues?.initialSupply || '0'), 18)
-    const maxSupply = utils.parseUnits(String(formValues?.maxSupply || '0'), 18)
-    await tokenDeployer.createToken(
+    await tokenDeployer.deploy(
       {
-        name: formValues?.tokenName,
         symbol: formValues?.tokenSymbol,
-        initialSupply,
-        maximumSupply: maxSupply,
-        burnable: formValues?.burnable,
-        mintable: formValues?.mintable,
-        crossChain: false,
-        minterDelay: 0,
-        vault: '0x0000000000000000000000000000000000000000',
-        underlying: '0x0000000000000000000000000000000000000000',
+        name: formValues?.tokenName,
+        supply: initialSupply,
+        buyTax: formValues?.buyTax,
+        sellTax: formValues?.sellTax,
+        marketingTax: formValues?.marketingDistribution,
+        reflectionTax: formValues?.dividendDistribution,
+        liquidityTax: formValues?.liquidityDistribution,
       },
       { gasLimit: 1000000 },
     )
     setStep('transfer')
-    tokenDeployer.on(tokenDeployer.filters.TokenCreated(address), (creator, ta, _tokenName) => {
+    tokenDeployer.on(tokenDeployer.filters.TokenDeployed(), (ta, creator, _tokenName, _tokenSymbol, _buyTax, _sellTax) => {
       if (creator !== address) return
       setTokenAddress(ta)
       setStep('completed')
@@ -117,25 +109,6 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         <Text fontSize="1em">{t('Initial Supply')}</Text>
         <Text fontSize="1em">{formValues?.initialSupply}</Text>
       </Flex>
-      {hasFeatures(formValues) && <Heading>{t('Features')}</Heading>}
-      {formValues?.burnable && (
-        <Flex alignItems="center" justifyContent="space-between">
-          <Text fontSize="1em">{t('Burnable')}</Text>
-          <Text fontSize="1em">{t('Yes')}</Text>
-        </Flex>
-      )}
-      {formValues?.mintable && (
-        <>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text fontSize="1em">{t('Mintable')}</Text>
-            <Text fontSize="1em">Yes</Text>
-          </Flex>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text fontSize="1em">{t('Max Supply')}</Text>
-            <Text fontSize="1em">{formValues?.maxSupply}</Text>
-          </Flex>
-        </>
-      )}
       {status === 'connected' ? (
         <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
           {t('Confirm')}

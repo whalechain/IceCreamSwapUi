@@ -16,8 +16,6 @@ export const schema = z
       .string()
       .transform(Number)
       .refine((value) => value > 0, 'Must be greater than 0'),
-    burnable: z.boolean().default(false),
-    mintable: z.boolean().default(false),
     logo: z
       .any()
       .refine(
@@ -28,15 +26,44 @@ export const schema = z
       )
       .transform(async (value) => ({ fileName: value[0].name, blob: await toBase64(value[0]) }))
       .optional(),
-    maxSupply: z
+    buyTax: z
       .string()
+      .transform((value) => value.replace('%', ''))
       .transform(Number)
-      .refine((value) => value > 0, 'Must be greater than 0')
-      .optional(),
+      .refine((value) => value >= 0, 'Must be posiive')
+      .refine((value) => value <= 10, 'Max 10%'),
+    sellTax: z
+      .string()
+      .transform((value) => value.replace('%', ''))
+      .transform(Number)
+      .refine((value) => value >= 0, 'Must be posiive')
+      .refine((value) => value <= 10, 'Max 10%'),
+    marketingDistribution: z
+      .string()
+      .transform((value) => value.replace('%', ''))
+      .transform(Number)
+      .refine((value) => value >= 0, 'Must be posiive')
+      .refine((value) => value <= 50, 'Can not be above 50%'),
+    dividendDistribution: z
+      .string()
+      .transform((value) => value.replace('%', ''))
+      .transform(Number)
+      .refine((value) => value >= 0, 'Must be posiive')
+      .refine((value) => value <= 100, 'Can not be above 100%'),
+    liquidityDistribution: z
+      .string()
+      .transform((value) => value.replace('%', ''))
+      .transform(Number)
+      .refine((value) => value >= 0, 'Must be posiive')
+      .refine((value) => value <= 100, 'Can not be above 100%'),
   })
-  .refine((data) => (data.maxSupply ? data.maxSupply > data.initialSupply : true), {
-    path: ['maxSupply'],
-    message: 'Max supply must be greater than initial supply',
+  .refine((data) => (data.sellTax <= data.buyTax * 2), {
+    path: ['sellTax'],
+    message: 'Sell Tax can be at most 2x Buy Tax',
+  })
+  .refine((data) => (data.marketingDistribution + data.dividendDistribution + data.liquidityDistribution === 100), {
+    path: ['marketingDistribution'],
+    message: 'tax distributions must sum to 100%',
   })
 
 export type FormValues = z.infer<typeof schema>

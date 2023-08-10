@@ -3,11 +3,11 @@ import { PSIPadTokenDeployer } from '@passive-income/launchpad-contracts/typecha
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useContract } from 'hooks/useContract'
 
-const useTokenDeployer = () => {
+const useTokenDeployerDividend = () => {
   const chain = useActiveChain()
-  const tokenDeployerAddress = chain?.tokenDeployer?.address
+  const tokenDeployerAddress = chain?.tokenDeployerDividend?.address
   const tokenDeployer = useContract<PSIPadTokenDeployer>(tokenDeployerAddress, tokenDeployerAbi, true)
   return tokenDeployer
 }
 
-export default useTokenDeployer
+export default useTokenDeployerDividend
