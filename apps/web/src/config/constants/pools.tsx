@@ -37,6 +37,17 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
+    sousId: 39,
+    stakingToken: coreTokens.kigu,
+    earningToken: coreTokens.kigu,
+    contractAddress: {
+      1116: '0xd7973da4e8559169ddbd4a5b6abae9a4a5cdc49a',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.0115',
+    version: 2,
+  },
+  {
     sousId: 37,
     stakingToken: coreTokens.block,
     earningToken: coreTokens.block,

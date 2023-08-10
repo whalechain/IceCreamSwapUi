@@ -52,4 +52,5 @@ export const coreTokens = {
   bliz: new ERC20Token(ChainId.CORE, '0xd33b7081aEBA462333356757BFC78Bc000F6b1f4', 18, 'BLIZ', 'BLIZZARD CORP.'),
   asi: new ERC20Token(ChainId.CORE, '0xEF51585D985bad6818C8aD7BA6D70cCf6D216c89', 18, 'ASI', 'Asi Core'),
   musk: new ERC20Token(ChainId.CORE, '0x154B5D670Ee6BA945B20A343d68Dff29720e9170', 18, 'MUSK 2.0', 'MUSK 2.0'),
+  kigu: new ERC20Token(ChainId.CORE, '0xB0Da4ae4e087DCE159AE1C2d6C6f502e902516A1', 8, 'KIGU', 'Kigurumi'),
 }
