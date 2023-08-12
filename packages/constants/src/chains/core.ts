@@ -28,6 +28,7 @@ export const core: IceChain = {
   },
   tokenDeployerDividend: {
     address: '0x3d14cB33D5A4ce59625C32291719691953061903',
+    feeToken: '0x913E332d552b98355587BBa82b1256BCAdbCeD48',
   },
   blockInterval: 3,
   wrappedNative: {

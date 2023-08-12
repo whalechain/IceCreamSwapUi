@@ -14,6 +14,7 @@ interface LocksConfig {
 
 interface TokenDeployerConfig {
   address: string
+  feeToken: string
 }
 
 interface KycConfig {
