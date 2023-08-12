@@ -44,17 +44,14 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const handleDeposit = async () => {
     const initialSupply = utils.parseUnits(String(formValues?.initialSupply || '0'), 18)
     await tokenDeployer.deploy(
-      {
-        symbol: formValues?.tokenSymbol,
-        name: formValues?.tokenName,
-        supply: initialSupply,
-        buyTax: formValues?.buyTax,
-        sellTax: formValues?.sellTax,
-        marketingTax: formValues?.marketingDistribution,
-        reflectionTax: formValues?.dividendDistribution,
-        liquidityTax: formValues?.liquidityDistribution,
-      },
-      { gasLimit: 1000000 },
+      formValues?.tokenSymbol,
+      formValues?.tokenName,
+      initialSupply,
+      formValues?.buyTax,
+      formValues?.sellTax,
+      formValues?.marketingDistribution,
+      formValues?.dividendDistribution,
+      formValues?.liquidityDistribution
     )
     setStep('transfer')
     tokenDeployer.on(tokenDeployer.filters.TokenDeployed(), (ta, creator, _tokenName, _tokenSymbol, _buyTax, _sellTax) => {
