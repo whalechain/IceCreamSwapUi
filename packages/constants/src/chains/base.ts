@@ -4,14 +4,14 @@ import IceChain from '../ice-chain'
 export const base: IceChain = {
   id: 8453,
   name: 'Base Blockchain',
-  features: ['swap', 'bridge'],
+  features: ['swap', 'bridge', "farms"],
   network: 'base',
   rpcUrls: {
     public: 'https://developer-access-mainnet.base.org',
     default: 'https://developer-access-mainnet.base.org',
   },
   blockExplorers: {
-    default: { name: 'Base Explorer', url: 'https://basescan.org/' },
+    default: { name: 'Base Explorer', url: 'https://basescan.org' },
   },
   nativeCurrency: {
     name: 'Ether',
