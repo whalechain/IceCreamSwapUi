@@ -8,10 +8,12 @@ import useUserAddedTokens from 'state/user/hooks/useUserAddedTokens'
 import AddToWallet from './AddToWallet'
 import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useTranslation } from '@pancakeswap/localization'
-import useTokenDeployerDividend from "../useTokenDeployer";
+import useTokenDeployerDividend, { useDeploymentFee } from '../useTokenDeployer'
+import { CurrencyAmount } from '@pancakeswap/sdk'
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 
 interface DepositModalProps {
   formValues: FormValues
@@ -51,32 +53,44 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       formValues?.sellTax,
       formValues?.marketingDistribution,
       formValues?.dividendDistribution,
-      formValues?.liquidityDistribution
+      formValues?.liquidityDistribution,
     )
     setStep('transfer')
-    tokenDeployer.on(tokenDeployer.filters.TokenDeployed(), (ta, creator, _tokenName, _tokenSymbol, _buyTax, _sellTax) => {
-      if (creator !== address) return
-      setTokenAddress(ta)
-      setStep('completed')
-      fetch('/api/add-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formValues?.tokenName,
-          symbol: formValues?.tokenSymbol,
-          logo: formValues?.logo?.blob,
-          address: ta,
-          chainId,
-          decimals: 18,
-        }),
-      })
-    })
+    tokenDeployer.on(
+      tokenDeployer.filters.TokenDeployed(),
+      (ta, creator, _tokenName, _tokenSymbol, _buyTax, _sellTax) => {
+        if (creator !== address) return
+        setTokenAddress(ta)
+        setStep('completed')
+        // fetch('/api/add-token', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({
+        //     name: formValues?.tokenName,
+        //     symbol: formValues?.tokenSymbol,
+        //     logo: formValues?.logo?.blob,
+        //     address: ta,
+        //     chainId,
+        //     decimals: 18,
+        //   }),
+        // })
+      },
+    )
   }
 
   const addToken = useAddUserToken()
   const userAddedTokens = useUserAddedTokens()
+  const { feeToken, feeAmount, deployerAddress } = useDeploymentFee()
+  const feeTokenToken = useToken(feeToken)
+  const [approvalState, approve] = useApproveCallback(
+    feeTokenToken &&
+      feeAmount &&
+      CurrencyAmount.fromRawAmount(feeTokenToken, utils.parseUnits(feeAmount.toString(), 0) as any),
+    deployerAddress,
+    true,
+  )
 
   const handleAddToken = useCallback(() => {
     if (token) {
@@ -84,7 +98,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
     } else {
       console.error(t('No token found'))
     }
-  }, [addToken, token])
+  }, [addToken, t, token])
 
   const handleDismiss = () => {
     onDismiss()
@@ -107,9 +121,15 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         <Text fontSize="1em">{formValues?.initialSupply}</Text>
       </Flex>
       {status === 'connected' ? (
-        <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
-          {t('Confirm')}
-        </Button>
+        approvalState !== ApprovalState.APPROVED ? (
+          <Button style={{ flexGrow: 1 }} onClick={approve}>
+            {t('Approve')}
+          </Button>
+        ) : (
+          <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
+            {t('Confirm')}
+          </Button>
+        )
       ) : (
         <ConnectWalletButton />
       )}
@@ -127,7 +147,9 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         onClick={handleAddToken}
         disabled={userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress)}
       >
-        {userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress) ? t('Imported') : t('Import to Swap')}
+        {userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress)
+          ? t('Imported')
+          : t('Import to Swap')}
       </Button>
       <AddToWallet
         tokenAddress={tokenAddress!}
