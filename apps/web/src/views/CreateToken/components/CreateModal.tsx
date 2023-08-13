@@ -84,9 +84,10 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const userAddedTokens = useUserAddedTokens()
   const { feeToken, feeAmount, deployerAddress } = useDeploymentFee()
   const feeTokenToken = useToken(feeToken)
-  console.log(feeAmount)
   const [approvalState, approve] = useApproveCallback(
-    feeTokenToken && feeAmount && CurrencyAmount.fromRawAmount(feeTokenToken, feeAmount),
+    feeTokenToken &&
+      feeAmount &&
+      CurrencyAmount.fromRawAmount(feeTokenToken, utils.parseUnits(feeAmount.toString(), 0) as any),
     deployerAddress,
     true,
   )

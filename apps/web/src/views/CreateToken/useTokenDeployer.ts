@@ -1,6 +1,6 @@
 // import tokenDeployerAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadTokenDeployer.sol/PSIPadTokenDeployer.json'
 // import { PSIPadTokenDeployer } from '@passive-income/launchpad-contracts/typechain/PSIPadTokenDeployer'
-import tokenDeployerAbi from '@icecreamswap/contracts/projects/token-deployer/abi/contracts/dividendTokenDeployer.sol/DividendTokenDeployer.json'
+import tokenDeployerAbi from './tokenDeployerAbi.json'
 import { DividendTokenDeployer } from '@icecreamswap/contracts/projects/token-deployer/typechain/contracts/dividendTokenDeployer.sol'
 import { BigNumber } from 'ethers'
 import { useActiveChain } from 'hooks/useActiveChain'
