@@ -13,6 +13,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import useTokenDeployerDividend, { useDeploymentFee } from '../useTokenDeployer'
 import { CurrencyAmount } from '@pancakeswap/sdk'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import Divider from 'views/Farms/components/Divider'
 
 interface DepositModalProps {
   formValues: FormValues
@@ -52,7 +53,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       formValues?.marketingDistribution * 100,
       formValues?.dividendDistribution * 100,
       formValues?.liquidityDistribution * 100,
-      {gasLimit: 10_000_000}
+      { gasLimit: 10_000_000 },
     )
     setStep('transfer')
     tokenDeployer.on(
@@ -119,9 +120,32 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
         <Text fontSize="1em">{t('Initial Supply')}</Text>
         <Text fontSize="1em">{formValues?.initialSupply}</Text>
       </Flex>
+      <Divider />
+      <Flex alignItems="center" justifyContent="space-between">
+        <Text fontSize="1em">{t('Buy Tax')}</Text>
+        <Text fontSize="1em">{formValues?.buyTax}%</Text>
+      </Flex>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Text fontSize="1em">{t('Sell Tax')}</Text>
+        <Text fontSize="1em">{formValues?.sellTax}%</Text>
+      </Flex>
+      <Flex marginTop="0.5em" alignItems="center" justifyContent="space-between">
+        <Text fontSize="1em">{t('Marketing Distribution')}</Text>
+        <Text fontSize="1em">{formValues?.marketingDistribution}%</Text>
+      </Flex>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Text fontSize="1em">{t('Dividend Distribution')}</Text>
+        <Text fontSize="1em">{formValues?.dividendDistribution}%</Text>
+      </Flex>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Text fontSize="1em">{t('Liquidity Distribution')}</Text>
+        <Text fontSize="1em">{formValues?.liquidityDistribution}%</Text>
+      </Flex>
+
+      <Divider />
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="1em">{t('Creation Fee')}</Text>
-        <Text fontSize="1em">{feeAmount? utils.formatUnits(feeAmount, 18).toString(): null} ICE</Text>
+        <Text fontSize="1em">{feeAmount ? utils.formatUnits(feeAmount, 18).toString() : null} ICE</Text>
       </Flex>
       {status === 'connected' ? (
         approvalState !== ApprovalState.APPROVED ? (
@@ -145,7 +169,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       <Text display="inline" style={{ wordBreak: 'break-all' }}>
         {t('Token Address')}: {tokenAddress}
       </Text>
-      <Text>{t('What\'s next?')}</Text>
+      <Text>{t("What's next?")}</Text>
       <Button
         onClick={handleAddToken}
         disabled={userAddedTokens?.some((addedToken) => addedToken.address === tokenAddress)}
