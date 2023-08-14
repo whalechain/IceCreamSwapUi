@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const core: IceChain = {
   id: 1116,
   name: 'Core Blockchain',
-  features: ['swap', 'bridge', 'farms', 'info', 'locks', 'staking', 'launchpad'],
+  features: ['swap', 'bridge', 'farms', 'info', 'locks', 'staking', 'launchpad', "tokenDeployer"],
   network: 'core',
   rpcUrls: {
     public: 'https://rpc.coredao.org/',
@@ -21,6 +21,10 @@ export const core: IceChain = {
   multicall: {
     address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
     blockCreated: 852772,
+  },
+  tokenDeployerDividend: {
+    address: '0x9BD18D8FBfB6a8290f16163bD14Ac8a3c7EFfc0e',
+    feeToken: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
   },
   locks: {
     factoryAddress: '0xFDfD00471d8bebA97B40f5D1599b7A84C16dd7d2',

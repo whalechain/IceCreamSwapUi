@@ -23,7 +23,7 @@ export const base: IceChain = {
     blockCreated: 1915584,
   },
   tokenDeployerDividend: {
-    address: '0xCE08f0D536889744be6A267D7976060a69885db5',
+    address: '0x3bb8171b19F5CCCaAfC1812cABa8EBc604043f6F',
     feeToken: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
   },
   blockInterval: 2,

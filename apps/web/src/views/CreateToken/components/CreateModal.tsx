@@ -8,13 +8,11 @@ import useUserAddedTokens from 'state/user/hooks/useUserAddedTokens'
 import AddToWallet from './AddToWallet'
 import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { BigNumber, utils } from 'ethers'
-import { useActiveChainId } from 'hooks/useActiveChainId'
+import { utils } from 'ethers'
 import { useTranslation } from '@pancakeswap/localization'
 import useTokenDeployerDividend, { useDeploymentFee } from '../useTokenDeployer'
 import { CurrencyAmount } from '@pancakeswap/sdk'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
-import { formatUnits } from "@ethersproject/units/src.ts";
 
 interface DepositModalProps {
   formValues: FormValues
@@ -38,7 +36,6 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const { formValues } = props
   const [step, setStep] = useState<Steps>('preview')
   const { onDismiss } = useModalContext()
-  const { chainId } = useActiveChainId()
   const [tokenAddress, setTokenAddress] = useState<string | null>(null)
   const token = useToken(tokenAddress)
   const tokenDeployer = useTokenDeployerDividend()
@@ -124,7 +121,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       </Flex>
       <Flex alignItems="center" justifyContent="space-between">
         <Text fontSize="1em">{t('Creation Fee')}</Text>
-        <Text fontSize="1em">{feeAmount? utils.formatUnits(feeAmount, 18).toString(): null}</Text>
+        <Text fontSize="1em">{feeAmount? utils.formatUnits(feeAmount, 18).toString(): null} ICE</Text>
       </Flex>
       {status === 'connected' ? (
         approvalState !== ApprovalState.APPROVED ? (
