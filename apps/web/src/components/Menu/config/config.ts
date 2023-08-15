@@ -5,7 +5,6 @@ import {
   EarnFillIcon,
   EarnIcon,
   DropdownMenuItems,
-  InfoIcon,
   BridgeIcon,
   DropdownMenuItemType,
   RocketIcon,
@@ -18,7 +17,7 @@ import {
   SUPPORT_INFO,
   SUPPORT_SWAP,
   SUPPORT_BRIDGE,
-  SUPPORT_LOCKS, SUPPORT_LAUNCHPAD
+  SUPPORT_LOCKS, SUPPORT_LAUNCHPAD, SUPPORT_TOKEN_DEPLOYER
 } from "../../../config/constants/supportChains";
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & {
@@ -232,42 +231,9 @@ const config: (
           ],
         },
         {
-          label: t('KYC Checker'),
-          href: '/kyc-checker',
-          supportChainIds: [1116],
-          items: [
-            {
-              label: t('KYC'),
-              href: '/kyc',
-            },
-            {
-              label: t('KYC Checker'),
-              href: '/kyc-checker',
-            },
-            {
-              label: t('KYC Delegator'),
-              href: '/kyc-delegator',
-            },
-          ],
-        },
-        {
-          label: t('KYC Delegator'),
-          href: '/kyc-delegator',
-          supportChainIds: [1116],
-          items: [
-            {
-              label: t('KYC'),
-              href: '/kyc',
-            },
-            {
-              label: t('KYC Checker'),
-              href: '/kyc-checker',
-            },
-            {
-              label: t('KYC Delegator'),
-              href: '/kyc-delegator',
-            },
-          ],
+          label: t('Token Deployer'),
+          href: '/create-token',
+          supportChainIds: SUPPORT_TOKEN_DEPLOYER,
         },
         {
           label: t('Wiki'),
