@@ -94,6 +94,7 @@ const Hero = () => {
             <Link href="https://icecreamswap.com/kyc" display="inline-flex">KYC</Link>{", "}
             <Link href="https://icecreamswap.com/launchpad" display="inline-flex">{t('Launchpad')}</Link>{t(' and ')}
             <Link href="https://icecreamswap.com/bridge" display="inline-flex">{t('Bridge')}</Link>{t(' on ')}
+            <Link href="https://base.org/" display="inline-flex">Base</Link>{", "}
             <Link href="https://coredao.org/" display="inline-flex">Core DAO</Link>{", "}
             <Link href="https://www.telos.net/" display="inline-flex">Telos</Link>{", "}
             <Link href="https://bitgert.com/" display="inline-flex">Bitgert</Link>{", "}
