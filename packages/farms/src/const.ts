@@ -22,6 +22,6 @@ export const nonBSCVaultAddresses = {
   5: '0xE6c904424417D03451fADd6E3f5b6c26BcC43841',
 }
 export const masterChefV3Addresses = {
-  1116: '0x79035Dc4436bA9C95016D3bF6304e5bA78B1066A',
+  1116: '0x6c6549a2aeFec87Ca9a3615fE3bf6E915Fccfb24',
 }
 export const FARM_AUCTION_HOSTING_IN_SECONDS = 691200

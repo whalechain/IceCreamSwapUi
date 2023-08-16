@@ -3,7 +3,7 @@ import { ChainId } from '@pancakeswap/sdk'
 // export const FACTORY_ADDRESS = '0x0BFbCF9fa4f9C56B0F40a671Ad40E0805A091865'
 
 export const DEPLOYER_ADDRESSES = {
-  [ChainId.CORE]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+  [ChainId.CORE]: '0xFfD762aA7e5f900E70a2F343e08734D31b38AB70',
 } as const satisfies Record<ChainId, string>
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'

@@ -1,5 +1,4 @@
 import { ChainId, Token } from '@pancakeswap/sdk'
-import { bscTokens } from '@pancakeswap/tokens'
 
 import { ChainMap, ChainTokenList } from '../types'
 
@@ -8,7 +7,7 @@ export const SWAP_ROUTER_ADDRESSES = {
   // [ChainId.GOERLI]: '0x9a489505a00cE272eAa5e07Dba6491314CaE3796',
   // [ChainId.BSC]: '0x13f4EA83D0bd40E75C8222255bc855a974568Dd4',
   // [ChainId.BSC_TESTNET]: '0x9a489505a00cE272eAa5e07Dba6491314CaE3796',
-  [ChainId.CORE]: '0x4ddC9394b8371765588B10134AA79472C1d42b16',
+  [ChainId.CORE]: '0x1EF84E4709dB3F364FBB40c86360F51e64361e64',
 } as const satisfies Record<ChainId, string>
 
 /*

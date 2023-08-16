@@ -13,7 +13,7 @@ import {
 } from './multicallProvider'
 
 const PANCAKE_MULTICALL_ADDRESSES = {
-  [ChainId.BSC]: '0xac1cE734566f390A94b00eb9bf561c2625BF44ea',
+  [ChainId.CORE]: '0x70A80186df446C4FC214C4468c0e3900dcCD9204',
 } as const
 
 export type PancakeMulticallConfig = {
@@ -21,11 +21,7 @@ export type PancakeMulticallConfig = {
 }
 
 function isPromise<T>(p: any): p is Promise<T> {
-  if (typeof p === 'object' && typeof p.then === 'function') {
-    return true
-  }
-
-  return false
+  return typeof p === 'object' && typeof p.then === 'function';
 }
 
 /**
