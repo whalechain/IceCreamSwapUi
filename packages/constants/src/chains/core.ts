@@ -33,7 +33,7 @@ export const core: IceChain = {
   },
   blockInterval: 3,
   wrappedNative: {
-    address: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+    address: '0x9550Db7d4d7Fb115BD3c5cdEf861E7d7D2F5062a',
     decimals: 18,
     symbol: 'WCORE',
     name: 'Wrapped CORE',
