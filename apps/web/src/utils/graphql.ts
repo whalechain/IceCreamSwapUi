@@ -35,6 +35,7 @@ export const infoClientWithChain = (chainId: number) => {
 
 export const v3Clients = {
   // [ChainId.BSC]: new GraphQLClient(V3_SUBGRAPH_URLS[ChainId.BSC]),
+  [ChainId.CORE]: new GraphQLClient(V3_SUBGRAPH_URLS[ChainId.CORE]),
 }
 
 export const v3InfoClients = { ...v3Clients, [ChainId.BSC]: new GraphQLClient(V3_BSC_INFO_CLIENT) }

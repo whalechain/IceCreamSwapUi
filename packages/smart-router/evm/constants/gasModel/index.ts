@@ -1,12 +1,14 @@
 import { ChainId, Token } from '@pancakeswap/sdk'
-import { bscTokens } from '@pancakeswap/tokens'
+import { bscTokens, coreTokens } from "@pancakeswap/tokens";
 
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.BSC]: [bscTokens.busd],
+  [ChainId.CORE]: [coreTokens.usdt],
 }
 
 export const nativeWrappedTokenByChain: { [chainId in ChainId]?: Token } = {
   [ChainId.BSC]: bscTokens.wbnb,
+  [ChainId.CORE]: coreTokens.wcore,
 }
 
 export * from './v2'
