@@ -3,12 +3,10 @@ import {
   BIT_QUERY,
   INFO_CLIENT,
   STABLESWAP_SUBGRAPH_CLIENT,
-  INFO_CLIENT_ETH,
   V3_SUBGRAPH_URLS,
-  V3_BSC_INFO_CLIENT,
+  INFO_CLIENT_WITH_CHAIN
 } from 'config/constants/endpoints'
 import { GraphQLClient } from 'graphql-request'
-import { INFO_CLIENT_WITH_CHAIN } from '../config/constants/endpoints'
 
 // Extra headers
 // Mostly for dev environment
@@ -38,9 +36,8 @@ export const v3Clients = {
   [ChainId.CORE]: new GraphQLClient(V3_SUBGRAPH_URLS[ChainId.CORE]),
 }
 
-export const v3InfoClients = { ...v3Clients, [ChainId.BSC]: new GraphQLClient(V3_BSC_INFO_CLIENT) }
+export const v3InfoClients = v3Clients
 
-export const infoClientETH = new GraphQLClient(INFO_CLIENT_ETH)
 
 export const infoStableSwapClient = new GraphQLClient(STABLESWAP_SUBGRAPH_CLIENT)
 
