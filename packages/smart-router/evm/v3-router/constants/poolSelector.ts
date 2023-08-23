@@ -1,5 +1,4 @@
 import { ChainId } from '@pancakeswap/sdk'
-import { bscTokens } from '@pancakeswap/tokens'
 
 import { PoolSelectorConfig } from '../types'
 

@@ -47,22 +47,8 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
 }
 
 export const CHAIN_REFRESH_TIME = {
-  [ChainId.ETHEREUM]: 12_000,
-  [ChainId.GOERLI]: 12_000,
   [ChainId.BSC]: 6_000,
-  [ChainId.BSC_TESTNET]: 6_000,
 } as const satisfies Record<ChainId, number>
-
-// used to construct intermediary pairs for trading
-export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
-  [ChainId.BITGERT]: [bitgertTokens.wbrise, bitgertTokens.ice, bitgertTokens.usdci, bitgertTokens.usdti],
-  [ChainId.DOGE]: [dogechainTokens.wdoge, dogechainTokens.ice],
-  [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
-  [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.score, coreTokens.ice, coreTokens.usdt],
-  [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
-}
 
 /**
  * Additional bases for specific tokens

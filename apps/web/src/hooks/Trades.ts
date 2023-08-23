@@ -5,16 +5,16 @@ import { useMemo } from 'react'
 
 import { useUserSingleHopOnly } from '@pancakeswap/utils/user'
 import {
-  BASES_TO_CHECK_TRADES_AGAINST,
   CUSTOM_BASES,
   BETTER_TRADE_LESS_HOPS_THRESHOLD,
   ADDITIONAL_BASES,
 } from 'config/constants/exchange'
 import { PairState, useV2Pairs } from './usePairs'
-import { wrappedCurrency } from '../utils/wrappedCurrency'
+import { wrappedCurrency } from "utils/wrappedCurrency"
 
 import { useUnsupportedTokens, useWarningTokens } from './Tokens'
 import { useActiveChainId } from './useActiveChainId'
+import { BASES_TO_CHECK_TRADES_AGAINST } from "@pancakeswap/smart-router/evm";
 
 export function useAllCurrencyCombinations(currencyA?: Currency, currencyB?: Currency): [Token, Token][] {
   const chainId = currencyA?.chainId
