@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { request, gql } from 'graphql-request'
-import { bscRpcProvider } from '../utils/providers'
-import { GRAPH_HEALTH } from '../config/constants/endpoints'
+import { GRAPH_HEALTH } from "config/constants/endpoints"
 import { useSlowRefreshEffect } from './useRefreshEffect'
+import { useActiveChainId } from "hooks/useActiveChainId";
+import { fetchBlockNumber } from "@wagmi/core";
 
 export enum SubgraphStatus {
   OK,
@@ -32,15 +33,18 @@ const useSubgraphHealth = (subgraphName: string) => {
     blockDifference: 0,
   })
 
+  const { chainId } = useActiveChainId()
+
   useSlowRefreshEffect(
     (currentBlockNumber) => {
       const getSubgraphHealth = async () => {
         try {
+          // @ts-ignore
           const [{ indexingStatusForCurrentVersion }, currentBlock] = await Promise.all([
             request(
               GRAPH_HEALTH,
               gql`
-            query getNftMarketSubgraphHealth {
+            query getSubgraphHealth {
               indexingStatusForCurrentVersion(subgraphName: "${subgraphName}") {
                 health
                 chains {
@@ -55,7 +59,7 @@ const useSubgraphHealth = (subgraphName: string) => {
             }
           `,
             ),
-            currentBlockNumber ? Promise.resolve(currentBlockNumber) : bscRpcProvider.getBlockNumber(),
+            currentBlockNumber ? Promise.resolve(currentBlockNumber) : fetchBlockNumber({ chainId }),
           ])
 
           const isHealthy = indexingStatusForCurrentVersion.health === 'healthy'
@@ -92,7 +96,7 @@ const useSubgraphHealth = (subgraphName: string) => {
       }
       getSubgraphHealth()
     },
-    [subgraphName],
+    [subgraphName, chainId],
   )
 
   return sgHealth

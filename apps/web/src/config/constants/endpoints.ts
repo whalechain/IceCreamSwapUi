@@ -13,7 +13,7 @@ export const BLOCKS_CLIENT_CORE = 'https://the-graph.icecreamswap.com/subgraphs/
 export const INFO_CLIENT = 'https://proxy-worker.pancake-swap.workers.dev/bsc-exchange'
 export const INFO_CLIENT_ETH = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exhange-eth'
 export const STABLESWAP_SUBGRAPH_CLIENT = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-stableswap'
-export const GRAPH_HEALTH = 'https://api.thegraph.com/index-node/graphql'
+export const GRAPH_HEALTH = 'https://the-graph-status.icecreamswap.com/graphql' // https://api.thegraph.com/index-node/graphql'
 export const BIT_QUERY = 'https://graphql.bitquery.io'
 export const ACCESS_RISK_API = '/api/risk'
 

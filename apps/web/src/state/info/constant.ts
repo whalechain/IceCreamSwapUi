@@ -1,4 +1,4 @@
-import { infoStableSwapClient } from '../../utils/graphql'
+import { infoStableSwapClient } from "utils/graphql"
 import {
   INFO_CLIENT_BITGERT,
   BLOCKS_CLIENT_BITGERT,
@@ -6,18 +6,18 @@ import {
   INFO_CLIENT_CORE,
   BLOCKS_CLIENT_XDC,
   BLOCKS_CLIENT_CORE,
-} from '../../config/constants/endpoints'
+} from "config/constants/endpoints"
 import { ChainId } from '@pancakeswap/sdk'
-import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from '../../config/constants/info'
+import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from "config/constants/info"
 import { GraphQLClient } from 'graphql-request'
 import { chains } from '@icecreamswap/constants'
 
 export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX'
 
 export const multiChainQueryMainToken = {
-  BITGERT: 'BNB',
-  XDC: 'BNB',
-  CORE: 'BNB',
+  BITGERT: 'ETH',
+  XDC: 'ETH',
+  CORE: 'ETH',
 }
 
 export const multiChainBlocksClient = {
