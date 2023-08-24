@@ -10,15 +10,13 @@ import { multicallv3 } from '../multicall'
 import { getMulticallAddress } from '../addressHelpers'
 import multiCallAbi from '../../config/abi/Multicall.json'
 
-const multicallAddress = getMulticallAddress()
-
 /**
  * Returns the total number of pools that were active at a given block
  */
 export const getActivePools = async (chainId: ChainId, block: number) => {
+  const multicallAddress = getMulticallAddress(chainId)
   const poolsConfig = getPoolsConfig(chainId)
   const eligiblePools = poolsConfig
-    .filter((pool) => chainId in pool.contractAddress)
     .filter((pool) => pool.sousId !== 0)
     .filter((pool) => pool.isFinished === false || pool.isFinished === undefined)
   const startBlockCalls = eligiblePools.map(({ contractAddress }) => ({

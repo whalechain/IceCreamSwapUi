@@ -70,6 +70,7 @@ export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
   'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
+  'BINANCE_AUTO' = 'BINANCE_AUTO', // Pools using native BNB behave differently than pools using a token
   'AUTO' = 'Auto',
 }
 

@@ -6,7 +6,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { usePoolsPageFetch, usePoolsWithVault } from 'state/pools/hooks'
 import Page from 'components/Layout/Page'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { Token } from '@pancakeswap/sdk'
 import { TokenPairImage } from 'components/TokenImage'
 import { V3SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
 
@@ -16,7 +16,6 @@ import CardFooter from './components/PoolCard/CardFooter'
 import CakeVaultCard from './components/CakeVaultCard'
 import PoolControls from './components/PoolControls'
 import { SUPPORT_STAKING } from '../../config/constants/supportChains'
-import { useActiveChainId } from '../../hooks/useActiveChainId'
 import PoolRow, { VaultPoolRow } from './components/PoolsTable/PoolRow'
 
 const CardLayout = styled(FlexLayout)`
@@ -40,10 +39,7 @@ const FinishedTextLink = styled(Link)`
 const Pools = () => {
   const { t } = useTranslation()
   const { address: account } = useAccount()
-  const { chainId } = useActiveChainId()
-  const { pools: allPools, userDataLoaded } = usePoolsWithVault()
-
-  const pools = allPools.filter((pool) => chainId in pool.contractAddress)
+  const { pools, userDataLoaded } = usePoolsWithVault()
 
   usePoolsPageFetch()
 

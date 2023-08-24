@@ -27,7 +27,7 @@ const HarvestAction: React.FunctionComponent<React.PropsWithChildren<Pool.Deseri
   const hasEarnings = earnings.gt(0)
   const fullBalance = getFullDisplayBalance(earnings, earningToken.decimals)
   const formattedBalance = formatNumber(earningTokenBalance, 3, 3)
-  const isBnbPool = poolCategory === PoolCategory.BINANCE
+  const isBnbPool = poolCategory === PoolCategory.BINANCE || poolCategory === PoolCategory.BINANCE_AUTO
 
   const [onPresentCollect] = useModal(
     <CollectModal

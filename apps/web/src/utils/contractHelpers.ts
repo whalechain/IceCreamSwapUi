@@ -9,88 +9,28 @@ import { Contract } from 'ethers'
 
 // Addresses
 import {
-  getPancakeProfileAddress,
-  getBunnyFactoryAddress,
-  getLotteryV2Address,
   getMasterChefAddress,
-  getMasterChefV1Address,
-  getPointCenterIfoAddress,
-  getTradingCompetitionAddressEaster,
-  getCakeVaultAddress,
-  getFarmAuctionAddress,
-  getAnniversaryAchievement,
-  getNftMarketAddress,
-  getNftSaleAddress,
-  getPancakeSquadAddress,
-  getTradingCompetitionAddressFanToken,
-  getTradingCompetitionAddressMobox,
-  getTradingCompetitionAddressMoD,
-  getICakeAddress,
-  getPotteryDrawAddress,
-  getCakeFlexibleSideVaultAddress,
-  getPredictionsV1Address,
-  getBCakeFarmBoosterAddress,
-  getBCakeFarmBoosterProxyFactoryAddress,
-  getNonBscVaultAddress,
-  getCrossFarmingSenderAddress,
-  getCrossFarmingReceiverAddress,
   getStableSwapNativeHelperAddress,
   getTradingRewardAddress,
   getMasterChefV3Address,
   getV3MigratorAddress,
-  getV3AirdropAddress,
-} from './addressHelpers'
+  getV3AirdropAddress, getAddress, getMulticallAddress
+} from "./addressHelpers";
 
 // ABI
-import profileABI from 'config/abi/pancakeProfile.json'
-import bunnyFactoryAbi from 'config/abi/bunnyFactory.json'
 import bep20Abi from '../config/abi/erc20.json'
 import erc721Abi from '../config/abi/erc721.json'
 import lpTokenAbi from '../config/abi/lpToken.json'
 import cakeAbi from '../config/abi/cake.json'
 import ifoV1Abi from '../config/abi/ifoV1.json'
 import ifoV2Abi from '../config/abi/ifoV2.json'
-import pointCenterIfo from 'config/abi/pointCenterIfo.json'
-import lotteryV2Abi from 'config/abi/lotteryV2.json'
 import masterChef from '../config/abi/masterchef.json'
-import masterChefV1 from 'config/abi/masterchefV1.json'
 import sousChef from '../config/abi/sousChef.json'
 import sousChefV2 from '../config/abi/sousChefV2.json'
 import sousChefBnb from '../config/abi/sousChefBnb.json'
-import claimRefundAbi from 'config/abi/claimRefund.json'
-import tradingCompetitionEasterAbi from 'config/abi/tradingCompetitionEaster.json'
-import tradingCompetitionFanTokenAbi from 'config/abi/tradingCompetitionFanToken.json'
-import tradingCompetitionMoboxAbi from 'config/abi/tradingCompetitionMobox.json'
-import tradingCompetitionMoDAbi from 'config/abi/tradingCompetitionMoD.json'
-import cakeVaultV2Abi from 'config/abi/cakeVaultV2.json'
-import cakeFlexibleSideVaultV2Abi from 'config/abi/cakeFlexibleSideVaultV2.json'
-import predictionsAbi from 'config/abi/predictions.json'
-import predictionsV1Abi from 'config/abi/predictionsV1.json'
-import chainlinkOracleAbi from 'config/abi/chainlinkOracle.json'
 import MultiCallAbi from '../config/abi/Multicall.json'
-import bunnySpecialCakeVaultAbi from 'config/abi/bunnySpecialCakeVault.json'
-import bunnySpecialPredictionAbi from 'config/abi/bunnySpecialPrediction.json'
-import bunnySpecialLotteryAbi from 'config/abi/bunnySpecialLottery.json'
-import bunnySpecialXmasAbi from 'config/abi/bunnySpecialXmas.json'
-import farmAuctionAbi from 'config/abi/farmAuction.json'
-import anniversaryAchievementAbi from 'config/abi/anniversaryAchievement.json'
-import nftMarketAbi from 'config/abi/nftMarket.json'
-import nftSaleAbi from 'config/abi/nftSale.json'
-import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
-import erc721CollectionAbi from 'config/abi/erc721collection.json'
-import potteryVaultAbi from 'config/abi/potteryVaultAbi.json'
-import potteryDrawAbi from 'config/abi/potteryDrawAbi.json'
 import zapAbi from '../config/abi/zap.json'
-import iCakeAbi from 'config/abi/iCake.json'
 import ifoV3Abi from '../config/abi/ifoV3.json'
-import cakePredictionsAbi from 'config/abi/cakePredictions.json'
-import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
-import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
-import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
-import nonBscVault from 'config/abi/nonBscVault.json'
-import crossFarmingSenderAbi from 'config/abi/crossFarmingSender.json'
-import crossFarmingReceiverAbi from 'config/abi/crossFarmingReceiver.json'
-import crossFarmingProxyAbi from 'config/abi/crossFarmingProxy.json'
 import stableSwapNativeHelperAbi from 'config/abi/stableSwapNativeHelper.json'
 import sid from 'config/abi/SID.json'
 import uns from 'config/abi/UNS.json'
@@ -102,43 +42,13 @@ import V3AirdropAbi from 'config/abi/v3Airdrop.json'
 
 // Types
 import type {
-  ChainlinkOracle,
-  FarmAuction,
-  Predictions,
-  AnniversaryAchievement,
   IfoV1,
   IfoV2,
   Erc20,
   Erc721,
   Cake,
-  BunnyFactory,
-  PancakeProfile,
-  LotteryV2,
   Masterchef,
-  MasterchefV1,
   LpToken,
-  TradingCompetitionEaster,
-  TradingCompetitionFanToken,
-  NftMarket,
-  NftSale,
-  PancakeSquad,
-  Erc721collection,
-  PointCenterIfo,
-  CakeVaultV2,
-  CakeFlexibleSideVaultV2,
-  TradingCompetitionMobox,
-  ICake,
-  TradingCompetitionMoD,
-  PotteryVaultAbi,
-  PotteryDrawAbi,
-  PredictionsV1,
-  BCakeFarmBooster,
-  BCakeFarmBoosterProxyFactory,
-  BCakeProxy,
-  NonBscVault,
-  CrossFarmingSender,
-  CrossFarmingReceiver,
-  CrossFarmingProxy,
   StableSwapNativeHelper,
   SID,
   SIDResolver,
@@ -146,9 +56,10 @@ import type {
   MasterChefV3,
   V3Migrator,
   V3Airdrop,
-  UNS,
-} from '../config/abi/types'
+  UNS, SousChef, Zap
+} from "../config/abi/types";
 import { ChainId } from '@pancakeswap/sdk'
+import Multicall from "utils/multicall";
 
 export const getContract = ({
   abi,
@@ -188,7 +99,7 @@ export const getSouschefContract = (id: number, chainId: ChainId, signer?: Signe
   if (!(chainId in config.contractAddress)) {
     return null
   }
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
+  const abi = config.poolCategory === PoolCategory.BINANCE || config.poolCategory === PoolCategory.BINANCE_AUTO ? sousChefBnb : sousChef
   return getContract({ abi, address: getAddress(config.contractAddress, chainId), signer }) as SousChef
 }
 
