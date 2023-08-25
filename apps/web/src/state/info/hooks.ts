@@ -1,4 +1,3 @@
-import { ChainId, getChain as getChainById } from '@icecreamswap/constants'
 import { Duration, getUnixTime, startOfHour, sub } from 'date-fns'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -282,17 +281,12 @@ export const useGetChainName = () => {
   const { pathname, query } = useRouter()
 
   const getChain = useCallback(() => {
-    if (path.includes('chainId=32520')) return 'BITGERT'
-    if (path.includes('chainId=2000')) return 'DOGECHAIN'
-    if (path.includes('chainId=61916')) return 'DOKEN'
-    if (path.includes('chainId=122')) return 'FUSE'
-    if (path.includes('chainId=50')) return 'XDC'
-    if (path.includes('chainId=56')) return 'BSC'
-    if (path.includes('chainId=1116')) return 'CORE'
-    if (path.includes('chainId=2415')) return 'XODEX'
-    return 'CORE'
-  }, [path])
-  const [name, setName] = useState<MultiChainName | null>(getChain())
+    if (typeof query?.chain === "string") {
+      return query.chain.toUpperCase() as MultiChainName
+    }
+    return undefined
+  }, [query])
+  const [name, setName] = useState<MultiChainName | null>(() => getChain())
   const result = useMemo(() => name, [name])
 
   useEffect(() => {
@@ -306,7 +300,7 @@ export const useChainNameByQuery = () => {
   const { query } = useRouter()
   const chainName = useMemo(() => {
     if (typeof query?.chain === "string") {
-      return query.chain.toUpperCase()
+      return query.chain.toUpperCase() as MultiChainName
     }
     return undefined
   }, [query])

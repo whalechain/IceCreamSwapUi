@@ -5,7 +5,7 @@ import { useBCakeFarmBoosterContract } from 'hooks/useContract'
 export const useBCakeProxyContractAddress = (account?: string, _chainId?: number) => {
   const bCakeFarmBoosterContract = useBCakeFarmBoosterContract()
   const { data, mutate } = useSWRImmutable(
-    account && ['bProxyAddress', account, chainId],
+    account && ['bProxyAddress', account, _chainId],
     async () => bCakeFarmBoosterContract.proxyContract(account),
   )
   const isLoading = false
