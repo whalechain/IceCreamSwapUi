@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import styled from 'styled-components'
 import { Flex, Text, Link } from '@pancakeswap/uikit'
+import { SUPPORT_ANY } from "config/constants/supportChains";
 
 const Container = styled(Flex)`
   display: grid;
@@ -453,6 +454,6 @@ const TermsOfService = () => {
   )
 }
 
-TermsOfService.chains = []
+TermsOfService.chains = SUPPORT_ANY
 
 export default TermsOfService

@@ -14,6 +14,7 @@
 import { captureUnderscoreErrorException } from '@sentry/nextjs'
 import NextErrorComponent, { ErrorProps } from 'next/error'
 import { NotFound } from '@pancakeswap/uikit'
+import { SUPPORT_ANY } from "config/constants/supportChains";
 
 const CustomErrorComponent = (props: ErrorProps) => <NotFound statusCode={props.statusCode} />
 
@@ -26,6 +27,6 @@ CustomErrorComponent.getInitialProps = async (contextData) => {
   return NextErrorComponent.getInitialProps(contextData)
 }
 
-CustomErrorComponent.chains = []
+CustomErrorComponent.chains = SUPPORT_ANY
 
 export default CustomErrorComponent
