@@ -26,7 +26,8 @@ const Menu = (props) => {
   const { currentLanguage, setLanguage, t } = useTranslation()
   const { pathname } = useRouter()
   const [onUSCitizenModalPresent] = useModal(<USCitizenConfirmModal />, true, false, 'usCitizenConfirmModal')
-  const [showPhishingWarningBanner] = usePhishingBanner()
+  // const [showPhishingWarningBanner] = usePhishingBanner()
+  const showPhishingWarningBanner = false
 
   const menuItems = useMenuItems(onUSCitizenModalPresent)
 
