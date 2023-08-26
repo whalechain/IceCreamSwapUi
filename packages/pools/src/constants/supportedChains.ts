@@ -1,5 +1,5 @@
-import { ChainId } from '@pancakeswap/sdk'
+import { SUPPORT_STAKING } from "web/src/config/constants/supportChains";
 
-export const SUPPORTED_CHAIN_IDS = [ChainId.CORE, ChainId.BITGERT, ChainId.XDC] as const
+export const SUPPORTED_CHAIN_IDS = SUPPORT_STAKING
 
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
