@@ -4,7 +4,6 @@ import { ChainId, Token, Currency } from "@pancakeswap/sdk";
 
 const mapping: { [key: number]: string } = {
   [ChainId.BSC]: "smartchain",
-  [ChainId.ETHEREUM]: "ethereum",
 };
 
 export const getTokenLogoURL = memoize(
@@ -31,19 +30,12 @@ export const getTokenLogoURLByAddress = memoize(
   (address, chainId) => `${chainId}#${address}`
 );
 
-const chainName: { [key: number]: string } = {
-  [ChainId.BSC]: "",
-  [ChainId.ETHEREUM]: "eth",
-};
-
 export const getCurrencyLogoUrls = memoize(
   (currency?: Currency): string[] => {
     const chainId = currency?.chainId || ChainId.BSC;
     const tokenAddress = getAddress(currency?.wrapped?.address || "");
     const trustWalletLogo = getTokenLogoURL(currency?.wrapped);
-    const logoUrl = `https://tokens.pancakeswap.finance/images/${
-      chainId === ChainId.BSC ? "" : `${chainName[chainId]}/`
-    }${tokenAddress}.png`;
+    const logoUrl = `https://icecreamswap-assets.s3.amazonaws.com/token/${chainId}/${tokenAddress}.png`;
     return [trustWalletLogo, logoUrl].filter((url) => Boolean(url)) as string[];
   },
   (currency?: Currency) => `logoUrls#${currency?.chainId}#${currency?.wrapped?.address}`

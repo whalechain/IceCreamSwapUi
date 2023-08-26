@@ -23,16 +23,16 @@ export const CurrencyLogo: React.FC<
     chainName?: MultiChainName
   }>
 > = ({ address, size = '24px', chainName, ...rest }) => {
+  const chainId = multiChainId[chainName]
   const src = useMemo(() => {
-    return getTokenLogoURL(new Token(multiChainId[chainName], address, 18, ''))
+    return getTokenLogoURL(new Token(chainId, address, 18, ''))
   }, [address, chainName])
 
-  const imagePath = chainName === 'BSC' ? '' : `${chainName?.toLowerCase()}/`
   const checkedSumAddress = isAddress(address)
-  const srcFromPCS = checkedSumAddress
-    ? `https://tokens.pancakeswap.finance/images/${imagePath}${checkedSumAddress}.png`
+  const srcFromICS = checkedSumAddress
+    ? `https://icecreamswap-assets.s3.amazonaws.com/token/${chainId}/${checkedSumAddress}.png`
     : ''
-  return <StyledLogo size={size} srcs={[srcFromPCS, src]} alt="token logo" useFilledIcon {...rest} />
+  return <StyledLogo size={size} srcs={[srcFromICS, src]} alt="token logo" useFilledIcon {...rest} />
 }
 
 const DoubleCurrencyWrapper = styled.div`
