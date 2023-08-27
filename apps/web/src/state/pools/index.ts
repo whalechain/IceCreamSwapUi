@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction, isAnyOf } from '@reduxjs/
 import BigNumber from 'bignumber.js'
 import keyBy from 'lodash/keyBy'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
-import { bscTokens } from '@pancakeswap/tokens'
+import { bscTokens, coreTokens, USD } from "@pancakeswap/tokens";
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { fetchTokenUSDValue } from '@pancakeswap/utils/llamaPrice'
 import {
@@ -28,7 +28,7 @@ import {
   getPoolAprByTokenPerSecond,
   getPoolAprByTokenPerBlock,
 } from '@pancakeswap/pools'
-import { ChainId } from '@pancakeswap/sdk'
+import { ChainId, WETH9 } from "@pancakeswap/sdk";
 
 import {
   PoolsState,
@@ -44,7 +44,7 @@ import cakeAbi from 'config/abi/cake.json'
 import { multicallv2 } from 'utils/multicall'
 import { isAddress } from 'utils'
 import { provider } from 'utils/wagmi'
-import { getPoolsPriceHelperLpFiles } from 'config/constants/priceHelperLps/index'
+import { getPoolsPriceHelperLpFiles } from "config/constants/priceHelperLps"
 import { farmV3ApiFetch } from 'state/farmsV3/hooks'
 
 import fetchFarms from '../farms/fetchFarms'
@@ -171,13 +171,13 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
       activePriceHelperLpsConfig.length > 0 ? fetchFarms(priceHelperLpsConfig, chainId) : Promise.resolve([]),
       fetchFarmV3Promise,
     ])
-
     const totalStakingsSousIdMap = keyBy(totalStakings, 'sousId')
 
     const farmsData = getState().farms.data
     const bnbBusdFarm =
       activePriceHelperLpsConfig.length > 0
-        ? farmsData.find((farm) => farm.token.symbol === 'BUSD' && farm.quoteToken.symbol === 'WBNB')
+        ? poolsWithDifferentFarmToken.find((farm) => farm.quoteToken.address === USD[chainId].address &&
+          chainId !== ChainId.CORE? farm.token.address === WETH9[chainId].address : farm.token.address === coreTokens.wcore_old.address)
         : null
     const farmsWithPricesOfDifferentTokenPools = bnbBusdFarm
       ? getFarmsPrices([bnbBusdFarm, ...poolsWithDifferentFarmToken], chainId)

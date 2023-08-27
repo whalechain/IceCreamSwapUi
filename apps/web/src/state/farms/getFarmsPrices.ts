@@ -122,11 +122,9 @@ const getFarmsPrices = (farms: SerializedFarm[], chainId: number) => {
 export default getFarmsPrices
 
 const nativeStableLpMap = {
-  /*
-  [ChainId.BSC]: {
-    address: '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16',
-    wNative: 'WBNB',
-    stable: 'BUSD',
+  [ChainId.CORE]: {
+    address: '0x5ebAE3A840fF34B107D637c8Ed07C3D1D2017178', // old WCORE, maybe switch to new in future.
+    wNative: 'WCORE',
+    stable: 'USDT',
   },
-  */
 }
