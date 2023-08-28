@@ -15,7 +15,7 @@ import AprRow from './components/PoolCard/AprRow'
 import CardFooter from './components/PoolCard/CardFooter'
 import CakeVaultCard from './components/CakeVaultCard'
 import PoolControls from './components/PoolControls'
-import { SUPPORT_STAKING } from '../../config/constants/supportChains'
+import { SUPPORT_STAKING } from "config/constants/supportChains"
 import PoolRow, { VaultPoolRow } from './components/PoolsTable/PoolRow'
 
 const CardLayout = styled(FlexLayout)`
@@ -113,7 +113,7 @@ const Pools = () => {
                           />
                         }
                         cardFooter={<CardFooter pool={pool} account={account} />}
-                        aprRow={<AprRow pool={pool} stakedBalance={pool?.userData?.stakedBalance} />}
+                        aprRow={<AprRow pool={pool} stakedBalance={pool?.userData?.stakedBalance} forceApy />}
                       />
                     ),
                   )}

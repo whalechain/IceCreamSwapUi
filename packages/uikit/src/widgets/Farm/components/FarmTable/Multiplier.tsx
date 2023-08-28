@@ -32,8 +32,6 @@ const Multiplier: React.FunctionComponent<React.PropsWithChildren<FarmTableMulti
   totalMultipliers,
 }) => {
   const displayMultiplier = multiplier ? multiplier.toLowerCase() : <Skeleton width={30} />;
-  const { t } = useTranslation();
-
   const tooltipContent = FarmMultiplierInfo({
     farmCakePerSecond: farmCakePerSecond ?? "-",
     totalMultipliers: totalMultipliers ?? "-",
