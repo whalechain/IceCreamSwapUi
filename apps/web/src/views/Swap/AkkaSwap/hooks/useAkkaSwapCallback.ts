@@ -43,7 +43,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
     const methodName = 'multiPathSwap'
 
     return {
-      multiPathSwap: args ? chainId === ChainId.CORE || chainId === ChainId.XDC || chainId === ChainId.TELOS ?
+      multiPathSwap: args ? chainId === ChainId.CORE || chainId === ChainId.XDC || chainId === ChainId.TELOS || chainId === ChainId.BASE ?
         async () => {
 
           const gasLimitCalc = await akkaV2Contract.estimateGas[methodName](

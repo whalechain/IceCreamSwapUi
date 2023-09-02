@@ -49,8 +49,8 @@ export const useAkkaRouterApi = (
   const akkaContract = useAkkaRouterContract()
   const akkaV2Contract = useAkkaRouterV2Contract()
   const methodName = 'multiPathSwap'
-  const API_URL = 'https://api.akka.foundation'
-  const isAkkaSupportedChain = chainId === ChainId.BITGERT || chainId === ChainId.XDC || chainId === ChainId.CORE || chainId === ChainId.TELOS
+  const API_URL = chainId === ChainId.BASE ? 'https://devapi.akka.foundation' : 'https://api.akka.foundation'
+  const isAkkaSupportedChain = chainId === ChainId.BITGERT || chainId === ChainId.XDC || chainId === ChainId.CORE || chainId === ChainId.TELOS || chainId === ChainId.BASE
   // Take swap information from pancakeswap router
   const fetcher: Fetcher<AkkaRouterResponseType> = async (url) => {
     setIsRouteLoading(true)
@@ -84,7 +84,7 @@ export const useAkkaRouterApi = (
           if (isConnected) {
             if (akkaApproval === ApprovalState.APPROVED) {
               if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
-                if (chainId === ChainId.CORE || chainId === ChainId.XDC || chainId === ChainId.TELOS) {
+                if (chainId === ChainId.CORE || chainId === ChainId.XDC || chainId === ChainId.TELOS || chainId === ChainId.BASE) {
                   akkaV2Contract.estimateGas[methodName](
                     response.swap.amountIn,
                     response.swap.amountOutMin,
