@@ -43,6 +43,7 @@ import atomWithStorageWithErrorCatch from 'utils/atomWithStorageWithErrorCatch'
 import { useAtom } from 'jotai'
 import { FindOtherLP } from '@pancakeswap/uikit/src/widgets/Liquidity'
 import { V3SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
+import { SUPPORT_SWAP } from "config/constants/supportChains";
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.dropdownDeep};
@@ -257,4 +258,4 @@ export default function PoolListPage() {
   )
 }
 
-PoolListPage.chains = CHAIN_IDS
+PoolListPage.chains = SUPPORT_SWAP
