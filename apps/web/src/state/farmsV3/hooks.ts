@@ -185,12 +185,12 @@ export const useStakedPositionsByUser = (stakedTokenIds: BigNumber[]) => {
       callData.push(masterchefV3.interface.encodeFunctionData('harvest', [stakedTokenId.toString(), account]))
     }
     return callData
-  }, [account, masterchefV3.interface, stakedTokenIds])
+  }, [account, masterchefV3, stakedTokenIds])
 
   const { data } = useSWR(
     account && ['mcv3-harvest', harvestCalls],
     () => {
-      return masterchefV3.callStatic.multicall(harvestCalls, { from: account }).then((res) => {
+      return masterchefV3? masterchefV3.callStatic.multicall(harvestCalls, { from: account }).then((res) => {
         return res
           .map((r) => masterchefV3.interface.decodeFunctionResult('harvest', r))
           .map((r) => {
@@ -199,7 +199,7 @@ export const useStakedPositionsByUser = (stakedTokenIds: BigNumber[]) => {
             }
             return null
           })
-      })
+      }): []
     },
     {
       compare(a, b) {

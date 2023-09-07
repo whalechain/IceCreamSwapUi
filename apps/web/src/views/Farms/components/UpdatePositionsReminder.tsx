@@ -14,6 +14,7 @@ import { useMemo, useState } from 'react'
 import { useFarmsV3Public } from 'state/farmsV3/hooks'
 import { calculateGasMargin } from 'utils'
 import { useAccount, useContractReads, useSigner } from 'wagmi'
+import { SUPPORT_FARMS_V3 } from "config/constants/supportChains";
 
 const lmPoolAbi = [
   {
@@ -60,7 +61,7 @@ export function UpdatePositionsReminder() {
   const { chainId } = useActiveChainId()
   const isMounted = useIsMounted()
   // eslint-disable-next-line react/jsx-pascal-case
-  return account && chainId && isMounted && <UpdatePositionsReminder_ key={`${account}-${chainId}`} />
+  return account && chainId && isMounted && SUPPORT_FARMS_V3.includes(chainId) && <UpdatePositionsReminder_ key={`${account}-${chainId}`} />
 }
 
 export function UpdatePositionsReminder_() {

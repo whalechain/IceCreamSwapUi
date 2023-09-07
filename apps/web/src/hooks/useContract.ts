@@ -85,6 +85,7 @@ import { getContract } from '../utils'
 import { WBETH } from '../config/constants/liquidStaking'
 import { VaultKey } from '../state/types'
 import { useActiveChainId } from './useActiveChainId'
+import { SUPPORT_FARMS_V3 } from "config/constants/supportChains";
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -297,10 +298,7 @@ export function useWNativeContract(withSignerIfPossible?: boolean): Contract | n
 export function useWBETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveChainId()
 
-  const abi = useMemo(
-    () => ([ChainId.ETHEREUM, ChainId.GOERLI].includes(chainId) ? WBETH_ETH_ABI : WBETH_BSC_ABI),
-    [chainId],
-  )
+  const abi = WBETH_BSC_ABI
 
   return useContract<Weth>(chainId ? WBETH[chainId] : undefined, abi, withSignerIfPossible)
 }
@@ -392,7 +390,12 @@ export function useV3NFTPositionManagerContract(withSignerIfPossible?: boolean) 
 export function useMasterchefV3(withSignerIfPossible?: boolean) {
   const { chainId } = useActiveChainId()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getMasterChefV3Contract(providerOrSigner, chainId), [chainId, providerOrSigner])
+  return useMemo(() => {
+    if (SUPPORT_FARMS_V3.includes(chainId)) {
+      return getMasterChefV3Contract(providerOrSigner, chainId)
+    }
+    return undefined
+  }, [chainId, providerOrSigner])
 }
 
 export function useV3MigratorContract() {
