@@ -1,6 +1,7 @@
+import { ChainId } from '@pancakeswap/sdk'
 import BigNumber from 'bignumber.js'
 
-import { BLOCKS_PER_YEAR, SECONDS_IN_YEAR } from '../constants'
+import { blocksPerYear, SECONDS_IN_YEAR } from "../constants";
 
 /**
  * Get the APR value in %
@@ -8,6 +9,7 @@ import { BLOCKS_PER_YEAR, SECONDS_IN_YEAR } from '../constants'
  * @param rewardTokenPrice Token price in the same quote currency
  * @param totalStaked Total amount of stakingToken in the pool
  * @param tokenPerBlock Amount of new cake allocated to the pool for each new block
+ * @param chainId Chain ID of the chain to calculate pool APRs for
  * @returns Null if the APR is NaN or infinite.
  */
 export const getPoolAprByTokenPerBlock = (
@@ -15,8 +17,9 @@ export const getPoolAprByTokenPerBlock = (
   rewardTokenPrice: number,
   totalStaked: number,
   tokenPerBlock: number,
+  chainId: ChainId
 ): number | null => {
-  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice).times(tokenPerBlock).times(BLOCKS_PER_YEAR)
+  const totalRewardPricePerYear = new BigNumber(rewardTokenPrice).times(tokenPerBlock).times(blocksPerYear(chainId))
   const totalStakingTokenInPool = new BigNumber(stakingTokenPrice).times(totalStaked)
   const apr = totalRewardPricePerYear.div(totalStakingTokenInPool).times(100)
   return apr.isNaN() || !apr.isFinite() ? null : apr.toNumber()
