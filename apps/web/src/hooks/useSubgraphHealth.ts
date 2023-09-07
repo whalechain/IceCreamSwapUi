@@ -61,6 +61,10 @@ const useSubgraphHealth = (subgraphName: string) => {
             ),
             currentBlockNumber ? Promise.resolve(currentBlockNumber) : fetchBlockNumber({ chainId }),
           ])
+          if (!indexingStatusForCurrentVersion) {
+            setSgHealth({ status: SubgraphStatus.NOT_OK, currentBlock, chainHeadBlock: 0, latestBlock: 0, blockDifference: currentBlock })
+            return
+          }
 
           const isHealthy = indexingStatusForCurrentVersion.health === 'healthy'
           const chainHeadBlock = parseInt(indexingStatusForCurrentVersion.chains[0].chainHeadBlock.number)
