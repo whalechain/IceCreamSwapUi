@@ -285,9 +285,9 @@ export default function SwapForm() {
   const outputAmountInDollar = useBUSDCurrencyAmount(
     true ? outputCurrency : undefined,
     Number.isFinite(+(isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
-      ? akkaRouterTrade.route.returnAmount
+      ? akkaRouterTrade.route.returnAmountWithoutTax
       : formattedAmounts[Field.OUTPUT])) ? +(isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
-        ? akkaRouterTrade.route.returnAmount
+        ? akkaRouterTrade.route.returnAmountWithoutTax
         : formattedAmounts[Field.OUTPUT]) : undefined,
   )
 

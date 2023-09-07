@@ -15,7 +15,7 @@ import useTheme from 'hooks/useTheme'
 function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar }: { route: AkkaRouterInfoResponseType, inputAmountInDollar: number, outputAmountInDollar: number }) {
   const { t } = useTranslation()
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
-
+  
   return (
     <AutoColumn style={{ padding: '0 16px' }}>
       <RowBetween>
