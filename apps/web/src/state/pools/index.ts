@@ -124,7 +124,7 @@ export const fetchCakePoolUserDataAsync =
       params: [account],
     }
     const cakeContractCalls = [allowanceCall, balanceOfCall]
-    const [[allowance], [stakingTokenBalance]] = await multicallv2({ abi: cakeAbi, calls: cakeContractCalls })
+    const [[allowance], [stakingTokenBalance]] = await multicallv2({ abi: cakeAbi, calls: cakeContractCalls, chainId })
 
     dispatch(
       setPoolUserData({
@@ -216,7 +216,7 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
       const totalStaked = getBalanceNumber(new BigNumber(totalStaking.totalStaked), pool.stakingToken.decimals)
       const apr = !isPoolFinished
         ? isLegacyPool(pool)
-          ? getPoolAprByTokenPerBlock(stakingTokenPrice, earningTokenPrice, totalStaked, parseFloat(pool.tokenPerBlock))
+          ? getPoolAprByTokenPerBlock(stakingTokenPrice, earningTokenPrice, totalStaked, parseFloat(pool.tokenPerBlock), chainId)
           : getPoolAprByTokenPerSecond(
               stakingTokenPrice,
               earningTokenPrice,

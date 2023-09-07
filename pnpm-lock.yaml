@@ -1046,6 +1046,9 @@ importers:
       '@ethersproject/providers':
         specifier: ^5.0.0
         version: 5.6.8
+      '@icecreamswap/constants':
+        specifier: workspace:*
+        version: link:../constants
       '@pancakeswap/multicall':
         specifier: workspace:*
         version: link:../multicall

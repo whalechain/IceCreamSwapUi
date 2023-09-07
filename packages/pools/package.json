@@ -11,6 +11,7 @@
   },
   "type": "module",
   "peerDependencies": {
+    "@icecreamswap/constants":"workspace:*",
     "@pancakeswap/multicall": "workspace:*",
     "@pancakeswap/sdk": "workspace:*",
     "@pancakeswap/token-lists": "workspace:*",

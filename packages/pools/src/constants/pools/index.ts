@@ -1,8 +1,9 @@
 import { ChainId } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
 
-import { pools as bscPools, livePools as bscLivePools } from './56'
 import { pools as corePools, livePools as coreLivePools } from './1116'
+import { pools as bitgertPools, livePools as bitgertLivePools } from './32520'
+import { pools as xdcPools, livePools as xdcLivePools } from './50'
 import { SerializedPool } from '../../types'
 import { SupportedChainId } from '../supportedChains'
 import { isPoolsSupported } from '../../utils/isPoolsSupported'
@@ -12,13 +13,15 @@ export type PoolsConfigByChain<TChainId extends ChainId> = {
 }
 
 export const POOLS_CONFIG_BY_CHAIN = {
-  [ChainId.BSC]: bscPools,
   [ChainId.CORE]: corePools,
+  [ChainId.BITGERT]: bitgertPools,
+  [ChainId.XDC]: xdcPools,
 } as PoolsConfigByChain<SupportedChainId>
 
 export const LIVE_POOLS_CONFIG_BY_CHAIN = {
-  [ChainId.BSC]: bscLivePools,
   [ChainId.BSC]: coreLivePools,
+  [ChainId.BITGERT]: bitgertLivePools,
+  [ChainId.XDC]: xdcLivePools,
 } as PoolsConfigByChain<SupportedChainId>
 
 export const getPoolsConfig = (chainId: ChainId) => {
