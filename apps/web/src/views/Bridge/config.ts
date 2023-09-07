@@ -25,14 +25,14 @@ const chains = [
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x74446a7418BFbFCDe3F1f6bCaFFA097d050a6dD8/logo.png',
         resourceId: '0x0000000000000000000000bb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c01',
       },
-      {
+      /* {
         address: '0x8FFf93E810a2eDaaFc326eDEE51071DA9d398E83',
         name: 'Brise',
         symbol: 'BRISE',
         imageUri:
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x0000000000000000000000000000000000000000/logo.png',
         resourceId: '0x0000000000000000000000000000000000000000000000000000000000000002',
-      },
+      }, */
       {
         address: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
         name: 'BUSD',
@@ -118,6 +118,13 @@ const chains = [
         imageUri: 'https://www.bscscan.com/token/images/difi_32.png?v=093',
         resourceId: '0x00000000000000000000000938a5d325A8496c186Cf122946e9dD22f8a625b01',
       },
+      {
+        address: '0xe252FCb1Aa2E0876E9B5f3eD1e15B9b4d11A0b00',
+        name: 'CRYSTAL STONES',
+        symbol: 'CRYSTAL',
+        imageUri: 'https://icecreamswap-assets.s3.amazonaws.com/token/1116/0x005133502d02ddDe90D5f5283E4Af0F33A4a4db2.png',
+        resourceId: '0x0000000000000000000000005133502d02ddDe90D5f5283E4Af0F33A4a4db207',
+      },
     ],
   },
   {
@@ -130,14 +137,14 @@ const chains = [
     type: 'Ethereum',
     nativeTokenSymbol: 'Brise',
     tokens: [
-      {
+      /* {
         address: '0x0000000000000000000000000000000000000000',
         name: 'Brise',
         symbol: 'BRISE',
         imageUri:
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x0000000000000000000000000000000000000000/logo.png',
         resourceId: '0x0000000000000000000000000000000000000000000000000000000000000002',
-      },
+      }, */
       {
         address: '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D',
         name: 'IceCream',
@@ -704,6 +711,20 @@ const chains = [
         imageUri: 'https://www.bscscan.com/token/images/difi_32.png?v=093',
         resourceId: '0x00000000000000000000000938a5d325A8496c186Cf122946e9dD22f8a625b01',
       },
+      {
+        address: '0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092',
+        name: 'WOOF',
+        symbol: 'WOOF',
+        imageUri: 'https://icecreamswap-assets.s3.amazonaws.com/token/1116/0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092.png',
+        resourceId: '0x00000000000000000000005C44d3D2312AbA4d5F2406A98Bf374Bc7645509207',
+      },
+      {
+        address: '0x005133502d02ddDe90D5f5283E4Af0F33A4a4db2',
+        name: 'CRYSTAL STONES',
+        symbol: 'CRYSTAL',
+        imageUri: 'https://icecreamswap-assets.s3.amazonaws.com/token/1116/0x005133502d02ddDe90D5f5283E4Af0F33A4a4db2.png',
+        resourceId: '0x0000000000000000000000005133502d02ddDe90D5f5283E4Af0F33A4a4db207',
+      },
     ],
   },
   {
@@ -800,6 +821,13 @@ const chains = [
         imageUri:
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+      {
+        address: '0xde686b9a1BbCCC62Fb1bb75f0952C84e7D9d79E4',
+        name: 'WOOF',
+        symbol: 'WOOF',
+        imageUri: 'https://icecreamswap-assets.s3.amazonaws.com/token/1116/0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092.png',
+        resourceId: '0x00000000000000000000005C44d3D2312AbA4d5F2406A98Bf374Bc7645509207',
       },
     ],
   },

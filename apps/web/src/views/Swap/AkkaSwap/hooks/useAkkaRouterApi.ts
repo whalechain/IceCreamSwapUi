@@ -15,6 +15,7 @@ import { useApproveCallbackFromAkkaTrade } from './useApproveCallbackFromAkkaTra
 import { ApprovalState } from 'hooks/useApproveCallback'
 import { useAkkaRouterContract, useAkkaRouterV2Contract, useAkkaRouterV3Contract } from 'utils/exchange'
 import { useModal } from '@pancakeswap/uikit'
+import { SUPPORT_AKKA_ROUTER } from "../../../../config/constants/supportChains";
 
 export const useAkkaRouterApi = (
   token0: Currency,
@@ -51,7 +52,7 @@ export const useAkkaRouterApi = (
   const akkaV3Contract = useAkkaRouterV3Contract()
   const methodName = 'multiPathSwap'
   const API_URL = chainId === ChainId.BASE ? 'https://devapi.akka.foundation' : 'https://api.akka.foundation'
-  const isAkkaSupportedChain = chainId === ChainId.BITGERT || chainId === ChainId.XDC || chainId === ChainId.CORE || chainId === ChainId.TELOS || chainId === ChainId.BASE
+  const isAkkaSupportedChain = SUPPORT_AKKA_ROUTER.includes(chainId)
   // Take swap information from pancakeswap router
   const fetcher: Fetcher<AkkaRouterResponseType> = async (url) => {
     setIsRouteLoading(true)

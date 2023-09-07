@@ -89,20 +89,21 @@ const config = ({ t }: FAQsType) => [
     icon: '🌐',
     description: [
       t('Expand to Telos, Shardeum Testnet and Shimmer Testnet'),
-      t('Upgrade infrastructure to have a unified high availability Infrastructure to run all our services on'),
+      t('Upgrade infrastructure to have a unified high availability infrastructure to run all our services on'),
     ],
     reached: '07-2023',
   },
   {
-    title: t('Audits'),
+    title: t('Audits and expansion'),
     icon: '🛡️',
     description: [
       t('release of audit reports of all our smart contracts'),
+      t('Add support for Base chain'),
     ],
     reached: '08-2023',
   },
   {
-    title: t('Trustless Bridge Upgrade and Concentrated Liquidity'),
+    title: t('Trustless bridge upgrade and concentrated liquidity'),
     icon: '🔥',
     description: [
       t('Upgrade our DEX to support concentrated liquidity to drastically reduce slippage and increase capital efficiency'),
@@ -111,11 +112,11 @@ const config = ({ t }: FAQsType) => [
     reached: '09-2023',
   },
   {
-    title: t('Bridge speed upgrade and basic Price oracles'),
+    title: t('Bridge speed upgrade and basic price oracles'),
     icon: '⏩',
     description: [
       t('Add an insured speed boost to the Bridge, which offloads the risk to the insurer and completes Bridge near instant'),
-      t('Adds price oracle for bridged tokens as well as on request'),
+      t('Add price oracle for bridged tokens as well as on request'),
     ],
     reached: '10-2023',
   },
