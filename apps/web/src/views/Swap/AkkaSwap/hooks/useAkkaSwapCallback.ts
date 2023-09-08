@@ -118,19 +118,6 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
               .catch((gasError) => {
                 console.error('Gas estimate failed', gasError, "args:", args)
               })
-              
-            gasLimitCalc ? console.log(gasLimitCalc.toString()) : ""
-
-
-            console.log(args?.amountIn);
-            console.log(args?.amountOutMin);
-            console.log(args?.data);
-            console.log(account);
-            console.log(args?.akkaFee?.fee);
-            console.log(args?.akkaFee?.v);
-            console.log(args?.akkaFee?.r);
-            console.log(args?.akkaFee?.s);
-
 
             const tx = await callWithGasPrice(
               akkaV3Contract,

@@ -336,8 +336,6 @@ export const useAkkaRouterApi = (
                       }
                     })
                     .catch((error) => {
-                      console.log("2");
-
                       toggleSetAkkaModeToFalse()
                       console.log(error);
                       captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
@@ -411,8 +409,7 @@ export const useAkkaRouterRouteWithArgs = (
   const mutateAkkaRoute = () => {
     route.mutate()
   }
-  console.log(route.isRouteLoading);
-  console.log(route.isValidating);
+
   const isLoading = route.isRouteLoading || route.isValidating
 
   return {
