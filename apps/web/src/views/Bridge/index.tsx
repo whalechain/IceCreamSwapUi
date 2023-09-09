@@ -87,8 +87,8 @@ const Bridge = () => {
           <StyledBridgeContainer>
             <StyledInputCurrencyWrapper mt="0">
               <AppBody>
-                <AtomBox width="full" alignItems="center" flexDirection="column" padding="24px" borderBottom="1">
-                  <AtomBox display="flex" width="full" alignItems="center" justifyContent="center">
+                <AtomBox width="auto" alignItems="center" flexDirection="column" padding="24px" borderBottom="1">
+                  <AtomBox display="flex" width="auto" alignItems="center" justifyContent="center">
                     <Heading as="h2">Bridge</Heading>
                   </AtomBox>
                   <Text color="textSubtle" fontSize="14px" textAlign="center">
