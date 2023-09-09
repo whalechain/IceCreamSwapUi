@@ -60,42 +60,48 @@ export function useSwapBestTrade({ maxHops }: Options = {}) {
   const isAllLoading = useDeferredValue(isLoading || (typedValue && !trade && !error))
 
   useEffect(() => {
-    if (!amount) return
     const getV2Trade = async () => {
-      const getBestV2Trade = isExactIn ? LegacyRouter.getBestTradeExactIn : LegacyRouter.getBestTradeExactOut
-      const v2Trade = await getBestV2Trade(
-        amount,
-        outputCurrency,
-        {
-          provider: _ => provider
-        }
-      )
-
-      const v2TradeAsSmartRouterTrade = {
-        tradeType: v2Trade.tradeType,
-        inputAmount: v2Trade.inputAmount,
-        outputAmount: v2Trade.outputAmount,
-        routes: [{
-          inputAmount: v2Trade.inputAmount,
-          outputAmount: v2Trade.outputAmount,
-          path: v2Trade.route.path,
-          pools: v2Trade.route.pairs.map(pair => {
-            return {
-              address: pair.liquidityToken.address,
-              reserve0: pair.reserve0,
-              reserve1: pair.reserve1,
-              type: 0
+      let v2TradeAsSmartRouterTrade
+      try {
+        if (amount) {
+          const getBestV2Trade = isExactIn ? LegacyRouter.getBestTradeExactIn : LegacyRouter.getBestTradeExactOut
+          const v2Trade = await getBestV2Trade(
+            amount,
+            outputCurrency,
+            {
+              provider: _ => provider
             }
-          }),
-          type: v2Trade.route.routeType,
-          percent: 100
-        }],
+          )
+          if (v2Trade) {
+            v2TradeAsSmartRouterTrade = {
+              tradeType: v2Trade.tradeType,
+              inputAmount: v2Trade.inputAmount,
+              outputAmount: v2Trade.outputAmount,
+              routes: [{
+                inputAmount: v2Trade.inputAmount,
+                outputAmount: v2Trade.outputAmount,
+                path: v2Trade.route.path,
+                pools: v2Trade.route.pairs.map(pair => {
+                  return {
+                    address: pair.liquidityToken.address,
+                    reserve0: pair.reserve0,
+                    reserve1: pair.reserve1,
+                    type: 0
+                  }
+                }),
+                type: v2Trade.route.routeType,
+                percent: 100
+              }],
+            }
+          }
+        }
+      } catch (e) {
+        console.error(e);
       }
-
       setBestTradeV2(v2TradeAsSmartRouterTrade)
     }
     getV2Trade()
-  }, [provider, typedValue, outputCurrency, isExactIn])
+  }, [provider, typedValue, inputCurrency, outputCurrency, isExactIn])
 
   if (
     bestTradeV2 &&
@@ -105,7 +111,7 @@ export function useSwapBestTrade({ maxHops }: Options = {}) {
       refresh,
       syncing: false,
       isStale: false,
-      error,
+      error: null,
       isLoading: false,
       trade: typedValue ? bestTradeV2 : null,
     }
