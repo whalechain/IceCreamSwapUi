@@ -76,6 +76,11 @@ export default function AkkaSwapModalFooter({
             <Text fontSize="14px" color="textSubtle">
               {t('Token fees')}
             </Text>
+            <QuestionHelper
+              text={t('These are the estimated additional taxes introduced by the token project, not by IceCreamSwap.')}
+              ml="4px"
+              placement="top-start"
+            />
           </RowFixed>
           <Text fontSize="14px" color="textSubtle">
             {Number.isNaN(priceImpactWithTax) ? "" : (priceImpactWithTax - priceImpact).toFixed(3)}%
