@@ -18,6 +18,7 @@ const AkkaTransactionConfirmSwapContent = ({
   isStable,
   inputAmountInDollar,
   outputAmountInDollar,
+  outputAmountInDollarWithTax,
   isLoading
 }) => {
 
@@ -59,6 +60,7 @@ const AkkaTransactionConfirmSwapContent = ({
         isEnoughInputBalance={isEnoughInputBalance}
         inputAmountInDollar={inputAmountInDollar}
         outputAmountInDollar={outputAmountInDollar}
+        outputAmountInDollarWithTax={outputAmountInDollarWithTax}
         isLoading={isLoading}
       />
     ) : null
