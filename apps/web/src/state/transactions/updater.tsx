@@ -3,12 +3,13 @@ import merge from 'lodash/merge'
 import pickBy from 'lodash/pickBy'
 import forEach from 'lodash/forEach'
 import { useTranslation } from '@pancakeswap/localization'
-import { useProvider } from 'wagmi'
-import { poll } from 'ethers/lib/utils'
-import { ToastDescriptionWithTx } from '../../components/Toast'
+import { usePublicClient } from 'wagmi'
+import { ToastDescriptionWithTx } from 'components/Toast'
 import { Box, Text, useToast } from '@pancakeswap/uikit'
-import { FAST_INTERVAL } from '../../config/constants'
+import { FAST_INTERVAL } from 'config/constants'
 import useSWRImmutable from 'swr/immutable'
+import { TransactionNotFoundError } from 'viem'
+import { retry, RetryableError } from 'state/multicall/retry'
 import { useAppDispatch } from '../index'
 import {
   finalizeTransaction,
@@ -30,7 +31,7 @@ export function shouldCheck(
 }
 
 export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
-  const provider = useProvider({ chainId })
+  const provider = usePublicClient({ chainId })
   const { t } = useTranslation()
 
   const dispatch = useAppDispatch()
@@ -47,50 +48,45 @@ export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
       pickBy(transactions, (transaction) => shouldCheck(fetchedTransactions.current, transaction)),
       (transaction) => {
         const getTransaction = async () => {
-          await provider.getNetwork()
+          try {
+            const receipt: any = await provider.waitForTransactionReceipt({ hash: transaction.hash })
 
-          const params = { transactionHash: provider.formatter.hash(transaction.hash, true) }
+            dispatch(
+              finalizeTransaction({
+                chainId,
+                hash: transaction.hash,
+                receipt: {
+                  blockHash: receipt.blockHash,
+                  blockNumber: Number(receipt.blockNumber),
+                  contractAddress: receipt.contractAddress,
+                  from: receipt.from,
+                  status: receipt.status === 'success' ? 1 : 0,
+                  to: receipt.to,
+                  transactionHash: receipt.transactionHash,
+                  transactionIndex: receipt.transactionIndex,
+                },
+              }),
+            )
+            const toast = receipt.status === 'success' ? toastSuccess : toastError
+            toast(
+              t('Transaction receipt'),
+              <ToastDescriptionWithTx txHash={receipt.transactionHash} txChainId={chainId} />,
+            )
 
-          poll(
-            async () => {
-              const result = await provider.perform('getTransactionReceipt', params)
-
-              if (result == null || result.blockHash == null) {
-                return undefined
-              }
-
-              const receipt = provider.formatter.receipt(result)
-
-              dispatch(
-                finalizeTransaction({
-                  chainId,
-                  hash: transaction.hash,
-                  receipt: {
-                    blockHash: receipt.blockHash,
-                    blockNumber: receipt.blockNumber,
-                    contractAddress: receipt.contractAddress,
-                    from: receipt.from,
-                    status: receipt.status,
-                    to: receipt.to,
-                    transactionHash: receipt.transactionHash,
-                    transactionIndex: receipt.transactionIndex,
-                  },
-                }),
-              )
-
-              const toast = receipt.status === 1 ? toastSuccess : toastError
-              toast(
-                t('Transaction receipt'),
-                <ToastDescriptionWithTx txHash={receipt.transactionHash} txChainId={chainId} />,
-              )
-              return true
-            },
-            { onceBlock: provider },
-          )
+            merge(fetchedTransactions.current, { [transaction.hash]: transactions[transaction.hash] })
+          } catch (error) {
+            console.error(error)
+            if (error instanceof TransactionNotFoundError) {
+              throw new RetryableError(`Transaction not found: ${transaction.hash}`)
+            }
+          }
           merge(fetchedTransactions.current, { [transaction.hash]: transactions[transaction.hash] })
         }
-
-        getTransaction()
+        retry(getTransaction, {
+          n: 10,
+          minWait: 5000,
+          maxWait: 10000,
+        })
       },
     )
   }, [chainId, provider, transactions, dispatch, toastSuccess, toastError, t])
@@ -110,7 +106,7 @@ export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
     chainId && Boolean(nonBscFarmPendingTxns?.length) && ['checkNonBscFarmTransaction', FAST_INTERVAL, chainId],
     () => {
       nonBscFarmPendingTxns.forEach((hash) => {
-        const steps = transactions[hash]?.nonBscFarm?.steps
+        const steps = transactions[hash]?.nonBscFarm?.steps || []
         if (steps.length) {
           const pendingStep = steps.findIndex(
             (step: NonBscFarmTransactionStep) => step.status === FarmTransactionStatus.PENDING,
@@ -133,7 +129,7 @@ export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
                     : FarmTransactionStatus.PENDING
                 const isFinalStepComplete = status === FarmTransactionStatus.SUCCESS && steps.length === pendingStep + 1
 
-                const newSteps = transaction.nonBscFarm.steps.map((step, index) => {
+                const newSteps = transaction?.nonBscFarm?.steps?.map((step, index) => {
                   let newObj = {}
                   if (index === pendingStep) {
                     newObj = { ...step, status, tx: destinationTxHash }
@@ -149,12 +145,12 @@ export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
                     nonBscFarm: {
                       ...transaction.nonBscFarm,
                       steps: newSteps,
-                      status: isFinalStepComplete ? FarmTransactionStatus.SUCCESS : transaction.nonBscFarm.status,
+                      status: isFinalStepComplete ? FarmTransactionStatus.SUCCESS : transaction?.nonBscFarm?.status,
                     },
                   }),
                 )
 
-                const isStakeType = transactions[hash].nonBscFarm.type === NonBscFarmStepType.STAKE
+                const isStakeType = transactions[hash]?.nonBscFarm?.type === NonBscFarmStepType.STAKE
                 if (isFinalStepComplete) {
                   const toastTitle = isStakeType ? t('Staked!') : t('Unstaked!')
                   toastSuccess(
@@ -175,7 +171,7 @@ export const Updater: React.FC<{ chainId: number }> = ({ chainId }) => {
                         <Text
                           as="span"
                           bold
-                        >{`${transaction.nonBscFarm.amount} ${transaction.nonBscFarm.lpSymbol}`}</Text>
+                        >{`${transaction?.nonBscFarm?.amount} ${transaction?.nonBscFarm?.lpSymbol}`}</Text>
                         <Text as="span" ml="4px">
                           {errorText}
                         </Text>

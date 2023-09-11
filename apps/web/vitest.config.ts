@@ -8,7 +8,7 @@ const r = (p: string) => resolve(__dirname, p)
 
 export default defineConfig({
   // @ts-ignore
-  plugins: [tsconfigPaths(), react(), vanillaExtractPlugin()],
+  plugins: [tsconfigPaths({ projects: ['tsconfig.test.json'] }), react(), vanillaExtractPlugin()],
   resolve: {
     alias: {
       '@pancakeswap/wagmi/connectors/binanceWallet': r('../../packages/wagmi/connectors/binanceWallet/index.ts'),
@@ -21,6 +21,7 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.js'],
     environment: 'jsdom',
     globals: true,
+    dangerouslyIgnoreUnhandledErrors: true, // wallet connect v2
     exclude: ['src/config/__tests__', 'node_modules'],
   },
 })

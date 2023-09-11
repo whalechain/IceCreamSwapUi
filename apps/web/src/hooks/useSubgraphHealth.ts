@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { request, gql } from 'graphql-request'
-import { GRAPH_HEALTH } from "config/constants/endpoints"
+import { GRAPH_HEALTH } from 'config/constants/endpoints'
 import { useSlowRefreshEffect } from './useRefreshEffect'
 import { useActiveChainId } from "hooks/useActiveChainId";
 import { fetchBlockNumber } from "@wagmi/core";
@@ -24,7 +24,7 @@ export type SubgraphHealthState = {
 const NOT_OK_BLOCK_DIFFERENCE = 200 // ~15 minutes delay
 const WARNING_BLOCK_DIFFERENCE = 50 // ~2.5 minute delay
 
-const useSubgraphHealth = (subgraphName: string) => {
+const useSubgraphHealth = (subgraphName?: string) => {
   const [sgHealth, setSgHealth] = useState<SubgraphHealthState>({
     status: SubgraphStatus.UNKNOWN,
     currentBlock: 0,
@@ -39,7 +39,6 @@ const useSubgraphHealth = (subgraphName: string) => {
     (currentBlockNumber) => {
       const getSubgraphHealth = async () => {
         try {
-          // @ts-ignore
           const [{ indexingStatusForCurrentVersion }, currentBlock] = await Promise.all([
             request(
               GRAPH_HEALTH,
@@ -59,16 +58,12 @@ const useSubgraphHealth = (subgraphName: string) => {
             }
           `,
             ),
-            currentBlockNumber ? Promise.resolve(currentBlockNumber) : fetchBlockNumber({ chainId }),
+            currentBlockNumber ? Promise.resolve(currentBlockNumber) : Number(fetchBlockNumber({ chainId })),
           ])
-          if (!indexingStatusForCurrentVersion) {
-            setSgHealth({ status: SubgraphStatus.NOT_OK, currentBlock, chainHeadBlock: 0, latestBlock: 0, blockDifference: currentBlock })
-            return
-          }
 
-          const isHealthy = indexingStatusForCurrentVersion.health === 'healthy'
-          const chainHeadBlock = parseInt(indexingStatusForCurrentVersion.chains[0].chainHeadBlock.number)
-          const latestBlock = parseInt(indexingStatusForCurrentVersion.chains[0].latestBlock.number)
+          const isHealthy = indexingStatusForCurrentVersion?.health === 'healthy'
+          const chainHeadBlock = parseInt(indexingStatusForCurrentVersion?.chains[0]?.chainHeadBlock.number)
+          const latestBlock = parseInt(indexingStatusForCurrentVersion?.chains[0]?.latestBlock.number)
           const blockDifference = currentBlock - latestBlock
           // Sometimes subgraph might report old block as chainHeadBlock, so its important to compare
           // it with block retrieved from simpleRpcProvider.getBlockNumber()
@@ -98,7 +93,9 @@ const useSubgraphHealth = (subgraphName: string) => {
           })
         }
       }
-      getSubgraphHealth()
+      if (subgraphName) {
+        getSubgraphHealth()
+      }
     },
     [subgraphName, chainId],
   )

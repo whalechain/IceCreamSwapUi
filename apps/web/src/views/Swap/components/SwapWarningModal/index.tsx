@@ -3,12 +3,11 @@ import { ModalBody, ModalContainer, Message, ModalHeader, Box, Heading } from '@
 import useTheme from 'hooks/useTheme'
 import { useTranslation } from '@pancakeswap/localization'
 import { WrappedTokenInfo } from '@pancakeswap/token-lists'
-import SwapWarningTokensConfig from 'config/constants/swapWarningTokens'
+import { ChainId } from '@pancakeswap/sdk'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import ETH_WARNING_LIST from './1'
+import BSC_WARNING_LIST from './56'
 import Acknowledgement from './Acknowledgement'
-import ScamWarning from './ScamWarning'
-import ImpersonationWarning from './ImpersonationWarning'
-import ABNBWarning from './ABNBWarning'
-import XCADWarning from './XCADWarning'
 
 const StyledModalContainer = styled(ModalContainer)`
   max-width: 440px;
@@ -27,40 +26,23 @@ interface SwapWarningModalProps {
 const SwapWarningModal: React.FC<React.PropsWithChildren<SwapWarningModalProps>> = ({ swapCurrency, onDismiss }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
+  const { chainId } = useActiveWeb3React()
 
   const TOKEN_WARNINGS = {
-    [SwapWarningTokensConfig.layer0_scam.address]: {
-      symbol: SwapWarningTokensConfig.layer0_scam.symbol,
-      component: <ScamWarning />,
-    },
-    [SwapWarningTokensConfig.future_ai.address]: {
-      symbol: SwapWarningTokensConfig.future_ai.symbol,
-      component: <ScamWarning />,
-    },
-    [SwapWarningTokensConfig.icedao.address]: {
-      symbol: SwapWarningTokensConfig.icedao.symbol,
-      component: <ImpersonationWarning />,
-    },
-    [SwapWarningTokensConfig.abnbc.address]: {
-      symbol: SwapWarningTokensConfig.abnbc.symbol,
-      component: <ABNBWarning />,
-    },
-    [SwapWarningTokensConfig.xcad.address]: {
-      symbol: SwapWarningTokensConfig.xcad.symbol,
-      component: <XCADWarning />,
-    },
+    [ChainId.ETHEREUM]: ETH_WARNING_LIST,
+    [ChainId.BSC]: BSC_WARNING_LIST,
   }
 
-  const SWAP_WARNING = TOKEN_WARNINGS[swapCurrency.address]
+  const SWAP_WARNING = TOKEN_WARNINGS?.[chainId]?.[swapCurrency.address]
 
   return (
     <StyledModalContainer minWidth="280px">
       <ModalHeader background={theme.colors.gradientCardHeader}>
-        <Heading p="12px 24px">{t('Notice for trading %symbol%', { symbol: SWAP_WARNING.symbol })}</Heading>
+        <Heading p="12px 24px">{t('Notice for trading %symbol%', { symbol: SWAP_WARNING?.symbol })}</Heading>
       </ModalHeader>
       <ModalBody p="24px">
         <MessageContainer variant="warning" mb="24px">
-          <Box>{SWAP_WARNING.component}</Box>
+          <Box>{SWAP_WARNING?.component}</Box>
         </MessageContainer>
         <Acknowledgement handleContinueClick={onDismiss} />
       </ModalBody>

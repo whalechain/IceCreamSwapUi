@@ -38,12 +38,12 @@ const fetchFarmLpsInfo = async (addresses: string[]): Promise<SingleFarmResponse
   const maxLoop = 20 // 50 * 20 = max get 1000 pair
   for (let i = 0; i < maxLoop; i++) {
     const offset = i === 0 ? 1 : 50 * i + 1
-    const params = `?platform-id=141&dexer-id=4788&sort-field=volumeUsd24h&category=spot&operation=next&desc=true&offset=${offset}`
+    const params = `?platform-id=141&dexer-id=4788&sort-field=volumeUsd24h&category=spot&desc=true&page=${offset}`
     // eslint-disable-next-line no-await-in-loop
     const result = await (await fetch(`${FETCH_URL}${params}`)).json()
 
     if (result.data.pageList.length > 0) {
-      allPairs.push(...result?.data?.pageList)
+      allPairs.push(...(result?.data?.pageList || []))
     }
 
     if (!result.data.hasNextPage) {
@@ -79,7 +79,7 @@ const fetchFarmsOneWeekAgo = async (farmsAtLatestBlock: SingleFarmResponse[]) =>
     if (response[farm.id]) {
       if (response[farm.id].updateDate !== currentDate) {
         const isMoreThanAWeek = response[farm.id].usdList.length >= 7
-        const usdList = [...response[farm.id]?.usdList]
+        const usdList = [...(response[farm.id]?.usdList || [])]
 
         if (isMoreThanAWeek) {
           usdList.shift()

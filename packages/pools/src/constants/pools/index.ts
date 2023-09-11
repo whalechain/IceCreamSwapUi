@@ -1,5 +1,4 @@
 import { ChainId } from '@pancakeswap/sdk'
-import { BigNumber } from '@ethersproject/bignumber'
 
 import { pools as corePools, livePools as coreLivePools } from './1116'
 import { pools as bitgertPools, livePools as bitgertLivePools } from './32520'
@@ -41,5 +40,5 @@ export const getLivePoolsConfig = (chainId: ChainId) => {
 export const MAX_LOCK_DURATION = 31536000
 export const UNLOCK_FREE_DURATION = 604800
 export const ONE_WEEK_DEFAULT = 604800
-export const BOOST_WEIGHT = BigNumber.from('20000000000000')
-export const DURATION_FACTOR = BigNumber.from('31536000')
+export const BOOST_WEIGHT = 20000000000000n
+export const DURATION_FACTOR = 31536000n

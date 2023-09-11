@@ -51,6 +51,27 @@ import liquidStakingBunnyBg2Mobile from './liquidStakingBunnyBg2Mobile.png'
 import liquidStakingBunnyBg3 from './liquidStakingBunnyBg3.png'
 import liquidStakingBunnyBg4 from './liquidStakingBunnyBg4.png'
 
+import galxeTraverseBg from './galxe-traverse-bg.png'
+import galxeTraverseBgMobile from './galxe-traverse-bg-mobile.png'
+import galxeTraverseCloud from './galxe-traverse-cloud.png'
+import galxeTraverseBunny from './galxe-traverse-bunny.png'
+import galxeLogo from './galxe-logo.png'
+import polygonZkBg from './polygon-zk-bg.png'
+import polygonZkBgMobile from './polygon-zk-bg-mobile.png'
+import polygonZkBunny from './polygon-zk-bunny.png'
+import zkSyncBgMobile from './zkSyncBgMobile.png'
+import zkSyncBg from './zkSyncBg.png'
+import zkSyncBunny from './zkSyncBunny.png'
+import eraLogo from './eraLogo.png'
+import arbBg from './arbBg.png'
+import arbBgMobile from './arbBgMobile.png'
+import arbBunny from './arbBunny.png'
+import arbLogo from './arbLogo.png'
+import moonpayBgMobile from './moonpay-bg-mobile.png'
+import moonpayBg from './moonpay-bg.png'
+import moonpayCash from './moonpay-cash.png'
+import moonpayLogo from './moonpay-logo.png'
+
 export {
   lotteryImage,
   IFOImage,
@@ -104,4 +125,24 @@ export {
   liquidStakingBunnyBg2Mobile,
   liquidStakingBunnyBg3,
   liquidStakingBunnyBg4,
+  galxeTraverseBg,
+  galxeTraverseBgMobile,
+  galxeTraverseCloud,
+  galxeTraverseBunny,
+  galxeLogo,
+  polygonZkBg,
+  polygonZkBgMobile,
+  polygonZkBunny,
+  zkSyncBgMobile,
+  zkSyncBg,
+  zkSyncBunny,
+  eraLogo,
+  arbBg,
+  arbBgMobile,
+  arbBunny,
+  arbLogo,
+  moonpayBgMobile,
+  moonpayBg,
+  moonpayCash,
+  moonpayLogo,
 }

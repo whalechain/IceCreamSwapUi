@@ -103,17 +103,17 @@ const ModalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     setCloseOnOverlayClick(true);
   }, []);
 
-  const handleOverlayDismiss = () => {
+  const handleOverlayDismiss = useCallback(() => {
     if (closeOnOverlayClick) {
       handleDismiss();
     }
-  };
+  }, [closeOnOverlayClick, handleDismiss]);
 
   const providerValue = useMemo(() => {
     return { isOpen, nodeId, modalNode, setModalNode, onPresent: handlePresent, onDismiss: handleDismiss };
   }, [isOpen, nodeId, modalNode, setModalNode, handlePresent, handleDismiss]);
 
-  const portal = getPortalRoot();
+  const portal = useMemo(() => getPortalRoot(), []);
 
   return (
     <Context.Provider value={providerValue}>
@@ -122,7 +122,11 @@ const ModalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
           <LazyMotion features={isMobile ? DomMax : DomAnimation}>
             <AnimatePresence>
               {isOpen && (
-                <DismissableLayer role="dialog" disableOutsidePointerEvents onEscapeKeyDown={handleOverlayDismiss}>
+                <DismissableLayer
+                  role="dialog"
+                  disableOutsidePointerEvents={false}
+                  onEscapeKeyDown={handleOverlayDismiss}
+                >
                   <StyledModalWrapper
                     ref={animationRef}
                     onAnimationStart={() => animationHandler(animationRef.current)}

@@ -1,29 +1,12 @@
-import {
-  ChainId,
-  Currency,
-  CurrencyAmount,
-  Pair,
-  Price,
-  Token,
-  WNATIVE,
-  ERC20Token,
-  WETH9,
-  TradeType,
-} from '@pancakeswap/sdk'
-import { FAST_INTERVAL } from '../config/constants'
-import { USD, ICE } from '@pancakeswap/tokens'
+import { ChainId, Currency, CurrencyAmount, Price, WNATIVE, WETH9, TradeType } from '@pancakeswap/sdk'
+import { STABLE_COIN, ICE } from '@pancakeswap/tokens'
 import { useMemo } from 'react'
-import useSWR from 'swr'
-import getLpAddress from '../utils/getLpAddress'
-import { multiplyPriceByAmount } from '../utils/prices'
 import useSWRImmutable from 'swr/immutable'
-import { useCakePriceAsBN } from '@pancakeswap/utils/useCakePrice'
+import { multiplyPriceByAmount } from 'utils/prices'
+import { useCakePrice } from 'hooks/useCakePrice'
 import { getFullDecimalMultiplier } from '@pancakeswap/utils/getFullDecimalMultiplier'
 import { computeTradePriceBreakdown } from 'views/Swap/V3Swap/utils/exchange'
-import { isChainTestnet } from 'utils/wagmi'
-import { useProvider } from 'wagmi'
 import { warningSeverity } from 'utils/exchange'
-import { usePairContract } from './useContract'
 import { PairState, useV2Pairs } from './usePairs'
 import { useActiveChainId } from './useActiveChainId'
 import { useBestAMMTrade } from './useBestAMMTrade'
@@ -45,11 +28,11 @@ export function useStablecoinPrice(
   const chainId = currency?.chainId
   const { enabled, hideIfPriceImpactTooHigh } = { ...DEFAULT_CONFIG, ...config }
 
-  const cakePrice = useCakePriceAsBN()
-  const stableCoin = chainId in ChainId ? USD[chainId as ChainId] : undefined
-  const isCake = currency?.wrapped.equals(ICE[chainId])
+  const cakePrice = useCakePrice()
+  const stableCoin = chainId in ChainId ? STABLE_COIN[chainId as ChainId] : undefined
+  const isCake = currency && ICE[chainId] && currency.wrapped.equals(ICE[chainId])
 
-  const isStableCoin = currency?.wrapped.equals(stableCoin)
+  const isStableCoin = currency && stableCoin && currency.wrapped.equals(stableCoin)
 
   const shouldEnabled = currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
 
@@ -57,9 +40,9 @@ export function useStablecoinPrice(
 
   // we don't have too many AMM pools on ethereum yet, try to get it from api
   const { data: priceFromLlama, isLoading } = useSWRImmutable<string>(
-    enableLlama && ['fiat-price-ethereum', currency],
+    currency && enableLlama && ['fiat-price-ethereum', currency],
     async () => {
-      const address = currency.isToken ? currency.address : WETH9[ChainId.ETHEREUM].address
+      const address = currency?.isToken ? currency.address : WETH9[ChainId.ETHEREUM]?.address
       return fetch(`https://coins.llama.fi/prices/current/ethereum:${address}`) // <3 llama
         .then((res) => res.json())
         .then(
@@ -159,7 +142,7 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
   const { chainId } = useActiveChainId()
   const wrapped = currency?.wrapped
   const wnative = WNATIVE[chainId]
-  const stable = USD[chainId]
+  const stable = STABLE_COIN[chainId]
 
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
     () => [
@@ -244,38 +227,6 @@ export default function useBUSDPrice(currency?: Currency): Price<Currency, Curre
   ])
 }
 
-/**
- * @deprecated it's using v2 pair
- */
-export const usePriceByPairs = (currencyA?: Currency, currencyB?: Currency) => {
-  const [tokenA, tokenB] = [currencyA?.wrapped, currencyB?.wrapped]
-  const pairAddress = getLpAddress(tokenA, tokenB, currencyA.chainId)
-  const pairContract = usePairContract(pairAddress)
-  const provider = useProvider({ chainId: currencyA.chainId })
-
-  const { data: price } = useSWR(
-    currencyA && currencyB && ['pair-price', currencyA, currencyB],
-    async () => {
-      const reserves = await pairContract.connect(provider).getReserves()
-      if (!reserves) {
-        return null
-      }
-      const { reserve0, reserve1 } = reserves
-      const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]
-
-      const pair = new Pair(
-        CurrencyAmount.fromRawAmount(token0, reserve0.toString()),
-        CurrencyAmount.fromRawAmount(token1, reserve1.toString()),
-      )
-
-      return pair.priceOf(tokenB)
-    },
-    { dedupingInterval: FAST_INTERVAL, refreshInterval: FAST_INTERVAL },
-  )
-
-  return price
-}
-
 export const useStablecoinPriceAmount = (
   currency?: Currency,
   amount?: number,
@@ -289,51 +240,4 @@ export const useStablecoinPriceAmount = (
     }
   }
   return undefined
-}
-
-/**
- * @deprecated it's using v2 pair, use `useStablecoinPriceAsBN` instead
- */
-export const useBUSDCakeAmount = (amount: number): number | undefined => {
-  const cakeBusdPrice = useCakeBusdPrice()
-  if (cakeBusdPrice) {
-    return multiplyPriceByAmount(cakeBusdPrice, amount)
-  }
-  return undefined
-}
-
-/**
- * @deprecated it's using v2 pair, use `useCakePriceAsBN` instead
- * @Note: only fetch from one pair
- */
-export const useCakeBusdPrice = (
-  { forceMainnet } = { forceMainnet: false },
-): Price<ERC20Token, ERC20Token> | undefined => {
-  /*
-  const { chainId } = useActiveChainId()
-  const isTestnet = !forceMainnet && isChainTestnet(chainId)
-  // Return bsc testnet cake if chain is testnet
-  const cake: Token = isTestnet ? ICE[ChainId.BSC_TESTNET] : ICE[ChainId.BSC]
-  */
-  const cake: Token = ICE[ChainId.BITGERT]
-  return usePriceByPairs(USD[cake.chainId], cake)
-}
-
-/**
- * @deprecated it's using v2 pair
- * @Note: only fetch from one pair
- */
-
-// @Note: only fetch from one pair
-export const useBNBBusdPrice = (
-  { forceMainnet } = { forceMainnet: false },
-): Price<ERC20Token, ERC20Token> | undefined => {
-  const { chainId } = useActiveChainId()
-  /*
-  const isTestnet = !forceMainnet && isChainTestnet(chainId)
-  // Return bsc testnet wbnb if chain is testnet
-  const wbnb: Token = isTestnet ? WBNB[ChainId.BSC_TESTNET] : WBNB[ChainId.BSC]
-  */
-  const wbnb: Token = WETH9[chainId]
-  return usePriceByPairs(USD[wbnb.chainId], wbnb)
 }

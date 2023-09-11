@@ -1,33 +1,38 @@
-import { useState, useCallback, ReactNode } from 'react'
-import styled from 'styled-components'
-import {
-  Text,
-  PancakeToggle,
-  Toggle,
-  Flex,
-  Modal,
-  InjectedModalProps,
-  ThemeSwitcher,
-  ExpertModal,
-  QuestionHelper,
-  PreTitle,
-  ModalV2,
-} from '@pancakeswap/uikit'
-import { ChainId } from '@pancakeswap/sdk'
-import { SUPPORT_ZAP } from '../../../config/constants/supportChains'
-import { useSubgraphHealthIndicatorManager, useUserUsernameVisibility } from 'state/user/hooks'
-import { useSwapActionHandlers } from '../../../state/swap/useSwapActionHandlers'
-import { useActiveChainId } from '../../../hooks/useActiveChainId'
 import { useTranslation } from '@pancakeswap/localization'
-import useTheme from '../../../hooks/useTheme'
+import { ChainId } from '@pancakeswap/sdk'
+import {
+  Flex,
+  InjectedModalProps,
+  Modal,
+  ExpertModal,
+  PancakeToggle,
+  QuestionHelper,
+  Text,
+  ThemeSwitcher,
+  Toggle,
+  Button,
+  ModalV2,
+  PreTitle,
+  AutoColumn,
+  Message,
+  MessageText,
+  NotificationDot,
+  ButtonProps,
+  Checkbox,
+  AutoRow,
+  RowFixed,
+} from '@pancakeswap/uikit'
+import { useActiveChainId } from 'hooks/useActiveChainId'
+import useTheme from 'hooks/useTheme'
+import { ReactNode, useCallback, useState } from 'react'
+import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 import {
   useAudioPlay,
   useExpertMode,
   useUserSingleHopOnly,
   useUserExpertModeAcknowledgement,
 } from '@pancakeswap/utils/user'
-import GasSettings from './GasSettings'
-import TransactionSettings from './TransactionSettings'
+import { useSubgraphHealthIndicatorManager, useUserUsernameVisibility } from 'state/user/hooks'
 import { useUserTokenRisk } from 'state/user/hooks/useUserTokenRisk'
 import {
   useOnlyOneAMMSourceEnabled,
@@ -37,21 +42,15 @@ import {
   useUserV3SwapEnable,
   useRoutingSettingChanged,
 } from 'state/user/smartRouter'
-import { SettingsMode } from './types'
-import { useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from '../../../state/global/hooks'
-import {
-  AutoColumn,
-  AutoRow,
-  Button,
-  ButtonProps,
-  Checkbox,
-  Message,
-  MessageText,
-  NotificationDot,
-  RowFixed,
-} from '@pancakeswap/uikit/src/components'
+import { useIsAkkaSwapModeActive } from '../../../state/global/hooks'
 import { AtomBox } from '@pancakeswap/ui'
 import { useMMLinkedPoolByDefault } from 'state/user/mmLinkedPool'
+import styled from 'styled-components'
+import { TOKEN_RISK } from 'components/AccessRisk'
+import AccessRiskTooltips from 'components/AccessRisk/AccessRiskTooltips'
+import GasSettings from './GasSettings'
+import TransactionSettings from './TransactionSettings'
+import { SettingsMode } from './types'
 
 const ScrollableContainer = styled(Flex)`
   flex-direction: column;
@@ -87,12 +86,8 @@ export const withCustomOnDismiss =
   }
 
 const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ onDismiss, mode }) => {
-  const [singleHopOnly, setSingleHopOnly] = useUserSingleHopOnly()
-  // const [audioPlay, toggleSetAudioMode] = useAudioModeManager()
   // isAkkaSwapActive checks if akka router is generally active or not
-  const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] =
-    useIsAkkaSwapModeActive()
-
+  const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] = useIsAkkaSwapModeActive()
   const [showConfirmExpertModal, setShowConfirmExpertModal] = useState(false)
   const [showExpertModeAcknowledgement, setShowExpertModeAcknowledgement] = useUserExpertModeAcknowledgement()
   const [expertMode, setExpertMode] = useExpertMode()
@@ -196,17 +191,14 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
             </Flex>
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
-                <Text>{t('Disable Multihops')}</Text>
-                <QuestionHelper text={t('Restricts swaps to direct pairs only.')} placement="top-start" ml="4px" />
+                <Text>{t('Flippy sounds')}</Text>
+                <QuestionHelper
+                  text={t('Fun sounds to make a truly immersive pancake-flipping trading experience')}
+                  placement="top"
+                  ml="4px"
+                />
               </Flex>
-              <Toggle
-                id="toggle-disable-multihop-button"
-                checked={singleHopOnly}
-                scale="md"
-                onChange={() => {
-                  setSingleHopOnly(!singleHopOnly)
-                }}
-              />
+              <PancakeToggle checked={audioPlay} onChange={() => setAudioMode((s) => !s)} scale="md" />
             </Flex>
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
@@ -220,17 +212,6 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 onChange={handleAkkaModeToggle}
               />
             </Flex>
-            {/* <Flex justifyContent="space-between" alignItems="center" mb="24px"> */}
-            {/*   <Flex alignItems="center"> */}
-            {/*     <Text>{t('Flippy sounds')}</Text> */}
-            {/*     <QuestionHelper */}
-            {/*       text={t('Fun sounds to make a truly immersive pancake-flipping trading experience')} */}
-            {/*       placement="top-start" */}
-            {/*       ml="4px" */}
-            {/*     /> */}
-            {/*   </Flex> */}
-            {/*   <PancakeToggle checked={audioPlay} onChange={toggleSetAudioMode} scale="md" /> */}
-            {/* </Flex> */}
             <RoutingSettingsButton />
           </>
         )}
@@ -412,67 +393,65 @@ function RoutingSettings() {
         </AtomBox>
         <AtomBox>
           <PreTitle mb="24px">{t('Routing preference')}</PreTitle>
-          <AutoRow alignItems="center" as="label" mb="24px" gap="16px">
-            <Checkbox
-              id="toggle-disable-multihop-button"
-              checked={!singleHopOnly}
-              scale="sm"
-              onChange={() => {
-                setSingleHopOnly((s) => !s)
-              }}
-            />
-            <RowFixed>
+          <AutoRow alignItems="center" mb="24px">
+            <RowFixed as="label" gap="16px">
+              <Checkbox
+                id="toggle-disable-multihop-button"
+                checked={!singleHopOnly}
+                scale="sm"
+                onChange={() => {
+                  setSingleHopOnly((s) => !s)
+                }}
+              />
               <Text>{t('Allow Multihops')}</Text>
-              <QuestionHelper
-                text={
-                  <Flex flexDirection="column">
-                    <Text mr="5px">
-                      {t(
-                        'Multihops enables token swaps through multiple hops between serval pools to achieve the best deal.',
-                      )}
-                    </Text>
-                    <Text mr="5px" mt="1em">
-                      {t(
-                        'Turning this off will only allow direct swap, which may cause higher slippage or even fund loss.',
-                      )}
-                    </Text>
-                  </Flex>
-                }
-                placement="top"
-                ml="4px"
-              />
             </RowFixed>
-          </AutoRow>
-          <AutoRow alignItems="center" mb="24px" as="label" gap="16px">
-            <Checkbox
-              id="toggle-disable-multihop-button"
-              checked={split}
-              scale="sm"
-              onChange={() => {
-                setSplit((s) => !s)
-              }}
+            <QuestionHelper
+              text={
+                <Flex flexDirection="column">
+                  <Text mr="5px">
+                    {t(
+                      'Multihops enables token swaps through multiple hops between several pools to achieve the best deal.',
+                    )}
+                  </Text>
+                  <Text mr="5px" mt="1em">
+                    {t(
+                      'Turning this off will only allow direct swap, which may cause higher slippage or even fund loss.',
+                    )}
+                  </Text>
+                </Flex>
+              }
+              placement="top"
+              ml="4px"
             />
-            <RowFixed alignItems="center">
-              <Text>{t('Allow Split Routing')}</Text>
-              <QuestionHelper
-                text={
-                  <Flex flexDirection="column">
-                    <Text mr="5px">
-                      {t(
-                        'Split routing enables token swaps to be broken into multiple routes to achieve the best deal.',
-                      )}
-                    </Text>
-                    <Text mr="5px" mt="1em">
-                      {t(
-                        'Turning this off will only allow a single route, which may result in low efficiency or higher slippage.',
-                      )}
-                    </Text>
-                  </Flex>
-                }
-                placement="top"
-                ml="4px"
+          </AutoRow>
+          <AutoRow alignItems="center" mb="24px">
+            <RowFixed alignItems="center" as="label" gap="16px">
+              <Checkbox
+                id="toggle-disable-multihop-button"
+                checked={split}
+                scale="sm"
+                onChange={() => {
+                  setSplit((s) => !s)
+                }}
               />
+              <Text>{t('Allow Split Routing')}</Text>
             </RowFixed>
+            <QuestionHelper
+              text={
+                <Flex flexDirection="column">
+                  <Text mr="5px">
+                    {t('Split routing enables token swaps to be broken into multiple routes to achieve the best deal.')}
+                  </Text>
+                  <Text mr="5px" mt="1em">
+                    {t(
+                      'Turning this off will only allow a single route, which may result in low efficiency or higher slippage.',
+                    )}
+                  </Text>
+                </Flex>
+              }
+              placement="top"
+              ml="4px"
+            />
           </AutoRow>
         </AtomBox>
       </AutoColumn>

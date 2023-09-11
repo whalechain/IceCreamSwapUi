@@ -1,9 +1,10 @@
 import { ChainId } from '@pancakeswap/sdk'
+import { Address } from 'viem'
 
 import { SupportedChainId } from './supportedChains'
 
 export type ContractAddresses<T extends ChainId = SupportedChainId> = {
-  [chainId in T]: string
+  [chainId in T]: Address
 }
 
 export const IICE = {

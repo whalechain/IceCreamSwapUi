@@ -13,3 +13,4 @@ export const SUPPORT_INFO = chains.filter((chain) => chain.features.includes('in
 export const SUPPORT_BRIDGE = chains.filter((chain) => chain.features.includes('bridge')).map((chain) => chain.id)
 export const SUPPORT_LOCKS = chains.filter((chain) => chain.features.includes('locks')).map((chain) => chain.id)
 export const SUPPORT_ZAP = []
+export const SUPPORT_BUY_CRYPTO = []

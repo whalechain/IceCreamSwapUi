@@ -9,20 +9,24 @@ import {
   Text,
   CopyAddress,
   FlexGap,
+  useTooltip,
 } from '@pancakeswap/uikit'
 import { ChainId, WNATIVE } from '@pancakeswap/sdk'
 import { FetchStatus } from '../../../config/constants/types'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import { useTranslation } from '@pancakeswap/localization'
-import useAuth from '../../../hooks/useAuth'
-import useNativeCurrency from '../../../hooks/useNativeCurrency'
-import useTokenBalance, { useGetCakeBalance } from '../../../hooks/useTokenBalance'
-import { ChainLogo } from '../../Logo/ChainLogo'
+import useAuth from 'hooks/useAuth'
+import useNativeCurrency from 'hooks/useNativeCurrency'
+import useTokenBalance, { useGetCakeBalance } from 'hooks/useTokenBalance'
+import { ChainLogo } from 'components/Logo/ChainLogo'
 
-import { getBlockExploreLink, getBlockExploreName } from '../../../utils'
-import { formatBigNumber, getFullDisplayBalance } from '@pancakeswap/utils/formatBalance'
+import { getBlockExploreLink, getBlockExploreName } from 'utils'
+import { getFullDisplayBalance, formatBigInt } from '@pancakeswap/utils/formatBalance'
 import { useBalance } from 'wagmi'
 import { useDomainNameForAddress } from 'hooks/useDomain'
+import { isMobile } from 'react-device-detect'
+import { useState } from 'react'
+import InternalLink from 'components/Links'
 
 const COLORS = {
   ETH: '#627EEA',
@@ -37,24 +41,50 @@ interface WalletInfoProps {
 
 const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss }) => {
   const { t } = useTranslation()
-  const { chain, chainId, account } = useActiveWeb3React()
-  // const bnbBalance = useBalance({ addressOrName: account, chainId: ChainId.BSC })
-  const nativeBalance = useBalance({ addressOrName: account })
+  const { account, chainId, chain } = useActiveWeb3React()
   const { domainName } = useDomainNameForAddress(account)
   const isBSC = chainId === ChainId.BSC
   const bnbBalance = useBalance({ address: account, chainId: ChainId.BSC })
+  const nativeBalance = useBalance({ address: account })
   const native = useNativeCurrency()
   const wNativeToken = !isBSC ? WNATIVE[chainId] : null
   const wBNBToken = WNATIVE[ChainId.BSC]
   const { balance: wNativeBalance, fetchStatus: wNativeFetchStatus } = useTokenBalance(wNativeToken?.address)
   const { balance: wBNBBalance, fetchStatus: wBNBFetchStatus } = useTokenBalance(wBNBToken?.address, true)
   const { balance: cakeBalance, fetchStatus: cakeFetchStatus } = useGetCakeBalance()
+  const [mobileTooltipShow, setMobileTooltipShow] = useState(false)
   const { logout } = useAuth()
 
   const handleLogout = () => {
     onDismiss?.()
     logout()
   }
+  const {
+    tooltip: buyCryptoTooltip,
+    tooltipVisible: buyCryptoTooltipVisible,
+    targetRef: buyCryptoTargetRef,
+  } = useTooltip(
+    <>
+      <Box maxWidth="140px">
+        <FlexGap gap="8px" flexDirection="column" justifyContent="space-between">
+          <Text as="p">
+            {t('%currency% Balance Low. You need %currency% for transaction fees.', {
+              currency: native?.symbol,
+            })}
+          </Text>
+          <InternalLink href="/buy-crypto" onClick={() => onDismiss?.()}>
+            <Button height="30px">{t('Buy %currency%', { currency: native?.symbol })}</Button>
+          </InternalLink>
+        </FlexGap>
+      </Box>
+    </>,
+    {
+      isInPortal: false,
+      placement: isMobile ? 'top' : 'bottom',
+      trigger: isMobile ? 'focus' : 'hover',
+      ...(isMobile && { manualVisible: mobileTooltipShow }),
+    },
+  )
 
   return (
     <>
@@ -73,11 +103,13 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
                 currency: native.symbol,
               })}
             </Text>
-            <Text as="p">
-              {t('You need %currency% for transaction fees.', {
-                currency: native.symbol,
-              })}
-            </Text>
+            <InternalLink href="/buy-crypto" onClick={() => onDismiss?.()}>
+              <Text color="primary">
+                {t('You need %currency% for transaction fees.', {
+                  currency: native.symbol,
+                })}
+              </Text>
+            </InternalLink>
           </Box>
         </Message>
       )}
@@ -101,18 +133,20 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
             {!nativeBalance.isFetched ? (
               <Skeleton height="22px" width="60px" />
             ) : (
-              <Text>{formatBigNumber(nativeBalance.data.value, 6)}</Text>
+              nativeBalance && <Text>{formatBigInt(nativeBalance?.data?.value ?? 0n, 6)}</Text>
             )}
           </Flex>
-          {wNativeBalance.gt(0) && (
+          {wNativeBalance && wNativeBalance.gt(0) && (
             <Flex alignItems="center" justifyContent="space-between">
               <Text color="textSubtle">
-                {wNativeToken.symbol} {t('Balance')}
+                {wNativeToken?.symbol} {t('Balance')}
               </Text>
               {wNativeFetchStatus !== FetchStatus.Fetched ? (
                 <Skeleton height="22px" width="60px" />
               ) : (
-                <Text>{getFullDisplayBalance(wNativeBalance, wNativeToken.decimals, 6)}</Text>
+                wNativeToken?.decimals && (
+                  <Text>{getFullDisplayBalance(wNativeBalance, wNativeToken?.decimals, 6)}</Text>
+                )
               )}
             </Flex>
           )}
@@ -124,7 +158,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
           {cakeFetchStatus !== FetchStatus.Fetched ? (
             <Skeleton height="22px" width="60px" />
           ) : (
-            <Text>{formatBigNumber(cakeBalance, 3)}</Text>
+            <Text>{formatBigInt(cakeBalance, 3)}</Text>
           )}
         </Flex>
       </Box>

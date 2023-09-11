@@ -5,7 +5,6 @@ import { useMemo, useCallback } from 'react'
 
 import { useV3CandidatePools, useV3CandidatePoolsWithoutTicks, V3PoolsHookParams, V3PoolsResult } from './useV3Pools'
 import { useStableCandidatePools } from './usePoolsOnChain'
-// import { useV2CandidatePoolsFromOnChain as useV2CandidatePools } from './useV2Pools'
 import { useV2CandidatePools } from './useV2Pools'
 
 interface FactoryOptions {
@@ -41,7 +40,6 @@ function commonPoolsHookCreator({ useV3Pools }: FactoryOptions) {
       syncing: v3Syncing,
       blockNumber: v3BlockNumber,
       refresh: v3Refresh,
-      error,
     } = useV3Pools(currencyA, currencyB, { blockNumber, enabled })
     const {
       pools: v2Pools,
@@ -72,10 +70,22 @@ function commonPoolsHookCreator({ useV3Pools }: FactoryOptions) {
     // FIXME: allow inconsistent block not working as expected
     const pools = useMemo(
       () =>
-        v2Pools && (v3Pools || error) && stablePools && (allowInconsistentBlock || !!consistentBlockNumber)
-          ? [...v2Pools, ...(v3Pools || []), ...stablePools]
+        (!v2Loading || v2Pools) &&
+        (!v3Loading || v3Pools) &&
+        (!stableLoading || stablePools) &&
+        (allowInconsistentBlock || !!consistentBlockNumber)
+          ? [...(v2Pools || []), ...(v3Pools || []), ...(stablePools || [])]
           : undefined,
-      [v2Pools, v3Pools, stablePools, allowInconsistentBlock, consistentBlockNumber, error],
+      [
+        v2Loading,
+        v2Pools,
+        v3Loading,
+        v3Pools,
+        stableLoading,
+        stablePools,
+        allowInconsistentBlock,
+        consistentBlockNumber,
+      ],
     )
 
     const refresh = useCallback(() => {

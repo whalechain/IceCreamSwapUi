@@ -17,6 +17,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.CORE]: coreTokens.usdt,
   [ChainId.XODEX]: xodexTokens.usdt,
 }
+export const STABLE_COIN = USD
 
 export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.ice,

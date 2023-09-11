@@ -2,7 +2,6 @@ import { useAccount } from 'wagmi'
 import { useTranslation } from '@pancakeswap/localization'
 import { Currency, CurrencyAmount, Fraction, Percent, Price, Token } from '@pancakeswap/sdk'
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
-import { BigNumber } from 'ethers'
 
 import { PairState } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
@@ -11,9 +10,10 @@ import { useContext, useMemo } from 'react'
 import { Field } from 'state/mint/actions'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { useSingleCallResult } from 'state/multicall/hooks'
-import { StableConfigContext } from 'views/Swap/hooks/useStableConfig'
-import { useEstimatedAmount } from 'views/Swap/StableSwap/hooks/useStableTradeExactIn'
-import { useMintState } from 'state/mint/hooks'
+import { StableConfigContext, UseStableSwapInfoContract } from 'views/Swap/hooks/useStableConfig'
+import { useEstimatedAmount } from 'views/Swap/hooks/useEstimatedAmount'
+import { Address } from 'viem'
+import { useAddLiquidityV2FormState } from 'state/mint/reducer'
 
 export interface StablePair {
   liquidityToken: Token | null
@@ -52,7 +52,7 @@ export function useStablePair(currencyA?: Currency, currencyB?: Currency): UseSt
   })
 
   const pair = useMemo(() => {
-    if (!token0 || !token1) {
+    if (!token0 || !token1 || !currencyB) {
       return undefined
     }
     const isPriceValid = token0AmountQuotient && estimatedToken1Amount
@@ -93,39 +93,43 @@ function useMintedStableLP({
   currencyInputAmount,
   currencyOutputAmount,
 }: {
-  stableSwapInfoContract: any
+  stableSwapInfoContract: UseStableSwapInfoContract
   stableSwapConfig: any
   stableSwapAddress: string
   currencyInput: Currency | undefined
   currencyInputAmount: bigint | undefined
   currencyOutputAmount: bigint | undefined
 }) {
-  const quotient0Str = currencyInputAmount?.toString() || '0'
-  const quotient1Str = currencyOutputAmount?.toString() || '0'
+  const quotient0 = currencyInputAmount || 0n
+  const quotient1 = currencyOutputAmount || 0n
 
   const isToken0 =
     currencyInput && stableSwapConfig?.token0 ? currencyInput?.wrapped?.equals(stableSwapConfig?.token0) : false
   const amounts = useMemo(() => {
-    return isToken0 ? [quotient0Str, quotient1Str] : [quotient1Str, quotient0Str]
-  }, [isToken0, quotient0Str, quotient1Str])
+    return isToken0 ? ([quotient0, quotient1] as const) : ([quotient1, quotient0] as const)
+  }, [isToken0, quotient0, quotient1])
 
   const inputs = useMemo(() => {
-    return [stableSwapAddress, amounts]
+    return [stableSwapAddress as Address, amounts] as const
   }, [stableSwapAddress, amounts])
 
-  const { result, error, loading, syncing } = useSingleCallResult(
-    stableSwapInfoContract,
-    'get_add_liquidity_mint_amount',
-    inputs,
-  )
+  const { result, error, loading, syncing } = useSingleCallResult({
+    contract: stableSwapInfoContract,
+    functionName: 'get_add_liquidity_mint_amount',
+    args: inputs,
+  })
 
   // TODO: Combine get_add_liquidity_mint_amount + balances in one call
-  const balanceResult = useSingleCallResult(stableSwapInfoContract, 'balances', [stableSwapAddress])
+  const balanceResult = useSingleCallResult({
+    contract: stableSwapInfoContract,
+    functionName: 'balances',
+    args: [stableSwapAddress as Address],
+  })
 
   return useMemo(
     () => ({
-      reserves: balanceResult?.result?.[0] || [BigNumber.from(0), BigNumber.from(0)],
-      data: result?.[0],
+      reserves: balanceResult?.result || [0n, 0n],
+      data: result,
       loading: loading || syncing,
       error,
     }),
@@ -150,13 +154,13 @@ export function useStableLPDerivedMintInfo(
   poolTokenPercentage?: Percent
   error?: string
   addError?: string
-  reserves: [BigNumber, BigNumber]
+  reserves: readonly [bigint, bigint]
 } {
   const { address: account } = useAccount()
 
   const { t } = useTranslation()
 
-  const { independentField, typedValue, otherTypedValue } = useMintState()
+  const { independentField, typedValue, otherTypedValue } = useAddLiquidityV2FormState()
 
   const dependentField = independentField === Field.CURRENCY_A ? Field.CURRENCY_B : Field.CURRENCY_A
 
@@ -218,7 +222,7 @@ export function useStableLPDerivedMintInfo(
 
   const { data: estimatedOutputAmount } = useEstimatedAmount({
     estimatedCurrency: currencyAAmountQuotient ? currencyB : currencyA,
-    quotient: targetAmount?.quotient.toString(),
+    quotient: targetAmount?.quotient?.toString(),
     stableSwapConfig,
     stableSwapContract,
   })

@@ -15,13 +15,11 @@ import {
   useModal,
 } from '@pancakeswap/uikit'
 import { PositionDetails } from '@pancakeswap/farms'
-
+import { isStableSwapSupported } from '@pancakeswap/smart-router/evm'
 import NextLink from 'next/link'
 import styled from 'styled-components'
-import { useWeb3React } from '@pancakeswap/wagmi'
 import { AppBody, AppHeader } from 'components/App'
 import { useV3Positions } from 'hooks/v3/useV3Positions'
-import { CHAIN_IDS } from 'utils/wagmi'
 import PositionListItem from 'views/AddLiquidityV3/formViews/V3FormView/components/PoolListItem'
 import Page from 'views/Page'
 import { useTranslation } from '@pancakeswap/localization'
@@ -43,6 +41,8 @@ import atomWithStorageWithErrorCatch from 'utils/atomWithStorageWithErrorCatch'
 import { useAtom } from 'jotai'
 import { FindOtherLP } from '@pancakeswap/uikit/src/widgets/Liquidity'
 import { V3SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { isV3MigrationSupported } from 'utils/isV3MigrationSupported'
 import { SUPPORT_SWAP } from "config/constants/supportChains";
 
 const Body = styled(CardBody)`
@@ -78,7 +78,7 @@ function useHideClosePosition() {
 }
 
 export default function PoolListPage() {
-  const { account } = useWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
 
   const [selectedTypeIndex, setSelectedTypeIndex] = useState(FILTER.ALL)
@@ -111,7 +111,7 @@ export default function PoolListPage() {
   if (positions?.length) {
     const [openPositions, closedPositions] = positions?.reduce<[PositionDetails[], PositionDetails[]]>(
       (acc, p) => {
-        acc[p.liquidity?.isZero() ? 1 : 0].push(p)
+        acc[p.liquidity === 0n ? 1 : 0].push(p)
         return acc
       },
       [[], []],
@@ -131,34 +131,41 @@ export default function PoolListPage() {
             positionSummaryLink,
             subtitle,
             setInverted,
-          }) => (
-            <LiquidityCardRow
-              feeAmount={feeAmount}
-              link={positionSummaryLink}
-              currency0={currencyQuote}
-              currency1={currencyBase}
-              tokenId={p.tokenId}
-              pairText={
-                !currencyQuote || !currencyBase ? (
-                  <Dots>{t('Loading')}</Dots>
-                ) : (
-                  `${currencyQuote.symbol}-${currencyBase.symbol} LP`
-                )
-              }
-              tags={
-                <>
-                  {p.isStaked && (
-                    <Tag outline variant="warning" mr="8px">
-                      Farming
-                    </Tag>
-                  )}
-                  <RangeTag removed={removed} outOfRange={outOfRange} />
-                </>
-              }
-              subtitle={subtitle}
-              onSwitch={() => setInverted((prev) => !prev)}
-            />
-          )}
+          }) => {
+            let token0Symbol = ''
+            let token1Symbol = ''
+            if (currencyQuote && currencyBase) {
+              token0Symbol =
+                currencyQuote.symbol.length > 7 ? currencyQuote.symbol.slice(0, 7).concat('...') : currencyQuote.symbol
+              token1Symbol =
+                currencyBase.symbol.length > 7 ? currencyBase.symbol.slice(0, 7).concat('...') : currencyBase.symbol
+            }
+
+            return (
+              <LiquidityCardRow
+                feeAmount={feeAmount}
+                link={positionSummaryLink}
+                currency0={currencyQuote}
+                currency1={currencyBase}
+                tokenId={p.tokenId}
+                pairText={
+                  !token0Symbol || !token1Symbol ? <Dots>{t('Loading')}</Dots> : `${token0Symbol}-${token1Symbol} LP`
+                }
+                tags={
+                  <>
+                    {p.isStaked && (
+                      <Tag outline variant="warning" mr="8px">
+                        {t('Farming')}
+                      </Tag>
+                    )}
+                    {token0Symbol && token1Symbol ? <RangeTag removed={removed} outOfRange={outOfRange} /> : null}
+                  </>
+                }
+                subtitle={subtitle}
+                onSwitch={() => setInverted((prev) => !prev)}
+              />
+            )
+          }}
         </PositionListItem>
       )
     })
@@ -189,14 +196,15 @@ export default function PoolListPage() {
   }, [selectedTypeIndex, stablePairsSection, t, v2Loading, v2PairsSection, v3Loading, v3PairsSection])
 
   const [onPresentTransactionsModal] = useModal(<TransactionsModal />)
+  const isMigrationSupported = useMemo(() => isV3MigrationSupported(chainId), [chainId])
 
   return (
     <Page>
-      { /*
-      <Flex m="24px 0" maxWidth="854px">
-        <FarmV3MigrationBanner />
-      </Flex>
-      */ }
+      {isMigrationSupported && (
+        <Flex m="24px 0" maxWidth="854px">
+          <FarmV3MigrationBanner />
+        </Flex>
+      )}
       <AppBody
         style={{
           maxWidth: '854px',
@@ -234,7 +242,9 @@ export default function PoolListPage() {
               >
                 <ButtonMenuItem>{t('All')}</ButtonMenuItem>
                 <ButtonMenuItem>V3</ButtonMenuItem>
-                <ButtonMenuItem>{t('StableSwap')}</ButtonMenuItem>
+                <ButtonMenuItem display={isStableSwapSupported(chainId) ? 'inline-flex' : 'none'}>
+                  {t('StableSwap')}
+                </ButtonMenuItem>
                 <ButtonMenuItem>V2</ButtonMenuItem>
               </ButtonMenu>
             </>
@@ -242,7 +252,6 @@ export default function PoolListPage() {
         />
         <Body>
           {mainSection}
-
           {selectedTypeIndex === FILTER.V2 ? <FindOtherLP /> : null}
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>

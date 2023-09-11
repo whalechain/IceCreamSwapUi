@@ -1,18 +1,17 @@
 import { useAccount } from 'wagmi'
 import { Pool } from '@pancakeswap/uikit'
 import { useUserPoolStakedOnly, useUserPoolsViewMode } from 'state/user/hooks'
-import { useInitialBlock, useInitialBlockTimestamp } from "state/block/hooks";
+import { useInitialBlockTimestamp } from 'state/block/hooks'
 import { Token } from '@pancakeswap/sdk'
-import { getChain } from "@icecreamswap/constants"
-import {useActiveChainId} from "../../../../hooks/useActiveChainId";
+
+const POOL_START_THRESHOLD = 60 * 4
 
 export default function PoolControlsContainer(props) {
   const [stakedOnly, setStakedOnly] = useUserPoolStakedOnly()
   const [viewMode, setViewMode] = useUserPoolsViewMode()
   const { address: account } = useAccount()
-  const initialBlock = useInitialBlockTimestamp()
-  const poolStartBlockThreshold = 60  * 60  // show pool 60 min before it goes live
-  const threshHold = initialBlock > 0 ? initialBlock + poolStartBlockThreshold : 0
+  const initialBlockTimestamp = useInitialBlockTimestamp()
+  const threshHold = Number(initialBlockTimestamp) > 0 ? Number(initialBlockTimestamp) + POOL_START_THRESHOLD : 0
 
   return (
     <Pool.PoolControls<Token>

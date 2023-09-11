@@ -3,7 +3,7 @@ import { Currency, CurrencyAmount, Price, Trade, TradeType } from '@pancakeswap/
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
 import { useUserSlippage } from '@pancakeswap/utils/user'
 import { SLOW_INTERVAL } from 'config/constants'
-import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from 'config/constants/exchange'
+import { DEFAULT_INPUT_CURRENCY } from 'config/constants/exchange'
 import { useTradeExactIn, useTradeExactOut } from 'hooks/Trades'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useBestAMMTrade } from 'hooks/useBestAMMTrade'
@@ -16,7 +16,7 @@ import { useEffect, useMemo, useState } from 'react'
 import useSWRImmutable from 'swr/immutable'
 import { isAddress } from 'utils'
 import { computeSlippageAdjustedAmounts } from 'utils/exchange'
-import { ICE, USD } from '@pancakeswap/tokens'
+import { ICE, STABLE_COIN } from '@pancakeswap/tokens'
 import { getTokenAddress } from 'views/Swap/components/Chart/utils'
 import { useAccount } from 'wagmi'
 import { useCurrencyBalances } from '../wallet/hooks'
@@ -25,7 +25,6 @@ import fetchDerivedPriceData, { getTokenBestTvlProtocol } from './fetch/fetchDer
 import { normalizeDerivedChartData, normalizeDerivedPairDataByActiveToken } from './normalizers'
 import { SwapState, swapReducerAtom } from './reducer'
 import { PairDataTimeWindowEnum } from './types'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
 export function useSwapState() {
   return useAtomValue(swapReducerAtom)
@@ -57,9 +56,9 @@ export function useSingleTokenSwapInfo(
   outputCurrencyId: string | undefined,
   outputCurrency: Currency | undefined,
 ): { [key: string]: number } {
-  const { chainId } = useActiveWeb3React()
-  const token0Address = useMemo(() => getTokenAddress(inputCurrencyId, chainId), [inputCurrencyId])
-  const token1Address = useMemo(() => getTokenAddress(outputCurrencyId, chainId), [outputCurrencyId])
+  const { chainId } = useActiveChainId()
+  const token0Address = useMemo(() => getTokenAddress(chainId, inputCurrencyId), [chainId, inputCurrencyId])
+  const token1Address = useMemo(() => getTokenAddress(chainId, outputCurrencyId), [chainId, outputCurrencyId])
 
   const amount = useMemo(() => tryParseAmount('1', inputCurrency ?? undefined), [inputCurrency])
 
@@ -221,7 +220,7 @@ export function queryParametersToSwapState(
   let outputCurrency =
     typeof parsedQs.outputCurrency === 'string'
       ? isAddress(parsedQs.outputCurrency) || nativeSymbol
-      : defaultOutputCurrency ?? DEFAULT_OUTPUT_CURRENCY
+      : defaultOutputCurrency
   if (inputCurrency === outputCurrency) {
     if (typeof parsedQs.outputCurrency === 'string') {
       inputCurrency = ''
@@ -261,7 +260,11 @@ export function useDefaultsFromURLSearch():
 
   useEffect(() => {
     if (!chainId || !native || !isReady) return
-    const parsed = queryParametersToSwapState(query, native.symbol, ICE[chainId]?.address ?? USD[chainId]?.address)
+    const parsed = queryParametersToSwapState(
+      query,
+      native.symbol,
+      ICE[chainId]?.address ?? STABLE_COIN[chainId]?.address,
+    )
 
     dispatch(
       replaceSwapState({

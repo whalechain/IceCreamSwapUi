@@ -2,17 +2,10 @@ import { useTranslation } from '@pancakeswap/localization'
 import { CHAIN_QUERY_NAME } from 'config/chains'
 import { WalletConnectorNotFoundError, WalletSwitchChainError } from '@pancakeswap/ui-wallets'
 import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
-import { ConnectorNames } from '../config/wallet'
+import { ConnectorNames } from 'config/wallet'
 import { useCallback } from 'react'
-import { useAppDispatch } from '../state'
-import {
-  ConnectorNotFoundError,
-  SwitchChainError,
-  SwitchChainNotSupportedError,
-  useConnect,
-  useDisconnect,
-  useNetwork,
-} from 'wagmi'
+import { useAppDispatch } from 'state'
+import { ConnectorNotFoundError, SwitchChainNotSupportedError, useConnect, useDisconnect, useNetwork } from 'wagmi'
 import { clearUserStates } from '../utils/clearUserStates'
 import { useActiveChainId } from './useActiveChainId'
 import { useSessionChainId } from './useSessionChainId'
@@ -40,7 +33,11 @@ const useAuth = () => {
         if (error instanceof ConnectorNotFoundError) {
           throw new WalletConnectorNotFoundError()
         }
-        if (error instanceof SwitchChainNotSupportedError || error instanceof SwitchChainError) {
+        if (
+          error instanceof SwitchChainNotSupportedError
+          // TODO: wagmi
+          // || error instanceof SwitchChainError
+        ) {
           throw new WalletSwitchChainError(t('Unable to switch network. Please try it on your wallet'))
         }
       }

@@ -1,10 +1,9 @@
-import { BigNumber as EthersBigNumber } from 'ethers'
-import { parseUnits } from 'ethers/lib/utils'
+import { parseEther } from 'viem'
 import { SerializedFarmsState } from '@pancakeswap/farms'
-import { Token } from '@pancakeswap/sdk'
 import { SerializedPoolWithInfo } from '@pancakeswap/pools'
+import { Address } from 'wagmi'
 import BigNumber from 'bignumber.js'
-import { CampaignType, FetchStatus, LotteryStatus, LotteryTicket, Team, TranslatableText } from 'config/constants/types'
+import { Team } from 'config/constants/types'
 
 export enum GAS_PRICE {
   default = '3',
@@ -15,10 +14,10 @@ export enum GAS_PRICE {
 
 export const GAS_PRICE_GWEI = {
   rpcDefault: 'rpcDefault',
-  default: parseUnits(GAS_PRICE.default, 'gwei').toString(),
-  fast: parseUnits(GAS_PRICE.fast, 'gwei').toString(),
-  instant: parseUnits(GAS_PRICE.instant, 'gwei').toString(),
-  testnet: parseUnits(GAS_PRICE.testnet, 'gwei').toString(),
+  default: parseEther(GAS_PRICE.default, 'gwei').toString(),
+  fast: parseEther(GAS_PRICE.fast, 'gwei').toString(),
+  instant: parseEther(GAS_PRICE.instant, 'gwei').toString(),
+  testnet: parseEther(GAS_PRICE.testnet, 'gwei').toString(),
 }
 
 export interface BigNumberToJson {
@@ -43,7 +42,7 @@ export interface Profile {
   userId: number
   points: number
   teamId: number
-  collectionAddress: string
+  collectionAddress: Address
   tokenId: number
   isActive: boolean
   username: string

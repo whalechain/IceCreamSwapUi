@@ -1,6 +1,6 @@
 {
   "name": "@pancakeswap/wagmi",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "license": "MIT",
   "description": "wagmi adaptor for pancakeswap",
   "main": "./dist/index.js",
@@ -18,39 +18,21 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "peerDependencies": {
-    "wagmi": "^0.12.12",
-    "@wagmi/core": "^0.10.10",
-    "@blocto/sdk": "^0.3.1",
-    "@ethersproject/abi": "^5.0.0",
-    "@ethersproject/address": "^5.0.0",
-    "@ethersproject/bignumber": "^5.0.0",
-    "@ethersproject/bytes": "^5.0.0",
-    "@ethersproject/constants": "^5.0.0",
-    "@ethersproject/contracts": "^5.0.0",
-    "@ethersproject/providers": "^5.0.0",
-    "@ethersproject/strings": "^5.0.0",
-    "@ethersproject/units": "^5.0.0",
+    "@blocto/sdk": "^0.5.4",
+    "react-dom": "^18.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "viem": "^1.2.9",
+    "wagmi": "^1.3.10"
   },
   "devDependencies": {
-    "@types/react": "^18.0.17",
-    "wagmi": "^0.12.12",
-    "@wagmi/core": "^0.10.10",
-    "@blocto/sdk": "^0.3.1",
-    "@ethersproject/abi": "^5.0.0",
-    "@ethersproject/address": "^5.0.0",
-    "@ethersproject/bignumber": "^5.0.0",
-    "@ethersproject/bytes": "^5.0.0",
-    "@ethersproject/constants": "^5.0.0",
-    "@ethersproject/contracts": "^5.0.0",
-    "@ethersproject/providers": "^5.0.0",
-    "@ethersproject/strings": "^5.0.0",
-    "@ethersproject/units": "^5.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "@blocto/sdk": "^0.5.4",
     "@pancakeswap/tsconfig": "workspace:*",
-    "tsup": "^6.7.0"
+    "@types/react": "^18.0.17",
+    "react-dom": "^18.0.0",
+    "react": "^18.0.0",
+    "tsup": "^6.7.0",
+    "viem": "^1.2.9",
+    "wagmi": "^1.3.10"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -82,9 +64,6 @@
   },
   "peerDependenciesMeta": {
     "@blocto/sdk": {
-      "optional": true
-    },
-    "swr": {
       "optional": true
     }
   }

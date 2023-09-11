@@ -1,6 +1,7 @@
 {
   "deno.enablePaths": ["./cli/aptos-codegen"],
   "deno.config": "./cli/aptos-codegen/deno.jsonc",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "workbench.colorCustomizations": {
     "activityBar.background": "#AF4562",
     "activityBar.foreground": "#F7FBF0",

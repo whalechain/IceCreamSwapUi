@@ -1,9 +1,8 @@
 // TODO PCS refactor ternaries
 /* eslint-disable no-nested-ternary */
 import { useTranslation } from '@pancakeswap/localization'
-import { ChainId } from '@pancakeswap/sdk'
 import truncateHash from '@pancakeswap/utils/truncateHash'
-import { ArrowBackIcon, ArrowForwardIcon, Box, Flex, LinkExternal, Radio, Skeleton, Text } from '@pancakeswap/uikit'
+import { ArrowBackIcon, ArrowForwardIcon, Box, Flex, Radio, ScanLink, Skeleton, Text } from '@pancakeswap/uikit'
 import { ITEMS_PER_INFO_TABLE_PAGE } from 'config/constants/info'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
@@ -11,11 +10,11 @@ import { useChainNameByQuery } from 'state/info/hooks'
 import { Transaction, TransactionType } from 'state/info/types'
 import styled from 'styled-components'
 import { getBlockExploreLink } from 'utils'
+import { multiChainId, subgraphTokenSymbol } from 'state/info/constant'
 
 import { formatAmount } from 'utils/formatInfoNumbers'
 import { useDomainNameForAddress } from 'hooks/useDomain'
 import { Arrow, Break, ClickableColumnHeader, PageButtons, TableWrapper } from './shared'
-import { useActiveChainId } from '../../../../hooks/useActiveChainId'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -99,24 +98,38 @@ const TableLoader: React.FC<React.PropsWithChildren> = () => {
 
 const DataRow: React.FC<React.PropsWithChildren<{ transaction: Transaction }>> = ({ transaction }) => {
   const { t } = useTranslation()
-  const { chainId } = useActiveChainId()
   const abs0 = Math.abs(transaction.amountToken0)
   const abs1 = Math.abs(transaction.amountToken1)
-  const outputTokenSymbol = transaction.amountToken0 < 0 ? transaction.token0Symbol : transaction.token1Symbol
-  const inputTokenSymbol = transaction.amountToken1 < 0 ? transaction.token0Symbol : transaction.token1Symbol
   const chainName = useChainNameByQuery()
   const { domainName } = useDomainNameForAddress(transaction.sender)
+  const token0Symbol = subgraphTokenSymbol[transaction.token0Address.toLowerCase()] ?? transaction.token0Symbol
+  const token1Symbol = subgraphTokenSymbol[transaction.token1Address.toLowerCase()] ?? transaction.token1Symbol
+  const outputTokenSymbol = transaction.amountToken0 < 0 ? token0Symbol : token1Symbol
+  const inputTokenSymbol = transaction.amountToken1 < 0 ? token0Symbol : token1Symbol
+
   return (
     <ResponsiveGrid>
-      <LinkExternal isBscScan href={getBlockExploreLink(transaction.hash, 'transaction', chainId)}>
+      <ScanLink
+        chainId={multiChainId[chainName]}
+        href={getBlockExploreLink(transaction.hash, 'transaction', multiChainId[chainName])}
+      >
         <Text>
           {transaction.type === TransactionType.MINT
-            ? t('Add %token0% and %token1%', { token0: transaction.token0Symbol, token1: transaction.token1Symbol })
+            ? t('Add %token0% and %token1%', {
+                token0: token0Symbol,
+                token1: token1Symbol,
+              })
             : transaction.type === TransactionType.SWAP
-            ? t('Swap %token0% for %token1%', { token0: inputTokenSymbol, token1: outputTokenSymbol })
-            : t('Remove %token0% and %token1%', { token0: transaction.token0Symbol, token1: transaction.token1Symbol })}
+            ? t('Swap %token0% for %token1%', {
+                token0: inputTokenSymbol,
+                token1: outputTokenSymbol,
+              })
+            : t('Remove %token0% and %token1%', {
+                token0: token0Symbol,
+                token1: token1Symbol,
+              })}
         </Text>
-      </LinkExternal>
+      </ScanLink>
       <Text>${formatAmount(transaction.amountUSD)}</Text>
       <Text>
         <Text>{`${formatAmount(abs0)} ${transaction.token0Symbol}`}</Text>
@@ -124,9 +137,12 @@ const DataRow: React.FC<React.PropsWithChildren<{ transaction: Transaction }>> =
       <Text>
         <Text>{`${formatAmount(abs1)} ${transaction.token1Symbol}`}</Text>
       </Text>
-      <LinkExternal isBscScan href={getBlockExploreLink(transaction.sender, 'address', chainId)}>
+      <ScanLink
+        chainId={multiChainId[chainName]}
+        href={getBlockExploreLink(transaction.sender, 'address', multiChainId[chainName])}
+      >
         {domainName || truncateHash(transaction.sender)}
-      </LinkExternal>
+      </ScanLink>
       <Text>{formatDistanceToNowStrict(parseInt(transaction.timestamp, 10) * 1000)}</Text>
     </ResponsiveGrid>
   )
@@ -150,8 +166,7 @@ const TransactionTable: React.FC<
   const sortedTransactions = useMemo(() => {
     const toBeAbsList = [SORT_FIELD.amountToken0, SORT_FIELD.amountToken1]
     return transactions
-      ? transactions
-          .slice()
+      ? [...transactions]
           .sort((a, b) => {
             if (a && b) {
               const firstField = a[sortField as keyof Transaction]

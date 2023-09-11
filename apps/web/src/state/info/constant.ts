@@ -13,6 +13,7 @@ import { GraphQLClient } from 'graphql-request'
 import { chains } from '@icecreamswap/constants'
 
 export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX'
+export type MultiChainNameExtend = MultiChainName
 
 export const multiChainQueryMainToken = {
   BITGERT: 'ETH',
@@ -51,13 +52,7 @@ export const multiChainQueryClient: Record<MultiChainName, GraphQLClient> = {
   CORE: new GraphQLClient(INFO_CLIENT_CORE),
 }
 
-export const multiChainQueryEndPoint = {
-  BITGERT: INFO_CLIENT_BITGERT,
-  XDC: INFO_CLIENT_XDC,
-  CORE: INFO_CLIENT_CORE,
-}
-
-export const multiChainScan = {
+export const multiChainScan: Record<MultiChainName, string> = {
   BITGERT: 'BriseScan',
   DOGECHAIN: 'DogeScan',
   DOKEN: 'DokenScan',

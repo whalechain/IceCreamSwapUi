@@ -20,8 +20,8 @@ import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
 import { useIsAkkaContractSwapModeActive, useIsAkkaSwapModeActive, useIsAkkaSwapModeStatus } from 'state/global/hooks'
 import { useAkkaRouterContract, useAkkaRouterCoreContract } from 'utils/exchange'
 import { useBalance } from 'wagmi'
-import { useCurrency } from '../../hooks/Tokens'
-import { Field } from '../../state/swap/actions'
+import { useCurrency } from 'hooks/Tokens'
+import { Field } from 'state/swap/actions'
 import {
   useDefaultsFromURLSearch,
   useDerivedSwapInfo,
@@ -41,8 +41,14 @@ import { V3SwapForm } from './V3Swap'
 export default function Swap() {
   const { query } = useRouter()
   const { isDesktop } = useMatchBreakpoints()
-  const { isChartExpanded, isChartDisplayed, setIsChartDisplayed, setIsChartExpanded, isChartSupported } =
-    useContext(SwapFeaturesContext)
+  const {
+    isChartExpanded,
+    isChartDisplayed,
+    setIsChartDisplayed,
+    setIsChartExpanded,
+    isChartSupported,
+    isHotTokenSupported,
+  } = useContext(SwapFeaturesContext)
   const [isSwapHotTokenDisplay, setIsSwapHotTokenDisplay] = useSwapHotTokenDisplay()
   const { t } = useTranslation()
   const [firstTime, setFirstTime] = useState(true)
@@ -376,8 +382,13 @@ export default function Swap() {
             setIsOpen={setIsChartDisplayed}
           />
         )}
-        {isDesktop && isSwapHotTokenDisplay && <HotTokenList handleOutputSelect={handleOutputSelect} />}
-        <ModalV2 isOpen={!isDesktop && isSwapHotTokenDisplay} onDismiss={() => setIsSwapHotTokenDisplay(false)}>
+        {isDesktop && isSwapHotTokenDisplay && isHotTokenSupported && (
+          <HotTokenList handleOutputSelect={handleOutputSelect} />
+        )}
+        <ModalV2
+          isOpen={!isDesktop && isSwapHotTokenDisplay && isHotTokenSupported}
+          onDismiss={() => setIsSwapHotTokenDisplay(false)}
+        >
           <Modal
             style={{ padding: 0 }}
             title={t('Top Token')}

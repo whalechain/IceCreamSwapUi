@@ -4,8 +4,8 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"],
-      "cache": false
+      "env": ["RISK_APP_SECRET", "SERVER_NODE_REAL_API_ETH", "SERVER_NODE_REAL_API_GOERLI"],
+      "outputs": ["dist/**", ".next/**/*", "!.next/cache/**", "!.vercel/**/*"]
     },
     "test": {
       "outputs": ["coverage/**"],
@@ -38,10 +38,6 @@
     },
     "clean": {
       "cache": false
-    },
-    "postinstall": {
-      "inputs": ["src/config/abi/**", "**/abis/**"],
-      "outputs": ["src/config/abi/types/**", "**/abis/types/**"]
     }
   }
 }

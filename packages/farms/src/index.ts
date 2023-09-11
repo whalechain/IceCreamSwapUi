@@ -1,12 +1,21 @@
-import { formatEther } from '@ethersproject/units'
-import { MultiCallV2 } from '@pancakeswap/multicall'
+import { PublicClient, formatEther } from 'viem'
+import { ChainId } from '@pancakeswap/sdk'
 import BigNumber from 'bignumber.js'
-import { masterChefAddresses, masterChefV3Addresses } from './const'
+import {
+  FarmV3SupportedChainId,
+  masterChefAddresses,
+  masterChefV3Addresses,
+  supportedChainIdV2,
+  supportedChainIdV3,
+  bCakeSupportedChainId,
+  FarmV2SupportedChainId,
+} from './const'
 import { farmV2FetchFarms, FetchFarmsParams, fetchMasterChefV2Data } from './v2/fetchFarmsV2'
 import {
   farmV3FetchFarms,
   fetchMasterChefV3Data,
   fetchCommonTokenUSDValue,
+  fetchTokenUSDValues,
   CommonPrice,
   LPTvl,
   getCakeApr,
@@ -15,33 +24,32 @@ import { ComputedFarmConfigV3, FarmV3DataWithPrice } from './types'
 import { chains } from '@icecreamswap/constants'
 import { ChainId } from '@pancakeswap/sdk'
 
-export const SUPPORT_FARMS = chains.filter((chain) => chain.features.includes('farms')).map((chain) => chain.id)
-export const bCakeSupportedChainId = []
-export { masterChefAddresses } from './const'
-const supportedChainIdV3: number[] = []
+export { type FarmV3SupportedChainId, supportedChainIdV3, bCakeSupportedChainId, supportedChainIdV2 }
 
-export function createFarmFetcher(multicallv2: MultiCallV2) {
-  const fetchFarms = async (params: Pick<FetchFarmsParams, 'chainId' | 'farms'>) => {
+export function createFarmFetcher(provider: ({ chainId }: { chainId: FarmV2SupportedChainId }) => PublicClient) {
+  const fetchFarms = async (
+    params: Pick<FetchFarmsParams, 'chainId' | 'farms'>,
+  ) => {
     const { farms, chainId } = params
     const masterChefAddress = masterChefAddresses[chainId]
     const { poolLength, totalRegularAllocPoint, totalSpecialAllocPoint, icePerBlock } = await fetchMasterChefV2Data({
-      multicallv2,
+      provider,
       masterChefAddress,
       chainId,
     })
     const regularCakePerBlock = formatEther(icePerBlock)
     const farmsWithPrice = await farmV2FetchFarms({
-      multicallv2,
+      provider,
       masterChefAddress,
       chainId,
-      farms: farms.filter((f) => !f.pid || poolLength.gt(f.pid)),
+      farms: farms.filter((f) => !f.pid || poolLength > f.pid),
       totalRegularAllocPoint,
       totalSpecialAllocPoint,
     })
 
     return {
       farmsWithPrice,
-      poolLength: poolLength.toNumber(),
+      poolLength: Number(poolLength),
       regularCakePerBlock: +regularCakePerBlock,
       totalRegularAllocPoint: totalRegularAllocPoint.toString(),
     }
@@ -49,19 +57,19 @@ export function createFarmFetcher(multicallv2: MultiCallV2) {
 
   return {
     fetchFarms,
-    isChainSupported: (chainId: number) => SUPPORT_FARMS.includes(chainId),
-    SUPPORT_FARMS,
+    isChainSupported: (chainId: number) => supportedChainIdV2.includes(chainId),
+    supportedChainId: supportedChainIdV2,
   }
 }
 
-export function createFarmFetcherV3(multicallv2: MultiCallV2) {
+export function createFarmFetcherV3(provider: ({ chainId }: { chainId: number }) => PublicClient) {
   const fetchFarms = async ({
     farms,
     chainId,
     commonPrice,
   }: {
-    chainId: ChainId
     farms: ComputedFarmConfigV3[]
+    chainId: FarmV3SupportedChainId
     commonPrice: CommonPrice
   }) => {
     const masterChefAddress = masterChefV3Addresses[chainId]
@@ -71,7 +79,7 @@ export function createFarmFetcherV3(multicallv2: MultiCallV2) {
 
     try {
       const { poolLength, totalAllocPoint, latestPeriodCakePerSecond } = await fetchMasterChefV3Data({
-        multicallv2,
+        provider,
         masterChefAddress,
         chainId,
       })
@@ -81,14 +89,15 @@ export function createFarmFetcherV3(multicallv2: MultiCallV2) {
       const farmsWithPrice = await farmV3FetchFarms({
         farms,
         chainId,
-        multicallv2,
+        provider,
         masterChefAddress,
         totalAllocPoint,
         commonPrice,
       })
 
       return {
-        poolLength: poolLength.toNumber(),
+        chainId,
+        poolLength: Number(poolLength),
         farmsWithPrice,
         cakePerSecond,
         totalAllocPoint: totalAllocPoint.toString(),
@@ -117,18 +126,20 @@ export function createFarmFetcherV3(multicallv2: MultiCallV2) {
   return {
     fetchFarms,
     getCakeAprAndTVL,
-    isChainSupported: (chainId: number) => supportedChainIdV3.includes(chainId),
+    isChainSupported: (chainId: number): chainId is FarmV3SupportedChainId => supportedChainIdV3.includes(chainId),
     supportedChainId: supportedChainIdV3,
     isTestnet: (chainId: number) => false,
   }
 }
 
-export * from './v2/apr'
+export * from './apr'
+export * from './utils'
 export * from './v2/farmsPriceHelpers'
 export * from './types'
+export type { FarmWithPrices } from './v2/farmPrices'
 export * from './v2/deserializeFarmUserData'
 export * from './v2/deserializeFarm'
 export * from './v2/filterFarmsByQuery'
 export { getFarmsPriceHelperLpFiles } from '../constants/priceHelperLps/getFarmsPriceHelperLpFiles'
 
-export { masterChefV3Addresses, fetchCommonTokenUSDValue }
+export { masterChefV3Addresses, fetchCommonTokenUSDValue, fetchTokenUSDValues }

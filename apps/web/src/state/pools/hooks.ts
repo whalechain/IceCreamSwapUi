@@ -67,21 +67,6 @@ const getActiveFarms = async (chainId: number) => {
     .map((farm) => farm.pid)
 }
 
-const getCakePriceFarms = async (chainId: number) => {
-  const farmsConfig = (await getFarmConfig(chainId)) || []
-  const weth = WETH9[chainId]
-  const usd = USD[chainId]
-  const ice = ICE[chainId]
-
-  return farmsConfig
-    .filter(
-      ({ token, pid, quoteToken }) =>
-        (token.symbol === ice.symbol && quoteToken.symbol === weth.symbol) ||
-        (token.symbol === usd.symbol && quoteToken.symbol === weth.symbol),
-    )
-    .map((farm) => farm.pid)
-}
-
 export const useFetchPublicPoolsData = () => {
   const dispatch = useAppDispatch()
   const { chainId } = useActiveChainId()
@@ -189,8 +174,6 @@ export const useFetchIfo = () => {
   useSWRImmutable(
     chainId && ['fetchIfoPublicData', chainId],
     async () => {
-      const cakePriceFarms = await getCakePriceFarms(chainId)
-      await dispatch(fetchFarmsPublicDataAsync({ pids: cakePriceFarms, chainId }))
       batch(() => {
         dispatch(fetchCakePoolPublicDataAsync(chainId))
         dispatch(fetchCakeVaultPublicData(chainId))

@@ -1,6 +1,6 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Currency, CurrencyAmount, Percent, TradeType } from '@pancakeswap/sdk'
-import { LegacyPair as Pair } from '@pancakeswap/smart-router/evm'
+import { LegacyPair as Pair } from '@pancakeswap/smart-router/legacy-router'
 import { Modal, ModalV2, QuestionHelper, SearchIcon, Text, Flex, Link, AutoColumn } from '@pancakeswap/uikit'
 import { formatAmount } from '@pancakeswap/utils/formatFractions'
 import { useState, memo } from 'react'
@@ -125,7 +125,7 @@ export const TradeSummary = memo(function TradeSummary({
                     </Text>
                     :{' '}
                     {t(
-                      'IceCreamSwap does not charge any fees for trades. However, the market makers charge an implied fee of 0.05% (non-stablecoin) / 0.01% (stablecoin) factored into the quotes provided by them.',
+                      '',
                     )}
                   </Text>
                 </>

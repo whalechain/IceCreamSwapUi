@@ -1,10 +1,10 @@
+import { formatEther } from 'viem'
 import { getUnixTime, sub } from 'date-fns'
-import { formatEther } from 'ethers/lib/utils'
 import { gql } from 'graphql-request'
 import { GetStaticProps } from 'next'
 import { SWRConfig } from 'swr'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
-import { bitQueryServerClient, infoServerClient } from '../utils/graphql'
+import { bitQueryServerClient, infoServerClient } from 'utils/graphql'
 import { CHAIN_IDS } from '../utils/wagmi'
 import Home from '../views/Home'
 
@@ -113,7 +113,7 @@ export const getStaticProps: GetStaticProps = async () => {
     const { totalLiquidityUSD } = result.pancakeFactories[0]
     const cakeVaultV2 = getCakeVaultAddress()
     const cakeContract = getCakeContract()
-    const totalCakeInVault = await cakeContract.balanceOf(cakeVaultV2)
+    const totalCakeInVault = await cakeContract.read.balanceOf([cakeVaultV2])
     results.tvl = parseFloat(formatEther(totalCakeInVault)) * cake.price + parseFloat(totalLiquidityUSD)
   } catch (error) {
     if (process.env.NODE_ENV === 'production') {

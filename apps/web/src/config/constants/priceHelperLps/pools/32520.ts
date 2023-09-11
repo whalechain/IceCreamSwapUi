@@ -1,4 +1,5 @@
 import { SerializedFarmConfig } from '../../types'
+import { getAddress } from 'viem'
 import { bitgertTokens } from '@pancakeswap/tokens'
 
 const priceHelperLps: SerializedFarmConfig[] = [
@@ -16,6 +17,11 @@ const priceHelperLps: SerializedFarmConfig[] = [
     token: bitgertTokens.miidas,
     quoteToken: bitgertTokens.wbrise,
   },
-].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
+].map((p) => ({
+  ...p,
+  token: p.token.serialize,
+  quoteToken: p.quoteToken.serialize,
+  lpAddress: getAddress(p.lpAddress),
+}))
 
 export default priceHelperLps

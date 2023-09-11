@@ -77,10 +77,13 @@ const RightWrapper = styled.div`
 const Header = styled.div`
   ${textStyle}
   font-size: 29px;
-  padding-right: 200px;
   margin-bottom: 8px;
   ${({ theme }) => theme.mediaQueries.md} {
     margin-bottom: 10px;
+  }
+  word-spacing: 9999px;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    word-spacing: normal;
   }
 `
 
@@ -135,13 +138,11 @@ const PancakeProtectorBanner = () => {
           <LogoBox>
             <Image src={pancakeSwapLogo} alt="pancakeSwapLogo" width={119} height={18} unoptimized />
           </LogoBox>
-          <Header>{isMobile ? t('Pancake Protectors Beta Week') : t('Join Pancake Protectors Beta Week')}</Header>
-          <StyledSubheading>
-            {isDesktop && t('Empower your characters with Pancake Squad and Bunnies NFTs')}
-          </StyledSubheading>
+          <Header>{t('Join Pancake Protectors')}</Header>
+          <StyledSubheading>{isDesktop && t('Exclusive Perks for PancakeSwap Bunnies and Squads')}</StyledSubheading>
           <Flex alignItems="center" style={{ gap: isMobile ? 4 : 16 }}>
             <Link
-              href="https://blog.pancakeswap.finance/articles/introducing-pancake-protectors-join-the-ultimate-beta-week"
+              href="https://blog.pancakeswap.finance/articles/pancake-protectors-is-here-discover-the-power-of-cake-and-perks-for-pancake-squads-and-bunnies"
               style={{ textDecoration: 'none' }}
               external
             >
@@ -152,7 +153,7 @@ const PancakeProtectorBanner = () => {
             <Devider />
             <Link href="https://protectors.pancakeswap.finance" external style={{ textDecoration: 'none' }}>
               <StyledButton variant="text" style={{ color: 'white' }} scale={isMobile ? 'sm' : 'md'}>
-                {isMobile ? t('Beta') : t('Explore Beta')}
+                {t('Play Now')}
                 <ArrowForwardIcon color="white" />
               </StyledButton>
             </Link>

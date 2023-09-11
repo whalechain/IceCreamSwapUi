@@ -1,5 +1,6 @@
 import { ChainId, TradeType } from '@pancakeswap/sdk'
 import { FeeAmount } from '@pancakeswap/v3-sdk'
+import { Address } from 'viem'
 import { z } from 'zod'
 import { PoolType } from './types'
 
@@ -8,10 +9,7 @@ const zFee = z.nativeEnum(FeeAmount)
 const zTradeType = z.nativeEnum(TradeType)
 const zPoolType = z.nativeEnum(PoolType)
 const zPoolTypes = z.array(zPoolType)
-const zAddress = z
-  .string()
-  .regex(/^0x[a-fA-F0-9]{40}$/)
-  .min(1)
+const zAddress = z.custom<Address>((val) => /^0x[a-fA-F0-9]{40}$/.test(val as string))
 const zBigNumber = z.string().regex(/^[0-9]+$/)
 const zCurrency = z
   .object({
@@ -57,7 +55,7 @@ const zStablePool = z
   })
   .required()
 
-const zPools = z.array(z.union([zV2Pool, zV3Pool, zStablePool]))
+export const zPools = z.array(z.union([zV2Pool, zV3Pool, zStablePool]))
 
 export const zRouterGetParams = z
   .object({
@@ -102,3 +100,4 @@ export const zRouterPostParams = z
 
 export type RouterPostParams = z.infer<typeof zRouterPostParams>
 export type RouterGetParams = z.infer<typeof zRouterGetParams>
+export type SerializedPools = z.infer<typeof zPools>

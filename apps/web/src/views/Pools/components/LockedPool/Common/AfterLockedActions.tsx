@@ -29,8 +29,11 @@ const msg: Record<VaultPosition, ReactNode> = {
 const AfterLockedActions: React.FC<React.PropsWithChildren<AfterLockedActionsPropsType>> = ({
   currentLockedAmount,
   stakingToken,
+  stakingTokenPrice,
   position,
   isInline,
+  hideConvertToFlexibleButton,
+  customLockWeekInSeconds,
 }) => {
   const { t } = useTranslation()
   const { isDesktop } = useMatchBreakpoints()
@@ -48,16 +51,18 @@ const AfterLockedActions: React.FC<React.PropsWithChildren<AfterLockedActionsPro
             lockEndTime="0"
             lockStartTime="0"
             stakingToken={stakingToken}
+            stakingTokenPrice={stakingTokenPrice}
             currentLockedAmount={currentLockedAmount}
             minWidth="186px"
             variant="primary"
             mr={isDesktopView && '14px'}
             mb={!isDesktopView && '8px'}
             isRenew
+            customLockWeekInSeconds={customLockWeekInSeconds}
           >
             {t('Renew')}
           </ExtendButton>
-          <ConvertToFlexibleButton minWidth={isDesktopView && '200px'} />
+          {!hideConvertToFlexibleButton && <ConvertToFlexibleButton minWidth={isDesktopView && '200px'} />}
         </Container>
       }
       actionInline={isDesktopView}

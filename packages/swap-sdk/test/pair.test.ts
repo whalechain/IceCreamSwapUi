@@ -1,4 +1,5 @@
 import { Token, CurrencyAmount, Price } from '@pancakeswap/swap-sdk-core'
+import { describe, it, expect } from 'vitest'
 import { Pair } from '../src/entities'
 import { ChainId, WNATIVE } from '../src/constants'
 
@@ -21,6 +22,16 @@ describe('Pair', () => {
   describe('#getAddress', () => {
     it('returns the correct address', () => {
       expect(Pair.getAddress(USDC, DAI)).toEqual('0xadBba1EF326A33FDB754f14e62A96D5278b942Bd')
+    })
+
+    it('returns the correct address for zkSync', () => {
+      const WETH = new Token(ChainId.ZKSYNC_TESTNET, '0x02968DB286f24cB18bB5b24903eC8eBFAcf591C0', 18, 'WETH', 'WETH')
+      const USDC_ = new Token(ChainId.ZKSYNC_TESTNET, '0x0faF6df7054946141266420b43783387A78d82A9', 18, 'USDC', 'USDC')
+      expect(Pair.getAddress(USDC_, WETH)).toEqual('0x6470f17dB9B338dF4955328077ce59b52Fb5A961')
+
+      const WETH_ = new Token(ChainId.ZKSYNC, '0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91', 18, 'WETH', 'WETH')
+      const USDC__ = new Token(ChainId.ZKSYNC, '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4', 18, 'USDC', 'USDC')
+      expect(Pair.getAddress(USDC__, WETH_)).toEqual('0x63edB9338D81c6D8219856548251bacf2a9b1830')
     })
   })
 
@@ -129,7 +140,7 @@ describe('Pair', () => {
     })
   })
   describe('#involvesToken', () => {
-    it('invlovesToken', () => {
+    it('returns true if the token is involved in the pair', () => {
       expect(
         new Pair(CurrencyAmount.fromRawAmount(USDC, '100'), CurrencyAmount.fromRawAmount(DAI, '100')).involvesToken(
           USDC

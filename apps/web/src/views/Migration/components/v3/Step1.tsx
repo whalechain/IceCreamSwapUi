@@ -1,6 +1,6 @@
 import { DeserializedFarm, FarmWithStakedValue } from '@pancakeswap/farms'
 import { useTranslation } from '@pancakeswap/localization'
-import { useCakePriceAsBN } from '@pancakeswap/utils/useCakePrice'
+import { useCakePrice } from 'hooks/useCakePrice'
 import BigNumber from 'bignumber.js'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import React, { useCallback, useMemo } from 'react'
@@ -19,7 +19,7 @@ const OldFarmStep1: React.FC<React.PropsWithChildren> = () => {
   const {
     data: { farmsWithPrice },
   } = useFarmsV3Public()
-  const cakePrice = useCakePriceAsBN()
+  const cakePrice = useCakePrice()
   const { chainId } = useActiveChainId()
 
   usePollFarmsWithUserData()

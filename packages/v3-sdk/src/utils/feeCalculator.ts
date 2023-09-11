@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, MaxUint256, Percent, Fraction, ZERO } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, MaxUint256, Percent, Fraction, ZERO } from '@pancakeswap/swap-sdk-core'
 import invariant from 'tiny-invariant'
 import { parseNumberToFraction } from '@pancakeswap/utils/formatFractions'
 
@@ -113,8 +113,13 @@ function tryGetEstimatedLPFeeByAmounts({
     sqrtRatioX96,
   })
 
+  if (!liquidity) {
+    return new Fraction(ZERO)
+  }
+
+  const volumeInFraction = parseNumberToFraction(volume24H) || new Fraction(ZERO)
   return insidePercentage
-    .multiply(parseNumberToFraction(volume24H).multiply(BigInt(fee)).multiply(liquidity))
+    .multiply(volumeInFraction.multiply(BigInt(fee)).multiply(liquidity))
     .divide(MAX_FEE * (liquidity + mostActiveLiquidity)).asFraction
 }
 
@@ -137,13 +142,17 @@ export function getDependentAmount(options: GetAmountOptions) {
   const liquidity = FeeCalculator.getLiquidityBySingleAmount(options)
   const isToken0 = currency.wrapped.sortsBefore(amount.currency.wrapped)
   const getTokenAmount = isToken0 ? PositionMath.getToken0Amount : PositionMath.getToken1Amount
+  if (!liquidity) {
+    return undefined
+  }
+
   return CurrencyAmount.fromRawAmount(
     currency,
     getTokenAmount(currentTick, tickLower, tickUpper, sqrtRatioX96, liquidity)
   )
 }
 
-export function getLiquidityBySingleAmount({ amount, currency, ...rest }: GetAmountOptions): bigint {
+export function getLiquidityBySingleAmount({ amount, currency, ...rest }: GetAmountOptions): bigint | undefined {
   return getLiquidityByAmountsAndPrice({
     amountA: amount,
     amountB: CurrencyAmount.fromRawAmount(currency, MaxUint256),
@@ -163,13 +172,21 @@ export function getLiquidityByAmountsAndPrice({
   tickLower,
   sqrtRatioX96,
 }: GetLiquidityOptions) {
-  const isToken0 = amountA.currency.wrapped.sortsBefore(amountB.currency.wrapped)
+  const isToken0 =
+    amountA.currency.wrapped.address !== amountB.currency.wrapped.address
+      ? amountA.currency.wrapped.sortsBefore(amountB.currency.wrapped)
+      : true
   const [inputAmount0, inputAmount1] = isToken0
     ? [amountA.quotient, amountB.quotient]
     : [amountB.quotient, amountA.quotient]
   const sqrtRatioAX96 = TickMath.getSqrtRatioAtTick(tickLower)
   const sqrtRatioBX96 = TickMath.getSqrtRatioAtTick(tickUpper)
-  return maxLiquidityForAmounts(sqrtRatioX96, sqrtRatioAX96, sqrtRatioBX96, inputAmount0, inputAmount1, true)
+  try {
+    return maxLiquidityForAmounts(sqrtRatioX96, sqrtRatioAX96, sqrtRatioBX96, inputAmount0, inputAmount1, true)
+  } catch (e) {
+    console.error(e)
+    return undefined
+  }
 }
 
 interface GetAmountsOptions extends Omit<GetAmountOptions, 'amount' | 'currency'> {
@@ -199,6 +216,10 @@ interface GetAmountsAtNewPriceOptions extends Omit<GetAmountOptions, 'amount' | 
 export function getAmountsAtNewPrice({ newSqrtRatioX96, ...rest }: GetAmountsAtNewPriceOptions) {
   const { tickLower, tickUpper, amountA, amountB } = rest
   const liquidity = FeeCalculator.getLiquidityByAmountsAndPrice(rest)
+  if (!liquidity) {
+    return undefined
+  }
+
   return FeeCalculator.getAmountsByLiquidityAndPrice({
     liquidity,
     currencyA: amountA.currency,

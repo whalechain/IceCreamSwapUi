@@ -1,20 +1,23 @@
 import { Currency, BigintIsh, ChainId } from '@pancakeswap/sdk'
-import { PublicClient, HttpTransport, Chain } from 'viem'
+import { PublicClient } from 'viem'
 import type { GraphQLClient } from 'graphql-request'
 
 import { Pool, PoolType } from './pool'
 import { RouteWithoutQuote, RouteWithQuote } from './route'
 import { GasModel } from './gasModel'
 
-interface PoolOptions {
+interface GetPoolParams {
+  currencyA?: Currency
+  currencyB?: Currency
   blockNumber?: BigintIsh
   protocols?: PoolType[]
+
+  // Only use this param if we want to specify pairs we want to get
+  pairs?: [Currency, Currency][]
 }
 
 export interface PoolProvider {
-  getCandidatePools: (currencyA: Currency, currencyB: Currency, options: PoolOptions) => Promise<Pool[]>
-
-  getPools: (pairs: [Currency, Currency][], options: PoolOptions) => Promise<Pool[]>
+  getCandidatePools: (params: GetPoolParams) => Promise<Pool[]>
 }
 
 export interface QuoterOptions {
@@ -27,6 +30,6 @@ export interface QuoteProvider {
   getRouteWithQuotesExactOut: (routes: RouteWithoutQuote[], options: QuoterOptions) => Promise<RouteWithQuote[]>
 }
 
-export type OnChainProvider = ({ chainId }: { chainId?: ChainId }) => PublicClient<HttpTransport, Chain, true>
+export type OnChainProvider = ({ chainId }: { chainId?: ChainId }) => PublicClient
 
 export type SubgraphProvider = ({ chainId }: { chainId?: ChainId }) => GraphQLClient

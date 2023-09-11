@@ -21,7 +21,7 @@ import { logGTMClickAddLiquidityEvent } from 'utils/customGTMEventTracking'
 
 import useV3DerivedInfo from 'hooks/v3/useV3DerivedInfo'
 import { FeeAmount, NonfungiblePositionManager } from '@pancakeswap/v3-sdk'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { useUserSlippage, useIsExpertMode } from '@pancakeswap/utils/user'
@@ -33,14 +33,12 @@ import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
-import { calculateGasMargin } from 'utils'
 import { useRouter } from 'next/router'
 import { useIsTransactionUnsupported, useIsTransactionWarning } from 'hooks/Trades'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTranslation } from '@pancakeswap/localization'
-import { useSigner } from 'wagmi'
+import { useSendTransaction, useWalletClient } from 'wagmi'
 import styled from 'styled-components'
-import { TransactionResponse } from '@ethersproject/providers'
 import LiquidityChartRangeInput from 'components/LiquidityChartRangeInput'
 import TransactionConfirmationModal from 'components/TransactionConfirmationModal'
 import { Bound } from 'config/constants/types'
@@ -48,6 +46,9 @@ import { V3SubmitButton } from 'views/AddLiquidityV3/components/V3SubmitButton'
 import { formatCurrencyAmount, formatRawAmount } from 'utils/formatCurrencyAmount'
 import { QUICK_ACTION_CONFIGS } from 'views/AddLiquidityV3/types'
 import { isUserRejected } from 'utils/sentry'
+import { hexToBigInt } from 'viem'
+import { getViemClients } from 'utils/viem'
+import { calculateGasMargin } from 'utils'
 
 import { ZoomLevels, ZOOM_LEVELS } from 'components/LiquidityChartRangeInput/types'
 import RangeSelector from './components/RangeSelector'
@@ -109,7 +110,8 @@ export default function V3FormView({
   currencyIdB,
 }: V3FormViewPropsType) {
   const router = useRouter()
-  const { data: signer } = useSigner()
+  const { data: signer } = useWalletClient()
+  const { sendTransactionAsync } = useSendTransaction()
   const [attemptingTxn, setAttemptingTxn] = useState<boolean>(false) // clicked confirm
 
   const {
@@ -124,7 +126,7 @@ export default function V3FormView({
 
   // mint state
   const formState = useV3FormState()
-  const { independentField, typedValue, startPriceTypedValue } = formState
+  const { independentField, typedValue, startPriceTypedValue, leftRangeTypedValue, rightRangeTypedValue } = formState
 
   const {
     pool,
@@ -226,50 +228,48 @@ export default function V3FormView({
         createPool: noLiquidity,
       })
 
-      const txn: { to: string; data: string; value: string } = {
-        to: nftPositionManagerAddress,
-        data: calldata,
-        value,
-      }
-
       setAttemptingTxn(true)
-
-      signer
+      const txn = {
+        data: calldata,
+        to: nftPositionManagerAddress,
+        value: hexToBigInt(value),
+        account,
+      }
+      getViemClients({ chainId })
         .estimateGas(txn)
-        .then((estimate) => {
-          const newTxn = {
+        .then((gas) => {
+          sendTransactionAsync({
             ...txn,
-            gasLimit: calculateGasMargin(estimate),
-          }
-
-          return signer.sendTransaction(newTxn).then((response: TransactionResponse) => {
-            const baseAmount = formatRawAmount(
-              parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
-              baseCurrency.decimals,
-              4,
-            )
-            const quoteAmount = formatRawAmount(
-              parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
-              quoteCurrency.decimals,
-              4,
-            )
-
-            setAttemptingTxn(false)
-            addTransaction(response, {
-              type: 'add-liquidity-v3',
-              summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
-            })
-            setTxHash(response.hash)
-            onAddLiquidityCallback(response.hash)
+            gas: calculateGasMargin(gas),
           })
-        })
-        .catch((error) => {
-          console.error('Failed to send transaction', error)
-          setAttemptingTxn(false)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (!isUserRejected(error)) {
-            console.error(error)
-          }
+            .then((response) => {
+              const baseAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
+                baseCurrency.decimals,
+                4,
+              )
+              const quoteAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
+                quoteCurrency.decimals,
+                4,
+              )
+
+              setAttemptingTxn(false)
+              addTransaction(response, {
+                type: 'add-liquidity-v3',
+                summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+              })
+              setTxHash(response.hash)
+              onAddLiquidityCallback(response.hash)
+            })
+            .catch((error) => {
+              console.error('Failed to send transaction', error)
+              setAttemptingTxn(false)
+              // we only care if the error is something _other_ than the user rejected the tx
+              if (!isUserRejected(error)) {
+                console.error(error)
+              }
+            })
         })
     }
   }, [
@@ -286,6 +286,7 @@ export default function V3FormView({
     position,
     positionManager,
     quoteCurrency,
+    sendTransactionAsync,
     signer,
   ])
 
@@ -326,6 +327,7 @@ export default function V3FormView({
   )
 
   const [activeQuickAction, setActiveQuickAction] = useState<number>()
+  const isQuickButtonUsed = useRef(false)
 
   const [onPresentAddLiquidityModal] = useModal(
     <TransactionConfirmationModal
@@ -392,6 +394,14 @@ export default function V3FormView({
     />
   )
 
+  useEffect(() => {
+    if (!isQuickButtonUsed.current && activeQuickAction) {
+      setActiveQuickAction(undefined)
+    } else if (isQuickButtonUsed.current) {
+      isQuickButtonUsed.current = false
+    }
+  }, [isQuickButtonUsed, activeQuickAction, leftRangeTypedValue, rightRangeTypedValue])
+
   const handleRefresh = useCallback(
     (zoomLevel?: ZoomLevels) => {
       setActiveQuickAction(undefined)
@@ -428,7 +438,7 @@ export default function V3FormView({
               maxAmount={maxAmounts[Field.CURRENCY_A]}
               onMax={() => onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')}
               onPercentInput={(percent) =>
-                onFieldAInput(maxAmounts[Field.CURRENCY_A]?.multiply(new Percent(percent, 100)).toExact() ?? '')
+                onFieldAInput(maxAmounts[Field.CURRENCY_A]?.multiply(new Percent(percent, 100))?.toExact() ?? '')
               }
               disableCurrencySelect
               value={formattedAmounts[Field.CURRENCY_A]}
@@ -449,7 +459,7 @@ export default function V3FormView({
             maxAmount={maxAmounts[Field.CURRENCY_B]}
             onMax={() => onFieldBInput(maxAmounts[Field.CURRENCY_B]?.toExact() ?? '')}
             onPercentInput={(percent) =>
-              onFieldBInput(maxAmounts[Field.CURRENCY_B]?.multiply(new Percent(percent, 100)).toExact() ?? '')
+              onFieldBInput(maxAmounts[Field.CURRENCY_B]?.multiply(new Percent(percent, 100))?.toExact() ?? '')
             }
             disableCurrencySelect
             value={formattedAmounts[Field.CURRENCY_B]}
@@ -542,7 +552,6 @@ export default function V3FormView({
                 )}
                 <LiquidityChartRangeInput
                   zoomLevel={QUICK_ACTION_CONFIGS?.[feeAmount]?.[activeQuickAction]}
-                  onBothRangeInput={onBothRangeInput}
                   key={baseCurrency?.wrapped?.address}
                   currencyA={baseCurrency ?? undefined}
                   currencyB={quoteCurrency ?? undefined}
@@ -551,6 +560,7 @@ export default function V3FormView({
                   price={price ? parseFloat((invertPrice ? price.invert() : price).toSignificant(8)) : undefined}
                   priceLower={priceLower}
                   priceUpper={priceUpper}
+                  onBothRangeInput={onBothRangeInput}
                   onLeftRangeInput={onLeftRangeInput}
                   onRightRangeInput={onRightRangeInput}
                   interactive
@@ -612,6 +622,7 @@ export default function V3FormView({
                             handleRefresh(zoomLevel)
 
                             setActiveQuickAction(+quickAction)
+                            isQuickButtonUsed.current = true
                           }}
                           variant={+quickAction === activeQuickAction ? 'primary' : 'secondary'}
                           scale="sm"
@@ -629,6 +640,7 @@ export default function V3FormView({
                     }
                     setShowCapitalEfficiencyWarning(true)
                     setActiveQuickAction(100)
+                    isQuickButtonUsed.current = true
                   }}
                   variant={activeQuickAction === 100 ? 'primary' : 'secondary'}
                   scale="sm"

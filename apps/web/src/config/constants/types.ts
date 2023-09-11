@@ -1,15 +1,11 @@
 import type { FarmConfigBaseProps, SerializedFarmConfig } from '@pancakeswap/farms'
 import { ChainId, Currency, CurrencyAmount, Percent, Price, Token, Trade, TradeType } from '@pancakeswap/sdk'
-import { LegacyTradeWithStableSwap as TradeWithStableSwap } from '@pancakeswap/smart-router/evm'
+import { LegacyTradeWithStableSwap as TradeWithStableSwap } from '@pancakeswap/smart-router/legacy-router'
 import BigNumber from 'bignumber.js'
+import { Address } from 'wagmi'
 // a list of tokens by chain
 export type ChainMap<T> = {
   readonly [chainId in ChainId]: T
-}
-
-export interface RouterAddressTypes {
-  Icecream: string
-  Akka?: string
 }
 
 export type ChainTokenList = ChainMap<Token[]>
@@ -22,13 +18,10 @@ export type TranslatableText =
         [key: string]: string | number
       }
     }
-export interface Address {
-  // todo: specify ChainId: string so only ChainId's can be used
-  /*
-  97?: string
-  56: string
-   */
-  [chainId: number]: string
+export interface Addresses {
+  97?: Address
+  56: Address
+  [chainId: number]: Address
 }
 
 export enum PoolIds {
@@ -48,7 +41,7 @@ interface IfoPoolInfo {
 export interface Ifo {
   id: string
   isActive: boolean
-  address: string
+  address: Address
   name: string
   currency: Token
   token: Token
@@ -70,7 +63,6 @@ export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',
   'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
-  'BINANCE_AUTO' = 'BINANCE_AUTO', // Pools using native BNB behave differently than pools using a token
   'AUTO' = 'Auto',
 }
 
@@ -191,12 +183,14 @@ export interface ConnectedBidder {
   bidderData?: Bidder
 }
 
-export enum FetchStatus {
-  Idle = 'IDLE',
-  Fetching = 'FETCHING',
-  Fetched = 'FETCHED',
-  Failed = 'FAILED',
-}
+export const FetchStatus = {
+  Idle: 'idle',
+  Fetching: 'loading',
+  Fetched: 'success',
+  Failed: 'error',
+} as const
+
+export type TFetchStatus = (typeof FetchStatus)[keyof typeof FetchStatus]
 
 export const isStableSwap = (trade: ITrade): trade is StableTrade => {
   return (

@@ -22,11 +22,13 @@ import RemoveStableLiquidity from 'views/RemoveLiquidity/RemoveStableLiquidity'
 import useStableConfig, { StableConfigContext, useLPTokensWithBalanceByAccount } from 'views/Swap/hooks/useStableConfig'
 import { useAccount } from 'wagmi'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
+import RemoveLiquidityV2FormProvider from 'views/RemoveLiquidity/RemoveLiquidityV2FormProvider'
 
 export const STABLE_LP_TO_MIGRATE = [
   '0x36842F8fb99D55477C0Da638aF5ceb6bBf86aA98', // USDT-BUSD
   '0x1A77C359D0019cD8F4d36b7CDf5a88043D801072', // USDC-BUSD
   '0xee1bcc9F1692E81A281b3a302a4b67890BA4be76', // USDT-USDC
+  '0x9976f5c8BEfDee650226d5571d5F5551e8722b75', // WBNB-STKBNB
 ]
 
 export function Step2() {
@@ -75,7 +77,7 @@ export function Step2() {
   const allV2PairsWithLiquidity = v2Pairs
     ?.filter(([pairState, pair]) => pairState === PairState.EXISTS && Boolean(pair))
     .filter(([, pair]) =>
-      activeV3Farms.find((farm) => pair.token0.equals(farm.token) && pair.token1.equals(farm.quoteToken)),
+      activeV3Farms.find((farm) => pair.token0.equals(farm.token0) && pair.token1.equals(farm.token1)),
     )
     .map(([, pair]) => pair)
 
@@ -103,14 +105,14 @@ export function Step2() {
             <Image src="/images/decorations/liquidity.png" width={174} height={184} alt="liquidity-image" />
           </AtomBox>
         ) : (
-          <>
+          <RemoveLiquidityV2FormProvider>
             {allV2PairsWithLiquidity?.map((pair) => (
               <LpCard key={pair.liquidityToken.address} pair={pair} />
             ))}
             {stablePairs?.map((pair) => (
               <StableLpCard key={pair.liquidityToken.address} pair={pair} />
             ))}
-          </>
+          </RemoveLiquidityV2FormProvider>
         )}
       </AtomBox>
     </AppBody>

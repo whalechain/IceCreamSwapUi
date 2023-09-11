@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Flex, Text, Link } from '@pancakeswap/uikit'
 import { SUPPORT_ANY } from "config/constants/supportChains";
 
-const Container = styled(Flex)`
+export const Container = styled(Flex)`
   display: grid;
   max-width: 650px;
   margin: 50px auto;

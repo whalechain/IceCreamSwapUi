@@ -1,5 +1,4 @@
 import { ChainId, Percent, Token } from '@pancakeswap/sdk'
-import { BigNumber } from 'ethers'
 import {
   bitgertTokens,
   coreTokens,
@@ -9,62 +8,23 @@ import {
   xdcTokens,
   xodexTokens,
 } from '@pancakeswap/tokens'
-import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
+import { ChainTokenList } from './types'
 
-export const ROUTER_ADDRESS_COMMON = '0xBb5e1777A331ED93E07cF043363e48d320eb96c4'
-export const ROUTER_ADDRESS_COMMON_AKKA_BITGERT = '0x25507a7323b04FD2687E72875aC4456C95782915'
-export const ROUTER_ADDRESS_COMMON_AKKA_XDC = '0xD16bBa1fB50aC0e7A3A5B5fD9fe99dee0d323A06'
-export const ROUTER_ADDRESS_COMMON_AKKA_CORE = '0xCDd7E3E30daC65940CB3b448CEF32d3dd5BbD107'
-
-export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
-  [ChainId.BITGERT]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA_BITGERT,
-  },
-  [ChainId.DOGE]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-  },
-  [ChainId.DOKEN]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-  },
-  [ChainId.FUSE]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-  },
-  [ChainId.XDC]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA_XDC,
-  },
-  [ChainId.BSC]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-  },
-  [ChainId.CORE]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-    Akka: ROUTER_ADDRESS_COMMON_AKKA_CORE,
-  },
-  [ChainId.XODEX]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
-  },
-}
+export {
+  ADDITIONAL_BASES,
+  V2_ROUTER_ADDRESS,
+  BASES_TO_CHECK_TRADES_AGAINST,
+  CUSTOM_BASES,
+} from '@pancakeswap/smart-router/evm'
 
 export const CHAIN_REFRESH_TIME = {
   [ChainId.BSC]: 6_000,
+  [ChainId.BITGERT]: 6_000,
+  [ChainId.CORE]: 6_000,
 } as const satisfies Record<ChainId, number>
 
-/**
- * Additional bases for specific tokens
- * @example { [WBTC.address]: [renBTC], [renBTC.address]: [WBTC] }
- */
-export const ADDITIONAL_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {}
-
-/**
- * Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these
- * tokens.
- * @example [AMPL.address]: [DAI, WNATIVE[ChainId.BSC]]
- */
-export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {}
-
 // used for display in the default list when adding liquidity
-export const SUGGESTED_BASES: Partial<ChainTokenList> = {
+export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.BITGERT]: [bitgertTokens.ice, bitgertTokens.usdti],
   [ChainId.DOGE]: [dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.ice],
@@ -75,7 +35,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
-export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
+export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BITGERT]: [
     bitgertTokens.wbrise,
     bitgertTokens.sphynx,
@@ -165,7 +125,7 @@ export const PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN: Percent = new Percent(1000n, 
 export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(1500n, BIPS_BASE) // 15%
 
 // used to ensure the user doesn't send so much BNB so they end up with <.01
-export const MIN_BNB: bigint = BIG_INT_TEN ** 16n // .01 BNB
+export const MIN_BNB: bigint = BIG_INT_TEN ** 15n // .001 BNB
 export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(50n, BIPS_BASE)
 
 export const ZERO_PERCENT = new Percent('0')
@@ -181,7 +141,7 @@ export const DEFAULT_OUTPUT_CURRENCY = '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE
 
 // Handler string is passed to Gelato to use PCS router
 export const GELATO_HANDLER = 'pancakeswap'
-export const GENERIC_GAS_LIMIT_ORDER_EXECUTION = BigNumber.from(500000)
+export const GENERIC_GAS_LIMIT_ORDER_EXECUTION = 500000n
 
 export const LIMIT_ORDERS_DOCS_URL = 'https://docs.icecreamswap.com/products/pancakeswap-exchange/limit-orders'
 

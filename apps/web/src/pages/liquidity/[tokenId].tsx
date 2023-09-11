@@ -1,5 +1,5 @@
-import { BigNumber } from 'ethers'
 import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Price, Token } from '@pancakeswap/sdk'
+import { isActiveV3Farm } from '@pancakeswap/farms'
 import {
   AutoColumn,
   AutoRow,
@@ -11,7 +11,6 @@ import {
   ExpandableLabel,
   Flex,
   Heading,
-  LinkExternal,
   NextLinkFromReactRouter,
   NotFound,
   PreTitle,
@@ -21,19 +20,21 @@ import {
   Tag,
   Text,
   Toggle,
+  Message,
   useMatchBreakpoints,
   useModal,
+  ScanLink,
 } from '@pancakeswap/uikit'
 import { MasterChefV3, NonfungiblePositionManager, Position } from '@pancakeswap/v3-sdk'
 import { AppHeader } from 'components/App'
 import { useToken } from 'hooks/Tokens'
+import { useFarm } from 'hooks/useFarm'
 import { useStablecoinPrice } from 'hooks/useBUSDPrice'
 import { useMasterchefV3, useV3NFTPositionManagerContract } from 'hooks/useContract'
 import useIsTickAtLimit from 'hooks/v3/useIsTickAtLimit'
 import { usePool } from 'hooks/v3/usePools'
 import { NextSeo } from 'next-seo'
 // import { usePositionTokenURI } from 'hooks/v3/usePositionTokenURI'
-import { TransactionResponse } from '@ethersproject/providers'
 import { Trans, useTranslation } from '@pancakeswap/localization'
 import { AtomBox } from '@pancakeswap/ui'
 import { LightGreyCard } from 'components/Card'
@@ -67,9 +68,12 @@ import { unwrappedToken } from 'utils/wrappedCurrency'
 import { AprCalculator } from 'views/AddLiquidityV3/components/AprCalculator'
 import RateToggle from 'views/AddLiquidityV3/formViews/V3FormView/components/RateToggle'
 import Page from 'views/Page'
-import { useProvider, useSigner } from 'wagmi'
+import { useSendTransaction, useWalletClient } from 'wagmi'
 import dayjs from 'dayjs'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
+import { hexToBigInt } from 'viem'
+import { getViemClients } from 'utils/viem'
+import isPoolTickInRange from 'utils/isPoolTickInRange'
 
 export const BodyWrapper = styled(Card)`
   border-radius: 24px;
@@ -144,15 +148,15 @@ export default function PoolPage() {
   const [collectMigrationHash, setCollectMigrationHash] = useState<string | null>(null)
   const [receiveWETH, setReceiveWETH] = useState(false)
 
-  const { data: signer } = useSigner()
+  const { data: signer } = useWalletClient()
+  const { sendTransactionAsync } = useSendTransaction()
 
   const { account, chainId } = useAccountActiveChain()
-  const provider = useProvider({ chainId })
 
   const router = useRouter()
   const { tokenId: tokenIdFromUrl } = router.query
 
-  const parsedTokenId = tokenIdFromUrl ? BigNumber.from(tokenIdFromUrl) : undefined
+  const parsedTokenId = tokenIdFromUrl ? BigInt(tokenIdFromUrl as string) : undefined
 
   const { loading, position: positionDetails } = useV3PositionFromTokenId(parsedTokenId)
 
@@ -166,12 +170,17 @@ export default function PoolPage() {
     tokenId,
   } = positionDetails || {}
 
-  const removed = liquidity?.eq(0)
+  const removed = liquidity === 0n
 
   // const metadata = usePositionTokenURI(parsedTokenId)
 
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
+  const { data: farmDetail } = useFarm({ currencyA: token0, currencyB: token1, feeAmount })
+  const hasActiveFarm = useMemo(
+    () => farmDetail && isActiveV3Farm(farmDetail.farm, farmDetail.poolLength),
+    [farmDetail],
+  )
 
   const currency0 = token0 ? unwrappedToken(token0) : undefined
   const currency1 = token1 ? unwrappedToken(token1) : undefined
@@ -179,7 +188,7 @@ export default function PoolPage() {
   // construct Position from details returned
   const [poolState, pool] = usePool(token0 ?? undefined, token1 ?? undefined, feeAmount)
   const position = useMemo(() => {
-    if (pool && liquidity && typeof tickLower === 'number' && typeof tickUpper === 'number') {
+    if (pool && typeof liquidity === 'bigint' && typeof tickLower === 'number' && typeof tickUpper === 'number') {
       return new Position({ pool, liquidity: liquidity.toString(), tickLower, tickUpper })
     }
     return undefined
@@ -200,7 +209,7 @@ export default function PoolPage() {
     invert: manuallyInverted,
   })
 
-  const inverted = token1 ? base?.equals(token1) : undefined
+  const inverted = token1 && base ? base.equals(token1) : undefined
   const currencyQuote = inverted ? currency0 : currency1
   const currencyBase = inverted ? currency1 : currency0
 
@@ -253,9 +262,12 @@ export default function PoolPage() {
 
   const positionManager = useV3NFTPositionManagerContract()
   const masterchefV3 = useMasterchefV3()
-  const { tokenIds: stakedTokenIds, loading: tokenIdsInMCv3Loading } = useV3TokenIdsByAccount(masterchefV3, account)
+  const { tokenIds: stakedTokenIds, loading: tokenIdsInMCv3Loading } = useV3TokenIdsByAccount(
+    masterchefV3?.address,
+    account,
+  )
 
-  const isStakedInMCv3 = tokenId && Boolean(stakedTokenIds.find((id) => id.eq(tokenId)))
+  const isStakedInMCv3 = tokenId && Boolean(stakedTokenIds.find((id) => id === tokenId))
 
   const manager = isStakedInMCv3 ? masterchefV3 : positionManager
   const interfaceManager = isStakedInMCv3 ? MasterChefV3 : NonfungiblePositionManager
@@ -266,11 +278,9 @@ export default function PoolPage() {
       !currency0ForFeeCollectionPurposes ||
       !currency1ForFeeCollectionPurposes ||
       !chainId ||
-      !positionManager ||
-      !masterchefV3 ||
+      !manager ||
       !account ||
-      !tokenId ||
-      !provider
+      !tokenId
     )
       return
 
@@ -288,30 +298,35 @@ export default function PoolPage() {
     const txn = {
       to: manager.address,
       data: calldata,
-      value,
+      value: hexToBigInt(value),
+      account,
+      chain: signer?.chain,
     }
 
-    signer
-      ?.estimateGas(txn)
-      ?.then((estimate) => {
+    getViemClients({ chainId })
+      .estimateGas(txn)
+      .then((estimate) => {
         const newTxn = {
           ...txn,
-          gasLimit: calculateGasMargin(estimate),
+          gas: calculateGasMargin(estimate),
         }
 
-        return signer?.sendTransaction(newTxn)?.then((response: TransactionResponse) => {
+        return sendTransactionAsync(newTxn).then((response) => {
           setCollectMigrationHash(response.hash)
           setCollecting(false)
 
           const amount0 = feeValue0 ?? CurrencyAmount.fromRawAmount(currency0ForFeeCollectionPurposes, 0)
           const amount1 = feeValue1 ?? CurrencyAmount.fromRawAmount(currency1ForFeeCollectionPurposes, 0)
 
-          addTransaction(response, {
-            type: 'collect-fee',
-            summary: `Collect fee ${amount0.toExact()} ${
-              currency0ForFeeCollectionPurposes.symbol
-            } and ${amount1.toExact()} ${currency1ForFeeCollectionPurposes.symbol}`,
-          })
+          addTransaction(
+            { hash: response.hash },
+            {
+              type: 'collect-fee',
+              summary: `Collect fee ${amount0.toExact()} ${
+                currency0ForFeeCollectionPurposes.symbol
+              } and ${amount1.toExact()} ${currency1ForFeeCollectionPurposes.symbol}`,
+            },
+          )
         })
       })
       ?.catch((error) => {
@@ -323,20 +338,22 @@ export default function PoolPage() {
     currency0ForFeeCollectionPurposes,
     currency1ForFeeCollectionPurposes,
     chainId,
-    positionManager,
-    masterchefV3,
+    manager,
     account,
     tokenId,
-    provider,
     interfaceManager,
     feeValue0,
     feeValue1,
-    manager.address,
     signer,
+    sendTransactionAsync,
     addTransaction,
   ])
 
-  const owner = useSingleCallResult(tokenId ? positionManager : null, 'ownerOf', [tokenId?.toString()]).result?.[0]
+  const owner = useSingleCallResult({
+    contract: tokenId ? positionManager : null,
+    functionName: 'ownerOf',
+    args: [tokenId],
+  }).result
   const ownsNFT = owner === account || positionDetails?.operator === account
 
   const feeValueUpper = inverted ? feeValue0 : feeValue1
@@ -348,9 +365,7 @@ export default function PoolPage() {
   const priceValueLower = inverted ? price1 : price0
 
   // check if price is within range
-  const below = pool && typeof tickLower === 'number' ? pool.tickCurrent < tickLower : undefined
-  const above = pool && typeof tickUpper === 'number' ? pool.tickCurrent >= tickUpper : undefined
-  const inRange: boolean = typeof below === 'boolean' && typeof above === 'boolean' ? !below && !above : false
+  const inRange = isPoolTickInRange(pool, tickLower, tickUpper)
 
   const nativeCurrency = useNativeCurrency()
   const nativeWrappedSymbol = nativeCurrency.wrapped.symbol
@@ -423,6 +438,25 @@ export default function PoolPage() {
   if (!isLoading && poolState === PoolState.NOT_EXISTS) {
     return <NotFound />
   }
+
+  const farmingTips =
+    inRange && ownsNFT && hasActiveFarm && !isStakedInMCv3 ? (
+      <Message variant="primary" mb="2em">
+        <Box>
+          <Text display="inline" bold mr="0.25em">{`${currencyQuote?.symbol}-${currencyBase?.symbol}`}</Text>
+          <Text display="inline">
+            {t(
+              'has an active PancakeSwap farm. Stake your position in the farm to start earning with the indicated APR with CAKE farming.',
+            )}
+          </Text>
+          <NextLinkFromReactRouter to="/farms">
+            <Text display="inline" bold ml="0.25em" style={{ textDecoration: 'underline' }}>
+              {t('Go to Farms')} {' >>'}
+            </Text>
+          </NextLinkFromReactRouter>
+        </Box>
+      </Message>
+    ) : null
 
   return (
     <Page>
@@ -515,6 +549,7 @@ export default function PoolPage() {
                   )}
                 </>
               )}
+              {farmingTips}
               <AutoRow>
                 <Flex
                   alignItems="center"
@@ -602,7 +637,7 @@ export default function PoolPage() {
                   </Box>
                   <Box width="100%">
                     <Text fontSize="12px" color="secondary" bold textTransform="uppercase">
-                      {t('Unclaim Fees')}
+                      {t('Unclaimed Fees')}
                     </Text>
                     <AutoRow justifyContent="space-between" mb="8px">
                       <Text fontSize="24px" fontWeight={600}>
@@ -948,17 +983,45 @@ function PositionHistoryRow({
 }) {
   const { isMobile } = useMatchBreakpoints()
 
-  const date = new Date(+positionTx.timestamp * 1_000)
-
   const isPlus = type !== 'burn'
+
+  const date = useMemo(() => dayjs(+positionTx.timestamp * 1_000), [positionTx.timestamp])
+  const mobileDate = useMemo(() => isMobile && date.format('YYYY/MM/DD'), [isMobile, date])
+  const mobileTime = useMemo(() => isMobile && date.format('HH:mm:ss'), [isMobile, date])
+  const desktopDate = useMemo(() => !isMobile && date.toDate().toLocaleString(), [isMobile, date])
+
+  const position0AmountString = useMemo(() => {
+    const amount0Number = +positionTx.amount0
+    if (amount0Number > 0) {
+      return amount0Number.toLocaleString(undefined, {
+        maximumFractionDigits: 6,
+        maximumSignificantDigits: 6,
+      })
+    }
+    return null
+  }, [positionTx.amount0])
+
+  const position1AmountString = useMemo(() => {
+    const amount1Number = +positionTx.amount1
+    if (amount1Number > 0) {
+      return amount1Number.toLocaleString(undefined, {
+        maximumFractionDigits: 6,
+        maximumSignificantDigits: 6,
+      })
+    }
+    return null
+  }, [positionTx.amount1])
 
   if (isMobile) {
     return (
       <Box>
-        <AutoRow gap="8px">
-          <LinkExternal isBscScan href={getBlockExploreLink(positionTx.id, 'transaction', chainId)}>
-            <Text ellipsis>{dayjs(+positionTx.timestamp * 1_000).format('YYYY/MM/DD')}</Text>
-          </LinkExternal>
+        <AutoRow>
+          <ScanLink chainId={chainId} href={getBlockExploreLink(positionTx.id, 'transaction', chainId)}>
+            <Flex flexDirection="column" alignItems="center">
+              <Text ellipsis>{mobileDate}</Text>
+              <Text fontSize="12px">{mobileTime}</Text>
+            </Flex>
+          </ScanLink>
         </AutoRow>
         <Text>{positionHistoryTypeText[type]}</Text>
         <AutoColumn gap="4px">
@@ -971,11 +1034,7 @@ function PositionHistoryRow({
                 <Text display={['none', , 'block']}>{currency0.symbol}</Text>
               </AutoRow>
               <Text bold ellipsis title={positionTx.amount0}>
-                {isPlus ? '+' : '-'}{' '}
-                {(+positionTx.amount0).toLocaleString(undefined, {
-                  maximumFractionDigits: 6,
-                  maximumSignificantDigits: 6,
-                })}
+                {isPlus ? '+' : '-'} {position0AmountString}
               </Text>
             </AutoRow>
           )}
@@ -988,11 +1047,7 @@ function PositionHistoryRow({
                 <Text display={['none', , 'block']}>{currency1.symbol}</Text>
               </AutoRow>
               <Text bold ellipsis title={positionTx.amount1}>
-                {isPlus ? '+' : '-'}{' '}
-                {(+positionTx.amount1).toLocaleString(undefined, {
-                  maximumFractionDigits: 6,
-                  maximumSignificantDigits: 6,
-                })}
+                {isPlus ? '+' : '-'} {position1AmountString}
               </Text>
             </AutoRow>
           )}
@@ -1010,21 +1065,17 @@ function PositionHistoryRow({
       borderTop="1"
       p="16px"
     >
-      <AutoRow justifyContent="center" gap="8px">
-        <LinkExternal isBscScan href={getBlockExploreLink(positionTx.id, 'transaction', chainId)}>
-          <Text ellipsis>{date.toLocaleString()}</Text>
-        </LinkExternal>
+      <AutoRow justifyContent="center">
+        <ScanLink chainId={chainId} href={getBlockExploreLink(positionTx.id, 'transaction', chainId)}>
+          <Text ellipsis>{desktopDate}</Text>
+        </ScanLink>
       </AutoRow>
       <Text>{positionHistoryTypeText[type]}</Text>
       <AutoColumn gap="4px">
         {+positionTx.amount0 > 0 && (
           <AutoRow flexWrap="nowrap" justifyContent="flex-end" gap="12px">
             <Text bold ellipsis title={positionTx.amount0}>
-              {isPlus ? '+' : '-'}{' '}
-              {(+positionTx.amount0).toLocaleString(undefined, {
-                maximumFractionDigits: 6,
-                maximumSignificantDigits: 6,
-              })}
+              {isPlus ? '+' : '-'} {position0AmountString}
             </Text>
             <AutoRow width="auto" flexWrap="nowrap" gap="4px">
               <AtomBox minWidth="24px">
@@ -1037,11 +1088,7 @@ function PositionHistoryRow({
         {+positionTx.amount1 > 0 && (
           <AutoRow flexWrap="nowrap" justifyContent="flex-end" gap="12px">
             <Text bold ellipsis title={positionTx.amount1}>
-              {isPlus ? '+' : '-'}{' '}
-              {(+positionTx.amount1).toLocaleString(undefined, {
-                maximumFractionDigits: 6,
-                maximumSignificantDigits: 6,
-              })}
+              {isPlus ? '+' : '-'} {position1AmountString}
             </Text>
             <AutoRow width="auto" flexWrap="nowrap" gap="4px">
               <AtomBox minWidth="24px">

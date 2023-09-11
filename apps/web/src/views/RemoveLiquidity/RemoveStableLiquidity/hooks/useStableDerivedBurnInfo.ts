@@ -3,13 +3,14 @@ import { Currency, CurrencyAmount, Percent, Token } from '@pancakeswap/sdk'
 import { useTranslation } from '@pancakeswap/localization'
 import { Field } from 'state/burn/actions'
 import { useTokenBalances } from 'state/wallet/hooks'
-import { useBurnState } from 'state/burn/hooks'
 import { StablePair, useStablePair } from 'views/AddLiquidity/AddStableLiquidity/hooks/useStableLPDerivedMintInfo'
 import { StableConfigContext } from 'views/Swap/hooks/useStableConfig'
 import useSWR from 'swr'
 import { useContext, useMemo } from 'react'
 import { useAccount } from 'wagmi'
-import { Contract } from 'ethers'
+import { Address } from 'viem'
+import { useInfoStableSwapContract } from 'hooks/useContract'
+import { useRemoveLiquidityV2FormState } from 'state/burn/reducer'
 
 export function useGetRemovedTokenAmounts({ lpAmount }: { lpAmount: string }) {
   const { stableSwapInfoContract, stableSwapConfig } = useContext(StableConfigContext)
@@ -34,12 +35,12 @@ export function useGetRemovedTokenAmountsNoContext({
   stableSwapAddress: string
   token0: Token
   token1: Token
-  stableSwapInfoContract: Contract
+  stableSwapInfoContract: ReturnType<typeof useInfoStableSwapContract>
 }) {
   const { data } = useSWR(
     !lpAmount ? null : ['stableSwapInfoContract', 'calc_coins_amount', stableSwapAddress, lpAmount],
     async () => {
-      return stableSwapInfoContract.calc_coins_amount(stableSwapAddress, lpAmount)
+      return stableSwapInfoContract.read.calc_coins_amount([stableSwapAddress as Address, BigInt(lpAmount)])
     },
   )
 
@@ -67,7 +68,7 @@ export function useStableDerivedBurnInfo(
 } {
   const { address: account } = useAccount()
 
-  const { independentField, typedValue } = useBurnState()
+  const { independentField, typedValue } = useRemoveLiquidityV2FormState()
 
   const { t } = useTranslation()
 

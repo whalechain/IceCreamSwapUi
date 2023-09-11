@@ -1,5 +1,29 @@
 # @pancakeswap/sdk
 
+## 5.2.1
+
+### Patch Changes
+
+- 3ba496cb1: Fix factory address
+
+## 5.2.0
+
+### Minor Changes
+
+- 77fc3406a: Add zkSync support
+
+## 5.1.0
+
+### Minor Changes
+
+- f9fda4ebe: Add Polygon zkEVM support
+
+## 5.0.0
+
+### Major Changes
+
+- 938aa75f5: Migrate ethers to viem
+
 ## 4.0.0
 
 ### Major Changes

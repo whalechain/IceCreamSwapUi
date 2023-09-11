@@ -1,12 +1,14 @@
-import { BigNumber as EthersBigNumber } from 'ethers'
 import {
   DeserializedFarm,
   FarmV3DataWithPriceAndUserInfo,
   FarmWithStakedValue,
   filterFarmsByQuery,
+  supportedChainIdV2,
+  supportedChainIdV3,
 } from '@pancakeswap/farms'
 import { useIntersectionObserver } from '@pancakeswap/hooks'
 import { useTranslation } from '@pancakeswap/localization'
+import { ChainId } from '@pancakeswap/sdk'
 import {
   ArrowForwardIcon,
   Box,
@@ -34,17 +36,20 @@ import orderBy from 'lodash/orderBy'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useFarms, usePollFarmsWithUserData, usePriceCakeUSD } from 'state/farms/hooks'
-import { useFarmsV3WithPositions } from 'state/farmsV3/hooks'
+import { useFarmsV3WithPositionsAndBooster } from 'state/farmsV3/hooks'
 import { useCakeVaultUserData } from 'state/pools/hooks'
 import { ViewMode } from 'state/user/actions'
 import { useUserFarmStakedOnly, useUserFarmsViewMode } from 'state/user/hooks'
 import styled from 'styled-components'
 import { getFarmApr } from 'utils/apr'
+
+import { V3SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
+import { isV3MigrationSupported } from 'utils/isV3MigrationSupported'
 import FarmV3MigrationBanner from 'views/Home/components/Banners/FarmV3MigrationBanner'
 import { useAccount } from 'wagmi'
-import { V3SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
 import Table from './components/FarmTable/FarmTable'
 import { FarmTypesFilter } from './components/FarmTypesFilter'
+import { BCakeBoosterCard } from './components/YieldBooster/components/bCakeV3/BCakeBoosterCard'
 import { FarmsV3Context } from './context'
 
 const BIG_INT_ZERO = new BigNumber(0)
@@ -193,14 +198,31 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
     poolLength: v3PoolLength,
     isLoading,
     userDataLoaded: v3UserDataLoaded,
-  } = useFarmsV3WithPositions({ mockApr })
+  } = useFarmsV3WithPositionsAndBooster({ mockApr })
 
+  // FIXME: temporary sort sable v2 farm in front of v3 farms
   const farmsLP: V2AndV3Farms = useMemo(() => {
-    return [
+    const farms: V2AndV3Farms = [
       ...farmsV3.map((f) => ({ ...f, version: 3 } as V3FarmWithoutStakedValue)),
       ...farmsV2.map((f) => ({ ...f, version: 2 } as V2FarmWithoutStakedValue)),
     ]
-  }, [farmsV2, farmsV3])
+    if (chainId !== ChainId.BSC) {
+      return farms
+    }
+    const sableFarm = farms.find((f) => f.version === 2 && f.pid === 167)
+    const v3TargetFarm = farms.find((f) => f.version === 3 && f.pid === 60)
+    if (!sableFarm || !v3TargetFarm) {
+      return farms
+    }
+    const sableFarmIndex = farms.indexOf(sableFarm)
+    const targetIndex = farms.indexOf(v3TargetFarm)
+    return [
+      ...farms.slice(0, targetIndex + 1),
+      sableFarm,
+      ...farms.slice(targetIndex + 1, sableFarmIndex),
+      ...farms.slice(sableFarmIndex + 1),
+    ]
+  }, [farmsV2, farmsV3, chainId])
 
   const cakePrice = usePriceCakeUSD()
 
@@ -224,7 +246,11 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   // Users with no wallet connected should see 0 as Earned amount
   // Connected users should see loading indicator until first userData has loaded
-  const userDataReady = !account || (!!account && v2UserDataLoaded && v3UserDataLoaded)
+  const userDataReady =
+    !account ||
+    (!!account &&
+      (supportedChainIdV2.includes(chainId) ? v2UserDataLoaded : true) &&
+      (supportedChainIdV3.includes(chainId) ? v3UserDataLoaded : true))
 
   const [stakedOnly, setStakedOnly] = useUserFarmStakedOnly(isActive)
   const [v3FarmOnly, setV3FarmOnly] = useState(false)
@@ -332,7 +358,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
         (farm) =>
           (v3FarmOnly && farm.version === 3) ||
           (v2FarmOnly && farm.version === 2) ||
-          (boostedOnly && farm.boosted) ||
+          (boostedOnly && farm.boosted && farm.version === 3) ||
           (stableSwapOnly && farm.isStable),
       )
 
@@ -380,7 +406,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
                 return farm.userData ? Number(farm.userData.earnings) : 0
               }
               const totalEarned = Object.values(farm.pendingCakeByTokenIds)
-                .reduce((a, b) => a.add(b), EthersBigNumber.from('0'))
+                .reduce((a, b) => a + b, 0n)
                 .toString()
               return account ? totalEarned : 0
             },
@@ -430,15 +456,17 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const providerValue = useMemo(() => ({ chosenFarmsMemoized }), [chosenFarmsMemoized])
 
+  const isMigrationSupported = useMemo(() => isV3MigrationSupported(chainId), [chainId])
+
   return (
     <FarmsV3Context.Provider value={providerValue}>
       <PageHeader>
         <Flex flexDirection="column">
-          { /*
-          <Box m="24px 0">
-            <FarmV3MigrationBanner />
-          </Box>
-          */ }
+          {isMigrationSupported && (
+            <Box m="24px 0">
+              <FarmV3MigrationBanner />
+            </Box>
+          )}
           <FarmFlexWrapper justifyContent="space-between">
             <Box style={{ flex: '1 1 100%' }}>
               <FarmH1 as="h1" scale="xxl" color="secondary" mb="24px">
@@ -458,12 +486,12 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
               </NextLinkFromReactRouter>
               */ }
             </Box>
-            {/* After boosted enable */}
-            {/* {chainId === ChainId.BSC && (
+
+            { /* (chainId === ChainId.BSC || chainId === ChainId.BSC_TESTNET) && (
               <Box>
                 <BCakeBoosterCard />
               </Box>
-            )} */}
+            ) */ }
           </FarmFlexWrapper>
         </Flex>
       </PageHeader>
@@ -541,7 +569,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
             </LabelWrapper>
           </FilterContainer>
         </ControlContainer>
-        {isInactive && (
+        {isInactive && chainId === ChainId.BSC && (
           <FinishedTextContainer>
             <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
               {t("Don't see the farm you are staking?")}

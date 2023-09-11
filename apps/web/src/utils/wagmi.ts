@@ -3,21 +3,45 @@ import { BloctoConnector } from '@pancakeswap/wagmi/connectors/blocto'
 import { TrustWalletConnector } from '@pancakeswap/wagmi/connectors/trustWallet'
 import { CHAINS } from 'config/chains'
 import memoize from 'lodash/memoize'
-import { configureChains, createClient } from 'wagmi'
+import { configureChains, createConfig, createStorage } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { LedgerConnector } from 'wagmi/connectors/ledger'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { WalletConnectLegacyConnector } from 'wagmi/connectors/walletConnectLegacy'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
-export const { provider, chains } = configureChains(CHAINS, [
-  jsonRpcProvider({
-    rpc: (chain) => {
-      return { http: chain.rpcUrls.default.http[0] }
+// get most configs chain nodes length
+const mostNodesConfig = Object.values(CHAINS).reduce((prev, chain) => {
+  const rpcs = chain.rpcUrls.default.http
+  return rpcs.length > prev ? rpcs.length : prev
+}, 0)
+
+export const { publicClient, chains } = configureChains(
+  CHAINS,
+  Array.from({ length: mostNodesConfig })
+    .map((_, i) => i)
+    .map((i) => {
+      return jsonRpcProvider({
+        rpc: (chain) => {
+          const rpcs = chain.rpcUrls.default.http
+          return rpcs[i]
+            ? {
+              http: rpcs[i],
+            }
+            : null
+        },
+      })
+    }),
+  {
+    batch: {
+      multicall: {
+        batchSize: 1024 * 200,
+      },
     },
-  }),
-])
+  },
+)
 
 export const injectedConnector = new InjectedConnector({
   chains,
@@ -30,21 +54,21 @@ export const coinbaseConnector = new CoinbaseWalletConnector({
   chains,
   options: {
     appName: 'PancakeSwap',
-    appLogoUrl: 'https://pancakeswap.com/logo.png',
+    appLogoUrl: 'https://icecreamswap.com/favicon.ico',
   },
 })
 
-export const walletConnectConnector = new WalletConnectLegacyConnector({
+export const walletConnectConnector = new WalletConnectConnector({
   chains,
   options: {
-    qrcode: true,
+    showQrModal: true,
   },
 })
 
-export const walletConnectNoQrCodeConnector = new WalletConnectLegacyConnector({
+export const walletConnectNoQrCodeConnector = new WalletConnectConnector({
   chains,
   options: {
-    qrcode: false,
+    showQrModal: false,
   },
 })
 
@@ -133,9 +157,19 @@ export const okxConnector = new OkxConnector({
   },
 })
 
-export const client = createClient({
+export const noopStorage = {
+  getItem: (_key) => '',
+  setItem: (_key, _value) => null,
+  removeItem: (_key) => null,
+}
+
+export const wagmiConfig = createConfig({
+  storage: createStorage({
+    storage: typeof window !== 'undefined' ? window.localStorage : noopStorage,
+    key: 'wagmi_v1.1',
+  }),
   autoConnect: false,
-  provider,
+  publicClient,
   connectors: [
     metaMaskConnector,
     injectedConnector,
@@ -145,6 +179,7 @@ export const client = createClient({
     bitKeepConnector,
     naboxConnector,
     okxConnector,
+    // @ts-ignore FIXME: wagmi
     bloctoConnector,
     ledgerConnector,
     trustWalletConnector,

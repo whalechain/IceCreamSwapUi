@@ -1,13 +1,14 @@
 import { Token } from '@pancakeswap/sdk'
 import {coreWarningTokens} from 'config/constants/warningTokens'
 
-
 interface WarningTokenList {
-  [key: string]: Token
+  [chainId: number]: {
+    [key: string]: Token
+  }
 }
 
 const SwapWarningTokens = <WarningTokenList>{
-  ...coreWarningTokens
+  [ChainId.CORE]: coreWarningTokens,
 }
 
 export default SwapWarningTokens

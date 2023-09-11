@@ -1,101 +1,103 @@
 import { useBCakeFarmBoosterContract, useMasterchef } from 'hooks/useContract'
-import farmBoosterAbi from 'config/abi/farmBooster.json'
-import masterChefAbi from 'config/abi/masterchef.json'
-import { FixedNumber } from 'ethers'
-import { multicallv2 } from 'utils/multicall'
+import BN from 'bignumber.js'
 import { useCallback } from 'react'
 import useSWR from 'swr'
 import _toNumber from 'lodash/toNumber'
-import { useAccount } from 'wagmi'
+import { Address, useAccount } from 'wagmi'
+import { publicClient } from 'utils/wagmi'
+import { ChainId } from '@pancakeswap/sdk'
+import { bCakeFarmBoosterABI } from 'config/abi/bCakeFarmBooster'
 import { YieldBoosterState } from './useYieldBoosterState'
-import {useActiveChainId} from "../../../../../hooks/useActiveChainId";
 
-const PRECISION_FACTOR = FixedNumber.from('1000000000000') // 1e12
+const PRECISION_FACTOR = new BN('1000000000000') // 1e12
 
-async function getPublicMultiplier({ farmBoosterContract, chainId }): Promise<number> {
-  const calls = [
-    {
-      address: farmBoosterContract.address,
-      name: 'cA',
-    },
-    {
-      address: farmBoosterContract.address,
-      name: 'CA_PRECISION',
-    },
-    {
-      address: farmBoosterContract.address,
-      name: 'BOOST_PRECISION',
-    },
-  ]
+async function getPublicMultiplier({ farmBoosterContract }): Promise<number> {
+  const [cAResult, caPercisionResult, boostPercisionResult] = await publicClient({ chainId: ChainId.BSC }).multicall({
+    contracts: [
+      {
+        address: farmBoosterContract.address,
+        abi: bCakeFarmBoosterABI,
+        functionName: 'cA',
+      },
+      {
+        address: farmBoosterContract.address,
+        abi: bCakeFarmBoosterABI,
+        functionName: 'CA_PRECISION',
+      },
+      {
+        address: farmBoosterContract.address,
+        abi: bCakeFarmBoosterABI,
+        functionName: 'BOOST_PRECISION',
+      },
+    ],
+    allowFailure: true,
+  })
 
-  // @ts-ignore fix chainId support
-  const data = await multicallv2({ abi: farmBoosterAbi, calls, chainId })
+  if (!cAResult.result || !caPercisionResult.result || !boostPercisionResult) return 0
 
-  if (!data) return 0
+  const [cA, CA_PRECISION, BOOST_PRECISION] = [cAResult.result, caPercisionResult.result, boostPercisionResult.result]
 
-  const [[cA], [CA_PRECISION], [BOOST_PRECISION]] = data
+  const MAX_BOOST_PRECISION = new BN(CA_PRECISION.toString())
+    .div(new BN(cA.toString()))
+    .times(PRECISION_FACTOR)
+    .minus(new BN(BOOST_PRECISION.toString()))
 
-  const MAX_BOOST_PRECISION = FixedNumber.from(CA_PRECISION)
-    .divUnsafe(FixedNumber.from(cA))
-    .mulUnsafe(PRECISION_FACTOR)
-    .subUnsafe(FixedNumber.from(BOOST_PRECISION))
+  const boostPercent = PRECISION_FACTOR.plus(MAX_BOOST_PRECISION).div(PRECISION_FACTOR)
 
-  const boostPercent = PRECISION_FACTOR.addUnsafe(MAX_BOOST_PRECISION).divUnsafe(PRECISION_FACTOR)
-
-  return _toNumber(boostPercent.round(3).toString())
+  return _toNumber(boostPercent.toFixed(3).toString())
 }
 
-async function getUserMultiplier({ farmBoosterContract, account, pid, chainId }): Promise<number> {
-  const calls = [
-    {
-      address: farmBoosterContract.address,
-      name: 'getUserMultiplier',
-      params: [account, pid],
-    },
-    {
-      address: farmBoosterContract.address,
-      name: 'BOOST_PRECISION',
-    },
-  ]
+async function getUserMultiplier({ farmBoosterContract, account, pid }): Promise<number> {
+  const [multiplierResult, boostPrecisionResult] = await publicClient({ chainId: ChainId.BSC }).multicall({
+    contracts: [
+      {
+        address: farmBoosterContract.address,
+        abi: bCakeFarmBoosterABI,
+        functionName: 'getUserMultiplier',
+        args: [account, BigInt(pid)],
+      },
+      {
+        address: farmBoosterContract.address,
+        abi: bCakeFarmBoosterABI,
+        functionName: 'BOOST_PRECISION',
+      },
+    ],
+    allowFailure: true,
+  })
 
-  const data = await multicallv2({ abi: farmBoosterAbi, calls, chainId })
+  if (!multiplierResult.result || !boostPrecisionResult.result) return 0
 
-  if (!data) return 0
-
-  const [[multiplier], [BOOST_PRECISION]] = data
+  const [multiplier, BOOST_PRECISION] = [multiplierResult.result, boostPrecisionResult.result]
 
   return _toNumber(
-    PRECISION_FACTOR.addUnsafe(FixedNumber.from(multiplier))
-      .subUnsafe(FixedNumber.from(BOOST_PRECISION))
-      .divUnsafe(PRECISION_FACTOR)
-      .round(3)
+    PRECISION_FACTOR.plus(new BN(multiplier.toString()))
+      .minus(new BN(BOOST_PRECISION.toString()))
+      .div(PRECISION_FACTOR)
+      .toFixed(3)
       .toString(),
   )
 }
 
-async function getMultiplierFromMC({ pid, proxyAddress, masterChefContract, chainId }): Promise<number> {
-  const calls = [
-    {
-      address: masterChefContract.address,
-      name: 'getBoostMultiplier',
-      params: [proxyAddress, pid],
-    },
-  ]
+async function getMultiplierFromMC({
+  pid,
+  proxyAddress,
+  masterChefContract,
+}: {
+  pid: number
+  proxyAddress: Address
+  masterChefContract: ReturnType<typeof useMasterchef>
+}): Promise<number> {
+  const boostMultiplier = await masterChefContract.read.getBoostMultiplier([proxyAddress, BigInt(pid)])
 
-  const data = await multicallv2({ abi: masterChefAbi, calls, chainId })
+  if (!boostMultiplier) return 0
 
-  if (!data?.length) return 0
-
-  const [[boostMultiplier]] = data
-
-  return _toNumber(FixedNumber.from(boostMultiplier).divUnsafe(PRECISION_FACTOR).round(3).toString())
+  return _toNumber(new BN(boostMultiplier.toString()).div(PRECISION_FACTOR).toFixed(3).toString())
 }
 
 export default function useBoostMultiplier({ pid, boosterState, proxyAddress }): number {
   const farmBoosterContract = useBCakeFarmBoosterContract()
   const masterChefContract = useMasterchef()
 
-  const { chainId } = useActiveChainId()
   const { address: account } = useAccount()
 
   const shouldGetFromSC = [YieldBoosterState.DEACTIVE, YieldBoosterState.ACTIVE, YieldBoosterState.MAX].includes(
@@ -105,16 +107,15 @@ export default function useBoostMultiplier({ pid, boosterState, proxyAddress }):
 
   const getMultiplier = useCallback(async () => {
     if (shouldGetFromSC) {
-      return getMultiplierFromMC({ pid, masterChefContract, proxyAddress, chainId })
+      return getMultiplierFromMC({ pid, masterChefContract, proxyAddress })
     }
 
     return should1X
-      ? getUserMultiplier({ farmBoosterContract, pid, account, chainId })
+      ? getUserMultiplier({ farmBoosterContract, pid, account })
       : getPublicMultiplier({
           farmBoosterContract,
-          chainId,
         })
-  }, [farmBoosterContract, masterChefContract, should1X, shouldGetFromSC, pid, account, proxyAddress, chainId])
+  }, [farmBoosterContract, masterChefContract, should1X, shouldGetFromSC, pid, account, proxyAddress])
 
   const cacheName = shouldGetFromSC ? `proxy${pid}` : should1X ? `user${pid}` : `public${pid}`
 

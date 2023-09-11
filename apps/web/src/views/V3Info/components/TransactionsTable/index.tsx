@@ -4,19 +4,20 @@ import {
   ArrowForwardIcon,
   AutoColumn,
   Box,
-  LinkExternal,
   SortArrowIcon,
   Text,
   Flex,
+  ScanLink,
 } from '@pancakeswap/uikit'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useChainNameByQuery } from 'state/info/hooks'
-import { multiChainId } from 'state/info/constant'
+import { multiChainId, subgraphTokenSymbol } from 'state/info/constant'
 import styled from 'styled-components'
 import { formatAmount } from 'utils/formatInfoNumbers'
+import { getBlockExploreLink } from 'utils'
 import { Arrow, Break, ClickableColumnHeader, PageButtons, TableWrapper } from 'views/Info/components/InfoTables/shared'
 import { Transaction, TransactionType } from '../../types'
-import { getEtherscanLink, shortenAddress } from '../../utils'
+import { shortenAddress } from '../../utils'
 import { formatTime } from '../../utils/date'
 import { formatDollarAmount } from '../../utils/numbers'
 import HoverInlineText from '../HoverInlineText'
@@ -94,38 +95,40 @@ const SORT_FIELD = {
 const DataRow = ({ transaction }: { transaction: Transaction; color?: string }) => {
   const abs0 = Math.abs(transaction.amountToken0)
   const abs1 = Math.abs(transaction.amountToken1)
-  const outputTokenSymbol = transaction.amountToken0 < 0 ? transaction.token0Symbol : transaction.token1Symbol
-  const inputTokenSymbol = transaction.amountToken1 < 0 ? transaction.token0Symbol : transaction.token1Symbol
   const chainName = useChainNameByQuery()
+  const token0Symbol = subgraphTokenSymbol[transaction.token0Address.toLowerCase()] ?? transaction.token0Symbol
+  const token1Symbol = subgraphTokenSymbol[transaction.token1Address.toLowerCase()] ?? transaction.token1Symbol
+  const outputTokenSymbol = transaction.amountToken0 < 0 ? token0Symbol : token1Symbol
+  const inputTokenSymbol = transaction.amountToken1 < 0 ? token0Symbol : token1Symbol
 
   return (
     <ResponsiveGrid>
-      <LinkExternal
-        href={getEtherscanLink(multiChainId[chainName], transaction.hash, 'transaction')}
-        isBscScan={chainName === 'BSC'}
+      <ScanLink
+        chainId={multiChainId[chainName]}
+        href={getBlockExploreLink(transaction.hash, 'transaction', multiChainId[chainName])}
       >
         <Text fontWeight={400}>
           {transaction.type === TransactionType.MINT
-            ? `Add ${transaction.token0Symbol} and ${transaction.token1Symbol}`
+            ? `Add ${token0Symbol} and ${token1Symbol}`
             : transaction.type === TransactionType.SWAP
             ? `Swap ${inputTokenSymbol} for ${outputTokenSymbol}`
-            : `Remove ${transaction.token0Symbol} and ${transaction.token1Symbol}`}
+            : `Remove ${token0Symbol} and ${token1Symbol}`}
         </Text>
-      </LinkExternal>
+      </ScanLink>
       <Text fontWeight={400}>{formatDollarAmount(transaction.amountUSD)}</Text>
       <Text fontWeight={400}>
-        <HoverInlineText text={`${formatAmount(abs0)}  ${transaction.token0Symbol}`} maxCharacters={16} />
+        <HoverInlineText text={`${formatAmount(abs0)}  ${token0Symbol}`} maxCharacters={16} />
       </Text>
       <Text fontWeight={400}>
-        <HoverInlineText text={`${formatAmount(abs1)}  ${transaction.token1Symbol}`} maxCharacters={16} />
+        <HoverInlineText text={`${formatAmount(abs1)}  ${token1Symbol}`} maxCharacters={16} />
       </Text>
       <Text fontWeight={400}>
-        <LinkExternal
-          href={getEtherscanLink(multiChainId[chainName], transaction.sender, 'address')}
-          isBscScan={chainName === 'BSC'}
+        <ScanLink
+          chainId={multiChainId[chainName]}
+          href={getBlockExploreLink(transaction.sender, 'address', multiChainId[chainName])}
         >
           {shortenAddress(transaction.sender)}
-        </LinkExternal>
+        </ScanLink>
       </Text>
       <Text fontWeight={400}>{formatTime(transaction.timestamp, 0)}</Text>
     </ResponsiveGrid>
@@ -176,8 +179,7 @@ export default function TransactionTable({
 
   const sortedTransactions = useMemo(() => {
     return transactions
-      ? transactions
-          .slice()
+      ? [...transactions]
           .sort((a, b) => {
             if (a && b) {
               return a[sortField as keyof Transaction] > b[sortField as keyof Transaction]

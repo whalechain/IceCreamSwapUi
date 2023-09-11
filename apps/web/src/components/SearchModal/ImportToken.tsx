@@ -25,7 +25,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { chains } from 'utils/wagmi'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { WrappedTokenInfo } from '@pancakeswap/token-lists'
-import AccessRisk from 'views/Swap/components/AccessRisk'
+import AccessRisk from 'components/AccessRisk'
 import { fetchRiskToken, TOKEN_RISK } from 'views/Swap/hooks/fetchTokenRisk'
 
 interface ImportProps {
@@ -50,7 +50,7 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
 
   const { data: hasRiskToken } = useSWRImmutable(tokens && ['has-risks', tokens], async () => {
     const result = await Promise.all(tokens.map((token) => fetchRiskToken(token.address, token.chainId)))
-    return result.some((r) => r.riskLevel > TOKEN_RISK.MEDIUM)
+    return result.some((r) => r.riskLevel >= TOKEN_RISK.MEDIUM)
   })
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
@@ -74,15 +74,14 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
       <Message variant="warning">
         <Text>
           {t(
-            'Anyone can create a %standard% token on %network% with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.',
+            'Anyone can create tokens on %network% with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.',
             {
-              standard: getStandard(chainId),
               network: chains.find((c) => c.id === chainId)?.name,
             },
           )}
           <br />
           <br />
-          {t('If you purchase an arbitrary token, you may be unable to sell it back.')}
+          <b>{t('If you purchase a fraudulent token, you may be exposed to permanent loss of funds.')}</b>
         </Text>
       </Message>
 
@@ -90,7 +89,12 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
         const list = token.chainId && inactiveTokenList?.[token.chainId]?.[token.address]?.list
         const address = token.address ? `${truncateHash(token.address)}` : null
         return (
-          <Flex key={token.address} alignItems="center" justifyContent="space-between">
+          <Flex
+            flexDirection={['column', 'column', 'row']}
+            key={token.address}
+            alignItems={['left', 'left', 'center']}
+            justifyContent="space-between"
+          >
             <Grid gridTemplateRows="1fr 1fr 1fr 1fr" gridGap="4px">
               {list !== undefined ? (
                 <Tag

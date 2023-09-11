@@ -4,10 +4,11 @@ import { getDeltaTimestamps } from 'utils/getDeltaTimestamps'
 import union from 'lodash/union'
 import { useGetChainName } from '../../hooks'
 import {
-  MultiChainName,
   getMultiChainQueryEndPointWithStableSwap,
   checkIsStableSwap,
   multiChainTokenBlackList,
+  multiChainTokenWhiteList,
+  MultiChainNameExtend,
 } from '../../constant'
 
 interface TopTokensResponse {
@@ -25,12 +26,15 @@ interface StableSwapTopTokensResponse {
 /**
  * Tokens to display on Home page
  * The actual data is later requested in tokenData.ts
- * Note: dailyTxns_gt: 100 is there to prevent fetching incorrectly priced tokens with high dailyVolumeUSD
+ * Note: dailyTxns_gt: 300 is there to prevent fetching incorrectly priced tokens with high dailyVolumeUSD
  */
-const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number): Promise<string[]> => {
-  const whereCondition = checkIsStableSwap()
-    ? ''
-    : `where: { dailyTxns_gt: 100, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
+const fetchTopTokens = async (chainName: MultiChainNameExtend, timestamp24hAgo: number): Promise<string[]> => {
+  const whereCondition =
+    chainName === 'ETH'
+      ? `where: { date_gt: ${timestamp24hAgo}, token_not_in: $blacklist, dailyVolumeUSD_gt:2000 }`
+      : checkIsStableSwap()
+      ? ''
+      : `where: { dailyTxns_gt: 300, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
   const firstCount = 50
   try {
     const query = gql`
@@ -65,7 +69,7 @@ const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number
       )
       return union(
         data.tokens.map((t) => t.id),
-        undefined,
+        multiChainTokenWhiteList[chainName],
       )
     }
     const data = await getMultiChainQueryEndPointWithStableSwap(chainName).request<TopTokensResponse>(query, {
@@ -74,7 +78,7 @@ const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number
     // tokenDayDatas id has compound id "0xTOKENADDRESS-NUMBERS", extracting token address with .split('-')
     return union(
       data.tokenDayDatas.map((t) => t.id.split('-')[0]),
-      undefined,
+      multiChainTokenWhiteList[chainName],
     )
   } catch (error) {
     console.warn('fetchTopTokens', { chainName, timestamp24hAgo })
@@ -103,10 +107,11 @@ const useTopTokenAddresses = (): string[] => {
   return topTokenAddresses
 }
 
-export const fetchTokenAddresses = async (chainName: MultiChainName) => {
+export const fetchTokenAddresses = async (chainName: MultiChainNameExtend) => {
   const [timestamp24hAgo] = getDeltaTimestamps()
 
   const addresses = await fetchTopTokens(chainName, timestamp24hAgo)
+
   return addresses
 }
 

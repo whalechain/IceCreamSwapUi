@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { useTranslation } from '@pancakeswap/localization'
-import { ChainId } from '@pancakeswap/sdk'
 import {
   Box,
   Breadcrumbs,
@@ -9,12 +8,12 @@ import {
   Flex,
   Heading,
   Image,
-  LinkExternal,
   NextLinkFromReactRouter,
   Spinner,
   Text,
   Link as UIKitLink,
   useMatchBreakpoints,
+  ScanLink,
 } from '@pancakeswap/uikit'
 import useInfoUserSavedTokensAndPools from 'hooks/useInfoUserSavedTokensAndPoolsList'
 import { NextSeo } from 'next-seo'
@@ -25,7 +24,7 @@ import { CHAIN_QUERY_NAME } from 'config/chains'
 import { ONE_HOUR_SECONDS } from 'config/constants/info'
 import { Duration } from 'date-fns'
 import { useMemo } from 'react'
-import { multiChainId, multiChainScan, v2SubgraphTokenName } from 'state/info/constant'
+import { multiChainId, multiChainScan, subgraphTokenName, subgraphTokenSymbol } from 'state/info/constant'
 import {
   useChainIdByQuery,
   useChainNameByQuery,
@@ -143,14 +142,14 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
                 </Flex>
               </Breadcrumbs>
               <Flex justifyContent={[null, null, 'flex-end']} mt={['8px', '8px', 0]}>
-                <LinkExternal
-                  isBscScan={multiChainId[chainName] === ChainId.BSC}
+                <ScanLink
                   mr="8px"
                   color="primary"
+                  chainId={multiChainId[chainName]}
                   href={getBlockExploreLink(address, 'address', multiChainId[chainName])}
                 >
                   {t('View on %site%', { site: multiChainScan[chainName] })}
-                </LinkExternal>
+                </ScanLink>
                 {cmcLink && (
                   <StyledCMCLink href={cmcLink} rel="noopener noreferrer nofollow" target="_blank">
                     <Image src="/images/CMC-logo.svg" height={22} width={22} alt={t('View token on CoinMarketCap')} />
@@ -170,10 +169,10 @@ const TokenPage: React.FC<React.PropsWithChildren<{ routeAddress: string }>> = (
                     fontSize={isXs || isSm ? '24px' : '40px'}
                     id="info-token-name-title"
                   >
-                    {v2SubgraphTokenName[tokenData.address] ?? tokenData.name}
+                    {subgraphTokenName[tokenData.address] ?? tokenData.name}
                   </Text>
                   <Text ml="12px" lineHeight="1" color="textSubtle" fontSize={isXs || isSm ? '14px' : '20px'}>
-                    ({tokenData.symbol})
+                    ({subgraphTokenSymbol[tokenData.address] ?? tokenData.symbol})
                   </Text>
                 </Flex>
                 <Flex mt="8px" ml="46px" alignItems="center">

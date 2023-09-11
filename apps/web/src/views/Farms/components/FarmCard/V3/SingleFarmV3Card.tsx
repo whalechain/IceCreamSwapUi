@@ -1,4 +1,3 @@
-import { BigNumber as EthersBigNumber } from 'ethers'
 import { IPendingCakeByTokenId, PositionDetails } from '@pancakeswap/farms'
 import { useTranslation } from '@pancakeswap/localization'
 import { Token } from '@pancakeswap/swap-sdk-core'
@@ -15,22 +14,31 @@ import {
   Text,
   useModalV2,
 } from '@pancakeswap/uikit'
-import { formatBigNumber } from '@pancakeswap/utils/formatBalance'
+import { formatBigInt } from '@pancakeswap/utils/formatBalance'
 import { isPositionOutOfRange } from '@pancakeswap/utils/isPositionOutOfRange'
 import { Pool } from '@pancakeswap/v3-sdk'
 import { BigNumber } from 'bignumber.js'
 import { LightCard } from 'components/Card'
+import { RangeTag } from 'components/RangeTag'
 import { CHAIN_QUERY_NAME } from 'config/chains'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { usePriceCakeUSD } from 'state/farms/hooks'
 import styled, { useTheme } from 'styled-components'
 import { logGTMClickStakeFarmEvent } from 'utils/customGTMEventTracking'
 import { V3Farm } from 'views/Farms/FarmsV3'
 import useFarmV3Actions from 'views/Farms/hooks/v3/useFarmV3Actions'
-import { RangeTag } from 'components/RangeTag'
+import { BCakeV3CardView } from '../../YieldBooster/components/bCakeV3/CardView'
+import {
+  useBakeV3farmCanBoost,
+  useIsBoostedPool,
+  useUserBoostedPoolsTokenId,
+  useUserMultiplierBeforeBoosted,
+  useUserPositionInfo,
+} from '../../YieldBooster/hooks/bCakeV3/useBCakeV3Info'
+import { useBoostStatus } from '../../YieldBooster/hooks/bCakeV3/useBoostStatus'
 import FarmV3StakeAndUnStake, { FarmV3LPPosition, FarmV3LPPositionDetail, FarmV3LPTitle } from './FarmV3StakeAndUnStake'
 
 const { FarmV3HarvestAction } = FarmUI.FarmV3Table
@@ -104,14 +112,37 @@ const SingleFarmV3Card: React.FunctionComponent<
   const { t } = useTranslation()
   const cakePrice = usePriceCakeUSD()
   const { tokenId } = position
-  const { isDark } = useTheme()
+  const { isDark, colors } = useTheme()
 
   const title = `${lpSymbol} (#${tokenId.toString()})`
   const liquidityUrl = `/liquidity/${tokenId.toString()}?chain=${CHAIN_QUERY_NAME[chainId]}`
 
+  const { updatedUserMultiplierBeforeBoosted } = useUserMultiplierBeforeBoosted()
+  const { mutate: updateIsBoostedPool } = useIsBoostedPool(tokenId.toString())
+  const { updateUserPositionInfo } = useUserPositionInfo(tokenId.toString())
+  const { updateBoostedPoolsTokenId } = useUserBoostedPoolsTokenId()
+  const { updateStatus } = useBoostStatus(farm.pid, tokenId.toString())
+
+  const onDone = useCallback(() => {
+    updateIsBoostedPool()
+    updateUserPositionInfo()
+    updateBoostedPoolsTokenId()
+    updatedUserMultiplierBeforeBoosted()
+    updateStatus()
+  }, [
+    updateIsBoostedPool,
+    updateUserPositionInfo,
+    updateBoostedPoolsTokenId,
+    updatedUserMultiplierBeforeBoosted,
+    updateStatus,
+  ])
+
   const { onStake, onUnstake, onHarvest, attemptingTxn } = useFarmV3Actions({
     tokenId: tokenId.toString(),
+    onDone,
   })
+
+  const { farmCanBoost } = useBakeV3farmCanBoost(farm.pid)
 
   const unstakedModal = useModalV2()
 
@@ -141,11 +172,13 @@ const SingleFarmV3Card: React.FunctionComponent<
     }
   }
 
+  const dividerBorderStyle = useMemo(() => `1px solid ${colors.input}`, [colors.input])
+
   const outOfRange = isPositionOutOfRange(pool?.tickCurrent, position)
   const outOfRangeUnstaked = outOfRange && positionType === 'unstaked'
 
   const totalEarnings = useMemo(
-    () => +formatBigNumber(pendingCakeByTokenIds[position.tokenId.toString()] || EthersBigNumber.from('0'), 4),
+    () => +formatBigInt(pendingCakeByTokenIds[position.tokenId.toString()] || 0n, 4),
     [pendingCakeByTokenIds, position.tokenId],
   )
 
@@ -159,6 +192,7 @@ const SingleFarmV3Card: React.FunctionComponent<
         <RowBetween
           flexDirection="column"
           alignItems="flex-start"
+          style={{ flexGrow: 1.25 }}
           flex={{
             xs: 'auto',
             md: 1,
@@ -282,20 +316,38 @@ const SingleFarmV3Card: React.FunctionComponent<
         {positionType !== 'unstaked' && (
           <>
             <AtomBox
-              border="1"
               width={{
                 xs: '100%',
                 md: 'auto',
               }}
+              style={{ borderLeft: dividerBorderStyle, borderTop: dividerBorderStyle }}
             />
             <RowBetween flexDirection="column" alignItems="flex-start" flex={1} width="100%">
               <FarmV3HarvestAction
                 earnings={totalEarnings}
                 earningsBusd={earningsBusd}
                 pendingTx={attemptingTxn || harvesting}
-                disabled={pendingCakeByTokenIds?.[position.tokenId.toString()]?.isZero() ?? true}
+                disabled={!pendingCakeByTokenIds?.[position.tokenId.toString()] ?? true}
                 userDataReady
                 handleHarvest={handleHarvest}
+              />
+            </RowBetween>
+          </>
+        )}
+        {farmCanBoost && (
+          <>
+            <AtomBox
+              width={{
+                xs: '100%',
+                md: 'auto',
+              }}
+              style={{ borderLeft: dividerBorderStyle, borderTop: dividerBorderStyle }}
+            />
+            <RowBetween flexDirection="column" alignItems="flex-start" flex={1} width="100%">
+              <BCakeV3CardView
+                tokenId={position.tokenId.toString()}
+                pid={farm.pid}
+                isFarmStaking={positionType === 'staked'}
               />
             </RowBetween>
           </>

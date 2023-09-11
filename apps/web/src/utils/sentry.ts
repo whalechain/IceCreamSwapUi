@@ -1,5 +1,5 @@
 import { captureException } from '@sentry/nextjs'
-import { ErrorCode } from '@ethersproject/logger'
+import { UserRejectedRequestError, UnknownRpcError } from 'viem'
 
 const assignError = (maybeError: any) => {
   if (typeof maybeError === 'string') {
@@ -18,9 +18,34 @@ const assignError = (maybeError: any) => {
   return maybeError
 }
 
+const possibleRejectMessage = ['Cancelled by User', 'cancel', 'Transaction was rejected']
+
+// provider user rejected error code
 export const isUserRejected = (err) => {
-  // provider user rejected error code
-  return typeof err === 'object' && 'code' in err && (err.code === 4001 || err.code === ErrorCode.ACTION_REJECTED)
+  if (err instanceof UserRejectedRequestError) {
+    return true
+  }
+  if (err instanceof UnknownRpcError) {
+    // fallback for some wallets that don't follow EIP 1193, trust, safe
+    if (possibleRejectMessage.some((msg) => err.details?.includes(msg))) {
+      return true
+    }
+  }
+
+  // fallback for raw rpc error code
+  if (typeof err === 'object') {
+    if (
+      ('code' in err && (err.code === 4001 || err.code === 'ACTION_REJECTED')) ||
+      ('cause' in err && 'code' in err.cause && err.cause.code === 4001)
+    ) {
+      return true
+    }
+
+    if ('cause' in err) {
+      return isUserRejected(err.cause)
+    }
+  }
+  return false
 }
 
 const ENABLED_LOG = false

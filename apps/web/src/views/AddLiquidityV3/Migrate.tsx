@@ -17,25 +17,21 @@ import { CurrencyLogo } from 'components/Logo'
 import { Bound } from 'config/constants/types'
 import { useToken } from 'hooks/Tokens'
 import { usePairContract, useV3MigratorContract } from 'hooks/useContract'
-import { immutableMiddleware, useSWRContract } from 'hooks/useSWRContract'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useDerivedPositionInfo } from 'hooks/v3/useDerivedPositionInfo'
 import useV3DerivedInfo from 'hooks/v3/useV3DerivedInfo'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
-import { splitSignature } from 'ethers/lib/utils'
-import { TransactionResponse } from '@ethersproject/providers'
 import { Trans, useTranslation } from '@pancakeswap/localization'
 import { CurrencyAmount, ERC20Token, Fraction, NATIVE, Pair, Price, WNATIVE, ZERO } from '@pancakeswap/sdk'
 import { AtomBox } from '@pancakeswap/ui'
 import { useUserSlippagePercent } from '@pancakeswap/utils/user'
 import { FeeAmount, Pool, Position, priceToClosestTick, TickMath } from '@pancakeswap/v3-sdk'
-import { useSignTypedData } from 'wagmi'
+import { Address, useContractRead, useSignTypedData } from 'wagmi'
 import { CommitButton } from 'components/CommitButton'
 import LiquidityChartRangeInput from 'components/LiquidityChartRangeInput'
-import { ROUTER_ADDRESS } from 'config/constants/exchange'
+import { V2_ROUTER_ADDRESS } from 'config/constants/exchange'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { useV2Pair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
@@ -43,9 +39,13 @@ import { useIsTransactionPending, useTransactionAdder } from 'state/transactions
 import { calculateGasMargin } from 'utils'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
 import { unwrappedToken } from 'utils/wrappedCurrency'
+import { splitSignature } from 'utils/splitSignature'
+import { encodeFunctionData, Hex, toHex } from 'viem'
 import { isUserRejected } from 'utils/sentry'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import { ResponsiveTwoColumns } from 'views/AddLiquidityV3'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
+import { useFeeTierDistribution } from 'hooks/v3/useFeeTierDistribution'
 import FeeSelector from './formViews/V3FormView/components/FeeSelector'
 import RangeSelector from './formViews/V3FormView/components/RangeSelector'
 import RateToggle from './formViews/V3FormView/components/RateToggle'
@@ -54,11 +54,23 @@ import { useV3MintActionHandlers } from './formViews/V3FormView/form/hooks/useV3
 import { HandleFeePoolSelectFn } from './types'
 import { useV3FormState } from './formViews/V3FormView/form/reducer'
 
-export function Migrate({ v2PairAddress }: { v2PairAddress: string }) {
+export function Migrate({ v2PairAddress }: { v2PairAddress: Address }) {
   const pairContract = usePairContract(v2PairAddress)
+  const { chainId } = useActiveChainId()
 
-  const { data: token0Address } = useSWRContract([pairContract, 'token0'], { use: [immutableMiddleware] })
-  const { data: token1Address } = useSWRContract([pairContract, 'token1'], { use: [immutableMiddleware] })
+  const { data: token0Address } = useContractRead({
+    abi: pairContract.abi,
+    address: v2PairAddress,
+    functionName: 'token0',
+    chainId,
+  })
+
+  const { data: token1Address } = useContractRead({
+    abi: pairContract.abi,
+    address: v2PairAddress,
+    functionName: 'token1',
+    chainId,
+  })
 
   const token0 = useToken(token0Address)
   const token1 = useToken(token1Address)
@@ -93,7 +105,7 @@ function V2PairMigrate({
   pair,
   v2LPTotalSupply,
 }: {
-  v2PairAddress: string
+  v2PairAddress: Address
   token0: ERC20Token
   token1: ERC20Token
   pair: Pair
@@ -129,6 +141,8 @@ function V2PairMigrate({
     [token1, pairBalance, reserve1.quotient, v2LPTotalSupply.quotient],
   )
 
+  const { isLoading, isError, largestUsageFeeTier } = useFeeTierDistribution(token0, token1)
+
   const [feeAmount, setFeeAmount] = useState(FeeAmount.MEDIUM)
 
   const handleFeePoolSelect = useCallback<HandleFeePoolSelectFn>(({ feeAmount: newFeeAmount }) => {
@@ -161,13 +175,18 @@ function V2PairMigrate({
   )
   const v3SpotPrice = pool?.token0Price ?? undefined
 
-  let priceDifferenceFraction: Fraction | undefined =
-    v2SpotPrice && v3SpotPrice ? v3SpotPrice.divide(v2SpotPrice).subtract(1).multiply(100) : undefined
-  if (priceDifferenceFraction?.lessThan(ZERO)) {
-    priceDifferenceFraction = priceDifferenceFraction.multiply(-1)
-  }
+  const priceDifferenceFraction: Fraction | undefined = useMemo(() => {
+    const result = v2SpotPrice && v3SpotPrice ? v3SpotPrice.divide(v2SpotPrice).subtract(1).multiply(100) : undefined
+    if (result?.lessThan(ZERO)) {
+      return result.multiply(-1)
+    }
+    return result
+  }, [v2SpotPrice, v3SpotPrice])
 
-  const largePriceDifference = priceDifferenceFraction && !priceDifferenceFraction?.lessThan(2n)
+  const largePriceDifference = useMemo(
+    () => priceDifferenceFraction && !priceDifferenceFraction?.lessThan(2n),
+    [priceDifferenceFraction],
+  )
 
   // modal and loading
   // capital efficiency warning
@@ -179,8 +198,7 @@ function V2PairMigrate({
 
   useEffect(() => {
     if (feeAmount) {
-      onLeftRangeInput('')
-      onRightRangeInput('')
+      onBothRangeInput({ leftTypedValue: '', rightTypedValue: '' })
     }
     // NOTE: ignore exhaustive-deps to avoid infinite re-render
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,6 +217,13 @@ function V2PairMigrate({
       onRightRangeInput(maxPrice)
     }
   }, [minPrice, maxPrice, onRightRangeInput, onLeftRangeInput, leftRangeTypedValue, rightRangeTypedValue])
+
+  useEffect(() => {
+    if (!isError && !isLoading && largestUsageFeeTier) {
+      setFeeAmount(largestUsageFeeTier)
+    }
+  }, [isError, isLoading, largestUsageFeeTier])
+
   // txn values
   const deadline = useTransactionDeadline() // custom from users settings
 
@@ -208,20 +233,35 @@ function V2PairMigrate({
   const [allowedSlippage] = useUserSlippagePercent()
 
   // the v3 tick is either the pool's tickCurrent, or the tick closest to the v2 spot price
-  const tick = pool?.tickCurrent ?? priceToClosestTick(v2SpotPrice)
+  const tick = useMemo(() => pool?.tickCurrent ?? priceToClosestTick(v2SpotPrice), [pool?.tickCurrent, v2SpotPrice])
   // the price is either the current v3 price, or the price at the tick
-  const sqrtPrice = pool?.sqrtRatioX96 ?? TickMath.getSqrtRatioAtTick(tick)
-  const position =
-    typeof tickLower === 'number' && typeof tickUpper === 'number' && !invalidRange
-      ? Position.fromAmounts({
-          pool: pool ?? new Pool(token0, token1, feeAmount, sqrtPrice, 0, tick, []),
-          tickLower,
-          tickUpper,
-          amount0: token0Value.quotient,
-          amount1: token1Value.quotient,
-          useFullPrecision: true, // we want full precision for the theoretical position
-        })
-      : undefined
+  const sqrtPrice = useMemo(() => pool?.sqrtRatioX96 ?? TickMath.getSqrtRatioAtTick(tick), [pool?.sqrtRatioX96, tick])
+  const position = useMemo(
+    () =>
+      typeof tickLower === 'number' && typeof tickUpper === 'number' && !invalidRange
+        ? Position.fromAmounts({
+            pool: pool ?? new Pool(token0, token1, feeAmount, sqrtPrice, 0, tick, []),
+            tickLower,
+            tickUpper,
+            amount0: token0Value.quotient,
+            amount1: token1Value.quotient,
+            useFullPrecision: true, // we want full precision for the theoretical position
+          })
+        : undefined,
+    [
+      feeAmount,
+      invalidRange,
+      pool,
+      sqrtPrice,
+      tick,
+      tickLower,
+      tickUpper,
+      token0,
+      token0Value.quotient,
+      token1,
+      token1Value.quotient,
+    ],
+  )
 
   const { amount0: v3Amount0Min, amount1: v3Amount1Min } = useMemo(
     () => (position ? position.mintAmountsWithSlippage(allowedSlippage) : { amount0: undefined, amount1: undefined }),
@@ -254,17 +294,22 @@ function V2PairMigrate({
   const isMigrationPending = useIsTransactionPending(pendingMigrationHash ?? undefined)
 
   const migrator = useV3MigratorContract()
-  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
+  const [signatureData, setSignatureData] = useState<{
+    v: number
+    r: `0x${string}`
+    s: `0x${string}`
+    deadline: number
+  } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     CurrencyAmount.fromRawAmount(pair.liquidityToken, pairBalance.toString()),
-    ROUTER_ADDRESS[chainId],
+    V2_ROUTER_ADDRESS[chainId],
   )
 
-  const pairContractRead = usePairContract(pair?.liquidityToken?.address, false)
+  const pairContractRead = usePairContract(pair?.liquidityToken?.address)
 
   const approve = useCallback(async () => {
     // try to gather a signature for permission
-    const nonce = await pairContractRead.nonces(account)
+    const nonce = await pairContractRead.read.nonces([account])
 
     const EIP712Domain = [
       { name: 'name', type: 'string' },
@@ -289,19 +334,19 @@ function V2PairMigrate({
       owner: account,
       spender: migrator.address,
       value: pairBalance.toString(),
-      nonce: nonce.toHexString(),
-      deadline: deadline.toNumber(),
+      nonce: toHex(nonce),
+      deadline: Number(deadline),
     }
 
     signTypedDataAsync({
-      domain,
       // @ts-ignore
+      domain,
       primaryType: 'Permit',
       types: {
         EIP712Domain,
         Permit,
       },
-      value: message,
+      message,
     })
       .then(splitSignature)
       .then((signature) => {
@@ -309,7 +354,7 @@ function V2PairMigrate({
           v: signature.v,
           r: signature.r,
           s: signature.s,
-          deadline: deadline.toNumber(),
+          deadline: Number(deadline),
         })
       })
       .catch((err) => {
@@ -337,79 +382,89 @@ function V2PairMigrate({
       !deadline ||
       typeof tickLower !== 'number' ||
       typeof tickUpper !== 'number' ||
-      !v3Amount0Min ||
-      !v3Amount1Min ||
       !chainId
     )
       return
 
-    const deadlineToUse = signatureData?.deadline ?? deadline
+    const deadlineToUse = signatureData?.deadline ? BigInt(signatureData.deadline) : deadline
 
-    const data: string[] = []
+    const data: Hex[] = []
 
     // permit if necessary
     if (signatureData) {
       data.push(
-        migrator.interface.encodeFunctionData('selfPermit', [
-          pair.liquidityToken.address,
-          `0x${pairBalance.toString(16)}`,
-          deadlineToUse,
-          signatureData.v,
-          signatureData.r,
-          signatureData.s,
-        ]),
+        encodeFunctionData({
+          abi: migrator.abi,
+          functionName: 'selfPermit',
+          args: [
+            pair.liquidityToken.address,
+            BigInt(pairBalance.toString()),
+            deadlineToUse,
+            signatureData.v,
+            signatureData.r,
+            signatureData.s,
+          ],
+        }),
       )
     }
 
     // create/initialize pool if necessary
     if (noLiquidity) {
       data.push(
-        migrator.interface.encodeFunctionData('createAndInitializePoolIfNecessary', [
-          token0.address,
-          token1.address,
-          feeAmount,
-          `0x${sqrtPrice.toString(16)}`,
-        ]),
+        encodeFunctionData({
+          abi: migrator.abi,
+          functionName: 'createAndInitializePoolIfNecessary',
+          args: [token0.address, token1.address, feeAmount, sqrtPrice],
+        }),
       )
     }
 
     // TODO could save gas by not doing this in multicall
     data.push(
-      migrator.interface.encodeFunctionData('migrate', [
-        {
-          pair: pair.liquidityToken.address,
-          liquidityToMigrate: `0x${pairBalance.toString(16)}`,
-          percentageToMigrate,
-          token0: token0.address,
-          token1: token1.address,
-          fee: feeAmount,
-          tickLower,
-          tickUpper,
-          amount0Min: `0x${v3Amount0Min.toString(16)}`,
-          amount1Min: `0x${v3Amount1Min.toString(16)}`,
-          recipient: account,
-          deadline: deadlineToUse,
-          refundAsETH: true, // hard-code this for now
-        },
-      ]),
+      encodeFunctionData({
+        abi: migrator.abi,
+        functionName: 'migrate',
+        args: [
+          {
+            pair: pair.liquidityToken.address,
+            liquidityToMigrate: BigInt(pairBalance.toString()),
+            percentageToMigrate,
+            token0: token0.address,
+            token1: token1.address,
+            fee: feeAmount,
+            tickLower,
+            tickUpper,
+            amount0Min: v3Amount0Min,
+            amount1Min: v3Amount1Min,
+            recipient: account,
+            deadline: deadlineToUse,
+            refundAsETH: true, // hard-code this for now
+          },
+        ],
+      }),
     )
 
     setConfirmingMigration(true)
 
     migrator.estimateGas
-      .multicall(data)
+      .multicall([data], { account: migrator.account, value: 0n })
       .then((gasEstimate) => {
-        return migrator
-          .multicall(data, { gasLimit: calculateGasMargin(gasEstimate) })
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              type: 'migrate-v3',
-              translatableSummary: {
-                text: 'Migrated %symbolA% %symbolB% V2 liquidity to V3',
-                data: { symbolA: currency0.symbol, symbolB: currency1.symbol },
+        return migrator.write
+          .multicall([data], { gas: calculateGasMargin(gasEstimate), account, chain: migrator.chain, value: 0n })
+          .then((response) => {
+            addTransaction(
+              {
+                hash: response,
               },
-            })
-            setPendingMigrationHash(response.hash)
+              {
+                type: 'migrate-v3',
+                translatableSummary: {
+                  text: 'Migrated %symbolA% %symbolB% V2 liquidity to V3',
+                  data: { symbolA: currency0.symbol, symbolB: currency1.symbol },
+                },
+              },
+            )
+            setPendingMigrationHash(response)
           })
       })
       .catch((e) => {
@@ -438,7 +493,10 @@ function V2PairMigrate({
     currency1,
   ])
 
-  const isSuccessfullyMigrated = !!pendingMigrationHash && BigInt(pairBalance.toString()) === ZERO
+  const isSuccessfullyMigrated = useMemo(
+    () => !!pendingMigrationHash && BigInt(pairBalance.toString()) === ZERO,
+    [pendingMigrationHash, pairBalance],
+  )
 
   return (
     <CardBody>
@@ -454,7 +512,7 @@ function V2PairMigrate({
                     {token0?.symbol}
                   </Text>
                 </AutoRow>
-                <Text bold>{token0Value.toSignificant(6)}</Text>
+                <Text bold>{token0Value.toFixed(token0.decimals)}</Text>
               </AutoRow>
               <AutoRow>
                 <AutoRow gap="4px" flex={1}>
@@ -463,7 +521,7 @@ function V2PairMigrate({
                     {token1?.symbol}
                   </Text>
                 </AutoRow>
-                <Text bold>{token1Value.toSignificant(6)}</Text>
+                <Text bold>{token1Value.toFixed(token1.decimals)}</Text>
               </AutoRow>
             </AutoColumn>
           </GreyCard>
@@ -484,7 +542,7 @@ function V2PairMigrate({
                       {token0?.symbol}
                     </Text>
                   </AutoRow>
-                  {position && <Text bold>{position.amount0.toSignificant(6)}</Text>}
+                  {position && <Text bold>{position.amount0.toFixed(token0.decimals)}</Text>}
                 </AutoRow>
                 <AutoRow>
                   <AutoRow gap="4px" flex={1}>
@@ -493,7 +551,7 @@ function V2PairMigrate({
                       {token1?.symbol}
                     </Text>
                   </AutoRow>
-                  {position && <Text bold>{position.amount1.toSignificant(6)}</Text>}
+                  {position && <Text bold>{position.amount1.toFixed(token1.decimals)}</Text>}
                 </AutoRow>
                 {position && chainId && refund0 && refund1 ? (
                   <Text color="textSubtle">
@@ -514,9 +572,13 @@ function V2PairMigrate({
             <RateToggle
               currencyA={invertPrice ? currency1 : currency0}
               handleRateToggle={() => {
-                onLeftRangeInput('')
-                onRightRangeInput('')
                 setBaseToken((base) => (base.equals(token0) ? token1 : token0))
+                if (!ticksAtLimit[Bound.LOWER] && !ticksAtLimit[Bound.UPPER]) {
+                  onBothRangeInput({
+                    leftTypedValue: (invertPrice ? priceLower : priceUpper?.invert())?.toSignificant(6) ?? '',
+                    rightTypedValue: (invertPrice ? priceUpper : priceLower?.invert())?.toSignificant(6) ?? '',
+                  })
+                }
               }}
             />
           </RowBetween>
@@ -653,7 +715,7 @@ function V2PairMigrate({
               {t('Full Range')}
             </Button>
           )}
-          {outOfRange ? (
+          {outOfRange || !v3Amount0Min || !v3Amount1Min ? (
             <Message variant="warning">
               <RowBetween>
                 <Text ml="12px" fontSize="12px">
@@ -677,8 +739,6 @@ function V2PairMigrate({
                   disabled={
                     approval !== ApprovalState.NOT_APPROVED ||
                     signatureData !== null ||
-                    !v3Amount0Min ||
-                    !v3Amount1Min ||
                     invalidRange ||
                     confirmingMigration
                   }
@@ -700,8 +760,6 @@ function V2PairMigrate({
               <CommitButton
                 variant={isSuccessfullyMigrated ? 'success' : 'primary'}
                 disabled={
-                  !v3Amount0Min ||
-                  !v3Amount1Min ||
                   invalidRange ||
                   (approval !== ApprovalState.APPROVED && signatureData === null) ||
                   confirmingMigration ||

@@ -1,17 +1,14 @@
 import { ChainId } from '@pancakeswap/sdk'
-import { OnChainProvider } from '@pancakeswap/smart-router/evm'
 import { CHAINS } from 'config/chains'
 import { createPublicClient, http, fallback, PublicClient } from 'viem'
 
-const clients = CHAINS.reduce((prev, cur) => {
-  const rpcs = cur.rpcUrls.public.http
-  const isSingle = rpcs.length === 1
-  const transport = isSingle
-    ? http(rpcs[0], {
-        timeout: 15_000,
-      })
-    : fallback(
-      rpcs.map((url) =>
+export const viemClients = CHAINS.reduce((prev, cur) => {
+  return {
+    ...prev,
+    [cur.id]: createPublicClient({
+      chain: cur,
+      transport: fallback(
+        cur.rpcUrls.public.http.map((url) =>
           http(url, {
             timeout: 15_000,
           }),
@@ -19,17 +16,16 @@ const clients = CHAINS.reduce((prev, cur) => {
         {
           rank: false,
         },
-      )
-  return {
-    ...prev,
-    [cur.id]: createPublicClient({
-      chain: cur,
-      transport,
+      ),
+      batch: {
+        multicall: {
+          batchSize: 1024 * 200,
+        },
+      },
     }),
   }
 }, {} as Record<ChainId, PublicClient>)
 
-// @ts-ignore
-export const viemClients: OnChainProvider = ({ chainId }: { chainId?: ChainId }) => {
-  return clients[chainId]
+export const getViemClients = ({ chainId }: { chainId?: ChainId }) => {
+  return viemClients[chainId]
 }

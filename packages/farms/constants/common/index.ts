@@ -1,6 +1,6 @@
-import { ChainId, ERC20Token } from '@pancakeswap/sdk'
-import { bscTokens } from '@pancakeswap/tokens'
+import { ERC20Token } from '@pancakeswap/sdk'
 import type { CommonPrice } from '../../src/fetchFarmsV3'
+import type { FarmV3SupportedChainId } from '../../src'
 
 export const CAKE_BNB_LP_MAINNET = '0x0eD7e52944161450477ee417DE9Cd3a859b14fD0'
 
@@ -9,14 +9,12 @@ export type PriceHelper = {
   list: ERC20Token[]
 }
 
+export const CHAIN_ID_TO_CHAIN_NAME = {
+} satisfies Record<FarmV3SupportedChainId, string>
+
 export const priceHelperTokens = {
-  [ChainId.BSC]: {
-    chain: 'bsc',
-    list: [bscTokens.wbnb, bscTokens.usdt, bscTokens.busd, bscTokens.eth],
-  },
 } satisfies Record<number, PriceHelper>
 
 // for testing purposes
-export const DEFAULT_COMMON_PRICE: Record<ChainId, CommonPrice> = {
-  [ChainId.BSC]: {},
+export const DEFAULT_COMMON_PRICE: Record<FarmV3SupportedChainId, CommonPrice> = {
 }

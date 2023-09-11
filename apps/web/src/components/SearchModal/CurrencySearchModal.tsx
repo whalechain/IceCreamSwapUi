@@ -14,6 +14,7 @@ import {
   MODAL_SWIPE_TO_CLOSE_VELOCITY,
   ImportList,
 } from '@pancakeswap/uikit'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { useListState } from 'state/lists/lists'
 import { useAllLists } from 'state/lists/hooks'
@@ -62,6 +63,7 @@ export interface CurrencySearchModalProps extends InjectedModalProps {
   showNative?: boolean
   showSearchInput?: boolean
   tokensToShow?: Token[]
+  mode?: string
 }
 
 export default function CurrencySearchModal({
@@ -76,8 +78,11 @@ export default function CurrencySearchModal({
   tokens,
   hideManage,
   showNative,
+  mode,
 }: CurrencySearchModalProps) {
   const [modalView, setModalView] = useState<CurrencyModalView>(CurrencyModalView.search)
+  const { pathname } = useRouter()
+  const onRampFlow = pathname === '/buy-crypto'
 
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
@@ -108,7 +113,7 @@ export default function CurrencySearchModal({
   const [addError, setAddError] = useState<string | null>(null)
 
   const handleAddList = useCallback(() => {
-    if (adding) return
+    if (adding || !listURL) return
     setAddError(null)
     fetchList(listURL)
       .then(() => {
@@ -176,6 +181,8 @@ export default function CurrencySearchModal({
             tokensToShow={tokensToShow}
             tokens={tokens}
             showNative={showNative}
+            mode={mode}
+            onRampFlow={onRampFlow}
           />
         ) : modalView === CurrencyModalView.importToken && importToken ? (
           <ImportToken tokens={[importToken]} handleCurrencySelect={handleCurrencySelect} />
@@ -198,7 +205,7 @@ export default function CurrencySearchModal({
         ) : (
           ''
         )}
-        {modalView === CurrencyModalView.search && !hideManage && (
+        {modalView === CurrencyModalView.search && !hideManage && !onRampFlow && (
           <Footer>
             <Button
               scale="sm"

@@ -1,5 +1,5 @@
-import { Contract } from 'ethers'
 import { Currency, SwapParameters, TradeType } from '@pancakeswap/sdk'
+import { toHex } from '@pancakeswap/v3-sdk'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 import { useMemo } from 'react'
 import invariant from 'tiny-invariant'
@@ -9,7 +9,7 @@ import { RFQResponse, TradeWithMM } from '../types'
 import { useMMSwapContract } from '../utils/exchange'
 
 export interface SwapCall {
-  contract: Contract
+  contract: ReturnType<typeof useMMSwapContract>
   parameters: SwapParameters
 }
 
@@ -29,7 +29,7 @@ export function useSwapCallArguments(
   const recipient = recipientAddress ?? account
   const deadline = useTransactionDeadline()
   const contract = useMMSwapContract()
-  const mmSigner = MM_SIGNER[chainId]
+  const mmSigner = MM_SIGNER?.[chainId]?.[rfq?.mmId] ?? ''
 
   return useMemo(() => {
     if (!trade || !recipient || !account || !chainId || !deadline || !mmSigner || !rfq) return []
@@ -82,6 +82,6 @@ function swapCallParameters(
     methodName,
     // @ts-ignore
     args,
-    value,
+    value: value ? toHex(value) : undefined,
   }
 }

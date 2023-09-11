@@ -58,6 +58,7 @@ interface WalletModalV2Props<T = unknown> extends ModalV2Props {
   login: (connectorId: T) => Promise<any>
   docLink: string
   docText: string
+  onWalletConnectCallBack?: () => void
 }
 
 export class WalletConnectorNotFoundError extends Error {}
@@ -108,7 +109,7 @@ const TabContainer = ({ children, docLink, docText }: PropsWithChildren<{ docLin
   )
 }
 
-const MOBILE_DEFAULT_DISPLAY_COUNT = 6
+const MOBILE_DEFAULT_DISPLAY_COUNT = 8
 
 function MobileModal<T>({
   wallets,
@@ -173,7 +174,7 @@ function MobileModal<T>({
 function WalletSelect<T>({
   wallets,
   onClick,
-  displayCount = 6,
+  displayCount = 9,
 }: {
   wallets: WalletConfigV2<T>[]
   onClick: (wallet: WalletConfigV2<T>) => void
@@ -330,9 +331,14 @@ function DesktopModal<T>({
             connectToWallet(w)
             setQrCode(undefined)
             if (w.qrCode) {
-              w.qrCode().then((uri) => {
-                setQrCode(uri)
-              })
+              w.qrCode().then(
+                (uri) => {
+                  setQrCode(uri)
+                },
+                () => {
+                  // do nothing.
+                },
+              )
             }
           }}
         />
@@ -371,7 +377,7 @@ function DesktopModal<T>({
 }
 
 export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
-  const { wallets: _wallets, login, docLink, docText, ...rest } = props
+  const { wallets: _wallets, login, docLink, docText, onWalletConnectCallBack, ...rest } = props
 
   const [lastUsedWalletName] = useAtom(lastUsedWalletNameAtom)
 
@@ -399,6 +405,11 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
         .then((v) => {
           if (v) {
             localStorage.setItem(walletLocalStorageKey, wallet.title)
+          }
+          try {
+            onWalletConnectCallBack?.()
+          } catch (e) {
+            console.error(e)
           }
         })
         .catch((err) => {

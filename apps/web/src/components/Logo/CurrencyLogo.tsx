@@ -13,15 +13,24 @@ const StyledLogo = styled(TokenLogo)<{ size: string }>`
   border-radius: 50%;
 `
 
-export default function CurrencyLogo({
-  currency,
-  size = '24px',
-  style,
-}: {
+interface LogoProps {
   currency?: Currency
   size?: string
   style?: React.CSSProperties
-}) {
+}
+
+export function FiatLogo({ currency, size = '24px', style }: LogoProps) {
+  return (
+    <StyledLogo
+      size={size}
+      srcs={[`/images/currencies/${currency?.symbol?.toLowerCase()}.png`]}
+      width={size}
+      style={style}
+    />
+  )
+}
+
+export default function CurrencyLogo({ currency, size = '24px', style }: LogoProps) {
   const uriLocations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoURI : undefined)
 
   const srcs: string[] = useMemo(() => {

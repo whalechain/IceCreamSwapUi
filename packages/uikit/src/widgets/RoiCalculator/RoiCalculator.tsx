@@ -25,6 +25,7 @@ import { useMatchBreakpoints } from "../../contexts";
 import { TwoColumns } from "./TwoColumns";
 import { PriceChart } from "./PriceChart";
 import { PriceInvertSwitch } from "./PriceInvertSwitch";
+import { FarmingRewardsToggle } from "./FarmingRewardsToggle";
 
 export interface RoiCalculatorPositionInfo {
   priceLower?: Price<Currency, Currency>;
@@ -111,11 +112,10 @@ export function RoiCalculator({
   onApply,
   ...props
 }: RoiCalculatorProps) {
-  const cakeAprFactor = props.isFarm && props.cakeAprFactor;
-
   const { isMobile } = useMatchBreakpoints();
   const { t } = useTranslation();
-  const [usdValue, setUsdValue] = useState(String(depositAmountInUsd));
+  const stringDepositAmount = useMemo(() => String(depositAmountInUsd), [depositAmountInUsd]);
+  const [usdValue, setUsdValue] = useState(stringDepositAmount === "0" ? "100" : stringDepositAmount);
   const [spanIndex, setSpanIndex] = useState(3);
   const [compoundOn, setCompoundOn] = useState(true);
   const [compoundIndex, setCompoundIndex] = useState(3);
@@ -218,17 +218,21 @@ export function RoiCalculator({
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [editCakePrice, setEditCakePrice] = useState<number | null>(null);
+  const [includeFarmingRewards, setIncludeFarmingRewards] = useState(true);
+  const farmingRewardsEnabled = props.isFarm && includeFarmingRewards;
+  const cakeAprFactor = farmingRewardsEnabled && props.cakeAprFactor;
 
-  const cakePriceDiffPercent = props.isFarm && props.cakePrice && editCakePrice && editCakePrice / +props.cakePrice;
+  const cakePriceDiffPercent =
+    farmingRewardsEnabled && props.cakePrice && editCakePrice && editCakePrice / +props.cakePrice;
 
   const derivedCakeApr = useMemo(() => {
     if (
       !amountA ||
       !amountB ||
-      !priceRange?.tickUpper ||
-      !priceRange?.tickLower ||
+      typeof priceRange?.tickUpper !== "number" ||
+      typeof priceRange?.tickLower !== "number" ||
       !sqrtRatioX96 ||
-      !props.isFarm ||
+      !farmingRewardsEnabled ||
       !cakeAprFactor
     ) {
       return undefined;
@@ -247,6 +251,10 @@ export function RoiCalculator({
         sqrtRatioX96,
       });
 
+      if (!positionLiquidity) {
+        return BIG_ZERO;
+      }
+
       const cakeApr =
         positionLiquidity > ZERO
           ? new BigNumber(positionLiquidity.toString()).times(cakeAprFactor).div(usdValue)
@@ -257,12 +265,15 @@ export function RoiCalculator({
       console.error(error, amountA, priceRange, sqrtRatioX96);
       return undefined;
     }
-  }, [amountA, amountB, priceRange, sqrtRatioX96, props.isFarm, cakeAprFactor, tickCurrent, usdValue]);
+  }, [amountA, amountB, priceRange, sqrtRatioX96, farmingRewardsEnabled, cakeAprFactor, tickCurrent, usdValue]);
 
-  const editedCakeApr =
-    derivedCakeApr && typeof cakePriceDiffPercent === "number"
-      ? derivedCakeApr.times(cakePriceDiffPercent)
-      : derivedCakeApr;
+  const editedCakeApr = useMemo(
+    () =>
+      derivedCakeApr && typeof cakePriceDiffPercent === "number"
+        ? derivedCakeApr.times(cakePriceDiffPercent)
+        : derivedCakeApr,
+    [cakePriceDiffPercent, derivedCakeApr]
+  );
 
   const { fee, rate, apr, apy, cakeApr, cakeApy, editCakeApr, editCakeApy, cakeRate, cakeReward, originalCakeReward } =
     useRoi({
@@ -280,8 +291,8 @@ export function RoiCalculator({
       compoundEvery: compoundingIndexToFrequency[compoundIndex],
       stakeFor: spanIndexToSpan[spanIndex],
       compoundOn,
-      cakeApr: props.isFarm && derivedCakeApr ? derivedCakeApr.toNumber() : undefined,
-      editCakeApr: props.isFarm && editedCakeApr ? editedCakeApr.toNumber() : undefined,
+      cakeApr: farmingRewardsEnabled && derivedCakeApr ? derivedCakeApr.toNumber() : undefined,
+      editCakeApr: farmingRewardsEnabled && editedCakeApr ? editedCakeApr.toNumber() : undefined,
     });
 
   const handleApply = useCallback(
@@ -299,8 +310,11 @@ export function RoiCalculator({
     [onApply, priceRange, amountA, amountB, usdValue, currencyAUsdPrice, currencyBUsdPrice]
   );
 
-  const totalRate = parseFloat(formatPercent(rate?.add(cakeRate || ZERO_PERCENT), 12) ?? "0");
-  const lpReward = parseFloat(formatFraction(fee, 12) ?? "0");
+  const totalRate = useMemo(
+    () => parseFloat(formatPercent(rate?.add(cakeRate || ZERO_PERCENT), 12) ?? "0"),
+    [cakeRate, rate]
+  );
+  const lpReward = useMemo(() => parseFloat(formatFraction(fee, 12) ?? "0"), [fee]);
   const farmReward = cakeReward;
   const totalReward = lpReward + farmReward;
 
@@ -344,6 +358,12 @@ export function RoiCalculator({
       </Section>
     </>
   );
+
+  const farmingRewards = props.isFarm ? (
+    <Section title={t("Include farming rewards")}>
+      <FarmingRewardsToggle on={includeFarmingRewards} onToggle={setIncludeFarmingRewards} />
+    </Section>
+  ) : null;
 
   const priceRangeSettings = (
     <Section title={t("Set price range")}>
@@ -426,6 +446,7 @@ export function RoiCalculator({
     <>
       {depositSection}
       {priceChart}
+      {farmingRewards}
       {priceRangeSettings}
       {stakeAndCompound}
     </>
@@ -436,6 +457,7 @@ export function RoiCalculator({
         {priceChart}
       </Flex>
       <Flex flexDirection="column" alignItems="flex-start">
+        {farmingRewards}
         {stakeAndCompound}
         {priceRangeSettings}
       </Flex>
@@ -456,9 +478,9 @@ export function RoiCalculator({
           tickLower={priceRange?.tickLower}
           tickUpper={priceRange?.tickUpper}
           sqrtRatioX96={sqrtRatioX96}
-          isFarm={props.isFarm}
+          isFarm={farmingRewardsEnabled}
           cakeReward={originalCakeReward}
-          cakePrice={props.isFarm ? props.cakePrice : undefined}
+          cakePrice={farmingRewardsEnabled ? props.cakePrice : undefined}
           setEditCakePrice={setEditCakePrice}
         />
         <AnimatedArrow state={{}} />
@@ -476,10 +498,10 @@ export function RoiCalculator({
         lpApy={apy}
         compoundIndex={compoundIndex}
         compoundOn={compoundOn}
-        farmApr={props.isFarm ? editCakeApr || cakeApr : undefined}
-        farmApy={props.isFarm ? editCakeApy || cakeApy : undefined}
+        farmApr={farmingRewardsEnabled ? editCakeApr || cakeApr : undefined}
+        farmApy={farmingRewardsEnabled ? editCakeApy || cakeApy : undefined}
         farmReward={farmReward}
-        isFarm={props.isFarm}
+        isFarm={farmingRewardsEnabled}
       />
     </>
   );

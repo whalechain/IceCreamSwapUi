@@ -1,10 +1,16 @@
 import { useEffect, useState, useMemo } from 'react'
-import { AutoRenewIcon, Box, Button, Flex, InjectedModalProps, Modal, Text } from '@pancakeswap/uikit'
+import { AutoRenewIcon, Box, Button, Flex, InjectedModalProps, Modal, Text, useToast } from '@pancakeswap/uikit'
 import confetti from 'canvas-confetti'
 import { useTranslation } from '@pancakeswap/localization'
 import delay from 'lodash/delay'
 import styled from 'styled-components'
 import Dots from 'components/Loader/Dots'
+import useSWRImmutable from 'swr/immutable'
+import { useAccount } from 'wagmi'
+import useCatchTxError from 'hooks/useCatchTxError'
+import { useV3AirdropContract } from 'hooks/useContract'
+import { ToastDescriptionWithTx } from 'components/Toast'
+import { useSWRConfig } from 'swr'
 
 const Image = styled.img`
   display: block;
@@ -48,17 +54,47 @@ export interface WhitelistType {
 
 interface V3AirdropModalProps extends InjectedModalProps {
   data: WhitelistType
-  onClick: () => Promise<void>
 }
 
-const V3AirdropModal: React.FC<V3AirdropModalProps> = ({ data, onDismiss, onClick }) => {
+const GITHUB_ENDPOINT = 'https://raw.githubusercontent.com/pancakeswap/airdrop-v3-users/master'
+
+const V3AirdropModal: React.FC<V3AirdropModalProps> = ({ data, onDismiss }) => {
   const { t } = useTranslation()
+  const { address: account } = useAccount()
   const [isLoading, setIsLoading] = useState(false)
+  const { toastSuccess } = useToast()
+  const v3AirdropContract = useV3AirdropContract()
+  const { fetchWithCatchTxError } = useCatchTxError()
+  const { mutate } = useSWRConfig()
+
+  const { data: v3ForSC } = useSWRImmutable(data && '/airdrop-SC-json')
+  const { data: v3MerkleProofs } = useSWRImmutable(data && '/airdrop-Merkle-json')
 
   const handleClick = async () => {
     setIsLoading(true)
     try {
-      await onClick()
+      let v3ForSCResponse = v3ForSC
+      if (!v3ForSCResponse) {
+        v3ForSCResponse = await (await fetch(`${GITHUB_ENDPOINT}/forSC.json`)).json()
+        mutate('/airdrop-SC-json', v3ForSCResponse, { revalidate: false })
+      }
+      const { cakeAmountInWei, nft1, nft2 } = v3ForSCResponse?.[account?.toLowerCase()] || {}
+      let v3MerkleProofsResponse = v3MerkleProofs
+      if (!v3MerkleProofsResponse) {
+        v3MerkleProofsResponse = await (await fetch(`${GITHUB_ENDPOINT}/v3MerkleProofs.json`)).json()
+        mutate('/airdrop-Merkle-json', v3MerkleProofsResponse, { revalidate: false })
+        const proof = v3MerkleProofsResponse?.merkleProofs?.[account?.toLowerCase()] || {}
+        const receipt = await fetchWithCatchTxError(() =>
+          v3AirdropContract.write.claim([cakeAmountInWei, nft1, nft2, proof], {
+            account: v3AirdropContract.account,
+            chain: v3AirdropContract.chain,
+          }),
+        )
+        if (receipt?.status) {
+          mutate([account, '/airdrop-claimed'])
+          toastSuccess(t('Success!'), <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
+        }
+      }
     } finally {
       onDismiss()
     }
@@ -101,6 +137,14 @@ const V3AirdropModal: React.FC<V3AirdropModalProps> = ({ data, onDismiss, onClic
               <Box>
                 <Image src="/images/nfts/v3-part1.jpg" />
               </Box>
+              <Button
+                m="12px 0"
+                disabled={isLoading}
+                onClick={handleClick}
+                endIcon={isLoading ? <AutoRenewIcon spin color="currentColor" /> : undefined}
+              >
+                {isLoading ? <Dots>{t('Claiming')}</Dots> : t('Claim now')}
+              </Button>
               <Text textAlign="center" bold>
                 {t('Part 1')}
               </Text>
@@ -125,6 +169,14 @@ const V3AirdropModal: React.FC<V3AirdropModalProps> = ({ data, onDismiss, onClic
               <Box>
                 <Image src="/images/nfts/v3-part2.jpg" />
               </Box>
+              <Button
+                m="12px 0"
+                disabled={isLoading}
+                onClick={handleClick}
+                endIcon={isLoading ? <AutoRenewIcon spin color="currentColor" /> : undefined}
+              >
+                {isLoading ? <Dots>{t('Claiming')}</Dots> : t('Claim now')}
+              </Button>
               <Text textAlign="center" bold>
                 {t('Part 2')}
               </Text>
@@ -148,14 +200,6 @@ const V3AirdropModal: React.FC<V3AirdropModalProps> = ({ data, onDismiss, onClic
         <Text textAlign="center" bold color="secondary" mt="24px">
           {textDisplay()}
         </Text>
-        <Button
-          mt="24px"
-          disabled={isLoading}
-          onClick={handleClick}
-          endIcon={isLoading ? <AutoRenewIcon spin color="currentColor" /> : undefined}
-        >
-          {isLoading ? <Dots>{t('Claiming')}</Dots> : t('Claim now')}
-        </Button>
       </Flex>
     </Modal>
   )

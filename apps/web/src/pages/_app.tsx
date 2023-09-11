@@ -36,12 +36,6 @@ import { trpc } from '@icecreamswap/backend'
 
 const EasterEgg = dynamic(() => import('../components/EasterEgg'), { ssr: false })
 
-// @ts-ignore
-// eslint-disable-next-line func-names
-BigInt.prototype.toJSON = function () {
-  return this.toString()
-}
-
 // This config is required for number formatting
 BigNumber.config({
   EXPONENTIAL_AT: 1000,

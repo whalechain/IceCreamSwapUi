@@ -1,5 +1,3 @@
-import { BigNumber } from 'ethers'
-import { TransactionResponse } from '@ethersproject/providers'
 import { useDebouncedChangeHandler } from '@pancakeswap/hooks'
 import { useTranslation } from '@pancakeswap/localization'
 import { Currency, Percent, WNATIVE } from '@pancakeswap/sdk'
@@ -29,31 +27,33 @@ import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToU
 import { StableConfigContext } from 'views/Swap/hooks/useStableConfig'
 import { useStableSwapNativeHelperContract } from 'hooks/useContract'
 import { useUserSlippage } from '@pancakeswap/utils/user'
+import { Hash } from 'viem'
 
-import { LightGreyCard } from '../../../components/Card'
-import ConnectWalletButton from '../../../components/ConnectWalletButton'
-import CurrencyInputPanel from '../../../components/CurrencyInputPanel'
-import { RowBetween } from '../../../components/Layout/Row'
-import { CurrencyLogo } from '../../../components/Logo'
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
+import { LightGreyCard } from 'components/Card'
+import { RowBetween } from 'components/Layout/Row'
 
-import StyledInternalLink from '../../../components/Links'
-import Dots from '../../../components/Loader/Dots'
-import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback'
-import { useBurnActionHandlers, useBurnState } from '../../../state/burn/hooks'
-import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { calculateGasMargin } from '../../../utils'
-import { currencyId } from '../../../utils/currencyId'
-import { calculateSlippageAmount } from '../../../utils/exchange'
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import { useBurnActionHandlers } from 'state/burn/hooks'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { calculateGasMargin } from 'utils'
+import { currencyId } from 'utils/currencyId'
+import { calculateSlippageAmount } from 'utils/exchange'
 
-import { Field } from '../../../state/burn/actions'
-import { useGasPrice } from '../../../state/user/hooks'
+import { Field } from 'state/burn/actions'
+import { useGasPrice } from 'state/user/hooks'
+import { isUserRejected, logError } from 'utils/sentry'
+import { CommonBasesType } from 'components/SearchModal/types'
+import { SettingsMode } from 'components/Menu/GlobalSettings/types'
+import { useRemoveLiquidityV2FormState } from 'state/burn/reducer'
 import ConfirmLiquidityModal from '../../Swap/components/ConfirmRemoveLiquidityModal'
-import { isUserRejected, logError } from '../../../utils/sentry'
-import { CommonBasesType } from '../../../components/SearchModal/types'
 import { useStableDerivedBurnInfo } from './hooks/useStableDerivedBurnInfo'
 import SettingsModal from '../../../components/Menu/GlobalSettings/SettingsModal'
-import { SettingsMode } from '../../../components/Menu/GlobalSettings/types'
+import Dots from '../../../components/Loader/Dots'
+import StyledInternalLink from '../../../components/Links'
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
+import { CurrencyLogo } from '../../../components/Logo'
+import CurrencyInputPanel from '../../../components/CurrencyInputPanel'
+import ConnectWalletButton from '../../../components/ConnectWalletButton'
 import { RemoveLiquidityLayout } from '..'
 
 const BorderCard = styled.div`
@@ -75,7 +75,7 @@ export default function RemoveStableLiquidity({ currencyA, currencyB, currencyId
   const gasPrice = useGasPrice()
 
   // burn state
-  const { independentField, typedValue } = useBurnState()
+  const { independentField, typedValue } = useRemoveLiquidityV2FormState()
 
   const nativeHelperContract = useStableSwapNativeHelperContract()
 
@@ -192,17 +192,17 @@ export default function RemoveStableLiquidity({ currencyA, currencyB, currencyId
       throw new Error('Attempting to confirm without approval or a signature')
     }
 
-    let methodSafeGasEstimate: { methodName: string; safeGasEstimate: BigNumber }
+    let methodSafeGasEstimate: { methodName: string; safeGasEstimate: bigint }
     for (let i = 0; i < methodNames.length; i++) {
       let safeGasEstimate
       try {
         // eslint-disable-next-line no-await-in-loop
-        safeGasEstimate = calculateGasMargin(await contract.estimateGas[methodNames[i]](...args))
+        safeGasEstimate = calculateGasMargin(await contract.estimateGas[methodNames[i]](args, { account }))
       } catch (e) {
         console.error(`estimateGas failed`, methodNames[i], args, e)
       }
 
-      if (BigNumber.isBigNumber(safeGasEstimate)) {
+      if (typeof safeGasEstimate === 'bigint') {
         methodSafeGasEstimate = { methodName: methodNames[i], safeGasEstimate }
         break
       }
@@ -215,22 +215,25 @@ export default function RemoveStableLiquidity({ currencyA, currencyB, currencyId
       const { methodName, safeGasEstimate } = methodSafeGasEstimate
 
       setLiquidityState({ attemptingTxn: true, liquidityErrorMessage: undefined, txHash: undefined })
-      await contract[methodName](...args, {
-        gasLimit: safeGasEstimate,
+      await contract.write[methodName](args, {
+        gas: safeGasEstimate,
         gasPrice,
       })
-        .then((response: TransactionResponse) => {
-          setLiquidityState({ attemptingTxn: false, liquidityErrorMessage: undefined, txHash: response.hash })
+        .then((response: Hash) => {
+          setLiquidityState({ attemptingTxn: false, liquidityErrorMessage: undefined, txHash: response })
           const amountA = parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)
           const amountB = parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)
-          addTransaction(response, {
-            summary: `Remove ${amountA} ${currencyA?.symbol} and ${amountB} ${currencyB?.symbol}`,
-            translatableSummary: {
-              text: 'Remove %amountA% %symbolA% and %amountB% %symbolB%',
-              data: { amountA, symbolA: currencyA?.symbol, amountB, symbolB: currencyB?.symbol },
+          addTransaction(
+            { hash: response },
+            {
+              summary: `Remove ${amountA} ${currencyA?.symbol} and ${amountB} ${currencyB?.symbol}`,
+              translatableSummary: {
+                text: 'Remove %amountA% %symbolA% and %amountB% %symbolB%',
+                data: { amountA, symbolA: currencyA?.symbol, amountB, symbolB: currencyB?.symbol },
+              },
+              type: 'remove-liquidity',
             },
-            type: 'remove-liquidity',
-          })
+          )
         })
         .catch((err) => {
           if (err && !isUserRejected(err)) {

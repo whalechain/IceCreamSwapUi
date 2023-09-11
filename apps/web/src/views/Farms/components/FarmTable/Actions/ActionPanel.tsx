@@ -1,14 +1,15 @@
 import { useTranslation } from '@pancakeswap/localization'
 import {
-  Farm as FarmUI,
   FarmTableLiquidityProps,
   FarmTableMultiplierProps,
+  Farm as FarmUI,
   Flex,
-  LinkExternal,
   Skeleton,
   Text,
   useMatchBreakpoints,
   useModalV2,
+  ScanLink,
+  LinkExternal,
 } from '@pancakeswap/uikit'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { CHAIN_QUERY_NAME } from 'config/chains'
@@ -20,17 +21,15 @@ import { getBlockExploreLink } from 'utils'
 import { unwrappedToken } from 'utils/wrappedCurrency'
 import { AddLiquidityV3Modal } from 'views/AddLiquidityV3/Modal'
 
-import { V2Farm, V3Farm } from 'views/Farms/FarmsV3'
 import { SELECTOR_TYPE } from 'views/AddLiquidityV3/types'
+import { V2Farm, V3Farm } from 'views/Farms/FarmsV3'
 import { useAccount } from 'wagmi'
 import { FarmV3ApyButton } from '../../FarmCard/V3/FarmV3ApyButton'
 import FarmV3CardList from '../../FarmCard/V3/FarmV3CardList'
-import BoostedAction from '../../YieldBooster/components/BoostedAction'
 import { YieldBoosterStateContext } from '../../YieldBooster/components/ProxyFarmContainer'
 import Apy, { ApyProps } from '../Apy'
 import { HarvestAction, HarvestActionContainer, ProxyHarvestActionContainer } from './HarvestAction'
 import StakedAction, { ProxyStakedContainer, StakedContainer } from './StakedAction'
-import { ActionContainer as ActionContainerSection, ActionContent, ActionTitles } from './styles'
 
 const { Multiplier, Liquidity, StakedLiquidity } = FarmUI.FarmTable
 const { NoPosition } = FarmUI.FarmV3Table
@@ -104,6 +103,10 @@ const StyledLinkExternal = styled(LinkExternal)`
   font-weight: 400;
 `
 
+const StyledScanLink = styled(ScanLink)`
+  font-weight: 400;
+`
+
 const ActionContainer = styled.div`
   display: flex;
   overflow: auto;
@@ -163,6 +166,7 @@ export const ActionPanelV3: FC<ActionPanelV3Props> = ({
 }) => {
   const { isDesktop } = useMatchBreakpoints()
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
   const { address: account } = useAccount()
   const farm = details
   const isActive = farm.multiplier !== '0X'
@@ -228,9 +232,9 @@ export const ActionPanelV3: FC<ActionPanelV3Props> = ({
               <StyledLinkExternal href={infoUrl}>{t('See Pair Info')}</StyledLinkExternal>
             </Flex>
             <Flex mb="2px" justifyContent={alignLinksToRight ? 'flex-end' : 'flex-start'}>
-              <StyledLinkExternal isBscScan href={bsc}>
+              <StyledScanLink chainId={chainId} href={bsc}>
                 {t('View Contract')}
-              </StyledLinkExternal>
+              </StyledScanLink>
             </Flex>
           </>
         }
@@ -268,7 +272,7 @@ export const ActionPanelV2: React.FunctionComponent<React.PropsWithChildren<Acti
 
   const farm = details
 
-  const { isDesktop, isMobile } = useMatchBreakpoints()
+  const { isDesktop } = useMatchBreakpoints()
 
   const {
     t,
@@ -280,7 +284,6 @@ export const ActionPanelV2: React.FunctionComponent<React.PropsWithChildren<Acti
     () => getBlockExploreLink(farm.lpAddress, 'address', farm.token.chainId),
     [farm.lpAddress, farm.token.chainId],
   )
-  const { stakedBalance, tokenBalance, proxy } = farm.userData
 
   const infoUrl = useMemo(() => {
     if (farm.isStable) {
@@ -352,9 +355,9 @@ export const ActionPanelV2: React.FunctionComponent<React.PropsWithChildren<Acti
               <StyledLinkExternal href={infoUrl}>{t('See Pair Info')}</StyledLinkExternal>
             </Flex>
             <Flex mb="2px" justifyContent={alignLinksToRight ? 'flex-end' : 'flex-start'}>
-              <StyledLinkExternal isBscScan href={bsc}>
+              <StyledScanLink chainId={chainId} href={bsc}>
                 {t('View Contract')}
-              </StyledLinkExternal>
+              </StyledScanLink>
             </Flex>
           </>
         }
@@ -368,7 +371,7 @@ export const ActionPanelV2: React.FunctionComponent<React.PropsWithChildren<Acti
             {(props) => <HarvestAction {...props} />}
           </HarvestActionContainer>
         )}
-        {farm?.boosted && (
+        {/* {farm?.boosted && (
           <ActionContainerSection style={{ minHeight: isMobile ? 'auto' : isMobile ? 'auto' : 124.5 }}>
             <BoostedAction
               title={(status) => (
@@ -391,7 +394,7 @@ export const ActionPanelV2: React.FunctionComponent<React.PropsWithChildren<Acti
               }
             />
           </ActionContainerSection>
-        )}
+        )} */}
         {shouldUseProxyFarm ? (
           <ProxyStakedContainer {...proxyFarm} userDataReady={userDataReady} lpLabel={lpLabel} displayApr={apr.value}>
             {(props) => <StakedAction {...props} />}

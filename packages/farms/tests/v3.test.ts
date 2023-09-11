@@ -5,7 +5,13 @@ import { farmsV3ConfigChainMap } from '../constants/v3'
 import { priceHelperTokens } from '../constants/common'
 import { CommonPrice, getFarmsPrices } from '../src/fetchFarmsV3'
 
-const mainnetFarms = [farmsV3ConfigChainMap[ChainId.BSC], farmsV3ConfigChainMap[ChainId.ETHEREUM]]
+const mainnetFarms = [
+  farmsV3ConfigChainMap[ChainId.BSC],
+  farmsV3ConfigChainMap[ChainId.ETHEREUM],
+  farmsV3ConfigChainMap[ChainId.POLYGON_ZKEVM],
+  farmsV3ConfigChainMap[ChainId.ZKSYNC],
+  farmsV3ConfigChainMap[ChainId.ARBITRUM_ONE],
+]
 
 function hasDuplicates(array: any[]) {
   return new Set(array).size !== array.length
@@ -23,6 +29,10 @@ describe('Config farms V3', () => {
 
   it.each(mainnetFarms.flat())('should has correct lpAddress', (farm) => {
     expect(Pool.getAddress(farm.token, farm.quoteToken, farm.feeAmount)).toEqual(farm.lpAddress)
+  })
+
+  it.each(mainnetFarms.flat())('should be sorted', (farm) => {
+    expect(farm.token0.sortsBefore(farm.token1)).toBeTruthy()
   })
 
   it.each(mainnetFarms)('should has related common price', (...farms) => {

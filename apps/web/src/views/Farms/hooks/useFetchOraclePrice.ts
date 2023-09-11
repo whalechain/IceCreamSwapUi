@@ -1,24 +1,24 @@
 import { ChainId } from '@pancakeswap/sdk'
 import { getChainlinkOracleContract } from 'utils/contractHelpers'
-import { useSWRContract } from 'hooks/useSWRContract'
-import { Zero } from '@ethersproject/constants'
+import { Address, useContractRead } from 'wagmi'
 
-const getOracleAddress = (chainId: number) => {
+const getOracleAddress = (chainId: number): Address | null => {
   switch (chainId) {
     default:
-      return ''
+      return null
   }
 }
 
 export const useOraclePrice = (chainId: number) => {
   const tokenAddress = getOracleAddress(chainId)
   const chainlinkOracleContract = getChainlinkOracleContract(tokenAddress, null, chainId)
-  // Can refactor to subscription later
-  const { data: price } = useSWRContract([chainlinkOracleContract, 'latestAnswer'], {
-    refreshWhenHidden: true,
-    refreshWhenOffline: true,
-    fallbackData: Zero,
+  const { data: price } = useContractRead({
+    abi: chainlinkOracleContract.abi,
+    chainId: chainId,
+    address: tokenAddress,
+    functionName: 'latestAnswer',
+    watch: true,
   })
 
-  return price.toString()
+  return price?.toString() ?? '0'
 }

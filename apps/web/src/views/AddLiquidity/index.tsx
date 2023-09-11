@@ -1,35 +1,36 @@
 import { ReactElement, useCallback, useMemo, useState } from 'react'
-import { BigNumber } from 'ethers'
-import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, CurrencyAmount, Pair, Percent, Price, Token } from '@pancakeswap/sdk'
 import { useModal } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { useUserSlippage } from '@pancakeswap/utils/user'
 
-import { ROUTER_ADDRESS } from 'config/constants/exchange'
+import { V2_ROUTER_ADDRESS } from 'config/constants/exchange'
 import { useIsTransactionUnsupported, useIsTransactionWarning } from 'hooks/Trades'
 import { useLPApr } from 'state/swap/useLPApr'
 import { isUserRejected, logError } from 'utils/sentry'
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
 import { Handler } from '@pancakeswap/uikit/src/widgets/Modal/types'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
+import { Hash } from 'viem'
+import { SendTransactionResult } from 'wagmi/actions'
 
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
-import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
-import { PairState } from '../../hooks/usePairs'
-import useTransactionDeadline from '../../hooks/useTransactionDeadline'
-import { Field } from '../../state/mint/actions'
-import { useDerivedMintInfo, useMintActionHandlers, useMintState } from '../../state/mint/hooks'
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
+import { PairState } from 'hooks/usePairs'
+import { Field } from 'state/mint/actions'
+import { useDerivedMintInfo, useMintActionHandlers } from 'state/mint/hooks'
 
-import { useTransactionAdder } from '../../state/transactions/hooks'
-import { useGasPrice, usePairAdder } from '../../state/user/hooks'
-import { calculateGasMargin } from '../../utils'
-import { calculateSlippageAmount, useRouterContract } from '../../utils/exchange'
-import { maxAmountSpend } from '../../utils/maxAmountSpend'
+import { useTransactionAdder } from 'state/transactions/hooks'
+import { useGasPrice, usePairAdder } from 'state/user/hooks'
+import { calculateGasMargin } from 'utils'
+import { calculateSlippageAmount, useRouterContract } from 'utils/exchange'
+import { maxAmountSpend } from 'utils/maxAmountSpend'
+import { SettingsMode } from 'components/Menu/GlobalSettings/types'
+import { useAddLiquidityV2FormState } from 'state/mint/reducer'
 import ConfirmAddLiquidityModal from './components/ConfirmAddLiquidityModal'
 import { useCurrencySelectRoute } from './useCurrencySelectRoute'
 import SettingsModal from '../../components/Menu/GlobalSettings/SettingsModal'
-import { SettingsMode } from '../../components/Menu/GlobalSettings/types'
+import useTransactionDeadline from '../../hooks/useTransactionDeadline'
 
 export interface LP2ChildrenProps {
   error: string
@@ -58,10 +59,10 @@ export interface LP2ChildrenProps {
   }
   shouldShowApprovalGroup: boolean
   showFieldAApproval: boolean
-  approveACallback: () => Promise<void>
+  approveACallback: () => Promise<SendTransactionResult>
   approvalA: ApprovalState
   showFieldBApproval: boolean
-  approveBCallback: () => Promise<void>
+  approveBCallback: () => Promise<SendTransactionResult>
   approvalB: ApprovalState
   onAdd: () => Promise<void>
   onPresentAddLiquidityModal: Handler
@@ -92,7 +93,7 @@ export default function AddLiquidity({
   const gasPrice = useGasPrice()
 
   // mint state
-  const { independentField, typedValue, otherTypedValue } = useMintState()
+  const { independentField, typedValue, otherTypedValue } = useAddLiquidityV2FormState()
   const {
     dependentField,
     currencies,
@@ -152,8 +153,8 @@ export default function AddLiquidity({
   )
 
   // check whether the user has approved the router on the tokens
-  const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], ROUTER_ADDRESS[chainId])
-  const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], ROUTER_ADDRESS[chainId])
+  const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], V2_ROUTER_ADDRESS[chainId])
+  const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], V2_ROUTER_ADDRESS[chainId])
 
   const addTransaction = useTransactionAdder()
 
@@ -172,26 +173,26 @@ export default function AddLiquidity({
       [Field.CURRENCY_B]: calculateSlippageAmount(parsedAmountB, noLiquidity ? 0 : allowedSlippage)[0],
     }
 
-    let estimate = null
-    let method: ((...args: any) => Promise<TransactionResponse>) | undefined
-    let args: Array<string | string[] | number> | undefined
-    let value: BigNumber | null
+    let estimate
+    let method
+    let args: Array<string | string[] | number | bigint>
+    let value: bigint | null
     if (currencyA?.isNative || currencyB?.isNative) {
       const tokenBIsNative = currencyB?.isNative
       estimate = routerContract.estimateGas.addLiquidityETH
-      method = routerContract.addLiquidityETH
+      method = routerContract.write.addLiquidityETH
       args = [
         (tokenBIsNative ? currencyA : currencyB)?.wrapped?.address ?? '', // token
         (tokenBIsNative ? parsedAmountA : parsedAmountB).quotient.toString(), // token desired
         amountsMin[tokenBIsNative ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsNative ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
         account,
-        deadline.toHexString(),
+        deadline,
       ]
-      value = BigNumber.from((tokenBIsNative ? parsedAmountB : parsedAmountA).quotient.toString())
+      value = (tokenBIsNative ? parsedAmountB : parsedAmountA).quotient
     } else {
       estimate = routerContract.estimateGas.addLiquidity
-      method = routerContract.addLiquidity
+      method = routerContract.write.addLiquidity
       args = [
         currencyA?.wrapped?.address ?? '',
         currencyB?.wrapped?.address ?? '',
@@ -200,33 +201,41 @@ export default function AddLiquidity({
         amountsMin[Field.CURRENCY_A].toString(),
         amountsMin[Field.CURRENCY_B].toString(),
         account,
-        deadline.toHexString(),
+        deadline,
       ]
       value = null
     }
 
     setLiquidityState({ attemptingTxn: true, liquidityErrorMessage: undefined, txHash: undefined })
-    await estimate?.(...args, value ? { value } : {})
-      ?.then((estimatedGasLimit) =>
-        method(...args, {
+    await estimate(
+      args,
+      value
+        ? { value, account: routerContract.account, chain: routerContract.chain }
+        : { account: routerContract.account, chain: routerContract.chain },
+    )
+      .then((estimatedGasLimit) =>
+        method(args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),
           gasPrice,
-        }).then((response) => {
-          setLiquidityState({ attemptingTxn: false, liquidityErrorMessage: undefined, txHash: response.hash })
+        }).then((response: Hash) => {
+          setLiquidityState({ attemptingTxn: false, liquidityErrorMessage: undefined, txHash: response })
 
           const symbolA = currencies[Field.CURRENCY_A]?.symbol
           const amountA = parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)
           const symbolB = currencies[Field.CURRENCY_B]?.symbol
           const amountB = parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)
-          addTransaction(response, {
-            summary: `Add ${amountA} ${symbolA} and ${amountB} ${symbolB}`,
-            translatableSummary: {
-              text: 'Add %amountA% %symbolA% and %amountB% %symbolB%',
-              data: { amountA, symbolA, amountB, symbolB },
+          addTransaction(
+            { hash: response },
+            {
+              summary: `Add ${amountA} ${symbolA} and ${amountB} ${symbolB}`,
+              translatableSummary: {
+                text: 'Add %amountA% %symbolA% and %amountB% %symbolB%',
+                data: { amountA, symbolA, amountB, symbolB },
+              },
+              type: 'add-liquidity',
             },
-            type: 'add-liquidity',
-          })
+          )
 
           if (pair) {
             addPair(pair)

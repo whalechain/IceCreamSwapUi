@@ -1,5 +1,4 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { ChainId } from '@pancakeswap/sdk'
 import {
   AutoColumn,
   Box,
@@ -9,18 +8,17 @@ import {
   Flex,
   Heading,
   Image,
-  LinkExternal,
   NextLinkFromReactRouter,
   Spinner,
   Text,
   useMatchBreakpoints,
   Message,
   MessageText,
+  ScanLink,
 } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import { TabToggle, TabToggleGroup } from 'components/TabToggle'
 import dayjs from 'dayjs'
-// import { useActiveChainId } from 'hooks/useActiveChainId'
 import { CHAIN_QUERY_NAME } from 'config/chains'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useTheme from 'hooks/useTheme'
@@ -29,9 +27,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { getBlockExploreLink } from 'utils'
 import { formatAmount } from 'utils/formatInfoNumbers'
 
-// import { useSavedTokens } from 'state/user/hooks'
 import truncateHash from '@pancakeswap/utils/truncateHash'
-import { multiChainId, multiChainScan } from 'state/info/constant'
+import { multiChainId, multiChainScan, subgraphTokenName, subgraphTokenSymbol } from 'state/info/constant'
 import { useChainNameByQuery, useMultiChainPath, useStableSwapPath } from 'state/info/hooks'
 import styled from 'styled-components'
 import { CurrencyLogo } from 'views/Info/components/CurrencyLogo'
@@ -155,9 +152,6 @@ const TokenPage: React.FC<{ address: string }> = ({ address }) => {
   const chainName = useChainNameByQuery()
   const { chainId } = useActiveChainId()
 
-  // watchlist
-  // const [savedTokens, addSavedToken] = useSavedTokens()
-
   return (
     <Page>
       {tokenData ? (
@@ -184,19 +178,19 @@ const TokenPage: React.FC<{ address: string }> = ({ address }) => {
                     <Text color="primary">{t('Tokens')}</Text>
                   </NextLinkFromReactRouter>
                   <Flex>
-                    <Text mr="8px">{tokenData.symbol}</Text>
+                    <Text mr="8px">{subgraphTokenSymbol[address.toLowerCase()] ?? tokenData.symbol}</Text>
                     <Text>{`(${truncateHash(address)})`}</Text>
                   </Flex>
                 </Breadcrumbs>
                 <Flex justifyContent={[null, null, 'flex-end']} mt={['8px', '8px', 0]}>
-                  <LinkExternal
-                    isBscScan={multiChainId[chainName] === ChainId.BSC}
+                  <ScanLink
                     mr="8px"
                     color="primary"
+                    chainId={multiChainId[chainName]}
                     href={getBlockExploreLink(address, 'address', multiChainId[chainName])}
                   >
                     {t('View on %site%', { site: multiChainScan[chainName] })}
-                  </LinkExternal>
+                  </ScanLink>
                   {cmcLink && (
                     <StyledCMCLink href={cmcLink} rel="noopener noreferrer nofollow" target="_blank">
                       <Image src="/images/CMC-logo.svg" height={22} width={22} alt={t('View token on CoinMarketCap')} />
@@ -216,10 +210,10 @@ const TokenPage: React.FC<{ address: string }> = ({ address }) => {
                       fontSize={isXs || isSm ? '24px' : '40px'}
                       id="info-token-name-title"
                     >
-                      {tokenData.name}
+                      {subgraphTokenName[address.toLowerCase()] ?? tokenData.name}
                     </Text>
                     <Text ml="12px" lineHeight="1" color="textSubtle" fontSize={isXs || isSm ? '14px' : '20px'}>
-                      ({tokenData.symbol})
+                      ({subgraphTokenSymbol[address.toLowerCase()] ?? tokenData.symbol})
                     </Text>
                   </Flex>
                   <Flex mt="8px" ml="46px" alignItems="center">

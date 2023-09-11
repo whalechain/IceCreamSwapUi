@@ -3,13 +3,12 @@ import { Provider } from 'react-redux'
 import { SWRConfig } from 'swr'
 import { LanguageProvider } from '@pancakeswap/localization'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fetchStatusMiddleware } from './hooks/useSWRContract'
+import { fetchStatusMiddleware } from 'hooks/useSWRContract'
 import { Store } from '@reduxjs/toolkit'
 import { ThemeProvider as NextThemeProvider, useTheme as useNextTheme } from 'next-themes'
 import { WagmiConfig } from 'wagmi'
-import { client } from './utils/wagmi'
-import { HistoryManagerProvider } from './contexts/HistoryContext'
-import { GasPriceProvider } from './state/user/hooks'
+import { wagmiConfig } from 'utils/wagmi'
+import { HistoryManagerProvider } from 'contexts/HistoryContext'
 
 // Create a client
 const queryClient = new QueryClient()
@@ -29,25 +28,23 @@ const Providers: React.FC<React.PropsWithChildren<{ store: Store; children: Reac
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <WagmiConfig client={client}>
+      <WagmiConfig config={wagmiConfig}>
         <Provider store={store}>
-        <GasPriceProvider>
-            <NextThemeProvider>
-              <StyledUIKitProvider>
-                <LanguageProvider>
-                  <SWRConfig
-                    value={{
-                      use: [fetchStatusMiddleware],
-                    }}
-                  >
-                    <HistoryManagerProvider>
-                      <ModalProvider>{children}</ModalProvider>
-                    </HistoryManagerProvider>
-                  </SWRConfig>
-                </LanguageProvider>
-              </StyledUIKitProvider>
-            </NextThemeProvider>
-        </GasPriceProvider>
+          <NextThemeProvider>
+            <StyledUIKitProvider>
+              <LanguageProvider>
+                <SWRConfig
+                  value={{
+                    use: [fetchStatusMiddleware],
+                  }}
+                >
+                  <HistoryManagerProvider>
+                    <ModalProvider>{children}</ModalProvider>
+                  </HistoryManagerProvider>
+                </SWRConfig>
+              </LanguageProvider>
+            </StyledUIKitProvider>
+          </NextThemeProvider>
         </Provider>
       </WagmiConfig>
     </QueryClientProvider>

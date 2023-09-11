@@ -1,4 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
+import { ChainId } from '@pancakeswap/sdk'
 import {
   Box,
   Flex,
@@ -25,14 +26,12 @@ import LoginButton from '../../../strict/components/LoginButton'
 
 const UserMenuItems = () => {
   const { t } = useTranslation()
-  const { address: account } = useAccount()
+  const { chainId, isWrongNetwork } = useActiveChainId()
   const { logout } = useAuth()
   const { hasPendingTransactions, pendingNumber } = usePendingTransactions()
   const [onPresentWalletModal] = useModal(<WalletModal initialView={WalletView.WALLET_INFO} />)
   const [onPresentTransactionModal] = useModal(<WalletModal initialView={WalletView.TRANSACTIONS} />)
   const [onPresentWrongNetworkModal] = useModal(<WalletModal initialView={WalletView.WRONG_NETWORK} />)
-  const avatarSrc = undefined
-  const { chainId, isWrongNetwork } = useActiveChainId()
   const hasProfile = false
 
   const onClickWalletMenu = useCallback((): void => {
