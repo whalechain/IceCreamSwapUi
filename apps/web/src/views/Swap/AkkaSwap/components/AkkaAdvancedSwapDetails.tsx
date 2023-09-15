@@ -16,7 +16,6 @@ function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar, output
   const { t } = useTranslation()
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
   const priceImpactWithTax = (1 - (outputAmountInDollarWithTax / inputAmountInDollar)) * 100
-  console.log("priceImpactWithTax:", priceImpactWithTax);
 
   return (
     <AutoColumn style={{ padding: '0 16px' }}>
