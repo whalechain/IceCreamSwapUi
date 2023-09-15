@@ -16,6 +16,7 @@ function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar, output
   const { t } = useTranslation()
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
   const priceImpactWithTax = (1 - (outputAmountInDollarWithTax / inputAmountInDollar)) * 100
+  console.log("priceImpactWithTax:", priceImpactWithTax);
 
   return (
     <AutoColumn style={{ padding: '0 16px' }}>
@@ -29,21 +30,25 @@ function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar, output
           {Number.isNaN(priceImpact) ? route?.priceImpact.toFixed(3) : priceImpact.toFixed(3)}%
         </Text>
       </RowBetween>
-      <RowBetween mt={3}>
-        <RowFixed>
+      {
+        !Number.isNaN(priceImpactWithTax) &&
+        <RowBetween mt={3}>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              {t('Token fees')}
+            </Text>
+            <QuestionHelper
+              text={t('These are the estimated additional taxes introduced by the token project, not by IceCreamSwap.')}
+              ml="4px"
+              placement="top-start"
+            />
+          </RowFixed>
           <Text fontSize="14px" color="textSubtle">
-            {t('Token fees')}
+            {Number.isNaN(priceImpactWithTax) ? "" : (priceImpactWithTax - priceImpact).toFixed(3)}%
           </Text>
-          <QuestionHelper
-            text={t('These are the estimated additional taxes introduced by the token project, not by IceCreamSwap.')}
-            ml="4px"
-            placement="top-start"
-          />
-        </RowFixed>
-        <Text fontSize="14px" color="textSubtle">
-          {Number.isNaN(priceImpactWithTax) ? "" : (priceImpactWithTax - priceImpact).toFixed(3)}%
-        </Text>
-      </RowBetween>
+        </RowBetween>
+      }
+
       {route?.returnAmountInUsd - route?.bestAlt > 0 &&
         <RowBetween>
           <RowFixed>
