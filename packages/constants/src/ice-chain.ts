@@ -1,28 +1,29 @@
-import { Chain } from 'wagmi'
+import { Chain } from "wagmi";
+import { Address, Hash } from 'viem'
 
 type ChainFeature = 'swap' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks'
 
 interface SwapConfig {
-  factoryAddress: string
-  initCodeHash: string
+  factoryAddress: Address
+  initCodeHash: Hash
 }
 
 interface LocksConfig {
-  factoryAddress: string
-  factoryAddress2?: string
+  factoryAddress: Address
+  factoryAddress2?: Address
 }
 
 interface TokenDeployerConfig {
-  address: string
+  address: Address
 }
 
 interface KycConfig {
-  stableCoin: string
+  stableCoin: Address
   fee: number
-  feeWallet: string
-  tokenAddress: string
-  contractKycMinter: string
-  contractKycAddress: string
+  feeWallet: Address
+  tokenAddress: Address
+  contractKycMinter: Address
+  contractKycAddress: Address
 }
 
 interface ChainBase {
@@ -34,10 +35,10 @@ interface ChainBase {
   wrappedNative: {
     name: string
     symbol: string
-    address: string
+    address: Address
     decimals: number
   }
-  campaignFactory?: string
+  campaignFactory?: Address
   kyc?: KycConfig
 }
 

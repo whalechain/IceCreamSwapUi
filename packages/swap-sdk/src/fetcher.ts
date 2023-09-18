@@ -1,9 +1,8 @@
 import { createPublicClient, PublicClient, http, getContract, Address } from 'viem'
-import { bsc, bscTestnet, mainnet, goerli } from 'viem/chains'
 import { CurrencyAmount, Token } from '@pancakeswap/swap-sdk-core'
 import invariant from 'tiny-invariant'
 import { Pair } from './entities/pair'
-import { ChainId } from './constants'
+import { ChainId, getChain } from '@icecreamswap/constants'
 import { erc20ABI } from './abis/ERC20'
 import { pancakePairV2ABI } from './abis/IPancakePair'
 
@@ -11,24 +10,8 @@ let TOKEN_DECIMALS_CACHE: { [chainId: number]: { [address: string]: number } } =
   [ChainId.BSC]: {},
 }
 
-const ethClient = createPublicClient({ chain: mainnet, transport: http() })
-const bscClient = createPublicClient({ chain: bsc, transport: http() })
-const bscTestnetClient = createPublicClient({ chain: bscTestnet, transport: http() })
-const goerliClient = createPublicClient({ chain: goerli, transport: http() })
-
 const getDefaultClient = (chainId: ChainId): PublicClient => {
-  switch (chainId) {
-    case ChainId.ETHEREUM:
-      return ethClient
-    case ChainId.BSC:
-      return bscClient
-    case ChainId.BSC_TESTNET:
-      return bscTestnetClient
-    case ChainId.GOERLI:
-      return goerliClient
-    default:
-      return bscClient
-  }
+  return createPublicClient({ chain: getChain(chainId), transport: http() })
 }
 
 /**

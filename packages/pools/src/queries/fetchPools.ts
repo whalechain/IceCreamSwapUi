@@ -5,7 +5,7 @@ import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { ChainId } from '@pancakeswap/sdk'
 import { erc20ABI } from 'wagmi'
 
-import { BSC_BLOCK_TIME, getPoolsConfig } from '../constants'
+import { blockTime, getPoolsConfig } from '../constants'
 import { sousChefABI } from '../abis/ISousChef'
 import { sousChefV2ABI } from '../abis/ISousChefV2'
 import { smartChefABI } from '../abis/ISmartChef'
@@ -121,7 +121,7 @@ const fetchLegacyPoolsBlockLimits = async (
   }, [])
 
   const getTimestampFromBlock = (targetBlock: number) => {
-    return Number(block.timestamp) + (targetBlock - Number(block.number)) * BSC_BLOCK_TIME
+    return Number(block.timestamp) + (targetBlock - Number(block.number)) * blockTime(chainId)
   }
   return pools.map((cakePoolConfig, index) => {
     const [startBlock, endBlock] = startEndBlockResult[index]
@@ -225,7 +225,7 @@ export const fetchPoolsStakingLimitsByBlock = async ({
       const stakingLimit =
         hasUserLimit && stakingLimitRaw[1].result ? new BigNumber(stakingLimitRaw[1].result.toString()) : BIG_ZERO
       const numberBlocksForUserLimit = stakingLimitRaw[2].result ? Number(stakingLimitRaw[2].result) : 0
-      const numberSecondsForUserLimit = numberBlocksForUserLimit * BSC_BLOCK_TIME
+      const numberSecondsForUserLimit = numberBlocksForUserLimit * blockTime(chainId)
       return [validPools[index].sousId, { stakingLimit, numberSecondsForUserLimit }]
     }),
   )

@@ -4,7 +4,7 @@ import { ChainId } from '@pancakeswap/sdk'
 import { Address, getContract, WalletClient, GetContractReturnType, PublicClient } from 'viem'
 
 import { iCakeABI } from '../abis/ICake'
-import { ICAKE } from '../constants/contracts'
+import { IICE } from '../constants/contracts'
 import { OnChainProvider } from '../types'
 import { getContractAddress } from '../utils'
 
@@ -13,7 +13,7 @@ export const getIfoCreditAddressContract = (
   provider: OnChainProvider,
   walletClient?: WalletClient,
 ): GetContractReturnType<typeof iCakeABI, PublicClient, WalletClient> => {
-  const address = getContractAddress(ICAKE, chainId)
+  const address = getContractAddress(IICE, chainId)
   if (!address || address === '0x') {
     throw new Error(`ICAKE not supported on chain ${chainId}`)
   }
