@@ -92,6 +92,9 @@ export const tokenRouter = router({
         token.tags.push('KYCed')
       }
     })
+    const kycedTokens = tokens.filter(token => token.tags?.includes('KYCed'))
+    const nonKycedTokens = tokens.filter(token => !(token.tags?.includes('KYCed')))
+    const tokensSorted = kycedTokens.concat(nonKycedTokens)
 
     return {
       name: 'IceCreamSwap Default',
@@ -104,7 +107,7 @@ export const tokenRouter = router({
       tags: {},
       logoURI: 'https://icecreamswap.com/logo.png',
       keywords: ['icecreamswap', 'default'],
-      tokens: tokens.map((token) => ({
+      tokens: tokensSorted.map((token) => ({
         name: token.name,
         symbol: token.symbol,
         address: token.address,
