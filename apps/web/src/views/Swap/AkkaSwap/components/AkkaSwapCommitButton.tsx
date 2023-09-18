@@ -44,6 +44,7 @@ interface AkkaSwapCommitButtonPropsType {
   onUserInput: (field: Field, typedValue: string) => void
   inputAmountInDollar: number
   outputAmountInDollar: number
+  outputAmountInDollarWithTax: number
   isLoading: boolean
 }
 
@@ -61,6 +62,7 @@ export default function AkkaSwapCommitButton({
   onUserInput,
   inputAmountInDollar,
   outputAmountInDollar,
+  outputAmountInDollarWithTax,
   isLoading
 }: AkkaSwapCommitButtonPropsType) {
   const { t } = useTranslation()
@@ -122,6 +124,7 @@ export default function AkkaSwapCommitButton({
       customOnDismiss={handleConfirmDismiss}
       inputAmountInDollar={inputAmountInDollar}
       outputAmountInDollar={outputAmountInDollar}
+      outputAmountInDollarWithTax={outputAmountInDollarWithTax}
       isLoading={isLoading}
     />,
     true,

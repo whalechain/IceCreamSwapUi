@@ -28,6 +28,7 @@ export default function AkkaSwapModalFooter({
   swapErrorMessage,
   inputAmountInDollar,
   outputAmountInDollar,
+  outputAmountInDollarWithTax,
   isLoading
 }: {
   trade: AkkaRouterTrade
@@ -36,6 +37,7 @@ export default function AkkaSwapModalFooter({
   swapErrorMessage?: string | undefined
   inputAmountInDollar: number
   outputAmountInDollar: number,
+  outputAmountInDollarWithTax: number,
   isLoading: boolean
 }) {
   const { t } = useTranslation()
@@ -54,6 +56,7 @@ export default function AkkaSwapModalFooter({
   }, 0) : null
 
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
+  const priceImpactWithTax = (1 - (outputAmountInDollarWithTax / inputAmountInDollar)) * 100
 
   return (
     <>
@@ -66,6 +69,21 @@ export default function AkkaSwapModalFooter({
           </RowFixed>
           <Text fontSize="14px" color="textSubtle">
             {Number.isNaN(priceImpact) ? trade?.route?.priceImpact.toFixed(3) : priceImpact.toFixed(3)}%
+          </Text>
+        </RowBetween>
+        <RowBetween marginY={3}>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              {t('Token fees')}
+            </Text>
+            <QuestionHelper
+              text={t('These are the estimated additional taxes introduced by the token project, not by IceCreamSwap.')}
+              ml="4px"
+              placement="top-start"
+            />
+          </RowFixed>
+          <Text fontSize="14px" color="textSubtle">
+            {Number.isNaN(priceImpactWithTax) ? "" : (priceImpactWithTax - priceImpact).toFixed(3)}%
           </Text>
         </RowBetween>
         {trade?.route?.returnAmountInUsd - trade?.route?.bestAlt > 0 &&

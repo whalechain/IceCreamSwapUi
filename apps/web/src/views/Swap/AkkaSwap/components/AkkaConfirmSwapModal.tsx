@@ -68,6 +68,7 @@ interface ConfirmSwapModalProps {
   isStable?: boolean
   inputAmountInDollar: number
   outputAmountInDollar: number
+  outputAmountInDollarWithTax: number
   isLoading: boolean
 }
 
@@ -88,6 +89,7 @@ const AkkaConfirmSwapModal: React.FC<React.PropsWithChildren<InjectedModalProps 
   isStable,
   inputAmountInDollar,
   outputAmountInDollar,
+  outputAmountInDollarWithTax,
   isLoading
 }) => {
   const {
@@ -127,6 +129,7 @@ const AkkaConfirmSwapModal: React.FC<React.PropsWithChildren<InjectedModalProps 
           recipient={recipient}
           inputAmountInDollar={inputAmountInDollar}
           outputAmountInDollar={outputAmountInDollar}
+          outputAmountInDollarWithTax={outputAmountInDollarWithTax}
           isLoading={isLoading}
         />
       ),

@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import { setRouteApiChainName } from 'utils/akka/setRouteApiChainName'
 import { useApproveCallbackFromAkkaTrade } from './useApproveCallbackFromAkkaTrade'
 import { ApprovalState } from 'hooks/useApproveCallback'
-import { useAkkaRouterContract, useAkkaRouterV2Contract } from 'utils/exchange'
+import { useAkkaRouterContract, useAkkaRouterV2Contract, useAkkaRouterV3Contract } from 'utils/exchange'
 import { useModal } from '@pancakeswap/uikit'
 import { SUPPORT_AKKA_ROUTER } from "../../../../config/constants/supportChains";
 
@@ -49,8 +49,9 @@ export const useAkkaRouterApi = (
   const { chainId } = useActiveChainId()
   const akkaContract = useAkkaRouterContract()
   const akkaV2Contract = useAkkaRouterV2Contract()
+  const akkaV3Contract = useAkkaRouterV3Contract()
   const methodName = 'multiPathSwap'
-  const API_URL = 'https://api.akka.foundation'
+  const API_URL = chainId === ChainId.BASE ? 'https://devapi.akka.foundation' : 'https://api.akka.foundation'
   const isAkkaSupportedChain = SUPPORT_AKKA_ROUTER.includes(chainId)
   // Take swap information from pancakeswap router
   const fetcher: Fetcher<AkkaRouterResponseType> = async (url) => {
@@ -78,7 +79,145 @@ export const useAkkaRouterApi = (
           return response
         }
         if (response !== undefined && v2Trade === undefined) {
-          toggleSetAkkaModeToTrue()
+          if (isConnected) {
+            if (akkaApproval === ApprovalState.APPROVED) {
+              if (currencyBalances[Field.INPUT] && parsedAmount && (currencyBalances[Field.INPUT].greaterThan(parsedAmount) || currencyBalances[Field.INPUT].equalTo(parsedAmount))) {
+                if (chainId === ChainId.CORE || chainId === ChainId.XDC || chainId === ChainId.TELOS) {
+                  akkaV2Contract.estimateGas[methodName](
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
+                    account,
+                    response.swap.akkaFee.fee,
+                    response.swap.akkaFee.v,
+                    response.swap.akkaFee.r,
+                    response.swap.akkaFee.s,
+                    {
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
+                    },
+                  )
+                    .then((data) => {
+                      if (data.gt('21000')) {
+                        toggleSetAkkaModeToTrue()
+                      } else {
+                        toggleSetAkkaModeToFalse()
+                        captureMessage(`AKKA: EstimateGas is lower than 21000`, {
+                          tags: {
+                            chain_id: chainId,
+                            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                          },
+                        })
+                      }
+                    })
+                    .catch((error) => {
+                      toggleSetAkkaModeToFalse()
+                      console.log(error);
+                      captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
+                        tags: {
+                          chain_id: chainId,
+                          amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                          fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                          toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                        },
+                      })
+                    })
+                }
+                if (chainId === ChainId.BITGERT) {
+                  akkaContract.estimateGas[methodName](
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
+                    [],
+                    [],
+                    account,
+                    {
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
+                    },
+                  )
+                    .then((data) => {
+                      if (data.gt('21000')) {
+                        toggleSetAkkaModeToTrue()
+                      } else {
+                        toggleSetAkkaModeToFalse()
+                        captureMessage(`AKKA: EstimateGas is lower than 21000`, {
+                          tags: {
+                            chain_id: chainId,
+                            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                          },
+                        })
+                      }
+                    })
+                    .catch((error) => {
+                      toggleSetAkkaModeToFalse()
+                      console.log(error);
+                      captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
+                        tags: {
+                          chain_id: chainId,
+                          amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                          fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                          toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                        },
+                      })
+                    })
+                }
+                if (chainId === ChainId.BASE) {
+                  akkaV3Contract.estimateGas[methodName](
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
+                    account,
+                    response.swap.akkaFee.fee,
+                    response.swap.akkaFee.v,
+                    response.swap.akkaFee.r,
+                    response.swap.akkaFee.s,
+                    {
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
+                    },
+                  )
+                    .then((data) => {
+                      if (data.gt('21000')) {
+                        toggleSetAkkaModeToTrue()
+                      } else {
+                        toggleSetAkkaModeToFalse()
+                        captureMessage(`AKKA: EstimateGas is lower than 21000`, {
+                          tags: {
+                            chain_id: chainId,
+                            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                          },
+                        })
+                      }
+                    })
+                    .catch((error) => {
+                      toggleSetAkkaModeToFalse()
+                      console.log(error);
+                      captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
+                        tags: {
+                          chain_id: chainId,
+                          amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                          fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                          toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                        },
+                      })
+                    })
+                }
+              }
+              else {
+                toggleSetAkkaModeToTrue()
+              }
+            }
+            else {
+              toggleSetAkkaModeToTrue()
+            }
+          }
+          else {
+            toggleSetAkkaModeToTrue()
+          }
           return response
         }
         if (v2Trade.outputAmount.lessThan(JSBI.BigInt(response.route.return_amount_without_tax_wei))) {
@@ -135,6 +274,48 @@ export const useAkkaRouterApi = (
                     [],
                     [],
                     account,
+                    {
+                      value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
+                    },
+                  )
+                    .then((data) => {
+                      if (data.gt('21000')) {
+                        toggleSetAkkaModeToTrue()
+                      } else {
+                        toggleSetAkkaModeToFalse()
+                        captureMessage(`AKKA: EstimateGas is lower than 21000`, {
+                          tags: {
+                            chain_id: chainId,
+                            amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                            fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                            toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                          },
+                        })
+                      }
+                    })
+                    .catch((error) => {
+                      toggleSetAkkaModeToFalse()
+                      console.log(error);
+                      captureMessage(`AKKA: EstimateGas Error -> ${error}`, {
+                        tags: {
+                          chain_id: chainId,
+                          amount: parsedAmount?.multiply(10 ** inputCurrency?.decimals)?.toExact(),
+                          fromToken: inputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : inputCurrency?.wrapped?.address,
+                          toToken: outputCurrencyId === NATIVE[chainId]?.symbol ? NATIVE_TOKEN_ADDRESS : outputCurrency?.wrapped?.address,
+                        },
+                      })
+                    })
+                }
+                if (chainId === ChainId.BASE) {
+                  akkaV3Contract.estimateGas[methodName](
+                    response.swap.amountIn,
+                    response.swap.amountOutMin,
+                    response.swap.data,
+                    account,
+                    response.swap.akkaFee.fee,
+                    response.swap.akkaFee.v,
+                    response.swap.akkaFee.r,
+                    response.swap.akkaFee.s,
                     {
                       value: inputCurrencyId === NATIVE[chainId].symbol ? response.swap.amountIn : '0',
                     },

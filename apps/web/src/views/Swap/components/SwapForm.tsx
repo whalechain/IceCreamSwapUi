@@ -285,6 +285,14 @@ export default function SwapForm() {
   const outputAmountInDollar = useBUSDCurrencyAmount(
     true ? outputCurrency : undefined,
     Number.isFinite(+(isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
+      ? akkaRouterTrade.route.returnAmountWithoutTax
+      : formattedAmounts[Field.OUTPUT])) ? +(isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
+        ? akkaRouterTrade.route.returnAmountWithoutTax
+        : formattedAmounts[Field.OUTPUT]) : undefined,
+  )
+  const outputAmountInDollarWithTax = useBUSDCurrencyAmount(
+    true ? outputCurrency : undefined,
+    Number.isFinite(+(isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
       ? akkaRouterTrade.route.returnAmount
       : formattedAmounts[Field.OUTPUT])) ? +(isAkkaSwapMode && isAkkaSwapActive && akkaRouterTrade && akkaRouterTrade?.route && typedValue !== ''
         ? akkaRouterTrade.route.returnAmount
@@ -297,8 +305,8 @@ export default function SwapForm() {
   return (
     <>
       <CurrencyInputHeader
-        title={t(akkaRouterSupported && isAkkaSwapActive? 'DEX Aggregator': 'Swap')}
-        subtitle={akkaRouterSupported && isAkkaSwapActive? t('Best trades on %chain%', {chain: chainName.charAt(0).toUpperCase() + chainName.slice(1)}): t('Trade tokens in an instant')}
+        title={t(akkaRouterSupported && isAkkaSwapActive ? 'DEX Aggregator' : 'Swap')}
+        subtitle={akkaRouterSupported && isAkkaSwapActive ? t('Best trades on %chain%', { chain: chainName.charAt(0).toUpperCase() + chainName.slice(1) }) : t('Trade tokens in an instant')}
         hasAmount={hasAmount}
         onRefreshPrice={onRefreshPrice}
         mutateAkkaRoute={mutateAkkaRoute}
@@ -421,6 +429,7 @@ export default function SwapForm() {
               onUserInput={onUserInput}
               inputAmountInDollar={inputAmountInDollar}
               outputAmountInDollar={outputAmountInDollar}
+              outputAmountInDollarWithTax={outputAmountInDollarWithTax}
               isLoading={isAkkaLoading}
             />
           ) : (
@@ -455,7 +464,7 @@ export default function SwapForm() {
         isAkkaSwapActive &&
         akkaRouterTrade &&
         akkaRouterTrade?.route &&
-        typedValue && <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} />}
+        typedValue && <AkkaAdvancedSwapDetailsDropdown route={akkaRouterTrade.route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} outputAmountInDollarWithTax={outputAmountInDollarWithTax} />}
     </>
   )
 }

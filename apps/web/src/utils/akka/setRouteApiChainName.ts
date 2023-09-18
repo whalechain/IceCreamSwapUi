@@ -10,6 +10,8 @@ export const setRouteApiChainName = (chainId: ChainId) => {
             return "xdc"
         case ChainId.TELOS:
             return "teloschain"
+        case ChainId.BASE:
+            return "base"
         default:
             return ""
     }
