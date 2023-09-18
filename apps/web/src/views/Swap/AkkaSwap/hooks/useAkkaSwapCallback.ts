@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
-import { useAkkaRouterContract, useAkkaRouterV2Contract } from 'utils/exchange'
+import { useAkkaRouterContract, useAkkaRouterV2Contract, useAkkaRouterV3Contract } from 'utils/exchange'
 import { AkkaRouterTrade } from './types'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
@@ -21,6 +21,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
 } {
   const akkaContract = useAkkaRouterContract()
   const akkaV2Contract = useAkkaRouterV2Contract()
+  const akkaV3Contract = useAkkaRouterV3Contract()
 
   const { callWithGasPrice } = useCallWithGasPrice()
   const addTransaction = useTransactionAdder()
@@ -98,53 +99,108 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           return tx?.hash
         }
         :
-        async () => {
-          const gasLimitCalc = await akkaContract.estimateGas[methodName](
-            args?.amountIn,
-            args?.amountOutMin,
-            args?.data,
-            [],
-            [],
-            account
-            , {
-              value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
-            })
-            .catch((gasError) => {
-              console.error('Gas estimate failed', gasError, "args:", args)
-            })
+        chainId === ChainId.BASE ?
+          async () => {
 
-          const tx = await callWithGasPrice(
-            akkaContract,
-            methodName,
-            [
-              args.amountIn,
-              args.amountOutMin,
-              args.data,
+            const gasLimitCalc = await akkaV3Contract.estimateGas[methodName](
+              args?.amountIn,
+              args?.amountOutMin,
+              args?.data,
+              account,
+              args?.akkaFee?.fee,
+              args?.akkaFee?.v,
+              args?.akkaFee?.r,
+              args?.akkaFee?.s,
+              {
+                value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0'
+              }
+            )
+              .catch((gasError) => {
+                console.error('Gas estimate failed', gasError, "args:", args)
+              })
+
+            const tx = await callWithGasPrice(
+              akkaV3Contract,
+              methodName,
+              [
+                args?.amountIn,
+                args?.amountOutMin,
+                args?.data,
+                account,
+                args?.akkaFee?.fee,
+                args?.akkaFee?.v,
+                args?.akkaFee?.r,
+                args?.akkaFee?.s,
+              ],
+              {
+                value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
+                gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
+              }
+            )
+              .catch((error: any) => {
+                // if the user rejected the tx, pass this along
+                if (error?.code === 4001) {
+                  throw new Error('Transaction rejected.')
+                } else {
+                  // otherwise, the error was unexpected and we need to convey that
+                  console.error(`Swap failed`, error, methodName, args)
+                  throw new Error(t('AKKA Swap failed: %message%', { message: transactionErrorToUserReadableMessage(error, t) }))
+                }
+              })
+            addTransaction(tx, {
+              summary: `swap`,
+              type: 'swap',
+            })
+            return tx?.hash
+          }
+          :
+          async () => {
+            const gasLimitCalc = await akkaContract.estimateGas[methodName](
+              args?.amountIn,
+              args?.amountOutMin,
+              args?.data,
               [],
               [],
               account
-            ],
-            {
-              value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
-              gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
-            }
-          )
-            .catch((error: any) => {
-              // if the user rejected the tx, pass this along
-              if (error?.code === 4001) {
-                throw new Error('Transaction rejected.')
-              } else {
-                // otherwise, the error was unexpected and we need to convey that
-                console.error(`Swap failed`, error, methodName, args)
-                throw new Error(t('AKKA Swap failed: %message%', { message: transactionErrorToUserReadableMessage(error, t) }))
+              , {
+                value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
+              })
+              .catch((gasError) => {
+                console.error('Gas estimate failed', gasError, "args:", args)
+              })
+
+            const tx = await callWithGasPrice(
+              akkaContract,
+              methodName,
+              [
+                args.amountIn,
+                args.amountOutMin,
+                args.data,
+                [],
+                [],
+                account
+              ],
+              {
+                value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
+                gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
               }
+            )
+              .catch((error: any) => {
+                // if the user rejected the tx, pass this along
+                if (error?.code === 4001) {
+                  throw new Error('Transaction rejected.')
+                } else {
+                  // otherwise, the error was unexpected and we need to convey that
+                  console.error(`Swap failed`, error, methodName, args)
+                  throw new Error(t('AKKA Swap failed: %message%', { message: transactionErrorToUserReadableMessage(error, t) }))
+                }
+              })
+            addTransaction(tx, {
+              summary: `swap`,
+              type: 'swap',
             })
-          addTransaction(tx, {
-            summary: `swap`,
-            type: 'swap',
-          })
-          return tx?.hash
-        }
+            return tx?.hash
+          }
         : null,
     }
   }, [trade, akkaContract, addTransaction])

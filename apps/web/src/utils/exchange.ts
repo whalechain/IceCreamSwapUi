@@ -3,6 +3,7 @@ import IPancakeRouter02ABI from 'config/abi/IPancakeRouter02.json'
 import { AkkaRouter } from 'config/abi/types/AkkaRouter'
 import AKKA_ABI from '../config/abi/AkkaRouter.json'
 import AKKA_CORE_ABI from '../config/abi/AkkaRouterCore.json'
+import AKKA_V3_ABI from '../config/abi/AkkaRouterV3.json'
 import { IPancakeRouter02 } from 'config/abi/types/IPancakeRouter02'
 import {
   ALLOWED_PRICE_IMPACT_HIGH,
@@ -18,7 +19,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useContract } from 'hooks/useContract'
 import { StableTrade } from 'views/Swap/StableSwap/hooks/useStableTradeExactIn'
 import { Field } from '../state/swap/actions'
-import { AkkaRouterCore } from 'config/abi/types'
+import { AkkaRouterCore, AkkaRouterV3 } from 'config/abi/types'
 import { useIsAkkaAlternateModeActive } from 'state/global/hooks'
 
 // converts a basis points value to a sdk percent
@@ -49,6 +50,11 @@ export function useAkkaRouterContract() {
 export function useAkkaRouterV2Contract() {
   const { chainId } = useActiveChainId()
   return useContract<AkkaRouterCore>(ROUTER_ADDRESS[chainId].Akka, AKKA_CORE_ABI, true)
+}
+
+export function useAkkaRouterV3Contract() {
+  const { chainId } = useActiveChainId()
+  return useContract<AkkaRouterV3>(ROUTER_ADDRESS[chainId].Akka, AKKA_V3_ABI, true)
 }
 
 // computes price breakdown for the trade
