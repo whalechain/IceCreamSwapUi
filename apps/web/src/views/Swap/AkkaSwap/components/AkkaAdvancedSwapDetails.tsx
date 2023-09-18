@@ -16,7 +16,7 @@ function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar, output
   const { t } = useTranslation()
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
   const priceImpactWithTax = (1 - (outputAmountInDollarWithTax / inputAmountInDollar)) * 100
-
+  
   return (
     <AutoColumn style={{ padding: '0 16px' }}>
       <RowBetween>
@@ -30,7 +30,7 @@ function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar, output
         </Text>
       </RowBetween>
       {
-        !Number.isNaN(priceImpactWithTax) &&
+        !Number.isNaN(priceImpactWithTax) && (priceImpactWithTax - priceImpact) > 0 &&
         <RowBetween mt={3}>
           <RowFixed>
             <Text fontSize="14px" color="textSubtle">
