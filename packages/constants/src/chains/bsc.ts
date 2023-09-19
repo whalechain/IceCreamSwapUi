@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 const bscExplorer = { name: 'BscScan', url: 'https://bscscan.com' }
@@ -30,6 +30,7 @@ export const bsc: IceChain = {
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
+    routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
   wrappedNative: {

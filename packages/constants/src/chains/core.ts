@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const core: IceChain = {
@@ -40,6 +40,7 @@ export const core: IceChain = {
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
+    routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
   campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',

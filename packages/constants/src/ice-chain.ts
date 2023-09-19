@@ -5,6 +5,7 @@ type ChainFeature = 'swap' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking'
 
 interface SwapConfig {
   factoryAddress: Address
+  routerAddress: Address
   initCodeHash: Hash
 }
 
