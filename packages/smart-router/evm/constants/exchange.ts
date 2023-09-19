@@ -9,18 +9,18 @@ import {
   xdcTokens,
   xodexTokens
 } from "@pancakeswap/tokens";
+import { chains } from "@icecreamswap/constants";
 
-export const SMART_ROUTER_ADDRESSES = {
+export const SMART_ROUTER_ADDRESSES: Record<ChainId, string> = {
   [ChainId.CORE]: '0xD56d8dC0F34509c5D60471fA664Bd163F3cE0166',
   [ChainId.XDC]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
-} as const satisfies Record<ChainId, string>
+} as const
 
-export const V2_ROUTER_ADDRESS: ChainMap<string> = {
-  [ChainId.ETHEREUM]: '0x3BC722f252C7bAE2f55647e49aDcB9d33Ff6eBcC',
-  [ChainId.GOERLI]: '0x3BC722f252C7bAE2f55647e49aDcB9d33Ff6eBcC',
-  [ChainId.BSC]: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
-  [ChainId.BSC_TESTNET]: '0xD99D1c33F9fC3444f8101754aBC46c52416550D1',
-}
+export const V2_ROUTER_ADDRESS: ChainMap<string> = chains.reduce((acc, chain) => {
+  return chain.swap
+    ?{...acc, [chain.id]: chain.swap?.routerAddress}
+    :acc
+}, {})
 
 export const STABLE_SWAP_INFO_ADDRESS: ChainMap<string> = {}
 

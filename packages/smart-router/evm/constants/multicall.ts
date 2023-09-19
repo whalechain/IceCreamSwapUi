@@ -1,6 +1,5 @@
-import { ChainId } from '@pancakeswap/sdk'
-
 import { ChainMap, BatchMulticallConfigs } from '../types'
+import { chains } from "@icecreamswap/constants";
 
 const DEFAULT = {
   defaultConfig: {
@@ -17,11 +16,6 @@ const DEFAULT = {
   },
 }
 
-export const BATCH_MULTICALL_CONFIGS: ChainMap<BatchMulticallConfigs> = {
-  [ChainId.CORE]: DEFAULT,
-  [ChainId.BITGERT]: DEFAULT,
-  [ChainId.XDC]: DEFAULT,
-  [ChainId.FUSE]: DEFAULT,
-  [ChainId.DOGECHAIN]: DEFAULT,
-  [ChainId.BSC]: DEFAULT,
-}
+export const BATCH_MULTICALL_CONFIGS: ChainMap<BatchMulticallConfigs> = chains.reduce((acc, chain) => {
+  return {...acc, [chain.id]: DEFAULT}
+}, {})

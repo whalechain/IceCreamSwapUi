@@ -14,44 +14,18 @@ import { PancakeMulticallProvider } from './multicallSwapProvider'
 import { MIXED_ROUTE_QUOTER_ADDRESSES, V3_QUOTER_ADDRESSES } from '../../constants'
 import { BatchMulticallConfigs, ChainMap } from '../../types'
 import { BATCH_MULTICALL_CONFIGS } from '../../constants/multicall'
+import { chains } from "@icecreamswap/constants";
 
 const DEFAULT_BATCH_RETRIES = 2
 
-const SUCCESS_RATE_CONFIG = {
-  [ChainId.BSC_TESTNET]: 0.1,
-  [ChainId.BSC]: 0.1,
-  [ChainId.ETHEREUM]: 0.1,
-  [ChainId.GOERLI]: 0.1,
-  [ChainId.ARBITRUM_ONE]: 0.1,
-  [ChainId.ARBITRUM_GOERLI]: 0.1,
-  [ChainId.POLYGON_ZKEVM]: 0.01,
-  [ChainId.POLYGON_ZKEVM_TESTNET]: 0,
-  [ChainId.ZKSYNC]: 0.1,
-  [ChainId.ZKSYNC_TESTNET]: 0.1,
-  [ChainId.LINEA_TESTNET]: 0.1,
-  [ChainId.OPBNB_TESTNET]: 0.1,
-  [ChainId.BASE_TESTNET]: 0.1,
-  [ChainId.SCROLL_SEPOLIA]: 0.1,
-} as const satisfies Record<ChainId, number>
 
-// Normally we expect to get quotes from within the same block
-// But for some chains like BSC the block time is quite short so need some extra tolerance
-const BLOCK_CONFLICT_TOLERANCE = {
-  [ChainId.BSC_TESTNET]: 3,
-  [ChainId.BSC]: 3,
-  [ChainId.ETHEREUM]: 1,
-  [ChainId.GOERLI]: 1,
-  [ChainId.ARBITRUM_ONE]: 5,
-  [ChainId.ARBITRUM_GOERLI]: 5,
-  [ChainId.POLYGON_ZKEVM]: 1,
-  [ChainId.POLYGON_ZKEVM_TESTNET]: 1,
-  [ChainId.ZKSYNC]: 3,
-  [ChainId.ZKSYNC_TESTNET]: 3,
-  [ChainId.LINEA_TESTNET]: 3,
-  [ChainId.OPBNB_TESTNET]: 3,
-  [ChainId.BASE_TESTNET]: 3,
-  [ChainId.SCROLL_SEPOLIA]: 3,
-} as const satisfies Record<ChainId, number>
+const SUCCESS_RATE_CONFIG: Record<ChainId, number> = chains.reduce((acc, chain) => {
+  return {...acc, [chain.id]: 0.1}
+}, {})
+
+const BLOCK_CONFLICT_TOLERANCE: Record<ChainId, number> = chains.reduce((acc, chain) => {
+  return {...acc, [chain.id]: 5}
+}, {})
 
 type V3Inputs = [string, string]
 type MixedInputs = [string, number[], string]
@@ -145,8 +119,7 @@ function onChainQuoteProviderFactory({ getQuoteFunctionName, getQuoterAddress, a
         const blockConflictTolerance = BLOCK_CONFLICT_TOLERANCE[chainId as ChainId]
         const multicallConfigs =
           multicallConfigsOverride?.[chainId as ChainId] ||
-          BATCH_MULTICALL_CONFIGS[chainId as ChainId] ||
-          BATCH_MULTICALL_CONFIGS[ChainId.ETHEREUM]
+          BATCH_MULTICALL_CONFIGS[chainId as ChainId]
         const {
           defaultConfig: { multicallChunk, gasLimitOverride },
         } = multicallConfigs
