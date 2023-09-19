@@ -38,6 +38,7 @@
     "@pancakeswap/tsconfig": "workspace:*",
     "@pancakeswap/utils": "workspace:*",
     "@pancakeswap/v3-sdk": "workspace:*",
+    "@icecreamswap/constants": "workspace:*",
     "@types/async-retry": "^1.4.4",
     "@types/debug": "^4.1.7",
     "@types/lodash": "^4.14.178",
