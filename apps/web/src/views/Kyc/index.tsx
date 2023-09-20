@@ -1,13 +1,11 @@
 import { Box, Button, Flex, Heading, PageHeader, Text } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
-import { useAccount, useSigner } from 'wagmi'
+import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import useSWR from 'swr'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
-import { Contract, utils } from 'ethers'
-import { ERC20_ABI } from 'config/abi/erc20'
-import { ERC20 } from '@chainsafe/chainbridge-contracts'
+import { utils } from 'ethers'
 import Link from 'next/link'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import styled, { useTheme } from 'styled-components'
@@ -16,6 +14,7 @@ import Page from 'components/Layout/Page'
 import { tokens } from '@pancakeswap/ui'
 import AddToWallet from 'views/CreateToken/components/AddToWallet'
 import useTokenBalance from 'hooks/useTokenBalance'
+import { useERC20 } from "hooks/useContract";
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -56,18 +55,17 @@ export const Kyc: React.FC = () => {
     },
     { refreshInterval: 2000 },
   )
-  const { data: signer } = useSigner()
 
   const handlePayment = async () => {
     if (!token) return
-    if (!signer) return
     if (!chain.kyc) return
-    const tokenContract = new Contract(token.address, ERC20_ABI, signer) as ERC20
-    const tx = await tokenContract.transfer(
+    const tokenContract = useERC20(token.address)
+    // const tokenContract = new Contract(token.address, ERC20_ABI, signer) as ERC20
+    const tx = await tokenContract.write.transfer(
       chain.kyc?.feeWallet,
       utils.parseUnits(String(chain.kyc.fee), token.decimals),
     )
-    addTransaction(tx, {
+    addTransaction({hash: tx}, {
       summary: `Pay ${chain.kyc.fee} ${token.symbol} to get your KYC token`,
     })
   }
