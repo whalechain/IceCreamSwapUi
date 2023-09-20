@@ -1,12 +1,12 @@
 import { useContract } from 'hooks/useContract'
 import { useActiveChain } from 'hooks/useActiveChain'
-import tokenLockFactoryAbi from './abi.json'
-import { PSIPadTokenLockFactory } from '@passive-income/launchpad-contracts/typechain/PSIPadTokenLockFactory'
+import { tokenLockFactoryABI}  from 'config/abi/tokenLockFactory'
 import useSWR from 'swr'
-import { useAccount } from 'wagmi'
-import { multicallv2 } from 'utils/multicall'
+import { Address, useAccount } from "wagmi";
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { BigNumber } from 'ethers'
+import { publicClient } from "utils/wagmi";
+import { campaignABI } from "config/abi/campaign";
 
 /** Based on solidity struct */
 export interface LockingData {
@@ -22,33 +22,32 @@ export interface LockingData {
 export const useLocks = () => {
   const chain = useActiveChain()
 
-  return useContract<PSIPadTokenLockFactory>(chain.locks?.factoryAddress, tokenLockFactoryAbi, true)
+  return useContract(chain.locks?.factoryAddress, tokenLockFactoryABI)
 }
 
-export const useLockingData = (lockIds?: BigNumber[]) => {
+export const useLockingData = (lockIds?: bigint[]) => {
   const locks = useLocks()
   const { chainId } = useActiveChainId()
 
   return useSWR(
     lockIds && locks ? ['lock', JSON.stringify(lockIds)] : null,
     async () => {
-      const multicallResult = await multicallv2<LockingData[]>({
-        abi: tokenLockFactoryAbi,
-        calls: lockIds
+      const multicallResult = await publicClient({ chainId: chainId }).multicall({
+        contracts: lockIds
           .map((lockId) => [
-            {
-              address: locks.address,
-              name: 'tokensLocked',
-              params: [lockId],
-            },
-            {
-              address: locks.address,
-              name: 'amountToUnlock',
-              params: [lockId],
-            },
-          ])
-          .flat(),
-        chainId,
+              {
+                abi: tokenLockFactoryABI,
+                address: locks.address,
+                functionName: 'tokensLocked',
+                args: [lockId],
+              } as const,
+              {
+                abi: tokenLockFactoryABI,
+                address: locks.address,
+                functionName: 'amountToUnlock',
+                args: [lockId],
+              } as const,
+          ]).flat()
       })
       let i = 0
       return lockIds
@@ -72,24 +71,24 @@ export const useLockingData = (lockIds?: BigNumber[]) => {
 
 export type Lock = ReturnType<typeof useLockingData>['data'][number]
 
-export const useLocksByUser = (account?: string) => {
+export const useLocksByUser = (account?: Address) => {
   const locks = useLocks()
 
   const activeAccount = useAccount()
   const user = account ?? activeAccount.address
 
-  const { data: lockIds } = useSWR(user && locks ? ['locks', user] : null, () => locks.getUserLocks(user), {
+  const { data: lockIds } = useSWR(user && locks ? ['locks', user] : null, () => locks.read.getUserLocks([user]), {
     refreshInterval: 10000,
   })
   return useLockingData(lockIds)
 }
 
-export const useLocksByToken = (tokenAddress?: string) => {
+export const useLocksByToken = (tokenAddress?: Address) => {
   const locks = useLocks()
 
   const { data: lockIds } = useSWR(
     tokenAddress && locks ? ['locks', tokenAddress] : null,
-    () => locks.getTokenLocks(tokenAddress),
+    () => locks.read.getTokenLocks([tokenAddress]),
     {
       refreshInterval: 10000,
     },
