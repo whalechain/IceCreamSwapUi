@@ -1,34 +1,28 @@
 /* eslint-disable camelcase */
-import { PSIPadCampaign } from '@passive-income/launchpad-contracts/typechain/PSIPadCampaign'
-import { PSIPadCampaignFactory } from '@passive-income/launchpad-contracts/typechain/PSIPadCampaignFactory'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useContract } from 'hooks/useContract'
-import campaignAbi from './campaignAbi.json'
-import campaignFactoryAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadCampaignFactory.sol/PSIPadCampaignFactory.json'
+import { campaignABI } from 'config/abi/campaign'
+import { campaignFactoryABI } from 'config/abi/campaignFactory'
 import useSWR from 'swr'
-import { multicallv2 } from 'utils/multicall'
 import { BigNumber } from 'ethers'
-import { useProvider } from 'wagmi'
+import { Address } from "wagmi";
+import { publicClient } from "utils/wagmi";
 
 export const useCampaignFactory = () => {
   const chain = useActiveChain()
-  return useContract<PSIPadCampaignFactory>(chain?.campaignFactory, campaignFactoryAbi, true)
+  return useContract(chain?.campaignFactory, campaignFactoryABI)
 }
 
-export const useCampaignSigner = (contractAddress: string) => {
-  return useContract<PSIPadCampaign>(contractAddress, campaignAbi, true)
+export const useCampaign = (contractAddress: Address) => {
+  return useContract(contractAddress, campaignABI)
 }
 
-export const useCampaign = (contractAddress: string) => {
-  return useContract<PSIPadCampaign>(contractAddress, campaignAbi)
-}
-
-export const useGivenAmount = (contractAddress: string, address: string) => {
+export const useGivenAmount = (contractAddress: Address, address: Address) => {
   const campaign = useCampaign(contractAddress)
-  return useSWR<BigNumber>(
+  return useSWR(
     campaign && address ? ['givenAmount', contractAddress, address] : null,
     async () => {
-      return campaign.getGivenAmount(address)
+      return await campaign.read.getGivenAmount(address)
     },
     {
       refreshInterval: 3000,
@@ -36,13 +30,13 @@ export const useGivenAmount = (contractAddress: string, address: string) => {
   )
 }
 
-export const useCanBuy = (contractAddress: string, address: string) => {
+export const useCanBuy = (contractAddress: Address, address: Address) => {
   const campaign = useCampaign(contractAddress)
   return useSWR<boolean>(
     campaign && address ? ['canBuy', contractAddress, address] : null,
     async () => {
-      if (!(await campaign.whitelistEnabled())) return true
-      const canBuy = await campaign.whitelisted(address)
+      if (!(await campaign.read.whitelistEnabled())) return true
+      const canBuy = await campaign.read.whitelisted(address)
       return canBuy
     },
     {
@@ -103,7 +97,6 @@ export interface CampaignData {
 
 export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) => {
   const chain = useActiveChain()
-  const provider = useProvider({ chainId: chain?.id })
 
   return useSWR<CampaignData[]>(
     chain ? ['campaigns', chain] : null,
@@ -114,73 +107,85 @@ export const useCampaigns = ({ filter, id }: { filter?: string; id?: number }) =
       }).then((res) => res.json())
       let multiCallResult: any = []
       try {
-        multiCallResult = await multicallv2({
-          abi: campaignAbi,
-          chainId: chain.id,
-          provider,
-          calls: campaigns
+        multiCallResult = await publicClient({ chainId: chain.id }).multicall({
+          contracts: campaigns
             .filter((c) => c.address !== 'dummy')
-            .map((campaign) => [
-              {
-                address: campaign.address,
-                name: 'token',
-              },
-
-              {
-                address: campaign.address,
-                name: 'softCap',
-              },
-              {
-                address: campaign.address,
-                name: 'hardCap',
-              },
-              {
-                address: campaign.address,
-                name: 'start_date',
-              },
-              {
-                address: campaign.address,
-                name: 'end_date',
-              },
-              {
-                address: campaign.address,
-                name: 'rate',
-              },
-              {
-                address: campaign.address,
-                name: 'min_allowed',
-              },
-              {
-                address: campaign.address,
-                name: 'max_allowed',
-              },
-              {
-                address: campaign.address,
-                name: 'pool_rate',
-              },
-              {
-                address: campaign.address,
-                name: 'lock_duration',
-              },
-              {
-                address: campaign.address,
-                name: 'liquidity_rate',
-              },
-
-              {
-                address: campaign.address,
-                name: 'collected',
-              },
-              {
-                address: campaign.address,
-                name: campaign.address === '0x6189bCe52857e83E0F6D0390Bdf3aC8C7Bac6104' ? 'token' : 'raisedToken',
-              },
-              {
-                address: campaign.address,
-                name: 'isLive',
-              },
-            ])
-            .flat(),
+            .map((campaign) => {
+              const campaignAddress = campaign.address
+              return [
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'token',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'softCap',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'hardCap',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'start_date',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'end_date',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'rate',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'min_allowed',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'max_allowed',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'pool_rate',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'lock_duration',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'liquidity_rate',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'collected',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: campaign.address === '0x6189bCe52857e83E0F6D0390Bdf3aC8C7Bac6104' ? 'token' : 'raisedToken',
+                } as const,
+                {
+                  abi: campaignABI,
+                  address: campaignAddress,
+                  functionName: 'isLive',
+                } as const,
+              ]
+            }).flat(),
+          allowFailure: false,
         })
       } catch (e) {
         console.error(e)
