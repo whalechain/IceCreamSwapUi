@@ -25,8 +25,6 @@ import { useTranslation } from '@pancakeswap/localization'
 import { chains } from 'utils/wagmi'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { WrappedTokenInfo } from '@pancakeswap/token-lists'
-import AccessRisk from 'components/AccessRisk'
-import { fetchRiskToken, TOKEN_RISK } from 'views/Swap/hooks/fetchTokenRisk'
 
 interface ImportProps {
   tokens: Token[]
@@ -48,10 +46,13 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
   // use for showing import source on inactive tokens
   const inactiveTokenList = useCombinedInactiveList()
 
+  const hasRiskToken = false
+  /*
   const { data: hasRiskToken } = useSWRImmutable(tokens && ['has-risks', tokens], async () => {
     const result = await Promise.all(tokens.map((token) => fetchRiskToken(token.address, token.chainId)))
     return result.some((r) => r.riskLevel >= TOKEN_RISK.MEDIUM)
   })
+  */
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t('I have read the scanning result, understood the risk and want to proceed with token importing.'),
