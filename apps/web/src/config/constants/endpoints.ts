@@ -44,3 +44,7 @@ export const TRADING_REWARD_API = 'https://pancake-trading-fee-rebate-api.pancak
 export const QUOTING_API = `${process.env.NEXT_PUBLIC_QUOTING_API}/v0/quote`
 
 export const FARMS_API = 'https://farms-api.pancakeswap.com'
+
+export const MERCURYO_WIDGET_ID = undefined
+export const MOONPAY_SIGN_URL = ""
+export const ONRAMP_API_BASE_URL = ""

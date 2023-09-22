@@ -10,8 +10,6 @@ import {
   Pool,
   useTooltip,
   HelpIcon,
-  Button,
-  useModal,
 } from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
 import { getCakeVaultEarnings } from 'views/Pools/helpers'
@@ -21,7 +19,6 @@ import { VaultKey, DeserializedLockedCakeVault } from 'state/types'
 import { getVaultPosition, VaultPosition } from 'utils/cakePool'
 import { useVaultApy } from 'hooks/useVaultApy'
 import { Token } from '@pancakeswap/sdk'
-import BenefitsModal from 'views/Pools/components/RevenueSharing/BenefitsModal'
 import useVCake from 'views/Pools/hooks/useVCake'
 
 import { ActionContainer, ActionTitles, ActionContent, RowActionContainer } from './styles'
@@ -80,13 +77,6 @@ const AutoHarvestAction: React.FunctionComponent<React.PropsWithChildren<AutoHar
   } = useTooltip(<AutoEarningsBreakdown pool={pool} account={account} />, {
     placement: 'bottom',
   })
-
-  const [onPresentViewBenefitsModal] = useModal(
-    <BenefitsModal pool={pool} userData={(vaultData as DeserializedLockedCakeVault)?.userData} />,
-    true,
-    false,
-    'revenueModal',
-  )
 
   const actionTitle = (
     <Text fontSize="12px" bold color="secondary" as="span" textTransform="uppercase">
@@ -188,14 +178,6 @@ const AutoHarvestAction: React.FunctionComponent<React.PropsWithChildren<AutoHar
           </Box>
         )}
       </Flex>
-      {vaultKey === VaultKey.CakeVault &&
-        (vaultData as DeserializedLockedCakeVault).userData.locked &&
-        vaultPosition === VaultPosition.Locked &&
-        isInitialization && (
-          <Button mt="16px" width="100%" variant="secondary" onClick={onPresentViewBenefitsModal}>
-            {t('View Benefits')}
-          </Button>
-        )}
     </RowActionContainer>
   )
 }

@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import { Text, Flex, Td, ProfileAvatar } from '@pancakeswap/uikit'
 import { RankListDetail } from 'views/TradingReward/hooks/useRankList'
 import { formatNumber } from '@pancakeswap/utils/formatBalance'
-import { useProfileForAddress } from 'state/profile/hooks'
 import { useDomainNameForAddress } from 'hooks/useDomain'
 import truncateHash from '@pancakeswap/utils/truncateHash'
 import { usePriceCakeUSD } from 'state/farms/hooks'
@@ -14,7 +13,9 @@ interface DesktopResultProps {
 
 const DesktopResult: React.FC<React.PropsWithChildren<DesktopResultProps>> = ({ rank }) => {
   const cakePriceBusd = usePriceCakeUSD()
-  const { profile, isLoading: isProfileLoading } = useProfileForAddress(rank.origin)
+  const profile = undefined
+  const isProfileLoading = false
+  // const { profile, isLoading: isProfileLoading } = useProfileForAddress(rank.origin)
   const { domainName, avatar } = useDomainNameForAddress(rank.origin, !profile && !isProfileLoading)
 
   const cakeAmount = useMemo(
@@ -27,7 +28,7 @@ const DesktopResult: React.FC<React.PropsWithChildren<DesktopResultProps>> = ({ 
       <Td textAlign="left">
         <Flex>
           <Text bold mr="4px" width="56px" color="secondary" style={{ alignSelf: 'center' }}>
-            {rank.rank === 0 ? '--' : `#${rank.rank}`}
+            {rank.rank === 0 ? '--' : rank.rank >= 1000 ? `>#1000` : `#${rank.rank}`}
           </Text>
           <ProfileAvatar width={42} height={42} src={profile?.nft?.image?.thumbnail ?? avatar} />
           <Text style={{ alignSelf: 'center' }} color="primary" bold ml="8px">

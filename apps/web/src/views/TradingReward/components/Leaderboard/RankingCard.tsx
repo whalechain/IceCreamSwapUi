@@ -15,7 +15,6 @@ import styled from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
 import { RankListDetail } from 'views/TradingReward/hooks/useRankList'
 import { formatNumber } from '@pancakeswap/utils/formatBalance'
-import { useProfileForAddress } from 'state/profile/hooks'
 import { useDomainNameForAddress } from 'hooks/useDomain'
 import truncateHash from '@pancakeswap/utils/truncateHash'
 import { usePriceCakeUSD } from 'state/farms/hooks'
@@ -52,7 +51,9 @@ const RankingCard: React.FC<React.PropsWithChildren<RankingCardProps>> = ({ rank
   const { t } = useTranslation()
   const rankColor = getRankingColor(rank)
   const cakePriceBusd = usePriceCakeUSD()
-  const { profile, isLoading: isProfileLoading } = useProfileForAddress(user?.origin)
+  const profile = undefined
+  const isProfileLoading = false
+  // const { profile, isLoading: isProfileLoading } = useProfileForAddress(user?.origin)
   const { domainName, avatar } = useDomainNameForAddress(user?.origin, !profile && !isProfileLoading)
 
   const cakeAmount = useMemo(

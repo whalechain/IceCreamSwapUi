@@ -1,17 +1,15 @@
 import { useMemo } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { Box, Flex, Text, Skeleton } from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
 import { useTranslation } from '@pancakeswap/localization'
 import BigNumber from 'bignumber.js'
-import { useProfile } from 'state/profile/hooks'
 import { DeserializedLockedCakeVault } from 'state/types'
 import { getVaultPosition, VaultPosition } from 'utils/cakePool'
 import { useCakeVault, useFetchIfo as useCakeVaultPool } from 'state/pools/hooks'
 import { Incentives, Qualification, RewardInfo } from 'views/TradingReward/hooks/useAllTradingRewardPair'
 import { UserCampaignInfoDetail } from 'views/TradingReward/hooks/useAllUserCampaignInfo'
 import NoConnected from 'views/TradingReward/components/YourTradingReward/NoConnected'
-import { floatingStarsLeft, floatingStarsRight } from 'views/Lottery/components/Hero'
 import NoProfile from 'views/TradingReward/components/YourTradingReward/NoProfile'
 import RewardPeriod from 'views/TradingReward/components/YourTradingReward/RewardPeriod'
 
@@ -95,27 +93,22 @@ const Decorations = styled(Box)<{ showBackgroundColor: boolean }>`
   & :nth-child(1) {
     top: 8%;
     left: 0%;
-    animation: ${floatingStarsRight} 3.5s ease-in-out infinite;
   }
   & :nth-child(2) {
     bottom: 20%;
     right: 0;
-    animation: ${floatingStarsRight} 2.5s ease-in-out infinite;
   }
   & :nth-child(3) {
     bottom: 0%;
     right: 5%;
-    animation: ${floatingStarsLeft} 4.5s ease-in-out infinite;
   }
   & :nth-child(4) {
     top: -12%;
     left: 20%;
-    animation: ${floatingStarsLeft} 3s ease-in-out infinite;
   }
   & :nth-child(5) {
     top: 2%;
     right: 0;
-    animation: ${floatingStarsLeft} 3.5s ease-in-out infinite;
   }
 
   & :nth-child(4), & :nth-child(5) {
@@ -169,7 +162,8 @@ const YourTradingReward: React.FC<React.PropsWithChildren<YourTradingRewardProps
 }) => {
   const { t } = useTranslation()
   const { address: account } = useAccount()
-  const { profile } = useProfile()
+  const profile = undefined
+  // const { profile } = useProfile()
 
   const { thresholdLockTime } = qualification
 

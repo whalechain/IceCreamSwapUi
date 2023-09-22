@@ -1,8 +1,7 @@
 import { Box, Flex, Text, Button, Link } from '@pancakeswap/uikit'
 import { useTheme } from '@pancakeswap/hooks'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
-import { floatingStarsLeft, floatingStarsRight } from 'views/Lottery/components/Hero'
 import Image from 'next/image'
 import bunnyImage from '../../../../../public/images/trading-reward/top-traders-banner.png'
 
@@ -37,25 +36,21 @@ const Decorations = styled(Box)`
   & :nth-child(3) {
     top: 25%;
     right: 0%;
-    animation: ${floatingStarsRight} 3.5s ease-in-out infinite;
   }
 
   & :nth-child(4) {
     top: 20%;
     right: 13%;
-    animation: ${floatingStarsLeft} 3.5s ease-in-out infinite;
   }
 
   & :nth-child(5) {
     left: 52%;
     bottom: 15%;
-    animation: ${floatingStarsLeft} 3s ease-in-out infinite;
   }
 
   & :nth-child(6) {
     right: 5%;
     bottom: 30%;
-    animation: ${floatingStarsRight} 2.5s ease-in-out infinite;
   }
 
   & :nth-child(7) {
@@ -64,7 +59,6 @@ const Decorations = styled(Box)`
     width: 122px;
     height: 90px;
     transformY: (-50%);
-    animation: ${floatingStarsRight} 2.5s ease-in-out infinite;
   }
 
   & :nth-child(1), & :nth-child(2), & :nth-child(3), & :nth-child(4), & :nth-child(5), & :nth-child(6) {

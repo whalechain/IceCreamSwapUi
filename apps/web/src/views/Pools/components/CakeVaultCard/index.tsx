@@ -19,7 +19,6 @@ import { useVaultPoolByKey } from 'state/pools/hooks'
 import { VaultKey, DeserializedLockedCakeVault, DeserializedCakeVault } from 'state/types'
 import styled from 'styled-components'
 import { Token } from '@pancakeswap/sdk'
-import BenefitsModal from 'views/Pools/components/RevenueSharing/BenefitsModal'
 import { getVaultPosition, VaultPosition } from 'utils/cakePool'
 import useVCake from 'views/Pools/hooks/useVCake'
 
@@ -66,12 +65,6 @@ export const CakeVaultDetail: React.FC<React.PropsWithChildren<CakeVaultDetailPr
 }) => {
   const { t } = useTranslation()
   const { isInitialization } = useVCake()
-  const [onPresentViewBenefitsModal] = useModal(
-    <BenefitsModal pool={pool} userData={(vaultPool as DeserializedLockedCakeVault)?.userData} />,
-    true,
-    false,
-    'revenueModal',
-  )
 
   const vaultPosition = getVaultPosition(vaultPool.userData)
   const isLocked = (vaultPool as DeserializedLockedCakeVault)?.userData?.locked
@@ -94,11 +87,6 @@ export const CakeVaultDetail: React.FC<React.PropsWithChildren<CakeVaultDetailPr
               pool={pool}
               account={account}
             />
-            {vaultPosition === VaultPosition.Locked && isInitialization && !showICake && (
-              <Button mt="16px" width="100%" variant="secondary" onClick={onPresentViewBenefitsModal}>
-                {t('View Benefits')}
-              </Button>
-            )}
           </>
         ) : (
           <>
