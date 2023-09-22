@@ -16,4 +16,6 @@ export const getChainId = memoize((chainName: string) => {
   return CHAIN_QUERY_NAME_TO_ID[chainName] ? +CHAIN_QUERY_NAME_TO_ID[chainName] : undefined
 })
 
+export const L2_CHAIN_IDS: ChainId[] = []
+
 export const CHAINS = chains

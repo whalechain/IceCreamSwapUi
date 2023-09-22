@@ -1,6 +1,6 @@
 {
   "name": "@pancakeswap/smart-router",
-  "version": "4.3.6",
+  "version": "4.8.4",
   "description": "A SDK for getting best routes from AMM",
   "repository": {
     "type": "git",
@@ -15,7 +15,11 @@
     "prepublishOnly": "pnpm run build",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
+    "@pancakeswap/multicall": "workspace:*",
     "@pancakeswap/sdk": "workspace:*",
     "@pancakeswap/swap-sdk-core": "workspace:*",
     "@pancakeswap/tokens": "workspace:*",

@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { checkIsStableSwap, subgraphTokenName, subgraphTokenSymbol } from 'state/info/constant'
 import { useChainNameByQuery, useMultiChainPath } from 'state/info/hooks'
 import { useWatchlistPools, useWatchlistTokens } from 'state/user/hooks'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { formatAmount } from 'utils/formatInfoNumbers'
 import { CurrencyLogo, DoubleCurrencyLogo } from 'views/Info/components/CurrencyLogo'
 
@@ -92,14 +92,14 @@ const HoverText = styled.div`
   color: ${({ theme }) => theme.colors.secondary};
   display: block;
   margin-top: 16px;
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.6;
   }
 `
 
 const HoverRowLink = styled.div`
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.6;
   }
@@ -117,7 +117,7 @@ const OptionButton = styled.div<{ enabled: boolean }>`
   align-items: center;
   background-color: ${({ theme, enabled }) => (enabled ? theme.colors.primary : 'transparent')};
   color: ${({ theme, enabled }) => (enabled ? theme.card.background : theme.colors.secondary)};
-  :hover {
+  &:hover {
     opacity: 0.6;
     cursor: pointer;
   }

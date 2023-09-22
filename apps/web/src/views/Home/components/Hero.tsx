@@ -5,7 +5,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import Image from 'next/legacy/image'
 import { ChainId } from '@pancakeswap/sdk'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import styled, { keyframes } from 'styled-components'
+import { styled, keyframes } from 'styled-components'
 import hero from '../../../../public/images/home/hero-home.png'
 import { ASSET_CDN } from 'config/constants/endpoints'
 import CompositeImage, { CompositeImageProps } from './CompositeImage'
@@ -23,14 +23,26 @@ const flyingAnim = () => keyframes`
   }
 `
 
+const fading = () => keyframes`
+  from {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 0.9;
+  }
+`
+
 const BgWrapper = styled.div`
   z-index: -1;
   overflow: hidden;
   position: absolute;
   width: 100%;
   height: 100%;
-  bottom: 0;
-  left: 0;
+  bottom: 0px;
+  left: 0px;
 `
 
 const InnerWrapper = styled.div`
@@ -122,6 +134,9 @@ const Hero = () => {
               alt={t('IceCream Store')}
             />
           </BunnyWrapper>
+          <StarsWrapper>
+            <CompositeImage {...starsImage} />
+          </StarsWrapper>
         </Flex>
       </Flex>
     </>

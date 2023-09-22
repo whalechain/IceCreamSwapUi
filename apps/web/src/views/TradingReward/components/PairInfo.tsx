@@ -1,5 +1,6 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { Text, Flex, Skeleton } from '@pancakeswap/uikit'
+import { FarmWidget } from '@pancakeswap/widgets-internal'
 import { TokenPairImage } from 'components/TokenImage'
 import { Token } from '@pancakeswap/swap-sdk-core'
 import { ChainId } from '@pancakeswap/sdk'
@@ -13,7 +14,7 @@ const TokenWrapper = styled.div`
   }
 `
 
-// const { V3Tag, V3FeeTag, EthTag, BscTag, ZkEVMTag, ZkSyncTag } = FarmWidget.Tags
+const { V3Tag, V3FeeTag, EthTag, BscTag, ZkEVMTag, ZkSyncTag } = FarmWidget.Tags
 
 interface PairInfoProps {
   isReady: boolean
@@ -66,19 +67,15 @@ const PairInfo: React.FunctionComponent<React.PropsWithChildren<PairInfoProps>> 
           </Flex>
           <Flex ml={['auto', 'auto', 'auto', 'auto', '4px']}>
             <Flex>
-              {/*
               <V3FeeTag feeAmount={feeAmount} scale="sm" />
               <V3Tag ml="4px" scale="sm" />
-              */}
             </Flex>
-            {/*
             <Flex ml="4px">
               {chainId === ChainId.ETHEREUM && <EthTag />}
               {chainId === ChainId.BSC && <BscTag />}
               {chainId === ChainId.POLYGON_ZKEVM && <ZkEVMTag />}
               {chainId === ChainId.ZKSYNC && <ZkSyncTag />}
             </Flex>
-            */}
           </Flex>
         </Flex>
       </Flex>

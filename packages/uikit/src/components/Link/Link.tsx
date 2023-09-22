@@ -1,11 +1,11 @@
 import React from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import EXTERNAL_LINK_PROPS from "../../util/externalLinkProps";
 import Text from "../Text/Text";
 import { LinkProps } from "./types";
 import NextLink from "next/link";
 
-const StyledLink = styled(Text)<LinkProps>`
+export const StyledLink = styled(Text)<LinkProps>`
   align-items: center;
   width: fit-content;
   &:hover {

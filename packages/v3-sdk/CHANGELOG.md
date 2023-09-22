@@ -1,5 +1,51 @@
 # @pancakeswap/v3-sdk
 
+## 3.4.2
+
+### Patch Changes
+
+- Updated dependencies [51b77c787]
+  - @pancakeswap/tokens@0.4.2
+
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [7a0c21e72]
+  - @pancakeswap/sdk@5.4.1
+  - @pancakeswap/tokens@0.4.1
+
+## 3.4.0
+
+### Minor Changes
+
+- 868f4d11f: Add Base support
+
+### Patch Changes
+
+- Updated dependencies [868f4d11f]
+  - @pancakeswap/sdk@5.4.0
+  - @pancakeswap/tokens@0.4.0
+
+## 3.3.1
+
+### Patch Changes
+
+- Updated dependencies [d0f9b28a9]
+  - @pancakeswap/tokens@0.3.1
+
+## 3.3.0
+
+### Minor Changes
+
+- 5e15c611e: Add linea support
+
+### Patch Changes
+
+- Updated dependencies [5e15c611e]
+  - @pancakeswap/sdk@5.3.0
+  - @pancakeswap/tokens@0.3.0
+
 ## 3.2.3
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import styled, { DefaultTheme, css } from "styled-components";
+import { styled, DefaultTheme, css } from "styled-components";
 import { space, layout, variant } from "styled-system";
 import { scaleVariants, styleVariants } from "./theme";
 import { BaseButtonProps } from "./types";
@@ -61,7 +61,7 @@ const StyledButton = styled.button<BaseButtonProps>`
   outline: 0;
   transition: background-color 0.2s, opacity 0.2s;
 
-  :focus-visible {
+  &:focus-visible {
     outline: none;
     box-shadow: ${({ theme }) => theme.shadows.focus};
   }

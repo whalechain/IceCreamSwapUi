@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, Fragment } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import {
   Text,
   Flex,
@@ -64,7 +64,7 @@ const ResponsiveGrid = styled.div`
 
 const LinkWrapper = styled(NextLinkFromReactRouter)`
   text-decoration: none;
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.7;
   }

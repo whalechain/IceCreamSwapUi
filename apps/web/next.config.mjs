@@ -13,6 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const withBundleAnalyzer = BundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
+
 const withVanillaExtract = createVanillaExtractPlugin()
 
 const sentryWebpackPluginOptions =
@@ -51,20 +52,11 @@ const config = {
     },
   },
   transpilePackages: [
-    '@pancakeswap/ui',
-    '@pancakeswap/uikit',
-    '@pancakeswap/swap-sdk-core',
     '@pancakeswap/farms',
     '@pancakeswap/localization',
     '@pancakeswap/hooks',
-    '@pancakeswap/multicall',
-    '@pancakeswap/token-lists',
     '@pancakeswap/utils',
-    '@pancakeswap/tokens',
-    '@wagmi',
-    'wagmi',
-    '@pancakeswap/pools',
-    'react-countup',
+    '@pancakeswap/widgets-internal',
   ],
   reactStrictMode: true,
   swcMinify: true,
@@ -210,7 +202,6 @@ const config = {
     ignoreBuildErrors: true
   }
 }
-
 
 export default withBundleAnalyzer(
   withVanillaExtract(withSentryConfig(withAxiom(withWebSecurityHeaders(config)), sentryWebpackPluginOptions)),

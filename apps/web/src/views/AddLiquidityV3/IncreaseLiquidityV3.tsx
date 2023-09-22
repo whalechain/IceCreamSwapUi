@@ -80,7 +80,7 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
 
   const hasExistingPosition = !!existingPositionDetails && !positionLoading
   const { position: existingPosition } = useDerivedPositionInfo(existingPositionDetails)
-  // prevent an error if they input ETH/WETH
+  // prevent an error if they input NATIVE/WNATIVE
   const quoteCurrency =
     baseCurrency && currencyB && baseCurrency.wrapped.equals(currencyB.wrapped) ? undefined : currencyB
   // mint state
@@ -138,8 +138,14 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
   const manager = isStakedInMCv3 ? masterchefV3 : positionManager
   const interfaceManager = isStakedInMCv3 ? MasterChefV3 : NonfungiblePositionManager
 
-  const [approvalA, approveACallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_A], manager?.address)
-  const [approvalB, approveBCallback] = useApproveCallback(parsedAmounts[Field.CURRENCY_B], manager?.address)
+  const { approvalState: approvalA, approveCallback: approveACallback } = useApproveCallback(
+    parsedAmounts[Field.CURRENCY_A],
+    manager?.address,
+  )
+  const { approvalState: approvalB, approveCallback: approveBCallback } = useApproveCallback(
+    parsedAmounts[Field.CURRENCY_B],
+    manager?.address,
+  )
 
   // we need an existence check on parsed amounts for single-asset deposits
   const showApprovalA = approvalA !== ApprovalState.APPROVED && !!parsedAmounts[Field.CURRENCY_A]

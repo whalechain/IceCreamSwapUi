@@ -1,18 +1,16 @@
-import { ChainMap, BatchMulticallConfigs } from '../types'
-import { chains } from "@icecreamswap/constants";
+import { ChainId } from '@pancakeswap/sdk'
 
-const DEFAULT = {
+import { ChainMap, BatchMulticallConfigs } from '../types'
+
+const DEFAULT: BatchMulticallConfigs = {
   defaultConfig: {
-    multicallChunk: 150,
-    gasLimitOverride: 1_000_000,
+    gasLimitPerCall: 1_000_000,
   },
   gasErrorFailureOverride: {
-    gasLimitOverride: 1_000_000,
-    multicallChunk: 30,
+    gasLimitPerCall: 2_000_000,
   },
   successRateFailureOverrides: {
-    gasLimitOverride: 1_000_000,
-    multicallChunk: 40,
+    gasLimitPerCall: 2_000_000,
   },
 }
 

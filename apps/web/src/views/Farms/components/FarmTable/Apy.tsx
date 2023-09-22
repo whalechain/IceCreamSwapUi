@@ -1,9 +1,9 @@
-import styled from 'styled-components'
-import ApyButton from 'views/Farms/components/FarmCard/ApyButton'
+import { styled } from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import { Skeleton } from '@pancakeswap/uikit'
+import ApyButton from '../FarmCard/ApyButton'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 
 export interface ApyProps {
@@ -12,6 +12,7 @@ export interface ApyProps {
   pid: number
   lpLabel: string
   lpSymbol: string
+  lpAddress: string
   lpRewardsApr: number
   lpTokenPrice: BigNumber
   tokenAddress?: string
@@ -19,11 +20,7 @@ export interface ApyProps {
   cakePrice: BigNumber
   originalValue: number
   hideButton?: boolean
-  strikethrough?: boolean
   useTooltipText?: boolean
-  boosted?: boolean
-  stableSwapAddress?: string
-  stableLpFee?: number
   farmCakePerSecond?: string
   totalMultipliers?: string
 }
@@ -55,19 +52,16 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
   pid,
   lpLabel,
   lpSymbol,
+  lpAddress,
   lpTokenPrice,
   multiplier,
-  tokenAddress,
-  quoteTokenAddress,
+  tokenAddress = '',
+  quoteTokenAddress = '',
   cakePrice,
   originalValue,
   hideButton = false,
-  strikethrough,
   lpRewardsApr,
   useTooltipText = true,
-  boosted,
-  stableSwapAddress,
-  stableLpFee,
   farmCakePerSecond,
   totalMultipliers,
 }) => {
@@ -81,6 +75,7 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
           variant={hideButton ? 'text' : 'text-and-button'}
           pid={pid}
           lpSymbol={lpSymbol}
+          lpAddress={lpAddress}
           lpLabel={lpLabel}
           lpTokenPrice={lpTokenPrice}
           multiplier={multiplier}
@@ -89,12 +84,8 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
           displayApr={value}
           lpRewardsApr={lpRewardsApr}
           addLiquidityUrl={addLiquidityUrl}
-          strikethrough={strikethrough}
           useTooltipText={useTooltipText}
           hideButton={hideButton}
-          boosted={boosted}
-          stableSwapAddress={stableSwapAddress}
-          stableLpFee={stableLpFee}
           farmCakePerSecond={farmCakePerSecond}
           totalMultipliers={totalMultipliers}
         />

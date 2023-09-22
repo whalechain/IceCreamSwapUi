@@ -8,7 +8,7 @@ export const THEME_DOMAIN = '.icecreamswap.com'
 
 const useTheme = () => {
   const { resolvedTheme, setTheme } = useNextTheme()
-  const theme = useContext(StyledThemeContext)
+  const theme = useContext(StyledThemeContext)!
 
   const handleSwitchTheme = useCallback(
     (themeValue: 'light' | 'dark') => {

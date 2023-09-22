@@ -4,7 +4,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import NextLink from 'next/link'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useChainNameByQuery, useMultiChainPath } from 'state/info/hooks'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { subgraphTokenSymbol } from 'state/info/constant'
 import { DoubleCurrencyLogo } from 'views/Info/components/CurrencyLogo'
 import { Arrow, Break, ClickableColumnHeader, PageButtons, TableWrapper } from 'views/Info/components/InfoTables/shared'
@@ -48,7 +48,7 @@ const ResponsiveGrid = styled.div`
 
 const LinkWrapper = styled(NextLink)`
   text-decoration: none;
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.7;
   }

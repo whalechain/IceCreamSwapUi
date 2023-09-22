@@ -12,8 +12,10 @@ export const POOLS_FAST_REVALIDATE = {
   [ChainId.POLYGON_ZKEVM_TESTNET]: 15_000,
   [ChainId.ZKSYNC]: 15_000,
   [ChainId.ZKSYNC_TESTNET]: 15_000,
+  [ChainId.LINEA]: 20_000,
   [ChainId.LINEA_TESTNET]: 20_000,
   [ChainId.OPBNB_TESTNET]: 10_000,
+  [ChainId.BASE]: 10_000,
   [ChainId.BASE_TESTNET]: 10_000,
   [ChainId.SCROLL_SEPOLIA]: 10_000,
 } as const satisfies Record<ChainId, number>
@@ -30,8 +32,10 @@ export const POOLS_NORMAL_REVALIDATE = {
   [ChainId.POLYGON_ZKEVM_TESTNET]: 15_000,
   [ChainId.ZKSYNC]: 15_000,
   [ChainId.ZKSYNC_TESTNET]: 15_000,
+  [ChainId.LINEA]: 20_000,
   [ChainId.LINEA_TESTNET]: 20_000,
   [ChainId.OPBNB_TESTNET]: 15_000,
+  [ChainId.BASE]: 15_000,
   [ChainId.BASE_TESTNET]: 15_000,
   [ChainId.SCROLL_SEPOLIA]: 15_000,
 } as const satisfies Record<ChainId, number>
@@ -47,8 +51,10 @@ export const POOLS_SLOW_REVALIDATE = {
   [ChainId.POLYGON_ZKEVM_TESTNET]: 20_000,
   [ChainId.ZKSYNC]: 20_000,
   [ChainId.ZKSYNC_TESTNET]: 20_000,
+  [ChainId.LINEA]: 30_000,
   [ChainId.LINEA_TESTNET]: 30_000,
   [ChainId.OPBNB_TESTNET]: 20_000,
+  [ChainId.BASE]: 20_000,
   [ChainId.BASE_TESTNET]: 20_000,
   [ChainId.SCROLL_SEPOLIA]: 20_000,
 } as const satisfies Record<ChainId, number>

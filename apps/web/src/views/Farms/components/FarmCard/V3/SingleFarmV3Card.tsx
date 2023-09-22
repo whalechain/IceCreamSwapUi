@@ -1,11 +1,11 @@
 import { IPendingCakeByTokenId, PositionDetails } from '@pancakeswap/farms'
 import { useTranslation } from '@pancakeswap/localization'
 import { Token } from '@pancakeswap/swap-sdk-core'
-import { AtomBox, AtomBoxProps } from '@pancakeswap/ui'
 import {
+  AtomBox,
+  AtomBoxProps,
   AutoColumn,
   Button,
-  Farm as FarmUI,
   Flex,
   Modal,
   ModalV2,
@@ -14,6 +14,7 @@ import {
   Text,
   useModalV2,
 } from '@pancakeswap/uikit'
+import { FarmWidget } from '@pancakeswap/widgets-internal'
 import { formatBigInt } from '@pancakeswap/utils/formatBalance'
 import { isPositionOutOfRange } from '@pancakeswap/utils/isPositionOutOfRange'
 import { Pool } from '@pancakeswap/v3-sdk'
@@ -26,7 +27,7 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 import { useCallback, useMemo } from 'react'
 import { usePriceCakeUSD } from 'state/farms/hooks'
-import styled, { useTheme } from 'styled-components'
+import { styled, useTheme } from 'styled-components'
 import { logGTMClickStakeFarmEvent } from 'utils/customGTMEventTracking'
 import { V3Farm } from 'views/Farms/FarmsV3'
 import useFarmV3Actions from 'views/Farms/hooks/v3/useFarmV3Actions'
@@ -41,7 +42,7 @@ import {
 import { useBoostStatus } from '../../YieldBooster/hooks/bCakeV3/useBoostStatus'
 import FarmV3StakeAndUnStake, { FarmV3LPPosition, FarmV3LPPositionDetail, FarmV3LPTitle } from './FarmV3StakeAndUnStake'
 
-const { FarmV3HarvestAction } = FarmUI.FarmV3Table
+const { FarmV3HarvestAction } = FarmWidget.FarmV3Table
 
 const ActionContainer = styled(Flex)`
   width: 100%;

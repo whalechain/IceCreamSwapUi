@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { flexbox, layout, position, space } from "styled-system";
 import Box from "./Box";
 import { FlexProps } from "./types";

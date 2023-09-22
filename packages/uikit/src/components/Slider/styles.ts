@@ -1,5 +1,5 @@
 import { InputHTMLAttributes } from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import Text from "../Text/Text";
 
 interface SliderLabelProps {
@@ -77,13 +77,13 @@ export const StyledInput = styled.input<StyledInputProps>`
   height: 32px;
   border-radius: 25%;
   position: relative;
-  ::-webkit-slider-thumb {
+  &::-webkit-slider-thumb {
     ${getBaseThumbStyles}
   }
-  ::-moz-range-thumb {
+  &::-moz-range-thumb {
     ${getBaseThumbStyles}
   }
-  ::-ms-thumb {
+  &::-ms-thumb {
     ${getBaseThumbStyles}
   }
 `;

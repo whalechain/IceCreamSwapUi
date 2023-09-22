@@ -11,11 +11,11 @@ import BigNumber from 'bignumber.js'
 import { useERC20 } from 'hooks/useContract'
 import { getDecimalAmount } from '@pancakeswap/utils/formatBalance'
 import { useApprovePool } from 'views/Pools/hooks/useApprove'
+import { tokenImageChainNameMapping } from 'components/TokenImage'
 import { usePool } from 'state/pools/hooks'
-
+import { useActiveChainId } from 'hooks/useActiveChainId'
 import useStakePool from '../../hooks/useStakePool'
 import useUnstakePool from '../../hooks/useUnstakePool'
-import { useActiveChainId } from '../../../../hooks/useActiveChainId'
 
 const StakeModalContainer = ({
   isBnbPool,
@@ -26,6 +26,7 @@ const StakeModalContainer = ({
   stakingTokenPrice,
 }: Pool.StakeModalPropsType<Token>) => {
   const { t } = useTranslation()
+  const { chainId } = useActiveChainId()
 
   const {
     sousId,
@@ -37,14 +38,13 @@ const StakeModalContainer = ({
     stakingLimit,
     enableEmergencyWithdraw,
   } = pool
-  const { chainId } = useActiveChainId()
   const { address: account } = useAccount()
   const { toastSuccess } = useToast()
   const { pool: singlePool } = usePool(sousId)
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const [amount, setAmount] = useState('')
 
-  const { onUnstake } = useUnstakePool(sousId, enableEmergencyWithdraw)
+  const { onUnstake } = useUnstakePool(sousId, enableEmergencyWithdraw as boolean)
   const { onStake } = useStakePool(sousId, isBnbPool)
   const dispatch = useAppDispatch()
 
@@ -136,8 +136,8 @@ const StakeModalContainer = ({
       stakingTokenAddress={stakingToken.address}
       stakingTokenBalance={stakingTokenBalance}
       apr={apr}
-      userDataStakedBalance={userData.stakedBalance}
-      userDataStakingTokenBalance={userData.stakingTokenBalance}
+      userDataStakedBalance={userData?.stakedBalance}
+      userDataStakingTokenBalance={userData?.stakingTokenBalance}
       onDismiss={onDismiss}
       pendingTx={pendingTx}
       account={account}

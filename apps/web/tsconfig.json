@@ -16,9 +16,11 @@
     "downlevelIteration": true,
     "target": "ES2020",
     "paths": {
-      "*": ["./src/*"]
+      "*": ["./src/*"],
+      "@pancakeswap/uikit": ["../../packages/uikit/src/index.ts"],
+      "@pancakeswap/uikit/*": ["../../packages/uikit/src/*"]
     },
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "**/node_modules",

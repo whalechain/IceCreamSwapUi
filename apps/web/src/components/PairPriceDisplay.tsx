@@ -1,6 +1,6 @@
 import { Flex, Skeleton, Text, FlexGap, FlexGapProps } from '@pancakeswap/uikit'
-import styled from 'styled-components'
-import { formatAmount, formatAmountNotation, tokenPrecisionStyle } from '../utils/formatInfoNumbers'
+import { styled } from 'styled-components'
+import { formatAmount, formatAmountNotation, tokenPrecisionStyle } from 'utils/formatInfoNumbers'
 
 const formatOptions = {
   notation: 'standard' as formatAmountNotation,

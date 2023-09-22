@@ -34,7 +34,7 @@ import {
   usePoolTransactionsSWR,
   useStableSwapPath,
 } from 'state/info/hooks'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import useSWRImmutable from 'swr/immutable'
 import { getBlockExploreLink } from 'utils'
 import { formatAmount } from 'utils/formatInfoNumbers'
@@ -58,7 +58,7 @@ const ContentLayout = styled.div`
 const TokenButton = styled(Flex)`
   padding: 8px 0px;
   margin-right: 16px;
-  :hover {
+  &:hover {
     cursor: pointer;
     opacity: 0.6;
   }

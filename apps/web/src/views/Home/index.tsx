@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import PageSection from 'components/PageSection'
+import { styled } from 'styled-components'
+import { PageSection } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import Container from 'components/Layout/Container'
 import { PageMeta } from 'components/Layout/Page'
