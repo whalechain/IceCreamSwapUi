@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { BITGERT_BLOCK_TIME } from 'config'
 import { bscRpcProvider } from 'utils/providers'
+import { getChain } from '@icecreamswap/constants'
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 /**
  * Returns a countdown in seconds of a given block
@@ -8,13 +9,14 @@ import { bscRpcProvider } from 'utils/providers'
 const useBlockCountdown = (blockNumber: number) => {
   const timer = useRef<ReturnType<typeof setTimeout>>(null)
   const [secondsRemaining, setSecondsRemaining] = useState(0)
+  const { chainId } = useActiveChainId()
 
   useEffect(() => {
     const startCountdown = async () => {
       const currentBlock = await bscRpcProvider.getBlockNumber()
 
       if (blockNumber > currentBlock) {
-        setSecondsRemaining((blockNumber - Number(currentBlock)) * BITGERT_BLOCK_TIME)
+        setSecondsRemaining((blockNumber - Number(currentBlock)) * getChain(chainId).blockInterval)
 
         // Clear previous interval
         if (timer.current) {

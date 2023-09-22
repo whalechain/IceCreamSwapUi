@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Box, Flex, lightColors, Spinner, Text, Timeline } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { useBSCCakeBalance } from 'hooks/useTokenBalance'
+import { useBitgertIceBalance } from 'hooks/useTokenBalance'
 import useTheme from 'hooks/useTheme'
 import { StyledWaveContainer } from 'views/PancakeSquad/styles'
 import { UserStatusEnum } from 'views/PancakeSquad/types'
@@ -32,7 +32,7 @@ const PancakeSquadHeader: React.FC<React.PropsWithChildren<PancakeSquadHeaderTyp
 }) => {
   const { t } = useTranslation()
   const { theme, isDark } = useTheme()
-  const { balance: cakeBalance } = useBSCCakeBalance()
+  const { balance: cakeBalance } = useBitgertIceBalance()
   const displayEventBlock = !!eventInfos || isLoading
   const {
     ticketsOfUser,

@@ -9,7 +9,6 @@ export default {
   masterChefV1: {},
   sousChef: {},
   lotteryV2: {},
-  multiCall: multicallAddresses,
   pancakeProfile: {},
   pancakeBunnies: {},
   bunnyFactory: {},

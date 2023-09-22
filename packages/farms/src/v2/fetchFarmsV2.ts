@@ -72,7 +72,6 @@ export type FetchFarmsParams = {
 export async function farmV2FetchFarms({
   farms,
   provider,
-  isTestnet,
   masterChefAddress,
   chainId,
   totalRegularAllocPoint,
@@ -86,7 +85,7 @@ export async function farmV2FetchFarms({
 
   const [stableFarmsResults, poolInfos, lpDataResults] = await Promise.all([
     fetchStableFarmData(stableFarms, chainId, provider),
-    fetchMasterChefData(farms, isTestnet, provider, masterChefAddress),
+    fetchMasterChefData(farms, chainId, provider, masterChefAddress),
     fetchPublicFarmsData(farms, chainId, provider, masterChefAddress),
   ])
 

@@ -1,6 +1,6 @@
 import BN from 'bignumber.js'
 import toString from 'lodash/toString'
-import { BLOCKS_PER_YEAR } from 'config'
+import { blocksPerYear } from 'config'
 import { useCallback, useMemo } from 'react'
 import { useCakeVault } from 'state/pools/hooks'
 import useSWRImmutable from 'swr/immutable'
@@ -10,6 +10,7 @@ import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { BOOST_WEIGHT, DURATION_FACTOR, MAX_LOCK_DURATION } from '@pancakeswap/pools'
 import { publicClient } from 'utils/wagmi'
 import { ChainId } from '@pancakeswap/sdk'
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 const masterChefAddress = getMasterChefV2Address()
 
@@ -39,6 +40,7 @@ export function useVaultApy({ duration = MAX_LOCK_DURATION }: { duration?: numbe
     pricePerFullShare = BIG_ZERO,
     fees: { performanceFeeAsDecimal } = { performanceFeeAsDecimal: DEFAULT_PERFORMANCE_FEE_DECIMALS },
   } = useCakeVault()
+  const { chainId } = useActiveChainId()
 
   const totalSharesAsEtherBN = useMemo(() => new BN(totalShares.toString()), [totalShares])
   const pricePerFullShareAsEtherBN = useMemo(() => new BN(pricePerFullShare.toString()), [pricePerFullShare])
@@ -72,7 +74,7 @@ export function useVaultApy({ duration = MAX_LOCK_DURATION }: { duration?: numbe
     const allocPoint = cakePoolInfo[2]
 
     const cakePoolSharesInSpecialFarms = new BN(allocPoint.toString()).div(new BN(totalSpecialAllocPoint.toString()))
-    return new BN(specialFarmsPerBlock.toString()).times(BLOCKS_PER_YEAR).times(cakePoolSharesInSpecialFarms)
+    return new BN(specialFarmsPerBlock.toString()).times(blocksPerYear(chainId)).times(cakePoolSharesInSpecialFarms)
   })
 
   const flexibleApy = useMemo(

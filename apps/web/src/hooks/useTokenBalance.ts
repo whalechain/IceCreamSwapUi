@@ -1,5 +1,5 @@
 import { ChainId } from '@pancakeswap/sdk'
-import { CAKE } from '@pancakeswap/tokens'
+import { ICE } from '@pancakeswap/tokens'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
@@ -40,8 +40,15 @@ export const useGetBnbBalance = () => {
   return { balance: data?.value ? BigInt(data.value) : 0n, fetchStatus: status, refresh: refetch }
 }
 
-export const useBSCCakeBalance = () => {
-  const { balance, fetchStatus } = useTokenBalance(CAKE[ChainId.BSC]?.address, true)
+export const useBitgertIceBalance = () => {
+  const { balance, fetchStatus } = useTokenBalance(ICE[ChainId.BITGERT]?.address, true)
+
+  return { balance: BigInt(balance.toString()), fetchStatus }
+}
+
+export const useGetIceBalance = () => {
+  const { chainId } = useActiveChainId()
+  const { balance, fetchStatus } = useTokenBalance(ICE[chainId]?.address)
 
   return { balance: BigInt(balance.toString()), fetchStatus }
 }

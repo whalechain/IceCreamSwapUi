@@ -4,7 +4,6 @@ import {
   INFO_CLIENT,
   STABLESWAP_SUBGRAPH_CLIENT,
   V3_SUBGRAPH_URLS,
-  INFO_SUBGRAPH_URLS,
   INFO_CLIENT_WITH_CHAIN
 } from 'config/constants/endpoints'
 import { GraphQLClient } from 'graphql-request'
@@ -42,8 +41,8 @@ export const v3Clients = Object.values(ChainId).reduce((acc, chainId) => (
 export const v3InfoClients = v3Clients
 
 export const v2Clients = Object.values(ChainId).reduce((acc, chainId) => (
-  chainId in INFO_SUBGRAPH_URLS? {
-    ...acc, [chainId]: new GraphQLClient(INFO_SUBGRAPH_URLS[chainId])
+  chainId in INFO_CLIENT_WITH_CHAIN? {
+    ...acc, [chainId]: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[chainId])
   }: acc
 ), {})
 

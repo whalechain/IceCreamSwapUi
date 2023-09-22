@@ -1,5 +1,4 @@
 import { PublicClient, formatEther } from 'viem'
-import { ChainId } from '@pancakeswap/sdk'
 import BigNumber from 'bignumber.js'
 import {
   FarmV3SupportedChainId,
@@ -21,8 +20,6 @@ import {
   getCakeApr,
 } from './fetchFarmsV3'
 import { ComputedFarmConfigV3, FarmV3DataWithPrice } from './types'
-import { chains } from '@icecreamswap/constants'
-import { ChainId } from '@pancakeswap/sdk'
 
 export { type FarmV3SupportedChainId, supportedChainIdV3, bCakeSupportedChainId, supportedChainIdV2 }
 
@@ -142,4 +139,4 @@ export * from './v2/deserializeFarm'
 export * from './v2/filterFarmsByQuery'
 export { getFarmsPriceHelperLpFiles } from '../constants/priceHelperLps/getFarmsPriceHelperLpFiles'
 
-export { masterChefV3Addresses, fetchCommonTokenUSDValue, fetchTokenUSDValues }
+export { masterChefV3Addresses, masterChefAddresses, fetchCommonTokenUSDValue, fetchTokenUSDValues }

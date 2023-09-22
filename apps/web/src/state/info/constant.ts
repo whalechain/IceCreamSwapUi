@@ -54,6 +54,7 @@ export const multiChainQueryClient: Record<MultiChainName, GraphQLClient> = {
 
 export const multiChainScan: Record<MultiChainName, string> = {
   BITGERT: 'BriseScan',
+  BSC: 'BscScan',
   DOGECHAIN: 'DogeScan',
   DOKEN: 'DokenScan',
   FUSE: 'FuseScan',
@@ -83,3 +84,5 @@ export const checkIsStableSwap = () => window.location.href.includes('stableSwap
 export const multiChainName = chains.map((chain) => chain.network.toUpperCase())
 
 export const v2SubgraphTokenName = chains.map((chain) => chain.network.toUpperCase())
+
+export const subgraphTokenSymbol = {}

@@ -1,4 +1,4 @@
-import { CAKE } from '@pancakeswap/tokens'
+import { ICE } from '@pancakeswap/tokens'
 
 // Addresses
 import {
@@ -89,7 +89,7 @@ import { Address, erc20ABI, erc721ABI } from 'wagmi'
 export const getContract = <TAbi extends Abi | unknown[], TWalletClient extends WalletClient>({
   abi,
   address,
-  chainId = ChainId.BSC,
+  chainId,
   publicClient,
   signer,
 }: {
@@ -130,10 +130,10 @@ export const getLpContract = (address: Address, chainId?: number, signer?: Walle
 export const getPointCenterIfoContract = (signer?: WalletClient) => {
   return getContract({ abi: pointCenterIfoABI, address: getPointCenterIfoAddress(), signer })
 }
-export const getCakeContract = (chainId?: number) => {
+export const getCakeContract = (chainId: number) => {
   return getContract({
     abi: erc20ABI,
-    address: chainId ? CAKE[chainId]?.address : CAKE[ChainId.BSC].address,
+    address: ICE[chainId].address,
     chainId,
   })
 }
