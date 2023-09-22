@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, PageHeader, Text } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
-import { useAccount, useSigner } from 'wagmi'
+import { useAccount, useWalletClient } from "wagmi";
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useActiveChain } from 'hooks/useActiveChain'
 import styled, { useTheme } from 'styled-components'
@@ -35,15 +35,17 @@ const ImgWrapper = styled.div`
 `
 
 export const Airdrop: React.FC = () => {
-  const chain = useActiveChain()
   const { address, status } = useAccount()
-  const { data: signer } = useSigner()
+  const { data: signer } = useWalletClient()
   const [state, setState] = useState<string | undefined>()
 
   const onSubmit = async () => {
     setState('loading')
     try {
-      const sig = await signer?.signMessage(address.toLowerCase())
+      const sig = await signer?.signMessage({
+        account: signer.account,
+        message: address.toLowerCase() as `0x${string}`
+      })
       const res = await fetch(`api/submit-airdrop`, {
         method: 'POST',
         headers: {
