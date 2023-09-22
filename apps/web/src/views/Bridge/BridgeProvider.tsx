@@ -1,14 +1,16 @@
 import type { Bridge } from '@chainsafe/chainbridge-contracts'
 import type { BridgeChain } from './config'
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react'
-import { useBalance, useProvider, useSigner } from 'wagmi'
+import { useBalance, usePublicClient, useWalletClient } from "wagmi";
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { bridgeChains } from './config'
 import { Currency, CurrencyAmount, ERC20Token, Native } from '@pancakeswap/sdk'
 import { useTokenBalances } from 'state/wallet/hooks'
-import { BigNumber, utils } from 'ethers'
-import { Erc20DetailedFactory } from './contracts/Erc20DetailedFactory'
 import { useRouter } from 'next/router'
+import { useContract, useERC20 } from "hooks/useContract";
+import { bridgeABI } from 'config/abi/bridge'
+import { parseUnits } from "viem";
+import { getContract } from "utils/contractHelpers";
 
 type Tokens = { [address: string]: ERC20Token }
 
@@ -31,7 +33,6 @@ export const isTransactionError = (status: TransactionStatus): status is Transac
   typeof status === 'object' && 'status' in status && 'message' in status
 
 interface BridgeContext {
-  bridge: Bridge
   homeChainConfig: BridgeChain
   destinationChainConfig: BridgeChain
   setDestinationChainId: (id: number) => void
@@ -76,17 +77,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () => bridgeChains.find((chain) => chain.networkId === destinationChainId),
     [destinationChainId],
   )
-  const signer = useSigner()
-  const [bridge, setBridge] = useState<Bridge | undefined>()
-  useEffect(() => {
-    const createBridge = async () => {
-      if (signer?.data && homeChainConfig?.bridgeAddress) {
-        const { BridgeFactory } = await import('@chainsafe/chainbridge-contracts')
-        setBridge(BridgeFactory.connect(homeChainConfig.bridgeAddress, signer.data))
-      }
-    }
-    createBridge()
-  }, [signer?.data, homeChainConfig?.bridgeAddress])
+  const bridge = useContract(homeChainConfig.bridgeAddress, bridgeABI)
   const [recipient, setRecipient] = useState<string>()
   const [toOtherAddress, setToOtherAddress] = useState(false)
   const [transactionStatus, setTransactionStatus] = useState<TransactionStatus | undefined>()
@@ -97,7 +88,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const setApprovalFlow = async () => {
-      if (!homeChainConfig || !bridge || !depositAmount || !signer?.data || !currency) return
+      if (!homeChainConfig || !bridge || !depositAmount || !currency) return
       if (currency.isNative) {
         setHasApproval(true)
         setShowApprovalFlow(false)
@@ -105,19 +96,19 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const tokenAddress = currency instanceof ERC20Token ? currency.address : undefined
       if (!tokenAddress) return
 
-      const erc20 = Erc20DetailedFactory.connect(tokenAddress, signer?.data)
+      const erc20 = useERC20(tokenAddress)
       const token = homeChainConfig.tokens.find((t) => t.address === tokenAddress)
       if (!token) return
-      const handlerAddress = await bridge._resourceIDToHandlerAddress(token.resourceId)
-      const currentAllowance = await erc20.allowance(await signer?.data.getAddress(), handlerAddress)
-      const erc20Decimals = await erc20.decimals()
-      const amountBN = BigNumber.from(utils.parseUnits(depositAmount, erc20Decimals))
+      const handlerAddress = await bridge.read._resourceIDToHandlerAddress([token.resourceId as `0x${string}`])
+      const currentAllowance = await erc20.read.allowance([account, handlerAddress])
+      const erc20Decimals = await erc20.read.decimals()
+      const amountBI = parseUnits(depositAmount, erc20Decimals)
 
-      setShowApprovalFlow(currentAllowance.lt(amountBN))
-      setHasApproval(currentAllowance.gte(amountBN))
+      setShowApprovalFlow(currentAllowance < amountBI)
+      setHasApproval(currentAllowance >= amountBI)
     }
     setApprovalFlow()
-  }, [homeChainConfig, signer?.data, currency, bridge, depositAmount])
+  }, [homeChainConfig, currency, bridge, depositAmount])
 
   useEffect(() => {
     if (homeChainConfig && destinationChainConfig) {
@@ -125,31 +116,39 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       setDepositAmount('')
     }
   }, [homeChainConfig, destinationChainConfig])
-  const destProvider = useProvider({ chainId: destinationChainId })
+  const destPublicClient = usePublicClient({ chainId: destinationChainId })
 
   useEffect(() => {
     if (!destinationChainConfig) return () => undefined
 
-    let destinationBridge: Bridge | undefined
-    const sub = async () => {
-      const { BridgeFactory } = await import('@chainsafe/chainbridge-contracts')
-      destinationBridge = BridgeFactory.connect(destinationChainConfig.bridgeAddress, destProvider)
-      destinationBridge?.on(
-        destinationBridge.filters.ProposalEvent(null, null, null, null) as any,
-        async (originDomainId: number, nonce: BigNumber, status: number) => {
-          console.log('ProposalEvent', originDomainId, nonce?.toString(), status)
-          if (originDomainId !== homeChainConfig?.domainId) return
+    const destinationBridge = getContract({
+      abi: bridgeABI,
+      address: destinationChainConfig.bridgeAddress,
+      chainId: destinationChainId,
+      publicClient: destPublicClient
+    })
+
+    const unwatch = destPublicClient.watchContractEvent({
+      address: destinationBridge.address,
+      abi: bridgeABI,
+      eventName: 'ProposalEvent',
+      onLogs: logs => {
+        logs.map(log => {
+          // const originDomainId = log.args.originDomainID
+          // const nonce = log.args.depositNonce
+          // const status = log.args.status
+          const {originDomainID , depositNonce: nonce, status} = log.args
+          console.log('ProposalEvent', originDomainID, nonce?.toString(), status)
+          if (originDomainID !== homeChainConfig?.domainId) return
           if (nonce.toString() !== depositNonce) return
           if (status === 3) setTransactionStatus('Transfer Completed')
           if (status === 4) setTransactionStatus('Transfer Aborted')
-        },
-      )
-    }
-    sub()
-    return () => {
-      destinationBridge?.removeAllListeners(destinationBridge.filters.ProposalEvent(null, null, null, null) as any)
-    }
-  }, [depositNonce, homeChainConfig?.domainId, destProvider, destinationChainConfig])
+        })
+      }
+    })
+
+    return unwatch
+  }, [depositNonce, homeChainConfig?.domainId, destPublicClient, destinationChainConfig])
 
   const [tokens, setTokens] = useState<Tokens>({})
   useEffect(() => {
@@ -170,14 +169,13 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setTokens(tokensWithoutDecimals)
     let cancelled = false
     const calculateDecimals = async () => {
-      if (!signer?.data) return
       const tokensWithDecimals: Tokens = {}
       await Promise.all(
         homeChainConfig?.tokens.map(async (current) => {
           if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return
           if (current.address === '0x0000000000000000000000000000000000000000') return
-          const erc20 = Erc20DetailedFactory.connect(current.address, signer?.data)
-          const decimals = await erc20.decimals()
+          const erc20 = useERC20(current.address)
+          const decimals = await erc20.read.decimals()
           tokensWithDecimals[current.address] = new ERC20Token(
             chainId,
             current.address,
@@ -194,8 +192,8 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return () => {
       cancelled = true
     }
-  }, [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens, signer?.data])
-  const nativeBalance = useBalance({ chainId, addressOrName: account }).data
+  }, [chainId, destinationChainConfig?.tokens, homeChainConfig?.decimals, homeChainConfig?.tokens])
+  const nativeBalance = useBalance({ chainId, address: account }).data
   const tokenBalances = {
     ...useTokenBalances(
       account,
@@ -219,7 +217,6 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <BridgeContext.Provider
       value={{
-        bridge,
         homeChainConfig,
         destinationChainConfig,
         setDestinationChainId,

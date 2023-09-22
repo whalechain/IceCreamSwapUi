@@ -1,32 +1,30 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { useEffect, useState } from 'react'
-import { useSigner } from 'wagmi'
 import { utils } from 'ethers'
 import { useBridge } from '../BridgeProvider'
-import { Erc20DetailedFactory } from '../contracts/Erc20DetailedFactory'
 import { ERC20Token } from '@pancakeswap/sdk'
+import { useContract, useERC20 } from "hooks/useContract";
+import { bridgeABI } from "config/abi/bridge";
+import { useWeb3React } from "@pancakeswap/wagmi";
 
 export const useBridgeTax = () => {
   const {
-    bridge: homeBridge,
     homeChainConfig,
     currency,
     depositAmount,
     destinationChainConfig,
     tokenBalances,
   } = useBridge()
-  const { data: signer } = useSigner()
-  const provider = signer?.provider
+  const { account} = useWeb3React()
   const [bridgeFee, setBridgeFee] = useState<number | undefined>()
   const [bridgeFeeToken, setBridgeFeeToken] = useState<string | undefined>()
   const [relayerThreshold, setRelayerThreshold] = useState<number | undefined>()
 
+  const homeBridge = useContract(homeChainConfig.bridgeAddress, bridgeABI)
+
   useEffect(() => {
     const getRelayerThreshold = async () => {
-      if (homeBridge) {
-        const threshold = BigNumber.from(await homeBridge._relayerThreshold()).toNumber()
-        setRelayerThreshold(threshold)
-      }
+      const threshold = await homeBridge.read._relayerThreshold()
+      setRelayerThreshold(threshold)
     }
     getRelayerThreshold()
   }, [homeBridge])
@@ -44,9 +42,7 @@ export const useBridgeTax = () => {
       if (
         homeBridge &&
         selectedToken &&
-        selectedToken !== '' &&
         homeChainConfig &&
-        provider &&
         depositAmount &&
         destinationDomainId
       ) {
@@ -55,30 +51,30 @@ export const useBridgeTax = () => {
           console.error('Token not found')
           return
         }
-        const recipient = await signer.getAddress()
-        const erc20 = Erc20DetailedFactory.connect(token.address, signer)
+        const recipient = account
+        const erc20 = useERC20(token.address)
         const isNative = token.address === '0x0000000000000000000000000000000000000000'
-        const erc20Decimals = homeChainConfig.decimals || (isNative ? 18 : await erc20.decimals())
+        const erc20Decimals = homeChainConfig.decimals || (isNative ? 18 : await erc20.read.decimals())
 
-        const data = `0x${utils
-          .hexZeroPad(BigNumber.from(utils.parseUnits(depositAmount.toString(), erc20Decimals)).toHexString(), 32)
+        const data: `0x${string}` = `0x${utils
+          .hexZeroPad(utils.parseUnits(depositAmount.toString(), erc20Decimals).toHexString(), 32)
           .substring(2)}${utils.hexZeroPad(utils.hexlify((recipient.length - 2) / 2), 32).substring(2)}${
           recipient.substring(2) // recipientAddress (?? bytes)
         }`
 
         try {
-          const { feeToken, fee } = await homeBridge.calculateFee(
-            BigNumber.from(destinationDomainId),
-            token.resourceId,
+          const [ feeToken, fee ] = await homeBridge.read.calculateFee([
+            destinationDomainId,
+            token.resourceId as `0x${string}`,
             data,
-          )
+          ])
           const feeTokenInfos = homeChainConfig.tokens.find((t) => t.address === feeToken)
-          let decimals: number | undefined
+          let decimals: number
           if (feeToken === '0x0000000000000000000000000000000000000000') {
             decimals = 18
           } else if (!feeTokenInfos) {
-            const feeTokenErc20 = Erc20DetailedFactory.connect(feeToken, signer)
-            decimals = await feeTokenErc20.decimals()
+            const feeTokenErc20 = useERC20(feeToken)
+            decimals = await feeTokenErc20.read.decimals()
           } else {
             decimals = homeChainConfig.decimals
           }
@@ -94,7 +90,7 @@ export const useBridgeTax = () => {
       }
     }
     getBridgeFee()
-  }, [depositAmount, destinationDomainId, homeBridge, homeChainConfig, provider, selectedToken, signer])
+  }, [depositAmount, destinationDomainId, homeBridge, homeChainConfig, selectedToken])
 
   const bridgeFeeCurrency = homeChainConfig?.tokens.find((t) => t.address === bridgeFeeToken)
 

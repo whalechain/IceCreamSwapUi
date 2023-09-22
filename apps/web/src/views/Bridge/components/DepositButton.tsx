@@ -15,7 +15,7 @@ const DepositButton: React.FC<DepositButtonProps> = (props) => {
   const { validateForm, setHasSubmitted } = props
   const { account } = useWeb3React()
 
-  const { bridge: _, ...bridge } = useBridge()
+  const bridge = useBridge()
   const { deposit, approve } = useDeposit()
 
   const [onPresentDepositModal, , isOpen] = useModal(
