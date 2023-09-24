@@ -12,7 +12,6 @@ export interface ApyProps {
   pid: number
   lpLabel: string
   lpSymbol: string
-  lpAddress: string
   lpRewardsApr: number
   lpTokenPrice: BigNumber
   tokenAddress?: string
@@ -52,7 +51,6 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
   pid,
   lpLabel,
   lpSymbol,
-  lpAddress,
   lpTokenPrice,
   multiplier,
   tokenAddress = '',
@@ -75,7 +73,6 @@ const Apy: React.FC<React.PropsWithChildren<ApyProps>> = ({
           variant={hideButton ? 'text' : 'text-and-button'}
           pid={pid}
           lpSymbol={lpSymbol}
-          lpAddress={lpAddress}
           lpLabel={lpLabel}
           lpTokenPrice={lpTokenPrice}
           multiplier={multiplier}

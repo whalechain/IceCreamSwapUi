@@ -66,11 +66,12 @@ enum Resolution {
   LG = '2x',
 }
 interface ImageAttributes {
-  src: StaticImageData
+  src: StaticImageData | string
   alt: string
 }
 
 export interface CompositeImageProps {
+  path: string
   attributes: ImageAttributes[]
 }
 

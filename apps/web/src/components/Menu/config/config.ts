@@ -13,13 +13,14 @@ import {
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
 import {
+  SUPPORT_BUY_CRYPTO,
   SUPPORT_FARMS,
   SUPPORT_STAKING,
   SUPPORT_INFO,
   SUPPORT_SWAP,
   SUPPORT_BRIDGE,
   SUPPORT_LOCKS,
-} from '../../../config/constants/supportChains'
+} from 'config/constants/supportChains'
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & {
   hideSubNav?: boolean

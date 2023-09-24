@@ -1,23 +1,23 @@
-import { Box, Button, Flex, Heading, Input, Link, PageHeader, Text, useModal } from '@pancakeswap/uikit'
+import { Box, Button, Flex, Heading, Input, Link, PageHeader, Text, useModal, tokens } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
 import useSWR from 'swr'
 import { useActiveChain } from 'hooks/useActiveChain'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
 import Page from 'components/Layout/Page'
-import { tokens } from '@pancakeswap/ui'
 import { useState } from 'react'
 import { useToken } from 'hooks/Tokens'
-import { useAccount, useSigner } from 'wagmi'
+import { useAccount, useWalletClient } from "wagmi";
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useContract } from 'hooks/useContract'
-import minterAbi from './minterAbi.json'
 import { utils } from 'ethers'
 import { useUser } from '../../strict/hooks/useUser'
 import { useDelegateKyc } from '../../strict/hooks/useDelegateKyc'
 import { useKycDelegation } from '../../strict/hooks/useKycDelegation'
 import { useOnLogin } from '../../strict/hooks/useLogin'
 import BuyModal from './components/MintModal'
+import { kycMinterABI } from "config/abi/kycMinter";
+import useAccountActiveChain from "hooks/useAccountActiveChain";
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -48,14 +48,16 @@ export const KycDelegator: React.FC = () => {
   const [input, setInput] = useState('')
   const chain = useActiveChain()
   const { address, status } = useAccount()
-  const minter = useContract(chain.kyc?.contractKycMinter, minterAbi)
+  const minter = useContract(chain.kyc?.contractKycMinter, kycMinterABI)
   const fee = useSWR('kyc/fee', async () => {
-    const feeAmount = await minter?.feeAmount()
-    const feeToken = await minter?.feeToken()
+    const feeAmount = await minter.read.feeAmount()
+    const feeToken = await minter.read.feeToken()
     const feeAmountFormatted = utils.formatUnits(feeAmount, 18)
     return { feeAmount, feeToken, feeAmountFormatted }
   })
   const token = useToken(fee.data?.feeToken)
+  const { data: walletClient } = useWalletClient()
+  const { account } = useAccountActiveChain()
   const addTransaction = useTransactionAdder()
   const paid = useSWR(
     address ? `kyc/${address}` : null,
@@ -66,12 +68,10 @@ export const KycDelegator: React.FC = () => {
     },
     { refreshInterval: 2000 },
   )
-  const { data: signer } = useSigner()
-
   const { isDark } = useTheme()
   const user = useUser()
   const delegate = useDelegateKyc()
-  const onLogin = useOnLogin(signer, address)
+  const onLogin = useOnLogin(address, walletClient, account)
   const [onPresentBuyModal] = useModal(<BuyModal target={input} />, true, true, `buyModal-${input}`)
   const delegation = useKycDelegation({
     chainId: chain.id,

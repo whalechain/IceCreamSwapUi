@@ -10,19 +10,26 @@ import {
   xodexTokens
 } from "@pancakeswap/tokens";
 import { chains } from "@icecreamswap/constants";
+import { Address } from "viem";
 
-export const SMART_ROUTER_ADDRESSES: Record<ChainId, string> = {
+export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
   [ChainId.CORE]: '0xD56d8dC0F34509c5D60471fA664Bd163F3cE0166',
   [ChainId.XDC]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
 } as const
 
-export const V2_ROUTER_ADDRESS: ChainMap<string> = chains.reduce((acc, chain) => {
+export const V2_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {
   return chain.swap
-    ?{...acc, [chain.id]: chain.swap?.routerAddress}
+    ?{...acc, [chain.id]: chain.swap.routerAddress}
     :acc
 }, {})
 
-export const STABLE_SWAP_INFO_ADDRESS: ChainMap<string> = {}
+export const AKKA_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {
+  return chain.swapAkka
+    ?{...acc, [chain.id]: chain.swapAkka.routerAddress}
+    :acc
+}, {})
+
+export const STABLE_SWAP_INFO_ADDRESS: ChainMap<Address> = {}
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {

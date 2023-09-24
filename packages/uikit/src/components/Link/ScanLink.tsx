@@ -12,7 +12,6 @@ interface ScanLinkProps extends Omit<LinkProps, "external" | "showExternalIcon">
 
 const icons: { [key in ChainId]?: ReactElement } = {
   [ChainId.BSC]: <BscScanIcon />,
-  [ChainId.BSC_TESTNET]: <BscScanIcon />,
 };
 
 const ScanLink: React.FC<React.PropsWithChildren<ScanLinkProps>> = ({ children, icon, chainId, ...props }) => {

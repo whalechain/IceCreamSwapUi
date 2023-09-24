@@ -21,7 +21,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const [finished, setFinished] = useState(false)
   const locks = useLocks()
   const { onDismiss } = useModalContext()
-  const [approvalState, approve] = useApproveCallback(amount, locks.address, true)
+  const {approvalState, approveCallback: approve} = useApproveCallback(amount, locks.address, {addToTransaction: true})
   const showApprovalFlow = useMemo(() => {
     return approvalState !== ApprovalState.APPROVED
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,8 +30,8 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const router = useRouter()
   const handleDeposit = () => {
     if (!amount.currency.isToken) return
-    locks
-      .lock(amount.currency.address, amount.numerator.toString(), startingDate.getTime() / 1000, duration)
+    locks.write
+      .lock([amount.currency.address, amount.numerator, BigInt(startingDate.getTime() / 1000), BigInt(duration)], {})
       .then(() => {
         setFinished(true)
         if (!amount.currency.isToken) return

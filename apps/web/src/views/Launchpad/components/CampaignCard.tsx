@@ -55,10 +55,10 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const ended = new Date(campaign.end_date.toNumber() * 1000) < new Date()
   const hardCapReached = campaign.hardCapProgress >= 1
   const { address, status } = useAccount()
-  const c = useCampaign(campaign.address)
+  const c = useCampaign(campaign.address as `0x${string}`)
 
-  const contributed = useGivenAmount(campaign.address, address)
-  const canBuy = useCanBuy(campaign.address, address)
+  const contributed = useGivenAmount(campaign.address as `0x${string}`, address)
+  const canBuy = useCanBuy(campaign.address as `0x${string}`, address)
   const [claiming, setClaiming] = useState(false)
 
   const theme = useTheme()
@@ -76,7 +76,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
     </Flex>,
     { placement: 'bottom', trigger: 'hover' },
   )
-  if (ended && (!address || (contributed.data && !contributed.data.gt(0))) && campaign.deleted) {
+  if (ended && (!address || (contributed.data && !(contributed.data > 0))) && campaign.deleted) {
     return null
   }
 
@@ -147,13 +147,13 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
             ) : (
               <ConnectWalletButton />
             )
-          ) : contributed.data?.gt(0) && !campaign.isLive ? (
+          ) : contributed.data > 0 && !campaign.isLive ? (
             campaign.collected.gt(campaign.softCap) ? (
               <Button
                 disabled={claiming}
                 onClick={() => {
                   setClaiming(true)
-                  c.withdrawTokens().catch(() => {
+                  c.write.withdrawTokens({}).catch(() => {
                     setClaiming(false)
                   })
                 }}
@@ -165,7 +165,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
                 disabled={claiming}
                 onClick={() => {
                   setClaiming(true)
-                  c.withdrawFunds().catch(() => {
+                  c.write.withdrawFunds({}).catch(() => {
                     setClaiming(false)
                   })
                 }}

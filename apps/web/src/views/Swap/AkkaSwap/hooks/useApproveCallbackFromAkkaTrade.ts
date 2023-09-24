@@ -1,5 +1,5 @@
-import { ROUTER_ADDRESS } from 'config/constants/exchange'
 import { ChainId, Currency, CurrencyAmount } from '@pancakeswap/sdk'
+import { AKKA_ROUTER_ADDRESS } from '@pancakeswap/smart-router/evm'
 import { useApproveCallback } from 'hooks/useApproveCallback'
 import { useMemo } from 'react'
 import { useActiveChainId } from 'hooks/useActiveChainId'
@@ -8,5 +8,5 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 export function useApproveCallbackFromAkkaTrade(inputAmount: CurrencyAmount<Currency>) {
   const amountToApprove = useMemo(() => inputAmount || undefined, [inputAmount])
   const { chainId } = useActiveChainId()
-  return useApproveCallback(amountToApprove, ROUTER_ADDRESS[chainId].Akka)
+  return useApproveCallback(amountToApprove, AKKA_ROUTER_ADDRESS[chainId])
 }

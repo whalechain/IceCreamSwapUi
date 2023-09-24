@@ -19,7 +19,6 @@ import { getBlockExploreLink, getBlockExploreName } from 'utils'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { WrappedTokenInfo } from '@pancakeswap/token-lists'
 import truncateHash from '@pancakeswap/utils/truncateHash'
-import { ethereumTokens } from '@pancakeswap/tokens'
 
 import { Field } from 'state/swap/actions'
 import { useActiveChainId } from 'hooks/useActiveChainId'
@@ -97,8 +96,7 @@ const useConfirmModalState = ({
     // See the `approve` function here: https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7#code
     if (
       currentAllowance?.greaterThan(0) &&
-      approvalToken.chainId === ethereumTokens.usdt.chainId &&
-      approvalToken.wrapped.address.toLowerCase() === ethereumTokens.usdt.address.toLowerCase()
+      false
     ) {
       steps.push(ConfirmModalState.RESETTING_APPROVAL)
     }

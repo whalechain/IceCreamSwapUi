@@ -1,4 +1,3 @@
-import invariant from 'tiny-invariant'
 import { Currency } from './currency'
 import type { Token } from './token'
 
@@ -44,8 +43,10 @@ export abstract class BaseCurrency {
    * @param name of the currency
    */
   protected constructor(chainId: number, decimals: number, symbol: string, name?: string) {
-    invariant(Number.isSafeInteger(chainId), 'CHAIN_ID')
-    invariant(decimals >= 0 && decimals < 255 && Number.isInteger(decimals), 'DECIMALS')
+    if (!Number.isSafeInteger(chainId)) throw new Error('CHAIN_ID')
+    if (!(decimals >= 0 && decimals < 255 && Number.isInteger(decimals))) throw new Error('DECIMALS')
+    // invariant(Number.isSafeInteger(chainId), 'CHAIN_ID') todo: readd
+    // invariant(decimals >= 0 && decimals < 255 && Number.isInteger(decimals), 'DECIMALS') todo: readd
 
     this.chainId = chainId
     this.decimals = decimals

@@ -28,7 +28,7 @@ import { getBlockExploreLink } from 'utils'
 import { formatAmount } from 'utils/formatInfoNumbers'
 
 import truncateHash from '@pancakeswap/utils/truncateHash'
-import { multiChainId, multiChainScan, subgraphTokenName, subgraphTokenSymbol } from 'state/info/constant'
+import { multiChainId, multiChainScan, subgraphTokenSymbol } from 'state/info/constant'
 import { useChainNameByQuery, useMultiChainPath, useStableSwapPath } from 'state/info/hooks'
 import { styled } from 'styled-components'
 import { CurrencyLogo } from 'views/Info/components/CurrencyLogo'
@@ -210,7 +210,7 @@ const TokenPage: React.FC<{ address: string }> = ({ address }) => {
                       fontSize={isXs || isSm ? '24px' : '40px'}
                       id="info-token-name-title"
                     >
-                      {subgraphTokenName[address.toLowerCase()] ?? tokenData.name}
+                      {tokenData.name}
                     </Text>
                     <Text ml="12px" lineHeight="1" color="textSubtle" fontSize={isXs || isSm ? '14px' : '20px'}>
                       ({subgraphTokenSymbol[address.toLowerCase()] ?? tokenData.symbol})

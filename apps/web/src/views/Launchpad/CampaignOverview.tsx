@@ -11,7 +11,7 @@ import AppWrapper from 'components/AppWrapper'
 import { useCampaigns, useFlags } from './hooks'
 import TokenName from 'views/Locks/components/TokenName'
 import { renderDate } from 'utils/renderDate'
-import InfoTooltip from '@pancakeswap/uikit/src/components/Timeline/InfoTooltip'
+import InfoTooltip from '@pancakeswap/uikit/components/Timeline/InfoTooltip'
 import useNativeCurrency from 'hooks/useNativeCurrency'
 
 const RowStyled = styled.tr`

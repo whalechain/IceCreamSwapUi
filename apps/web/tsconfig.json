@@ -19,8 +19,7 @@
       "*": ["./src/*"],
       "@pancakeswap/uikit": ["../../packages/uikit/src/index.ts"],
       "@pancakeswap/uikit/*": ["../../packages/uikit/src/*"]
-    },
-    "skipLibCheck": true
+    }
   },
   "exclude": [
     "**/node_modules",

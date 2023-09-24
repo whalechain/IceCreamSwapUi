@@ -110,7 +110,7 @@ export async function fetchGlobalChartData(
     const derivedData = await fetchDerivedProtocolTVLHistory(dataClient, chainId)
     const { data } = await fetchChartData(dataClient)
 
-    const shouldUserDerivedData = chainId === ChainId.ETHEREUM
+    const shouldUserDerivedData = false
 
     // @TODO: remove this once we have fix for mainnet TVL issue
     const formattedData = shouldUserDerivedData ? derivedData : data

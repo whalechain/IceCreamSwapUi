@@ -9,11 +9,8 @@ import { useTranslation } from '@pancakeswap/localization'
 import { Field } from 'state/swap/actions'
 import { useSwapState } from 'state/swap/hooks'
 import { useGasPrice } from 'state/user/hooks'
-import { parseEther, parseUnits } from '@ethersproject/units'
 import { calculateGasMargin } from 'utils'
-import { Contract } from '@ethersproject/contracts'
 import { ChainId, NATIVE, SwapParameters } from '@pancakeswap/sdk'
-import { BigNumber } from '@ethersproject/bignumber'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 
 export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
@@ -46,15 +43,16 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
       multiPathSwap: args ? chainId === ChainId.CORE ?
         async () => {
 
-          const gasLimitCalc = await akkaCoreContract.estimateGas[methodName](
-            args?.amountIn,
-            args?.amountOutMin,
-            args?.data,
-            account,
-            args?.akkaFee?.fee,
-            args?.akkaFee?.v,
-            args?.akkaFee?.r,
-            args?.akkaFee?.s,
+          const gasLimitCalc = await akkaCoreContract.estimateGas[methodName]([
+              BigInt(args?.amountIn),
+              BigInt(args?.amountOutMin),
+              args?.data,
+              account,
+              BigInt(args?.akkaFee?.fee),
+              Number(args?.akkaFee?.v),
+              args?.akkaFee?.r as `0x${string}`,
+              args?.akkaFee?.s as `0x${string}`,
+            ],
             {
               value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0'
             }
@@ -78,7 +76,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             ],
             {
               value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
-              gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
+              gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000n) : '0'
             }
           )
             .catch((error: any) => {
@@ -99,14 +97,15 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
         }
         :
         async () => {
-          const gasLimitCalc = await akkaContract.estimateGas[methodName](
-            args?.amountIn,
-            args?.amountOutMin,
-            args?.data,
-            [],
-            [],
-            account
-            , {
+          const gasLimitCalc = await akkaContract.estimateGas[methodName]([
+              BigInt(args?.amountIn),
+              BigInt(args?.amountOutMin),
+              args?.data,
+              [],
+              [],
+              account
+            ],
+            {
               value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
             })
             .catch((gasError) => {
@@ -126,7 +125,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
             ],
             {
               value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
-              gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
+              gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000n) : '0'
             }
           )
             .catch((error: any) => {

@@ -20,10 +20,6 @@ import { useAllOnRampTokens } from 'hooks/Tokens'
 import { fiatCurrencyMap } from 'views/BuyCrypto/constants'
 
 const networkDisplay: { [id: number]: string } = {
-  [ChainId.ETHEREUM]: 'Ethereum',
-  [ChainId.BSC]: 'Binance Chain',
-  [ChainId.ZKSYNC]: 'ZK Sync',
-  [ChainId.ARBITRUM_ONE]: 'Arbitrum One',
 }
 
 const DropDownContainer = styled.div<{ error: boolean }>`

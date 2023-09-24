@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import useSWRImmutable from 'swr/immutable'
 import { FetchStatus } from 'config/constants/types'
-import { polygonRpcProvider } from 'utils/providers'
 import { Address } from 'wagmi'
 import { ChainId } from '@pancakeswap/sdk'
 import { useUNSContract } from './useContract'
@@ -17,6 +16,8 @@ function getUnsAddress(networkId) {
 }
 
 export const useUnsNameForAddress = (address: Address, fetchData = true) => {
+  return { unsName: undefined, isLoading: false }
+  /*
   const unsEtherContract = useUNSContract(getUnsAddress(1), ChainId.ETHEREUM, undefined)
   const unsPolygonContract = useUNSContract(getUnsAddress(137), undefined, polygonRpcProvider)
 
@@ -44,4 +45,5 @@ export const useUnsNameForAddress = (address: Address, fetchData = true) => {
   return useMemo(() => {
     return { unsName: unsName?.name, isLoading: status !== FetchStatus.Fetched }
   }, [unsName, status])
+ */
 }

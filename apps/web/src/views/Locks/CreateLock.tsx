@@ -26,7 +26,7 @@ const getNow = () => {
 }
 
 export const CreateLock: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }) => {
-  const { data: locks } = useLocksByToken(tokenAddress)
+  const { data: locks } = useLocksByToken(tokenAddress as `0x${string}`)
   const { account } = useWeb3React()
 
   const chain = useActiveChain()

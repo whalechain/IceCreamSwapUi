@@ -10,10 +10,13 @@ import {
   CopyAddress,
   FlexGap,
   useTooltip,
+  TooltipText,
+  InfoFilledIcon,
+  ScanLink,
 } from '@pancakeswap/uikit'
 import { ChainId, WNATIVE } from '@pancakeswap/sdk'
-import { FetchStatus } from '../../../config/constants/types'
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
+import { FetchStatus } from 'config/constants/types'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTranslation } from '@pancakeswap/localization'
 import useAuth from 'hooks/useAuth'
 import useNativeCurrency from 'hooks/useNativeCurrency'

@@ -2,11 +2,13 @@ import { ChainId } from '@pancakeswap/sdk'
 import { masterChefAddresses , masterChefV3Addresses } from '@pancakeswap/farms'
 import { DEPLOYER_ADDRESSES } from '@pancakeswap/v3-sdk'
 import { V3_QUOTER_ADDRESSES } from '@pancakeswap/smart-router/evm'
+import { MULTICALL_ADDRESS } from "@pancakeswap/multicall";
 
 export default {
   masterChef: masterChefAddresses,
   masterChefV3: masterChefV3Addresses,
   masterChefV1: {},
+  multiCall: MULTICALL_ADDRESS,
   sousChef: {},
   lotteryV2: {},
   pancakeProfile: {},

@@ -1,20 +1,19 @@
-import { Box, Button, Flex, Heading, PageHeader, Text } from '@pancakeswap/uikit'
+import { Box, Button, Flex, Heading, PageHeader, Text, tokens } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
 import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import useSWR from 'swr'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
-import { utils } from 'ethers'
 import Link from 'next/link'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
 import Page from 'components/Layout/Page'
-import { tokens } from '@pancakeswap/ui'
 import AddToWallet from 'views/CreateToken/components/AddToWallet'
 import useTokenBalance from 'hooks/useTokenBalance'
 import { useERC20 } from "hooks/useContract";
+import { formatEther, parseUnits } from "viem";
 
 const H1 = styled(Heading)`
   font-size: 32px;
@@ -46,6 +45,7 @@ export const Kyc: React.FC = () => {
   const { address, status } = useAccount()
   const token = useToken(chain.kyc?.stableCoin)
   const addTransaction = useTransactionAdder()
+  const tokenContract = useERC20(token.address)
   const paid = useSWR(
     address ? `kyc/${address}` : null,
     async () => {
@@ -59,19 +59,18 @@ export const Kyc: React.FC = () => {
   const handlePayment = async () => {
     if (!token) return
     if (!chain.kyc) return
-    const tokenContract = useERC20(token.address)
     // const tokenContract = new Contract(token.address, ERC20_ABI, signer) as ERC20
-    const tx = await tokenContract.write.transfer(
+    const tx = await tokenContract.write.transfer([
       chain.kyc?.feeWallet,
-      utils.parseUnits(String(chain.kyc.fee), token.decimals),
-    )
+      parseUnits(String(chain.kyc.fee), token.decimals),
+    ], {})
     addTransaction({hash: tx}, {
       summary: `Pay ${chain.kyc.fee} ${token.symbol} to get your KYC token`,
     })
   }
   const { isDark } = useTheme()
   const tokenBalance = useTokenBalance(chain.kyc.stableCoin)
-  const canPay = Number(utils.formatEther(tokenBalance?.balance?.toString() ?? '0')) >= chain?.kyc?.fee
+  const canPay = Number(formatEther(BigInt(tokenBalance?.balance?.toString()) ?? 0n)) >= chain?.kyc?.fee
 
   let action: React.ReactNode | undefined
 

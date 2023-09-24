@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import keyBy from 'lodash/keyBy'
 import orderBy from 'lodash/orderBy'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
-import { bscTokens, USD } from '@pancakeswap/tokens'
+import { bscTokens, ICE, USD } from "@pancakeswap/tokens";
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { getFarmsPrices } from '@pancakeswap/farms/farmPrices'
 import {
@@ -49,7 +49,6 @@ import { fetchTokenUSDValue } from 'utils/llamaPrice'
 import { getPoolsPriceHelperLpFiles } from 'config/constants/priceHelperLps'
 import { farmV3ApiFetch } from 'state/farmsV3/hooks'
 import { getCakePriceFromOracle } from 'hooks/useCakePrice'
-import { fetchTokenAplPrice } from 'utils/fetchTokenAplPrice'
 
 import fetchFarms from '../farms/fetchFarms'
 import { nativeStableLpMap } from '../farms/getFarmsPrices'
@@ -201,7 +200,7 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
 
     const liveData: any[] = []
 
-    for (const pool of poolsConfig) {
+    await poolsConfig.map(async pool => {
       const timeLimit = timeLimitsSousIdMap[pool.sousId]
       const totalStaking = totalStakingsSousIdMap[pool.sousId]
       const isPoolEndBlockExceeded =
@@ -212,23 +211,14 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
       let stakingTokenPrice = stakingTokenAddress ? prices[stakingTokenAddress] : 0
       if (stakingTokenAddress && !prices[stakingTokenAddress] && !isPoolFinished) {
         // TODO: Remove this when fetchTokenUSDValue can get APL USD Price
-        if (
-          pool.stakingToken.chainId === ChainId.ARBITRUM_ONE &&
-          pool.stakingToken.address === arbitrumTokens.alp.address
-        ) {
-          // eslint-disable-next-line no-await-in-loop
-          stakingTokenPrice = await fetchTokenAplPrice()
-        } else {
-          // eslint-disable-next-line no-await-in-loop
-          const result = await fetchTokenUSDValue(chainId, [stakingTokenAddress])
-          stakingTokenPrice = result.get(stakingTokenAddress) || 0
-        }
+        const result = await fetchTokenUSDValue(chainId, [stakingTokenAddress])
+        stakingTokenPrice = result.get(stakingTokenAddress) || 0
       }
 
       const earningTokenAddress = isAddress(pool.earningToken.address)
       let earningTokenPrice = earningTokenAddress ? prices[earningTokenAddress] : 0
       if (earningTokenAddress && !prices[earningTokenAddress] && !isPoolFinished) {
-        if (earningTokenAddress === CAKE[chainId].address) {
+        if (earningTokenAddress === ICE[chainId].address) {
           // eslint-disable-next-line no-await-in-loop
           earningTokenPrice = parseFloat(await getCakePriceFromOracle())
         } else {
@@ -260,7 +250,7 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
         apr,
         isFinished: isPoolFinished,
       })
-    }
+    })
 
     dispatch(setPoolsPublicData(liveData || []))
   } catch (error) {

@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, PageHeader } from '@pancakeswap/uikit'
+import { Box, Flex, Grid, Heading, PageHeader, tokens } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import styled, { useTheme } from 'styled-components'
 import CampaignCard from './components/CampaignCard'
@@ -6,7 +6,6 @@ import { useCampaigns } from './hooks'
 import header from './images/header.png'
 import rocket from './images/rocket.png'
 import Image from 'next/image'
-import { tokens } from '@pancakeswap/ui'
 import CampaignCardDummy from './components/CampaignCardDummy'
 
 const H1 = styled(Heading)`

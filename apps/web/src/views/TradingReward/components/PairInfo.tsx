@@ -71,10 +71,12 @@ const PairInfo: React.FunctionComponent<React.PropsWithChildren<PairInfoProps>> 
               <V3Tag ml="4px" scale="sm" />
             </Flex>
             <Flex ml="4px">
+              { /*
               {chainId === ChainId.ETHEREUM && <EthTag />}
               {chainId === ChainId.BSC && <BscTag />}
               {chainId === ChainId.POLYGON_ZKEVM && <ZkEVMTag />}
               {chainId === ChainId.ZKSYNC && <ZkSyncTag />}
+              */ }
             </Flex>
           </Flex>
         </Flex>

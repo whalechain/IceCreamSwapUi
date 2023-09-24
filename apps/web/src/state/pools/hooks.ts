@@ -175,7 +175,7 @@ export const useFetchIfo = () => {
     chainId && ['fetchIfoPublicData', chainId],
     async () => {
       batch(() => {
-        dispatch(fetchCakePoolPublicDataAsync(chainId))
+        dispatch(fetchCakePoolPublicDataAsync())
         dispatch(fetchCakeVaultPublicData(chainId))
         dispatch(fetchIfoPublicDataAsync(chainId))
       })

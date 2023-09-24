@@ -5,6 +5,9 @@ import { ERC20Token } from '@pancakeswap/sdk'
 import { useContract, useERC20 } from "hooks/useContract";
 import { bridgeABI } from "config/abi/bridge";
 import { useWeb3React } from "@pancakeswap/wagmi";
+import { erc20ABI, useWalletClient } from "wagmi";
+import { getContract } from "utils/contractHelpers";
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 export const useBridgeTax = () => {
   const {
@@ -14,6 +17,8 @@ export const useBridgeTax = () => {
     destinationChainConfig,
     tokenBalances,
   } = useBridge()
+  const { chainId } = useActiveChainId()
+  const { data: walletClient } = useWalletClient()
   const { account} = useWeb3React()
   const [bridgeFee, setBridgeFee] = useState<number | undefined>()
   const [bridgeFeeToken, setBridgeFeeToken] = useState<string | undefined>()
@@ -52,7 +57,12 @@ export const useBridgeTax = () => {
           return
         }
         const recipient = account
-        const erc20 = useERC20(token.address)
+        const erc20 = getContract({
+          abi: erc20ABI,
+          address: token.address,
+          chainId,
+          signer: walletClient,
+        })
         const isNative = token.address === '0x0000000000000000000000000000000000000000'
         const erc20Decimals = homeChainConfig.decimals || (isNative ? 18 : await erc20.read.decimals())
 
@@ -73,7 +83,12 @@ export const useBridgeTax = () => {
           if (feeToken === '0x0000000000000000000000000000000000000000') {
             decimals = 18
           } else if (!feeTokenInfos) {
-            const feeTokenErc20 = useERC20(feeToken)
+            const feeTokenErc20 = getContract({
+              abi: erc20ABI,
+              address: feeToken,
+              chainId,
+              signer: walletClient,
+            })
             decimals = await feeTokenErc20.read.decimals()
           } else {
             decimals = homeChainConfig.decimals

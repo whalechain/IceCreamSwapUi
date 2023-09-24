@@ -79,7 +79,7 @@ const ShareImageModal: React.FC<React.PropsWithChildren<ShareImageModalProps>> =
       bgImagEl.onload = () => setBgImage(bgImagEl)
 
       const profileImageEl = new Image()
-      profileImageEl.src = `${profile.nft?.image?.thumbnail}?d=${Date.now()}`
+      profileImageEl.src = `${null}?d=${Date.now()}`
       profileImageEl.crossOrigin = 'Anonymous'
       profileImageEl.onload = () => setProfileImage(profileImageEl)
 

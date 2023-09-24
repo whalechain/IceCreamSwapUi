@@ -27,14 +27,6 @@ export const supportedTokenMap: {
     moonPayTokens: SUPPORTED_MOONPAY_BSC_TOKENS,
     mercuryoTokens: SUPPORTED_MERCURYO_BSC_TOKENS,
   },
-  [ChainId.ETHEREUM]: {
-    moonPayTokens: SUPPORTED_MONPAY_ETH_TOKENS,
-    mercuryoTokens: SUPPORTED_MERCURYO_ETH_TOKENS,
-  },
-  [ChainId.ARBITRUM_ONE]: {
-    moonPayTokens: SUPPORTED_MOONPAY_ARBITRUM_TOKENS,
-    mercuryoTokens: SUPPORTED_MERCURYO_ARBITRUM_TOKENS,
-  },
   // Add more chainId mappings as needed
 }
 
@@ -53,15 +45,9 @@ export const providerFeeTypes: { [provider in ONRAMP_PROVIDERS]: string[] } = {
 }
 
 export const chainIdToNetwork: { [id: number]: string } = {
-  [ChainId.ETHEREUM]: 'ETHEREUM',
-  [ChainId.BSC]: 'BINANCESMARTCHAIN',
-  [ChainId.ARBITRUM_ONE]: 'ARBITRUM',
 }
 
 export const moonpayCurrencyChainIdentifier: { [id: number]: string } = {
-  [ChainId.ETHEREUM]: '',
-  [ChainId.BSC]: '_bsc',
-  [ChainId.ARBITRUM_ONE]: '_arbitrum',
 }
 
 export const fiatCurrencyMap: Record<string, { symbol: string; name: string }> = {

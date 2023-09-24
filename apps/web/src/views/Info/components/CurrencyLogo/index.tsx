@@ -30,7 +30,7 @@ export const CurrencyLogo: React.FC<
 
   const checkedSumAddress = isAddress(address)
   const srcFromICS = checkedSumAddress
-    ? `https://icecreamswap-assets.s3.amazonaws.com/token/${chainId}/${checkedSumAddress}.png`
+    ? `https://icecreamswap-assets.s3.amazonaws.com/token/${multiChainId[chainName]}/${checkedSumAddress}.png`
     : ''
   return <StyledLogo size={size} srcs={[srcFromICS, src]} alt="token logo" useFilledIcon {...rest} />
 }

@@ -1,5 +1,5 @@
-import { Token } from '@pancakeswap/sdk'
-import {coreWarningTokens} from 'config/constants/warningTokens'
+import { Token, ChainId } from '@pancakeswap/sdk'
+import { coreWarningTokens } from 'config/constants/warningTokens'
 
 interface WarningTokenList {
   [chainId: number]: {

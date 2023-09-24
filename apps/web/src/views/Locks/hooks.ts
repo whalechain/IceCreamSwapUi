@@ -25,14 +25,14 @@ export const useLocks = () => {
   return useContract(chain.locks?.factoryAddress, tokenLockFactoryABI)
 }
 
-export const useLockingData = (lockIds?: bigint[]) => {
+export const useLockingData = (lockIds?: readonly bigint[]) => {
   const locks = useLocks()
   const { chainId } = useActiveChainId()
 
   return useSWR(
     lockIds && locks ? ['lock', JSON.stringify(lockIds)] : null,
     async () => {
-      const multicallResult = await publicClient({ chainId: chainId }).multicall({
+      const multicallResult = await publicClient({ chainId }).multicall({
         contracts: lockIds
           .map((lockId) => [
               {
@@ -47,17 +47,23 @@ export const useLockingData = (lockIds?: bigint[]) => {
                 functionName: 'amountToUnlock',
                 args: [lockId],
               } as const,
-          ]).flat()
+          ]).flat(),
+        allowFailure: false,
       })
       let i = 0
       return lockIds
         .map((lockId) => {
-          const lockingData = multicallResult[i]
-          const [amountToUnlock] = multicallResult[i + 1] as unknown as BigNumber[]
+          const lockingData = multicallResult[i] as [`0x${string}`, `0x${string}`, bigint, bigint, bigint, bigint]
+          const amountToUnlock = multicallResult[i + 1] as bigint
           i += 2
           return {
             lockId,
-            ...lockingData,
+            owner: lockingData[0],
+            token: lockingData[1],
+            amount: lockingData[2],
+            start_time: lockingData[3],
+            duration: lockingData[4],
+            amountUnlocked: lockingData[5],
             amountToUnlock,
           }
         })

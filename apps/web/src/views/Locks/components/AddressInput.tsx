@@ -1,7 +1,7 @@
-import { isAddress } from '@ethersproject/address'
 import { Flex, Input } from '@pancakeswap/uikit'
 import { useState } from 'react'
 import FormError from 'views/Bridge/components/FormError'
+import { isAddress } from "viem";
 
 interface AddressInputProps {
   value: string

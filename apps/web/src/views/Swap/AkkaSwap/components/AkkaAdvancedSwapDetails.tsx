@@ -1,10 +1,9 @@
 import { Trade, TradeType, Currency } from '@pancakeswap/sdk'
-import { Text, QuestionHelper, Link } from '@pancakeswap/uikit'
+import { Text, QuestionHelper, Link, AutoColumn } from "@pancakeswap/uikit";
+import { useUserSlippage } from '@pancakeswap/utils/user'
 import { Field } from 'state/swap/actions'
 import { useTranslation } from '@pancakeswap/localization'
-import { useUserSlippageTolerance } from 'state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from 'utils/exchange'
-import { AutoColumn } from 'components/Layout/Column'
 import { TOTAL_FEE, LP_HOLDERS_FEE, TREASURY_FEE, BUYBACK_FEE } from 'config/constants/info'
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import { AkkaRouterInfoResponseType } from '../hooks/types'
@@ -51,7 +50,7 @@ export interface AdvancedSwapDetailsProps {
 }
 export function AkkaAdvancedSwapDetails({ route, inputAmountInDollar, outputAmountInDollar }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
-  const [allowedSlippage] = useUserSlippageTolerance()
+  const [userSlippageTolerance] = useUserSlippage()
   const { chainId } = useActiveChainId()
   const { isDark, theme } = useTheme()
   const showRoute = () => {

@@ -25,6 +25,7 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: true,
   },
   images: {
+    path: '/images/home/trade/',
     attributes: [
       { src: iceConeA, alt: '' },
       { src: iceConeB, alt: '' },
@@ -53,6 +54,7 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: true,
   },
   images: {
+    path: '/images/home/earn/',
     attributes: [
       { src: bridgeA, alt: '' },
       { src: bridgeB, alt: '' },
@@ -75,6 +77,7 @@ export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: true,
   },
   images: {
+    path: '/images/home/ice/',
     attributes: [{ src: earnIce, alt: '' }],
   },
 })

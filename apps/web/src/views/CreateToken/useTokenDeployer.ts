@@ -1,13 +1,31 @@
-import tokenDeployerAbi from '@passive-income/launchpad-contracts/abi/contracts/PSIPadTokenDeployer.sol/PSIPadTokenDeployer.json'
-import { PSIPadTokenDeployer } from '@passive-income/launchpad-contracts/typechain/PSIPadTokenDeployer'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useContract } from 'hooks/useContract'
+import { useEffect, useState } from 'react'
+import { tokenDeployerABI } from "config/abi/tokenDeployer";
 
-const useTokenDeployer = () => {
+const useTokenDeployerDividend = () => {
   const chain = useActiveChain()
-  const tokenDeployerAddress = chain?.tokenDeployer?.address
-  const tokenDeployer = useContract<PSIPadTokenDeployer>(tokenDeployerAddress, tokenDeployerAbi, true)
+  const tokenDeployerAddress = chain?.tokenDeployerDividend?.address
+  const tokenDeployer = useContract(tokenDeployerAddress, tokenDeployerABI)
   return tokenDeployer
 }
 
-export default useTokenDeployer
+export const useDeploymentFee = () => {
+  const deployer = useTokenDeployerDividend()
+  const [feeAmount, setFeeAmount] = useState<bigint>()
+
+  useEffect(() => {
+    if (deployer) {
+      deployer.read.iceFee().then(setFeeAmount)
+    }
+  }, [deployer])
+  const chain = useActiveChain()
+
+  return {
+    feeAmount,
+    feeToken: chain?.tokenDeployerDividend?.feeToken,
+    deployerAddress: chain?.tokenDeployerDividend?.address,
+  }
+}
+
+export default useTokenDeployerDividend

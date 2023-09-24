@@ -1,8 +1,9 @@
 import { ChainId } from '@pancakeswap/sdk'
+import { getChain } from '@icecreamswap/constants'
 
 import { CHAIN_QUERY_NAME } from 'config/chains'
 
-import { multiChainPaths } from './constant'
+import { MultiChainName, multiChainPaths } from "./constant";
 import { InfoDataSource } from './types'
 
 // TODO: refactor
@@ -20,12 +21,5 @@ export function getTokenInfoPath(
 
 // TODO: refactor
 export function getChainName(chainId: ChainId) {
-  switch (chainId) {
-    case ChainId.BSC:
-      return 'BSC'
-    case ChainId.ETHEREUM:
-      return 'ETH'
-    default:
-      return 'BSC'
-  }
+  return getChain(chainId).network as MultiChainName
 }

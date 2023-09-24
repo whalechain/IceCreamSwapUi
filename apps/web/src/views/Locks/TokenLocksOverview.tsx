@@ -4,14 +4,14 @@ import LockRow from './components/LockRow'
 import { useActiveChain } from 'hooks/useActiveChain'
 import { useToken } from 'hooks/Tokens'
 import { useMemo, useCallback } from 'react'
-import { BigNumber, utils } from 'ethers'
 import { formatAmount } from 'views/Bridge/formatter'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import NextLink from 'next/link'
 import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
+import { formatUnits } from "viem";
 
-export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenAddress }) => {
+export const TokenLocksOverview: React.FC<{ tokenAddress?: `0x${string}` }> = ({ tokenAddress }) => {
   const { isMobile } = useMatchBreakpoints()
   const { data: locks } = useLocksByToken(tokenAddress)
   const { address } = useAccount()
@@ -21,15 +21,15 @@ export const TokenLocksOverview: React.FC<{ tokenAddress?: string }> = ({ tokenA
   const getAddressUrl = (add: string) => `${chain?.blockExplorers.default.url}/address/${add}`
 
   const tokensLocked = useMemo(() => {
-    if (!locks) return BigNumber.from(0)
-    return locks.reduce((acc, lock) => acc.add(lock.amount.sub(lock.amountUnlocked)), BigNumber.from(0))
+    if (!locks) return 0n
+    return locks.reduce((acc, lock) => acc + lock.amount - lock.amountUnlocked, 0n)
   }, [locks])
 
   const format = useCallback(
-    (value: BigNumber) => {
+    (value: bigint) => {
       if (!value) return ''
       const decimals = token?.decimals ?? 18
-      return formatAmount(Number(utils.formatUnits(value, decimals)))
+      return formatAmount(Number(formatUnits(value, decimals)))
     },
     [token],
   )

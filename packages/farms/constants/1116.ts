@@ -1,6 +1,7 @@
 import { SerializedFarmConfig } from '..'
 import { defineFarmV3Configs } from '../src/defineFarmV3Configs'
 import { coreTokens } from '@pancakeswap/tokens'
+import { getAddress } from "viem";
 
 export const farmsV3 = defineFarmV3Configs([
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize })))
@@ -160,6 +161,6 @@ const farms: SerializedFarmConfig[] = [
         token: coreTokens.cshib,
         quoteToken: coreTokens.usdt,
     }
-].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
+].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize, lpAddress: getAddress(p.lpAddress), }))
 
 export default farms

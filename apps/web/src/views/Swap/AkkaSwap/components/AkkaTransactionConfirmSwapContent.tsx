@@ -1,11 +1,11 @@
 import { useCallback, useMemo, memo } from 'react'
 import { Currency, Trade, TradeType } from '@pancakeswap/sdk'
-import { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { Field } from 'state/swap/actions'
 import { computeSlippageAdjustedAmounts } from 'utils/exchange'
 import AkkaSwapModalFooter from './AkkaSwapModalFooter'
 import AkkaSwapModalHeader from './AkkaSwapModalHeader'
+import { ConfirmationModalContent } from "@pancakeswap/uikit";
 
 const AkkaTransactionConfirmSwapContent = ({
   trade,

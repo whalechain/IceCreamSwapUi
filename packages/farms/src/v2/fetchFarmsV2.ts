@@ -62,7 +62,6 @@ export const getTokenAmount = (balance: BN, decimals: number) => {
 export type FetchFarmsParams = {
   farms: SerializedFarmConfig[]
   provider: ({ chainId }: { chainId: number }) => PublicClient
-  isTestnet: boolean
   masterChefAddress: string
   chainId: number
   totalRegularAllocPoint: bigint

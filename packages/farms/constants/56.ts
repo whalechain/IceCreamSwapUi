@@ -1,5 +1,6 @@
 import { defineFarmV3Configs } from '../src/defineFarmV3Configs'
 import { SerializedFarmConfig } from '..'
+import { getAddress } from "viem";
 
 export const farmsV3 = defineFarmV3Configs([
 ])

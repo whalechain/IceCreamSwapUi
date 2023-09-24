@@ -1,10 +1,9 @@
 import { useMemo } from 'react'
 import { Trade, TradeType, CurrencyAmount, Currency } from '@pancakeswap/sdk'
-import { Button, Text, ErrorIcon, ArrowDownIcon } from '@pancakeswap/uikit'
+import { Button, Text, ErrorIcon, ArrowDownIcon, AutoColumn } from "@pancakeswap/uikit";
 import { Field } from 'state/swap/actions'
 import { useTranslation } from '@pancakeswap/localization'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/exchange'
-import { AutoColumn } from 'components/Layout/Column'
 import { CurrencyLogo } from 'components/Logo'
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import truncateHash from '@pancakeswap/utils/truncateHash'

@@ -1,3 +1,4 @@
+import { getAddress } from "viem";
 import { SerializedFarmConfig } from '@pancakeswap/farms'
 import { coreTokens } from '@pancakeswap/tokens'
 
@@ -213,6 +214,11 @@ const priceHelperLps: SerializedFarmConfig[] = [
         quoteToken: coreTokens.wcore_old,
     }
 
-].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
+].map((p) => ({
+    ...p,
+    token: p.token.serialize,
+    quoteToken: p.quoteToken.serialize,
+    lpAddress: getAddress(p.lpAddress),
+}))
 
 export default priceHelperLps

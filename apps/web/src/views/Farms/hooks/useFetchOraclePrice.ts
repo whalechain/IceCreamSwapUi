@@ -14,7 +14,7 @@ export const useOraclePrice = (chainId: number) => {
   const chainlinkOracleContract = getChainlinkOracleContract(tokenAddress, null, chainId)
   const { data: price } = useContractRead({
     abi: chainlinkOracleContract.abi,
-    chainId: chainId,
+    chainId,
     address: tokenAddress,
     functionName: 'latestAnswer',
     watch: true,

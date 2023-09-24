@@ -14,7 +14,7 @@ const HowItWork = () => {
       mb={['168px']}
       padding="0 16px"
     >
-      <GradientLogo height="36px" width="36px" mb="24px" />
+      <GradientLogo height="36" width="36" />
       <Heading textAlign="center" scale="xl">
         {t('Good things')}
       </Heading>

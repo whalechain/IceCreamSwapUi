@@ -1,8 +1,7 @@
 import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Trade, TradeType } from '@pancakeswap/sdk'
 import { pancakeRouter02ABI } from 'config/abi/IPancakeRouter02'
-import { AkkaRouter } from 'config/abi/types/AkkaRouter'
-import AKKA_ABI from '../config/abi/AkkaRouter.json'
-import AKKA_CORE_ABI from '../config/abi/AkkaRouterCore.json'
+import { akkaRouterABI } from 'config/abi/akkaRouter'
+import { akkaRouterCoreABI } from 'config/abi/akkaRouterCore'
 import {
   ALLOWED_PRICE_IMPACT_HIGH,
   ALLOWED_PRICE_IMPACT_LOW,
@@ -12,13 +11,13 @@ import {
   INPUT_FRACTION_AFTER_FEE,
   ONE_HUNDRED_PERCENT,
   V2_ROUTER_ADDRESS,
+  AKKA_ROUTER_ADDRESS,
 } from 'config/constants/exchange'
 import { StableTrade } from 'config/constants/types'
 
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useContract } from 'hooks/useContract'
 import { Field } from '../state/swap/actions'
-import { AkkaRouterCore } from 'config/abi/types'
 
 // converts a basis points value to a sdk percent
 export function basisPointsToPercent(num: number): Percent {
@@ -42,11 +41,11 @@ export function useRouterContract() {
 
 export function useAkkaRouterContract() {
   const { chainId } = useActiveChainId()
-  return useContract<AkkaRouter>(AKKA_ROUTER_ADDRESS[chainId], AKKA_ABI, true)
+  return useContract(AKKA_ROUTER_ADDRESS[chainId], akkaRouterABI)
 }
 
 export function useAkkaRouterCoreContract() {
-  return useContract<AkkaRouterCore>(AKKA_ROUTER_ADDRESS[ChainId.CORE], AKKA_CORE_ABI, true)
+  return useContract(AKKA_ROUTER_ADDRESS[ChainId.CORE], akkaRouterCoreABI)
 }
 
 // computes price breakdown for the trade

@@ -6,6 +6,7 @@ import { isAddress } from 'utils'
 import LiquidityFormProvider from 'views/AddLiquidityV3/formViews/V3FormView/form/LiquidityFormProvider'
 import { Migrate } from 'views/AddLiquidityV3/Migrate'
 import Page from 'views/Page'
+import { SUPPORT_SWAP, SUPPORT_SWAP_V3 } from "config/constants/supportChains";
 
 function MigratePage() {
   // const { t } = useTranslation()
@@ -28,4 +29,5 @@ function MigratePage() {
 
 export default MigratePage
 
-MigratePage.chains = [ChainId.BSC, ChainId.ETHEREUM, ChainId.BSC_TESTNET, ChainId.GOERLI]
+// chains with V2 and V3 dex are supported
+MigratePage.chains = SUPPORT_SWAP_V3.filter(chainId => SUPPORT_SWAP.includes(chainId))

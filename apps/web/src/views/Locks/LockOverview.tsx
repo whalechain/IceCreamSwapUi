@@ -2,7 +2,6 @@ import { Button, Flex, Heading, Link, Table, Td, Text, useMatchBreakpoints } fro
 import { PropsWithChildren, useMemo, useCallback } from 'react'
 import { useLockingData, useLocks } from './hooks'
 import { FetchStatus } from 'config/constants/types'
-import { BigNumber, utils } from 'ethers'
 import styled from 'styled-components'
 import TokenName from './components/TokenName'
 import { useActiveChain } from 'hooks/useActiveChain'
@@ -11,6 +10,7 @@ import { formatAmount } from 'views/Bridge/formatter'
 import { renderDate } from '../../utils/renderDate'
 import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
+import { formatUnits } from "viem";
 
 const RowStyled = styled.tr`
   &:hover {
@@ -48,8 +48,7 @@ const Td2: React.FC<PropsWithChildren> = ({ children }) => {
 export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
   const { isMobile } = useMatchBreakpoints()
   const { address } = useAccount()
-  const lockIdBigNumber = useMemo(() => BigNumber.from(lockId), [lockId])
-  const { data, status } = useLockingData([lockIdBigNumber])
+  const { data, status } = useLockingData([BigInt(lockId)])
   const locks = useLocks()
   const lock = data?.[0]
   const chain = useActiveChain()
@@ -57,18 +56,18 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
 
   const token = useToken(lock?.token)
   const format = useCallback(
-    (value: BigNumber) => {
+    (value: bigint) => {
       if (!value) return ''
       const decimals = token?.decimals ?? 18
-      return formatAmount(Number(utils.formatUnits(value, decimals)))
+      return formatAmount(Number(formatUnits(value, decimals)))
     },
     [token],
   )
-  const claimed = lock?.amount.eq(lock.amountUnlocked)
+  const claimed = lock?.amount === lock.amountUnlocked
 
   const claim = useCallback(() => {
     if (!lock) return
-    locks.unlockAvailable(lock.lockId)
+    locks.write.unlockAvailable([lock.lockId], {})
   }, [lock, locks])
 
   return (
@@ -121,21 +120,21 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                       <Td1>Amount Claimable</Td1>
                       <Td2>{format(lock.amountToUnlock)}</Td2>
                     </RowStyled>
-                    {lock.duration.gt(0) ? (
+                    {lock.duration > 0 ? (
                       <>
                         <RowStyled>
                           <Td1>Vesting start</Td1>
-                          <Td2>{renderDate(lock.start_time.mul(1000).toNumber())}</Td2>
+                          <Td2>{renderDate(Number(lock.start_time * 1000n))}</Td2>
                         </RowStyled>
                         <RowStyled>
                           <Td1>Vesting end</Td1>
-                          <Td2>{renderDate(lock.start_time.add(lock.duration).mul(1000).toNumber())}</Td2>
+                          <Td2>{renderDate(Number((lock.start_time + lock.duration) * 1000n))}</Td2>
                         </RowStyled>
                       </>
                     ) : (
                       <RowStyled>
                         <Td1>Claimable at</Td1>
-                        <Td2>{renderDate(lock.start_time.mul(1000).toNumber())}</Td2>
+                        <Td2>{renderDate(Number(lock.start_time * 1000n))}</Td2>
                       </RowStyled>
                     )}
                   </tbody>
@@ -148,16 +147,16 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                     <Text>
                       {claimed ? (
                         'Fully Claimed'
-                      ) : lock.start_time.mul(1000).toNumber() < Date.now() ? (
+                      ) : Number(lock.start_time * 1000n) < Date.now() ? (
                         `${format(lock.amountToUnlock)} claimable`
                       ) : (
                         <Flex flexDirection="column" gap="0.5em">
                           <span>Starting at</span>
-                          <span>{renderDate(lock.start_time.mul(1000).toNumber())}</span>
+                          <span>{renderDate(Number(lock.start_time * 1000n))}</span>
                         </Flex>
                       )}
                     </Text>
-                    {lock.start_time.mul(1000).toNumber() < Date.now() && !claimed && (
+                    {Number(lock.start_time * 1000n) < Date.now() && !claimed && (
                       <Button
                         onClick={() => {
                           claim()

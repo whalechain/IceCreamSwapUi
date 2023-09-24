@@ -1,5 +1,4 @@
-import { AtomBox } from '@pancakeswap/ui'
-import { ArrowBackIcon, Flex, Heading, IconButton, Text } from '@pancakeswap/uikit'
+import { ArrowBackIcon, AtomBox, Flex, Heading, IconButton, Text } from "@pancakeswap/uikit";
 import { AppBody } from '../App'
 import { useRouter } from 'next/router'
 import { PropsWithChildren } from 'react'
@@ -23,7 +22,7 @@ const AppWrapper: React.FC<AppWrapperProps> = (props) => {
         <Flex flexDirection="column" minWidth="min(428px, calc(100vw - 48px))">
           <AppWrapperContainer>
             <AppBody>
-              <AtomBox width="full" display="flex" gap="2" padding="24px" borderBottom="1">
+              <AtomBox width="100%" display="flex" gap="2px" padding="24px" borderBottom="1">
                 {hasBackButton && (
                   <IconButton
                     onClick={() => {
@@ -40,7 +39,7 @@ const AppWrapper: React.FC<AppWrapperProps> = (props) => {
                 <Flex width={hasBackButton ? undefined : '100%'} flexDirection="column">
                   <AtomBox
                     display="flex"
-                    width="full"
+                    width="100%"
                     alignItems={hasBackButton ? undefined : 'center'}
                     justifyContent={hasBackButton ? undefined : 'center'}
                   >

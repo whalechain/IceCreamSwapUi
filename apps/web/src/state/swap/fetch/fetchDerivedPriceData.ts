@@ -17,55 +17,23 @@ import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
 import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
 import { getTVL, getDerivedPrices, getDerivedPricesQueryConstructor } from '../queries/getDerivedPrices'
 import { PairDataTimeWindowEnum } from '../types'
+import { chains } from '@icecreamswap/constants'
 
 const PROTOCOL = ['v2', 'v3', 'stable'] as const
 type Protocol = (typeof PROTOCOL)[number]
 
 type ProtocolEndpoint = Record<Protocol, string>
 
-const SWAP_INFO_BY_CHAIN = {
-  [ChainId.BSC]: {
-    v2: INFO_CLIENT,
-    stable: STABLESWAP_SUBGRAPH_CLIENT,
-    // v3: V3_SUBGRAPH_URLS[ChainId.BSC],
-  },
-  [ChainId.ETHEREUM]: {
-    v2: INFO_CLIENT_ETH,
-    // v3: V3_SUBGRAPH_URLS[ChainId.ETHEREUM],
-  },
-  [ChainId.BSC_TESTNET]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.BSC_TESTNET],
-  },
-  [ChainId.GOERLI]: {},
-  [ChainId.ARBITRUM_ONE]: {
-    v2: INFO_CLIENT_WITH_CHAIN[ChainId.ARBITRUM_ONE],
-    v3: V3_SUBGRAPH_URLS[ChainId.ARBITRUM_ONE],
-  },
-  [ChainId.ARBITRUM_GOERLI]: {},
-  [ChainId.POLYGON_ZKEVM]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.POLYGON_ZKEVM],
-  },
-  [ChainId.POLYGON_ZKEVM_TESTNET]: {},
-  [ChainId.ZKSYNC]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.ZKSYNC],
-  },
-  [ChainId.ZKSYNC_TESTNET]: {},
-  [ChainId.LINEA]: {},
-  [ChainId.LINEA_TESTNET]: {
-    v2: INFO_CLIENT_WITH_CHAIN[ChainId.LINEA_TESTNET],
-    v3: V3_SUBGRAPH_URLS[ChainId.LINEA_TESTNET],
-  },
-  [ChainId.OPBNB_TESTNET]: {},
-  [ChainId.BASE]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.BASE],
-  },
-  [ChainId.BASE_TESTNET]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.BASE_TESTNET],
-  },
-  [ChainId.SCROLL_SEPOLIA]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.SCROLL_SEPOLIA],
-  },
-} satisfies Record<ChainId, Partial<ProtocolEndpoint>>
+
+const SWAP_INFO_BY_CHAIN: Record<ChainId, Partial<ProtocolEndpoint>> = chains.reduce((acc, chain) => {
+  const chainId = chain.id
+  const clients = {
+    v2: INFO_CLIENT_WITH_CHAIN[chainId] ?? INFO_CLIENT_WITH_CHAIN[chainId],
+    v3: V3_SUBGRAPH_URLS[chainId] ?? V3_SUBGRAPH_URLS[chainId],
+  }
+  return {...acc, [chain.id]: clients}
+}, {})
+
 
 export const getTokenBestTvlProtocol = async (tokenAddress: string, chainId: ChainId): Promise<Protocol | null> => {
   const infos = SWAP_INFO_BY_CHAIN[chainId]

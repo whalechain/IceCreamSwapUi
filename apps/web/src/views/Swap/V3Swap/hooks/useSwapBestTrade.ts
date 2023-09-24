@@ -1,4 +1,4 @@
-import { TradeType } from "@pancakeswap/sdk";
+import { TradeType } from '@pancakeswap/sdk'
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
 import { useUserSingleHopOnly } from '@pancakeswap/utils/user'
 
@@ -6,15 +6,13 @@ import { useSwapState } from 'state/swap/hooks'
 import { Field } from 'state/swap/actions'
 import { useCurrency } from 'hooks/Tokens'
 import { useBestAMMTrade } from 'hooks/useBestAMMTrade'
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue } from 'react'
 import {
   useUserSplitRouteEnable,
   useUserStableSwapEnable,
   useUserV2SwapEnable,
   useUserV3SwapEnable,
 } from 'state/user/smartRouter'
-import { useProvider } from "wagmi";
-import { LegacyRouter } from "@pancakeswap/smart-router/evm";
 
 interface Options {
   maxHops?: number
@@ -40,9 +38,6 @@ export function useSwapBestTrade({ maxHops }: Options = {}) {
   const [v2Swap] = useUserV2SwapEnable()
   const [v3Swap] = useUserV3SwapEnable()
   const [stableSwap] = useUserStableSwapEnable()
-  const provider = useProvider()
-
-  const [bestTradeV2, setBestTradeV2] = useState(null)
 
   const { isLoading, trade, refresh, syncing, isStale, error } = useBestAMMTrade({
     amount,
@@ -57,72 +52,12 @@ export function useSwapBestTrade({ maxHops }: Options = {}) {
     type: 'auto',
   })
 
-  const isAllLoading = useDeferredValue(isLoading || (typedValue && !trade && !error))
-
-  useEffect(() => {
-    const getV2Trade = async () => {
-      let v2TradeAsSmartRouterTrade
-      try {
-        if (amount) {
-          const getBestV2Trade = isExactIn ? LegacyRouter.getBestTradeExactIn : LegacyRouter.getBestTradeExactOut
-          const v2Trade = await getBestV2Trade(
-            amount,
-            outputCurrency,
-            {
-              provider: _ => provider
-            }
-          )
-          if (v2Trade) {
-            v2TradeAsSmartRouterTrade = {
-              tradeType: v2Trade.tradeType,
-              inputAmount: v2Trade.inputAmount,
-              outputAmount: v2Trade.outputAmount,
-              routes: [{
-                inputAmount: v2Trade.inputAmount,
-                outputAmount: v2Trade.outputAmount,
-                path: v2Trade.route.path,
-                pools: v2Trade.route.pairs.map(pair => {
-                  return {
-                    address: pair.liquidityToken.address,
-                    reserve0: pair.reserve0,
-                    reserve1: pair.reserve1,
-                    type: 0
-                  }
-                }),
-                type: v2Trade.route.routeType,
-                percent: 100
-              }],
-            }
-          }
-        }
-      } catch (e) {
-        console.error(e);
-      }
-      setBestTradeV2(v2TradeAsSmartRouterTrade)
-    }
-    getV2Trade()
-  }, [provider, typedValue, inputCurrency, outputCurrency, isExactIn])
-
-  if (
-    bestTradeV2 &&
-    (!trade || trade.outputAmount.lessThan(bestTradeV2.outputAmount))
-  ) {
-    return {
-      refresh,
-      syncing: false,
-      isStale: false,
-      error: null,
-      isLoading: false,
-      trade: typedValue ? bestTradeV2 : null,
-    }
-  }
-
   return {
     refresh,
     syncing,
     isStale,
     error,
-    isLoading: isAllLoading,
+    isLoading: useDeferredValue(isLoading || (typedValue && !trade && !error)),
     trade: typedValue ? trade : null,
   }
 }

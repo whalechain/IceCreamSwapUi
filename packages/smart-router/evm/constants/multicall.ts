@@ -1,6 +1,6 @@
-import { ChainId } from '@pancakeswap/sdk'
-
 import { ChainMap, BatchMulticallConfigs } from '../types'
+import { chains } from '@icecreamswap/constants'
+
 
 const DEFAULT: BatchMulticallConfigs = {
   defaultConfig: {

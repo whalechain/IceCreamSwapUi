@@ -3,7 +3,7 @@ import { request, gql } from 'graphql-request'
 import { GRAPH_HEALTH } from 'config/constants/endpoints'
 import { useSlowRefreshEffect } from './useRefreshEffect'
 import { useActiveChainId } from "hooks/useActiveChainId";
-import { fetchBlockNumber } from "@wagmi/core";
+import { useBlockNumber } from "wagmi";
 
 export enum SubgraphStatus {
   OK,
@@ -34,6 +34,7 @@ const useSubgraphHealth = (subgraphName?: string) => {
   })
 
   const { chainId } = useActiveChainId()
+  const { data: fetchedBlockNumber } = useBlockNumber({ chainId })
 
   useSlowRefreshEffect(
     (currentBlockNumber) => {
@@ -58,7 +59,7 @@ const useSubgraphHealth = (subgraphName?: string) => {
             }
           `,
             ),
-            currentBlockNumber ? Promise.resolve(currentBlockNumber) : Number(fetchBlockNumber({ chainId })),
+            currentBlockNumber ? Promise.resolve(currentBlockNumber) : Promise.resolve(Number(fetchedBlockNumber)),
           ])
 
           const isHealthy = indexingStatusForCurrentVersion?.health === 'healthy'

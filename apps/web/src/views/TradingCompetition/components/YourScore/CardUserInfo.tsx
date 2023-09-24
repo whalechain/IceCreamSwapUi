@@ -171,7 +171,7 @@ const CardUserInfo: React.FC<React.PropsWithChildren<CardUserInfoProps>> = ({
       </Text>
       {shouldShowUserRanks && (
         <>
-          {profile?.nft && volume > 0 && (
+          {false && volume > 0 && (
             <Button mt="12px" variant="secondary" scale="sm" onClick={onPresentShareModal}>
               {t('Share Score')}
             </Button>

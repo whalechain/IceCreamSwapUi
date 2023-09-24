@@ -1,4 +1,4 @@
-import { ResetCSS, ScrollToTopButtonV2, ToastListener } from '@pancakeswap/uikit'
+import { Flex, ResetCSS, ScrollToTopButtonV2, Spinner, ToastListener } from "@pancakeswap/uikit";
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from '../components/GlobalCheckClaimStatus'
 import { NetworkModal } from '../components/NetworkModal'
@@ -200,5 +200,5 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 }
 
-// @ts-expect-error strict null checks missing in tsconfig
+
 export default trpc.withTRPC(MyApp)

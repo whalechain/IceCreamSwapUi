@@ -63,7 +63,7 @@ export const multiChainScan: Record<MultiChainName, string> = {
   XODEX: 'XODEXScan',
 }
 
-export const multiChainTokenBlackList = {
+export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {
   BITGERT: [''],
   DOGECHAIN: [''],
   DOKEN: [''],
@@ -71,6 +71,18 @@ export const multiChainTokenBlackList = {
   XDC: [''],
   CORE: [''],
   XODEX: [''],
+  BSC: [''],
+}
+
+export const multiChainTokenWhiteList: Record<MultiChainName, string[]> = {
+  BITGERT: [''],
+  DOGECHAIN: [''],
+  DOKEN: [''],
+  FUSE: [''],
+  XDC: [''],
+  CORE: [''],
+  XODEX: [''],
+  BSC: [''],
 }
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {
@@ -81,7 +93,7 @@ export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainNa
 
 export const checkIsStableSwap = () => window.location.href.includes('stableSwap')
 
-export const multiChainName = chains.map((chain) => chain.network.toUpperCase())
+export const multiChainName = chains.map((chain) => chain.network.toUpperCase() as MultiChainName)
 
 export const v2SubgraphTokenName = chains.map((chain) => chain.network.toUpperCase())
 

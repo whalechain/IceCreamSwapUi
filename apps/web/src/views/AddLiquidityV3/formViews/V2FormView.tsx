@@ -5,7 +5,6 @@ import {
   RowBetween,
   Text,
   Box,
-  BunnyKnownPlaceholder,
   DynamicSection,
   Message,
   Flex,

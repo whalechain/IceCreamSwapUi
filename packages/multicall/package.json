@@ -17,6 +17,7 @@
   "module": "dist/index.mjs",
   "dependencies": {
     "@pancakeswap/sdk": "workspace:*",
+    "@icecreamswap/constants": "workspace:*",
     "viem": "^1.2.9"
   },
   "devDependencies": {

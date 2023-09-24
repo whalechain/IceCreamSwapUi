@@ -1,4 +1,4 @@
-import { SerializedFarmConfig } from '../..'
+import { SerializedFarmConfig } from "../../src";
 
 const priceHelperLps: SerializedFarmConfig[] = []
 

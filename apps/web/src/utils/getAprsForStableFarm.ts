@@ -8,7 +8,7 @@ import { stableSwapClient } from './graphql'
 export const getAprsForStableFarm = async (stableSwapAddress?: string): Promise<BigNumber> => {
   try {
     const [, , t7d] = getDeltaTimestamps()
-    const [blockDay7Ago] = await getBlocksFromTimestamps([t7d])
+    const [blockDay7Ago] = await getBlocksFromTimestamps([t7d], 'desc', 500, "BSC")
 
     const { virtualPriceAtLatestBlock, virtualPriceOneDayAgo: virtualPrice7DayAgo } = await stableSwapClient.request(
       gql`

@@ -1,8 +1,10 @@
-import { JsonRpcProvider } from '@ethersproject/providers'
-import { chainMap } from '@icecreamswap/constants'
+import { ChainId, chainMap } from "@icecreamswap/constants";
 import { PrismaClient } from '@icecreamswap/database'
-import { Contract, utils, Wallet } from 'ethers'
-import kycAbi from '../../../config/abi/kyc.json'
+import { useContract } from "hooks/useContract";
+import { kycABI } from "config/abi/kyc";
+import { createWalletClient, http } from "viem";
+import * as process from "process";
+import { getContract } from "utils/contractHelpers";
 
 const client = new PrismaClient()
 
@@ -51,12 +53,18 @@ export default async function handler(req, res) {
     },
   })
 
-  const provider = new JsonRpcProvider(chainMap.core.rpcUrls.default.http)
-
-  const signer = new Wallet(process.env.KYC_MINTER, provider)
-
-  const kyc = new Contract(chainMap.core.kyc.tokenAddress, kycAbi, signer)
-  await kyc.safeMint(address)
+  const walletClient = createWalletClient({
+    key: process.env.KYC_MINTER,
+    chain: chainMap.core,
+    transport: http(chainMap.core.rpcUrls.default.http[0])
+  })
+  const kyc = getContract({
+    abi: kycABI,
+    address: chainMap.core.kyc.tokenAddress,
+    chainId: ChainId.CORE,
+    signer: walletClient,
+  })
+  await kyc.write.safeMint(address, {})
 
   res.json({ message: 'ok' })
 }

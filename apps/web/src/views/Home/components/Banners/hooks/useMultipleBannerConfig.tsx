@@ -2,7 +2,6 @@ import shuffle from 'lodash/shuffle'
 import { ReactElement, useMemo } from 'react'
 import CompetitionBanner from '../CompetitionBanner'
 import { GalxeTraverseBanner } from '../GalxeTraverseBanner'
-import IFOBanner from '../IFOBanner'
 import LiquidStakingBanner from '../LiquidStakingBanner'
 import PerpetualBanner from '../PerpetualBanner'
 import { PolygonZkEvmBanner } from '../PolygonZkEvmBanner'
@@ -41,10 +40,6 @@ export const useMultipleBannerConfig = () => {
     const NO_SHUFFLE_BANNERS: IBannerConfig[] = [
       { shouldRender: true, banner: <MoonPayBanner /> },
       { shouldRender: true, banner: <BaseBanner /> },
-      {
-        shouldRender: isRenderIFOBanner,
-        banner: <IFOBanner />,
-      },
     ]
 
     const SHUFFLE_BANNERS: IBannerConfig[] = [

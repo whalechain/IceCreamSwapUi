@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import { Text, Spinner } from '@pancakeswap/uikit'
+import { Text, Spinner, AutoColumn, ColumnCenter } from "@pancakeswap/uikit";
 import { useTranslation } from '@pancakeswap/localization'
-import { AutoColumn, ColumnCenter } from 'components/Layout/Column'
 import { AkkaRouterTrade } from '../hooks/types'
 import { useCurrency } from 'hooks/Tokens'
 import { useSwapState } from 'state/swap/hooks'

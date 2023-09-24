@@ -28,7 +28,7 @@ export const useLPApr = (pair?: Pair) => {
     null, // pair && pair.chainId === ChainId.BSC ? ['LP7dApr', pair.liquidityToken.address] : null,
     async () => {
       const timestampsArray = getDeltaTimestamps()
-      const blocks = await getBlocksFromTimestamps(timestampsArray, 'desc', 1000)
+      const blocks = await getBlocksFromTimestamps(timestampsArray, 'desc', 1000, chainName)
       const [, , block7d] = blocks ?? []
       const { error, data } = await fetchPoolVolumeAndReserveData(
         block7d.number,

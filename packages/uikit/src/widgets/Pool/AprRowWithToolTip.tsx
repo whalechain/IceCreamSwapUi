@@ -7,7 +7,6 @@ import { useTooltip } from "../../hooks";
 export const AprRowWithToolTip: React.FC<React.PropsWithChildren<{ questionTooltip?: ReactNode, forceApy?: boolean }>> = ({
   children,
   questionTooltip,
-  isVaultKey,
   forceApy= false,
 }) => {
   const { t } = useTranslation();
@@ -21,8 +20,8 @@ export const AprRowWithToolTip: React.FC<React.PropsWithChildren<{ questionToolt
   return (
     <Flex alignItems="center" justifyContent="space-between">
       {tooltipVisible && tooltip}
-      <Flex>      <TooltipText ref={targetRef}>{isVaultKey || forceApy ? `${t("APY")}:` : `${t("APR")}:`}</TooltipText>
-
+      <Flex>
+        <TooltipText ref={targetRef}>{forceApy ? `${t("APY")}:` : `${t("APR")}:`}</TooltipText>
         {questionTooltip}
       </Flex>
       {children}

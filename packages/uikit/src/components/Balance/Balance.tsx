@@ -47,6 +47,8 @@ const Balance: React.FC<React.PropsWithChildren<BalanceProps>> = ({
       preserveValue
       delay={0}
       end={value}
+      {...prefixProp}
+      {...suffixProp}
       decimals={decimals}
       duration={1}
       separator=","

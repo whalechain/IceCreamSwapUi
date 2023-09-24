@@ -18,7 +18,7 @@ const A = styled.a``;
  */
 const NextLinkFromReactRouter = forwardRef<any, LinkProps>(({ to, replace, children, prefetch, ...props }, ref) => (
   // Add legacyBehavior to avoid hydration error
-  <NextLink legacyBehavior href={to as string} replace={replace} passHref prefetch={false} legacyBehavior>
+  <NextLink legacyBehavior href={to as string} replace={replace} passHref prefetch={prefetch}>
     <A ref={ref} {...props}>
       {children}
     </A>

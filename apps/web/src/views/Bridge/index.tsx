@@ -1,5 +1,4 @@
-import { AtomBox } from '@pancakeswap/ui'
-import { Checkbox, Flex, Heading, Input, Link, Select, Text } from '@pancakeswap/uikit'
+import { AtomBox, Checkbox, Flex, Heading, Input, Select, Text } from '@pancakeswap/uikit'
 import { AppBody } from 'components/App'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { ChainLogo } from 'components/Logo/ChainLogo'

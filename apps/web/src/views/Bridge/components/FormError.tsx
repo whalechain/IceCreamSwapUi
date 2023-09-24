@@ -1,5 +1,5 @@
 import { Text } from '@pancakeswap/uikit'
-import Warning from '@pancakeswap/uikit/src/components/Svg/Icons/Warning'
+import Warning from "@pancakeswap/uikit/components/Svg/Icons/Warning";
 import styled from 'styled-components'
 
 export const StyledMessage = styled(Text)`

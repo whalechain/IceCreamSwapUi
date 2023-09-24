@@ -1,10 +1,9 @@
-import { Box, Flex, Heading, Input, PageHeader, Text } from '@pancakeswap/uikit'
+import { Box, Flex, Heading, Input, PageHeader, Text, tokens } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
 import useSWR from 'swr'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
 import Page from 'components/Layout/Page'
-import { tokens } from '@pancakeswap/ui'
 import { useState } from 'react'
 
 const H1 = styled(Heading)`

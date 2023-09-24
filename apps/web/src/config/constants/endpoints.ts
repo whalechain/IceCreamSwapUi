@@ -16,7 +16,7 @@ export const STABLESWAP_SUBGRAPH_CLIENT = 'https://api.thegraph.com/subgraphs/na
 export const GRAPH_HEALTH = 'https://the-graph-status.icecreamswap.com/graphql' // https://api.thegraph.com/index-node/graphql'
 export const BIT_QUERY = 'https://graphql.bitquery.io'
 export const ACCESS_RISK_API = '/api/risk'
-
+export const ONRAMP_API_BASE_URL = 'https://pcs-on-ramp-api.com'
 export const CELER_API = 'https://api.celerscan.com/scan'
 
 export const INFO_CLIENT_WITH_CHAIN = {
@@ -47,6 +47,7 @@ export const FARMS_API = 'https://farms-api.pancakeswap.com'
 
 export const MERCURYO_WIDGET_ID = process.env.NEXT_PUBLIC_MERCURYO_WIDGET_ID || '64d1f9f9-85ee-4558-8168-1dc0e7057ce6'
 
+export const MOONPAY_BASE_URL = 'https://api.moonpay.com'
 export const MOONPAY_API_KEY = process.env.NEXT_PUBLIC_MOONPAY_LIVE_KEY || 'pk_test_1Ibe44lMglFVL8COOYO7SEKnIBrzrp54'
 
 // no need for extra public env

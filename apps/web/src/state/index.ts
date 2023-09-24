@@ -5,12 +5,9 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage'
 import farmsReducer from './farms'
 import { updateVersion } from './global/actions'
-import mint from './mint/reducer'
-import multicall from './multicall/reducer'
 import poolsReducer from './pools'
 import transactions from './transactions/reducer'
 import user from './user/reducer'
-import limitOrders from './limitOrders/reducer'
 import globalReducer from './global/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions']

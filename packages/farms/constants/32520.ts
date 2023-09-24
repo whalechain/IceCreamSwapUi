@@ -1,5 +1,6 @@
-import { SerializedFarmConfig } from '@pancakeswap/farms'
 import { bitgertTokens } from '@pancakeswap/tokens'
+import { getAddress } from "viem";
+import { SerializedFarmConfig } from "../src";
 
 const farms: SerializedFarmConfig[] = [
   {
@@ -198,6 +199,6 @@ const farms: SerializedFarmConfig[] = [
     token: bitgertTokens.tokyo,
     quoteToken: bitgertTokens.wbrise,
   },
-].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
+].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize, lpAddress: getAddress(p.lpAddress), }))
 
 export default farms

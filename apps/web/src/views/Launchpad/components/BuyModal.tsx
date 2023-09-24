@@ -26,10 +26,10 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const token = useToken(campaign?.tokenAddress)
   const raisedToken = useToken(campaign?.raisedToken)
   const { address, status } = useAccount()
-  const campaignInstance = useCampaign(campaign?.address)
+  const campaignInstance = useCampaign(campaign?.address as `0x${string}`)
   const balances = useTokenBalances(address, raisedToken && [raisedToken])
   const balance = (balances ?? {})[raisedToken?.address ?? '']
-  const contributed = useGivenAmount(campaign?.address, address)
+  const contributed = useGivenAmount(campaign?.address as `0x${string}`, address)
   const addTransaction = useTransactionAdder()
 
   const [amount, setAmount] = useState('')
@@ -57,13 +57,13 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const allowed = contributed.data ? campaign.max_allowed.sub(contributed.data) : campaign.max_allowed
   const canContribute = !amount || utils.parseEther(amount).lte(allowed)
 
-  const [approvalState, approve] = useApproveCallback(
+  const {approvalState, approveCallback: approve} = useApproveCallback(
     CurrencyAmount.fromRawAmount(
       raisedToken,
       utils.parseUnits(Number(amount) ? amount : '0', raisedToken?.decimals || 18) as any,
     ),
     campaign.address,
-    true,
+    {addToTransaction: true},
   )
 
   const preview = (

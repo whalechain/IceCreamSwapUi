@@ -128,7 +128,7 @@ export default function Swap() {
   const akkaCoreContract = useAkkaRouterCoreContract()
   const { isConnected } = useWeb3React()
   const methodName = 'multiPathSwap'
-  const [akkaApproval, akkaApproveCallback] = useApproveCallbackFromAkkaTrade(parsedAmounts[Field.INPUT])
+  const {approvalState: akkaApproval, approveCallback: akkaApproveCallback} = useApproveCallbackFromAkkaTrade(parsedAmounts[Field.INPUT])
 
   // isAkkaSwapActive checks if akka router is generally active or not
   const [isAkkaSwapActive, toggleSetAkkaActive, toggleSetAkkaActiveToFalse, toggleSetAkkaActiveToTrue] =
@@ -185,21 +185,22 @@ export default function Swap() {
         ) {
           if (akkaRouterTrade?.args?.amountIn && akkaRouterTrade?.args?.amountOutMin && akkaRouterTrade?.args?.data) {
             if (chainId === ChainId.CORE) {
-              akkaCoreContract.estimateGas[methodName](
-                akkaRouterTrade?.args?.amountIn,
-                akkaRouterTrade?.args?.amountOutMin,
-                akkaRouterTrade?.args?.data,
-                account,
-                akkaRouterTrade?.args?.akkaFee?.fee,
-                akkaRouterTrade?.args?.akkaFee?.v,
-                akkaRouterTrade?.args?.akkaFee?.r,
-                akkaRouterTrade?.args?.akkaFee?.s,
+              akkaCoreContract.estimateGas[methodName]([
+                  BigInt(akkaRouterTrade?.args?.amountIn),
+                  BigInt(akkaRouterTrade?.args?.amountOutMin),
+                  akkaRouterTrade?.args?.data,
+                  account,
+                  BigInt(akkaRouterTrade?.args?.akkaFee?.fee),
+                  Number(akkaRouterTrade?.args?.akkaFee?.v),
+                  akkaRouterTrade?.args?.akkaFee?.r as `0x${string}`,
+                  akkaRouterTrade?.args?.akkaFee?.s as `0x${string}`,
+                ],
                 {
                   value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
                 },
               )
                 .then((data) => {
-                  if (data.gt('21000')) {
+                  if (data > 21000) {
                     toggleSetAkkaContractModeToTrue()
                   } else {
                     toggleSetAkkaContractModeToFalse()
@@ -237,19 +238,20 @@ export default function Swap() {
                   })
                 })
             } else {
-              akkaContract.estimateGas[methodName](
-                akkaRouterTrade?.args?.amountIn,
-                akkaRouterTrade?.args?.amountOutMin,
-                akkaRouterTrade?.args?.data,
-                [],
-                [],
-                account,
+              akkaContract.estimateGas[methodName]([
+                  BigInt(akkaRouterTrade?.args?.amountIn),
+                  BigInt(akkaRouterTrade?.args?.amountOutMin),
+                  akkaRouterTrade?.args?.data,
+                  [],
+                  [],
+                  account,
+                ],
                 {
                   value: inputCurrencyId === NATIVE[chainId].symbol ? akkaRouterTrade?.args?.amountIn : '0',
                 },
               )
                 .then((data) => {
-                  if (data.gt('21000')) {
+                  if (data > 21000) {
                     toggleSetAkkaContractModeToTrue()
                   } else {
                     toggleSetAkkaContractModeToFalse()
@@ -322,7 +324,7 @@ export default function Swap() {
   const supportedChainNames = useSupportedChainList()
   const balance = useBalance({ address: account })
   const isChainSupported = walletChainId ? supportedChains.includes(walletChainId) : true
-  const isConnectedAndHasNoBalance = isConnected && balance.data?.value?.isZero()
+  const isConnectedAndHasNoBalance = isConnected && balance.data?.value === 0n
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>

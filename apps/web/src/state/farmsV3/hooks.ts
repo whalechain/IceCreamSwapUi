@@ -187,7 +187,7 @@ export const useFarmsV3 = ({ mockApr = false }: UseFarmsOptions = {}) => {
   }
 }
 
-const zkSyncChains = [ChainId.ZKSYNC_TESTNET, ChainId.ZKSYNC]
+const zkSyncChains = []
 
 export const useStakedPositionsByUser = (stakedTokenIds: bigint[]) => {
   const { address: account } = useAccount()

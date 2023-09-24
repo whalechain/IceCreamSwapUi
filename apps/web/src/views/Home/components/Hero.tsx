@@ -61,6 +61,36 @@ const BunnyWrapper = styled.div`
   }
 `
 
+const StarsWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  & :nth-child(2) {
+    animation: ${fading} 2s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+
+  & :nth-child(3) {
+    animation: ${fading} 5s ease-in-out infinite;
+    animation-delay: 0.66s;
+  }
+
+  & :nth-child(4) {
+    animation: ${fading} 2.5s ease-in-out infinite;
+    animation-delay: 0.33s;
+  }
+`
+
+const starsImage: CompositeImageProps = {
+  path: '/images/home/lunar-bunny/',
+  attributes: [
+    { src: 'star-l', alt: '3D Star' },
+    { src: 'star-r', alt: '3D Star' },
+    { src: 'star-top-r', alt: '3D Star' },
+  ],
+}
+
 const Hero = () => {
   const { t } = useTranslation()
   const { address: account } = useAccount()
@@ -68,7 +98,7 @@ const Hero = () => {
 
   return (
     <>
-      <style>
+      <style jsx global>
         {`
           .slide-svg-dark {
             display: none;

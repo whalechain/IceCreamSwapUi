@@ -12,6 +12,7 @@ import { BigNumber, utils } from 'ethers'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useCampaignFactory } from '../hooks'
 import { useActiveChain } from 'hooks/useActiveChain'
+import { usePublicNodeWaitForTransaction } from "hooks/usePublicNodeWaitForTransaction";
 
 interface DepositModalProps {
   formValues: FormValues
@@ -39,33 +40,34 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const { address, status } = useAccount()
   const campaignFactory = useCampaignFactory()
   const chain = useActiveChain()
+  const { waitForTransaction } = usePublicNodeWaitForTransaction()
 
-  const handleDeposit = async () => {
+  const createCampaign = async () => {
     // const initialSupply = utils.parseUnits(String(formValues?.initialSupply || '0'), 18)
     // const maxSupply = utils.parseUnits(String(formValues?.maxSupply || '0'), 18)
-    await campaignFactory?.createCampaign(
-      {
-        rate: BigNumber.from(formValues?.rate || 0),
-        hardCap: BigNumber.from(formValues?.hardCap || 0),
-        softCap: BigNumber.from(formValues?.softCap || 0),
-        min_allowed: BigNumber.from(formValues?.minAllowed || 0),
-        max_allowed: BigNumber.from(formValues?.maxAllowed || 0),
-        start_date: BigNumber.from(Math.floor(formValues?.startDate.valueOf() / 1000)),
-        end_date: BigNumber.from(Math.floor(formValues?.endDate.valueOf() / 1000)),
-        pool_rate: BigNumber.from(formValues?.poolRate || 0),
-        liquidity_rate: BigNumber.from(formValues?.liquidityRate || 0),
-        lock_duration: 60 * 60 * 24 * 30,
-        whitelist_enabled: false,
-      },
-      formValues?.tokenAddress,
-      0,
-      '',
-      '',
+    const txHash = await campaignFactory.write.createCampaign(
+      [
+        {
+          rate: BigInt(formValues?.rate || 0),
+          hardCap: BigInt(formValues?.hardCap || 0),
+          softCap: BigInt(formValues?.softCap || 0),
+          min_allowed: BigInt(formValues?.minAllowed || 0),
+          max_allowed: BigInt(formValues?.maxAllowed || 0),
+          start_date: BigInt(Math.floor(formValues?.startDate.valueOf() / 1000)),
+          end_date: BigInt(Math.floor(formValues?.endDate.valueOf() / 1000)),
+          pool_rate: BigInt(formValues?.poolRate || 0),
+          liquidity_rate: BigInt(formValues?.liquidityRate || 0),
+          lock_duration: BigInt(60 * 60 * 24 * 30),
+          whitelist_enabled: false,
+        },
+        formValues?.tokenAddress as `0x${string}`,
+        BigInt(0),
+        '0x0000000000000000000000000000000000000000',
+        '0x0000000000000000000000000000000000000000',
+      ], {}
     )
     setStep('transfer')
-    campaignFactory.on(campaignFactory.filters.CampaignAdded(address), (creator, ta, _tokenName) => {
-      if (creator !== address) console.log('not creator')
-    })
+    await waitForTransaction({hash: txHash})
   }
 
   const addToken = useAddUserToken()
@@ -92,7 +94,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       {/*   </Flex> */}
       {/* )} */}
       {status === 'connected' ? (
-        <Button style={{ flexGrow: 1 }} onClick={handleDeposit}>
+        <Button style={{ flexGrow: 1 }} onClick={createCampaign}>
           Confirm
         </Button>
       ) : (

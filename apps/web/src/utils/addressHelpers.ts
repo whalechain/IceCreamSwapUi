@@ -15,7 +15,7 @@ export const getAddressFromMapNoFallback = (address: Addresses, chainId?: number
 }
 
 export const getMasterChefV2Address = (chainId?: number) => {
-  return null // getAddressFromMap(addresses.masterChef, chainId)
+  return getAddressFromMap(addresses.masterChef, chainId)
 }
 export const getMulticallAddress = (chainId?: number) => {
   return getAddressFromMap(addresses.multiCall, chainId)

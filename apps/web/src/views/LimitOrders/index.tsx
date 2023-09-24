@@ -1,5 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Currency, CurrencyAmount, Percent, Token, Trade, TradeType } from '@pancakeswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Percent, Token, Trade, TradeType } from "@pancakeswap/sdk";
 import {
   BottomDrawer,
   Box,
@@ -17,7 +17,6 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { GELATO_NATIVE } from 'config/constants'
 import { LIMIT_ORDERS_DOCS_URL } from 'config/constants/exchange'
-import { SUPPORT_ONLY_BSC } from 'config/constants/supportChains'
 import useGasOverhead from 'hooks/limitOrders/useGasOverhead'
 import useGelatoLimitOrders from 'hooks/limitOrders/useGelatoLimitOrders'
 import { ApprovalState, useApproveCallbackFromInputCurrencyAmount } from 'hooks/useApproveCallback'

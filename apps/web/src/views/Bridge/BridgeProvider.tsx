@@ -1,7 +1,7 @@
 import type { Bridge } from '@chainsafe/chainbridge-contracts'
 import type { BridgeChain } from './config'
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react'
-import { useBalance, usePublicClient, useWalletClient } from "wagmi";
+import { erc20ABI, useBalance, usePublicClient, useWalletClient } from "wagmi";
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { bridgeChains } from './config'
 import { Currency, CurrencyAmount, ERC20Token, Native } from '@pancakeswap/sdk'
@@ -77,6 +77,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () => bridgeChains.find((chain) => chain.networkId === destinationChainId),
     [destinationChainId],
   )
+  const { data: walletClient } = useWalletClient()
   const bridge = useContract(homeChainConfig.bridgeAddress, bridgeABI)
   const [recipient, setRecipient] = useState<string>()
   const [toOtherAddress, setToOtherAddress] = useState(false)
@@ -95,8 +96,12 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }
       const tokenAddress = currency instanceof ERC20Token ? currency.address : undefined
       if (!tokenAddress) return
-
-      const erc20 = useERC20(tokenAddress)
+      const erc20 = getContract({
+        abi: erc20ABI,
+        address: tokenAddress,
+        chainId,
+        signer: walletClient,
+      })
       const token = homeChainConfig.tokens.find((t) => t.address === tokenAddress)
       if (!token) return
       const handlerAddress = await bridge.read._resourceIDToHandlerAddress([token.resourceId as `0x${string}`])
@@ -133,7 +138,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       abi: bridgeABI,
       eventName: 'ProposalEvent',
       onLogs: logs => {
-        logs.map(log => {
+        logs.forEach(log => {
           // const originDomainId = log.args.originDomainID
           // const nonce = log.args.depositNonce
           // const status = log.args.status
@@ -174,7 +179,14 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
         homeChainConfig?.tokens.map(async (current) => {
           if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return
           if (current.address === '0x0000000000000000000000000000000000000000') return
-          const erc20 = useERC20(current.address)
+          const erc20 = getContract({
+            abi: erc20ABI,
+            address: current.address,
+            chainId,
+            signer: walletClient,
+          })
+
+
           const decimals = await erc20.read.decimals()
           tokensWithDecimals[current.address] = new ERC20Token(
             chainId,

@@ -1,17 +1,17 @@
 import { BridgeChain, TokenConfig } from '../config'
 import { utils } from 'ethers'
-import { erc20ABI, usePublicClient } from "wagmi";
+import { erc20ABI } from "wagmi";
 import { getContract } from "utils/contractHelpers";
 import { bridgeABI } from "config/abi/bridge";
 import { bridgeErc20HandlerABI } from "config/abi/bridgeErc20Handler";
-import { useContract, useERC20 } from "hooks/useContract";
+import { publicClient } from "utils/wagmi";
 
 export const hasTokenSupplies = async (destinationChain: BridgeChain, token: TokenConfig, amount: number) => {
   const destinationToken = destinationChain?.tokens.find(
     (_token: TokenConfig) => _token.resourceId === token.resourceId,
   )
   if (destinationToken && destinationChain !== undefined && destinationChain.type === 'Ethereum') {
-    const destPublicClient = usePublicClient({ chainId: destinationChain.networkId })
+    const destPublicClient = publicClient({ chainId: destinationChain.networkId })
 
     const destinationBridge = getContract({
       abi: bridgeABI,

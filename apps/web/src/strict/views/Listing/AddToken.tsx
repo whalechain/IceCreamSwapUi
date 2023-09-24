@@ -1,16 +1,16 @@
 import { Button, Checkbox, Flex, Heading, Input, Text, useModal, useToast } from '@pancakeswap/uikit'
-import AppWrapper from '../../../components/AppWrapper'
+import AppWrapper from 'components/AppWrapper'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
-import FormError from '../../../views/Bridge/components/FormError'
-import FileInput from '../../../components/FileInput'
+import FormError from 'views/Bridge/components/FormError'
+import FileInput from 'components/FileInput'
 import { FormValues, schema, toBase64 } from './add-token-schema'
 import { useEffect, useMemo, useState } from 'react'
-import { useToken } from '../../../hooks/Tokens'
+import { useToken } from 'hooks/Tokens'
 import styled from 'styled-components'
 import { convertImage } from './convert-image'
 import { trpc } from '@icecreamswap/backend'
-import { useActiveChainId } from '../../../hooks/useActiveChainId'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 const Logo = styled.img`
   width: 128px;
@@ -61,8 +61,8 @@ export const AddToken: React.FC = () => {
         <form
           onSubmit={handleSubmit((data) => {
             if (!chainId) return
-            // @ts-ignore
             submit
+              // @ts-ignore
               .mutateAsync({
                 ...data,
                 logo: logo.blob,

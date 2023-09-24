@@ -8,6 +8,7 @@ import { utils, BigNumber } from 'ethers'
 import { useCallback } from 'react'
 import { formatAmount } from 'views/Bridge/formatter'
 import Link from 'next/link'
+import { formatUnits } from "viem";
 
 const RowStyled = styled.tr`
   &:hover {
@@ -24,20 +25,20 @@ interface LockRowProps {
 }
 
 const LockRow: React.FC<LockRowProps> = ({ lock }) => {
-  const claimed = lock.amount.eq(lock.amountUnlocked)
+  const claimed = lock.amount === lock.amountUnlocked
   const token = useToken(lock.token)
   const { isMobile } = useMatchBreakpoints()
   const theme = useTheme()
   const format = useCallback(
-    (value: BigNumber) => {
+    (value: bigint) => {
       if (!value) return ''
       const decimals = token?.decimals ?? 18
-      return formatAmount(Number(utils.formatUnits(value, decimals)))
+      return formatAmount(Number(formatUnits(value, decimals)))
     },
     [token],
   )
 
-  const percentClaimed = (lock.amountUnlocked.mul(10000).div(lock.amount).toNumber() / 100).toString()
+  const percentClaimed = (lock.amountUnlocked * 10000n / lock.amount / 100n).toString()
 
   if (isMobile) {
     return (
@@ -56,15 +57,15 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
           </Td>
         </RowStyled>
         <RowStyled>
-          <Td color={lock.amountToUnlock?.gt(0) && theme.colors.success}>
+          <Td color={lock.amountToUnlock > 0 && theme.colors.success}>
             {claimed ? (
               'Fully Claimed'
-            ) : lock.amountToUnlock?.gt(0) ? (
+            ) : lock.amountToUnlock > 0 ? (
               format(lock.amountToUnlock)
             ) : (
               <Flex flexDirection="column" gap="0.5em">
                 <span>Starting at</span>
-                <span>{renderDate(lock.start_time.mul(1000).toNumber())}</span>
+                <span>{renderDate(Number(lock.start_time * 1000n))}</span>
               </Flex>
             )}
           </Td>
@@ -94,15 +95,15 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
         </Flex>
       </Td>
       {!isMobile && (
-        <Td color={lock.amountToUnlock?.gt(0) && theme.colors.success}>
+        <Td color={lock.amountToUnlock > 0 && theme.colors.success}>
           {claimed ? (
             'Fully Claimed'
-          ) : lock.amountToUnlock?.gt(0) ? (
+          ) : lock.amountToUnlock > 0 ? (
             format(lock.amountToUnlock)
           ) : (
             <Flex flexDirection="column" gap="0.5em">
               <span>Starting at</span>
-              <span>{renderDate(lock.start_time.mul(1000).toNumber())}</span>
+              <span>{renderDate(Number(lock.start_time * 1000n))}</span>
             </Flex>
           )}
         </Td>

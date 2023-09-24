@@ -5,7 +5,7 @@ import { MINIMUM_SEARCH_CHARACTERS } from 'config/constants/info'
 import orderBy from 'lodash/orderBy'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { checkIsStableSwap, subgraphTokenName, subgraphTokenSymbol } from 'state/info/constant'
+import { checkIsStableSwap, subgraphTokenSymbol } from 'state/info/constant'
 import { useChainNameByQuery, useMultiChainPath } from 'state/info/hooks'
 import { useWatchlistPools, useWatchlistTokens } from 'state/user/hooks'
 import { styled } from 'styled-components'
@@ -323,7 +323,7 @@ const Search = () => {
                     <Flex>
                       <CurrencyLogo address={token.address} chainName={chainName} />
                       <Text ml="10px">
-                        <Text>{`${subgraphTokenName[token.address] ?? token.name} (${
+                        <Text>{`${token.name} (${
                           subgraphTokenSymbol[token.address] ?? token.symbol
                         })`}</Text>
                       </Text>

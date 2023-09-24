@@ -30,6 +30,9 @@ export const getNodeRealUrl = (networkName: string) => {
 }
 
 export const getNodeRealUrlV2 = (chainId: number, key?: string) => {
+  return null
+
+  /*
   let host = null
 
   switch (chainId) {
@@ -68,4 +71,5 @@ export const getNodeRealUrlV2 = (chainId: number, key?: string) => {
 
   const url = `https://${host}`
   return url
+  */
 }

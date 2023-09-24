@@ -1,6 +1,5 @@
 import React from 'react'
 import { styled } from 'styled-components'
-import { useProfileForAddress } from 'state/profile/hooks'
 import { Flex, Skeleton, ProfileAvatar, NoProfileAvatarIcon } from '@pancakeswap/uikit'
 import { useDomainNameForAddress } from 'hooks/useDomain'
 
@@ -40,7 +39,9 @@ interface PodiumAvatarProps {
 
 const PodiumAvatar: React.FC<React.PropsWithChildren<PodiumAvatarProps>> = ({ address, position }) => {
   const imageSize = position === 1 ? 128 : 113
-  const { profile, isFetching } = useProfileForAddress(address)
+  // const { profile, isFetching } = useProfileForAddress(address)
+  const profile = undefined
+  const isFetching = false
   const { avatar } = useDomainNameForAddress(address)
 
   return (

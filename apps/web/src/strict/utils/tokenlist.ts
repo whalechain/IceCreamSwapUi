@@ -1,5 +1,5 @@
 import { trpcClient } from '@icecreamswap/backend'
-import { TokenList } from '@uniswap/token-lists'
+import { TokenList } from '@pancakeswap/token-lists'
 
 export const getDefaultTokenList = async (): Promise<TokenList> => {
   // @ts-ignore

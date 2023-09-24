@@ -22,7 +22,7 @@ export const useGivenAmount = (contractAddress: Address, address: Address) => {
   return useSWR(
     campaign && address ? ['givenAmount', contractAddress, address] : null,
     async () => {
-      return await campaign.read.getGivenAmount(address)
+      return campaign.read.getGivenAmount([address])
     },
     {
       refreshInterval: 3000,
@@ -36,7 +36,7 @@ export const useCanBuy = (contractAddress: Address, address: Address) => {
     campaign && address ? ['canBuy', contractAddress, address] : null,
     async () => {
       if (!(await campaign.read.whitelistEnabled())) return true
-      const canBuy = await campaign.read.whitelisted(address)
+      const canBuy = await campaign.read.whitelisted([address])
       return canBuy
     },
     {

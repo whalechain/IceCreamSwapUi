@@ -30,6 +30,7 @@ const addressCount = 4425459
 
 const tvl = 6082955532.115718
 
+/*
 export const getStaticProps: GetStaticProps = async () => {
   const totalTxQuery = gql`
     query TotalTransactions($block: Block_height) {
@@ -126,6 +127,7 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: 60 * 60 * 24 * 30, // 30 days
   }
 }
+*/
 
 IndexPage.chains = CHAIN_IDS
 

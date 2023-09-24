@@ -77,7 +77,7 @@ const Benefits = () => {
       innerProps={{ style: { padding: '0 16px' } }}
     >
       <Flex alignItems="center" flexDirection="column" justifyContent="center">
-        <GradientLogo height="36px" width="36px" mb="24px" />
+        <GradientLogo height="36" width="36" />
         <Heading maxWidth={['700px']} textAlign="center" scale="xl">
           {t('Unlock the Power of PancakeSwap Affiliate Benefits')}
         </Heading>

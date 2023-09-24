@@ -1,12 +1,10 @@
-import { Box, Button, Flex, Heading, PageHeader, Text } from '@pancakeswap/uikit'
+import { Box, Button, Flex, Heading, PageHeader, Text, tokens } from '@pancakeswap/uikit'
 import { isMobile } from 'react-device-detect'
 import { useAccount, useWalletClient } from "wagmi";
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { useActiveChain } from 'hooks/useActiveChain'
 import styled, { useTheme } from 'styled-components'
 import kycAsset from './images/KYC.png'
 import Page from 'components/Layout/Page'
-import { tokens } from '@pancakeswap/ui'
 import { useState } from 'react'
 
 const H1 = styled(Heading)`

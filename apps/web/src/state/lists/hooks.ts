@@ -121,7 +121,7 @@ export const tokenListFromOfficialsUrlsAtom = atom(async (get) => {
   }, [])
   const defaultTokenList = await getDefaultTokenList()
 
-  const mergedList =
+  const mergedList: TokenInfo[] =
     mergedTokenLists.length > 0 ? [...defaultTokenList.tokens, ...mergedTokenLists] : defaultTokenList.tokens
   return mapValues(
     groupBy(

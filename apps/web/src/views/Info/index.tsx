@@ -27,9 +27,9 @@ export const InfoPageLayout = ({ children }) => {
 
   return (
     <>
-      <SubMenuItems items={subMenuItems} activeItem={isStableSwap ? '/info?type=stableSwap' : `/info${chainPath}`} />
+      <SubMenuItems items={subMenuItems} activeItem={`/info${chainPath}`} />
 
-      <InfoNav isStableSwap={isStableSwap} />
+      <InfoNav isStableSwap={false} />
       {children}
     </>
   )

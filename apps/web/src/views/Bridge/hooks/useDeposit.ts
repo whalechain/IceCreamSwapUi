@@ -4,15 +4,21 @@ import { useContract, useERC20 } from "hooks/useContract";
 import { bridgeABI } from "config/abi/bridge";
 import { decodeEventLog, encodeAbiParameters, formatUnits, parseAbiParameters, parseUnits } from "viem";
 import { usePublicNodeWaitForTransaction } from "hooks/usePublicNodeWaitForTransaction";
-import { usePublicClient } from "wagmi";
+import { erc20ABI, usePublicClient, useWalletClient } from "wagmi";
+import { getContract } from "utils/contractHelpers";
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 
 export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
   const { account } = useWeb3React()
+  const { chainId } = useActiveChainId()
   const { setTransactionStatus, setDepositNonce, setHomeTransferTxHash, homeChainConfig } = useBridge()
 
   const homeBridge = useContract(homeChainConfig.bridgeAddress, bridgeABI)
   const { waitForTransaction } = usePublicNodeWaitForTransaction()
+  const { data: walletClient } = useWalletClient()
+  const publicClient = usePublicClient()
+
   const approve = async (amount: number, tokenAddress: `0x${string}`, setHasApproval: (approval: boolean) => void) => {
     if (!homeChainConfig) {
       console.error('Home bridge contract is not instantiated')
@@ -29,7 +35,12 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     }
     const isNative = token.address === '0x0000000000000000000000000000000000000000'
     // const erc20 = Erc20DetailedFactory.connect(tokenAddress, signer)
-    const erc20 = useERC20(tokenAddress)
+    const erc20 = getContract({
+      abi: erc20ABI,
+      address: tokenAddress,
+      chainId,
+      signer: walletClient,
+    })
     const erc20Decimals = isNative ? 18 : await erc20.read.decimals()
     const handlerAddress = await homeBridge.read._resourceIDToHandlerAddress([token.resourceId as `0x${string}`])
     const currentAllowance = isNative ? 0n : await erc20.read.allowance([account, handlerAddress])
@@ -37,12 +48,10 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     // TODO extract token allowance logic to separate function
     const MAX_UINT256 = BigInt('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
     if (!isNative && Number(formatUnits(currentAllowance, erc20Decimals)) < amount) {
-      const txHash = await (
-        await erc20.write.approve([
+      const txHash = await erc20.write.approve([
           handlerAddress,
           MAX_UINT256, // parseUnits(amount.toString(), erc20Decimals),
         ], {})
-      )
       setHasApproval(true)
     }
   }
@@ -65,7 +74,12 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     }
 
     setTransactionStatus('Initializing Transfer')
-    const erc20 = useERC20(tokenAddress)
+    const erc20 = getContract({
+      abi: erc20ABI,
+      address: tokenAddress,
+      chainId,
+      signer: walletClient,
+    })
     const isNative = token.address === '0x0000000000000000000000000000000000000000'
 
     const erc20Decimals = isNative ? 18 : await erc20.read.decimals()
@@ -105,7 +119,7 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
         [destinationDomainId, token.resourceId as `0x${string}`, data],
         { value }
       )
-      const depositReceipt = await usePublicClient().waitForTransactionReceipt({hash: depositTransaction})
+      const depositReceipt = await publicClient.waitForTransactionReceipt({hash: depositTransaction})
       // const depositReceipt = await waitForTransaction({hash: depositTransaction})
       const depositLogs = depositReceipt.logs.map(log => {
         const event = decodeEventLog({

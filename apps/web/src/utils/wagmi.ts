@@ -61,6 +61,7 @@ export const coinbaseConnector = new CoinbaseWalletConnector({
 export const walletConnectConnector = new WalletConnectConnector({
   chains,
   options: {
+    projectId: 'c33f5b4a87af478e80a3b8b807e52895',
     showQrModal: true,
   },
 })
@@ -68,6 +69,7 @@ export const walletConnectConnector = new WalletConnectConnector({
 export const walletConnectNoQrCodeConnector = new WalletConnectConnector({
   chains,
   options: {
+    projectId: 'c33f5b4a87af478e80a3b8b807e52895',
     showQrModal: false,
   },
 })
@@ -89,6 +91,9 @@ const bloctoConnector = new BloctoConnector({
 
 const ledgerConnector = new LedgerConnector({
   chains,
+  options: {
+    projectId: 'c33f5b4a87af478e80a3b8b807e52895',
+  },
 })
 
 export const bscConnector = new BinanceWalletConnector({ chains })

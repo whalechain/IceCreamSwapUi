@@ -195,8 +195,6 @@ const Row: React.FunctionComponent<React.PropsWithChildren<RowPropsWithLoading>>
                         <Apy
                           {...props.apr}
                           hideButton={isSmallerScreen}
-                          strikethrough={false}
-                          boosted={false}
                           farmCakePerSecond={multiplier.farmCakePerSecond}
                           totalMultipliers={multiplier.totalMultipliers}
                         />
@@ -279,8 +277,6 @@ const Row: React.FunctionComponent<React.PropsWithChildren<RowPropsWithLoading>>
                       <Apy
                         {...props.apr}
                         hideButton
-                        strikethrough={props?.details?.boosted}
-                        boosted={props?.details?.boosted}
                         farmCakePerSecond={multiplier.farmCakePerSecond}
                         totalMultipliers={multiplier.totalMultipliers}
                       />

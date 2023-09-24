@@ -5,7 +5,6 @@ import { useTranslation } from '@pancakeswap/localization'
 import { WrappedTokenInfo } from '@pancakeswap/token-lists'
 import { ChainId } from '@pancakeswap/sdk'
 import { useActiveChainId } from 'hooks/useActiveChainId'
-import ETH_WARNING_LIST from './1'
 import BSC_WARNING_LIST from './56'
 import Acknowledgement from './Acknowledgement'
 
@@ -29,7 +28,6 @@ const SwapWarningModal: React.FC<React.PropsWithChildren<SwapWarningModalProps>>
   const { chainId } = useActiveChainId()
 
   const TOKEN_WARNINGS = {
-    [ChainId.ETHEREUM]: ETH_WARNING_LIST,
     [ChainId.BSC]: BSC_WARNING_LIST,
   }
 
