@@ -44,7 +44,7 @@ const Stats = () => {
       {/* </Heading> */}
       <Text textAlign="center" color="textSubtle">
         {t('Swap, Bridge, Farm and Launch')}<br/>
-        {t('all utilizing our smart contracts available on multiple chains.')}
+        {t('across multiple blockchains')}
       </Text>
       {/*
       <Flex flexWrap="wrap">

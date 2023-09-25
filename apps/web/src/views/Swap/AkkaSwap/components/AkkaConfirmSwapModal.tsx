@@ -68,6 +68,8 @@ interface ConfirmSwapModalProps {
   isStable?: boolean
   inputAmountInDollar: number
   outputAmountInDollar: number
+  outputAmountInDollarWithTax: number
+  isLoading: boolean
 }
 
 const AkkaConfirmSwapModal: React.FC<React.PropsWithChildren<InjectedModalProps & ConfirmSwapModalProps>> = ({
@@ -86,7 +88,9 @@ const AkkaConfirmSwapModal: React.FC<React.PropsWithChildren<InjectedModalProps 
   openSettingModal,
   isStable,
   inputAmountInDollar,
-  outputAmountInDollar
+  outputAmountInDollar,
+  outputAmountInDollarWithTax,
+  isLoading
 }) => {
   const {
     independentField,
@@ -125,6 +129,8 @@ const AkkaConfirmSwapModal: React.FC<React.PropsWithChildren<InjectedModalProps 
           recipient={recipient}
           inputAmountInDollar={inputAmountInDollar}
           outputAmountInDollar={outputAmountInDollar}
+          outputAmountInDollarWithTax={outputAmountInDollarWithTax}
+          isLoading={isLoading}
         />
       ),
     [

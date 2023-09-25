@@ -203,7 +203,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text>{t('Akka Router')}</Text>
-                <QuestionHelper text={t('You can toggle akka router splitting')} placement="top-start" ml="4px" />
+                <QuestionHelper text={t('You can toggle Akka router splitting')} placement="top-start" ml="4px" />
               </Flex>
               <Toggle
                 id="toggle-expert-mode-button"

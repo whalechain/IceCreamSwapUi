@@ -12,6 +12,7 @@ import useNativeCurrency from 'hooks/useNativeCurrency'
 import { formatAmount } from 'views/Bridge/formatter'
 import { useState } from 'react'
 import { formatDuration, intervalToDuration } from 'date-fns'
+import { useTranslation } from '@pancakeswap/localization'
 
 const StyledCard = styled(Card)`
   align-self: baseline;
@@ -47,6 +48,7 @@ const roundString = (str: string) => {
 }
 
 const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
+  const { t } = useTranslation()
   const { campaign } = props
   const token = useToken(campaign?.tokenAddress)
   const native = useNativeCurrency()
@@ -66,11 +68,11 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
   const tooltip = useTooltip(
     <Flex flexDirection="column" gap="0.5em">
       <Flex alignItems="center" gap="0.5em">
-        <Box width="1ch" height="1ch" backgroundColor={theme.colors.secondary} /> Soft Cap:{' '}
+        <Box width="1ch" height="1ch" backgroundColor={theme.colors.secondary} /> {t('Soft Cap')}:{' '}
         {roundString(String(campaign.progress * 100))}%
       </Flex>
       <Flex alignItems="center" gap="0.5em">
-        <Box width="1ch" height="1ch" backgroundColor={theme.colors.success} /> Hard Cap:{' '}
+        <Box width="1ch" height="1ch" backgroundColor={theme.colors.success} /> {t('Hard Cap')}:{' '}
         {roundString(String(campaign.hardCapProgress * 100))}%
       </Flex>
     </Flex>,
@@ -86,20 +88,20 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         <CampaignCardHeader campaign={campaign} />
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="16px" color="secondary" fontWeight="bold">
-            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} per ICE
+            {formatAmount(utils.formatUnits(campaign.rate, token?.decimals))} {token?.symbol} {t('per ICE')}
           </Text>
         </Flex>
         <Flex ref={tooltip.targetRef} flexDirection="column" gap="0.5em">
           {tooltip.tooltipVisible && tooltip.tooltip}
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontSize="16px" fontWeight="bold">
-              Progress ({roundString(`${campaign.hardCapProgress * 100}`)}%) of hard cap
+              {t('Progress')} ({roundString(`${campaign.hardCapProgress * 100}`)}%) {t('of hard cap')}
             </Text>
           </Flex>
           <Progress primaryStep={campaign.progress * 100} secondaryStep={campaign.hardCapProgress * 100} />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
-          <Text fontSize="16px">Listing price increase</Text>
+          <Text fontSize="16px">{t('Listing price increase')}</Text>
           <Text fontSize="16px">50%</Text>
         </Flex>
         {/*
@@ -118,13 +120,13 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
         */}
         {contributed.data && (
           <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Contributed</Text>
+            <Text fontSize="16px">{t('Contributed')}</Text>
             <Text fontSize="16px">{formatAmount(utils.formatUnits(contributed.data, 18))} ICE</Text>
           </Flex>
         )}
         {started && !ended && (
           <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">Ending at</Text>
+            <Text fontSize="16px">{t('Ending at')}</Text>
             <Text fontSize="16px">{renderDate(campaign.end_date.mul(1000).toNumber())}</Text>
           </Flex>
         )}
@@ -132,10 +134,10 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
           campaign.isLive && campaign.progress !== 1 ? (
             status === 'connected' ? (
               canBuy?.data ? (
-                <Button onClick={onPresentBuyModal}>Contribute</Button>
+                <Button onClick={onPresentBuyModal}>{t('Contribute')}</Button>
               ) : (
                 <Button disabled>
-                  Public sale starting in{' '}
+                  {t('Public sale starting in')}{' '}
                   {formatDuration(
                     intervalToDuration({
                       start: new Date(),
@@ -158,7 +160,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
                   })
                 }}
               >
-                Claim
+                {t('Claim')}
               </Button>
             ) : (
               <Button
@@ -170,17 +172,17 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
                   })
                 }}
               >
-                Refund
+                {t('Refund')}
               </Button>
             )
           ) : hardCapReached ? (
-            <Button disabled>Hard Cap Reached</Button>
+            <Button disabled>{t('Hard Cap Reached')}</Button>
           ) : (
-            <Button disabled>Ended</Button>
+            <Button disabled>{t('Ended')}</Button>
           )
         ) : (
           <Button disabled>
-            Starting in{' '}
+            {t('Starting in')}{' '}
             {formatDuration(
               intervalToDuration({
                 start: new Date(),
@@ -192,7 +194,7 @@ const CampaignCard: React.FC<LaunchpadCardProps> = (props) => {
       </LaunchpadCardInnerContainer>
       <ExpandingWrapper>
         <Link fontSize="16px" color="primary" href={`/launchpad/${campaign.id}`}>
-          Details
+          {t('Details')}
         </Link>
       </ExpandingWrapper>
     </StyledCard>

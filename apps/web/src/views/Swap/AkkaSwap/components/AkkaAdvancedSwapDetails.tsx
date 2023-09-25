@@ -11,27 +11,47 @@ import AkkaSwapRoute from './AkkaSwapRoute'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useTheme from 'hooks/useTheme'
 
-function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar }: { route: AkkaRouterInfoResponseType, inputAmountInDollar: number, outputAmountInDollar: number }) {
+function TradeSummary({ route, inputAmountInDollar, outputAmountInDollar, outputAmountInDollarWithTax }: { route: AkkaRouterInfoResponseType, inputAmountInDollar: number, outputAmountInDollar: number, outputAmountInDollarWithTax: number }) {
   const { t } = useTranslation()
   const priceImpact = (1 - (outputAmountInDollar / inputAmountInDollar)) * 100
-
+  const priceImpactWithTax = (1 - (outputAmountInDollarWithTax / inputAmountInDollar)) * 100
+  
   return (
     <AutoColumn style={{ padding: '0 16px' }}>
       <RowBetween>
         <RowFixed>
           <Text fontSize="14px" color="textSubtle">
-            Price Impact
+            {t('Price Impact')}
           </Text>
         </RowFixed>
         <Text fontSize="14px" color="textSubtle">
-          {priceImpact?.toFixed(3)}%
+          {Number.isNaN(priceImpact) ? route?.priceImpact.toFixed(3) : priceImpact.toFixed(3)}%
         </Text>
       </RowBetween>
+      {
+        !Number.isNaN(priceImpactWithTax) && (priceImpactWithTax - priceImpact) > 0 &&
+        <RowBetween mt={3}>
+          <RowFixed>
+            <Text fontSize="14px" color="textSubtle">
+              {t('Token fees')}
+            </Text>
+            <QuestionHelper
+              text={t('These are the estimated additional taxes introduced by the token project, not by IceCreamSwap.')}
+              ml="4px"
+              placement="top-start"
+            />
+          </RowFixed>
+          <Text fontSize="14px" color="textSubtle">
+            {Number.isNaN(priceImpactWithTax) ? "" : (priceImpactWithTax - priceImpact).toFixed(3)}%
+          </Text>
+        </RowBetween>
+      }
+
       {route?.returnAmountInUsd - route?.bestAlt > 0 &&
         <RowBetween>
           <RowFixed>
             <Text fontSize="14px" color="textSubtle">
-              You Save
+              {t('You Save')}
             </Text>
           </RowFixed>
           <Text fontSize="14px" color="textSubtle">
@@ -47,8 +67,9 @@ export interface AdvancedSwapDetailsProps {
   route?: AkkaRouterInfoResponseType
   inputAmountInDollar: number
   outputAmountInDollar: number
+  outputAmountInDollarWithTax: number
 }
-export function AkkaAdvancedSwapDetails({ route, inputAmountInDollar, outputAmountInDollar }: AdvancedSwapDetailsProps) {
+export function AkkaAdvancedSwapDetails({ route, inputAmountInDollar, outputAmountInDollar, outputAmountInDollarWithTax }: AdvancedSwapDetailsProps) {
   const { t } = useTranslation()
   const [userSlippageTolerance] = useUserSlippage()
   const { chainId } = useActiveChainId()
@@ -64,7 +85,7 @@ export function AkkaAdvancedSwapDetails({ route, inputAmountInDollar, outputAmou
     <AutoColumn gap="0px">
       {route && (
         <>
-          <TradeSummary route={route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} />
+          <TradeSummary route={route} inputAmountInDollar={inputAmountInDollar} outputAmountInDollar={outputAmountInDollar} outputAmountInDollarWithTax={outputAmountInDollarWithTax} />
           {showRoute() && (
             <>
               <RowBetween style={{ padding: '0 16px' }}>

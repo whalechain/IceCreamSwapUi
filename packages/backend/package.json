@@ -18,6 +18,7 @@
     "@icecreamswap/constants": "*",
     "@icecreamswap/database": "*",
     "@swc/core": "^1.2.215",
+    "@pancakeswap/tokens": "*",
     "@tanstack/react-query": "^4.28.0",
     "@trpc/client": "^10.18.0",
     "@trpc/next": "^10.18.0",

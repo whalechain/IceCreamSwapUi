@@ -49,8 +49,18 @@ const evmNativeStableLpMap: Record<
     stable: 'USDT',
   },
   [ChainId.XODEX]: {
-    address: '0x0000000000000000000000000000000000000000',  // todo: add XoDex stable LP
+    address: '0xe3dd2db66c31b79ed7f4308a182262a904056a19',
     wNative: 'WXODEX',
+    stable: 'USDT',
+  },
+  [ChainId.TELOS]: {
+    address: '0x86CA8345bDa0D6052E93f07BE4dcC680Af927d53',
+    wNative: 'WTLOS',
+    stable: 'USDT',
+  },
+  [ChainId.BASE]: {
+    address: '0xfCe2fcc39738DbCdFF2B4EfD9A0B142eC6BcE4AD',
+    wNative: 'WETH',
     stable: 'USDT',
   },
 }

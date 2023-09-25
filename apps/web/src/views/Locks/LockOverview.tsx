@@ -11,6 +11,7 @@ import { renderDate } from '../../utils/renderDate'
 import { useAccount } from 'wagmi'
 import AppWrapper from 'components/AppWrapper'
 import { formatUnits } from "viem";
+import { useTranslation } from '@pancakeswap/localization'
 
 const RowStyled = styled.tr`
   &:hover {
@@ -46,6 +47,7 @@ const Td2: React.FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
+  const { t } = useTranslation()
   const { isMobile } = useMatchBreakpoints()
   const { address } = useAccount()
   const { data, status } = useLockingData([BigInt(lockId)])
@@ -71,29 +73,29 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
   }, [lock, locks])
 
   return (
-    <AppWrapper hasBackButton title={`Viewing Lock #${lockId}`} subtitle="Lock your tokens for a fixed period">
+    <AppWrapper hasBackButton title={`${t('Viewing Lock')} #${lockId}`} subtitle={t('Lock your tokens for a fixed period')}>
       <Flex flexDirection="column" gap="0.75em">
         {status === FetchStatus.Failed ? (
           <Heading as="h2" marginY="3">
-            Lock with id {lockId} not found
+            {t('Lock with id')} {lockId} {t('not found')}
           </Heading>
         ) : (
           <>
             <Heading as="h2" marginY="3">
-              Lock #{lockId}
+              {t('Lock #')}{lockId}
             </Heading>
             {lock && (
               <>
                 <Table>
                   <tbody>
                     <RowStyled>
-                      <Td1>Token{isMobile && ':'}</Td1>
+                      <Td1>{t('Token')}{isMobile && ':'}</Td1>
                       <Td2>
                         <TokenName withSymbol address={lock.token} />
                       </Td2>
                     </RowStyled>
                     <RowStyled>
-                      <Td1>Token Address{isMobile && ':'}</Td1>
+                      <Td1>{t('Token Address')}{isMobile && ':'}</Td1>
                       <Td2>
                         <Link external href={getAddressUrl(lock.token)} display="inline" target="_blank">
                           {lock.token}
@@ -101,7 +103,7 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                       </Td2>
                     </RowStyled>
                     <RowStyled>
-                      <Td1>Lock Owner</Td1>
+                      <Td1>{t('Lock Owner')}</Td1>
                       <Td2>
                         <Link external href={getAddressUrl(lock.owner)} display="inline" target="_blank">
                           {lock.owner}
@@ -109,31 +111,31 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                       </Td2>
                     </RowStyled>
                     <RowStyled>
-                      <Td1>Amount</Td1>
+                      <Td1>{t('Amount')}</Td1>
                       <Td2>{format(lock.amount)}</Td2>
                     </RowStyled>
                     <RowStyled>
-                      <Td1>Amount Unlocked</Td1>
+                      <Td1>{t('Amount Unlocked')}</Td1>
                       <Td2>{format(lock.amountUnlocked)}</Td2>
                     </RowStyled>
                     <RowStyled>
-                      <Td1>Amount Claimable</Td1>
+                      <Td1>{t('Amount Claimable')}</Td1>
                       <Td2>{format(lock.amountToUnlock)}</Td2>
                     </RowStyled>
                     {lock.duration > 0 ? (
                       <>
                         <RowStyled>
-                          <Td1>Vesting start</Td1>
+                          <Td1>{t('Vesting start')}</Td1>
                           <Td2>{renderDate(Number(lock.start_time * 1000n))}</Td2>
                         </RowStyled>
                         <RowStyled>
-                          <Td1>Vesting end</Td1>
+                          <Td1>{t('Vesting end')}</Td1>
                           <Td2>{renderDate(Number((lock.start_time + lock.duration) * 1000n))}</Td2>
                         </RowStyled>
                       </>
                     ) : (
                       <RowStyled>
-                        <Td1>Claimable at</Td1>
+                        <Td1>{t('Claimable a\')}</Td1>
                         <Td2>{renderDate(Number(lock.start_time * 1000n))}</Td2>
                       </RowStyled>
                     )}
@@ -142,16 +144,16 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                 {lock.owner === address && (
                   <>
                     <Heading marginTop="16px" as="h2">
-                      Claim Lock
+                      {t('Claim Lock')}
                     </Heading>
                     <Text>
                       {claimed ? (
-                        'Fully Claimed'
+                        t('Fully Claimed')
                       ) : Number(lock.start_time * 1000n) < Date.now() ? (
-                        `${format(lock.amountToUnlock)} claimable`
+                        `${format(lock.amountToUnlock)} ${t('claimable')}`
                       ) : (
                         <Flex flexDirection="column" gap="0.5em">
-                          <span>Starting at</span>
+                          <span>{t('Starting at')}</span>
                           <span>{renderDate(Number(lock.start_time * 1000n))}</span>
                         </Flex>
                       )}
@@ -162,7 +164,7 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                           claim()
                         }}
                       >
-                        Claim
+                        {t('Claim')}
                       </Button>
                     )}
                   </>

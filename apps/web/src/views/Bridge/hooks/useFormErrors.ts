@@ -3,6 +3,7 @@ import { utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useBridge } from '../BridgeProvider'
 import makeHandleCheckSupplies from '../contracts/makeHandleCheckSupplies'
+import { useTranslation } from '@pancakeswap/localization'
 
 interface FormErrors {
   currency?: string
@@ -27,25 +28,25 @@ type Checks =
   | 'recipientProvided'
   | 'recipientValid'
 
-const checkToMessage: Record<
+export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
+  const { t } = useTranslation()
+  const checkToMessage: Record<
   Checks,
   {
     message: string
     field: keyof FormErrors
   }
-> = {
-  tokenSelected: { message: 'Please select a token', field: 'currency' },
-  amountValid: { message: 'Please enter a valid amount', field: 'currency' },
-  max: { message: 'Insufficient funds', field: 'currency' },
-  fee: { message: 'Amount below min fee', field: 'currency' },
-  bridgeSupplies: { message: 'Not enough tokens on the destination chain. Please contact support', field: 'currency' },
-  min: { message: 'Amount must be greater than 0', field: 'currency' },
-  tokenProvided: { message: 'Please select a token', field: 'currency' },
-  recipientProvided: { message: 'Please enter a recipient address', field: 'recipient' },
-  recipientValid: { message: 'Recipient is not a valid address', field: 'recipient' },
-}
-
-export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
+  > = {
+    tokenSelected: { message: t('Please select a token'), field: 'currency' },
+    amountValid: { message: t('Please enter a valid amount'), field: 'currency' },
+    max: { message: t('Insufficient funds'), field: 'currency' },
+    fee: { message: t('Amount below min fee'), field: 'currency' },
+    bridgeSupplies: { message: t('Not enough tokens on the destination chain. Please contact support'), field: 'currency' },
+    min: { message: t('Amount must be greater than 0'), field: 'currency' },
+    tokenProvided: { message: t('Please select a token'), field: 'currency' },
+    recipientProvided: { message: t('Please enter a recipient address'), field: 'recipient' },
+    recipientValid: { message: t('Recipient is not a valid address'), field: 'recipient' },
+  }
   const { currency, depositAmount, recipient, homeChainConfig, destinationChainConfig, tokenBalances } = useBridge()
   const tokenAddress =
     currency instanceof ERC20Token

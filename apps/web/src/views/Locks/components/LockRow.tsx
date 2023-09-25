@@ -9,6 +9,7 @@ import { useCallback } from 'react'
 import { formatAmount } from 'views/Bridge/formatter'
 import Link from 'next/link'
 import { formatUnits } from "viem";
+import { useTranslation } from '@pancakeswap/localization'
 
 const RowStyled = styled.tr`
   &:hover {
@@ -25,6 +26,7 @@ interface LockRowProps {
 }
 
 const LockRow: React.FC<LockRowProps> = ({ lock }) => {
+  const { t } = useTranslation()
   const claimed = lock.amount === lock.amountUnlocked
   const token = useToken(lock.token)
   const { isMobile } = useMatchBreakpoints()
@@ -51,7 +53,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
             <Flex flexDirection="column">
               <span>{`${format(lock.amount)} ${token?.symbol}`}</span>
               <Text fontSize="0.75em" color={theme.colors.text99}>
-                {percentClaimed}% Claimed
+                {percentClaimed}{t('% Claimed')}
               </Text>
             </Flex>
           </Td>
@@ -59,12 +61,12 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
         <RowStyled>
           <Td color={lock.amountToUnlock > 0 && theme.colors.success}>
             {claimed ? (
-              'Fully Claimed'
+              t('Fully Claimed')
             ) : lock.amountToUnlock > 0 ? (
               format(lock.amountToUnlock)
             ) : (
               <Flex flexDirection="column" gap="0.5em">
-                <span>Starting at</span>
+                <span>{t('Starting at')}</span>
                 <span>{renderDate(Number(lock.start_time * 1000n))}</span>
               </Flex>
             )}
@@ -72,7 +74,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
           <Td>
             <Link href={`/locks/lock/${lock.lockId}`} passHref legacyBehavior>
               <Button as="a" variant="subtle" scale="sm" style={{ fontSize: '0.75rem', textAlign: 'center' }}>
-                View Details
+                {t('View Details')}
               </Button>
             </Link>
           </Td>
@@ -90,19 +92,18 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
         <Flex flexDirection="column">
           <span>{`${format(lock.amount)} ${token?.symbol}`}</span>
           <Text fontSize="0.75em" color={theme.colors.text99}>
-            {percentClaimed}% Claimed
+            {percentClaimed}% {t('Claimed')}
           </Text>
         </Flex>
       </Td>
       {!isMobile && (
         <Td color={lock.amountToUnlock > 0 && theme.colors.success}>
-          {claimed ? (
-            'Fully Claimed'
-          ) : lock.amountToUnlock > 0 ? (
+          {claimed ?
+            t('Fully Claimed') : lock.amountToUnlock > 0 ? (
             format(lock.amountToUnlock)
           ) : (
             <Flex flexDirection="column" gap="0.5em">
-              <span>Starting at</span>
+              <span>{t('Starting at')}</span>
               <span>{renderDate(Number(lock.start_time * 1000n))}</span>
             </Flex>
           )}
@@ -111,7 +112,7 @@ const LockRow: React.FC<LockRowProps> = ({ lock }) => {
       <Td>
         <Link href={`/locks/lock/${lock.lockId}`} passHref legacyBehavior>
           <Button as="a" variant="subtle" scale="sm" style={{ fontSize: '0.75rem', textAlign: 'center' }}>
-            {isMobile ? 'View' : 'View Details'}
+            {isMobile ? t('View') : t('View Details')}
           </Button>
         </Link>
       </Td>

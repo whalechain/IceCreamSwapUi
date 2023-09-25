@@ -80,18 +80,15 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
         />
         <meta
           name="description"
-          content="Multi-chain DeFi ecosystem with Swap, Bridge and Launchpad. Trade, Bridge, Earn and Launch on CORE, Bitgert (Brise), Binance smart chain (BSC), XDC, XoDex, Dogechain, Doken, and Fuse"
+          content="DEX, DEX Aggregator, RPC, Block Explorer, KYC, Launchpad and Bridge on Base, Core DAO, Telos, Bitgert, XDC, Shardeum, Shimmer, BSC, Xodex, Dogechain and Fuse."
         />
         <meta name="theme-color" content="#F8567F" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="https://icecreamswap.com/images/hero.png" />
+        <meta name="twitter:title" content="🍦 IceCreamSwap - Multi-chain DeFi ecosystem" />
         <meta
           name="twitter:description"
-          content="Multi-chain DeFi ecosystem with Swap, Bridge and Launchpad. Trade, Bridge, Earn and Launch on CORE, Bitgert (Brise), Binance smart chain (BSC), XDC, XoDex, Dogechain, Doken, and Fuse"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="🍦 IceCreamSwap - Trade, Earn, Bridge and Launch on CORE, XDC, Binance smart chain (BSC), Bitgert (Brise), XoDex, Dogechain, Doken and Fuse via our decentralized Smart contracts."
+          content="DEX, DEX Aggregator, RPC, Block Explorer, KYC, Launchpad and Bridge on Base, Core DAO, Telos, Bitgert, XDC, Shardeum, Shimmer, BSC, Xodex, Dogechain and Fuse."
         />
         <title>IceCreamSwap</title>
       </Head>

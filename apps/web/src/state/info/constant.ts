@@ -61,6 +61,7 @@ export const multiChainScan: Record<MultiChainName, string> = {
   XDC: 'XDCScan',
   CORE: 'CoreScan',
   XODEX: 'XODEXScan',
+  SHARDEUM_TEST: 'ShardeumTestnetScan',
 }
 
 export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {

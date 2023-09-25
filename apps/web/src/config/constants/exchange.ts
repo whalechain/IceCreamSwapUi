@@ -7,6 +7,10 @@ import {
   fuseTokens,
   xdcTokens,
   xodexTokens,
+  shardeumTestnetTokens,
+  telosTokens,
+  shimmerTestnetTokens,
+  baseTokens
 } from '@pancakeswap/tokens'
 import { ChainTokenList } from './types'
 import { Address } from "viem";
@@ -35,6 +39,10 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
   [ChainId.CORE]: [coreTokens.ice, coreTokens.score, coreTokens.usdt],
   [ChainId.XODEX]: [xodexTokens.ice, xodexTokens.usdt],
+  [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
+  [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
+  [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -84,6 +92,10 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt, xdcTokens.usdc],
   [ChainId.CORE]: [coreTokens.wcore, coreTokens.score, coreTokens.ice, coreTokens.usdt],
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
+  [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
+  [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
+  [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -109,6 +121,22 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.XODEX]: [
     [xodexTokens.wxodex, xodexTokens.ice],
     [xodexTokens.usdt, xodexTokens.ice],
+  ],
+  [ChainId.SHARDEUM_TEST]: [
+    [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice],
+    [shardeumTestnetTokens.usdt, shardeumTestnetTokens.ice]
+  ],
+  [ChainId.TELOS]: [
+    [telosTokens.wtlos, telosTokens.ice],
+    [telosTokens.usdt, telosTokens.ice],
+  ],
+  [ChainId.SHIMMER_TEST]: [
+    [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice],
+    [shimmerTestnetTokens.usdt, shimmerTestnetTokens.ice],
+  ],
+  [ChainId.BASE]: [
+    [baseTokens.weth, baseTokens.ice],
+    [baseTokens.usdt, baseTokens.ice],
   ],
 }
 

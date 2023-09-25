@@ -43,6 +43,8 @@ interface AkkaSwapCommitButtonPropsType {
   onUserInput: (field: Field, typedValue: string) => void
   inputAmountInDollar: number
   outputAmountInDollar: number
+  outputAmountInDollarWithTax: number
+  isLoading: boolean
 }
 
 export default function AkkaSwapCommitButton({
@@ -58,7 +60,9 @@ export default function AkkaSwapCommitButton({
   allowedSlippage,
   onUserInput,
   inputAmountInDollar,
-  outputAmountInDollar
+  outputAmountInDollar,
+  outputAmountInDollarWithTax,
+  isLoading
 }: AkkaSwapCommitButtonPropsType) {
   const { t } = useTranslation()
   // the callback to execute the swap
@@ -119,6 +123,8 @@ export default function AkkaSwapCommitButton({
       customOnDismiss={handleConfirmDismiss}
       inputAmountInDollar={inputAmountInDollar}
       outputAmountInDollar={outputAmountInDollar}
+      outputAmountInDollarWithTax={outputAmountInDollarWithTax}
+      isLoading={isLoading}
     />,
     true,
     true,
@@ -138,6 +144,18 @@ export default function AkkaSwapCommitButton({
       onPresentConfirmModal()
     }
   }, [isExpertMode, handleSwap, trade])
+
+  if (isLoading) {
+    return (
+      <CommitButton
+        variant='primary'
+        width="100%"
+        disabled
+      >
+        {t('Finding the best route ...')}
+      </CommitButton>
+    )
+  }
 
   if (!account) {
     return <ConnectWalletButton width="100%" />

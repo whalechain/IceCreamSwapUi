@@ -2,6 +2,7 @@ import { Flex, Input } from '@pancakeswap/uikit'
 import { useState } from 'react'
 import FormError from 'views/Bridge/components/FormError'
 import { isAddress } from "viem";
+import { useTranslation } from '@pancakeswap/localization'
 
 interface AddressInputProps {
   value: string
@@ -9,6 +10,7 @@ interface AddressInputProps {
 }
 
 const AddressInput: React.FC<AddressInputProps> = ({ value, onChange }) => {
+  const { t } = useTranslation()
   const isValid = isAddress(value)
   const [touched, setTouched] = useState(false)
 
@@ -21,7 +23,7 @@ const AddressInput: React.FC<AddressInputProps> = ({ value, onChange }) => {
         onChange={(e) => onChange(e.target.value)}
         isWarning={!isValid && touched}
       />
-      {!isValid && touched && <FormError>Token Address not Valid!</FormError>}
+      {!isValid && touched && <FormError>{t('Invalid token address')}</FormError>}
     </Flex>
   )
 }

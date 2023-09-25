@@ -2,6 +2,7 @@ import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Trade, TradeType 
 import { pancakeRouter02ABI } from 'config/abi/IPancakeRouter02'
 import { akkaRouterABI } from 'config/abi/akkaRouter'
 import { akkaRouterCoreABI } from 'config/abi/akkaRouterCore'
+import AKKA_V3_ABI from '../config/abi/AkkaRouterV3.json'
 import {
   ALLOWED_PRICE_IMPACT_HIGH,
   ALLOWED_PRICE_IMPACT_LOW,
@@ -44,8 +45,14 @@ export function useAkkaRouterContract() {
   return useContract(AKKA_ROUTER_ADDRESS[chainId], akkaRouterABI)
 }
 
-export function useAkkaRouterCoreContract() {
+export function useAkkaRouterV2Contract() {
+  const { chainId } = useActiveChainId()
   return useContract(AKKA_ROUTER_ADDRESS[ChainId.CORE], akkaRouterCoreABI)
+}
+
+export function useAkkaRouterV3Contract() {
+  const { chainId } = useActiveChainId()
+  return useContract(AKKA_ROUTER_V3_ADDRESS[chainId], AKKA_V3_ABI)
 }
 
 // computes price breakdown for the trade

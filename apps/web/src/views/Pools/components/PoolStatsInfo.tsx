@@ -1,7 +1,7 @@
-import { Flex, LinkExternal, Skeleton, Text, Pool, ScanLink } from '@pancakeswap/uikit'
+import { Balance, Flex, Link, LinkExternal, Pool, Skeleton, Text, TimerIcon, Pool, ScanLink } from '@pancakeswap/uikit'
 import AddToWalletButton, { AddToWalletTextOptions } from 'components/AddToWallet/AddToWalletButton'
 import { useTranslation } from '@pancakeswap/localization'
-import { Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from '@pancakeswap/sdk'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
 import { memo, useMemo } from 'react'
 import { useCurrentBlock } from 'state/block/hooks'
@@ -82,6 +82,15 @@ const PoolStatsInfo: React.FC<React.PropsWithChildren<ExpandedFooterProps>> = ({
         </Flex>
       )}
       {!vaultKey && <AprInfo pool={pool} stakedBalance={stakedBalance} />}
+      {
+        pool.contractAddress[chainId]?.toLowerCase()==="0xfd072f40e17070f975890d1772d6fdc7cb44a63b" &&
+        chainId === ChainId.CORE && (
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text small>{t('Withdrawal Fee')}:</Text>
+          <Text small>0.2%</Text>
+        </Flex>
+        )
+      }
       {showTotalStaked && (
         <Pool.TotalStaked
           totalStaked={vaultKey ? totalCakeInVault : totalStaked}

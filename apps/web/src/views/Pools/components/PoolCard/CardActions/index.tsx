@@ -23,6 +23,7 @@ const CardActions: React.FC<React.PropsWithChildren<CardActionsProps>> = ({ pool
   const { sousId, stakingToken, earningToken, poolCategory, userData, earningTokenPrice } = pool
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE || poolCategory === PoolCategory.BINANCE_AUTO
+  const isAutoPool = poolCategory === PoolCategory.AUTO || poolCategory === PoolCategory.BINANCE_AUTO
   const { t } = useTranslation()
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
@@ -34,25 +35,28 @@ const CardActions: React.FC<React.PropsWithChildren<CardActionsProps>> = ({ pool
   return (
     <Flex flexDirection="column">
       <Flex flexDirection="column">
-        <>
-          <Box display="inline">
-            <InlineText color="secondary" bold fontSize="12px">
-              {`${earningToken.symbol} `}
-            </InlineText>
-            <InlineText color="textSubtle" textTransform="uppercase" bold fontSize="12px">
-              {t('Earned')}
-            </InlineText>
-          </Box>
-          <HarvestActions
-            earnings={earnings}
-            earningTokenSymbol={earningToken.symbol}
-            earningTokenDecimals={earningToken.decimals}
-            sousId={sousId}
-            earningTokenPrice={earningTokenPrice}
-            isBnbPool={isBnbPool}
-            isLoading={isLoading}
-          />
-        </>
+        {!isAutoPool && (
+            <>
+              <Box display="inline">
+                <InlineText color="secondary" textTransform="uppercase" bold fontSize="12px">
+                  {`${earningToken.symbol} `}
+                </InlineText>
+                <InlineText color="textSubtle" textTransform="uppercase" bold fontSize="12px">
+                  {t('Earned')}
+                </InlineText>
+              </Box>
+              <HarvestActions
+                  earnings={earnings}
+                  earningTokenSymbol={earningToken.symbol}
+                  earningTokenDecimals={earningToken.decimals}
+                  sousId={sousId}
+                  earningTokenPrice={earningTokenPrice}
+                  isBnbPool={isBnbPool}
+                  isLoading={isLoading}
+              />
+            </>
+          )
+        }
         <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">
             {isStaked ? stakingToken.symbol : t('Stake')}{' '}

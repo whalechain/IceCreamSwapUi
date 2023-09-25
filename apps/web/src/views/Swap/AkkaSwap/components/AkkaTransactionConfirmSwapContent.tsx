@@ -17,7 +17,9 @@ const AkkaTransactionConfirmSwapContent = ({
   currencyBalances,
   isStable,
   inputAmountInDollar,
-  outputAmountInDollar
+  outputAmountInDollar,
+  outputAmountInDollarWithTax,
+  isLoading
 }) => {
 
   const isEnoughInputBalance = useMemo(() => {
@@ -58,6 +60,8 @@ const AkkaTransactionConfirmSwapContent = ({
         isEnoughInputBalance={isEnoughInputBalance}
         inputAmountInDollar={inputAmountInDollar}
         outputAmountInDollar={outputAmountInDollar}
+        outputAmountInDollarWithTax={outputAmountInDollarWithTax}
+        isLoading={isLoading}
       />
     ) : null
   }, [onConfirm, trade, isEnoughInputBalance, isStable])

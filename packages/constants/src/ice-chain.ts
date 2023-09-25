@@ -1,7 +1,7 @@
 import { Chain } from "wagmi";
 import { Address, Hash } from 'viem'
 
-type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'tokenDeployer'
+type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer' | 'akkaRouter'
 
 interface SwapConfig {
   factoryAddress: Address

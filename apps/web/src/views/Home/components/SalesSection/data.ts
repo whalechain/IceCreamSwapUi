@@ -9,9 +9,7 @@ import earnIce from '../../../../../public/images/home/earn/ice.png'
 export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Trade anything anywhere, hassle free'),
   bodyText: t(
-      'IceCreamSwap contracts lets everyone trade any token on multiple chains. ' +
-      'A intuitive UI lets both new and experienced DeFi users easily interact with the IceCreamSwap smart contracts. ' +
-      'As the first DEX implementing route splitting, the best possible output with the lowest slippage can be archived. '
+    'Seamless trading on many chains with the best rates thanks to the built-in DEX aggregator.'
   ),
   reverse: false,
   primaryButton: {
@@ -20,7 +18,7 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/get-started/swap',
+    to: 'https://wiki.icecreamswap.com/dex/swap',
     text: t('Learn'),
     external: true,
   },
@@ -36,20 +34,18 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
 export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
   headingText: t('Bridge securely between many chains'),
   bodyText: t(
-    'IceCreamSwap allows direct bridging between many chains. ' +
-      'A novel approach of a second (redundant) security layer will make the IceCream Bridge even more secure ' +
-      'than the audited and battle tested code it is built on top of. ' +
-      'All bridge reserves are transparent on chain and can be verified any time. ' +
-      'Due to its universal implementation even universal message parsing and NFTs will be supported by the Bridge.',
+    'IceCreamSwap allows direct bridging between many chains with ' +
+      'its audited and battle tested smart contracts. ' +
+      'The unique built-in faucet automatically drops you native tokens when you bridge to a new chain.'
   ),
   reverse: true,
   primaryButton: {
-    to: 'https://bridge.icecreamswap.com',
-    text: 'Bridge Now',
+    to: '/bridge',
+    text: t('Bridge Now'),
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/get-started/bridge',
+    to: 'https://wiki.icecreamswap.com/dex/bridge',
     text: t('Learn'),
     external: true,
   },
@@ -63,8 +59,8 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
 })
 
 export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
-  headingText: t('Earn, receive ICE tokens when providing liquidity.'),
-  bodyText: t('Thanks to liquidity farming pools, you can receive ICE tokens when you provide liquidity.'),
+  headingText: t('Earn, receive ICE tokens when providing liquidity'),
+  bodyText: t('With liquidity farms, you can boost your passive income APY for liquidity provision.'),
   reverse: false,
   primaryButton: {
     to: '/farms',
@@ -72,7 +68,7 @@ export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/get-started/pool',
+    to: 'https://wiki.icecreamswap.com/dex/farm',
     text: t('Learn'),
     external: true,
   },

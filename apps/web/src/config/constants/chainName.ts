@@ -9,6 +9,10 @@ const chainName: Record<ChainId, string> = {
   [ChainId.BSC]: 'Binance',
   [ChainId.CORE]: 'CORE',
   [ChainId.XODEX]: 'XODEX',
+  [ChainId.SHARDEUM_TEST]: 'Shardeum (Testnet)',
+  [ChainId.TELOS]: 'Telos',
+  [ChainId.SHIMMER_TEST]: 'Shimmer (Testnet)',
+  [ChainId.BASE]: 'Base',
 }
 
 export default chainName
