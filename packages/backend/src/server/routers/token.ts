@@ -158,7 +158,7 @@ const checkLiquidity = async (tokenAddress: string, chainId: number) => {
   if (!chain) {
     return false
   }
-  const provider = new providers.JsonRpcProvider(chain.rpcUrls.default)
+  const provider = new providers.JsonRpcProvider(chain.rpcUrls.default.http[0])
 
   const iceAddress = ICE[chainId].address
   const usdAddress = USD[chainId].address
@@ -217,7 +217,7 @@ const getPairAddress = async (tokenA: string, tokenB: string, chainId: number): 
   if (!chain || !chain.swap?.factoryAddress) {
     throw new Error('Invalid chainId')
   }
-  const provider = new providers.JsonRpcProvider(chain.rpcUrls.default)
+  const provider = new providers.JsonRpcProvider(chain.rpcUrls.default.http[0])
   const factory = new Contract(chain.swap?.factoryAddress, v2factoryAbi, provider)
   try {
     const pairAddress = await factory.getPair(tokenA, tokenB)

@@ -12,7 +12,7 @@ import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from "config/constan
 import { GraphQLClient } from 'graphql-request'
 import { chains } from '@icecreamswap/constants'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX'
+export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'BASE' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET' | 'TELOS'
 export type MultiChainNameExtend = MultiChainName
 
 export const multiChainQueryMainToken = {
@@ -61,7 +61,10 @@ export const multiChainScan: Record<MultiChainName, string> = {
   XDC: 'XDCScan',
   CORE: 'CoreScan',
   XODEX: 'XODEXScan',
-  SHARDEUM_TEST: 'ShardeumTestnetScan',
+  SHARDEUM_TESTNET: 'ShardeumTestnetScan',
+  SHIMMER_TESTNET: 'ShimmerTestnetScan',
+  BASE: 'BaseScan',
+  TELOS: 'TelosScan',
 }
 
 export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {
@@ -73,6 +76,10 @@ export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {
   CORE: [''],
   XODEX: [''],
   BSC: [''],
+  SHARDEUM_TESTNET: [''],
+  SHIMMER_TESTNET: [''],
+  BASE: [''],
+  TELOS: [''],
 }
 
 export const multiChainTokenWhiteList: Record<MultiChainName, string[]> = {
@@ -84,6 +91,10 @@ export const multiChainTokenWhiteList: Record<MultiChainName, string[]> = {
   CORE: [''],
   XODEX: [''],
   BSC: [''],
+  SHARDEUM_TESTNET: [''],
+  SHIMMER_TESTNET: [''],
+  BASE: [''],
+  TELOS: [''],
 }
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {

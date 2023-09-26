@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const shimmerTestnet: IceChain = {
@@ -7,8 +7,8 @@ export const shimmerTestnet: IceChain = {
   features: ['swap'],
   network: 'ShimmerTestnet',
   rpcUrls: {
-    public: 'https://json-rpc.evm.testnet.shimmer.network',
-    default: 'https://json-rpc.evm.testnet.shimmer.network',
+    public: { http: ['https://json-rpc.evm.testnet.shimmer.network'] },
+    default: { http: ['https://json-rpc.evm.testnet.shimmer.network'] },
   },
   blockExplorers: {
     default: { name: 'Shimmer(Testnet) Explorer', url: 'https://explorer.evm.testnet.shimmer.network' },
@@ -18,9 +18,11 @@ export const shimmerTestnet: IceChain = {
     symbol: 'SMR',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 71272,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 71272,
+    },
   },
   blockInterval: 5, // shimmer does not seem to have fixed block intervals, investigate
   wrappedNative: {
@@ -32,5 +34,6 @@ export const shimmerTestnet: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    routerAddress: ROUTER_ADDRESS,
   },
 }

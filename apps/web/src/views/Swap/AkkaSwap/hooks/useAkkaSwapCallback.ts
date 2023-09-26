@@ -100,15 +100,16 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
         chainId === ChainId.BASE ?
           async () => {
 
-            const gasLimitCalc = await akkaV3Contract.estimateGas[methodName](
-              args?.amountIn,
-              args?.amountOutMin,
-              args?.data,
-              account,
-              args?.akkaFee?.fee,
-              args?.akkaFee?.v,
-              args?.akkaFee?.r,
-              args?.akkaFee?.s,
+            const gasLimitCalc = await akkaV3Contract.estimateGas[methodName]([
+                BigInt(args?.amountIn),
+                BigInt(args?.amountOutMin),
+                args?.data,
+                account,
+                BigInt(args?.akkaFee?.fee),
+                Number(args?.akkaFee?.v),
+                args?.akkaFee?.r as `0x${string}`,
+                args?.akkaFee?.s as `0x${string}`,
+              ],
               {
                 value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0'
               }
@@ -132,7 +133,7 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
               ],
               {
                 value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
-                gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000) : '0'
+                gasLimit: gasLimitCalc ? calculateGasMargin(gasLimitCalc, 2000n) : '0'
               }
             )
               .catch((error: any) => {
@@ -153,14 +154,15 @@ export function useAkkaRouterSwapCallback(trade: AkkaRouterTrade): {
           }
           :
           async () => {
-            const gasLimitCalc = await akkaContract.estimateGas[methodName](
-              args?.amountIn,
-              args?.amountOutMin,
-              args?.data,
-              [],
-              [],
-              account
-              , {
+            const gasLimitCalc = await akkaContract.estimateGas[methodName]([
+                BigInt(args?.amountIn),
+                BigInt(args?.amountOutMin),
+                args?.data,
+                [],
+                [],
+                account
+              ],
+              {
                 value: inputCurrencyId === NATIVE[chainId].symbol ? args?.amountIn : '0',
               })
               .catch((gasError) => {

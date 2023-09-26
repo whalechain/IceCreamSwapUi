@@ -17,6 +17,7 @@
     "@aws-sdk/signature-v4-crt": "^3.370.0",
     "@icecreamswap/constants": "*",
     "@icecreamswap/database": "*",
+    "@pancakeswap/sdk": "*",
     "@swc/core": "^1.2.215",
     "@pancakeswap/tokens": "*",
     "@tanstack/react-query": "^4.28.0",

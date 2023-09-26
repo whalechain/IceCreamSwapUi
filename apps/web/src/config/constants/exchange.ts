@@ -13,13 +13,12 @@ import {
   baseTokens
 } from '@pancakeswap/tokens'
 import { ChainTokenList } from './types'
-import { Address } from "viem";
-import { chains } from "utils/wagmi";
 
 export {
   ADDITIONAL_BASES,
   V2_ROUTER_ADDRESS,
   AKKA_ROUTER_ADDRESS,
+  AKKA_ROUTER_V3_ADDRESS,
   BASES_TO_CHECK_TRADES_AGAINST,
   CUSTOM_BASES,
 } from '@pancakeswap/smart-router/evm'

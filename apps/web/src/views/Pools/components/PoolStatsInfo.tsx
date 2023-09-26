@@ -1,4 +1,4 @@
-import { Balance, Flex, Link, LinkExternal, Pool, Skeleton, Text, TimerIcon, Pool, ScanLink } from '@pancakeswap/uikit'
+import { Balance, Flex, Link, LinkExternal, Pool, Skeleton, Text, ScanLink } from '@pancakeswap/uikit'
 import AddToWalletButton, { AddToWalletTextOptions } from 'components/AddToWallet/AddToWalletButton'
 import { useTranslation } from '@pancakeswap/localization'
 import { ChainId, Token } from '@pancakeswap/sdk'
@@ -13,7 +13,7 @@ import { getBlockExploreLink } from 'utils'
 import { getTokenInfoPath } from 'state/info/utils'
 import MaxStakeRow from './MaxStakeRow'
 import { AprInfo, DurationAvg, PerformanceFee, TotalLocked } from './Stat'
-import { useActiveChainId } from '../../../hooks/useActiveChainId'
+import { useActiveChainId } from 'hooks/useActiveChainId'
 
 interface ExpandedFooterProps {
   pool: Pool.DeserializedPool<Token>

@@ -78,7 +78,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     [destinationChainId],
   )
   const { data: walletClient } = useWalletClient()
-  const bridge = useContract(homeChainConfig.bridgeAddress, bridgeABI)
+  const bridge = useContract(homeChainConfig.bridgeAddress as `0x${string}`, bridgeABI)
   const [recipient, setRecipient] = useState<string>()
   const [toOtherAddress, setToOtherAddress] = useState(false)
   const [transactionStatus, setTransactionStatus] = useState<TransactionStatus | undefined>()
@@ -128,7 +128,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
     const destinationBridge = getContract({
       abi: bridgeABI,
-      address: destinationChainConfig.bridgeAddress,
+      address: destinationChainConfig.bridgeAddress as `0x${string}`,
       chainId: destinationChainId,
       publicClient: destPublicClient
     })
@@ -164,7 +164,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
         ...acc,
         [current.address]: new ERC20Token(
           chainId,
-          current.address,
+          current.address as `0x${string}`,
           homeChainConfig.decimals,
           current.symbol,
           current.name,
@@ -181,16 +181,15 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
           if (current.address === '0x0000000000000000000000000000000000000000') return
           const erc20 = getContract({
             abi: erc20ABI,
-            address: current.address,
+            address: current.address as `0x${string}`,
             chainId,
             signer: walletClient,
           })
 
-
           const decimals = await erc20.read.decimals()
           tokensWithDecimals[current.address] = new ERC20Token(
             chainId,
-            current.address,
+            current.address as `0x${string}`,
             decimals,
             current.symbol,
             current.name,

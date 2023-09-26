@@ -15,14 +15,14 @@ export const hasTokenSupplies = async (destinationChain: BridgeChain, token: Tok
 
     const destinationBridge = getContract({
       abi: bridgeABI,
-      address: destinationChain.bridgeAddress,
+      address: destinationChain.bridgeAddress as `0x${string}`,
       chainId: destinationChain.networkId,
       publicClient: destPublicClient
     })
 
     const erc20destinationToken = getContract({
       abi: erc20ABI,
-      address: destinationToken.address,
+      address: destinationToken.address as `0x${string}`,
       chainId: destinationChain.networkId,
       publicClient: destPublicClient
     })
@@ -37,7 +37,7 @@ export const hasTokenSupplies = async (destinationChain: BridgeChain, token: Tok
       publicClient: destPublicClient
     })
 
-    const isMintable = await destinationErc20DHandlerInstance.read._burnList([destinationToken.address])
+    const isMintable = await destinationErc20DHandlerInstance.read._burnList([destinationToken.address as `0x${string}`])
     if (isMintable) {
       console.log('token mintable on destination chain')
       return true

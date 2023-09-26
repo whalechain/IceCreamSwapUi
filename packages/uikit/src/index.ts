@@ -26,8 +26,6 @@ export * from "./widgets/Ifo";
 export * as Pool from "./widgets/Pool";
 export * as PoolHelpers from "./widgets/Pool/helpers";
 
-export { PoolCategory } from "./widgets/Pool/types";
-
 // Theme
 export { default as ResetCSS } from "./ResetCSS";
 export * from "./theme";

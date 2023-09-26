@@ -1,9 +1,6 @@
 import { ChainId } from '@pancakeswap/sdk'
 import {
-  INFO_CLIENT,
-  INFO_CLIENT_ETH,
   INFO_CLIENT_WITH_CHAIN,
-  STABLESWAP_SUBGRAPH_CLIENT,
   V3_SUBGRAPH_URLS,
 } from 'config/constants/endpoints'
 import { ONE_DAY_UNIX, ONE_HOUR_SECONDS } from 'config/constants/info'

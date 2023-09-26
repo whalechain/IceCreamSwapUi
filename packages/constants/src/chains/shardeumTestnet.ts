@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const shardeumTestnet: IceChain = {
@@ -7,8 +7,8 @@ export const shardeumTestnet: IceChain = {
   features: ['swap'],
   network: 'shardeumTestnet',
   rpcUrls: {
-    public: 'https://dapps.shardeum.org',
-    default: 'https://dapps.shardeum.org',
+    public: { http: ['https://dapps.shardeum.org'] },
+    default: { http: ['https://dapps.shardeum.org'] },
   },
   blockExplorers: {
     default: { name: 'Shardeum(Testnet) Explorer', url: 'https://explorer-dapps.shardeum.org' },
@@ -18,9 +18,11 @@ export const shardeumTestnet: IceChain = {
     symbol: 'SHM',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 5377,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 5377,
+    },
   },
   blockInterval: 60,
   wrappedNative: {
@@ -32,5 +34,6 @@ export const shardeumTestnet: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    routerAddress: ROUTER_ADDRESS,
   },
 }

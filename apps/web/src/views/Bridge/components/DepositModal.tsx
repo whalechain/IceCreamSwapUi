@@ -191,6 +191,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
 
 const TransactionError: React.FC<{ error: TransactionError }> = ({ error }) => {
   let { message } = error
+  const { t } = useTranslation()
   if (error.status === 4001) message = t('Action has been rejected by the user.')
   return (
     <>

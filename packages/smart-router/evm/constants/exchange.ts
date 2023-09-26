@@ -29,6 +29,12 @@ export const AKKA_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain)
     :acc
 }, {})
 
+export const AKKA_ROUTER_V3_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {
+  return chain.swapAkka?.routerAddressV3
+    ?{...acc, [chain.id]: chain.swapAkka.routerAddressV3}
+    :acc
+}, {})
+
 export const STABLE_SWAP_INFO_ADDRESS: ChainMap<Address> = {}
 
 // used to construct intermediary pairs for trading

@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const telos: IceChain = {
@@ -7,8 +7,8 @@ export const telos: IceChain = {
   features: ['swap', 'akkaRouter', 'bridge', 'farms'],
   network: 'telos',
   rpcUrls: {
-    public: 'https://mainnet.telos.net/evm',
-    default: 'https://mainnet.telos.net/evm',
+    public: { http: ['https://mainnet.telos.net/evm'] },
+    default: { http: ['https://mainnet.telos.net/evm'] },
   },
   blockExplorers: {
     default: { name: 'Telos Explorer', url: 'https://www.teloscan.io' },
@@ -18,9 +18,11 @@ export const telos: IceChain = {
     symbol: 'TLOS',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 286183313,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 286183313,
+    },
   },
   blockInterval: 0.5,
   wrappedNative: {
@@ -32,5 +34,6 @@ export const telos: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    routerAddress: ROUTER_ADDRESS,
   },
 }

@@ -1,7 +1,6 @@
-import { ChainId } from '@pancakeswap/sdk'
+import { ChainId } from '@icecreamswap/constants'
 import {
   BIT_QUERY,
-  INFO_CLIENT,
   STABLESWAP_SUBGRAPH_CLIENT,
   V3_SUBGRAPH_URLS,
   INFO_CLIENT_WITH_CHAIN
@@ -12,15 +11,8 @@ import { GraphQLClient } from 'graphql-request'
 // Mostly for dev environment
 // No production env check since production preview might also need them
 export const getGQLHeaders = (endpoint: string) => {
-  if (endpoint === INFO_CLIENT && process.env.NEXT_PUBLIC_NODE_REAL_HEADER) {
-    return {
-      origin: process.env.NEXT_PUBLIC_NODE_REAL_HEADER,
-    }
-  }
   return undefined
 }
-
-export const infoClient = new GraphQLClient(INFO_CLIENT)
 
 export const infoClientWithChain = (chainId: number) => {
   if (INFO_CLIENT_WITH_CHAIN[chainId]) {
@@ -47,13 +39,6 @@ export const v2Clients = Object.values(ChainId).reduce((acc, chainId) => (
 ), {})
 
 export const infoStableSwapClient = new GraphQLClient(STABLESWAP_SUBGRAPH_CLIENT)
-
-export const infoServerClient = new GraphQLClient(INFO_CLIENT, {
-  timeout: 5000,
-  headers: {
-    origin: 'https://pancakeswap.finance',
-  },
-})
 
 export const stableSwapClient = new GraphQLClient(STABLESWAP_SUBGRAPH_CLIENT)
 

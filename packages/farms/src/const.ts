@@ -11,7 +11,7 @@ export type FarmV2SupportedChainId = (typeof supportedChainIdV2)[number]
 
 export type FarmV3SupportedChainId = (typeof supportedChainIdV3)[number]
 
-export const masterChefAddresses = {
+export const masterChefAddresses: Record<number, `0x${string}`> = {
   32520: '0x090B19ea55b93C969EC98E1D8E3db0695698efCa',
   2000: "0xc44a6eb41f02740A6778CCb9591448a5EBC73b74",
   61916: "0x509733EaB85DEbdAE55306Aa81e3E4326f71cE0D",
@@ -24,7 +24,7 @@ export const masterChefAddresses = {
   8453: "0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42",
 }
 
-export const masterChefV3Addresses = {
+export const masterChefV3Addresses: Record<number, `0x${string}`> = {
   [ChainId.CORE]: '0x6c6549a2aeFec87Ca9a3615fE3bf6E915Fccfb24',
 } as const satisfies Record<FarmV3SupportedChainId, string>
 

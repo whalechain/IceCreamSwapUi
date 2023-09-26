@@ -2,7 +2,6 @@ import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Trade, TradeType 
 import { pancakeRouter02ABI } from 'config/abi/IPancakeRouter02'
 import { akkaRouterABI } from 'config/abi/akkaRouter'
 import { akkaRouterCoreABI } from 'config/abi/akkaRouterCore'
-import AKKA_V3_ABI from '../config/abi/AkkaRouterV3.json'
 import {
   ALLOWED_PRICE_IMPACT_HIGH,
   ALLOWED_PRICE_IMPACT_LOW,
@@ -13,12 +12,14 @@ import {
   ONE_HUNDRED_PERCENT,
   V2_ROUTER_ADDRESS,
   AKKA_ROUTER_ADDRESS,
+  AKKA_ROUTER_V3_ADDRESS
 } from 'config/constants/exchange'
 import { StableTrade } from 'config/constants/types'
 
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { useContract } from 'hooks/useContract'
 import { Field } from '../state/swap/actions'
+import { akkaRouterV3ABI } from "config/abi/akkaRouterV3";
 
 // converts a basis points value to a sdk percent
 export function basisPointsToPercent(num: number): Percent {
@@ -52,7 +53,7 @@ export function useAkkaRouterV2Contract() {
 
 export function useAkkaRouterV3Contract() {
   const { chainId } = useActiveChainId()
-  return useContract(AKKA_ROUTER_V3_ADDRESS[chainId], AKKA_V3_ABI)
+  return useContract(AKKA_ROUTER_V3_ADDRESS[chainId], akkaRouterV3ABI)
 }
 
 // computes price breakdown for the trade
@@ -65,7 +66,7 @@ export function computeTradePriceBreakdown(trade: Trade<Currency, Currency, Trad
   const realizedLPFee = !trade
     ? undefined
     : ONE_HUNDRED_PERCENT.subtract(
-        trade.route.pairs.reduce<Fraction>(
+        trade.route.pairs.reduce(
           (currentFee: Fraction): Fraction => currentFee.multiply(INPUT_FRACTION_AFTER_FEE),
           ONE_HUNDRED_PERCENT,
         ),

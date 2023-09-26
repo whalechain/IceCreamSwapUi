@@ -11,6 +11,7 @@ interface SwapConfig {
 
 interface SwapAkkaConfig {
   routerAddress: Address
+  routerAddressV3?: Address
 }
 
 interface LocksConfig {

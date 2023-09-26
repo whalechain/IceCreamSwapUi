@@ -12,7 +12,6 @@ export const BLOCKS_CLIENT_CORE = 'https://the-graph.icecreamswap.com/subgraphs/
 
 
 export const STABLESWAP_SUBGRAPH_CLIENT = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-stableswap'
-export const GRAPH_HEALTH = 'https://the-graph-status.icecreamswap.com/graphql'
 
 export const FARM_API = 'https://farms.pancake-swap.workers.dev'
 

@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const base: IceChain = {
@@ -7,8 +7,8 @@ export const base: IceChain = {
   features: ['swap', 'akkaRouter', 'bridge', 'farms', 'tokenDeployer'],
   network: 'base',
   rpcUrls: {
-    public: 'https://developer-access-mainnet.base.org',
-    default: 'https://developer-access-mainnet.base.org',
+    public: { http: ['https://developer-access-mainnet.base.org',] },
+    default: { http: ['https://developer-access-mainnet.base.org',] },
   },
   blockExplorers: {
     default: { name: 'Base Explorer', url: 'https://basescan.org' },
@@ -18,9 +18,11 @@ export const base: IceChain = {
     symbol: 'ETH',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 1915584,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 1915584,
+    },
   },
   tokenDeployerDividend: {
     address: '0x3bb8171b19F5CCCaAfC1812cABa8EBc604043f6F',
@@ -36,5 +38,6 @@ export const base: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    routerAddress: ROUTER_ADDRESS,
   },
 }

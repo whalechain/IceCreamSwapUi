@@ -135,7 +135,7 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
                       </>
                     ) : (
                       <RowStyled>
-                        <Td1>{t('Claimable a\')}</Td1>
+                        <Td1>{t('Claimable a')}</Td1>
                         <Td2>{renderDate(Number(lock.start_time * 1000n))}</Td2>
                       </RowStyled>
                     )}
