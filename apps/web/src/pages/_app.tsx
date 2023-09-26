@@ -32,6 +32,7 @@ import { CHAIN_IDS } from '../utils/wagmi'
 import { poppins } from '../style/font'
 import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import { trpc } from '@icecreamswap/backend'
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 const EasterEgg = dynamic(() => import('../components/EasterEgg'), { ssr: false })
 
@@ -155,7 +156,7 @@ type AppPropsWithLayout = AppProps & {
 const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryErrorBoundary : Fragment
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useActiveChainId()
   const supportedChains = useSupportedChains()
   useEffect(() => {
     if (supportedChains.length > 0 && !supportedChains.includes(chainId)) {

@@ -14,9 +14,6 @@
   "dependencies": {
     "@prisma/client": "^4.10.1"
   },
-  "peerDependencies": {
-    "wagmi": "^0.12.12"
-  },
   "devDependencies": {
     "prisma": "^4.10.1"
   }
