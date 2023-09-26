@@ -9,9 +9,9 @@ import { styled, keyframes } from 'styled-components'
 import hero from '../../../../public/images/home/hero-home.png'
 import CompositeImage, { CompositeImageProps } from './CompositeImage'
 import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
-import star_l from '../../../../public/images/home/lunar-bunny/star-l.png'
-import star_r from '../../../../public/images/home/lunar-bunny/star-r.png'
-import star_top_r from '../../../../public/images/home/lunar-bunny/star-top-r.png'
+import starL from '../../../../public/images/home/lunar-bunny/star-l.png'
+import starR from '../../../../public/images/home/lunar-bunny/star-r.png'
+import starTopR from '../../../../public/images/home/lunar-bunny/star-top-r.png'
 
 const flyingAnim = () => keyframes`
   from {
@@ -87,9 +87,9 @@ const StarsWrapper = styled.div`
 const starsImage: CompositeImageProps = {
   path: '/images/home/lunar-bunny/',
   attributes: [
-    { src: star_l, alt: '3D Star' },
-    { src: star_r, alt: '3D Star' },
-    { src: star_top_r, alt: '3D Star' },
+    { src: starL, alt: '3D Star' },
+    { src: starR, alt: '3D Star' },
+    { src: starTopR, alt: '3D Star' },
   ],
 }
 
