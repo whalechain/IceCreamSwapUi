@@ -66,7 +66,7 @@ enum Resolution {
   LG = '2x',
 }
 interface ImageAttributes {
-  src: StaticImageData | string
+  src: StaticImageData
   alt: string
 }
 
