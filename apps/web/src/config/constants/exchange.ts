@@ -66,7 +66,7 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
     Akka: ROUTER_ADDRESS_COMMON_AKKA_BASE,
   },
   [ChainId.SHIMMER]: {
-    Icecream: ROUTER_ADDRESS_COMMON,
+    Icecream: '0xBbB4CCfc93657AC125F4b1f734111349d1bFF611',
   },
 }
 

@@ -30,7 +30,7 @@ export const shimmer: IceChain = {
     name: 'Wrapped Shimmer',
   },
   swap: {
-    factoryAddress: FACTORY_ADDRESS,
+    factoryAddress: "0x24cb308a4e2F3a4352F513681Bd0c31a0bd3BA31",
     initCodeHash: INIT_CODE_HASH,
   },
 }
