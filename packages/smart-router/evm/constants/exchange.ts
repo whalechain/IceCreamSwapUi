@@ -44,7 +44,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.score, coreTokens.ice, coreTokens.usdt],
+  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.ice, coreTokens.usdt],
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
 }
 
