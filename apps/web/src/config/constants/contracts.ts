@@ -2,13 +2,17 @@ import { ChainId } from '@pancakeswap/sdk'
 import { masterChefAddresses , masterChefV3Addresses } from '@pancakeswap/farms'
 import { DEPLOYER_ADDRESSES } from '@pancakeswap/v3-sdk'
 import { V3_QUOTER_ADDRESSES } from '@pancakeswap/smart-router/evm'
-import { MULTICALL_ADDRESS } from "@pancakeswap/multicall";
+import { chains } from "@icecreamswap/constants";
+import { Address } from "wagmi";
 
 export default {
   masterChef: masterChefAddresses,
   masterChefV3: masterChefV3Addresses,
   masterChefV1: {},
-  multiCall: MULTICALL_ADDRESS,
+  multiCall: chains.reduce((acc, chain) => {
+    if (!chain.contracts || !chain.contracts.multicall3) return acc
+    return {...acc, [chain.id]: chain.contracts.multicall3.address}
+  }, {}) as { [key in ChainId]: Address },
   sousChef: {},
   lotteryV2: {},
   pancakeProfile: {},
