@@ -7,6 +7,7 @@ import BundleAnalyzer from '@next/bundle-analyzer'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 import smartRouterPkgs from '@pancakeswap/smart-router/package.json' assert { type: 'json' }
 import { withWebSecurityHeaders } from '@pancakeswap/next-config/withWebSecurityHeaders'
+import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -204,6 +205,7 @@ const config = {
         __SENTRY_DEBUG__: false,
         __SENTRY_TRACING__: false,
       }),
+      new PrismaPlugin(),
     )
     if (!isServer && webpackConfig.optimization.splitChunks) {
       // webpack doesn't understand worker deps on quote worker, so we need to manually add them
