@@ -38,6 +38,7 @@ import {
   TokenData,
   Transaction,
 } from '../types'
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 const SWR_SETTINGS_WITHOUT_REFETCH = {
   errorRetryCount: 3,
@@ -187,10 +188,10 @@ export const useTopTokensData = ():
 }
 
 export const useTokensData = (addresses: string[], targetChainId?: ChainId): TokenData[] | undefined => {
-  const chainName = useChainNameByQuery()
-  const chainId = targetChainId ?? multiChainId[chainName]
+  const chainId = targetChainId ?? useActiveChainId().chainId
+  const chainName = getChainName(chainId)
   const [t24, t48, t7d] = getDeltaTimestamps()
-  const { blocks } = useBlockFromTimeStampSWR([t24, t48, t7d], undefined, undefined, getChainName(chainId))
+  const { blocks } = useBlockFromTimeStampSWR([t24, t48, t7d], undefined, undefined, chainName)
 
   const { data } = useSWRImmutable(
     chainId &&
