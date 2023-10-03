@@ -4,7 +4,7 @@ import { verifyMessage } from 'viem'
 import { router, publicProcedure } from '../trpc'
 import { address } from '../../zod-utils'
 import { User } from '../session'
-import { prisma } from '../prisma'
+import { prisma } from '@icecreamswap/database'
 
 const secret = process.env.SECRET_COOKIE_PASSWORD!
 

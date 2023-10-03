@@ -1,12 +1,10 @@
 import { ChainId, chainMap } from "@icecreamswap/constants";
-import { PrismaClient } from '@icecreamswap/database'
+import { prisma } from '@icecreamswap/database'
 import { useContract } from "hooks/useContract";
 import { kycABI } from "config/abi/kyc";
 import { createWalletClient, http } from "viem";
 import * as process from "process";
 import { getContract } from "utils/contractHelpers";
-
-const client = new PrismaClient()
 
 export default async function handler(req, res) {
   // eslint-disable-next-line camelcase
@@ -44,7 +42,7 @@ export default async function handler(req, res) {
 
   const address = alias.toLowerCase()
 
-  await client.kyc.update({
+  await prisma.kyc.update({
     where: {
       address,
     },

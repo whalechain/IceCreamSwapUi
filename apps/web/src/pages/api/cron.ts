@@ -1,10 +1,8 @@
-import { PrismaClient } from '@icecreamswap/database'
+import { prisma } from '@icecreamswap/database'
 import { kycRouter } from '@icecreamswap/backend/src/server/routers/kyc'
 
-const client = new PrismaClient()
-
 export default async function handler(req, res) {
-  const delegations = await client.delegation.findMany({
+  const delegations = await prisma.delegation.findMany({
     where: {
       status: { in: ['MINTED', 'APPROVED'] },
       tokenId: null,

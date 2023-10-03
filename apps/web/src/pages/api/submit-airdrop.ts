@@ -1,7 +1,5 @@
-import { PrismaClient } from '@icecreamswap/database'
+import { prisma } from '@icecreamswap/database'
 import { utils } from 'ethers'
-
-const client = new PrismaClient()
 
 export default async function handler(req, res) {
   const { address, sig } = req.body
@@ -18,7 +16,7 @@ export default async function handler(req, res) {
   const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress
   const before24h = new Date(Date.now() - 24 * 60 * 60 * 1000)
 
-  const entryWithIp = await client.airdrop.findFirst({
+  const entryWithIp = await prisma.airdrop.findFirst({
     where: {
       ip,
       createdAt: {
@@ -30,7 +28,7 @@ export default async function handler(req, res) {
     res.status(400).json({ message: '24h' })
     return
   }
-  const entryWithAddress = await client.airdrop.findFirst({
+  const entryWithAddress = await prisma.airdrop.findFirst({
     where: {
       address: {
         equals: address.toLowerCase(),
@@ -46,7 +44,7 @@ export default async function handler(req, res) {
     return
   }
 
-  await client.airdrop.create({
+  await prisma.airdrop.create({
     data: {
       address: address.toLowerCase(),
       ip,

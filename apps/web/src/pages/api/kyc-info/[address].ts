@@ -1,19 +1,17 @@
-import { PrismaClient } from '@icecreamswap/database'
-
-const client = new PrismaClient()
+import { prisma } from '@icecreamswap/database'
 
 export default async function handler(req, res) {
   const { address } = req.query
 
   const result = { status: 'unverified' }
-  const kyc = await client.kyc.findFirst({
+  const kyc = await prisma.kyc.findFirst({
     where: {
       address: address.toLowerCase(),
     },
   })
   let delegation
   if (!kyc) {
-    delegation = await client.delegation.findFirst({
+    delegation = await prisma.delegation.findFirst({
       where: {
         target: {
           equals: address.toLowerCase(),

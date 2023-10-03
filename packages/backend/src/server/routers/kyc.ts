@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
 import { z } from 'zod'
-import { prisma } from '../prisma'
+import { prisma } from '@icecreamswap/database'
 import { isKyc } from '../session'
 import { sendTelegramMessage } from '../telegram'
 import { publicProcedure, router } from '../trpc'

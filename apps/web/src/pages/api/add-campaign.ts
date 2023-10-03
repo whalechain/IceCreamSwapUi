@@ -1,11 +1,9 @@
-import { PrismaClient } from '@icecreamswap/database'
-
-const client = new PrismaClient()
+import { prisma } from '@icecreamswap/database'
 
 export default async function handler(req, res) {
   const { address, chainId, website, banner, github, reddit, discord, telegram, twitter, description } = req.body
 
-  await client.campaign.create({
+  await prisma.campaign.create({
     data: {
       address,
       chainId,

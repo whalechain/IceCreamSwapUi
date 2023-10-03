@@ -1,10 +1,8 @@
-import { PrismaClient } from '@icecreamswap/database'
-
-const client = new PrismaClient()
+import { prisma } from '@icecreamswap/database'
 
 export default async function handler(req, res) {
   const { chainId } = req.body
-  const tokens = await client.token.findMany({
+  const tokens = await prisma.token.findMany({
     where: {
       chainId,
     },

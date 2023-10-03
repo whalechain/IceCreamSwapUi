@@ -1,6 +1,4 @@
-import { PrismaClient } from '@icecreamswap/database'
-
-const client = new PrismaClient()
+import { prisma } from '@icecreamswap/database'
 
 export default async function handler(req, res) {
   const { address, chainId, transactionHash, apiKey } = req.body
@@ -9,7 +7,7 @@ export default async function handler(req, res) {
     return
   }
 
-  await client.kyc.create({
+  await prisma.kyc.create({
     data: {
       address: address.toLowerCase(),
       chainId,
