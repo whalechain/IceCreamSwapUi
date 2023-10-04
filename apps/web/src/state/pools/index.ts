@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import keyBy from 'lodash/keyBy'
 import orderBy from 'lodash/orderBy'
 import { BIG_ZERO } from '@pancakeswap/utils/bigNumber'
-import { bscTokens, ICE, USD } from "@pancakeswap/tokens";
+import { bscTokens, coreTokens, ICE, USD } from "@pancakeswap/tokens";
 import { getBalanceNumber } from '@pancakeswap/utils/formatBalance'
 import { getFarmsPrices } from '@pancakeswap/farms/farmPrices'
 import {
@@ -187,8 +187,9 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
     const farmsV2Data = getState().farms.data
     const bnbBusdFarms =
       activePriceHelperLpsConfig.length > 0
-        ? [...orderBy(farmsV3Data, 'lmPoolLiquidity', 'desc'), ...farmsV2Data].filter(
-            (farm) => farm.token.address === WETH9[chainId].address && farm.quoteToken.address === USD[chainId].address,
+        ? [...orderBy(farmsV3Data, 'lmPoolLiquidity', 'desc'), ...poolsWithDifferentFarmToken].filter(
+            (farm) => farm.quoteToken.address === USD[chainId].address &&
+              (farm.token.chainId !== ChainId.CORE? farm.token.address === WETH9[chainId].address: farm.token.address === coreTokens.wcore_old.address),
           )
         : []
     const farmsWithPricesOfDifferentTokenPools =

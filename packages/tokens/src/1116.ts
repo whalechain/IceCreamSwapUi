@@ -31,7 +31,7 @@ export const coreTokens = {
     ChainId.CORE,
     '0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1',
     6,
-    'USDT',
+    'USDT_l0',
     'Tether USD (Layer0 Bridge)',
   ),
   usdcl0: new ERC20Token(

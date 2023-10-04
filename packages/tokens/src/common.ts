@@ -17,7 +17,6 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.DOKEN]: dokenTokens.usdt,
   [ChainId.FUSE]: fuseTokens.usdt,
   [ChainId.XDC]: xdcTokens.usdt,
-  [ChainId.BSC]: bitgertTokens.usdti,  // todo: add proper BSC USDT
   [ChainId.CORE]: coreTokens.usdt,
   [ChainId.XODEX]: xodexTokens.usdt,
   [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.usdt,
