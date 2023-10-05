@@ -18,7 +18,7 @@ const getBorderColor = ({ theme, variant }: StyledButtonMenuProps) => {
 };
 
 const StyledButtonMenu = styled.div.withConfig({
-  shouldForwardProp,
+  shouldForwardProp: (props) => !["fullWidth"].includes(props),
 })<StyledButtonMenuProps>`
   background-color: ${getBackgroundColor};
   border-radius: 16px;
