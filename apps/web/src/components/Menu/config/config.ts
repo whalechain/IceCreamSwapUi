@@ -155,11 +155,6 @@ const config: (
           supportChainIds: SUPPORT_TOKEN_DEPLOYER,
         },
         {
-          label: t('Token Deployer'),
-          href: '/create-token',
-          supportChainIds: SUPPORT_TOKEN_DEPLOYER,
-        },
-        {
           label: t('Wiki'),
           href: languageCode === 'zh-cn' ? 'https://wiki.icecreamswap.com/v/zh' : 'https://wiki.icecreamswap.com',
           type: DropdownMenuItemType.EXTERNAL_LINK,
