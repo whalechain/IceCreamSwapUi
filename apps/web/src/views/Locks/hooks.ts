@@ -30,7 +30,7 @@ export const useLockingData = (lockIds?: readonly bigint[]) => {
   const { chainId } = useActiveChainId()
 
   return useSWR(
-    lockIds && locks ? ['lock', JSON.stringify(lockIds)] : null,
+    lockIds && locks ? ['lock', JSON.stringify(lockIds.map(lockId => lockId.toString()))] : null,
     async () => {
       const multicallResult = await publicClient({ chainId }).multicall({
         contracts: lockIds
