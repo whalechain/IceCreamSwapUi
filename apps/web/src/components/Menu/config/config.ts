@@ -67,11 +67,11 @@ const config: (
           label: t('Liquidity'),
           href: '/liquidity',
         },
-        {
+        /* {
           label: t('Buy Crypto'),
           href: '/buy-crypto',
           supportChainIds: SUPPORT_BUY_CRYPTO,
-        },
+        }, */
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
