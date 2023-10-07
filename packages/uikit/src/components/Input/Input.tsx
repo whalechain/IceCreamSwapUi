@@ -39,12 +39,11 @@ const Input = styled("input").withConfig({
   border-radius: 16px;
   box-shadow: ${getBoxShadow};
   color: ${({ theme }) => theme.colors.text};
-  display: ${({ display }) => display || "block"};
-  ${({ alignItems }) => alignItems && `align-items: ${alignItems};`}}
+  display: block;
   font-size: 16px;
   height: ${getHeight};
   outline: 0;
-  padding: ${({ padding }) => padding || "0 16px"};
+  padding: 0 16px;
   width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
 
