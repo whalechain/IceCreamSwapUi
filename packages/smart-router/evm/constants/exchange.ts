@@ -1,11 +1,12 @@
 import { ChainId, Token } from '@pancakeswap/sdk'
 import { ChainMap, ChainTokenList } from '../types'
 import {
+  baseTokens,
   bitgertTokens,
   coreTokens,
   dogechainTokens,
   dokenTokens,
-  fuseTokens,
+  fuseTokens, telosTokens,
   xdcTokens,
   xodexTokens
 } from "@pancakeswap/tokens";
@@ -46,6 +47,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
   [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.ice, coreTokens.usdt],
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
+  [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
+  [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
 }
 
 /**

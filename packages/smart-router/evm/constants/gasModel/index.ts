@@ -1,19 +1,12 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
-import { bitgertTokens, bscTokens, coreTokens, xdcTokens } from "@pancakeswap/tokens";
+import {ChainId, Token, WETH9} from '@pancakeswap/sdk'
+import { USD } from "@pancakeswap/tokens";
+import { chains } from '@icecreamswap/constants'
 
-export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
-  [ChainId.BSC]: [bscTokens.busd],
-  [ChainId.CORE]: [coreTokens.usdt],
-  [ChainId.BITGERT]: [bitgertTokens.usdti],
-  [ChainId.XDC]: [xdcTokens.usdt],
-}
+export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = chains.reduce((acc, chain) => {
+  return {...acc, [chain.id]: [USD[chain.id]]}
+}, {})
 
-export const nativeWrappedTokenByChain: { [chainId in ChainId]?: Token } = {
-  [ChainId.BSC]: bscTokens.wbnb,
-  [ChainId.CORE]: coreTokens.wcore,
-  [ChainId.BITGERT]: bitgertTokens.wbrise,
-  [ChainId.XDC]: [xdcTokens.wxdc],
-}
+export const nativeWrappedTokenByChain: { [chainId in ChainId]?: Token } = WETH9
 
 export * from './v2'
 export * from './v3'
