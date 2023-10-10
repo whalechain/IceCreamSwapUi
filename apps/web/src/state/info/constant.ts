@@ -105,7 +105,9 @@ export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainNa
 
 export const checkIsStableSwap = () => window.location.href.includes('stableSwap')
 
-export const multiChainName = chains.map((chain) => chain.network.toUpperCase() as MultiChainName)
+export const multiChainName: Record<number | string, MultiChainNameExtend> = chains.reduce((acc, chain) => {
+  return {...acc, [chain.id]: chain.network.toUpperCase() as MultiChainName}
+}, {})
 
 export const v2SubgraphTokenName = chains.map((chain) => chain.network.toUpperCase())
 
