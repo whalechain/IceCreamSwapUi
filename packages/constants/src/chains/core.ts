@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const core: IceChain = {
   id: 1116,
   name: 'Core Blockchain',
-  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'info', 'locks', 'staking', 'launchpad'],
+  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'info', 'locks', 'staking', 'launchpad', 'tokenDeployer'],
   network: 'core',
   rpcUrls: {
     public: 'https://rpc-core.icecreamswap.com',
@@ -23,7 +23,7 @@ export const core: IceChain = {
     blockCreated: 852772,
   },
   tokenDeployerDividend: {
-    address: '0x9BD18D8FBfB6a8290f16163bD14Ac8a3c7EFfc0e',
+    address: '0x5c39F20A0d75Cc8695cfBa8d97178aB64e60d848',
     feeToken: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
   },
   locks: {
