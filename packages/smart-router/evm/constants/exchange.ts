@@ -14,7 +14,7 @@ import { chains } from "@icecreamswap/constants";
 import { Address } from "viem";
 
 export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
-  [ChainId.CORE]: '0xD56d8dC0F34509c5D60471fA664Bd163F3cE0166',
+  [ChainId.CORE]: '0x3245b934D8A2bd0Ad93e679F35A6EFcf231966Aa',
   [ChainId.XDC]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
 } as const
 

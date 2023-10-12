@@ -54,11 +54,11 @@ export default {
   mmLinkedPool: {},
   tradingReward: {},
   nftPositionManager: {
-    [ChainId.CORE]: '0xa6C4B4536E1182eE2691FCba7ABee54C456ed196',
+    [ChainId.CORE]: '0xfb7bcf090937F870e6E72f9a31e0839aa2a7b513',
   },
   v3PoolDeployer: DEPLOYER_ADDRESSES,
   v3Migrator: {
-    [ChainId.CORE]: '0x39135bD1FD3A04381C1094AB0Dd35c7bbe61b3C5',
+    [ChainId.CORE]: '0x97Ea19e39bDe5c55D5891dEA54196824DBfC2fFb',
   },
   quoter: V3_QUOTER_ADDRESSES,
   v3Airdrop: {},
