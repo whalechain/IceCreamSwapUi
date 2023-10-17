@@ -11,6 +11,7 @@ import { useContract, useERC20 } from "hooks/useContract";
 import { bridgeABI } from 'config/abi/bridge'
 import { parseUnits } from "viem";
 import { getContract } from "utils/contractHelpers";
+import {useActiveChainId} from "hooks/useActiveChainId";
 
 type Tokens = { [address: string]: ERC20Token }
 
@@ -63,9 +64,8 @@ interface BridgeContext {
 const BridgeContext = createContext<BridgeContext | undefined>(undefined)
 
 export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { account, chainId: accountChainId } = useWeb3React()
-  const { chainId: routerChainId } = useRouter().query
-  const chainId = accountChainId ?? (typeof routerChainId === 'string' ? parseInt(routerChainId) : undefined)
+  const { chainId } = useActiveChainId()
+  const { account } = useWeb3React()
   const [currency, setCurrency] = useState<Currency | undefined>()
   const [depositAmount, setDepositAmount] = useState('')
   const [destinationChainId, setDestinationChainId] = useState<number | undefined>()
