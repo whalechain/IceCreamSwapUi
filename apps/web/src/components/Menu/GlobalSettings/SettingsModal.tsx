@@ -160,7 +160,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                   }}
                 />
               </Flex>
-              <GasSettings />
+              { /* <GasSettings /> */ }
             </Flex>
           </>
         )}
@@ -168,9 +168,11 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
           <>
             <Flex pt="3px" flexDirection="column">
               <PreTitle>{t('Swaps & Liquidity')}</PreTitle>
+              { /*
               <Flex justifyContent="space-between" alignItems="center" mb="24px">
                 <GasSettings />
               </Flex>
+              */ }
               <TransactionSettings />
             </Flex>
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
