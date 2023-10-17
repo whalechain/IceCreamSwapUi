@@ -15,6 +15,7 @@ import logo40 from '../../../public/images/chains/40.png'
 import logo1072 from '../../../public/images/chains/1072.png'
 import logo8453 from '../../../public/images/chains/8453.png'
 import logo148 from '../../../public/images/chains/148.png'
+import logo534352 from '../../../public/images/chains/534352.png'
 import { ChainId } from '@pancakeswap/sdk'
 
 const logoMap: Record<ChainId, StaticImageData> = {
@@ -31,6 +32,7 @@ const logoMap: Record<ChainId, StaticImageData> = {
   8453: logo8453,
   1072: logo1072,
   148: logo148,
+  534352: logo534352
 }
 
 export const ChainLogo = memo(

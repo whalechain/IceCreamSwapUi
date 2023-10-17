@@ -11,6 +11,7 @@ import { telos } from "./telos";
 import { shimmerTestnet } from "./shimmerTestnet";
 import { base } from "./base";
 import { shimmer } from "./shimmer"
+import { scroll } from "./scroll"
 
 export const chainMap = {
   core,
@@ -26,6 +27,7 @@ export const chainMap = {
   dokenchain,
   shardeumTestnet,
   // shimmerTestnet,
+  scroll,
 }
 export const chains = Object.values(chainMap)
 
@@ -47,4 +49,5 @@ export enum ChainId {
   DOKEN = dokenchain.id,
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
+  SCROLL = scroll.id,
 }

@@ -12,7 +12,8 @@ import {
   telosTokens,
   shimmerTestnetTokens,
   baseTokens,
-  shimmerTokens
+  shimmerTokens,
+  scrollTokens
 } from '@pancakeswap/tokens';
 import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
@@ -68,6 +69,9 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
   [ChainId.SHIMMER]: {
     Icecream: '0xBbB4CCfc93657AC125F4b1f734111349d1bFF611',
   },
+  [ChainId.SCROLL]: {
+    Icecream: ROUTER_ADDRESS_COMMON,
+  },
 }
 
 // used to construct intermediary pairs for trading
@@ -84,6 +88,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
   [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
+  [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
 }
 
 /**
@@ -113,6 +118,7 @@ export const SUGGESTED_BASES: Partial<ChainTokenList> = {
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
   [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt, shimmerTokens.wsmr],
+  [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt, scrollTokens.weth],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -167,6 +173,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: Partial<ChainTokenList> = {
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
   [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
+  [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -213,6 +220,11 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [shimmerTokens.usdt, shimmerTokens.ice],
     [shimmerTokens.wsmr, shimmerTokens.ice],
     [shimmerTokens.wsmr, shimmerTokens.usdt],
+  ],
+  [ChainId.SCROLL]: [
+    [scrollTokens.usdt, scrollTokens.ice],
+    [scrollTokens.weth, scrollTokens.ice],
+    [scrollTokens.weth, scrollTokens.usdt],
   ],
 }
 
