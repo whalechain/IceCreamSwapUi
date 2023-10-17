@@ -189,17 +189,19 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 onChange={handleExpertModeToggle}
               />
             </Flex>
+            { /*
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text>{t('Flippy sounds')}</Text>
                 <QuestionHelper
-                  text={t('Fun sounds to make a truly immersive pancake-flipping trading experience')}
+                  text={t('Fun sounds to make a truly immersive IceCreamSwap trading experience')}
                   placement="top"
                   ml="4px"
                 />
               </Flex>
               <PancakeToggle checked={audioPlay} onChange={() => setAudioMode((s) => !s)} scale="md" />
             </Flex>
+            */ }
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text>{t('Akka Router')}</Text>
