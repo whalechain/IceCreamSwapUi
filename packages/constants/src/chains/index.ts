@@ -16,10 +16,11 @@ import { scroll } from "./scroll"
 export const chainMap = {
   core,
   shimmer,
-  bitgert,
   bsc,
+  scroll,
   xdc,
   telos,
+  bitgert,
   base,
   dogechain,
   fuse,
@@ -27,7 +28,6 @@ export const chainMap = {
   dokenchain,
   shardeumTestnet,
   // shimmerTestnet,
-  scroll,
 }
 export const chains = Object.values(chainMap)
 
@@ -38,10 +38,11 @@ export const getChain = (chainId: number) => {
 export enum ChainId {
   CORE = core.id,
   SHIMMER = shimmer.id,
-  BITGERT = bitgert.id,
   BSC = bsc.id,
+  SCROLL = scroll.id,
   XDC = xdc.id,
   TELOS = telos.id,
+  BITGERT = bitgert.id,
   BASE = base.id,
   DOGE = dogechain.id,
   FUSE = fuse.id,
@@ -49,5 +50,4 @@ export enum ChainId {
   DOKEN = dokenchain.id,
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
-  SCROLL = scroll.id,
 }
