@@ -11,7 +11,7 @@ export const scroll: IceChain = {
     default: 'https://rpc.scroll.io',
   },
   blockExplorers: {
-    default: { name: 'Scroll Explorer', url: 'https://blockscout.scroll.io/' },
+    default: { name: 'Scroll Explorer', url: 'https://scrollscan.com/' },
   },
   nativeCurrency: {
     name: 'Ether',
