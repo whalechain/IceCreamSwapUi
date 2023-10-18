@@ -2,7 +2,7 @@ import { Button, Flex, Heading, Link, NextLinkFromReactRouter } from '@pancakesw
 import { useAccount } from 'wagmi'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from '@pancakeswap/localization'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import { ChainId } from '@pancakeswap/sdk'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import { styled, keyframes } from 'styled-components'
