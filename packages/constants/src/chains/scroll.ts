@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const scroll: IceChain = {
   id: 534352,
   name: 'Scroll',
-  features: ['swap', 'bridge'],
+  features: ['swap', 'bridge', 'farms'],
   network: 'scroll',
   rpcUrls: {
     public: 'https://rpc.scroll.io',
