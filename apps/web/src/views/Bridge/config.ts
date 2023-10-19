@@ -864,7 +864,7 @@ const chains = [
     name: 'Scroll',
     decimals: 18,
     bridgeAddress: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
-    rpcUrl: 'https://rpc.scroll.io',
+    rpcUrl: 'https://rpc-scroll.icecreamswap.com',
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
