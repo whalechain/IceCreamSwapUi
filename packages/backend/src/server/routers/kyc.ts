@@ -16,7 +16,6 @@ import { solidityKeccak256 } from 'ethers/lib/utils'
 const core = getChain(1116)!
 const provider = new providers.JsonRpcProvider(core.rpcUrls.default)
 
-// todo: add proper checks for approve, reject and submitDelegation
 export const kycRouter = router({
   delegate: publicProcedure
     .input(
