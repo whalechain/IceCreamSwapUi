@@ -49,8 +49,8 @@ export const KycDelegator: React.FC = () => {
   const { t } = useTranslation()
   const [input, setInput] = useState('')
   const chain = useActiveChain()
-  const { address, status } = useAccount()
-  const minter = useContract(chain.kyc?.contractKycMinter, minterAbi)
+  const { address } = useAccount()
+  const minter = useContract(chain.kyc?.contractKycDelegator, minterAbi)
   const fee = useSWR('kyc/fee', async () => {
     const feeAmount = await minter?.feeAmount()
     const feeToken = await minter?.feeToken()
@@ -80,7 +80,7 @@ export const KycDelegator: React.FC = () => {
     targetAddress: input,
     sourceAddress: user.data?.wallet,
   })
-  let action: React.ReactNode = ''
+  let action: React.ReactNode
   if (delegation.data?.status === 'PENDING') {
     action = <Heading>{t('Waiting for Validation')}</Heading>
   } else if (delegation.data?.status === 'REJECTED') {

@@ -1,6 +1,6 @@
 import { Chain } from 'wagmi'
 
-type ChainFeature = 'swap' | 'bridge' | 'info' | 'farms' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer' | 'akkaRouter'
+type ChainFeature = 'swap' | 'bridge' | 'info' | 'farms' | 'staking' | 'kyc' | 'locks' | 'launchpad' | 'tokenDeployer' | 'akkaRouter'
 
 interface SwapConfig {
   factoryAddress: string
@@ -18,12 +18,12 @@ interface TokenDeployerConfig {
 }
 
 interface KycConfig {
-  stableCoin: string
+  feeToken: string
   fee: number
   feeWallet: string
-  tokenAddress: string
-  contractKycMinter: string
-  contractKycAddress: string
+  contractKyced?: string
+  contractKycDelegator?: string
+  contractKycDelegations?: string
 }
 
 interface ChainBase {

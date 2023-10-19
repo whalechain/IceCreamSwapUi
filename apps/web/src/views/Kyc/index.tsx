@@ -47,7 +47,7 @@ export const Kyc: React.FC = () => {
   const { t } = useTranslation()
   const chain = useActiveChain()
   const { address, status } = useAccount()
-  const token = useToken(chain.kyc?.stableCoin)
+  const token = useToken(chain.kyc?.feeToken)
   const addTransaction = useTransactionAdder()
   const paid = useSWR(
     address ? `kyc/${address}` : null,
@@ -74,7 +74,7 @@ export const Kyc: React.FC = () => {
     })
   }
   const { isDark } = useTheme()
-  const tokenBalance = useTokenBalance(chain.kyc.stableCoin)
+  const tokenBalance = useTokenBalance(chain.kyc?.feeToken)
   const canPay = Number(utils.formatEther(tokenBalance?.balance?.toString() ?? '0')) >= chain?.kyc?.fee
 
   let action: React.ReactNode | undefined

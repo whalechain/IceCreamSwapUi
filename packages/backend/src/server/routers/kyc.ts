@@ -15,6 +15,8 @@ import { solidityKeccak256 } from 'ethers/lib/utils'
 
 const core = getChain(1116)!
 const provider = new providers.JsonRpcProvider(core.rpcUrls.default)
+
+// todo: add proper checks for approve, reject and submitDelegation
 export const kycRouter = router({
   delegate: publicProcedure
     .input(
@@ -121,7 +123,7 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
       if (!chain) {
         throw new Error('Invalid chain')
       }
-      const delegation = await prisma.delegation.findFirst({
+      return await prisma.delegation.findFirst({
         where: {
           source: {
             address: sourceAddress.toLowerCase(),
@@ -130,7 +132,6 @@ REJECT \`${baseUri}/api/trpc/kyc.reject?input=%22${encrypted}%22\``,
           chainId,
         },
       })
-      return delegation
     }),
   getDelegationSignature: publicProcedure
     .input(
@@ -219,7 +220,7 @@ const updateTokenId = async (walletAddress: string) => {
   const coreChain = getChain(1116)
   let tokenId = (await getLargestTokenId()) || 0
   let owner: string | undefined
-  const kyc = new Contract(coreChain!.kyc?.tokenAddress as any, kycAbi, provider)
+  const kyc = new Contract(coreChain!.kyc?.contractKyced as any, kycAbi, provider)
   do {
     tokenId += 1
     owner = await new Promise<string | undefined>((res) => {
@@ -250,7 +251,7 @@ const updateTokenId = async (walletAddress: string) => {
 }
 
 const getDelegationTokenId = async (sourceAddress: string, targetAddress: string, chainId: number): Promise<number> => {
-  const contractKyc = new Contract(getChain(chainId)!.kyc?.contractKycAddress as any, contractKycAbi, provider)
+  const contractKyc = new Contract(getChain(chainId)!.kyc?.contractKycDelegations as any, contractKycAbi, provider)
   let tokenId: BigNumber
   const kyc = await prisma.kyc.findFirst({
     where: {
