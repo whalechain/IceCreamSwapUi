@@ -17,7 +17,11 @@ import {
   SUPPORT_INFO,
   SUPPORT_SWAP,
   SUPPORT_BRIDGE,
-  SUPPORT_LOCKS, SUPPORT_LAUNCHPAD, SUPPORT_TOKEN_DEPLOYER
+  SUPPORT_LOCKS,
+  SUPPORT_LAUNCHPAD,
+  SUPPORT_TOKEN_DEPLOYER,
+  SUPPORT_KYC,
+  SUPPORT_KYC_DELEGATION
 } from "../../../config/constants/supportChains";
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & {
@@ -199,7 +203,7 @@ const config: (
       icon: MoreHorizontalIcon,
       showItemsOnMobile: true,
       hideSubNav: true,
-      supportChainIds: [...SUPPORT_INFO, ...SUPPORT_LOCKS],
+      // supportChainIds: [...SUPPORT_INFO, ...SUPPORT_LOCKS, ...SUPPORT_KYC],
       items: [
         {
           label: t('Info'),
@@ -214,7 +218,7 @@ const config: (
         {
           label: t('KYC'),
           href: '/kyc',
-          supportChainIds: [1116],
+          supportChainIds: SUPPORT_KYC,
           items: [
             {
               label: t('KYC'),
@@ -227,6 +231,7 @@ const config: (
             {
               label: t('KYC Delegator'),
               href: '/kyc-delegator',
+              supportChainIds: SUPPORT_KYC_DELEGATION,
             },
           ],
         },
