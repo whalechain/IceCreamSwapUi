@@ -6,41 +6,48 @@ import {
   INFO_CLIENT_CORE,
   BLOCKS_CLIENT_XDC,
   BLOCKS_CLIENT_CORE,
-} from '../../config/constants/endpoints'
+  INFO_CLIENT_SCROLL,
+  BLOCKS_CLIENT_SCROLL,
+} from "../../config/constants/endpoints";
 import { ChainId } from '@pancakeswap/sdk'
-import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from '../../config/constants/info'
+import { PCS_BITGERT_START, PCS_CORE_START, PCS_SCROLL_START, PCS_XDC_START } from "../../config/constants/info";
 import { GraphQLClient } from 'graphql-request'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX'
+export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL'
 
 export const multiChainQueryMainToken = {
   BITGERT: 'ETH',
   XDC: 'ETH',
   CORE: 'ETH',
+  SCROLL: 'ETH',
 }
 
 export const multiChainBlocksClient = {
   BITGERT: BLOCKS_CLIENT_BITGERT,
   XDC: BLOCKS_CLIENT_XDC,
   CORE: BLOCKS_CLIENT_CORE,
+  SCROLL: BLOCKS_CLIENT_SCROLL,
 }
 
 export const multiChainStartTime = {
   BITGERT: PCS_BITGERT_START,
   XDC: PCS_XDC_START,
   CORE: PCS_CORE_START,
+  SCROLL: PCS_SCROLL_START,
 }
 
 export const multiChainId = {
   BITGERT: ChainId.BITGERT,
   XDC: ChainId.XDC,
   CORE: ChainId.CORE,
+  SCROLL: ChainId.SCROLL,
 }
 
 export const multiChainPaths = {
   [ChainId.BITGERT]: '',
   [ChainId.XDC]: '',
   [ChainId.CORE]: '',
+  [ChainId.SCROLL]: '',
 }
 
 // @ts-ignore fix missing queryClients
@@ -48,12 +55,14 @@ export const multiChainQueryClient: Record<MultiChainName, GraphQLClient> = {
   BITGERT: new GraphQLClient(INFO_CLIENT_BITGERT),
   XDC: new GraphQLClient(INFO_CLIENT_XDC),
   CORE: new GraphQLClient(INFO_CLIENT_CORE),
+  SCROLL: new GraphQLClient(INFO_CLIENT_SCROLL),
 }
 
 export const multiChainQueryEndPoint = {
   BITGERT: INFO_CLIENT_BITGERT,
   XDC: INFO_CLIENT_XDC,
   CORE: INFO_CLIENT_CORE,
+  SCROLL: INFO_CLIENT_SCROLL,
 }
 
 export const multiChainScan = {
@@ -65,6 +74,7 @@ export const multiChainScan = {
   CORE: 'CoreScan',
   XODEX: 'XODEXScan',
   SHARDEUM_TEST: 'ShardeumTestnetScan',
+  SCROLL: 'ScrollScan',
 }
 
 export const multiChainTokenBlackList = {
@@ -75,6 +85,7 @@ export const multiChainTokenBlackList = {
   XDC: [''],
   CORE: [''],
   XODEX: [''],
+  SCROLL: [''],
 }
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {
