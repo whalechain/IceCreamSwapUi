@@ -3,6 +3,7 @@ import { useGetChainName } from 'state/info/hooks'
 import { Block } from 'state/info/types'
 import useSWRImmutable from 'swr/immutable'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
+import { multiChainStartTime } from "../../../state/info/constant";
 
 /**
  * for a given array of timestamps, returns block entities
@@ -53,7 +54,9 @@ export const useBlockFromTimeStampSWR = (
   skipCount: number | undefined = 1000,
 ) => {
   const chainName = useGetChainName()
-  const timestampsString = JSON.stringify(timestamps)
+  const minTs = multiChainStartTime[chainName]
+  const timestampsClipped = timestamps.map(ts => ts < minTs? minTs: ts)
+  const timestampsString = JSON.stringify(timestampsClipped)
   const timestampsArray = JSON.parse(timestampsString)
   const { data } = useSWRImmutable([`info/blocks/${timestampsString}`, chainName], () =>
     getBlocksFromTimestamps(timestampsArray, sortDirection, skipCount, chainName),

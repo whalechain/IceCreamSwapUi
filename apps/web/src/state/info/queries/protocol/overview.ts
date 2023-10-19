@@ -139,21 +139,21 @@ export const fetchProtocolData = async (chainName: MultiChainName, block24: Bloc
   // const allDataAvailable = overviewData && overviewData24 && overviewData48
 
   const [volumeUSD, volumeUSDChange] = getChangeForPeriod(
-    overviewData.totalVolumeUSD,
-    overviewData24.totalVolumeUSD,
-    overviewData48.totalVolumeUSD,
+    overviewData?.totalVolumeUSD,
+    overviewData24?.totalVolumeUSD,
+    overviewData48?.totalVolumeUSD,
   )
-  const liquidityUSDChange = getPercentChange(overviewData.totalLiquidityUSD, overviewData24.totalLiquidityUSD)
+  const liquidityUSDChange = getPercentChange(overviewData?.totalLiquidityUSD, overviewData24?.totalLiquidityUSD)
   // 24H transactions
   const [txCount, txCountChange] = getChangeForPeriod(
-    overviewData.totalTransactions,
-    overviewData24.totalTransactions,
-    overviewData48.totalTransactions,
+    overviewData?.totalTransactions,
+    overviewData24?.totalTransactions,
+    overviewData48?.totalTransactions,
   )
   const protocolData: ProtocolData = {
     volumeUSD,
     volumeUSDChange: typeof volumeUSDChange === 'number' ? volumeUSDChange : 0,
-    liquidityUSD: overviewData.totalLiquidityUSD,
+    liquidityUSD: overviewData?.totalLiquidityUSD,
     liquidityUSDChange,
     txCount,
     txCountChange,
