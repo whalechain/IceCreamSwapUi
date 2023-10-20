@@ -23,7 +23,7 @@ interface TopTokensResponse {
 const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number): Promise<string[]> => {
   const whereCondition = checkIsStableSwap()
     ? ''
-    : `where: { dailyTxns_gt: 100, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
+    : `where: { dailyTxns_gt: 10, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
   const firstCount = 30
   try {
     const query = gql`
