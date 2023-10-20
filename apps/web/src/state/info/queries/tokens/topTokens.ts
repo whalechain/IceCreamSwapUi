@@ -23,7 +23,7 @@ interface TopTokensResponse {
 const fetchTopTokens = async (chainName: MultiChainName, timestamp24hAgo: number): Promise<string[]> => {
   const whereCondition = checkIsStableSwap()
     ? ''
-    : `where: { dailyTxns_gt: 10, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
+    : `where: { id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}` // `where: { dailyTxns_gt: 10, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
   const firstCount = 30
   try {
     const query = gql`
@@ -73,8 +73,7 @@ const useTopTokenAddresses = (): string[] => {
 export const fetchTokenAddresses = async (chainName: MultiChainName) => {
   const [timestamp24hAgo] = getDeltaTimestamps()
 
-  const addresses = await fetchTopTokens(chainName, timestamp24hAgo)
-  return addresses
+  return await fetchTopTokens(chainName, timestamp24hAgo)
 }
 
 export default useTopTokenAddresses

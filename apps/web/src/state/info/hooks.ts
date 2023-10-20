@@ -1,4 +1,3 @@
-import { ChainId, getChain as getChainById } from '@icecreamswap/constants'
 import { Duration, getUnixTime, startOfHour, sub } from 'date-fns'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -218,6 +217,9 @@ export const useGetChainName = () => {
     if (path.includes('chainId=1116')) return 'CORE'
     if (path.includes('chainId=2415')) return 'XODEX'
     if (path.includes('chainId=534352')) return 'SCROLL'
+    if (path.includes('chainId=40')) return 'TELOS'
+    if (path.includes('chainId=8453')) return 'BASE'
+    if (path.includes('chainId=148')) return 'SHIMMER'
     return 'CORE'
   }, [path])
   const [name, setName] = useState<MultiChainName | null>(getChain())

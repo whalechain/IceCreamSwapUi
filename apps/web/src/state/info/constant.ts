@@ -8,18 +8,34 @@ import {
   BLOCKS_CLIENT_CORE,
   INFO_CLIENT_SCROLL,
   BLOCKS_CLIENT_SCROLL,
+  INFO_CLIENT_TELOS,
+  INFO_CLIENT_BASE,
+  INFO_CLIENT_SHIMMER,
+  BLOCKS_CLIENT_TELOS,
+  BLOCKS_CLIENT_BASE, BLOCKS_CLIENT_SHIMMER
 } from "../../config/constants/endpoints";
 import { ChainId } from '@pancakeswap/sdk'
-import { PCS_BITGERT_START, PCS_CORE_START, PCS_SCROLL_START, PCS_XDC_START } from "../../config/constants/info";
+import {
+  PCS_BITGERT_START,
+  PCS_CORE_START,
+  PCS_SCROLL_START,
+  PCS_XDC_START,
+  PCS_TELOS_START,
+  PCS_BASE_START,
+  PCS_SHIMMER_START,
+} from "../../config/constants/info";
 import { GraphQLClient } from 'graphql-request'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL'
+export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL' | 'TELOS' | 'BASE' | 'SHIMMER'
 
 export const multiChainQueryMainToken = {
   BITGERT: 'ETH',
   XDC: 'ETH',
   CORE: 'ETH',
   SCROLL: 'ETH',
+  TELOS: 'ETH',
+  BASE: 'ETH',
+  SHIMMER: 'ETH',
 }
 
 export const multiChainBlocksClient = {
@@ -27,6 +43,9 @@ export const multiChainBlocksClient = {
   XDC: BLOCKS_CLIENT_XDC,
   CORE: BLOCKS_CLIENT_CORE,
   SCROLL: BLOCKS_CLIENT_SCROLL,
+  TELOS: BLOCKS_CLIENT_TELOS,
+  BASE: BLOCKS_CLIENT_BASE,
+  SHIMMER: BLOCKS_CLIENT_SHIMMER,
 }
 
 export const multiChainStartTime = {
@@ -34,6 +53,9 @@ export const multiChainStartTime = {
   XDC: PCS_XDC_START,
   CORE: PCS_CORE_START,
   SCROLL: PCS_SCROLL_START,
+  TELOS: PCS_TELOS_START,
+  BASE: PCS_BASE_START,
+  SHIMMER: PCS_SHIMMER_START,
 }
 
 export const multiChainId = {
@@ -41,6 +63,9 @@ export const multiChainId = {
   XDC: ChainId.XDC,
   CORE: ChainId.CORE,
   SCROLL: ChainId.SCROLL,
+  TELOS: ChainId.TELOS,
+  BASE: ChainId.BASE,
+  SHIMMER: ChainId.SHIMMER,
 }
 
 export const multiChainPaths = {
@@ -48,6 +73,9 @@ export const multiChainPaths = {
   [ChainId.XDC]: '',
   [ChainId.CORE]: '',
   [ChainId.SCROLL]: '',
+  [ChainId.TELOS]: '',
+  [ChainId.BASE]: '',
+  [ChainId.SHIMMER]: '',
 }
 
 // @ts-ignore fix missing queryClients
@@ -56,6 +84,9 @@ export const multiChainQueryClient: Record<MultiChainName, GraphQLClient> = {
   XDC: new GraphQLClient(INFO_CLIENT_XDC),
   CORE: new GraphQLClient(INFO_CLIENT_CORE),
   SCROLL: new GraphQLClient(INFO_CLIENT_SCROLL),
+  TELOS: new GraphQLClient(INFO_CLIENT_TELOS),
+  BASE: new GraphQLClient(INFO_CLIENT_BASE),
+  SHIMMER: new GraphQLClient(INFO_CLIENT_SHIMMER),
 }
 
 export const multiChainQueryEndPoint = {
@@ -63,6 +94,9 @@ export const multiChainQueryEndPoint = {
   XDC: INFO_CLIENT_XDC,
   CORE: INFO_CLIENT_CORE,
   SCROLL: INFO_CLIENT_SCROLL,
+  TELOS: INFO_CLIENT_TELOS,
+  BASE: INFO_CLIENT_BASE,
+  SHIMMER: INFO_CLIENT_SHIMMER,
 }
 
 export const multiChainScan = {
@@ -75,6 +109,9 @@ export const multiChainScan = {
   XODEX: 'XODEXScan',
   SHARDEUM_TEST: 'ShardeumTestnetScan',
   SCROLL: 'ScrollScan',
+  TELOS: 'TelosScan',
+  BASE: 'BaseScan',
+  SHIMMER: 'ShimmerScan',
 }
 
 export const multiChainTokenBlackList = {
@@ -86,6 +123,9 @@ export const multiChainTokenBlackList = {
   CORE: [''],
   XODEX: [''],
   SCROLL: [''],
+  TELOS: [''],
+  BASE: [''],
+  SHIMMER: [''],
 }
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {

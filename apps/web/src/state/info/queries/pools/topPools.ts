@@ -20,7 +20,7 @@ interface TopPoolsResponse {
  */
 const fetchTopPools = async (chainName: MultiChainName, timestamp24hAgo: number): Promise<string[]> => {
   const isStableSwap = checkIsStableSwap()
-  let whereCondition = `where: { dailyVolumeUSD_gt: 10, token0_not_in: $blacklist, token1_not_in: $blacklist, date_gt: ${timestamp24hAgo} }`
+  let whereCondition = `where: { token0_not_in: $blacklist, token1_not_in: $blacklist, date_gt: ${timestamp24hAgo} }` // `where: { dailyVolumeUSD_gt: 10, token0_not_in: $blacklist, token1_not_in: $blacklist, date_gt: ${timestamp24hAgo} }`
   if (isStableSwap) whereCondition = ''
   try {
     const query = gql`
@@ -70,8 +70,7 @@ const useTopPoolAddresses = (): string[] => {
 export const fetchTopPoolAddresses = async (chainName: MultiChainName) => {
   const [timestamp24hAgo] = getDeltaTimestamps()
 
-  const addresses = await fetchTopPools(chainName, timestamp24hAgo)
-  return addresses
+  return await fetchTopPools(chainName, timestamp24hAgo)
 }
 
 export default useTopPoolAddresses

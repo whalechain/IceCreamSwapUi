@@ -16,6 +16,9 @@ export const INFO_CLIENT_WITH_CHAIN = {
   [ChainId.XDC]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-xdc',
   [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-core',
   [ChainId.SCROLL]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-scroll',
+  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-telos',
+  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-base',
+  [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-shimmer',
 }
 
 export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
@@ -23,6 +26,9 @@ export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
   [ChainId.XDC]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-xdc',
   [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core',
   [ChainId.SCROLL]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-scroll',
+  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-telos',
+  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-base',
+  [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-shimmer',
 }
 
 export const INFO_CLIENT_BITGERT = INFO_CLIENT_WITH_CHAIN[ChainId.BITGERT]
@@ -36,3 +42,12 @@ export const BLOCKS_CLIENT_CORE = BLOCKS_CLIENT_WITH_CHAIN[ChainId.CORE]
 
 export const INFO_CLIENT_SCROLL = INFO_CLIENT_WITH_CHAIN[ChainId.SCROLL]
 export const BLOCKS_CLIENT_SCROLL = BLOCKS_CLIENT_WITH_CHAIN[ChainId.SCROLL]
+
+export const INFO_CLIENT_TELOS = INFO_CLIENT_WITH_CHAIN[ChainId.TELOS]
+export const BLOCKS_CLIENT_TELOS = BLOCKS_CLIENT_WITH_CHAIN[ChainId.TELOS]
+
+export const INFO_CLIENT_BASE = INFO_CLIENT_WITH_CHAIN[ChainId.BASE]
+export const BLOCKS_CLIENT_BASE = BLOCKS_CLIENT_WITH_CHAIN[ChainId.BASE]
+
+export const INFO_CLIENT_SHIMMER = INFO_CLIENT_WITH_CHAIN[ChainId.SHIMMER]
+export const BLOCKS_CLIENT_SHIMMER = BLOCKS_CLIENT_WITH_CHAIN[ChainId.SHIMMER]
