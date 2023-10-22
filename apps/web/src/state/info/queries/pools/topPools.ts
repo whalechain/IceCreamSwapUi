@@ -70,7 +70,7 @@ const useTopPoolAddresses = (): string[] => {
 export const fetchTopPoolAddresses = async (chainName: MultiChainName) => {
   const [timestamp24hAgo] = getDeltaTimestamps()
 
-  return await fetchTopPools(chainName, timestamp24hAgo)
+  return fetchTopPools(chainName, timestamp24hAgo)
 }
 
 export default useTopPoolAddresses

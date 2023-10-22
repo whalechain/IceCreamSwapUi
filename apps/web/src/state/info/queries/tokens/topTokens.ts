@@ -73,7 +73,7 @@ const useTopTokenAddresses = (): string[] => {
 export const fetchTokenAddresses = async (chainName: MultiChainName) => {
   const [timestamp24hAgo] = getDeltaTimestamps()
 
-  return await fetchTopTokens(chainName, timestamp24hAgo)
+  return fetchTopTokens(chainName, timestamp24hAgo)
 }
 
 export default useTopTokenAddresses
