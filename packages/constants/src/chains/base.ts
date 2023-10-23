@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const base: IceChain = {
   id: 8453,
   name: 'Base Blockchain',
-  features: ['swap', 'akkaRouter', 'bridge', 'farms'],
+  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'info'],
   network: 'base',
   rpcUrls: {
     public: 'https://developer-access-mainnet.base.org',
