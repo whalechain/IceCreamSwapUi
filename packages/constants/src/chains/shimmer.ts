@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const shimmer: IceChain = {
   id: 148,
   name: 'Shimmer EVM',
-  features: ['swap', 'bridge', 'farms', 'info'],
+  features: ['swap', 'bridge', 'farms', 'info', 'kyc'],
   network: 'shimmer',
   rpcUrls: {
     public: 'https://json-rpc.evm.shimmer.network',
@@ -32,5 +32,10 @@ export const shimmer: IceChain = {
   swap: {
     factoryAddress: "0x24cb308a4e2F3a4352F513681Bd0c31a0bd3BA31",
     initCodeHash: INIT_CODE_HASH,
+  },
+  kyc: {
+    feeToken: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+    fee: 10,
+    feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E'
   },
 }

@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const xdc: IceChain = {
   id: 50,
   name: 'XinFin XDC Network',
-  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'staking', 'locks', 'info'],
+  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'staking', 'locks', 'info', 'kyc'],
   network: 'xdc',
   rpcUrls: {
     public: 'https://erpc.xinfin.network',
@@ -35,5 +35,10 @@ export const xdc: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+  },
+  kyc: {
+    feeToken: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba',
+    fee: 10,
+    feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E'
   },
 }

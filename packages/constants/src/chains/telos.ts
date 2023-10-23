@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const telos: IceChain = {
   id: 40,
   name: 'Telos',
-  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'info'],
+  features: ['swap', 'akkaRouter', 'bridge', 'farms', 'info', 'kyc'],
   network: 'telos',
   rpcUrls: {
     public: 'https://mainnet.telos.net/evm',
@@ -32,5 +32,10 @@ export const telos: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+  },
+  kyc: {
+    feeToken: '0xB25cB6a275a8D6a613228FB161eB3627b50EB696',
+    fee: 10,
+    feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E'
   },
 }
