@@ -9,6 +9,13 @@ const farms: SerializedFarmConfig[] = [
         token: scrollTokens.weth,
         quoteToken: scrollTokens.usdt,
     },
+    {
+        pid: 1,
+        lpSymbol: 'ICE-USDT LP',
+        lpAddress: '0xFEE8F527e3909b3f16CbdA437DA6876dEeA132Ca',
+        token: scrollTokens.ice,
+        quoteToken: scrollTokens.usdt,
+    },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 
 export default farms
