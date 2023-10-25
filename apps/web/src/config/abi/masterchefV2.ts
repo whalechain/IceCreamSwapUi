@@ -311,7 +311,7 @@ export const masterChefV2ABI = [
       { internalType: 'uint256', name: '_pid', type: 'uint256' },
       { internalType: 'address', name: '_user', type: 'address' },
     ],
-    name: 'pendingCake',
+    name: 'pendingIce',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
