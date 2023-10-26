@@ -2262,7 +2262,7 @@
   "The real execution price includes the gas cost necessary to execute your order and guarantees that your order will be executed at the desired price.": "实际执行价格包括执行您的订单所需的 gas 成本，并保证您的订单将以期望的价格执行。",
   "It fluctuates according to gas prices when the order is getting executed.": "它会根据订单执行时的 gas 价格波动。",
   "Assuming the current gas price, this order will never be executed. Try increasing the number of tokens to swap in your order.": "执行订单所需的gas不足，此订单将无法执行。尝试增加要兑换的代币数量。",
-  "XBridge": "跨链桥",
+  "Bridge": "跨链桥",
   "Please switch network": "请切换网络",
   "The URL you are accessing (Chain id: %chainId%) belongs to %network%; mismatching your wallet’s network. Please switch the network to continue.": "您正在访问的 URL（链 ID：%chainId%）属于 %network%；与您的钱包网络不匹配。请切换网络以继续。",
   "Error connecting, please retry and confirm in wallet!": "连接时出错，请重试并在钱包中确认！",
