@@ -1,15 +1,14 @@
 import { EN } from './config/languages'
-import { default as ZHCN } from '../../../locales/zh-CN.json'
 
 export const LS_KEY = 'pancakeswap_language'
 
 export const fetchLocale = async (locale: string) => {
-  if (locale == "zh-CN") {
-    return ZHCN
+  try {
+    return await import(`../../../locales/${locale}.json`)
+  } catch {
+    console.error(`API: Failed to fetch locale ${locale}`)
+    return null
   }
-
-  console.error(`API: Failed to fetch locale ${locale}`)
-  return null
 }
 
 export const getLanguageCodeFromLS = () => {
