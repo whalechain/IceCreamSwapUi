@@ -12,54 +12,15 @@ import { Address } from 'viem'
 import { viemProviders } from './provider'
 import { FarmKV } from './kv'
 
+
 export const V3_SUBGRAPH_CLIENTS = {
-  [ChainId.ETHEREUM]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-eth', {
+  [ChainId.CORE]: new GraphQLClient('https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-core', {
     fetch,
   }),
-  [ChainId.GOERLI]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-goerli', {
-    fetch,
-  }),
-  [ChainId.BSC]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-bsc', { fetch }),
-  [ChainId.BSC_TESTNET]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-chapel', {
-    fetch,
-  }),
-  [ChainId.ZKSYNC_TESTNET]: new GraphQLClient(
-    'https://api.studio.thegraph.com/query/45376/exchange-v3-zksync-testnet/version/latest',
-    {
-      fetch,
-    },
-  ),
-  [ChainId.POLYGON_ZKEVM]: new GraphQLClient(
-    'https://api.studio.thegraph.com/query/45376/exchange-v3-polygon-zkevm/version/latest',
-    {
-      fetch,
-    },
-  ),
-  [ChainId.ZKSYNC]: new GraphQLClient('https://api.studio.thegraph.com/query/45376/exchange-v3-zksync/version/latest', {
-    fetch,
-  }),
-  [ChainId.ARBITRUM_ONE]: new GraphQLClient('https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-arb', {
-    fetch,
-  }),
-  [ChainId.LINEA]: new GraphQLClient('https://graph-query.linea.build/subgraphs/name/pancakeswap/exchange-v3-linea', {
-    fetch,
-  }),
-  [ChainId.BASE]: new GraphQLClient('https://api.studio.thegraph.com/query/45376/exchange-v3-base/version/latest', {
-    fetch,
-  }),
-} satisfies Record<Exclude<FarmV3SupportedChainId, ChainId.POLYGON_ZKEVM_TESTNET>, GraphQLClient>
+} satisfies Record<FarmV3SupportedChainId, GraphQLClient>
 
 const zChainId = z.enum([
-  String(ChainId.BSC),
-  String(ChainId.ETHEREUM),
-  String(ChainId.GOERLI),
-  String(ChainId.BSC_TESTNET),
-  String(ChainId.ZKSYNC_TESTNET),
-  String(ChainId.POLYGON_ZKEVM),
-  String(ChainId.ZKSYNC),
-  String(ChainId.ARBITRUM_ONE),
-  String(ChainId.LINEA),
-  String(ChainId.BASE),
+  String(ChainId.CORE),
 ])
 
 const zAddress = z.string().regex(/^0x[a-fA-F0-9]{40}$/)
@@ -172,7 +133,7 @@ const handler_ = async (req: Request, event: FetchEvent) => {
   }
 
   const { chainId: chainIdString, address: address_ } = parsed.data
-  const chainId = Number(chainIdString) as Exclude<FarmV3SupportedChainId, ChainId.POLYGON_ZKEVM_TESTNET>
+  const chainId: ChainId = Number(chainIdString) as FarmV3SupportedChainId
 
   const address = address_.toLowerCase()
 

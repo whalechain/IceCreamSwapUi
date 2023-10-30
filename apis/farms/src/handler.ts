@@ -6,7 +6,7 @@ import { USD, ICE } from '@pancakeswap/tokens'
 import { farmFetcher } from './helper'
 import { FarmKV, FarmResult } from './kv'
 import { updateLPsAPR } from './lpApr'
-import { bitgertProvider, bscClient } from './provider'
+import { viemProviders } from './provider'
 
 // copy from src/config, should merge them later
 const BSC_BLOCK_TIME = 3
@@ -95,8 +95,8 @@ const iceUsdPairMap = {
 }
 
 const getIcePrice = async () => {
-  const pairConfig = iceUsdPairMap[ChainId.BITGERT]
-  const client = bitgertProvider
+  const pairConfig = iceUsdPairMap[ChainId.CORE]
+  const client = viemProviders({chainId: ChainId.CORE})
   const [reserve0, reserve1] = await client.readContract({
     abi: pairAbi,
     address: pairConfig.address,
@@ -204,12 +204,15 @@ const chainlinkAbi = [
 ] as const
 
 export async function fetchCakePrice() {
+  /*
   const address = '0xB6064eD41d4f67e353768aA239cA86f4F73665a1'
-  const latestAnswer = await bscClient.readContract({
+  const latestAnswer = await viemProviders(ChainId.CORE).readContract({
     abi: chainlinkAbi,
     address,
     functionName: 'latestAnswer',
   })
 
   return formatUnits(latestAnswer, 8)
+  */
+  return 0.
 }
