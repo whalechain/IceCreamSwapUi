@@ -203,7 +203,7 @@ const chainlinkAbi = [
   },
 ] as const
 
-export async function fetchCakePrice() {
+export async function fetchIcePrice() {
   /*
   const address = '0xB6064eD41d4f67e353768aA239cA86f4F73665a1'
   const latestAnswer = await viemProviders(ChainId.CORE).readContract({
@@ -214,5 +214,5 @@ export async function fetchCakePrice() {
 
   return formatUnits(latestAnswer, 8)
   */
-  return 0.
+  return Number((await getIcePrice()).toSignificant())
 }
