@@ -35,8 +35,6 @@ export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
 
 export const V3_SUBGRAPH_URLS = {
   [ChainId.CORE]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-core`,
-  [ChainId.BITGERT]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-bitgert`,
-  [ChainId.XDC]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-xdc`,
 } satisfies Record<ChainId, string>
 
 export const ASSET_CDN = 'https://assets.pancakeswap.finance'
