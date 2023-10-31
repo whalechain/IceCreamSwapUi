@@ -48,7 +48,6 @@ router.get('/price/cake', async (_, event) => {
 
   return response
 })
-const allowedOrigin = /[^\w](pancake\.run)|(localhost:3000)|(icecreamswap.com)$/
 
 router.get('/apr', async ({ query }) => {
   if (typeof query?.key === 'string' && query.key === FORCE_UPDATE_KEY) {
