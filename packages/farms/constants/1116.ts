@@ -2,9 +2,17 @@ import { SerializedFarmConfig } from '..'
 import { defineFarmV3Configs } from '../src/defineFarmV3Configs'
 import { coreTokens } from '@pancakeswap/tokens'
 import { getAddress } from "viem";
+import {FeeAmount} from "@pancakeswap/v3-sdk";
 
 export const farmsV3 = defineFarmV3Configs([
-].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize })))
+    {
+        pid: 1,
+        token0: coreTokens.usdt,
+        token1: coreTokens.ice,
+        lpAddress: '0x0fdC5bD5cDe16F08e82Bb6b70de0ACd1513cEfad',
+        feeAmount: FeeAmount.LOW,
+    },
+])
 
 const farms: SerializedFarmConfig[] = [
     {
