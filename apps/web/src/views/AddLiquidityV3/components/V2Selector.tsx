@@ -7,6 +7,8 @@ import { TOTAL_FEE } from 'config/constants/info'
 
 import HideShowSelectorSection from './HideShowSelectorSection'
 import { HandleFeePoolSelectFn, SELECTOR_TYPE } from '../types'
+import { SUPPORT_SWAP_V3 } from "config/constants/supportChains";
+import { useActiveChainId } from "hooks/useActiveChainId";
 
 export function V2Selector({
   isStable,
@@ -19,6 +21,7 @@ export function V2Selector({
 }) {
   const { t } = useTranslation()
   const [showOptions, setShowOptions] = useState(false)
+  const { chainId } = useActiveChainId()
 
   return (
     <HideShowSelectorSection
@@ -46,7 +49,7 @@ export function V2Selector({
                 StableSwap LP
               </SelectButton>
             </>
-          ) : (
+          ) : SUPPORT_SWAP_V3.includes(chainId) && (
             <>
               <SelectButton
                 isActive={selectorType === SELECTOR_TYPE.V3}

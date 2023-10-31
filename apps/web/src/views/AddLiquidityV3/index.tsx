@@ -47,6 +47,7 @@ import { V2Selector } from './components/V2Selector'
 import V2FormView from './formViews/V2FormView'
 import { AprCalculator } from './components/AprCalculator'
 import { useCurrencyParams } from './hooks/useCurrencyParams'
+import { SUPPORT_SWAP_V3 } from "config/constants/supportChains";
 
 export const BodyWrapper = styled(Card)`
   border-radius: 24px;
@@ -97,6 +98,8 @@ export function UniversalAddLiquidity({
       dispatch(resetMintState())
     }
   }, [dispatch, currencyIdA, currencyIdB])
+
+  const isV2Safe = isV2 || !SUPPORT_SWAP_V3.includes(chainId)
 
   const router = useRouter()
   const baseCurrency = useCurrency(currencyIdA)
@@ -227,18 +230,23 @@ export function UniversalAddLiquidity({
     if (stableConfig.stableSwapConfig) {
       setSelectorType(SELECTOR_TYPE.STABLE)
     } else {
-      setSelectorType(preferredSelectType || isV2 ? SELECTOR_TYPE.V2 : SELECTOR_TYPE.V3)
+      if(!SUPPORT_SWAP_V3.includes(chainId)) {
+        setSelectorType(SELECTOR_TYPE.V2)
+      } else {
+        setSelectorType(preferredSelectType || isV2Safe ? SELECTOR_TYPE.V2 : SELECTOR_TYPE.V3)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currencyIdA,
     currencyIdB,
     feeAmountFromUrl,
-    isV2,
+    isV2Safe,
     preferredSelectType,
     prevPreferredSelectType,
     setSelectorType,
     stableConfig.stableSwapConfig,
+    chainId
   ])
 
   const handleFeePoolSelect = useCallback<HandleFeePoolSelectFn>(
@@ -317,7 +325,7 @@ export function UniversalAddLiquidity({
               />
             </FlexGap>
             <DynamicSection disabled={!baseCurrency || !currencyB}>
-              {!isV2 &&
+              {!isV2Safe &&
                 stableConfig.stableSwapConfig &&
                 [SELECTOR_TYPE.STABLE, SELECTOR_TYPE.V3].includes(selectorType) && (
                   <StableV3Selector
@@ -329,7 +337,7 @@ export function UniversalAddLiquidity({
                   />
                 )}
 
-              {((isV2 && selectorType !== SELECTOR_TYPE.V3) || selectorType === SELECTOR_TYPE.V2) && (
+              {((isV2Safe && selectorType !== SELECTOR_TYPE.V3) || selectorType === SELECTOR_TYPE.V2) && (
                 <V2Selector
                   isStable={Boolean(stableConfig.stableSwapConfig)}
                   selectorType={selectorType}
