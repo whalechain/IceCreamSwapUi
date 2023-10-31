@@ -4,7 +4,7 @@ export const useCakePrice = () => {
   return useSWRImmutable(
     ['cake-usd-price'],
     async () => {
-      const cake = await (await fetch('https://farms-api.pancakeswap.com/price/cake')).json()
+      const cake = await (await fetch('https://farms-api.icecreamswap.com/price/cake')).json()
       return cake.price as string
     },
     {
