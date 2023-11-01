@@ -1,6 +1,7 @@
 import { AutoRow, Button, ChevronDownIcon } from '@pancakeswap/uikit'
 import { LightGreyCard } from 'components/Card'
 import { Dispatch, ReactElement, SetStateAction } from 'react'
+import { useTranslation } from '@pancakeswap/localization'
 
 interface HideShowSelectorSectionPropsType {
   noHideButton?: boolean
@@ -17,6 +18,7 @@ export default function HideShowSelectorSection({
   heading,
   content,
 }: HideShowSelectorSectionPropsType) {
+  const { t } = useTranslation()
   return (
     <LightGreyCard padding="8px" style={{ height: 'fit-content' }}>
       <AutoRow justifyContent="space-between" marginBottom={showOptions ? '8px' : '0px'}>
@@ -37,7 +39,7 @@ export default function HideShowSelectorSection({
               )
             }
           >
-            {showOptions ? 'Hide' : 'More'}
+            {showOptions ? t('Hide') : t('More')}
           </Button>
         )}
       </AutoRow>

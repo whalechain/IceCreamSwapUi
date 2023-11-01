@@ -111,8 +111,8 @@ const DataRow = ({ transaction }: { transaction: Transaction; color?: string }) 
           {transaction.type === TransactionType.MINT
             ? `Add ${token0Symbol} and ${token1Symbol}`
             : transaction.type === TransactionType.SWAP
-            ? `Swap ${inputTokenSymbol} for ${outputTokenSymbol}`
-            : `Remove ${token0Symbol} and ${token1Symbol}`}
+              ? `Swap ${inputTokenSymbol} for ${outputTokenSymbol}`
+              : `Remove ${token0Symbol} and ${token1Symbol}`}
         </Text>
       </ScanLink>
       <Text fontWeight={400}>{formatDollarAmount(transaction.amountUSD)}</Text>
@@ -161,7 +161,7 @@ export default function TransactionTable({
       transactions.filter((x) => {
         return txFilter === undefined || x.type === txFilter
       }).length %
-        maxItems ===
+      maxItems ===
       0
     ) {
       extraPages = 0
@@ -180,18 +180,18 @@ export default function TransactionTable({
   const sortedTransactions = useMemo(() => {
     return transactions
       ? [...transactions]
-          .sort((a, b) => {
-            if (a && b) {
-              return a[sortField as keyof Transaction] > b[sortField as keyof Transaction]
-                ? (sortDirection ? -1 : 1) * 1
-                : (sortDirection ? -1 : 1) * -1
-            }
-            return -1
-          })
-          .filter((x) => {
-            return txFilter === undefined || x.type === txFilter
-          })
-          .slice(maxItems * (page - 1), page * maxItems)
+        .sort((a, b) => {
+          if (a && b) {
+            return a[sortField as keyof Transaction] > b[sortField as keyof Transaction]
+              ? (sortDirection ? -1 : 1) * 1
+              : (sortDirection ? -1 : 1) * -1
+          }
+          return -1
+        })
+        .filter((x) => {
+          return txFilter === undefined || x.type === txFilter
+        })
+        .slice(maxItems * (page - 1), page * maxItems)
       : []
   }, [transactions, maxItems, page, sortField, sortDirection, txFilter])
 
@@ -330,7 +330,7 @@ export default function TransactionTable({
               <ArrowBackIcon color={page <= 1 ? 'textDisabled' : 'primary'} />
             </Arrow>
           </Box>
-          <Text>{`Page ${page} of ${maxPage}`}</Text>
+          <Text>{t('Page %page% of %maxPage%', { page, maxPage })}</Text>
           <Box
             onClick={() => {
               if (page !== maxPage) setPage(page + 1)

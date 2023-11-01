@@ -150,16 +150,16 @@ export default function TokenTable({
   const sortedTokens = useMemo(() => {
     return tokenDatas
       ? tokenDatas
-          .filter((x) => !!x && !TOKEN_HIDE?.[chainId]?.includes(x.address))
-          .sort((a, b) => {
-            if (a && b) {
-              return a[sortField as keyof TokenData] > b[sortField as keyof TokenData]
-                ? (sortDirection ? -1 : 1) * 1
-                : (sortDirection ? -1 : 1) * -1
-            }
-            return -1
-          })
-          .slice(maxItems * (page - 1), page * maxItems)
+        .filter((x) => !!x && !TOKEN_HIDE?.[chainId]?.includes(x.address))
+        .sort((a, b) => {
+          if (a && b) {
+            return a[sortField as keyof TokenData] > b[sortField as keyof TokenData]
+              ? (sortDirection ? -1 : 1) * 1
+              : (sortDirection ? -1 : 1) * -1
+          }
+          return -1
+        })
+        .slice(maxItems * (page - 1), page * maxItems)
       : []
   }, [tokenDatas, maxItems, page, , sortField, sortDirection, chainId])
 
@@ -265,7 +265,7 @@ export default function TokenTable({
                 <ArrowBackIcon color={page === 1 ? 'textDisabled' : 'primary'} />
               </Arrow>
             </Box>
-            <Text>{`Page ${page} of ${maxPage}`}</Text>
+            <Text>{t('Page %page% of %maxPage%', { page, maxPage })}</Text>
             <Box
               onClick={() => {
                 setPage(page === maxPage ? page : page + 1)
