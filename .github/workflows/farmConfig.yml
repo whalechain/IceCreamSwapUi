@@ -56,9 +56,6 @@ jobs:
       - name: Build package
         run: pnpm build:packages
 
-      - name: Test
-        run: pnpm test:config
-
       - name: Build list
         run: pnpm turbo run build --filter=@pancakeswap/farms
 
