@@ -2,7 +2,7 @@ name: Farm Config
 on:
   push:
     branches:
-      - develop
+      - v3_new
     paths:
       - 'packages/farms/constants/**'
       - 'packages/tokens/**'
@@ -64,8 +64,8 @@ jobs:
         if: ${{ env.HAVE_CLOUDFLARE_TOKEN == 'true' }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: b82548875bdb333ff5edcca4d076f88d
+          accountId: 55527ee8a86321adf637abfa76f9a777
           projectName: farms-config
           directory: ./packages/farms/lists
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name == 'develop' && 'master' ||  null  }}
+          branch: ${{ github.ref_name == 'v3_new' && 'IcecreamSwap' ||  null  }}
