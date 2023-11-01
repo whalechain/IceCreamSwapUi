@@ -9,6 +9,7 @@ on:
       - '!packages/tokens/src/common.ts'
       - '!packages/tokens/src/helpers.ts'
       - '!packages/tokens/src/index.ts'
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -64,8 +65,8 @@ jobs:
         if: ${{ env.HAVE_CLOUDFLARE_TOKEN == 'true' }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 55527ee8a86321adf637abfa76f9a777
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: farms-config
           directory: ./packages/farms/lists
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name == 'v3_new' && 'IcecreamSwap' ||  null  }}
+          branch: ${{ github.ref_name == 'IcecreamSwap' && 'master' ||  null  }}
