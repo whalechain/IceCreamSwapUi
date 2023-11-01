@@ -50,7 +50,7 @@ const config = ({ t }: FAQsType) => [
     title: t('UI upgrades'),
     icon: '👨‍💻',
     description: [
-      t('Upgrade from Uniswap based UI to Pancakeswap based UI'),
+      t('Upgrade from Uniswap based UI to IceCreamSwap based UI'),
       t('Upgrade from weekly AirDrops to continuous liquidity farming')
     ],
     reached: '12-2022',
