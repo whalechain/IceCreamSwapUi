@@ -20,17 +20,17 @@ const LP_HOLDERS_FEE = 0.0017
 const WEEKS_IN_A_YEAR = 52.1429
 
 const BLOCKS_CLIENT_WITH_CHAIN = {
-  [ChainId.BITGERT]: 'https://graph.icecreamswap.com/subgraphs/name/simone1999/bitgert-blocks',
-  [ChainId.FUSE]: '',
-  [ChainId.DOGE]: '',
-  [ChainId.DOKEN]: '',
+  [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-bitgert',
+  [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core',
+  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-telos',
+  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-base',
 }
 
 const INFO_CLIENT_WITH_CHAIN = {
-  [ChainId.BITGERT]: 'https://graph.icecreamswap.com/subgraphs/name/simone1999/bitgert-uniswap',
-  [ChainId.FUSE]: '',
-  [ChainId.DOGE]: '',
-  [ChainId.DOKEN]: '',
+  [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-bitgert',
+  [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-core',
+  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-telos',
+  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-base',
 }
 
 const blockClientWithChain = (chainId: ChainId) => {

@@ -1,7 +1,7 @@
 compatibility_date = "2022-05-20"
-# kv_namespaces = [
-#   {binding = "FARMS", id = "043c324a197d4ad09223777189c57eb7", preview_id = ""},
-# ]
+kv_namespaces = [
+  {binding = "FARMS", id = "95860eae19cb420a8061758edd7f0136", preview_id = "971f435d924241398275fa9098ed8fa2"},
+]
 main = "src/index.ts"
 name = "farms-dev"
 node_compat = true
@@ -19,8 +19,8 @@ name = "farms"
 node_compat = true
 [env.production.vars]
 KV_CACHE = true
-# [env.production.triggers]
-# crons = ["0 0 * * *", "*/1 * * * *"]
+[env.production.triggers]
+crons = ["0 0 * * *", "*/1 * * * *"]
 
 # The necessary secrets are:
 # Run `echo <VALUE> | wrangler secret put <NAME>` for each of these
