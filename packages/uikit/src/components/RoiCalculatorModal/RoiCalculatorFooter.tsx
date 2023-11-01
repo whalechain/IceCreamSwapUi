@@ -171,7 +171,7 @@ const RoiCalculatorFooter: React.FC<React.PropsWithChildren<RoiCalculatorFooterP
                 <li>
                   <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline">
                     {t("LP rewards: %percent%% trading fees, distributed proportionally among LP token holders.", {
-                      percent: stableSwapAddress && stableLpFee ? BIG_ONE_HUNDRED.times(stableLpFee).toNumber() : 0.17,
+                      percent: stableSwapAddress && stableLpFee ? BIG_ONE_HUNDRED.times(stableLpFee).toNumber() : 0.25,
                     })}
                   </Text>
                 </li>
