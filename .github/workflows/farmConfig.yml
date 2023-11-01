@@ -50,6 +50,9 @@ jobs:
       - name: Install dependencies
         run: pnpm i --ignore-scripts
 
+      - name: Generate Prisma DB schema
+        run: cd packages/database && pnpm run postinstall
+
       - name: Build package
         run: pnpm build:packages
 
