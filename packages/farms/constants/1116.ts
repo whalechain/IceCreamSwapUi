@@ -27,14 +27,14 @@ const farms: SerializedFarmConfig[] = [
         lpSymbol: 'USDT-CORE LP',
         lpAddress: '0x5ebAE3A840fF34B107D637c8Ed07C3D1D2017178',
         token: coreTokens.usdt,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 17,
         lpSymbol: 'USDT(l0)-CORE LP',
         lpAddress: '0x23A776980962CF489130d8A936D2953fdf3E6Aa1',
         token: coreTokens.usdtl0,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 9,
@@ -48,7 +48,7 @@ const farms: SerializedFarmConfig[] = [
         lpSymbol: 'ICE-CORE LP',
         lpAddress: '0xfee8f527e3909b3f16cbda437da6876deea132ca',
         token: coreTokens.ice,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 4,
@@ -83,7 +83,7 @@ const farms: SerializedFarmConfig[] = [
         lpSymbol: 'SCORE-CORE LP',
         lpAddress: '0x876C62C8C94ca04aFE45a9Ef9DB39799D3CddF34',
         token: coreTokens.score,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 3,
@@ -104,21 +104,21 @@ const farms: SerializedFarmConfig[] = [
         lpSymbol: 'USDC(l0)-CORE LP',
         lpAddress: '0x3A43bBf95106d477230Df2e4C432adEd973deD03',
         token: coreTokens.usdcl0,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 22,
         lpSymbol: 'CTS-CORE LP',
         lpAddress: '0xe06f2645fbddd88e98c5a5d01722ff1499bf51b1',
         token: coreTokens.cts,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 21,
         lpSymbol: 'WOOF-CORE LP',
         lpAddress: '0xc1816acdd64e380b5f69203df96e3d30603e29fc',
         token: coreTokens.woof,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 11,
@@ -146,7 +146,7 @@ const farms: SerializedFarmConfig[] = [
         lpSymbol: 'HUC-CORE LP',
         lpAddress: '0xA51C53fb5B6Ce3755a03AeFa86dFE8340850e33c',
         token: coreTokens.huc,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 13,
@@ -167,7 +167,7 @@ const farms: SerializedFarmConfig[] = [
         lpSymbol: 'CKISHU-CORE LP',
         lpAddress: '0xb737cb83f5e7c365b95e54517f37a67eb3de88a6',
         token: coreTokens.kishu,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: 8,
