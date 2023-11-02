@@ -25,7 +25,7 @@ import {
 } from '@pancakeswap/uikit'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useTheme from 'hooks/useTheme'
-import { ReactNode, useCallback, useState } from 'react'
+import {ReactNode, useCallback, useEffect, useState} from 'react'
 import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 import {
   useAudioPlay,
@@ -266,6 +266,11 @@ function RoutingSettings() {
   const onlyOneAMMSourceEnabled = useOnlyOneAMMSourceEnabled()
   const [isRoutingSettingChange, reset] = useRoutingSettingChanged()
 
+  useEffect(() => {
+    setIsStableSwapByDefault(false)
+    setIsMMLinkedPoolByDefault(false)
+  }, [])
+
   return (
     <Modal
       title={t('Customize Routing')}
@@ -335,6 +340,7 @@ function RoutingSettings() {
               onChange={() => setV2Enable((s) => !s)}
             />
           </Flex>
+          {/*
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
               <Text>IceCreamSwap {t('StableSwap')}</Text>
@@ -387,6 +393,7 @@ function RoutingSettings() {
               scale="md"
             />
           </Flex>
+          */}
           {onlyOneAMMSourceEnabled && (
             <Message variant="warning">
               <MessageText>
