@@ -13,6 +13,8 @@ export const SUPPORT_AKKA_ROUTER = chains.filter((chain) => chain.features.inclu
 export const SUPPORT_STAKING = chains.filter((chain) => chain.features.includes('staking')).map((chain) => chain.id)
 export const SUPPORT_INFO = chains.filter((chain) => chain.features.includes('info')).map((chain) => chain.id)
 export const SUPPORT_BRIDGE = chains.filter((chain) => chain.features.includes('bridge')).map((chain) => chain.id)
+export const SUPPORT_KYC = chains.filter((chain) => chain.features.includes('kyc')).map((chain) => chain.id)
+export const SUPPORT_KYC_DELEGATION = chains.filter((chain) => chain.features.includes('kyc') && chain.kyc.contractKycDelegator).map((chain) => chain.id)
 export const SUPPORT_LOCKS = chains.filter((chain) => chain.features.includes('locks')).map((chain) => chain.id)
 export const SUPPORT_LAUNCHPAD = chains.filter((chain) => chain.features.includes('launchpad')).map((chain) => chain.id)
 export const SUPPORT_TOKEN_DEPLOYER = chains.filter((chain) => chain.features.includes('tokenDeployer')).map((chain) => chain.id)

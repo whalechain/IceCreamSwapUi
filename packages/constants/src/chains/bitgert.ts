@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const bitgert: IceChain = {
   id: 32520,
   name: 'Bitgert Mainnet',
-  features: ['swap', 'akkaRouter', 'bridge', 'info', 'farms', 'staking', 'locks'],
+  features: ['swap', 'akkaRouter', 'bridge', 'info', 'farms', 'staking', 'locks', 'kyc'],
   network: 'bitgert',
   rpcUrls: {
     public: { http: ['https://rpc.icecreamswap.com'] },
@@ -38,5 +38,10 @@ export const bitgert: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+  },
+  kyc: {
+    feeToken: '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D',
+    fee: 10,
+    feeWallet: '0x2Bfd1fc5e25a8F55C2E849492ad7966EA8A0dd9E'
   },
 }

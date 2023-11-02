@@ -63,6 +63,16 @@ const evmNativeStableLpMap: Record<
     wNative: 'WETH',
     stable: 'USDT',
   },
+  [ChainId.SHIMMER]: {
+    address: '0x82A7F6a7C2f54a552349A2C59Ecb3ceca7BF4a60',
+    wNative: 'WSMR',
+    stable: 'USDT',
+  },
+  [ChainId.SCROLL]: {
+    address: '0x98182F51fAcEaca17cAe1aF7b0b94B1E2c2D1BA0',
+    wNative: 'WETH',
+    stable: 'USDT',
+  },
 }
 
 export const getTokenAmount = (balance: BN, decimals: number) => {

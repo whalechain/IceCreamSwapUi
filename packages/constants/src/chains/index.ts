@@ -10,8 +10,25 @@ import { shardeumTestnet } from "./shardeumTestnet";
 import { telos } from "./telos";
 import { shimmerTestnet } from "./shimmerTestnet";
 import { base } from "./base";
+import { shimmer } from "./shimmer"
+import { scroll } from "./scroll"
 
-export const chainMap = { core, bitgert, bsc, xdc, telos, base, dogechain, fuse, xodex, dokenchain, shardeumTestnet, shimmerTestnet }
+export const chainMap = {
+  core,
+  shimmer,
+  bsc,
+  scroll,
+  xdc,
+  telos,
+  bitgert,
+  base,
+  dogechain,
+  fuse,
+  xodex,
+  dokenchain,
+  shardeumTestnet,
+  // shimmerTestnet,
+}
 export const chains = Object.values(chainMap)
 
 export const getChain = (chainId: number) => {
@@ -20,10 +37,12 @@ export const getChain = (chainId: number) => {
 
 export enum ChainId {
   CORE = core.id,
-  BITGERT = bitgert.id,
+  SHIMMER = shimmer.id,
   BSC = bsc.id,
+  SCROLL = scroll.id,
   XDC = xdc.id,
   TELOS = telos.id,
+  BITGERT = bitgert.id,
   BASE = base.id,
   DOGE = dogechain.id,
   FUSE = fuse.id,

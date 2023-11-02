@@ -22,6 +22,8 @@ export const masterChefAddresses: Record<number, `0x${string}`> = {
   40: "0xBD2e577dEa54602C7c367fa144981c8ACA6FD570",
   1072: "0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42",
   8453: "0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42",
+  148: "0xC4b5F645134DDc57c25D44095e5C1318A83C8481",
+  534352: "0x1E0b5202F8D4a247d12528ac865ab73C61Db35Af",
 }
 
 export const masterChefV3Addresses: Record<number, `0x${string}`> = {

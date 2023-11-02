@@ -1,7 +1,7 @@
 import { Chain } from "wagmi";
 import { Address, Hash } from 'viem'
 
-type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer' | 'akkaRouter'
+type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer' | 'akkaRouter' | 'kyc'
 
 interface SwapConfig {
   factoryAddress: Address
@@ -25,12 +25,12 @@ interface TokenDeployerConfig {
 }
 
 interface KycConfig {
-  stableCoin: Address
+  feeToken: Address
   fee: number
   feeWallet: Address
-  tokenAddress: Address
-  contractKycMinter: Address
-  contractKycAddress: Address
+  contractKyced?: Address
+  contractKycDelegator?: Address
+  contractKycDelegations?: Address
 }
 
 interface ChainBase {

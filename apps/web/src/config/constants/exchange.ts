@@ -10,9 +10,11 @@ import {
   shardeumTestnetTokens,
   telosTokens,
   shimmerTestnetTokens,
-  baseTokens
+  baseTokens,
+  shimmerTokens,
+  scrollTokens
 } from '@pancakeswap/tokens'
-import { ChainTokenList } from './types'
+import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
 
 export {
   ADDITIONAL_BASES,
@@ -23,6 +25,7 @@ export {
   CUSTOM_BASES,
 } from '@pancakeswap/smart-router/evm'
 
+// todo: make dynamic for all ChainIds
 export const CHAIN_REFRESH_TIME = {
   [ChainId.BSC]: 6_000,
   [ChainId.BITGERT]: 6_000,
@@ -42,6 +45,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
+  [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt, shimmerTokens.wsmr],
+  [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt, scrollTokens.weth],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -95,6 +100,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
+  [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
+  [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -136,6 +143,16 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.BASE]: [
     [baseTokens.weth, baseTokens.ice],
     [baseTokens.usdt, baseTokens.ice],
+  ],
+  [ChainId.SHIMMER]: [
+    [shimmerTokens.usdt, shimmerTokens.ice],
+    [shimmerTokens.wsmr, shimmerTokens.ice],
+    [shimmerTokens.wsmr, shimmerTokens.usdt],
+  ],
+  [ChainId.SCROLL]: [
+    [scrollTokens.usdt, scrollTokens.ice],
+    [scrollTokens.weth, scrollTokens.ice],
+    [scrollTokens.weth, scrollTokens.usdt],
   ],
 }
 

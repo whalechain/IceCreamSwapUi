@@ -10,6 +10,8 @@ import { shardeumTestnetTokens } from "./8081";
 import {telosTokens} from "./40";
 import { shimmerTestnetTokens } from "./1072";
 import { baseTokens } from "./8453";
+import { shimmerTokens } from "./148";
+import { scrollTokens } from "./534352";
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
@@ -23,6 +25,8 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.TELOS]: telosTokens.usdt,
   [ChainId.SHIMMER_TEST]: shimmerTestnetTokens.usdt,
   [ChainId.BASE]: baseTokens.usdt,
+  [ChainId.SHIMMER]: shimmerTokens.usdt,
+  [ChainId.SCROLL]: scrollTokens.usdt,
 }
 export const STABLE_COIN = USD
 
@@ -39,4 +43,6 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.TELOS]: telosTokens.ice,
   [ChainId.SHIMMER_TEST]: shimmerTestnetTokens.ice,
   [ChainId.BASE]: baseTokens.ice,
+  [ChainId.SHIMMER]: shimmerTokens.ice,
+  [ChainId.SCROLL]: scrollTokens.ice,
 }
