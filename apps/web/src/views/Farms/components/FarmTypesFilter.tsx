@@ -144,6 +144,7 @@ export const FarmTypesFilter: React.FC<FarmTypesFilterProps> = ({
                     />
                   </ToggleWrapper>
                 </StyledItemRow>
+                {/*
                 <StyledItemRow alignItems="center" px="16px" py="8px" ml="8px" mt="8px">
                   <RocketIcon />
                   <Text fontSize={16} ml="10px" style={{ flex: 1 }} bold>
@@ -181,6 +182,7 @@ export const FarmTypesFilter: React.FC<FarmTypesFilterProps> = ({
                     />
                   </ToggleWrapper>
                 </StyledItemRow>
+                */}
               </Box>
             </Box>
           </InlineMenu>
