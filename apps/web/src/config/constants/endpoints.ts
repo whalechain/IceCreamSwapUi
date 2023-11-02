@@ -20,7 +20,7 @@ export const INFO_CLIENT_WITH_CHAIN = {
   [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-shimmer',
 }
 
-export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
+export const BLOCKS_CLIENT_WITH_CHAIN = {
   [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-bitgert',
   [ChainId.XDC]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-xdc',
   [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core',
