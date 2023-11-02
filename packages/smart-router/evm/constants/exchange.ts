@@ -1,21 +1,25 @@
 import { ChainId, Token } from '@pancakeswap/sdk'
 import { ChainMap, ChainTokenList } from '../types'
 import {
-  baseTokens,
   bitgertTokens,
   coreTokens,
   dogechainTokens,
   dokenTokens,
-  fuseTokens, telosTokens,
+  fuseTokens,
   xdcTokens,
-  xodexTokens
+  xodexTokens,
+  shardeumTestnetTokens,
+  telosTokens,
+  shimmerTestnetTokens,
+  baseTokens,
+  shimmerTokens,
+  scrollTokens
 } from "@pancakeswap/tokens";
 import { chains } from "@icecreamswap/constants";
 import { Address } from "viem";
 
 export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
   [ChainId.CORE]: '0x3245b934D8A2bd0Ad93e679F35A6EFcf231966Aa',
-  [ChainId.XDC]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
 } as const
 
 export const V2_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {
@@ -47,8 +51,12 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
   [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.ice, coreTokens.usdt],
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
+  [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
+  [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
+  [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
 }
 
 /**

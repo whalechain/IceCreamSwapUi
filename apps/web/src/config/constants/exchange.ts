@@ -14,7 +14,7 @@ import {
   shimmerTokens,
   scrollTokens
 } from '@pancakeswap/tokens'
-import { ChainMap, ChainTokenList, RouterAddressTypes } from './types'
+import { ChainTokenList } from './types'
 
 export {
   ADDITIONAL_BASES,

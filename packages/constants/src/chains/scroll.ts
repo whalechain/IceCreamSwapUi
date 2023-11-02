@@ -1,4 +1,4 @@
-import { INIT_CODE_HASH } from '../common/swap'
+import {FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS} from '../common/swap'
 import IceChain from '../ice-chain'
 
 export const scroll: IceChain = {
@@ -7,8 +7,8 @@ export const scroll: IceChain = {
   features: ['swap', 'bridge', 'farms', 'kyc', 'info'],
   network: 'scroll',
   rpcUrls: {
-    public: 'https://rpc-scroll.icecreamswap.com',
-    default: 'https://rpc-scroll.icecreamswap.com',
+    public: { http: ['https://rpc-scroll.icecreamswap.com'] },
+    default: { http: ['https://rpc-scroll.icecreamswap.com'] },
   },
   blockExplorers: {
     default: { name: 'Scroll Explorer', url: 'https://scrollscan.com/' },
@@ -18,9 +18,11 @@ export const scroll: IceChain = {
     symbol: 'ETH',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 85060,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 85060,
+    },
   },
   blockInterval: 3,
   wrappedNative: {
@@ -30,7 +32,8 @@ export const scroll: IceChain = {
     name: 'Wrapped Ether',
   },
   swap: {
-    factoryAddress: "0x9e6d21e759a7a288b80eef94e4737d313d31c13f",
+    factoryAddress: FACTORY_ADDRESS,
+    routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
   kyc: {

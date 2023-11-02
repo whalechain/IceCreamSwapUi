@@ -7,8 +7,8 @@ export const shimmer: IceChain = {
   features: ['swap', 'bridge', 'farms', 'info', 'kyc'],
   network: 'shimmer',
   rpcUrls: {
-    public: 'https://json-rpc.evm.shimmer.network',
-    default: 'https://json-rpc.evm.shimmer.network',
+    public: { http: ['https://json-rpc.evm.shimmer.network'] },
+    default: { http: ['https://json-rpc.evm.shimmer.network'] },
   },
   blockExplorers: {
     default: { name: 'Shimmer EVM Explorer', url: 'https://explorer.evm.shimmer.network/' },
@@ -18,9 +18,11 @@ export const shimmer: IceChain = {
     symbol: 'SMR',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 35400,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 35400,
+    },
   },
   blockInterval: 3,
   wrappedNative: {
@@ -31,6 +33,7 @@ export const shimmer: IceChain = {
   },
   swap: {
     factoryAddress: "0x24cb308a4e2F3a4352F513681Bd0c31a0bd3BA31",
+    routerAddress: "0xBbB4CCfc93657AC125F4b1f734111349d1bFF611",
     initCodeHash: INIT_CODE_HASH,
   },
   kyc: {

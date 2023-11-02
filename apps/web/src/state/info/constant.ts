@@ -1,18 +1,7 @@
 import { infoStableSwapClient } from "utils/graphql"
 import {
-  INFO_CLIENT_BITGERT,
-  BLOCKS_CLIENT_BITGERT,
-  INFO_CLIENT_XDC,
-  INFO_CLIENT_CORE,
-  BLOCKS_CLIENT_XDC,
-  BLOCKS_CLIENT_CORE,
-  INFO_CLIENT_SCROLL,
-  BLOCKS_CLIENT_SCROLL,
-  INFO_CLIENT_TELOS,
-  INFO_CLIENT_BASE,
-  INFO_CLIENT_SHIMMER,
-  BLOCKS_CLIENT_TELOS,
-  BLOCKS_CLIENT_BASE, BLOCKS_CLIENT_SHIMMER
+  BLOCKS_CLIENT_WITH_CHAIN,
+  INFO_CLIENT_WITH_CHAIN
 } from "config/constants/endpoints";
 import { ChainId } from '@pancakeswap/sdk'
 import {
@@ -30,6 +19,7 @@ import { chains } from '@icecreamswap/constants'
 export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL' | 'TELOS' | 'BASE' | 'SHIMMER' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET'
 export type MultiChainNameExtend = MultiChainName
 
+// todo: make dynamic
 export const multiChainQueryMainToken = {
   BITGERT: 'ETH',
   XDC: 'ETH',
@@ -40,16 +30,18 @@ export const multiChainQueryMainToken = {
   SHIMMER: 'ETH',
 }
 
+// todo: make dynamic
 export const multiChainBlocksClient = {
-  BITGERT: BLOCKS_CLIENT_BITGERT,
-  XDC: BLOCKS_CLIENT_XDC,
-  CORE: BLOCKS_CLIENT_CORE,
-  SCROLL: BLOCKS_CLIENT_SCROLL,
-  TELOS: BLOCKS_CLIENT_TELOS,
-  BASE: BLOCKS_CLIENT_BASE,
-  SHIMMER: BLOCKS_CLIENT_SHIMMER,
+  BITGERT: BLOCKS_CLIENT_WITH_CHAIN[ChainId.BITGERT],
+  XDC: BLOCKS_CLIENT_WITH_CHAIN[ChainId.XDC],
+  CORE: BLOCKS_CLIENT_WITH_CHAIN[ChainId.CORE],
+  SCROLL: BLOCKS_CLIENT_WITH_CHAIN[ChainId.SCROLL],
+  TELOS: BLOCKS_CLIENT_WITH_CHAIN[ChainId.TELOS],
+  BASE: BLOCKS_CLIENT_WITH_CHAIN[ChainId.BASE],
+  SHIMMER: BLOCKS_CLIENT_WITH_CHAIN[ChainId.SHIMMER],
 }
 
+// todo: make dynamic
 export const multiChainStartTime = {
   BITGERT: PCS_BITGERT_START,
   XDC: PCS_XDC_START,
@@ -60,6 +52,7 @@ export const multiChainStartTime = {
   SHIMMER: PCS_SHIMMER_START,
 }
 
+// todo: make dynamic
 export const multiChainId = {
   BITGERT: ChainId.BITGERT,
   XDC: ChainId.XDC,
@@ -70,6 +63,7 @@ export const multiChainId = {
   SHIMMER: ChainId.SHIMMER,
 }
 
+// todo: make dynamic
 export const multiChainPaths = {
   [ChainId.BITGERT]: '',
   [ChainId.XDC]: '',
@@ -80,28 +74,20 @@ export const multiChainPaths = {
   [ChainId.SHIMMER]: '',
 }
 
+// todo: make dynamic
 // @ts-ignore fix missing queryClients
 export const multiChainQueryClient: Record<MultiChainName, GraphQLClient> = {
-  BITGERT: new GraphQLClient(INFO_CLIENT_BITGERT),
-  XDC: new GraphQLClient(INFO_CLIENT_XDC),
-  CORE: new GraphQLClient(INFO_CLIENT_CORE),
-  SCROLL: new GraphQLClient(INFO_CLIENT_SCROLL),
-  TELOS: new GraphQLClient(INFO_CLIENT_TELOS),
-  BASE: new GraphQLClient(INFO_CLIENT_BASE),
-  SHIMMER: new GraphQLClient(INFO_CLIENT_SHIMMER),
+  BITGERT: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.BITGERT]),
+  XDC: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.XDC]),
+  CORE: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.CORE]),
+  SCROLL: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.SCROLL]),
+  TELOS: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.TELOS]),
+  BASE: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.BASE]),
+  SHIMMER: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[ChainId.SHIMMER]),
 }
 
-export const multiChainQueryEndPoint = {
-  BITGERT: INFO_CLIENT_BITGERT,
-  XDC: INFO_CLIENT_XDC,
-  CORE: INFO_CLIENT_CORE,
-  SCROLL: INFO_CLIENT_SCROLL,
-  TELOS: INFO_CLIENT_TELOS,
-  BASE: INFO_CLIENT_BASE,
-  SHIMMER: INFO_CLIENT_SHIMMER,
-}
-
-export const multiChainScan: Record<MultiChainName, string> = { = {
+// todo: make dynamic
+export const multiChainScan: Record<MultiChainName, string> = {
   BITGERT: 'BriseScan',
   BSC: 'BscScan',
   DOGECHAIN: 'DogeScan',
@@ -118,6 +104,7 @@ export const multiChainScan: Record<MultiChainName, string> = { = {
   SHIMMER: 'ShimmerScan',
 }
 
+// todo: make dynamic
 export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {
   BITGERT: [''],
   DOGECHAIN: [''],
@@ -135,6 +122,7 @@ export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {
   SHIMMER: [''],
 }
 
+// todo: make dynamic
 export const multiChainTokenWhiteList: Record<MultiChainName, string[]> = {
   BITGERT: [''],
   DOGECHAIN: [''],
@@ -163,7 +151,5 @@ export const checkIsStableSwap = () => window.location.href.includes('stableSwap
 export const multiChainName: Record<number | string, MultiChainNameExtend> = chains.reduce((acc, chain) => {
   return {...acc, [chain.id]: chain.network.toUpperCase() as MultiChainName}
 }, {})
-
-export const v2SubgraphTokenName = chains.map((chain) => chain.network.toUpperCase())
 
 export const subgraphTokenSymbol = {}
