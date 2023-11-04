@@ -53,7 +53,7 @@ export const ROUTER_ADDRESS: Partial<ChainMap<RouterAddressTypes>> = {
     Icecream: ROUTER_ADDRESS_COMMON,
   },
   [ChainId.SHARDEUM_TEST]: {
-    Icecream: "0x43891084581fD07Ee1189f3a2f04e51c26a95B77",
+    Icecream: "0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62",
   },
   [ChainId.TELOS]: {
     Icecream: ROUTER_ADDRESS_COMMON,

@@ -10,7 +10,7 @@ import logo50 from '../../../public/images/chains/50.png'
 import logo56 from '../../../public/images/chains/56.png'
 import logo1116 from '../../../public/images/chains/1116.png'
 import logo2415 from '../../../public/images/chains/2415.png'
-import logo8081 from '../../../public/images/chains/8081.png'
+import logo8082 from '../../../public/images/chains/8082.png'
 import logo40 from '../../../public/images/chains/40.png'
 import logo1072 from '../../../public/images/chains/1072.png'
 import logo8453 from '../../../public/images/chains/8453.png'
@@ -27,7 +27,7 @@ const logoMap: Record<ChainId, StaticImageData> = {
   56: logo56,
   1116: logo1116,
   2415: logo2415,
-  8081: logo8081,
+  8082: logo8082,
   40: logo40,
   8453: logo8453,
   1072: logo1072,

@@ -2,16 +2,16 @@ import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
 import IceChain from '../ice-chain'
 
 export const shardeumTestnet: IceChain = {
-  id: 8081,
+  id: 8082,
   name: 'Shardeum(Testnet)',
   features: ['swap'],
   network: 'shardeumTestnet',
   rpcUrls: {
-    public: 'https://dapps.shardeum.org',
-    default: 'https://dapps.shardeum.org',
+    public: 'https://sphinx.shardeum.org',
+    default: 'https://sphinx.shardeum.org',
   },
   blockExplorers: {
-    default: { name: 'Shardeum(Testnet) Explorer', url: 'https://explorer-dapps.shardeum.org' },
+    default: { name: 'Shardeum(Testnet) Explorer', url: 'https://explorer-sphinx.shardeum.org' },
   },
   nativeCurrency: {
     name: 'Shardeum',
@@ -19,12 +19,12 @@ export const shardeumTestnet: IceChain = {
     decimals: 18,
   },
   multicall: {
-    address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
-    blockCreated: 5377,
+    address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
+    blockCreated: 4015,
   },
   blockInterval: 60,
   wrappedNative: {
-    address: '0x1DAcbaB28Decd115c8AA6F183877C71b942aE406',
+    address: '0xBb5e1777A331ED93E07cF043363e48d320eb96c4',
     decimals: 18,
     symbol: 'WSHM',
     name: 'Wrapped Shardeum',
