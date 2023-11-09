@@ -146,8 +146,8 @@ export default function Home() {
               volumeWindow === VolumeWindow.monthly
                 ? monthlyVolumeData
                 : volumeWindow === VolumeWindow.weekly
-                ? weeklyVolumeData
-                : formattedVolumeData
+                  ? weeklyVolumeData
+                  : formattedVolumeData
             }
             color={theme.colors.primary}
             setValue={setVolumeHover}
@@ -162,7 +162,7 @@ export default function Home() {
                   variant={volumeWindow === VolumeWindow.daily ? 'primary' : 'bubblegum'}
                   onClick={() => setVolumeWindow(VolumeWindow.daily)}
                 >
-                  D
+                  {t('D')}
                 </Button>
                 <Button
                   scale="sm"
@@ -170,7 +170,7 @@ export default function Home() {
                   style={{ marginLeft: '8px' }}
                   onClick={() => setVolumeWindow(VolumeWindow.weekly)}
                 >
-                  W
+                  {t('W')}
                 </Button>
                 <Button
                   variant={volumeWindow === VolumeWindow.monthly ? 'primary' : 'bubblegum'}
@@ -178,7 +178,7 @@ export default function Home() {
                   style={{ marginLeft: '8px' }}
                   onClick={() => setVolumeWindow(VolumeWindow.monthly)}
                 >
-                  M
+                  {t('M')}
                 </Button>
               </RowFixed>
             }
