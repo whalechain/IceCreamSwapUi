@@ -53,6 +53,18 @@ export const useAkkaRouterApi = (
   const methodName = 'multiPathSwap'
   const API_URL = chainId === ChainId.BASE ? 'https://devapi.akka.foundation' : 'https://api.akka.foundation'
   const isAkkaSupportedChain = SUPPORT_AKKA_ROUTER.includes(chainId)
+  
+  // Turn off akka on switch chain
+  useEffect(() => {
+    if (isAkkaSupportedChain) {
+      toggleSetAkkaActiveToTrue()
+      toggleSetAkkaModeToFalse()
+    } else {
+      toggleSetAkkaActiveToFalse()
+      toggleSetAkkaModeToFalse()
+    }
+  }, [chainId])
+
   // Take swap information from pancakeswap router
   const fetcher: Fetcher<AkkaRouterResponseType> = async (url) => {
     setIsRouteLoading(true)

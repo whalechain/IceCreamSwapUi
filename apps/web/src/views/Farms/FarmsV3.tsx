@@ -259,7 +259,6 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const activeFarms = farmsLP.filter(
     (farm) =>
-      farm.pid !== 0 &&
       farm.multiplier !== '0X' &&
       (farm.version === 3 ? !v3PoolLength || v3PoolLength >= farm.pid : !v2PoolLength || v2PoolLength > farm.pid),
   )

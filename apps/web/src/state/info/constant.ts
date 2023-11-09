@@ -1,101 +1,66 @@
 import { infoStableSwapClient } from "utils/graphql"
 import {
-  INFO_CLIENT_BITGERT,
-  BLOCKS_CLIENT_BITGERT,
-  INFO_CLIENT_XDC,
-  INFO_CLIENT_CORE,
-  BLOCKS_CLIENT_XDC,
-  BLOCKS_CLIENT_CORE,
-} from "config/constants/endpoints"
+  BLOCKS_CLIENT_WITH_CHAIN,
+  INFO_CLIENT_WITH_CHAIN
+} from "config/constants/endpoints";
 import { ChainId } from '@pancakeswap/sdk'
-import { PCS_BITGERT_START, PCS_CORE_START, PCS_XDC_START } from "config/constants/info"
+import {
+  PCS_BITGERT_START,
+  PCS_CORE_START,
+  PCS_SCROLL_START,
+  PCS_XDC_START,
+  PCS_TELOS_START,
+  PCS_BASE_START,
+  PCS_SHIMMER_START,
+} from "config/constants/info";
 import { GraphQLClient } from 'graphql-request'
 import { chains } from '@icecreamswap/constants'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'BASE' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET' | 'TELOS'
+export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL' | 'TELOS' | 'BASE' | 'SHIMMER' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET'
 export type MultiChainNameExtend = MultiChainName
 
-export const multiChainQueryMainToken = {
-  BITGERT: 'ETH',
-  XDC: 'ETH',
-  CORE: 'ETH',
-}
+export const multiChainQueryMainToken = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: 'ETH'}
+), {}) as Record<MultiChainName, string>
 
-export const multiChainBlocksClient = {
-  BITGERT: BLOCKS_CLIENT_BITGERT,
-  XDC: BLOCKS_CLIENT_XDC,
-  CORE: BLOCKS_CLIENT_CORE,
-}
+export const multiChainBlocksClient = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: BLOCKS_CLIENT_WITH_CHAIN[chain.id]}
+), {}) as Record<MultiChainName, string>
 
+// todo: add to constants package
 export const multiChainStartTime = {
   BITGERT: PCS_BITGERT_START,
   XDC: PCS_XDC_START,
   CORE: PCS_CORE_START,
+  SCROLL: PCS_SCROLL_START,
+  TELOS: PCS_TELOS_START,
+  BASE: PCS_BASE_START,
+  SHIMMER: PCS_SHIMMER_START,
 }
 
-export const multiChainId = {
-  BITGERT: ChainId.BITGERT,
-  XDC: ChainId.XDC,
-  CORE: ChainId.CORE,
-}
+export const multiChainId = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: chain.id}
+), {}) as Record<MultiChainName, ChainId>
 
-export const multiChainPaths = {
-  [ChainId.BITGERT]: '',
-  [ChainId.XDC]: '',
-  [ChainId.CORE]: '',
-}
+export const multiChainPaths = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: ''}
+), {}) as Record<MultiChainName, string>
 
-// @ts-ignore fix missing queryClients
-export const multiChainQueryClient: Record<MultiChainName, GraphQLClient> = {
-  BITGERT: new GraphQLClient(INFO_CLIENT_BITGERT),
-  XDC: new GraphQLClient(INFO_CLIENT_XDC),
-  CORE: new GraphQLClient(INFO_CLIENT_CORE),
-}
+export const multiChainQueryClient = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[chain.id])}
+), {}) as Record<MultiChainName, GraphQLClient>
 
-export const multiChainScan: Record<MultiChainName, string> = {
-  BITGERT: 'BriseScan',
-  BSC: 'BscScan',
-  DOGECHAIN: 'DogeScan',
-  DOKEN: 'DokenScan',
-  FUSE: 'FuseScan',
-  XDC: 'XDCScan',
-  CORE: 'CoreScan',
-  XODEX: 'XODEXScan',
-  SHARDEUM_TESTNET: 'ShardeumTestnetScan',
-  SHIMMER_TESTNET: 'ShimmerTestnetScan',
-  BASE: 'BaseScan',
-  TELOS: 'TelosScan',
-}
+export const multiChainScan = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: `${chain.network.charAt(0).toUpperCase() + chain.network.slice(1)}Scan`}
+), {}) as Record<MultiChainName, string>
 
-export const multiChainTokenBlackList: Record<MultiChainName, string[]> = {
-  BITGERT: [''],
-  DOGECHAIN: [''],
-  DOKEN: [''],
-  FUSE: [''],
-  XDC: [''],
-  CORE: [''],
-  XODEX: [''],
-  BSC: [''],
-  SHARDEUM_TESTNET: [''],
-  SHIMMER_TESTNET: [''],
-  BASE: [''],
-  TELOS: [''],
-}
+export const multiChainTokenBlackList = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: ['']}
+), {}) as Record<MultiChainName, string>
 
-export const multiChainTokenWhiteList: Record<MultiChainName, string[]> = {
-  BITGERT: [''],
-  DOGECHAIN: [''],
-  DOKEN: [''],
-  FUSE: [''],
-  XDC: [''],
-  CORE: [''],
-  XODEX: [''],
-  BSC: [''],
-  SHARDEUM_TESTNET: [''],
-  SHIMMER_TESTNET: [''],
-  BASE: [''],
-  TELOS: [''],
-}
+export const multiChainTokenWhiteList = chains.reduce((acc, chain) => (
+    {...acc, [chain.network.toUpperCase()]: ['']}
+), {}) as Record<MultiChainName, string>
 
 export const getMultiChainQueryEndPointWithStableSwap = (chainName: MultiChainName) => {
   const isStableSwap = checkIsStableSwap()
@@ -108,7 +73,5 @@ export const checkIsStableSwap = () => window.location.href.includes('stableSwap
 export const multiChainName: Record<number | string, MultiChainNameExtend> = chains.reduce((acc, chain) => {
   return {...acc, [chain.id]: chain.network.toUpperCase() as MultiChainName}
 }, {})
-
-export const v2SubgraphTokenName = chains.map((chain) => chain.network.toUpperCase())
 
 export const subgraphTokenSymbol = {}

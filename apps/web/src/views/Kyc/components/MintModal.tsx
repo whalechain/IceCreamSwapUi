@@ -29,7 +29,7 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
   const chain = useActiveChain()
   const { address, status } = useAccount()
   const submitDelegation = useSubmitDelegation(chain.id, address, target)
-  const minter = useContract(chain.kyc?.contractKycMinter, kycMinterABI)
+  const minter = useContract(chain.kyc?.contractKycDelegator, kycMinterABI)
   const fee = useSWR(minter && 'kyc/fee', async () => {
     const feeAmount = await minter.read.feeAmount()
     const feeToken = await minter.read.feeToken()
@@ -74,7 +74,7 @@ const BuyModal: React.FC<DepositModalProps> = (props) => {
           token?.decimals || 18,
         ) as any,
       ),
-    chain.kyc?.contractKycMinter,
+    chain.kyc?.contractKycDelegator,
     {addToTransaction: true}
   )
 

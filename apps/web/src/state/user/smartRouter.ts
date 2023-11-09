@@ -34,7 +34,7 @@ export function useOnlyOneAMMSourceEnabled() {
 const derivedRoutingSettingChangedAtom = atom(
   (get) => {
     return [
-      get(userUseStableSwapAtom),
+      !get(userUseStableSwapAtom),
       get(userUseV2SwapAtom),
       get(userUseV3SwapAtom),
       get(userUserSplitRouteAtom),
@@ -42,7 +42,7 @@ const derivedRoutingSettingChangedAtom = atom(
     ].some((x) => x === false)
   },
   (_, set) => {
-    set(userUseStableSwapAtom, true)
+    set(userUseStableSwapAtom, false)
     set(userUseV2SwapAtom, true)
     set(userUseV3SwapAtom, true)
     set(userUserSplitRouteAtom, true)

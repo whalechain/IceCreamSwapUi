@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   })
   const kyc = getContract({
     abi: kycABI,
-    address: chainMap.core.kyc.tokenAddress,
+    address: chainMap.core.kyc.contractKyced,
     chainId: ChainId.CORE,
     signer: walletClient,
   })

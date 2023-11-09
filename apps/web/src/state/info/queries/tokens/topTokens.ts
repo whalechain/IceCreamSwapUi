@@ -32,7 +32,7 @@ const fetchTopTokens = async (chainName: MultiChainNameExtend, timestamp24hAgo: 
   const whereCondition =
     checkIsStableSwap()
       ? ''
-      : `where: { dailyTxns_gt: 300, id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
+      : `where: { id_not_in: $blacklist, date_gt: ${timestamp24hAgo}}`
   const firstCount = 50
   try {
     const query = gql`
@@ -108,9 +108,7 @@ const useTopTokenAddresses = (): string[] => {
 export const fetchTokenAddresses = async (chainName: MultiChainNameExtend) => {
   const [timestamp24hAgo] = getDeltaTimestamps()
 
-  const addresses = await fetchTopTokens(chainName, timestamp24hAgo)
-
-  return addresses
+  return fetchTopTokens(chainName, timestamp24hAgo)
 }
 
 export default useTopTokenAddresses

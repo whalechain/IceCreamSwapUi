@@ -1,16 +1,5 @@
 import { ChainId } from '@pancakeswap/sdk'
 
-export const INFO_CLIENT_BITGERT = 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-bitgert'
-export const BLOCKS_CLIENT_BITGERT = 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-bitgert'
-
-export const INFO_CLIENT_XDC = 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-xdc'
-export const BLOCKS_CLIENT_XDC = 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-xdc'
-
-export const INFO_CLIENT_CORE = 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-core'
-export const BLOCKS_CLIENT_CORE = 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core'
-
-
-
 export const STABLESWAP_SUBGRAPH_CLIENT = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-stableswap'
 
 export const FARM_API = 'https://farms.pancake-swap.workers.dev'
@@ -22,15 +11,23 @@ export const ONRAMP_API_BASE_URL = 'https://pcs-on-ramp-api.com'
 export const CELER_API = 'https://api.celerscan.com/scan'
 
 export const INFO_CLIENT_WITH_CHAIN = {
-  [ChainId.BITGERT]: INFO_CLIENT_BITGERT,
-  [ChainId.XDC]: INFO_CLIENT_XDC,
-  [ChainId.CORE]: INFO_CLIENT_CORE,
+  [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-bitgert',
+  [ChainId.XDC]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-xdc',
+  [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-core',
+  [ChainId.SCROLL]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-scroll',
+  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-telos',
+  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-base',
+  [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-shimmer',
 }
 
-export const BLOCKS_CLIENT_WITH_CHAIN: Partial<Record<ChainId, string>> = {
-  [ChainId.BITGERT]: BLOCKS_CLIENT_BITGERT,
-  [ChainId.XDC]: BLOCKS_CLIENT_XDC,
-  [ChainId.CORE]: BLOCKS_CLIENT_CORE,
+export const BLOCKS_CLIENT_WITH_CHAIN = {
+  [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-bitgert',
+  [ChainId.XDC]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-xdc',
+  [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core',
+  [ChainId.SCROLL]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-scroll',
+  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-telos',
+  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-base',
+  [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-shimmer',
 }
 
 export const V3_SUBGRAPH_URLS = {
