@@ -89,7 +89,7 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     const data = encodeAbiParameters(
       parseAbiParameters('uint256 amount, uint256 addressLength'),
       [amountBI, BigInt((recipient.length - 2) / 2)]
-    ) + recipient.substring(2)
+    ) + recipient.substring(2) as `0x${string}`
 
     try {
       const handlerAddress = await homeBridge.read._resourceIDToHandlerAddress([token.resourceId as `0x${string}`])
