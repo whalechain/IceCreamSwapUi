@@ -13,8 +13,9 @@ const sousStake = async (sousChefContract, amount, decimals = 18) => {
 }
 
 const sousStakeBnb = async (sousChefContract, amount) => {
-  return sousChefContract.write.deposit([new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString()], {
+  return sousChefContract.write.deposit([], {
     ...options,
+    value: new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString(),
   })
 }
 
