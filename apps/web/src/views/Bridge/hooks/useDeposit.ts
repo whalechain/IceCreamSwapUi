@@ -87,9 +87,9 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
     const amountBI = parseUnits(amount, erc20Decimals)
 
     const data = encodeAbiParameters(
-      parseAbiParameters('uint256 amount, uint256 addressLeng, bytes recipientAddress'),
-      [amountBI, BigInt((recipient.length - 2) / 2), recipient]
-    )
+      parseAbiParameters('uint256 amount, uint256 addressLength'),
+      [amountBI, BigInt((recipient.length - 2) / 2)]
+    ) + recipient.substring(2) as `0x${string}`
 
     try {
       const handlerAddress = await homeBridge.read._resourceIDToHandlerAddress([token.resourceId as `0x${string}`])
@@ -122,13 +122,17 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
       const depositReceipt = await publicClient.waitForTransactionReceipt({hash: depositTransaction})
       // const depositReceipt = await waitForTransaction({hash: depositTransaction})
       const depositLogs = depositReceipt.logs.map(log => {
-        const event = decodeEventLog({
-          abi: bridgeABI,
-          data: log.data,
-          topics: log.topics
-        })
-        return event
-      })
+        try {
+          const event = decodeEventLog({
+            abi: bridgeABI,
+            data: log.data,
+            topics: log.topics,
+          })
+          return event
+        } catch {
+          return undefined
+        }
+      }).filter(log => !!log)
 
       setHomeTransferTxHash(depositTransaction)
       const depositEvent = depositLogs.find((event) => event.eventName === 'Deposit')

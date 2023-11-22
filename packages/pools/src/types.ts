@@ -28,6 +28,7 @@ export interface LegacyPoolConfigBaseProps {
   isFinished?: boolean
   enableEmergencyWithdraw?: boolean
   version?: number
+  fixedApr?: number
 }
 
 export interface PoolConfigBaseProps {

@@ -230,7 +230,9 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
       }
       const totalStaked = getBalanceNumber(new BigNumber(totalStaking.totalStaked), pool.stakingToken.decimals)
       const apr = !isPoolFinished
-        ? isLegacyPool(pool)
+        ? (pool as any).fixedApr
+          ? Number((pool as any).fixedApr)
+          :isLegacyPool(pool)
           ? getPoolAprByTokenPerBlock(stakingTokenPrice, earningTokenPrice, totalStaked, parseFloat(pool.tokenPerBlock), chainId)
           : getPoolAprByTokenPerSecond(
               stakingTokenPrice,

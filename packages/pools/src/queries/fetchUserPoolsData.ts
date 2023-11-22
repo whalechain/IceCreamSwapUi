@@ -1,4 +1,4 @@
-import { ChainId } from '@pancakeswap/sdk'
+import {ChainId, WETH9} from '@pancakeswap/sdk'
 import BigNumber from 'bignumber.js'
 import uniq from 'lodash/uniq'
 import fromPairs from 'lodash/fromPairs'
@@ -17,9 +17,9 @@ const getPoolsFactory = (filter: (pool: SerializedPool) => boolean) => (chainId:
   }
   return poolsConfig.filter(filter)
 }
-const getNonBnbPools = getPoolsFactory((pool) => pool.stakingToken.symbol !== 'BNB')
-const getBnbPools = getPoolsFactory((pool) => pool.stakingToken.symbol === 'BNB')
-const getNonMasterPools = getPoolsFactory((pool) => pool.sousId !== 0)
+const getNonBnbPools = getPoolsFactory((pool) => pool.stakingToken.symbol.toLowerCase() !== WETH9[pool.stakingToken.chainId].symbol.toLowerCase().substring(1))
+const getBnbPools = getPoolsFactory((pool) => pool.stakingToken.symbol.toLowerCase() === WETH9[pool.stakingToken.chainId].symbol.toLowerCase().substring(1))
+const getNonMasterPools = getPoolsFactory((pool) => true)
 
 interface FetchUserDataParams {
   account: string

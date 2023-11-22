@@ -111,7 +111,7 @@ const StakeModalContainer = ({
   )
 
   const needEnable = useMemo(() => {
-    if (!isRemovingStake && !pendingTx) {
+    if (!isRemovingStake && !pendingTx && !isBnbPool) {
       const stakeAmount = getDecimalAmount(new BigNumber(amount), stakingToken.decimals)
       return stakeAmount.gt(singlePool.userData.allowance)
     }
