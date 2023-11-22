@@ -3022,5 +3022,9 @@
   "Why resetting approval": "为什么要重置授权",
   "Reset approval on USDT.": "重置授权 USDT",
   "Calculated using the total active liquidity staked versus the ICE reward emissions for the farm.": "使用农场中总活跃流动性质押与 ICE 奖励发放之间的比例进行计算。",
-  "Global APR calculated using the total amount of active & staked liquidity with the pool ICE reward emissions.": "全局年利率是根据活跃和质押流动性总额以及池子中的 ICE 奖励发放来计算的。"
+  "Global APR calculated using the total amount of active & staked liquidity with the pool ICE reward emissions.": "全局年利率是根据活跃和质押流动性总额以及池子中的 ICE 奖励发放来计算的。",
+  "Inactive positions will NOT earn ICE rewards from farm.": "不在价格区间内的仓位将不会从农场中获得 ICE 奖励。",
+  "Available": "可用",
+  "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share in the trading pair. Fees are added to the pair, accrue in real time and can be claimed by withdrawing your liquidity.": "通过添加流动性，您将按照您在交易对中的份额，赚取该交易对上所有交易的0.25%。费用会被添加到交易对中，实时累积，并可通过提取您的流动性来领取。",
+  "Learn more about ICE": "了解更多关于 ICE 详情"
 }
