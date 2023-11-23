@@ -32,7 +32,7 @@ export function V2Selector({
           <Text>StableSwap LP</Text>
         ) : selectorType === SELECTOR_TYPE.V2 ? (
           <Text>
-            V2 LP - {(TOTAL_FEE * 100).toFixed(2)} {t('fee tier')}
+            V2 LP - {(TOTAL_FEE * 100).toFixed(1)}% {t('fee tier')}
           </Text>
         ) : (
           <Text>V3 LP</Text>
