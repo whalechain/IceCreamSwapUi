@@ -34,10 +34,10 @@ export const core: IceChain = {
   },
   blockInterval: 3,
   wrappedNative: {
-    address: '0x9550Db7d4d7Fb115BD3c5cdEf861E7d7D2F5062a',
+    address: '0xb0788B601C0D712702bc829B52771199ad8E33Ff',
     decimals: 18,
     symbol: 'WCORE',
-    name: 'Wrapped CORE',
+    name: 'Wrapped Core',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,

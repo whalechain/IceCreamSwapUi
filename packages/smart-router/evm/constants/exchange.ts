@@ -19,7 +19,7 @@ import { chains } from "@icecreamswap/constants";
 import { Address } from "viem";
 
 export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
-  [ChainId.CORE]: '0x3245b934D8A2bd0Ad93e679F35A6EFcf231966Aa',
+  [ChainId.CORE]: '0xBd1c598278DE2619578b0A3196e88749eaa17BC9',
 } as const
 
 export const V2_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {

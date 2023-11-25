@@ -27,7 +27,7 @@ export const masterChefAddresses: Record<number, `0x${string}`> = {
 }
 
 export const masterChefV3Addresses: Record<number, `0x${string}`> = {
-  [ChainId.CORE]: '0xBf66585582e5aD5353D9067dF3E9394C305bd731',
+  [ChainId.CORE]: '0xc378c540A8CD4e2F7475a1850d9E854C1Ea8b9E8',
 } as const satisfies Record<FarmV3SupportedChainId, string>
 
 export const nonBSCVaultAddresses = {
