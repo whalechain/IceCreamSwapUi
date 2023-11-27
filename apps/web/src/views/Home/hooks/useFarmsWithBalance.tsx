@@ -11,7 +11,6 @@ import { useMemo } from 'react'
 import { useStakedPositionsByUser } from 'state/farmsV3/hooks'
 import { useV3TokenIdsByAccount } from 'hooks/v3/useV3Positions'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
-import { verifyBscNetwork } from 'utils/verifyBscNetwork'
 import { publicClient } from 'utils/wagmi'
 import { masterChefV2ABI } from 'config/abi/masterchefV2'
 import { useBCakeProxyContractAddress } from '../../Farms/hooks/useBCakeProxyContractAddress'
@@ -84,7 +83,7 @@ const useFarmsWithBalance = () => {
       const farmsConfig = await getFarmConfig(chainId)
       const farmsCanFetch = farmsConfig?.filter((f) => poolLength > f.pid)
       const normalBalances = await getFarmsWithBalances(farmsCanFetch, account, masterChefContract)
-      if (proxyAddress && farmsCanFetch?.length && verifyBscNetwork(chainId)) {
+      if (proxyAddress && farmsCanFetch?.length) {
         const { farmsWithProxy } = splitProxyFarms(farmsCanFetch)
 
         const proxyBalances = await getFarmsWithBalances(farmsWithProxy, proxyAddress, bCakeProxy)

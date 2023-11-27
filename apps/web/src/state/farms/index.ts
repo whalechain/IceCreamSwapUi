@@ -1,6 +1,5 @@
 import { createFarmFetcher, SerializedFarm, SerializedFarmsState } from '@pancakeswap/farms'
 import { getFarmConfig } from '@pancakeswap/farms/constants'
-import { ChainId } from '@pancakeswap/sdk'
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit'
 import type {
   UnknownAsyncThunkFulfilledAction,
@@ -11,7 +10,6 @@ import { getFarmsPriceHelperLpFiles } from 'config/constants/priceHelperLps'
 import stringify from 'fast-json-stable-stringify'
 import keyBy from 'lodash/keyBy'
 import type { AppState } from 'state'
-import { verifyBscNetwork } from 'utils/verifyBscNetwork'
 import { chains } from 'utils/wagmi'
 import { getViemClients } from 'utils/viem'
 import splitProxyFarms from 'views/Farms/components/YieldBooster/helpers/splitProxyFarms'
@@ -201,7 +199,7 @@ export const fetchFarmUserDataAsync = createAsyncThunk<
     const farmsCanFetch = farmsConfig.filter(
       (farmConfig) => pids.includes(farmConfig.pid) && poolLength > farmConfig.pid,
     )
-    if (proxyAddress && farmsCanFetch?.length && verifyBscNetwork(chainId)) {
+    if (proxyAddress && farmsCanFetch?.length) {
       const { normalFarms, farmsWithProxy } = splitProxyFarms(farmsCanFetch)
 
       const [proxyAllowances, normalAllowances] = await Promise.all([
