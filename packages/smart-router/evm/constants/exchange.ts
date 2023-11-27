@@ -20,6 +20,14 @@ import { Address } from "viem";
 
 export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
   [ChainId.CORE]: '0xBd1c598278DE2619578b0A3196e88749eaa17BC9',
+  [ChainId.SHIMMER]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+  [ChainId.BASE]: '0x84aeB58fb9187dD64282d0C0975F788e21dd4475',
+  [ChainId.BITGERT]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+  [ChainId.FUSE]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+  [ChainId.SCROLL]: '0x84aeB58fb9187dD64282d0C0975F788e21dd4475',
+  [ChainId.TELOS]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+  [ChainId.XDC]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
+  [ChainId.XODEX]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
 } as const
 
 export const V2_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {
@@ -49,7 +57,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: Partial<ChainTokenList> = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.ice, coreTokens.usdt],
+  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
