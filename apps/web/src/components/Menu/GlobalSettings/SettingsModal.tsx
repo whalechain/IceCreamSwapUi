@@ -394,13 +394,13 @@ function RoutingSettings() {
             />
           </Flex>
           */}
-          {onlyOneAMMSourceEnabled && (
+          {/*onlyOneAMMSourceEnabled && (
             <Message variant="warning">
               <MessageText>
                 {t('At least one AMM liquidity source has to be enabled to support normal trading.')}
               </MessageText>
             </Message>
-          )}
+          )*/}
         </AtomBox>
         <AtomBox>
           <PreTitle mb="24px">{t('Routing preference')}</PreTitle>
