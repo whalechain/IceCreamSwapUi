@@ -6,7 +6,7 @@ import { fuseTokens } from './122'
 import { xdcTokens } from './50'
 import { coreTokens } from "./1116";
 import { xodexTokens } from "./2415";
-import { shardeumTestnetTokens } from "./8081";
+import { shardeumTestnetTokens } from "./8082";
 import {telosTokens} from "./40";
 import { shimmerTestnetTokens } from "./1072";
 import { baseTokens } from "./8453";

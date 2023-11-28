@@ -7,7 +7,7 @@ const chains = [
     name: 'BinanceSmartChain',
     decimals: 18,
     bridgeAddress: '0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5' as Address,
-    rpcUrl: 'https://bscrpc.com',
+    rpcUrl: 'https://binance.llamarpc.com',
     type: 'Ethereum',
     nativeTokenSymbol: 'BNB',
     tokens: [
