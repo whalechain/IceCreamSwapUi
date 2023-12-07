@@ -37,6 +37,39 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
+    sousId: 45,
+    stakingToken: coreTokens.cBTC,
+    earningToken: coreTokens.cBTC,
+    contractAddress: {
+      1116: '0xd711A3E33Cba7dB01DA9ABC4e645225d7F06d6c0',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.009259',
+    version: 2,
+  },
+  {
+    sousId: 44,
+    stakingToken: coreTokens.hice,
+    earningToken: coreTokens.kice,
+    contractAddress: {
+      1116: '0x28DD255b5caD5D04AD397f1A9CddbC1F9093E21d',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '1.0995',
+    version: 2,
+  },
+  {
+    sousId: 43,
+    stakingToken: coreTokens.hice,
+    earningToken: coreTokens.hice,
+    contractAddress: {
+      1116: '0x18D2d3Cc7397f6Fb703B7c499F1b7834643245CE',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.17361',
+    version: 2,
+  },
+  {
     sousId: 42,
     stakingToken: coreTokens.kigu,
     earningToken: coreTokens.kigu,
