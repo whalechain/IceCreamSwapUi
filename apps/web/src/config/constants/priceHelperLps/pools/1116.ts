@@ -209,6 +209,27 @@ const priceHelperLps: SerializedFarmConfig[] = [
     {
         pid: null,
         lpSymbol: '',
+        lpAddress: '0xa491173573F5a2198EeF7cC7091B3D64E47dAB0A',
+        token: coreTokens.hice,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0x95fC2b57c4d12e50d0131319EE974be0ac6473A1',
+        token: coreTokens.kice,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0x7fb2d9168cc4c7709f9C4fc9eFacC32ed5F21B7b',
+        token: coreTokens.cBTC,
+        quoteToken: coreTokens.wcore,
+    },
+    {
+        pid: null,
+        lpSymbol: '',
         lpAddress: '0x3d253ef2209c3C30a1817993Af8407e33A6B49e1',
         token: coreTokens.lung,
         quoteToken: coreTokens.wcore_old,

@@ -7,8 +7,8 @@ export const scroll: IceChain = {
   features: ['swap', 'bridge', 'farms', 'kyc', 'info'],
   network: 'scroll',
   rpcUrls: {
-    public: { http: ['https://rpc-scroll.icecreamswap.com'] },
-    default: { http: ['https://rpc-scroll.icecreamswap.com'] },
+    public: { http: ['https://rpc.scroll.io'] },
+    default: { http: ['https://rpc.scroll.io'] },
   },
   blockExplorers: {
     default: { name: 'Scroll Explorer', url: 'https://scrollscan.com/' },
