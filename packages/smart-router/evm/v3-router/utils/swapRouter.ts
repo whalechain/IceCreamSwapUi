@@ -443,7 +443,7 @@ export abstract class SwapRouter {
             }
           } else if (mixedRouteIsAllV2(newRoute)) {
             if (isExactIn) {
-              const pools = newRoute.pools.map((pool) => pool.address!)
+              const pools = newRoute.pools.map((pool) => pool.address! as Address)
               pools.map(pool => invariant(!!pool))
 
               const exactInputParams = [
