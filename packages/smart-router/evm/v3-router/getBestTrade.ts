@@ -11,7 +11,6 @@ export async function getBestTrade(
   amount: CurrencyAmount<Currency>,
   currency: Currency,
   tradeType: TradeType,
-  userAddress: Address,
   config: TradeConfig,
 ): Promise<SmartRouterTrade<TradeType> | null> {
   const { blockNumber: blockNumberFromConfig } = config

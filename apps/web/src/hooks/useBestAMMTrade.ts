@@ -127,7 +127,6 @@ function bestTradeHookFactory({
       keepPreviousDataRef.current = false
     }
 
-    const { address: userAddress } = useAccount()
     const blockNumber = useCurrentBlock()
     const {
       refresh,
@@ -185,7 +184,7 @@ function bestTradeHookFactory({
         } -> ${currency.symbol}, tradeType ${tradeType}`
         SmartRouter.log(label)
         SmartRouter.metric(label, candidatePools)
-        const res = await getBestTrade(deferAmount, currency, tradeType, userAddress, {
+        const res = await getBestTrade(deferAmount, currency, tradeType, {
           gasPriceWei:
             typeof gasPrice === 'bigint'
               ? gasPrice
@@ -274,7 +273,6 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
     amount,
     currency,
     tradeType,
-    userAddress,
     { maxHops, maxSplits, gasPriceWei, allowedPoolTypes, poolProvider },
   ) => {
     const candidatePools = await poolProvider.getCandidatePools({
@@ -296,7 +294,6 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
           currency: SmartRouter.Transformer.serializeCurrency(amount.currency),
           value: amount.quotient.toString(),
         },
-        userAddress,
         gasPriceWei: typeof gasPriceWei !== 'function' ? gasPriceWei?.toString() : undefined,
         maxHops,
         maxSplits,
@@ -316,7 +313,6 @@ const createWorkerGetBestTrade = (quoteWorker: typeof worker): typeof SmartRoute
     amount,
     currency,
     tradeType,
-    userAddress,
     { maxHops, maxSplits, allowedPoolTypes, poolProvider, gasPriceWei, quoteProvider },
   ) => {
     const candidatePools = await poolProvider.getCandidatePools({
