@@ -11,7 +11,7 @@ interface ApproveModalContentProps {
 export const ApproveModalContent: React.FC<ApproveModalContentProps> = ({ title, isMM }) => {
   const { t } = useTranslation();
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    <Text>{t("IceCreamSwap AMM includes V3, V2 and stable swap.")}</Text>,
+    <Text>{t("IceCreamSwap AMM includes V3 and V2.")}</Text>,
     { placement: "top" }
   );
 

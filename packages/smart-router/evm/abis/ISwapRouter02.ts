@@ -435,6 +435,20 @@ export const swapRouter02Abi = [
   },
   {
     inputs: [
+      { internalType: 'uint256', name: 'amountIn', type: 'uint256' },
+      { internalType: 'uint256', name: 'amountOutMin', type: 'uint256' },
+      { internalType: 'address[]', name: 'pools', type: 'address[]' },
+      { internalType: 'address', name: 'tokenIn', type: 'address' },
+      { internalType: 'address', name: 'tokenOut', type: 'address' },
+      { internalType: 'address', name: 'to', type: 'address' },
+    ],
+    name: 'swapExactTokensForTokensExternal',
+    outputs: [{ internalType: 'uint256', name: 'amountOut', type: 'uint256' }],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
       { internalType: 'uint256', name: 'amountOut', type: 'uint256' },
       { internalType: 'uint256', name: 'amountInMax', type: 'uint256' },
       { internalType: 'address[]', name: 'path', type: 'address[]' },

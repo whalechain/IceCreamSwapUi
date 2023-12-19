@@ -442,23 +442,28 @@ export abstract class SwapRouter {
               )
             }
           } else if (mixedRouteIsAllV2(newRoute)) {
-            const path = newRoute.path.map((token) => token.wrapped.address)
             if (isExactIn) {
+              const pools = newRoute.pools.map((pool) => pool.address!)
+              pools.map(pool => invariant(!!pool))
+
               const exactInputParams = [
                 inAmount, // amountIn
                 outAmount, // amountOutMin
-                path, // path
+                pools, // pools
+                newRoute.input.wrapped.address, // tokenIn
+                newRoute.output.wrapped.address, // tokenOut
                 recipientAddress, // to
               ] as const
 
               calldatas.push(
                 encodeFunctionData({
                   abi: SwapRouter.ABI,
-                  functionName: 'swapExactTokensForTokens',
+                  functionName: 'swapExactTokensForTokensExternal',
                   args: exactInputParams,
                 }),
               )
             } else {
+              const path = newRoute.path.map((token) => token.wrapped.address)
               const exactOutputParams = [outAmount, inAmount, path, recipientAddress] as const
 
               calldatas.push(

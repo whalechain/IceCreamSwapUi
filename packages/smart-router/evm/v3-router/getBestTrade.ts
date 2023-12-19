@@ -5,11 +5,13 @@ import { createGasModel } from './gasModel'
 import { getRoutesWithValidQuote } from './getRoutesWithValidQuote'
 import { BestRoutes, TradeConfig, RouteConfig, SmartRouterTrade, RouteType } from './types'
 import { ROUTE_CONFIG_BY_CHAIN } from './constants'
+import {Address} from "viem";
 
 export async function getBestTrade(
   amount: CurrencyAmount<Currency>,
   currency: Currency,
   tradeType: TradeType,
+  userAddress: Address,
   config: TradeConfig,
 ): Promise<SmartRouterTrade<TradeType> | null> {
   const { blockNumber: blockNumberFromConfig } = config

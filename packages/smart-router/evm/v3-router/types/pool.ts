@@ -14,6 +14,7 @@ export interface BasePool {
 
 export interface V2Pool extends BasePool {
   type: PoolType.V2
+  address?: Address
   reserve0: CurrencyAmount<Currency>
   reserve1: CurrencyAmount<Currency>
 }

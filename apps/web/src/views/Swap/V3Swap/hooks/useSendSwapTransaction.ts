@@ -86,7 +86,7 @@ export default function useSendSwapTransaction(
                 }
               })
               .catch((gasError) => {
-                console.debug('Gas estimate failed, trying eth_call to extract error', call)
+                console.warn('Gas estimate failed, trying eth_call to extract error', call, gasError)
                 return { call, error: transactionErrorToUserReadableMessage(gasError, t) }
               })
           }),
