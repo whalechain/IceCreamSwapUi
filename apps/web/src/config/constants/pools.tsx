@@ -37,6 +37,17 @@ export const livePools: SerializedPoolConfig[] = [
     version: 2,
   },
   {
+    sousId: 46,
+    stakingToken: coreTokens.cBTC,
+    earningToken: coreTokens.cBTC,
+    contractAddress: {
+      1116: '0x96091BE65f1Ed0bD1C431DceaCC656041cC46de6',
+    },
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.000528',
+    version: 2,
+  },
+  {
     sousId: 45,
     stakingToken: coreTokens.cBTC,
     earningToken: coreTokens.cBTC,
