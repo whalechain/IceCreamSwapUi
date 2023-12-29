@@ -66,6 +66,11 @@ const evmNativeStableLpMap = {
     wNative: 'WETH',
     stable: 'USDT',
   },
+  [ChainId.NEON]: {
+    address: '0x8EA822e85D2eABFE8cfbAF90F153B393f802aAEa',
+    wNative: 'WNEON',
+    stable: 'USDT',
+  },
 }
 
 export const getTokenAmount = (balance: FixedNumber, decimals: number) => {

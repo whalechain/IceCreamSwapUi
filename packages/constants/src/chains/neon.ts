@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const neon: IceChain = {
   id: 245022934,
   name: 'Neon EVM Blockchain',
-  features: ['swap', 'bridge'],
+  features: ['swap', 'bridge', 'farms'],
   network: 'neon',
   rpcUrls: {
     public: 'https://neon-proxy-mainnet.solana.p2p.org',
@@ -22,7 +22,7 @@ export const neon: IceChain = {
     address: '0xf3a3daf360161b2f10c645ef039c709a3fd4ea62',
     blockCreated: 236956242,
   },
-  blockInterval: 1,
+  blockInterval: 0.4,
   wrappedNative: {
     address: '0x202c35e517fa803b537565c40f0a6965d7204609',
     decimals: 18,
