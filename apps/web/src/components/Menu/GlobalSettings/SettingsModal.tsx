@@ -309,10 +309,10 @@ function RoutingSettings() {
               />
             </Flex>
             <Toggle
-              disabled={v3Enable && onlyOneAMMSourceEnabled}
+              // disabled={v3Enable && onlyOneAMMSourceEnabled}
               scale="md"
               checked={v3Enable}
-              onChange={() => setV3Enable((s) => !s)}
+              onChange={() => setV3Enable((s) => !s || onlyOneAMMSourceEnabled)}
             />
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
@@ -334,10 +334,10 @@ function RoutingSettings() {
               />
             </Flex>
             <Toggle
-              disabled={v2Enable && onlyOneAMMSourceEnabled}
+              // disabled={v2Enable && onlyOneAMMSourceEnabled}
               scale="md"
               checked={v2Enable}
-              onChange={() => setV2Enable((s) => !s)}
+              onChange={() => setV2Enable((s) => !s || onlyOneAMMSourceEnabled)}
             />
           </Flex>
           {/*
