@@ -69,19 +69,32 @@ export function useBestAMMTrade({ type = 'quoter', ...params }: useBestAMMTradeO
   const isQuoterAPIEnabled = useMemo(() => Boolean(!isWrapping && type === 'api'), [isWrapping, type])
   const isIceQuoterAPIEnabled = useMemo(() => Boolean(!isWrapping && type === 'auto'), [isWrapping, type])
 
-  const apiAutoRevalidate = typeof autoRevalidate === 'boolean' ? autoRevalidate : isQuoterAPIEnabled
+  const apiAutoRevalidate = typeof autoRevalidate === 'boolean' ? autoRevalidate : isQuoterAPIEnabled || isIceQuoterAPIEnabled
 
   // switch to api when it's stable
-  const bestTradeFromIceQuoterApi = useBestAMMTradeFromQuoterApi({
+  let bestTradeFromIceQuoterApi = useBestAMMTradeFromQuoterApi({
     ...params,
     enabled: Boolean(enabled && isIceQuoterAPIEnabled),
     autoRevalidate: apiAutoRevalidate,
   })
   const bestTradeFromQuoterApi = useBestAMMTradeFromQuoterWorker2({
     ...params,
-    enabled: Boolean(enabled && isQuoterAPIEnabled),
+    enabled: Boolean(enabled && (isQuoterAPIEnabled || isIceQuoterAPIEnabled)),
     autoRevalidate: apiAutoRevalidate,
   })
+  let quoterBetterThanAPI = false
+  if (enabled && isIceQuoterAPIEnabled) {
+    if (!bestTradeFromQuoterApi.isLoading && bestTradeFromQuoterApi.trade?.routes) {
+      if (!bestTradeFromIceQuoterApi || !bestTradeFromIceQuoterApi.trade?.routes) {
+        quoterBetterThanAPI = true
+      } else if(bestTradeFromQuoterApi.trade.outputAmount.greaterThan(bestTradeFromIceQuoterApi.trade.outputAmount)) {
+        quoterBetterThanAPI = true
+      }
+    }
+  }
+  if (quoterBetterThanAPI) {
+    bestTradeFromIceQuoterApi = bestTradeFromQuoterApi
+  }
 
   const quoterAutoRevalidate = typeof autoRevalidate === 'boolean' ? autoRevalidate : isQuoterEnabled
 
