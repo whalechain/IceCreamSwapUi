@@ -144,7 +144,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
         pr="8px"
         placement="bottom"
         variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'}
-        avatarSrc={`./images/chains/${chainId}.png`}
+        avatarSrc={`/images/chains/${chainId}.png`}
         disabled={cannotChangeNetwork}
         text={
           isLoading ? (

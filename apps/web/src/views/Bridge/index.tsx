@@ -119,6 +119,7 @@ const Bridge = () => {
                       value={depositAmount}
                       showMaxButton
                       showQuickInputButton
+                      maxAmount={balance}
                       onUserInput={(value) => {
                         setDepositAmount(value)
                       }}

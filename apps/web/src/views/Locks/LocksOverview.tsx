@@ -40,7 +40,7 @@ export const LocksOverview: React.FC = () => {
         {locks?.length ? (
           <>
             <Heading as="h2" marginY="3">
-              {t('My Locks')} {chain?.locks.factoryAddress2 && <Link href="/locks-old">{t('Looking for older locks?')}</Link>}
+              {t('My Locks')} {/*chain?.locks.factoryAddress2 && <Link href="/locks-old">{t('Looking for older locks?')}</Link>*/}
             </Heading>
             <Table>
               {!isMobile && (
