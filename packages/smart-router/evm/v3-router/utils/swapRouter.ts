@@ -6,7 +6,7 @@ import {
   TradeType,
   validateAndParseAddress,
   WNATIVE,
-  ChainId,
+  ChainId, Pair,
 } from '@pancakeswap/sdk'
 import { FeeOptions, MethodParameters, Payments, PermitOptions, Position, SelfPermit, toHex } from '@pancakeswap/v3-sdk'
 import invariant from 'tiny-invariant'
@@ -106,11 +106,19 @@ export abstract class SwapRouter {
       : validateAndParseAddress(options.recipient)
 
     if (trade.tradeType === TradeType.EXACT_INPUT) {
-      const exactInputParams = [amountIn, performAggregatedSlippageCheck ? 0n : amountOut, path, recipient] as const
+      const pools = route.pools.map((pool) => pool.address? pool.address: Pair.getAddress(pool.reserve0.currency.wrapped, pool.reserve1.currency.wrapped))
+      const exactInputParams = [
+        amountIn, // amountIn
+        performAggregatedSlippageCheck ? 0n : amountOut, // amountOutMin
+        pools, // pools
+        route.inputAmount.currency.wrapped.address, // tokenIn
+        route.outputAmount.currency.wrapped.address, // tokenOut
+        recipient, // to
+      ] as const
 
       return encodeFunctionData({
         abi: SwapRouter.ABI,
-        functionName: 'swapExactTokensForTokens',
+        functionName: 'swapExactTokensForTokensExternal',
         args: exactInputParams,
       })
     }
@@ -443,8 +451,7 @@ export abstract class SwapRouter {
             }
           } else if (mixedRouteIsAllV2(newRoute)) {
             if (isExactIn) {
-              const pools = newRoute.pools.map((pool) => pool.address! as Address)
-              pools.map(pool => invariant(!!pool))
+              const pools = newRoute.pools.map((pool) => pool.address? pool.address: Pair.getAddress(pool.reserve0.currency.wrapped, pool.reserve1.currency.wrapped))
 
               const exactInputParams = [
                 inAmount, // amountIn
