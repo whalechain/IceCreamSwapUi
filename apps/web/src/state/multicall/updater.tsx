@@ -75,6 +75,13 @@ async function fetchChunk(
   }
   if (resultsBlockNumber?.toNumber() < minBlockNumber) {
     console.debug(`Fetched results for old block number: ${resultsBlockNumber.toString()} vs. ${minBlockNumber}`)
+    // work around for Shardeum testnet as block.number smart contract instruction returns 0
+    if ((await multicallContract.provider.getNetwork()).chainId == 8082) {
+      return {
+        results: returnData,
+        blockNumber: await multicallContract.provider.getBlockNumber()
+      }
+    }
   }
   return { results: returnData, blockNumber: resultsBlockNumber?.toNumber() }
 }
