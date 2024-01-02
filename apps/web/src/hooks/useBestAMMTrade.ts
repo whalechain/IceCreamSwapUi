@@ -294,7 +294,7 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
       protocols: allowedPoolTypes,
     })
 
-    const serverRes = await fetch(`${QUOTING_API}`, {
+    const serverRes = await fetch(`${QUOTING_API}/${currency.chainId}/v0/quote`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
