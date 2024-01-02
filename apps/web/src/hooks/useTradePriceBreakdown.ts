@@ -47,7 +47,7 @@ export function useTradePriceBreakdown(trade?: SmartRouterTrade<TradeType> | nul
 
     if (!tokenInPrice || !tokenOutPrice) {
         return {
-            priceImpactWithoutFee: undefined,
+            priceImpactWithoutFee: new Percent(0, 100),
             lpFeeAmount,
         }
     }
