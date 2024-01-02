@@ -12,9 +12,9 @@ import { MMSlippageTolerance } from 'views/Swap/MMLinkPools/components/MMSlippag
 import { SwapModalFooter } from './SwapModalFooter'
 import {
   computeSlippageAdjustedAmounts as computeSlippageAdjustedAmountsWithSmartRouter,
-  computeTradePriceBreakdown as computeTradePriceBreakdownWithSmartRouter,
 } from '../utils/exchange'
 import SwapModalHeader from '../../components/SwapModalHeader'
+import {useTradePriceBreakdown} from "hooks/useTradePriceBreakdown";
 
 /**
  * Returns true if the trade requires a confirmation of details before we can submit it
@@ -58,6 +58,8 @@ export const TransactionConfirmSwapContent = memo<TransactionConfirmSwapContentP
     onConfirm,
     onAcceptChanges,
   }) {
+    const priceBreakdownRouter = useTradePriceBreakdown(!isMM? trade: null)
+
     const showAcceptChanges = useMemo(
       () => Boolean(trade && originalTrade && tradeMeaningfullyDiffers(trade, originalTrade)),
       [originalTrade, trade],
@@ -72,7 +74,7 @@ export const TransactionConfirmSwapContent = memo<TransactionConfirmSwapContentP
     )
     const { priceImpactWithoutFee, lpFeeAmount } = useMemo(
       () =>
-        isMM ? mmComputeTradePriceBreakdownWithSmartRouter(trade) : computeTradePriceBreakdownWithSmartRouter(trade),
+        isMM ? mmComputeTradePriceBreakdownWithSmartRouter(trade) : priceBreakdownRouter,
       [isMM, trade],
     )
 

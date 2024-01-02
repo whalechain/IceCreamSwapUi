@@ -11,7 +11,7 @@ import {
   AutoColumn,
   Dots,
 } from '@pancakeswap/uikit'
-import { useCallback, useEffect, useState, useMemo, memo } from 'react'
+import { useCallback, useEffect, useState, memo } from 'react'
 import { SMART_ROUTER_ADDRESSES, SmartRouterTrade } from '@pancakeswap/smart-router/evm'
 import { logGTMClickSwapEvent } from 'utils/customGTMEventTracking'
 
@@ -41,8 +41,8 @@ import { useRoutingSettingChanged } from 'state/user/smartRouter'
 
 import { useAccount } from 'wagmi'
 import { useSlippageAdjustedAmounts, useSwapInputError, useParsedAmounts, useSwapCallback } from '../hooks'
-import { computeTradePriceBreakdown } from '../utils/exchange'
 import { ConfirmSwapModal } from './ConfirmSwapModal'
+import {useTradePriceBreakdown} from "hooks/useTradePriceBreakdown";
 
 const SettingsModalWithCustomDismiss = withCustomOnDismiss(SettingsModal)
 
@@ -93,7 +93,7 @@ export const SwapCommitButton = memo(function SwapCommitButton({
     amountToApprove,
     routerAddress,
   )
-  const { priceImpactWithoutFee } = useMemo(() => !showWrap && computeTradePriceBreakdown(trade), [showWrap, trade])
+  const { priceImpactWithoutFee } = useTradePriceBreakdown(!showWrap? trade: null)
   const swapInputError = useSwapInputError(trade, currencyBalances)
   const parsedAmounts = useParsedAmounts(trade, currencyBalances, showWrap)
   const parsedIndepentFieldAmount = parsedAmounts[independentField]
