@@ -13,7 +13,7 @@ export function useTradePriceBreakdown(trade?: SmartRouterTrade<TradeType> | nul
     const tokenInPrice = useStablecoinPrice(trade?.inputAmount?.currency, {hideIfPriceImpactTooHigh: true})
     const tokenOutPrice = useStablecoinPrice(trade?.outputAmount?.currency, {hideIfPriceImpactTooHigh: true})
 
-    if (!trade || !tokenInPrice || !tokenOutPrice) {
+    if (!trade) {
         return {
             priceImpactWithoutFee: undefined,
             lpFeeAmount: null,
@@ -43,12 +43,20 @@ export function useTradePriceBreakdown(trade?: SmartRouterTrade<TradeType> | nul
 
     }
 
+    const lpFeeAmount = inputAmount.multiply(feePercent)
+
+    if (!tokenInPrice || !tokenOutPrice) {
+        return {
+            priceImpactWithoutFee: undefined,
+            lpFeeAmount,
+        }
+    }
+
     const valueInUsd = tokenInPrice.quote(inputAmount)
     const valueOutUsd = tokenOutPrice.quote(outputAmount)
     const priceImpactRaw = valueInUsd.subtract(valueOutUsd).divide(valueInUsd)
     const priceImpactPercent = new Percent(priceImpactRaw.numerator, priceImpactRaw.denominator)
     const priceImpactWithoutFee = priceImpactPercent.subtract(feePercent)
-    const lpFeeAmount = inputAmount.multiply(feePercent)
 
     return {
         priceImpactWithoutFee,
