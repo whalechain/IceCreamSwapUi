@@ -12,6 +12,7 @@ import { shimmerTestnetTokens } from "./1072";
 import { baseTokens } from "./8453";
 import { shimmerTokens } from "./148";
 import { scrollTokens } from "./534352";
+import { neonTokens } from "./245022934";
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
@@ -27,6 +28,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BASE]: baseTokens.usdt,
   [ChainId.SHIMMER]: shimmerTokens.usdt,
   [ChainId.SCROLL]: scrollTokens.usdt,
+  [ChainId.NEON]: neonTokens.usdt,
 }
 export const STABLE_COIN = USD
 
@@ -45,4 +47,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.BASE]: baseTokens.ice,
   [ChainId.SHIMMER]: shimmerTokens.ice,
   [ChainId.SCROLL]: scrollTokens.ice,
+  [ChainId.NEON]: neonTokens.ice,
 }
