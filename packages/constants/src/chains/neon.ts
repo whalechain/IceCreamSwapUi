@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH } from '../common/swap'
+import {FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS} from '../common/swap'
 import IceChain from '../ice-chain'
 
 export const neon: IceChain = {
@@ -7,8 +7,8 @@ export const neon: IceChain = {
   features: ['swap', 'bridge', 'farms'],
   network: 'neon',
   rpcUrls: {
-    public: 'https://neon-proxy-mainnet.solana.p2p.org',
-    default: 'https://neon-proxy-mainnet.solana.p2p.org',
+    public: { http: ['https://neon-proxy-mainnet.solana.p2p.org'] },
+    default: { http: ['https://neon-proxy-mainnet.solana.p2p.org'] },
   },
   blockExplorers: {
     default: { name: 'Neon EVM Explorer', url: 'https://neonscan.org/' },
@@ -18,19 +18,22 @@ export const neon: IceChain = {
     symbol: 'NEON',
     decimals: 18,
   },
-  multicall: {
-    address: '0xf3a3daf360161b2f10c645ef039c709a3fd4ea62',
-    blockCreated: 236956242,
+  contracts: {
+    multicall3: {
+      address: '0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62',
+      blockCreated: 236956242,
+    },
   },
   blockInterval: 0.4,
   wrappedNative: {
-    address: '0x202c35e517fa803b537565c40f0a6965d7204609',
+    address: '0x202C35e517Fa803B537565c40F0a6965D7204609',
     decimals: 18,
     symbol: 'WNEON',
     name: 'Wrapped NEON',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
+    routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
 }
