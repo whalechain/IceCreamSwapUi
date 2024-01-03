@@ -584,8 +584,8 @@ const chains = [
     networkId: 1116,
     name: 'CORE',
     decimals: 18,
-    bridgeAddress: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba' as Address,
-    rpcUrl: 'https://rpc.coredao.org/',
+    bridgeAddress: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba'  as Address,
+    rpcUrl: 'https://rpc-core.icecreamswap.com',
     type: 'Ethereum',
     nativeTokenSymbol: 'CORE',
     tokens: [
@@ -869,6 +869,33 @@ const chains = [
     rpcUrl: 'https://rpc-scroll.icecreamswap.com',
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
+    tokens: [
+      {
+        address: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f' as Address,
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44' as Address,
+        name: 'Tether USD',
+        symbol: 'USDT',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
+        resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+    ],
+  },
+  {
+    domainId: 13,
+    networkId: 245022934,
+    name: 'Neon EVM',
+    decimals: 18,
+    bridgeAddress: '0x81bCEa03678D1CEF4830942227720D542Aa15817' as Address,
+    rpcUrl: 'https://neon-proxy-mainnet.solana.p2p.org',
+    type: 'Ethereum',
+    nativeTokenSymbol: 'NEON',
     tokens: [
       {
         address: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f' as Address,

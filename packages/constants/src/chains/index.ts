@@ -12,9 +12,11 @@ import { shimmerTestnet } from "./shimmerTestnet";
 import { base } from "./base";
 import { shimmer } from "./shimmer"
 import { scroll } from "./scroll"
+import { neon } from "./neon"
 
 export const chainMap = {
   core,
+  neon,
   shimmer,
   bsc,
   scroll,
@@ -37,6 +39,7 @@ export const getChain = (chainId: number) => {
 
 export enum ChainId {
   CORE = core.id,
+  NEON = neon.id,
   SHIMMER = shimmer.id,
   BSC = bsc.id,
   SCROLL = scroll.id,
