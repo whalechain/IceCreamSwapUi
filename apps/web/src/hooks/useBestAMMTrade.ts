@@ -26,7 +26,6 @@ import {
   CommonPoolsParams,
 } from './useCommonPools'
 import { useMulticallGasLimit } from './useMulticallGasLimit'
-import {useAccount} from "wagmi";
 
 interface FactoryOptions {
   // use to identify hook
@@ -315,7 +314,11 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
       }),
     })
     const serializedRes = await serverRes.json()
-    return SmartRouter.Transformer.parseTrade(currency.chainId, serializedRes)
+    const trade = SmartRouter.Transformer.parseTrade(currency.chainId, serializedRes)
+    if (trade.outputAmount.equalTo(0n)) {
+      return Error("Cannot find a valid swap route")
+    }
+    return trade
   },
   // Since quotes are fetched on chain, which relies on network IO, not calculated offchain, we don't need to further optimize
   quoterOptimization: false,
