@@ -14,6 +14,7 @@ export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
   [ChainId.TELOS]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
   [ChainId.XDC]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
   [ChainId.XODEX]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+  [ChainId.NEON]: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
 } as const
 
 export const V2_ROUTER_ADDRESS: ChainMap<Address> = chains.reduce((acc, chain) => {
