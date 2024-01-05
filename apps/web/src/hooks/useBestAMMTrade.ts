@@ -7,7 +7,7 @@ import {
   SmartRouterTrade,
   BATCH_MULTICALL_CONFIGS,
 } from '@pancakeswap/smart-router/evm'
-import { ChainId, CurrencyAmount, TradeType, Currency } from '@pancakeswap/sdk'
+import {ChainId, CurrencyAmount, TradeType, Currency, ZERO} from '@pancakeswap/sdk'
 import { useDebounce, usePropsChanged } from '@pancakeswap/hooks'
 
 import { useIsWrapping } from 'hooks/useWrapCallback'
@@ -315,8 +315,8 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
     })
     const serializedRes = await serverRes.json()
     const trade = SmartRouter.Transformer.parseTrade(currency.chainId, serializedRes)
-    if (trade.outputAmount.equalTo(0n)) {
-      return Error("Cannot find a valid swap route")
+    if (!trade || trade.outputAmount.equalTo(ZERO)) {
+      throw new Error('Cannot find a valid swap route')
     }
     return trade
   },
