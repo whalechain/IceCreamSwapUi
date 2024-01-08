@@ -1,17 +1,12 @@
 import { Chain } from "wagmi";
 import { Address, Hash } from 'viem'
 
-type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer' | 'akkaRouter' | 'kyc'
+type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer'  | 'kyc'
 
 interface SwapConfig {
   factoryAddress: Address
   routerAddress: Address
   initCodeHash: Hash
-}
-
-interface SwapAkkaConfig {
-  routerAddress: Address
-  routerAddressV3?: Address
 }
 
 interface LocksConfig {
@@ -36,7 +31,6 @@ interface KycConfig {
 interface ChainBase {
   features: ChainFeature[]
   swap?: SwapConfig
-  swapAkka?: SwapAkkaConfig
   locks?: LocksConfig
   tokenDeployerDividend?: TokenDeployerConfig
   blockInterval: number

@@ -79,7 +79,7 @@ const config = ({ t }: FAQsType) => [
   {
     title: t('How does the IceCreamSwap DEX aggregator help me?'),
     description: [
-      t('The IceCreamSwap DEX aggregator, powered by AKKA, aggregates the entire liquidity on the chain to find the optimal trading route for your swap.' +
+      t('The IceCreamSwap DEX aggregator aggregates the entire liquidity on the chain to find the optimal trading route for your swap.' +
       ' Basically you are guaranteed that there is no better place to do the swap as we utilize all other providers to find the optimal execution for you.' +
       ' All this happens in the background and in a single transaction.'),
     ],
