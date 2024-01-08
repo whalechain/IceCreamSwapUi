@@ -46,5 +46,5 @@ export const coreTokens = {
   kice: new ERC20Token(ChainId.CORE, '0xB946F9eB7556F41e825C535a052fbE23d3D04358', 18, 'KICE', 'ICE KING'),
   cBTC: new ERC20Token(ChainId.CORE, '0xb30692a602A22b7074FfA997b342eE7deEC6E85E', 18, 'cBTC', 'CoretoshisBTC'),
   hice: new ERC20Token(ChainId.CORE, '0xEcf2AdDc7267D65fBa77A8cFB23a9160B435fa31', 18, 'HICE', 'HOLD ICE'),
-  gator: new ERC20Token(ChainId.CORE, '0xa386c445fb7219bFC37674D9fed086817dDF79BB', 18, 'GATOR', 'GATOR INU'),
+  gator: new ERC20Token(ChainId.CORE, '0xa386c445fb7219bFC37674D9fed086817dDF79BB', 9, 'GATOR', 'GATOR INU'),
 }
