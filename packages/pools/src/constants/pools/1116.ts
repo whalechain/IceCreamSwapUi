@@ -14,6 +14,15 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     version: 2,
   },
   {
+    sousId: 48,
+    stakingToken: coreTokens.gator,
+    earningToken: coreTokens.gator,
+    contractAddress: '0x180216e5a9ea1c8Ec8ddb9F92BF49A8708b33ebF',
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '11.574',
+    version: 2,
+  },
+  {
     sousId: 47,
     stakingToken: coreTokens.gator,
     earningToken: coreTokens.gator,
