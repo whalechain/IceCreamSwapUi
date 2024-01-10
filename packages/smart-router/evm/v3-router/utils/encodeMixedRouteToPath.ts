@@ -40,3 +40,35 @@ export function encodeMixedRouteToPath(route: BaseRoute, exactOutput: boolean): 
 
   return exactOutput ? encodePacked(types.reverse(), path.reverse()) : encodePacked(types, path)
 }
+
+
+export function encodeV3RouteToForeignPath(route: BaseRoute, exactOutput: boolean): Hex {
+  const firstInputToken: Token = route.input.wrapped
+
+  const { path, types } = route.pools.reduce(
+      (
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          { inputToken, path, types }: { inputToken: Token; path: (string | number)[]; types: string[] },
+          pool: Pool,
+          index,
+      ): { inputToken: Token; path: (string | number)[]; types: string[] } => {
+        const outputToken = getOutputCurrency(pool, inputToken).wrapped
+        const poolAddress = isV3Pool(pool) ? pool.address : "0x0000000000000000000000000000000000000000"
+        if (index === 0) {
+          return {
+            inputToken: outputToken,
+            types: ['address', 'address', 'address'],
+            path: [inputToken.address, poolAddress, outputToken.address],
+          }
+        }
+        return {
+          inputToken: outputToken,
+          types: [...types, 'address', 'address'],
+          path: [...path, poolAddress, outputToken.address],
+        }
+      },
+      { inputToken: firstInputToken, path: [], types: [] },
+  )
+
+  return exactOutput ? encodePacked(types.reverse(), path.reverse()) : encodePacked(types, path)
+}

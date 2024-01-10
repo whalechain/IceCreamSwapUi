@@ -17,7 +17,7 @@ import { ApproveAndCall, ApprovalTypes, CondensedAddLiquidityOptions } from './a
 import { SmartRouterTrade, V3Pool, BaseRoute, RouteType, StablePool } from '../types'
 import { MulticallExtended, Validation } from './multicallExtended'
 import { PaymentsExtended } from './paymentsExtended'
-import { encodeMixedRouteToPath } from './encodeMixedRouteToPath'
+import { encodeV3RouteToForeignPath } from './encodeMixedRouteToPath'
 import { partitionMixedRouteByProtocol } from './partitionMixedRouteByProtocol'
 import { maximumAmountIn, minimumAmountOut } from './maximumAmount'
 import { isStablePool, isV2Pool, isV3Pool } from './pool'
@@ -218,9 +218,9 @@ export abstract class SwapRouter {
       if (singleHop) {
         if (trade.tradeType === TradeType.EXACT_INPUT) {
           const exactInputSingleParams = {
+            pool: (pools[0] as V3Pool).address,
             tokenIn: path[0].wrapped.address,
             tokenOut: path[1].wrapped.address,
-            fee: (pools[0] as V3Pool).fee,
             recipient,
             amountIn,
             amountOutMinimum: performAggregatedSlippageCheck ? 0n : amountOut,
@@ -236,9 +236,9 @@ export abstract class SwapRouter {
           )
         } else {
           const exactOutputSingleParams = {
+            pool: (pools[0] as V3Pool).address,
             tokenIn: path[0].wrapped.address,
             tokenOut: path[1].wrapped.address,
-            fee: (pools[0] as V3Pool).fee,
             recipient,
             amountOut,
             amountInMaximum: amountIn,
@@ -254,7 +254,7 @@ export abstract class SwapRouter {
           )
         }
       } else {
-        const pathStr = encodeMixedRouteToPath(
+        const pathStr = encodeV3RouteToForeignPath(
           { ...route, input: inputAmount.currency, output: outputAmount.currency },
           trade.tradeType === TradeType.EXACT_OUTPUT,
         )
@@ -418,7 +418,7 @@ export abstract class SwapRouter {
           const inAmount = i === 0 ? amountIn : 0n
           const outAmount = !lastSectionInRoute ? 0n : amountOut
           if (mixedRouteIsAllV3(newRoute)) {
-            const pathStr = encodeMixedRouteToPath(newRoute, !isExactIn)
+            const pathStr = encodeV3RouteToForeignPath(newRoute, !isExactIn)
             if (isExactIn) {
               const exactInputParams = {
                 path: pathStr,
