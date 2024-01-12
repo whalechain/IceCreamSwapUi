@@ -36,11 +36,11 @@ export const getCakePriceFromOracle = async () => {
 
 const getIcePriceFromV2Pair = async () => {
   const pairConfig = {
-    address: Pair.getAddress(ICE[ChainId.BITGERT], USD[ChainId.BITGERT]),
-    tokenA: ICE[ChainId.BITGERT],
-    tokenB: USD[ChainId.BITGERT],
+    address: Pair.getAddress(ICE[ChainId.CORE], USD[ChainId.CORE]),
+    tokenA: ICE[ChainId.CORE],
+    tokenB: USD[ChainId.CORE],
   }
-  const client = publicClient({chainId: ChainId.BITGERT})
+  const client = publicClient({chainId: ChainId.CORE})
   const [reserve0, reserve1] = await client.readContract({
     abi: pancakePairV2ABI,
     address: pairConfig.address,
