@@ -12,5 +12,5 @@ export const BSC_BLOCK_TIME = 3
 export const blocksPerYear = (chainId: number) => {
   return SECONDS_PER_YEAR / getChain(chainId).blockInterval
 }
-export const DEFAULT_GAS_LIMIT = 250000n
+
 export const BOOSTED_FARM_V3_GAS_LIMIT = 1000000n
