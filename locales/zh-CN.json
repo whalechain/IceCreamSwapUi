@@ -1705,7 +1705,7 @@
   "No bids yet": "还没有出价",
   "Please specify Round": "请指定回合",
   "1W": "1 周",
-  "1M": "1 个月",
+  "1M": "1 月",
   "Failed to load price chart for this pair": "无法加载此货币对的价格图表",
   "You can swap WBNB for BNB (and vice versa) with no trading fees.": "您可以将 WBNB 兑换为 BNB（反之亦然），无需任何交易费用。",
   "Exchange rate is always 1 to 1.": "汇率始终为 1:1。",
@@ -3024,5 +3024,12 @@
   "Inactive positions will NOT earn ICE rewards from farm.": "不在价格区间内的仓位将不会从农场中获得 ICE 奖励。",
   "Available": "可用",
   "By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share in the trading pair. Fees are added to the pair, accrue in real time and can be claimed by withdrawing your liquidity.": "通过添加流动性，您将按照您在交易对中的份额，赚取该交易对上所有交易的0.25%。费用会被添加到交易对中，实时累积，并可通过提取您的流动性来领取。",
-  "Learn more about ICE": "了解更多关于 ICE 详情"
+  "Learn more about ICE": "了解更多关于 ICE 详情",
+  "Liquidity provider Earnings": "流动性提供者收益",
+  "You can wrap and unwrap native tokens with no trading fees.": "您可以无交易费用地包裹和解包原生代币。",
+  "Wrap": "包裹",
+  "Unwrap": "解包",
+  "LP rewards: %percent%% trading fees, distributed proportionally among LP token holders.": "LP 奖励：%percent%% 的交易费，按比例分配给 LP 代币持有者。",
+  "Currently %feature% is only supported on": "目前 %feature% 仅支持以下区块链网络",
+  "Chinese": "中文"
 }
