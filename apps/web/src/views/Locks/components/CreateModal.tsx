@@ -23,7 +23,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
   const [finished, setFinished] = useState(false)
   const locks = useLocks()
   const { onDismiss } = useModalContext()
-  const {approvalState, approveCallback: approve} = useApproveCallback(amount, locks.address, {addToTransaction: true})
+  const { approvalState, approveCallback: approve } = useApproveCallback(amount, locks.address, { addToTransaction: true })
   const showApprovalFlow = useMemo(() => {
     return approvalState !== ApprovalState.APPROVED
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +69,7 @@ const CreateModal: React.FC<DepositModalProps> = (props) => {
       {duration ? (
         <Flex alignItems="center" justifyContent="space-between">
           <Text fontSize="1em" display="flex" style={{ alignItems: 'center', gap: '0.5em' }}>
-            {t(' Claimable ending at')}
+            {t('Claimable ending at')}
           </Text>
           <Text fontSize="1em">{renderDate(startingDate.getTime() + duration * 1000)}</Text>
         </Flex>

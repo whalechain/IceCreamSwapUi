@@ -42,7 +42,7 @@ import { useRoutingSettingChanged } from 'state/user/smartRouter'
 import { useAccount } from 'wagmi'
 import { useSlippageAdjustedAmounts, useSwapInputError, useParsedAmounts, useSwapCallback } from '../hooks'
 import { ConfirmSwapModal } from './ConfirmSwapModal'
-import {useTradePriceBreakdown} from "hooks/useTradePriceBreakdown";
+import { useTradePriceBreakdown } from "hooks/useTradePriceBreakdown";
 
 const SettingsModalWithCustomDismiss = withCustomOnDismiss(SettingsModal)
 
@@ -93,7 +93,7 @@ export const SwapCommitButton = memo(function SwapCommitButton({
     amountToApprove,
     routerAddress,
   )
-  const { priceImpactWithoutFee } = useTradePriceBreakdown(!showWrap? trade: null)
+  const { priceImpactWithoutFee } = useTradePriceBreakdown(!showWrap ? trade : null)
   const swapInputError = useSwapInputError(trade, currencyBalances)
   const parsedAmounts = useParsedAmounts(trade, currencyBalances, showWrap)
   const parsedIndepentFieldAmount = parsedAmounts[independentField]
@@ -258,7 +258,7 @@ export const SwapCommitButton = memo(function SwapCommitButton({
   if (showWrap) {
     return (
       <CommitButton width="100%" disabled={Boolean(wrapInputError)} onClick={onWrap}>
-        {wrapInputError ?? (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
+        {wrapInputError ?? (wrapType === WrapType.WRAP ? t('Wrap') : wrapType === WrapType.UNWRAP ? t('Unwrap') : null)}
       </CommitButton>
     )
   }
@@ -317,8 +317,8 @@ export const SwapCommitButton = memo(function SwapCommitButton({
           (priceImpactSeverity > 3 && !isExpertMode
             ? t('Price Impact Too High')
             : priceImpactSeverity > 2
-            ? t('Swap Anyway')
-            : t('Swap'))}
+              ? t('Swap Anyway')
+              : t('Swap'))}
       </CommitButton>
     </Box>
   )
