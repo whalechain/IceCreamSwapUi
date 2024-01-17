@@ -1,12 +1,14 @@
-import { Currency, WNATIVE } from '@pancakeswap/sdk'
+import { ChainId, Currency, WNATIVE } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
 import { useTranslation } from '@pancakeswap/localization'
 import tryParseAmount from '@pancakeswap/utils/tryParseAmount'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
-import { useWNativeContract } from './useContract'
+import { useContract, useWNativeContract } from './useContract'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
+import { coreTokens } from "@pancakeswap/tokens";
+import { wethABI } from "config/abi/weth";
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -30,6 +32,7 @@ export default function useWrapCallback(
   const { account, chainId } = useAccountActiveChain()
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWNativeContract()
+  const oldWcoreContract = useContract(chainId === ChainId.CORE ? coreTokens.wcore_old.address : undefined, wethABI)
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
   const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
@@ -68,16 +71,20 @@ export default function useWrapCallback(
           : t('Insufficient %symbol% balance', { symbol: inputCurrency.symbol }),
       }
     }
-    if (WNATIVE[chainId]?.equals(inputCurrency) && outputCurrency?.isNative) {
+    if ((WNATIVE[chainId]?.equals(inputCurrency) || coreTokens.wcore_old.equals(inputCurrency)) && outputCurrency?.isNative) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:
           sufficientBalance && inputAmount
             ? async () => {
                 try {
-                  const txReceipt = await callWithGasPrice(wbnbContract, 'withdraw', [inputAmount.quotient])
+                  const txReceipt = coreTokens.wcore_old.equals(inputCurrency)
+                      ? await callWithGasPrice(oldWcoreContract, 'withdraw', [inputAmount.quotient])
+                      : await callWithGasPrice(wbnbContract, 'withdraw', [inputAmount.quotient])
+                  const wrap = coreTokens.wcore_old.equals(inputCurrency)
+                      ? coreTokens.wcore_old.symbol
+                      : WNATIVE[chainId].symbol
                   const amount = inputAmount.toSignificant(6)
-                  const wrap = WNATIVE[chainId].symbol
                   const native = outputCurrency.symbol
                   addTransaction(txReceipt, {
                     summary: `Unwrap ${amount} ${wrap} to ${native}`,
