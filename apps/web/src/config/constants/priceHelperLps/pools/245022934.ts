@@ -10,7 +10,13 @@ const priceHelperLps: SerializedFarmConfig[] = [
         token: neonTokens.chonk,
         quoteToken: neonTokens.wneon,
     },
-
+    {
+        pid: null,
+        lpSymbol: '',
+        lpAddress: '0xe6afb3448f3bc6ec09a55a8722b97410daa81517',
+        token: neonTokens.ice,
+        quoteToken: neonTokens.wneon,
+    },
 ].map((p) => ({
     ...p,
     token: p.token.serialize,
