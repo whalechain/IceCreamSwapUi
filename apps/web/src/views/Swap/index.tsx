@@ -108,11 +108,11 @@ export default function Swap() {
       {isOldWcore && (
         <Message variant="warning" mb="16px">
           <span>
-            {t("It looks like you still use our old WCORE. Simply")}{' '}
-            <Link href="https://v2.icecreamswap.com/swap?chainId=1116&inputCurrency=0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f&outputCurrency=CORE" display="inline-flex">
-              {t('unwrap')}
+            {t("It looks like you still use our old WCORE. Simply unwrap it by")}{' '}
+            <Link href="/swap?chain=core&inputCurrency=0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f&outputCurrency=CORE" display="inline-flex">
+              {t("\"swapping\"")}
             </Link>{' '}
-            {t('it on our V2 UI.')}
+            {t('it to CORE.')}
           </span>
         </Message>
       )}
