@@ -9,7 +9,6 @@ import {
     Card,
     AddIcon,
     PreTitle,
-    Text,
     DynamicSection,
     RefreshIcon,
     IconButton,
@@ -306,15 +305,18 @@ export function UniversalAddLiquidity({
   return (
     <>
       <CardBody>
-          { chainId == ChainId.CORE && (
-              currencyIdA && currencyIdA == coreTokens.wcore_old.address ||
-              currencyIdB && currencyIdB == coreTokens.wcore_old.address
+          { chainId === ChainId.CORE && (
+              currencyIdA && currencyIdA === coreTokens.wcore_old.address ||
+              currencyIdB && currencyIdB === coreTokens.wcore_old.address
           ) && (
-              <Message variant={"warning"}>
-                <Text>This wrapped core is legacy, please unwrap it at: </Text>
-                <Link external={true} showExternalIcon={true} href={"https://v2.icecreamswap.com/swap?chainId=1116&inputCurrency=0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f&outputCurrency=CORE"}>
-                  V2 DEX
-                </Link>
+              <Message variant="warning" mb="16px">
+                <span>
+                  {t("It looks like you still use our old WCORE. Simply")}{' '}
+                    <Link href="https://v2.icecreamswap.com/swap?chainId=1116&inputCurrency=0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f&outputCurrency=CORE" display="inline-flex">
+                    {t('unwrap')}
+                  </Link>{' '}
+                    {t('it on our V2 UI.')}
+                </span>
               </Message>
           )}
         <ResponsiveTwoColumns>

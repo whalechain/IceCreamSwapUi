@@ -1,6 +1,6 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Currency } from '@pancakeswap/sdk'
-import { BottomDrawer, Flex, Modal, ModalV2, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { ChainId, Currency } from '@pancakeswap/sdk'
+import { BottomDrawer, Flex, Link, Message, Modal, ModalV2, useMatchBreakpoints } from '@pancakeswap/uikit'
 import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
 import { AppBody } from 'components/App'
 import { useRouter } from 'next/router'
@@ -19,6 +19,10 @@ import useWarningImport from './hooks/useWarningImport'
 import { V3SwapForm } from './V3Swap'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import { SwapFeaturesContext } from './SwapFeaturesContext'
+import chainName from "config/constants/chainName";
+import { useWeb3React } from "@pancakeswap/wagmi";
+import { useBalance } from "wagmi";
+import { coreTokens } from "@pancakeswap/tokens";
 
 export default function Swap() {
   const { query } = useRouter()
@@ -59,6 +63,15 @@ export default function Swap() {
     [Field.OUTPUT]: outputCurrency ?? undefined,
   }
 
+  const { chainId: walletChainId, isConnected, account } = useWeb3React()
+  const balance = useBalance({ address: account })
+
+  const isConnectedAndHasNoBalance = !!(isConnected && balance.data?.value === 0n)
+  const isOldWcore = walletChainId === ChainId.CORE && (
+      inputCurrencyId === coreTokens.wcore_old.address ||
+      outputCurrencyId === coreTokens.wcore_old.address
+  )
+
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
   const warningSwapHandler = useWarningImport()
   useDefaultsFromURLSearch()
@@ -81,6 +94,28 @@ export default function Swap() {
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
+      {isConnectedAndHasNoBalance && (
+        <Message variant="info" mb="16px">
+          <span>
+            {t("It looks like you don't have any %chain% tokens. Simply", {chain: chainName[walletChainId]})}{' '}
+            <Link href="/bridge" display="inline-flex">
+              {t('bridge')}
+            </Link>{' '}
+            {t('any token to %chain% and recieve a free gasdrop.', {chain: chainName[walletChainId]})}
+          </span>
+        </Message>
+      )}
+      {isOldWcore && (
+        <Message variant="warning" mb="16px">
+          <span>
+            {t("It looks like you still use our old WCORE. Simply")}{' '}
+            <Link href="https://v2.icecreamswap.com/swap?chainId=1116&inputCurrency=0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f&outputCurrency=CORE" display="inline-flex">
+              {t('unwrap')}
+            </Link>{' '}
+            {t('it on our V2 UI.')}
+          </span>
+        </Message>
+      )}
       <Flex width={['328px', '100%']} height="100%" justifyContent="center" position="relative" alignItems="flex-start">
         {isDesktop && isChartSupported && (
           <PriceChartContainer
