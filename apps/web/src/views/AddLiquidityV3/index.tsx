@@ -1,17 +1,19 @@
 import { CurrencySelect } from 'components/CurrencySelect'
 import { CommonBasesType } from 'components/SearchModal/types'
 
-import { Currency, NATIVE, WNATIVE } from '@pancakeswap/sdk'
+import { ChainId, Currency, NATIVE, WNATIVE } from '@pancakeswap/sdk'
 import {
-  FlexGap,
-  AutoColumn,
-  CardBody,
-  Card,
-  AddIcon,
-  PreTitle,
-  DynamicSection,
-  RefreshIcon,
-  IconButton,
+    FlexGap,
+    AutoColumn,
+    CardBody,
+    Card,
+    AddIcon,
+    PreTitle,
+    DynamicSection,
+    RefreshIcon,
+    IconButton,
+    Message,
+    Link,
 } from '@pancakeswap/uikit'
 
 import { FeeAmount } from '@pancakeswap/v3-sdk'
@@ -48,6 +50,7 @@ import V2FormView from './formViews/V2FormView'
 import { AprCalculator } from './components/AprCalculator'
 import { useCurrencyParams } from './hooks/useCurrencyParams'
 import { SUPPORT_SWAP_V3 } from "config/constants/supportChains";
+import {coreTokens} from "@pancakeswap/tokens";
 
 export const BodyWrapper = styled(Card)`
   border-radius: 24px;
@@ -302,6 +305,20 @@ export function UniversalAddLiquidity({
   return (
     <>
       <CardBody>
+          { chainId === ChainId.CORE && (
+              currencyIdA && currencyIdA === coreTokens.wcore_old.address ||
+              currencyIdB && currencyIdB === coreTokens.wcore_old.address
+          ) && (
+              <Message variant="warning" mb="16px">
+                <span>
+                  {t("It looks like you still use our old WCORE. Simply unwrap it by")}{' '}
+                  <Link href="/swap?chain=core&inputCurrency=0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f&outputCurrency=CORE" display="inline-flex">
+                    {t("\"swapping\"")}
+                  </Link>{' '}
+                  {t('it to CORE.')}
+                </span>
+              </Message>
+          )}
         <ResponsiveTwoColumns>
           <AutoColumn alignSelf="stretch">
             <PreTitle mb="8px">{t('Choose Token Pair')}</PreTitle>
