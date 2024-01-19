@@ -3,6 +3,7 @@ import { ChainId } from '@pancakeswap/sdk'
 import { pools as corePools, livePools as coreLivePools } from './1116'
 import { pools as bitgertPools, livePools as bitgertLivePools } from './32520'
 import { pools as xdcPools, livePools as xdcLivePools } from './50'
+import { pools as neonPools, livePools as neonLivePools } from './245022934'
 import { SerializedPool } from '../../types'
 import { SupportedChainId } from '../supportedChains'
 import { isPoolsSupported } from '../../utils/isPoolsSupported'
@@ -15,12 +16,14 @@ export const POOLS_CONFIG_BY_CHAIN = {
   [ChainId.CORE]: corePools,
   [ChainId.BITGERT]: bitgertPools,
   [ChainId.XDC]: xdcPools,
+  [ChainId.NEON]: neonPools,
 } as PoolsConfigByChain<SupportedChainId>
 
 export const LIVE_POOLS_CONFIG_BY_CHAIN = {
   [ChainId.BSC]: coreLivePools,
   [ChainId.BITGERT]: bitgertLivePools,
   [ChainId.XDC]: xdcLivePools,
+  [ChainId.NEON]: neonLivePools,
 } as PoolsConfigByChain<SupportedChainId>
 
 export const getPoolsConfig = (chainId: ChainId) => {
