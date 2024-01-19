@@ -6,15 +6,15 @@ const priceHelperLps: SerializedFarmConfig[] = [
     {
         pid: null,
         lpSymbol: '',
-        lpAddress: '0x5008cb86d50a71192efff2b2888c836689ceaabc',
-        token: neonTokens.chonk,
-        quoteToken: neonTokens.wneon,
+        lpAddress: '0x8EA822e85D2eABFE8cfbAF90F153B393f802aAEa',
+        token: neonTokens.wneon,
+        quoteToken: neonTokens.usdt,
     },
     {
         pid: null,
         lpSymbol: '',
-        lpAddress: '0xe6afb3448f3bc6ec09a55a8722b97410daa81517',
-        token: neonTokens.ice,
+        lpAddress: '0x5008Cb86d50A71192eFFF2b2888c836689CEaAbc',
+        token: neonTokens.chonk,
         quoteToken: neonTokens.wneon,
     },
 ].map((p) => ({
