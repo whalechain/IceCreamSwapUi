@@ -9,7 +9,7 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
         sousId: 49,
         stakingToken: neonTokens.ice,
         earningToken: neonTokens.chonk,
-        contractAddress: '0x3c9D3A28dc949B3f66728C57Cfdaf698e585E536',
+        contractAddress: '0x2A6f065BDC2c3DE88d679b15E366432d788C2C29',
         poolCategory: PoolCategory.CORE,
         tokenPerBlock: '0.496',
         version: 2,
