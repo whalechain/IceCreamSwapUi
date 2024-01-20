@@ -211,21 +211,21 @@ const priceHelperLps: SerializedFarmConfig[] = [
         lpSymbol: '',
         lpAddress: '0xa491173573F5a2198EeF7cC7091B3D64E47dAB0A',
         token: coreTokens.hice,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: null,
         lpSymbol: '',
         lpAddress: '0x95fC2b57c4d12e50d0131319EE974be0ac6473A1',
         token: coreTokens.kice,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: null,
         lpSymbol: '',
         lpAddress: '0x7fb2d9168cc4c7709f9C4fc9eFacC32ed5F21B7b',
         token: coreTokens.cBTC,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
     {
         pid: null,
@@ -239,7 +239,7 @@ const priceHelperLps: SerializedFarmConfig[] = [
         lpSymbol: '',
         lpAddress: '0xbc9a2b3Ca0F918C4EdD6915fc196485464abd0aF',
         token: coreTokens.gator,
-        quoteToken: coreTokens.wcore,
+        quoteToken: coreTokens.wcore_old,
     },
 ].map((p) => ({
     ...p,
