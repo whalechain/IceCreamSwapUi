@@ -8,7 +8,8 @@ import {
   BridgeIcon,
   DropdownMenuItemType,
   RocketIcon,
-  MoreHorizontalIcon,
+  InfoIcon,
+  MoreHorizontalIcon
 } from '@pancakeswap/uikit'
 import { ContextApi } from '@pancakeswap/localization'
 import {
@@ -106,13 +107,22 @@ const config: (
       showItemsOnMobile: false,
       items: [],
     },
-    {
+    /*{
       label: t('Launchpad'),
       href: '/launchpad',
       icon: RocketIcon,
       hideSubNav: true,
       showItemsOnMobile: false,
       supportChainIds: SUPPORT_LAUNCHPAD,
+      items: [],
+    },*/
+    {
+      label: t('Info'),
+      href: '/info',
+      icon: InfoIcon,
+      hideSubNav: true,
+      showItemsOnMobile: false,
+      supportChainIds: SUPPORT_INFO,
       items: [],
     },
     {
@@ -122,11 +132,6 @@ const config: (
       hideSubNav: true,
       // supportChainIds: [...SUPPORT_INFO, ...SUPPORT_LOCKS, ...SUPPORT_KYC],
       items: [
-        {
-          label: t('Info'),
-          href: '/info',
-          supportChainIds: SUPPORT_INFO,
-        },
         {
           label: t('Locks'),
           href: '/locks',
@@ -151,6 +156,11 @@ const config: (
               supportChainIds: SUPPORT_KYC_DELEGATION,
             },
           ],
+        },
+        {
+          label: t('Launchpad'),
+          href: '/launchpad',
+          supportChainIds: SUPPORT_LAUNCHPAD,
         },
         {
           label: t('Token Deployer'),
