@@ -53,4 +53,5 @@ export const core: IceChain = {
     contractKycDelegator: '0x682EAb822E5896dF1cD33C1Cd6EE99a3154Dd47E',
     contractKycDelegations: '0x790C138B110Bfb517cE5FaB8CF1a51ffDaAa9754',
   },
+  v3SubgraphStart: 9212906,
 }

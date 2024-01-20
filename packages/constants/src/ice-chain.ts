@@ -40,6 +40,7 @@ interface ChainBase {
     address: Address
     decimals: number
   }
+  v3SubgraphStart?: number
   campaignFactory?: Address
   kyc?: KycConfig
 }
