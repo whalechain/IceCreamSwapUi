@@ -1,6 +1,6 @@
 compatibility_date = "2022-05-20"
 kv_namespaces = [
-  {binding = "FARMS", id = "95860eae19cb420a8061758edd7f0136", preview_id = "971f435d924241398275fa9098ed8fa2"},
+  {binding = "FARMS", id = "043c324a197d4ad09223777189c57eb7", preview_id = "95860eae19cb420a8061758edd7f0136"},
 ]
 main = "src/index.ts"
 name = "farms-dev"
