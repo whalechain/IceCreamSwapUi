@@ -28,7 +28,7 @@ export const coreTokens = {
   royale: new ERC20Token(ChainId.CORE, '0xA7c0B19645B653B4373E3592C84fce8C64D89E8F', 18, 'ROYALE', 'MemeRoyale'),
   cfee: new ERC20Token(ChainId.CORE, '0x7241C79C5Bf1C69eA6f0F8FAF2dFB30e37EF0820', 8, 'CFEE', 'Coffee Crypto'),
   usdtl0: new ERC20Token(ChainId.CORE, '0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1', 6, 'USDT_l0', 'Tether USD (Layer0 Bridge)'),
-  usdcl0: new ERC20Token(ChainId.CORE, '0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9', 6, 'USDC', 'USD Coin (Layer0 Bridge)'),
+  usdcl0: new ERC20Token(ChainId.CORE, '0xa4151B2B3e269645181dCcF2D426cE75fcbDeca9', 6, 'USDC_l0', 'USD Coin (Layer0 Bridge)'),
   btv: new ERC20Token(ChainId.CORE, '0xE8dEC1bFC7BF572D60403c609d6589715d2a23fC', 8, 'BTV', 'Bitvexa Network'),
   woof: new ERC20Token(ChainId.CORE, '0x5C44d3D2312AbA4d5F2406A98Bf374Bc76455092', 18, 'WOOF', 'WOOF'),
   miidas: new ERC20Token(ChainId.CORE, '0xcfd38184c30832917A2871695F91e5e61bBD41fF', 6, 'Miidas', 'Miidas NFT'),
@@ -47,4 +47,5 @@ export const coreTokens = {
   cBTC: new ERC20Token(ChainId.CORE, '0xb30692a602A22b7074FfA997b342eE7deEC6E85E', 18, 'cBTC', 'CoretoshisBTC'),
   hice: new ERC20Token(ChainId.CORE, '0xEcf2AdDc7267D65fBa77A8cFB23a9160B435fa31', 18, 'HICE', 'HOLD ICE'),
   gator: new ERC20Token(ChainId.CORE, '0xa386c445fb7219bFC37674D9fed086817dDF79BB', 9, 'GATOR', 'GATOR INU'),
+  btcb: new ERC20Token(ChainId.CORE, '0x2297aEbD383787A160DD0d9F71508148769342E3', 8, 'BTC.b', 'Bitcoin'),
 }

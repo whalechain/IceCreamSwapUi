@@ -6,11 +6,60 @@ import {FeeAmount} from "@pancakeswap/v3-sdk";
 
 export const farmsV3 = defineFarmV3Configs([
     {
-        pid: 1,
-        token0: coreTokens.usdt,
-        token1: coreTokens.ice,
-        lpAddress: '0x0fdC5bD5cDe16F08e82Bb6b70de0ACd1513cEfad',
+        pid: 0,
+        token0: coreTokens.ice,
+        token1: coreTokens.usdt,
+        lpAddress: '0x0e1a82C5733D51b5c2d8BcD745d0cB9b2B7dE554',
         feeAmount: FeeAmount.LOW,
+    },
+    {
+        pid: 7,
+        token0: coreTokens.ice,
+        token1: coreTokens.usdtl0,
+        lpAddress: '0xE2407c758c31358A01970fDd44FB6bE850E2117F',
+        feeAmount: FeeAmount.LOW,
+    },
+    {
+        pid: 1,
+        token0: coreTokens.ice,
+        token1: coreTokens.wcore,
+        lpAddress: '0xBe49470bdbb3c5b05Ad5555205DD0a505f8DCcA7',
+        feeAmount: FeeAmount.LOW,
+    },
+    {
+        pid: 2,
+        token0: coreTokens.wcore,
+        token1: coreTokens.usdt,
+        lpAddress: '0x553DB750D2c18a424A145b9440D3AA788b1BAEE7',
+        feeAmount: FeeAmount.LOW,
+    },
+    {
+        pid: 3,
+        token0: coreTokens.wcore,
+        token1: coreTokens.btcb,
+        lpAddress: '0xaB9D068F9A4e7C5eD89acE8b70C7Edf15D831466',
+        feeAmount: FeeAmount.LOW,
+    },
+    {
+        pid: 4,
+        token0: coreTokens.wcore,
+        token1: coreTokens.usdtl0,
+        lpAddress: '0x6063D72aB87A879ba25c68AD09af3937F55A99a8',
+        feeAmount: FeeAmount.LOWEST,
+    },
+    {
+        pid: 5,
+        token0: coreTokens.usdtl0,
+        token1: coreTokens.usdt,
+        lpAddress: '0x53433de7e902d0CA281d823a40f036A2FE8266ef',
+        feeAmount: FeeAmount.LOWEST,
+    },
+    {
+        pid: 6,
+        token0: coreTokens.usdtl0,
+        token1: coreTokens.usdcl0,
+        lpAddress: '0x86a9a9368DC9a55D2A92c372AbEF83350d4D5fEb',
+        feeAmount: FeeAmount.LOWEST,
     },
 ])
 
