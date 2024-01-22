@@ -5,13 +5,6 @@ import { getAddress } from "viem";
 import {FeeAmount} from "@pancakeswap/v3-sdk";
 
 export const farmsV3 = defineFarmV3Configs([
-    {
-        pid: 1,
-        token0: coreTokens.usdt,
-        token1: coreTokens.ice,
-        lpAddress: '0x0fdC5bD5cDe16F08e82Bb6b70de0ACd1513cEfad',
-        feeAmount: FeeAmount.LOW,
-    },
 ])
 
 const farms: SerializedFarmConfig[] = [
