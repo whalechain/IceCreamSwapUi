@@ -20,12 +20,12 @@ export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' 
 export type MultiChainNameExtend = MultiChainName
 
 export const multiChainQueryMainToken = chains.reduce((acc, chain) => (
-    {...acc, [chain.network.toUpperCase()]: 'ETH'}
-), {}) as Record<MultiChainName, string>
+    {...acc, [chain.id]: 'ETH'}
+), {}) as Record<ChainId, string>
 
 export const multiChainBlocksClient = chains.reduce((acc, chain) => (
-    {...acc, [chain.network.toUpperCase()]: BLOCKS_CLIENT_WITH_CHAIN[chain.id]}
-), {}) as Record<MultiChainName, string>
+    {...acc, [chain.id]: BLOCKS_CLIENT_WITH_CHAIN[chain.id]}
+), {}) as Record<ChainId, string>
 
 // todo: add to constants package
 export const multiChainStartTime = {
@@ -43,8 +43,8 @@ export const multiChainId = chains.reduce((acc, chain) => (
 ), {}) as Record<MultiChainName, ChainId>
 
 export const multiChainPaths = chains.reduce((acc, chain) => (
-    {...acc, [chain.network.toUpperCase()]: ''}
-), {}) as Record<MultiChainName, string>
+    {...acc, [chain.id]: ''}
+), {}) as Record<ChainId, string>
 
 export const multiChainQueryClient = chains.reduce((acc, chain) => (
     {...acc, [chain.network.toUpperCase()]: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[chain.id])}
