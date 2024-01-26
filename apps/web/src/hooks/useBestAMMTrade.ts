@@ -287,11 +287,13 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
     tradeType,
     { maxHops, maxSplits, gasPriceWei, allowedPoolTypes, poolProvider },
   ) => {
+    /*
     const candidatePools = await poolProvider.getCandidatePools({
       currencyA: amount.currency,
       currencyB: currency,
       protocols: allowedPoolTypes,
     })
+    */
 
     const serverRes = await fetch(`${QUOTING_API}/${currency.chainId}/v0/quote`, {
       method: 'POST',
@@ -310,7 +312,7 @@ export const useBestAMMTradeFromQuoterApi = bestTradeHookFactory({
         maxHops,
         maxSplits,
         poolTypes: allowedPoolTypes,
-        candidatePools: candidatePools.map(SmartRouter.Transformer.serializePool),
+        // candidatePools: candidatePools.map(SmartRouter.Transformer.serializePool),
       }),
     })
     const serializedRes = await serverRes.json()
