@@ -234,15 +234,15 @@ export const createWallets = (chainId: number, connect: any) => {
   return hasInjected && config.some((c) => c.installed && c.connectorId === ConnectorNames.Injected)
     ? config // add injected icon if none of injected type wallets installed
     : [
-        ...config,
-        {
-          id: 'injected',
-          title: 'Injected',
-          icon: WalletFilledIcon,
-          connectorId: ConnectorNames.Injected,
-          installed: typeof window !== 'undefined' && Boolean(window.ethereum),
-        },
-      ]
+      ...config,
+      {
+        id: 'injected',
+        title: 'Injected',
+        icon: WalletFilledIcon,
+        connectorId: ConnectorNames.Injected,
+        installed: typeof window !== 'undefined' && Boolean(window.ethereum),
+      },
+    ]
 }
 
 const docLangCodeMapping: Record<string, string> = {
@@ -252,11 +252,11 @@ const docLangCodeMapping: Record<string, string> = {
   tr: 'turkish',
   vi: 'vietnamese',
   id: 'indonesian',
-  'zh-cn': 'chinese',
+  'zh-cn': 'zh',
   'pt-br': 'portuguese-brazilian',
 }
 
 export const getDocLink = (code: string) =>
   docLangCodeMapping[code]
-    ? `https://docs.icecreamswap.com/v/${docLangCodeMapping[code]}/get-started/wallet-guide`
-    : `https://docs.icecreamswap.com/get-started/wallet-guide`
+    ? `https://wiki.icecreamswap.com/v/${docLangCodeMapping[code]}/get-started/setup-wallet`
+    : `https://wiki.icecreamswap.com/get-started/setup-wallet`
