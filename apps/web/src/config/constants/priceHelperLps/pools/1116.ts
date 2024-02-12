@@ -27,13 +27,6 @@ const priceHelperLps: SerializedFarmConfig[] = [
     {
         pid: null,
         lpSymbol: '',
-        lpAddress: '0x33edea45492a06b1be26af25e72e28a2d6b20336',
-        token: coreTokens.youngparrot,
-        quoteToken: coreTokens.wcore_old,
-    },
-    {
-        pid: null,
-        lpSymbol: '',
         lpAddress: '0x2d32d80bbefff482b0c58332590e7afe6c436979',
         token: coreTokens.aicore,
         quoteToken: coreTokens.wcore_old,
