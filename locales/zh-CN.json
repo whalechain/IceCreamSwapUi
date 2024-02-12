@@ -3031,5 +3031,12 @@
   "Unwrap": "解包",
   "LP rewards: %percent%% trading fees, distributed proportionally among LP token holders.": "LP 奖励：%percent%% 的交易费，按比例分配给 LP 代币持有者。",
   "Currently %feature% is only supported on": "目前 %feature% 仅支持以下区块链网络",
+  "It looks like you still use our old WCORE. Simply unwrap it by": "看起来您仍在使用我们的旧版 WCORE。只需通过",
+  "\"swapping\"": "\"兑换\"",
+  "it to CORE.": "解包成 CORE。",
+  "Supplying": "正在供应",
+  "Increase Liquidity": "增加流动性",
+  "this page": "此页面",
+  "Please select a wallet.": "请选择钱包。",
   "Chinese": "中文"
 }

@@ -21,5 +21,5 @@ export function getTokenInfoPath(
 
 // TODO: refactor
 export function getChainName(chainId: ChainId) {
-  return getChain(chainId).network as MultiChainName
+  return getChain(chainId).network.toUpperCase() as MultiChainName
 }

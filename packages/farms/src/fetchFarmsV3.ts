@@ -21,6 +21,20 @@ const chainlinkAbi = [
   },
 ] as const
 
+const poolV2Abi = [
+  {
+    inputs: [],
+    name: 'getReserves',
+    outputs: [
+      { internalType: 'uint112', name: '_reserve0', type: 'uint112' },
+      { internalType: 'uint112', name: '_reserve1', type: 'uint112' },
+      { internalType: 'uint32', name: '_blockTimestampLast', type: 'uint32' },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const
+
 export async function farmV3FetchFarms({
   farms,
   provider,
@@ -38,13 +52,13 @@ export async function farmV3FetchFarms({
 }) {
   const [poolInfos, cakePrice, v3PoolData] = await Promise.all([
     fetchPoolInfos(farms, chainId, provider, masterChefAddress),
-    provider({ chainId: ChainId.BSC })
+    provider({ chainId: ChainId.CORE })
       .readContract({
-        abi: chainlinkAbi,
-        address: '0xB6064eD41d4f67e353768aA239cA86f4F73665a1',
-        functionName: 'latestAnswer',
+        abi: poolV2Abi,
+        address: '0xf1A996Efba43DCBD7945D2b91fA78420d9C23bF0',
+        functionName: 'getReserves',
       })
-      .then((res) => formatUnits(res, 8)),
+      .then((res) => formatUnits(res[0] * 10n**8n / res[1], 8)),
     fetchV3Pools(farms, chainId, provider),
   ])
 
