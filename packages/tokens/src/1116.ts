@@ -47,4 +47,5 @@ export const coreTokens = {
   cBTC: new ERC20Token(ChainId.CORE, '0xb30692a602A22b7074FfA997b342eE7deEC6E85E', 18, 'cBTC', 'CoretoshisBTC'),
   hice: new ERC20Token(ChainId.CORE, '0xEcf2AdDc7267D65fBa77A8cFB23a9160B435fa31', 18, 'HICE', 'HOLD ICE'),
   gator: new ERC20Token(ChainId.CORE, '0xa386c445fb7219bFC37674D9fed086817dDF79BB', 9, 'GATOR', 'GATOR INU'),
+  youngparrot: new ERC20Token(ChainId.CORE, '0xf15fBa1E7112d680055962fB85a0C04550f24097', 18, 'YPC', 'YoungParrot'),
 }
