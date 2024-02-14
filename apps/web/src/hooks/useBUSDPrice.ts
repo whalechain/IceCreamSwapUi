@@ -36,17 +36,17 @@ export function useStablecoinPrice(
 
   const shouldEnabled = currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
 
-  const enableLlama = false // currency?.chainId === ChainId.ETHEREUM && shouldEnabled
+  const enableLlama = shouldEnabled // currency?.chainId === ChainId.ETHEREUM && shouldEnabled
 
-  // we don't have too many AMM pools on ethereum yet, try to get it from api
+  // using IceCreamSwap token prices API
   const { data: priceFromLlama, isLoading } = useSWRImmutable<string>(
     currency && enableLlama && ['fiat-price-ethereum', currency],
     async () => {
-      const address = currency?.isToken ? currency.address : '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
-      return fetch(`https://coins.llama.fi/prices/current/ethereum:${address}`) // <3 llama
+      const address = currency?.isToken ? currency.address : WETH9[chainId].address
+      return fetch(`https://pricing.icecreamswap.com/${chainId}?token=${address}`)
         .then((res) => res.json())
         .then(
-          (res) => res?.coins?.[`ethereum:${address}`]?.confidence > 0.9 && res?.coins?.[`ethereum:${address}`]?.price,
+          (res) => res?.[`${address}`],
         )
     },
     {

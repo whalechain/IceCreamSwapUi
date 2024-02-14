@@ -5,19 +5,19 @@ const CHAIN_MAPPING = {
 
 // use for fetch usd outside of the liquidity pools on IceCreamSwap
 export const fetchTokenUSDValue = async (chainId: number, tokenAddresses: string[]) => {
-  if (!tokenAddresses.length || !CHAIN_MAPPING[chainId]) return new Map<string, string>()
+  if (!tokenAddresses.length) return new Map<string, string>()
 
-  const list = tokenAddresses.map((address) => `${CHAIN_MAPPING[chainId]}:${address}`).join(',')
+  const list = tokenAddresses.join(',')
 
-  const result: { coins: { [key: string]: { price: string } } } = await fetch(
-    `https://coins.llama.fi/prices/current/${list}`,
+  const result: { [key: string]: string } = await fetch(
+    `https://pricing.icecreamswap.com/${chainId}?token=${list}`,
   ).then((res) => res.json())
 
   const commonTokenUSDValue = new Map<string, string>()
 
-  Object.entries(result.coins || {}).forEach(([key, value]) => {
-    const [, address] = key.split(':')
-    commonTokenUSDValue.set(address, value.price)
+  Object.entries(result || {}).forEach(([key, value]) => {
+    const address = key
+    commonTokenUSDValue.set(address, value)
   })
 
   return commonTokenUSDValue
