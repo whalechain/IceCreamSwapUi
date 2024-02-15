@@ -105,14 +105,14 @@ const chains = [
         imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/binance/assets/0x7a89fae255957C190ac8552f559be0Ad0401A081/logo.png',
         resourceId: '0x00000000000000000000007a89fae255957C190ac8552f559be0Ad0401A08101',
       },
-      {
+      /*{
         address: '0xf8F82F2CE26E7840f15B7f0C7ecF8b7f73e035Ca' as Address,
         name: 'Young Parrot',
         symbol: 'YPC',
         imageUri:
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
         resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
-      },
+      },*/
       {
         address: '0x0938a5d325A8496c186Cf122946e9dD22f8a625b' as Address,
         name: 'Digital Files',
@@ -227,14 +227,14 @@ const chains = [
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
-      {
+      /*{
         address: '0x11203a00a9134Db8586381C4B2fca0816476b3FD' as Address,
         name: 'Young Parrot',
         symbol: 'YPC',
         imageUri:
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
         resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
-      },
+      },*/
       {
         address: '0x6D347fdCb302a5879545E01EceE7A176db23dCDa' as Address,
         name: '4D Twin Maps',
@@ -660,14 +660,14 @@ const chains = [
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
-      {
+      /*{
         address: '0xDC2393dc10734BF153153038943a5deB42b209cd' as Address,
         name: 'Young Parrot',
         symbol: 'YPC',
         imageUri:
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x11203a00a9134Db8586381C4B2fca0816476b3FD/logo.png',
         resourceId: '0x000000000000000000000011203a00a9134Db8586381C4B2fca0816476b3FD02',
-      },
+      },*/
       {
         address: '0xE8b0dF74192CCA9C4de66F23653476f6e6CD1d98' as Address,
         name: 'LunaGens',
