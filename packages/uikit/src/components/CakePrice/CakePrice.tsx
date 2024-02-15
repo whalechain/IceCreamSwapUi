@@ -4,11 +4,14 @@ import LogoRound from "../Svg/Icons/LogoRound";
 import Text from "../Text/Text";
 import Skeleton from "../Skeleton/Skeleton";
 import { Colors } from "../../theme";
+import {ChainId} from "@pancakeswap/sdk";
+import {ICE} from "@pancakeswap/tokens";
 
 export interface Props {
   color?: keyof Colors;
   cakePriceUsd?: number;
   showSkeleton?: boolean;
+  chainId?: ChainId;
 }
 
 const PriceLink = styled.a`
@@ -28,10 +31,11 @@ const CakePrice: React.FC<React.PropsWithChildren<Props>> = ({
   cakePriceUsd,
   color = "textSubtle",
   showSkeleton = true,
+  chainId = ChainId.CORE
 }) => {
   return cakePriceUsd ? (
     <PriceLink
-      href="https://icecreamswap.com/swap?outputCurrency=0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D&chainId=32520"
+      href={`/swap?outputCurrency=${ICE[chainId]?.address}&chainId=${chainId}`}
       target="_blank"
     >
       <LogoRound width="24px" mr="8px" />
