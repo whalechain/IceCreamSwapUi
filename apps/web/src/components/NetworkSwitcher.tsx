@@ -9,25 +9,27 @@ import {
   Flex,
   InfoIcon,
   Text,
-  UserMenu,
   UserMenuDivider,
   UserMenuItem,
   useTooltip,
+  ChevronDownIcon,
+  ModalV2,
 } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
 import { useNetwork } from 'wagmi'
 import { useActiveChainId, useLocalNetworkChain } from 'hooks/useActiveChainId'
 import { useNetworkConnectorUpdater } from 'hooks/useActiveWeb3React'
 import { useHover } from 'hooks/useHover'
 import { useSessionChainId } from 'hooks/useSessionChainId'
 import { useSwitchNetwork } from 'hooks/useSwitchNetwork'
-import { useMemo } from 'react'
-import { useRouter } from 'next/router'
+import React, { useMemo, useState } from 'react'
 import { chains } from 'utils/wagmi'
 
 import { ChainLogo } from './Logo/ChainLogo'
 import chainName from '../config/constants/chainName'
-import { useSupportedChains } from '../hooks/useSupportedChains'
+import { useSupportedChains } from 'hooks/useSupportedChains'
+import { NetworkSelectModal } from "components/NetworkModal/NetworkSelectModal";
+import MenuIcon from "@pancakeswap/uikit/widgets/Menu/components/UserMenu/MenuIcon";
+import { LabelText, StyledUserMenu } from "@pancakeswap/uikit/widgets/Menu/components/UserMenu";
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
@@ -114,9 +116,10 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
 }
 
 export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
+  const [ isSelectorOpen, setIsSelectorOpen] = useState<boolean>(false);
   const { t } = useTranslation()
-  const { chainId, isWrongNetwork, isNotMatched } = useActiveChainId()
-  const { pendingChainId, isLoading, canSwitch, switchNetworkAsync } = useSwitchNetwork()
+  const { chainId, isWrongNetwork } = useActiveChainId()
+  const { pendingChainId, isLoading, canSwitch } = useSwitchNetwork()
 
   useNetworkConnectorUpdater()
 
@@ -136,9 +139,37 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
     return null
   }
 
+  const text = isLoading ? (
+    t('Requesting')
+  ) : isWrongNetwork ? (
+    t('Network')
+  ) : foundChain ? (
+    <>
+      <Box display={['none', null, null, null, null, 'block']}>{chainName[foundChain.id]}</Box>
+      <Box display={['block', null, null, null, null, 'none']}>{symbol}</Box>
+    </>
+  ) : (
+    t('Select a Network')
+  )
+
   return (
     <Box {...props} ref={cannotChangeNetwork ? targetRef : null} height="100%">
+      <ModalV2 isOpen={isSelectorOpen} closeOnOverlayClick onDismiss={() => setIsSelectorOpen(false)}>
+        <NetworkSelectModal onCloseModal={setIsSelectorOpen}/>
+      </ModalV2>
+
       {cannotChangeNetwork && tooltipVisible && tooltip}
+      <Flex alignItems="center" height="100%" pr="8px" onClick={() => setIsSelectorOpen(true)}>
+        <StyledUserMenu width="100%">
+          <MenuIcon avatarSrc={`/images/chains/${chainId}.png`} variant={isLoading ? 'pending' : isWrongNetwork ? 'danger' : 'default'} />
+          <LabelText title={typeof text === "string" && text}>
+            {text}
+          </LabelText>
+          {!cannotChangeNetwork && <ChevronDownIcon color="text" width="24px" />}
+        </StyledUserMenu>
+      </Flex>
+
+      {/*
       <UserMenu
         width="100%"
         pr="8px"
@@ -169,6 +200,7 @@ export const NetworkSwitcher: React.FC<BoxProps> = (props) => {
           )
         }
       </UserMenu>
+      */}
     </Box>
   )
 }
