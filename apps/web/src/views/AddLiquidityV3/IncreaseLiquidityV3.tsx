@@ -163,18 +163,18 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
       const { calldata, value } =
         hasExistingPosition && tokenId
           ? interfaceManager.addCallParameters(position, {
-              tokenId,
-              slippageTolerance: basisPointsToPercent(allowedSlippage),
-              deadline: deadline.toString(),
-              useNative,
-            })
+            tokenId,
+            slippageTolerance: basisPointsToPercent(allowedSlippage),
+            deadline: deadline.toString(),
+            useNative,
+          })
           : interfaceManager.addCallParameters(position, {
-              slippageTolerance: basisPointsToPercent(allowedSlippage),
-              recipient: account,
-              deadline: deadline.toString(),
-              useNative,
-              createPool: noLiquidity,
-            })
+            slippageTolerance: basisPointsToPercent(allowedSlippage),
+            recipient: account,
+            deadline: deadline.toString(),
+            useNative,
+            createPool: noLiquidity,
+          })
 
       setAttemptingTxn(true)
       getViemClients({ chainId })
@@ -254,16 +254,14 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
     }
   }, [onFieldAInput, router, txHash, tokenId])
 
-  const pendingText = `Supplying ${
-    !depositADisabled ? formatCurrencyAmount(parsedAmounts[Field.CURRENCY_A], 4, locale) : ''
-  } ${!depositADisabled ? currencies[Field.CURRENCY_A]?.symbol : ''} ${!outOfRange ? 'and' : ''} ${
-    !depositBDisabled ? formatCurrencyAmount(parsedAmounts[Field.CURRENCY_B], 4, locale) : ''
-  } ${!depositBDisabled ? currencies[Field.CURRENCY_B]?.symbol : ''}`
+  const pendingText = `${t('Supplying')} ${!depositADisabled ? formatCurrencyAmount(parsedAmounts[Field.CURRENCY_A], 4, locale) : ''
+    } ${!depositADisabled ? currencies[Field.CURRENCY_A]?.symbol : ''} ${!outOfRange ? t('and') : ''} ${!depositBDisabled ? formatCurrencyAmount(parsedAmounts[Field.CURRENCY_B], 4, locale) : ''
+    } ${!depositBDisabled ? currencies[Field.CURRENCY_B]?.symbol : ''}`
 
   const [onPresentIncreaseLiquidityModal] = useModal(
     <TransactionConfirmationModal
       minWidth={['100%', , '420px']}
-      title="Increase Liquidity"
+      title={t('Increase Liquidity')}
       customOnDismiss={handleDismissConfirmation}
       attemptingTxn={attemptingTxn}
       hash={txHash}

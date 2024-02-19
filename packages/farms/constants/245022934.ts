@@ -1,5 +1,5 @@
 import { SerializedFarmConfig } from '@pancakeswap/farms'
-import { neonTokens, telosTokens } from "@pancakeswap/tokens";
+import { neonTokens } from "@pancakeswap/tokens";
 
 const farms: SerializedFarmConfig[] = [
   {
@@ -15,6 +15,13 @@ const farms: SerializedFarmConfig[] = [
     lpAddress: '0xE6aFb3448F3bC6EC09A55A8722b97410DAa81517',
     token: neonTokens.ice,
     quoteToken: neonTokens.wneon,
+  },
+  {
+    pid: 2,
+    lpSymbol: 'ICE-CHONK',
+    lpAddress: '0xaFecF4C0e5018025F564A3FdBcA9A70799e2FFe2',
+    token: neonTokens.chonk,
+    quoteToken: neonTokens.ice,
   },
 ].map((p) => ({ ...p, token: p.token.serialize, quoteToken: p.quoteToken.serialize }))
 

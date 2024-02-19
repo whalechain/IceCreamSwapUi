@@ -47,7 +47,7 @@ export const Kyc: React.FC = () => {
   const { address, status } = useAccount()
   const token = useToken(chain.kyc?.feeToken)
   const addTransaction = useTransactionAdder()
-  const tokenContract = useERC20(token.address)
+  const tokenContract = useERC20(token?.address)
   const paid = useSWR(
     address ? `kyc/${address}` : null,
     async () => {

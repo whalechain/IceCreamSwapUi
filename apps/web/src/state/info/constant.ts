@@ -43,8 +43,8 @@ export const multiChainId = chains.reduce((acc, chain) => (
 ), {}) as Record<MultiChainName, ChainId>
 
 export const multiChainPaths = chains.reduce((acc, chain) => (
-    {...acc, [chain.network.toUpperCase()]: ''}
-), {}) as Record<MultiChainName, string>
+    {...acc, [chain.id]: ''}
+), {}) as Record<ChainId, string>
 
 export const multiChainQueryClient = chains.reduce((acc, chain) => (
     {...acc, [chain.network.toUpperCase()]: new GraphQLClient(INFO_CLIENT_WITH_CHAIN[chain.id])}

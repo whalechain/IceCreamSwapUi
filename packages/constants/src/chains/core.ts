@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const core: IceChain = {
   id: 1116,
   name: 'Core Blockchain',
-  features: ['swap', 'bridge', 'farms', 'locks', 'staking', 'info', 'kyc', 'launchpad', 'tokenDeployer'],
+  features: ['swap', 'swapV3', 'bridge', 'farms', 'farmsV3', 'locks', 'staking', 'info', 'kyc', 'launchpad', 'tokenDeployer'],
   network: 'core',
   rpcUrls: {
     public: { http: ['https://rpc-core.icecreamswap.com'] },
@@ -34,7 +34,7 @@ export const core: IceChain = {
   },
   blockInterval: 3,
   wrappedNative: {
-    address: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+    address: '0xb0788B601C0D712702bc829B52771199ad8E33Ff',
     decimals: 18,
     symbol: 'WCORE',
     name: 'Wrapped Core',
@@ -53,4 +53,5 @@ export const core: IceChain = {
     contractKycDelegator: '0x682EAb822E5896dF1cD33C1Cd6EE99a3154Dd47E',
     contractKycDelegations: '0x790C138B110Bfb517cE5FaB8CF1a51ffDaAa9754',
   },
+  v3SubgraphStart: 9212906,
 }

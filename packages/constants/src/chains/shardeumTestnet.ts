@@ -20,8 +20,8 @@ export const shardeumTestnet: IceChain = {
   },
   contracts: {
     multicall3: {
-      address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
-      blockCreated: 4015,
+      address: '0x7074ce83cb6b889a0ac896f3fc5636db732968e8',
+      blockCreated: 57501,
     },
   },
   blockInterval: 60,
