@@ -1,6 +1,6 @@
-import { coreTokens } from "@pancakeswap/tokens";
+import {coreTokens} from "@pancakeswap/tokens";
 
-import { PoolCategory, SerializedPool } from '../../types'
+import {PoolCategory, SerializedPool} from '../../types'
 
 export const livePools: SerializedPool[] = [// souceId can be any positive number as long as it is unique and not 0
   // version can't be 3 as that uses the pancake profiles that we did not implement
@@ -28,7 +28,7 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     earningToken: coreTokens.youngparrot,
     contractAddress: '0x650963Bcf8e55c0ec811a0604beCABa7237902f9',
     poolCategory: PoolCategory.CORE,
-    tokenPerBlock: ' 0.9645',
+    tokenPerBlock: '0.9645',
     version: 2,
   },
   {
@@ -40,6 +40,14 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     tokenPerBlock: '0.000868',
     version: 2,
   },
+].map((p: any) => ({
+  ...p,
+  stakingToken: p.stakingToken.serialize,
+  earningToken: p.earningToken.serialize,
+}))
+
+// known finished pools
+const finishedPools = [
   {
     sousId: 48,
     stakingToken: coreTokens.gator,
@@ -266,13 +274,6 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     version: 2,
   },
 ].map((p: any) => ({
-  ...p,
-  stakingToken: p.stakingToken.serialize,
-  earningToken: p.earningToken.serialize,
-}))
-
-// known finished pools
-const finishedPools = [].map((p: any) => ({
   ...p,
   isFinished: true,
   stakingToken: p.stakingToken.serialize,
