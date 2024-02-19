@@ -14,6 +14,15 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     version: 2,
   },
   {
+    sousId: 51,
+    stakingToken: coreTokens.pipi,
+    earningToken: coreTokens.pipi,
+    contractAddress: '0x78eD864D5601474408e2e663679fD184CfA3F306',
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '45.2660',
+    version: 2,
+  },
+  {
     sousId: 50,
     stakingToken: coreTokens.youngparrot,
     earningToken: coreTokens.youngparrot,
