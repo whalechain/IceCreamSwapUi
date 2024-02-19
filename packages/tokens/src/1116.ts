@@ -50,4 +50,5 @@ export const coreTokens = {
   btcb: new ERC20Token(ChainId.CORE, '0x2297aEbD383787A160DD0d9F71508148769342E3', 8, 'BTC.b', 'Bitcoin'),
   ypc: new ERC20Token(ChainId.CORE, '0xf15fBa1E7112d680055962fB85a0C04550f24097', 18, 'YPC', 'YoungParrot'),
   youngparrot: new ERC20Token(ChainId.CORE, '0xf15fBa1E7112d680055962fB85a0C04550f24097', 18, 'YPC', 'YoungParrot'),
+  pipi: new ERC20Token(ChainId.CORE, '0x3034802fc4C9A278D0886eD77fd3F79fd789c898', 18, 'PIPI', 'PIPI_LOL'),
 }
