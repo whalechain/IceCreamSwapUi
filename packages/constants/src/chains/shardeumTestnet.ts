@@ -26,7 +26,7 @@ export const shardeumTestnet: IceChain = {
   },
   blockInterval: 60,
   wrappedNative: {
-    address: '0xBb5e1777A331ED93E07cF043363e48d320eb96c4',
+    address: '0x5eB65C6feC23d4eb36bC9966aA110Fe13FBd7c7F',
     decimals: 18,
     symbol: 'WSHM',
     name: 'Wrapped Shardeum',
