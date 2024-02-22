@@ -20,7 +20,7 @@ export const shardeumTestnet: IceChain = {
   },
   contracts: {
     multicall3: {
-      address: '0x7074ce83cb6b889a0ac896f3fc5636db732968e8',
+      address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
       blockCreated: 57501,
     },
   },
@@ -34,6 +34,6 @@ export const shardeumTestnet: IceChain = {
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
-    routerAddress: ROUTER_ADDRESS,
+    routerAddress: "0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62",
   },
 }
