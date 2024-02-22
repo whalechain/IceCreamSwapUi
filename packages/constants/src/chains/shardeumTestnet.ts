@@ -1,4 +1,4 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
+import { FACTORY_ADDRESS, INIT_CODE_HASH } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const shardeumTestnet: IceChain = {
