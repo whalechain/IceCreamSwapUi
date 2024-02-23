@@ -319,8 +319,12 @@ function Remove({ tokenId }: { tokenId: bigint }) {
           )}
         />
       )}
-      pendingText={`Removing ${liquidityValue0?.toSignificant(6)} ${liquidityValue0?.currency?.symbol} and
-      ${liquidityValue1?.toSignificant(6)} ${liquidityValue1?.currency?.symbol}`}
+      pendingText={t("Removing %amountA% %symbolA% and %amountB% %symbolB%", {
+        amountA: liquidityValue0?.toSignificant(6),
+        symbolA: liquidityValue0?.currency?.symbol,
+        amountB: liquidityValue1?.toSignificant(6),
+        symbolB: liquidityValue1?.currency?.symbol
+      })}
     />,
     true,
     true,
@@ -329,11 +333,11 @@ function Remove({ tokenId }: { tokenId: bigint }) {
 
   const showCollectAsWNative = Boolean(
     liquidityValue0?.currency &&
-      liquidityValue1?.currency &&
-      (liquidityValue0.currency.isNative ||
-        liquidityValue1.currency.isNative ||
-        WNATIVE[liquidityValue0.currency.chainId]?.equals(liquidityValue0.currency.wrapped) ||
-        WNATIVE[liquidityValue1.currency.chainId]?.equals(liquidityValue1.currency.wrapped)),
+    liquidityValue1?.currency &&
+    (liquidityValue0.currency.isNative ||
+      liquidityValue1.currency.isNative ||
+      WNATIVE[liquidityValue0.currency.chainId]?.equals(liquidityValue0.currency.wrapped) ||
+      WNATIVE[liquidityValue1.currency.chainId]?.equals(liquidityValue1.currency.wrapped)),
   )
 
   return (
