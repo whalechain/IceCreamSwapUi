@@ -41,4 +41,5 @@ export const bitgertTokens = {
   usdci: new ERC20Token(ChainId.BITGERT, '0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c', 18, 'USDCi', 'USD Coin IcecreamSwap'),
   busdi: new ERC20Token(ChainId.BITGERT, '0xd0CE781960c6356A7175988751bfC8d7cd28EA60', 18, 'BUSDi', 'BUSD IcecreamSwap'),
   bambi: new ERC20Token(ChainId.BITGERT, '0x6C8Af2c462c4D3A487d005A6FeFBcdc95a7F5dfe', 18, 'WBMBIV2', 'WrappedBambiTokenV2'),
+  bbi: new ERC20Token(ChainId.BITGERT, '0x43Fd2FAfa5cfcCb66d03061b59a25f02ec194d1B', 9, 'BBI', 'BubbleBassInu'),
 }

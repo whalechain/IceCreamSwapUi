@@ -60,6 +60,13 @@ const farms: SerializedFarmConfig[] = [
     quoteToken: bitgertTokens.usdti,
   },
   {
+    pid: 31,
+    lpSymbol: 'BBI-BRISE LP',
+    lpAddress: '0x43d856df6f0a66076bd5494d8e853bc090ceab7a',
+    token: bitgertTokens.bbi,
+    quoteToken: bitgertTokens.wbrise,
+  },
+  {
     pid: 30,
     lpSymbol: 'BAMBI-USDTi LP',
     lpAddress: '0x61e8dc598F9AE5beC4c72bFae328FBeBB751F017',
