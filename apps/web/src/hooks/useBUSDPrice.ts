@@ -58,6 +58,7 @@ export function useStablecoinPrice(
       refreshInterval: 30_000,
     },
   )
+  console.log(2314512351352, enableLlama, priceFromLlama)
 
   const amountOut = useMemo(
     () => (stableCoin ? CurrencyAmount.fromRawAmount(stableCoin, 5 * 10 ** stableCoin.decimals) : undefined),

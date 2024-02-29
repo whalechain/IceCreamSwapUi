@@ -30,6 +30,7 @@ export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.SHIMMER]: shimmerTokens.usdt,
   [ChainId.SCROLL]: scrollTokens.usdt,
   [ChainId.NEON]: neonTokens.usdt,
+  [ChainId.BLAST]: blastTokens.usdb,
 }
 export const STABLE_COIN = USD
 
