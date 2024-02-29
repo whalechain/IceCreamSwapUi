@@ -13,6 +13,7 @@ import { baseTokens } from "./8453";
 import { shimmerTokens } from "./148";
 import { scrollTokens } from "./534352";
 import { neonTokens } from "./245022934";
+import {blastTokens} from "./81457";
 
 export const USD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.usdti,
@@ -48,4 +49,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.SHIMMER]: shimmerTokens.ice,
   [ChainId.SCROLL]: scrollTokens.ice,
   [ChainId.NEON]: neonTokens.ice,
+  [ChainId.BLAST]: blastTokens.ice_b,
 }
