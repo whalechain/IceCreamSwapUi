@@ -13,9 +13,11 @@ import { base } from "./base";
 import { shimmer } from "./shimmer"
 import { scroll } from "./scroll"
 import { neon } from "./neon"
+import { blast } from "./blast"
 
 export const chainMap = {
   core,
+  blast,
   neon,
   shimmer,
   bsc,
@@ -39,6 +41,7 @@ export const getChain = (chainId: number) => {
 
 export enum ChainId {
   CORE = core.id,
+  BLAST = blast.id,
   NEON = neon.id,
   SHIMMER = shimmer.id,
   BSC = bsc.id,

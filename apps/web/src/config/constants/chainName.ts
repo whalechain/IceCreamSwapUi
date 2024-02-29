@@ -16,6 +16,7 @@ const chainName: Record<ChainId, string> = {
   [ChainId.BASE]: 'Base',
   [ChainId.SCROLL]: 'Scroll',
   [ChainId.NEON]: 'Neon EVM',
+  [ChainId.BLAST]: 'Blast L2',
 }
 
 export default chainName
