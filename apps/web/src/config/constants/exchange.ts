@@ -14,6 +14,7 @@ import {
   shimmerTokens,
   scrollTokens,
   neonTokens,
+  blastTokens,
 } from '@pancakeswap/tokens'
 import { ChainTokenList } from './types'
 
@@ -47,6 +48,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt, shimmerTokens.wsmr],
   [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt, scrollTokens.weth],
   [ChainId.NEON]: [neonTokens.ice, neonTokens.usdt, neonTokens.wneon],
+  [ChainId.BLAST]: [blastTokens.ice_b, blastTokens.weth],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -103,6 +105,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
   [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
   [ChainId.NEON]: [neonTokens.wneon, neonTokens.ice, neonTokens.usdt],
+  [ChainId.BLAST]: [blastTokens.ice_b, blastTokens.weth],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -159,6 +162,9 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [neonTokens.usdt, neonTokens.ice],
     [neonTokens.wneon, neonTokens.ice],
     [neonTokens.wneon, neonTokens.usdt],
+  ],
+  [ChainId.BLAST]: [
+    [blastTokens.ice_b, blastTokens.weth],
   ],
 }
 
