@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useMemo, ReactNode } from 'react'
 import { useTranslation } from '@pancakeswap/localization'
-import { useWeb3React } from '@pancakeswap/wagmi'
 import { Currency, CurrencyAmount, Percent } from '@pancakeswap/sdk'
 import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
 import { formatAmount } from '@pancakeswap/utils/formatFractions'
@@ -133,6 +132,7 @@ export function FormMain({ pricingAndSlippage, inputAmount, outputAmount, tradeL
         id="swap-currency-output"
         showUSDPrice
         showCommonBases
+        disabled={true}
         showMaxButton={false}
         inputLoading={!isWrapping && outputLoading}
         currencyLoading={!loadedUrlParams}
