@@ -45,10 +45,10 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
   [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
   [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
-  [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt, shimmerTokens.wsmr],
-  [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt, scrollTokens.weth],
-  [ChainId.NEON]: [neonTokens.ice, neonTokens.usdt, neonTokens.wneon],
-  [ChainId.BLAST]: [],
+  [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt],
+  [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt],
+  [ChainId.NEON]: [neonTokens.ice, neonTokens.usdt],
+  [ChainId.BLAST]: [blastTokens.usdb],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
