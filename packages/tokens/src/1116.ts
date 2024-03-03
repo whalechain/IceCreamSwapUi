@@ -51,5 +51,6 @@ export const coreTokens = {
   youngparrot: new ERC20Token(ChainId.CORE, '0xf15fBa1E7112d680055962fB85a0C04550f24097', 18, 'YPC', 'YoungParrot'),
   pipi: new ERC20Token(ChainId.CORE, '0x3034802fc4C9A278D0886eD77fd3F79fd789c898', 18, 'PIPI', 'PIPI_LOL'),
   cdao: new ERC20Token(ChainId.CORE, '0x42077e348702f13Ea80CE6a6A38b8b60fbb37B5d', 18, 'cDAO', 'cDAO'),
+  koci: new ERC20Token(ChainId.CORE, '0x6C0eEB2B306e1c7ec699E618031cA5C7Fb0363ab', 18, 'KOCI', 'KING OCICAT'),
 
 }
