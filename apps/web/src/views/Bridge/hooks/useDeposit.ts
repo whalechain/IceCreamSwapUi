@@ -9,7 +9,7 @@ import { getContract } from "utils/contractHelpers";
 import { useActiveChainId } from "hooks/useActiveChainId";
 
 
-export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
+export const useDeposit = (bridgeFeeWei: bigint = 0n) => {
   const { account } = useWeb3React()
   const { chainId } = useActiveChainId()
   const { setTransactionStatus, setDepositNonce, setHomeTransferTxHash, homeChainConfig } = useBridge()
@@ -108,11 +108,9 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
 
       setTransactionStatus('Deposit')
 
-      let value = 0n
+      let value = bridgeFeeWei
       if (isNative) {
-        value = amountBI
-      } else if (bridgeFee && bridgeFeeToken === '0x0000000000000000000000000000000000000000') {
-        value = parseUnits(bridgeFee.toString(), 18)
+        value += amountBI
       }
 
       const depositTransaction = await homeBridge.write.deposit(

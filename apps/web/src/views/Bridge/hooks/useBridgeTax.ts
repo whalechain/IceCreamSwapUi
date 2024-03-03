@@ -20,6 +20,7 @@ export const useBridgeTax = () => {
   const { chainId } = useActiveChainId()
   const { data: walletClient } = useWalletClient()
   const { account} = useWeb3React()
+  const [bridgeFeeNativeWei, setBridgeFeeNativeWei] = useState<bigint | undefined>()
   const [bridgeFee, setBridgeFee] = useState<number | undefined>()
   const [bridgeFeeToken, setBridgeFeeToken] = useState<string | undefined>()
   const [relayerThreshold, setRelayerThreshold] = useState<number | undefined>()
@@ -73,7 +74,13 @@ export const useBridgeTax = () => {
         }`
 
         try {
-          const [ feeToken, fee ] = await homeBridge.read.calculateFee([
+          const [ feeToken, fee ] = await homeBridge.read.calculateHandlerFee([
+            destinationDomainId,
+            token.resourceId as `0x${string}`,
+            data,
+          ])
+
+          const feeNative = await homeBridge.read.calculateBridgeFee([
             destinationDomainId,
             token.resourceId as `0x${string}`,
             data,
@@ -95,6 +102,7 @@ export const useBridgeTax = () => {
           }
           // eslint-disable-next-line @typescript-eslint/no-shadow
           const bridgeFee = Number(utils.formatUnits(fee, decimals))
+          setBridgeFeeNativeWei(feeNative)
           setBridgeFee(bridgeFee)
           setBridgeFeeToken(feeToken)
         } catch (e) {
@@ -119,6 +127,8 @@ export const useBridgeTax = () => {
   return {
     bridgeFee,
     bridgeFeeToken,
+    bridgeFeeNativeWei,
+    bridgeFeeNative: bridgeFeeNativeWei? Number(utils.formatUnits(bridgeFeeNativeWei, 18)): undefined,
     relayerThreshold,
     bridgeFeeCurrency,
     hasBridgeFee: checkFee(),

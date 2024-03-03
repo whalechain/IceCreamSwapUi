@@ -10,15 +10,16 @@ import { useTranslation } from '@pancakeswap/localization'
 interface DepositButtonProps {
   validateForm: () => Promise<boolean>
   setHasSubmitted: (hasSubmitted: boolean) => void
+  nativeFeeWei: bigint
 }
 
 const DepositButton: React.FC<DepositButtonProps> = (props) => {
   const { t } = useTranslation()
-  const { validateForm, setHasSubmitted } = props
+  const { validateForm, setHasSubmitted, nativeFeeWei } = props
   const { account } = useWeb3React()
 
   const bridge = useBridge()
-  const { deposit, approve } = useDeposit()
+  const { deposit, approve } = useDeposit(nativeFeeWei)
 
   const [onPresentDepositModal, , isOpen] = useModal(
     <DepositModal bridge={bridge as any} deposit={deposit} approve={approve} />,

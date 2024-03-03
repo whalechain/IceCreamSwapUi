@@ -40,7 +40,7 @@ export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
     tokenSelected: { message: t('Please select a token'), field: 'currency' },
     amountValid: { message: t('Please enter a valid amount'), field: 'currency' },
     max: { message: t('Insufficient funds'), field: 'currency' },
-    fee: { message: t('Amount below min fee'), field: 'currency' },
+    fee: { message: t('Could not calculate fee'), field: 'currency' },
     bridgeSupplies: { message: t('Not enough tokens on the destination chain. Please contact support'), field: 'currency' },
     min: { message: t('Amount must be greater than 0'), field: 'currency' },
     tokenProvided: { message: t('Please select a token'), field: 'currency' },
