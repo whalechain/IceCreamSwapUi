@@ -30,6 +30,7 @@ import { useSupportedChains } from 'hooks/useSupportedChains'
 import { NetworkSelectModal } from "components/NetworkModal/NetworkSelectModal";
 import MenuIcon from "@pancakeswap/uikit/widgets/Menu/components/UserMenu/MenuIcon";
 import { LabelText, StyledUserMenu } from "@pancakeswap/uikit/widgets/Menu/components/UserMenu";
+import { defaultChainId } from '@icecreamswap/constants'
 
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
@@ -76,7 +77,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
     },
   )
   const { chain } = useNetwork()
-  const localChainId = useLocalNetworkChain() || ChainId.CORE
+  const localChainId = useLocalNetworkChain() || defaultChainId
   const [, setSessionChainId] = useSessionChainId()
 
   const localChainName = chains.find((c) => c.id === localChainId)?.name ?? 'BSC'

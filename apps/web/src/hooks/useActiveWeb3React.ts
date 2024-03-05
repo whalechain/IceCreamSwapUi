@@ -8,6 +8,7 @@ import { CHAIN_QUERY_NAME, getChainId } from 'config/chains'
 import { getHashFromRouter } from 'utils/getHashFromRouter'
 import { useActiveChainId } from './useActiveChainId'
 import { useSwitchNetworkLoading } from './useSwitchNetworkLoading'
+import { defaultChainId } from '@icecreamswap/constants'
 
 export function useNetworkConnectorUpdater() {
   const { chainId } = useActiveChainId()
@@ -22,7 +23,7 @@ export function useNetworkConnectorUpdater() {
     if (loading || !router.isReady) return setPrevChainId()
     const parsedQueryChainId = getChainId(router.query.chain as string)
 
-    // if (!parsedQueryChainId && chainId === ChainId.BSC) return setPrevChainId()
+    if (!parsedQueryChainId && chainId === defaultChainId) return setPrevChainId()
     if (parsedQueryChainId !== chainId && isChainSupported(chainId)) {
       const removeQueriesFromPath =
         previousChainIdRef.current !== chainId &&

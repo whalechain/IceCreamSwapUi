@@ -57,3 +57,5 @@ export enum ChainId {
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
 }
+
+export const defaultChainId = ChainId.CORE
