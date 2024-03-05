@@ -38,16 +38,16 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.DOGE]: [dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.ice, coreTokens.score, coreTokens.usdt],
-  [ChainId.XODEX]: [xodexTokens.ice, xodexTokens.usdt],
+  [ChainId.XDC]: [xdcTokens.ice],
+  [ChainId.CORE]: [coreTokens.ice, coreTokens.usdt],
+  [ChainId.XODEX]: [xodexTokens.ice],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
-  [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
-  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
-  [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
-  [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt],
-  [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt],
-  [ChainId.NEON]: [neonTokens.ice, neonTokens.usdt],
+  [ChainId.TELOS]: [telosTokens.ice],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice],
+  [ChainId.BASE]: [baseTokens.ice],
+  [ChainId.SHIMMER]: [shimmerTokens.ice],
+  [ChainId.SCROLL]: [scrollTokens.ice],
+  [ChainId.NEON]: [neonTokens.ice],
   [ChainId.BLAST]: [blastTokens.usdb],
 }
 
@@ -164,7 +164,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [neonTokens.wneon, neonTokens.usdt],
   ],
   [ChainId.BLAST]: [
-    [blastTokens.ice_b, blastTokens.weth],
   ],
 }
 
