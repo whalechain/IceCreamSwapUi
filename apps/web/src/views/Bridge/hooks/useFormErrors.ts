@@ -17,16 +17,19 @@ export type FormValidation<T extends string> = Record<
   }
 >
 
-type Checks =
-  | 'tokenSelected'
-  | 'amountValid'
-  | 'max'
-  | 'fee'
-  | 'bridgeSupplies'
-  | 'min'
-  | 'tokenProvided'
-  | 'recipientProvided'
-  | 'recipientValid'
+// if multiple checks fail on the same field, the last one will be displayed
+const checkValues = [
+  'bridgeSupplies',
+  'recipientValid',
+  'recipientProvided',
+  'fee',
+  'max',
+  'min',
+  'amountValid',
+  'tokenProvided',
+  'tokenSelected',
+] as const
+type Checks = typeof checkValues[number]
 
 export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
   const { t } = useTranslation()
@@ -39,7 +42,7 @@ export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
   > = {
     tokenSelected: { message: t('Please select a token'), field: 'currency' },
     amountValid: { message: t('Please enter a valid amount'), field: 'currency' },
-    max: { message: t('Insufficient funds'), field: 'currency' },
+    max: { message: t('Insufficient balance'), field: 'currency' },
     fee: { message: t('Could not calculate fee'), field: 'currency' },
     bridgeSupplies: { message: t('Not enough tokens on the destination chain. Please contact support'), field: 'currency' },
     min: { message: t('Amount must be greater than 0'), field: 'currency' },
@@ -73,9 +76,6 @@ export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
 
     const checkMax = () => {
       if (!tokenBalances[tokenAddress]) return false
-      if (homeChainConfig?.type === 'Ethereum') {
-        return parseFloat(depositAmount || '0') <= parseFloat(tokenBalances[tokenAddress].toExact())
-      }
       const ethFee = bridgeFeeToken
         ? bridgeFeeToken === '0x0000000000000000000000000000000000000001'
           ? bridgeFee
@@ -116,7 +116,8 @@ export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
     }
     console.log('checks', checks)
 
-    Object.entries(checks).forEach(([check, isValid]) => {
+    checkValues.forEach((check) => {
+      const isValid = checks[check]
       if (!isValid) {
         const { message, field } = checkToMessage[check as Checks]
         errors[field] = message
