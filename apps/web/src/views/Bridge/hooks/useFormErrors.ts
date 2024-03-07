@@ -52,7 +52,7 @@ export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
     currency instanceof ERC20Token
       ? currency.address
       : currency?.isNative
-      ? '0x0000000000000000000000000000000000000000'
+      ? '0x0000000000000000000000000000000000000001'
       : undefined
   const [formErrors, setFormErrors] = useState<FormErrors>({})
   const [hasSubmitted, setHasSubmitted] = useState(false)
@@ -77,7 +77,7 @@ export const useFormErrors = (bridgeFee?: number, bridgeFeeToken?: string) => {
         return parseFloat(depositAmount || '0') <= parseFloat(tokenBalances[tokenAddress].toExact())
       }
       const ethFee = bridgeFeeToken
-        ? bridgeFeeToken === '0x0000000000000000000000000000000000000000'
+        ? bridgeFeeToken === '0x0000000000000000000000000000000000000001'
           ? bridgeFee
           : 0
         : 0

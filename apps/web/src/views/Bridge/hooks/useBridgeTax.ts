@@ -39,7 +39,7 @@ export const useBridgeTax = () => {
     currency instanceof ERC20Token
       ? currency.address
       : currency?.isNative
-      ? '0x0000000000000000000000000000000000000000'
+      ? '0x0000000000000000000000000000000000000001'
       : undefined
   const destinationDomainId = destinationChainConfig?.domainId
 
@@ -64,7 +64,7 @@ export const useBridgeTax = () => {
           chainId,
           signer: walletClient,
         })
-        const isNative = token.address === '0x0000000000000000000000000000000000000000'
+        const isNative = token.address === '0x0000000000000000000000000000000000000001'
         const erc20Decimals = homeChainConfig.decimals || (isNative ? 18 : await erc20.read.decimals())
 
         const data: `0x${string}` = `0x${utils
@@ -87,7 +87,7 @@ export const useBridgeTax = () => {
           ])
           const feeTokenInfos = homeChainConfig.tokens.find((t) => t.address === feeToken)
           let decimals: number
-          if (feeToken === '0x0000000000000000000000000000000000000000') {
+          if (feeToken === '0x0000000000000000000000000000000000000001') {
             decimals = 18
           } else if (!feeTokenInfos) {
             const feeTokenErc20 = getContract({
