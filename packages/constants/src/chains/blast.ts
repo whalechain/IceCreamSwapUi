@@ -7,11 +7,11 @@ export const blast: IceChain = {
   features: ['swap'],
   network: 'blast',
   rpcUrls: {
-    public: { http: ['https://blast.blockpi.network/v1/rpc/public'] },
-    default: { http: ['https://blast.blockpi.network/v1/rpc/public'] },
+    public: { http: ['https://rpc.blast.io'] },
+    default: { http: ['https://rpc.blast.io'] },
   },
   blockExplorers: {
-    default: { name: 'Blast L2 Explorer', url: 'https://81457.routescan.io' },
+    default: { name: 'Blast L2 Explorer', url: 'https://blastscan.io' },
   },
   nativeCurrency: {
     name: 'Ether',
