@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const blast: IceChain = {
   id: 81457,
   name: 'Blast L2',
-  features: ['swap'],
+  features: ['swap', 'bridge'],
   network: 'blast',
   rpcUrls: {
     public: { http: ['https://rpc.blast.io'] },
