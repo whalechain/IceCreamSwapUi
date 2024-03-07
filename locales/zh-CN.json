@@ -108,6 +108,7 @@
   "Recipient Address": "收款人地址",
   "Transfer Amount": "转账金额",
   "Bridge Fee": "跨链手续费",
+  "Gas fee": "矿工费",
   "Transaction Failed": "交易失败",
   "Confirm Bridge Transfer": "确认跨链转账",
   "Please wait for the transfer to complete": "请等待转账完成",
