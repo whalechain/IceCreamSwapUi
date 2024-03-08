@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const neon: IceChain = {
   id: 245022934,
-  name: 'Neon EVM Blockchain',
+  name: 'Neon EVM Mainnet',
   features: ['swap', 'bridge', 'staking', 'farms'],
   network: 'neon',
   rpcUrls: {

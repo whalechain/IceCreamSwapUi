@@ -33,7 +33,7 @@ export const useDeposit = (bridgeFeeWei: bigint = 0n) => {
       console.log('Invalid token selected')
       return
     }
-    const isNative = token.address === '0x0000000000000000000000000000000000000000'
+    const isNative = token.address === '0x0000000000000000000000000000000000000001'
     // const erc20 = Erc20DetailedFactory.connect(tokenAddress, signer)
     const erc20 = getContract({
       abi: erc20ABI,
@@ -80,7 +80,7 @@ export const useDeposit = (bridgeFeeWei: bigint = 0n) => {
       chainId,
       signer: walletClient,
     })
-    const isNative = token.address === '0x0000000000000000000000000000000000000000'
+    const isNative = token.address === '0x0000000000000000000000000000000000000001'
 
     const erc20Decimals = isNative ? 18 : await erc20.read.decimals()
 

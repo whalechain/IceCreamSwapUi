@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const shimmer: IceChain = {
   id: 148,
-  name: 'Shimmer EVM',
+  name: 'ShimmerEVM',
   features: ['swap', 'bridge', 'farms', 'info', 'kyc'],
   network: 'shimmer',
   rpcUrls: {

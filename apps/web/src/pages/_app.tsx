@@ -30,9 +30,10 @@ import GlobalStyle from '../style/Global'
 import { SupportedChainsProvider, useSupportedChains } from '../hooks/useSupportedChains'
 import { CHAIN_IDS } from '../utils/wagmi'
 import { poppins } from '../style/font'
-import useActiveWeb3React from '../hooks/useActiveWeb3React'
 import { trpc } from '@icecreamswap/backend'
 import { useActiveChainId } from "hooks/useActiveChainId";
+import {CHAIN_QUERY_NAME} from "config/chains";
+import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
 
 const EasterEgg = dynamic(() => import('../components/EasterEgg'), { ssr: false })
 
@@ -158,13 +159,13 @@ const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryEr
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { chainId } = useActiveChainId()
   const supportedChains = useSupportedChains()
+  /*
   useEffect(() => {
     if (supportedChains.length > 0 && !supportedChains.includes(chainId)) {
-      const url = new URL(window.location.href)
-      url.searchParams.set('chainId', supportedChains[0].toString())
-      window.location.href = url.href
+      replaceBrowserHistory('chain', CHAIN_QUERY_NAME[supportedChains[0]])
     }
   }, [chainId, supportedChains])
+  */
   const wrongChain = typeof chainId !== 'undefined' && !supportedChains.includes(chainId)
   if (Component.pure) {
     return <Component {...pageProps} />
