@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const xdc: IceChain = {
   id: 50,
-  name: 'XinFin XDC Network',
+  name: 'XDC Network',
   features: ['swap', 'bridge', 'farms', 'staking', 'locks', 'info', 'kyc'],
   network: 'xdc',
   rpcUrls: {

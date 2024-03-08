@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const core: IceChain = {
   id: 1116,
-  name: 'Core Blockchain',
+  name: 'Core Blockchain Mainnet',
   features: ['swap', 'swapV3', 'bridge', 'farms', 'farmsV3', 'locks', 'staking', 'info', 'kyc', 'launchpad', 'tokenDeployer'],
   network: 'core',
   rpcUrls: {

@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const shardeumTestnet: IceChain = {
   id: 8082,
-  name: 'Shardeum(Testnet)',
+  name: 'Shardeum Sphinx 1.X',
   features: ['swap'],
   network: 'shardeumTestnet',
   rpcUrls: {

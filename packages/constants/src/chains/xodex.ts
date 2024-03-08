@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const xodex: IceChain = {
   id: 2415,
-  name: 'XoDex',
+  name: 'XODEX',
   features: ['swap', 'farms'],
   network: 'xodex',
   rpcUrls: {
