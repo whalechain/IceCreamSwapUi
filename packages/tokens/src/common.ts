@@ -50,4 +50,5 @@ export const ICE: Record<ChainId, ERC20Token> = {
   [ChainId.SHIMMER]: shimmerTokens.ice,
   [ChainId.SCROLL]: scrollTokens.ice,
   [ChainId.NEON]: neonTokens.ice,
+  [ChainId.BLAST]: blastTokens.ice,
 }

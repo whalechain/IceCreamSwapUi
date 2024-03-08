@@ -271,6 +271,33 @@ const chains = [
       },
     ],
   },
+  {
+    domainId: 15,
+    networkId: 81457,
+    name: 'Blast',
+    decimals: 18,
+    bridgeAddress: '0x575C065Bf1Fa9D6F0F94AAC620a6936dD8517c7D' as Address,
+    rpcUrl: 'https://rpc.blast.io',
+    type: 'Ethereum',
+    nativeTokenSymbol: 'ETH',
+    tokens: [
+      {
+        address: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3' as Address,
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0x0000000000000000000000000000000000000001' as Address,
+        name: 'Ether',
+        symbol: 'ETH',
+        imageUri:
+          'https://icecreamswap-assets.s3.amazonaws.com/token/81457/0x4300000000000000000000000000000000000004.png',
+        resourceId: '0x00000000000000000000002170Ed0880ac9A755fd29B2688956BD959F933F801',
+      },
+    ],
+  },
 ]
 
 export type BridgeChain = typeof chains[number]
