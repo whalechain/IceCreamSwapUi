@@ -48,7 +48,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.SHIMMER]: [shimmerTokens.ice],
   [ChainId.SCROLL]: [scrollTokens.ice],
   [ChainId.NEON]: [neonTokens.ice],
-  [ChainId.BLAST]: [blastTokens.usdb],
+  [ChainId.BLAST]: [blastTokens.ice, blastTokens.usdb],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -105,7 +105,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
   [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
   [ChainId.NEON]: [neonTokens.wneon, neonTokens.ice, neonTokens.usdt],
-  [ChainId.BLAST]: [blastTokens.ice_b, blastTokens.weth],
+  [ChainId.BLAST]: [blastTokens.ice, blastTokens.weth, blastTokens.usdb],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -164,6 +164,9 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [neonTokens.wneon, neonTokens.usdt],
   ],
   [ChainId.BLAST]: [
+    [blastTokens.weth, blastTokens.ice],
+    [blastTokens.usdb, blastTokens.ice],
+    [blastTokens.weth, blastTokens.usdb],
   ],
 }
 
