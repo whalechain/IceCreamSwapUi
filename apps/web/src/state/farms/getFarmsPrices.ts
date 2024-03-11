@@ -1,11 +1,11 @@
-import { ChainId, Pair, WETH9 } from "@pancakeswap/sdk";
+import {ChainId, FACTORY_ADDRESS_MAP, Pair, WETH9} from "@pancakeswap/sdk";
 import { chains } from "@icecreamswap/constants";
 import { coreTokens, USD } from "@pancakeswap/tokens";
 
 export const nativeStableLpMap = {...chains.reduce((acc, chain) => {
   const wNative = WETH9[chain.id]
   const stable = USD[chain.id]
-  if (!wNative || !stable) return acc
+  if (!wNative || !stable || !FACTORY_ADDRESS_MAP[chain.id]) return acc
   return {...acc, [chain.id]: {
       address: Pair.getAddress(wNative, stable),
       wNative: wNative.symbol,
