@@ -31,6 +31,13 @@ export const fuse: IceChain = {
     symbol: 'WFUSE',
     name: 'Wrapped Fuse',
   },
+  iceAddress: '0x867f08A3ab824b42e8058a1B48e32E1dF205b092',
+  stableToken: {
+    address: '0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

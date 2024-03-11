@@ -39,6 +39,13 @@ export const core: IceChain = {
     symbol: 'WCORE',
     name: 'Wrapped Core',
   },
+  iceAddress: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+  stableToken: {
+    address: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

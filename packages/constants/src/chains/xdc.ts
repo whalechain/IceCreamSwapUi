@@ -34,6 +34,13 @@ export const xdc: IceChain = {
     symbol: 'WXDC',
     name: 'Wrapped XDC',
   },
+  iceAddress: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba',
+  stableToken: {
+    address: '0xc57F0eb99363e747D637B17BBdB4e1AB85e60631',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

@@ -34,6 +34,13 @@ export const bitgert: IceChain = {
     symbol: 'WBRISE',
     name: 'Wrapped Brise',
   },
+  iceAddress: '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D',
+  stableToken: {
+    address: '0xC7E6d7E08A89209F02af47965337714153c529F0',
+    decimals: 18,
+    symbol: 'USDTi',
+    name: 'Tether USD IceCreamSwap',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

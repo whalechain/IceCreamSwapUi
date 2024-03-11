@@ -31,6 +31,13 @@ export const shimmer: IceChain = {
     symbol: 'WSMR',
     name: 'Wrapped Shimmer',
   },
+  iceAddress: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+  stableToken: {
+    address: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: "0x24cb308a4e2F3a4352F513681Bd0c31a0bd3BA31",
     routerAddress: "0xBbB4CCfc93657AC125F4b1f734111349d1bFF611",

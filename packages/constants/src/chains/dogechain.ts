@@ -31,6 +31,13 @@ export const dogechain: IceChain = {
     symbol: 'WDOGE',
     name: 'Wrapped Doge',
   },
+  iceAddress: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
+  stableToken: {
+    address: '0xD2683b22287E63D22928CBe4514003a92507f474',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

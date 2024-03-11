@@ -31,6 +31,13 @@ export const neon: IceChain = {
     symbol: 'WNEON',
     name: 'Wrapped NEON',
   },
+  iceAddress: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+  stableToken: {
+    address: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

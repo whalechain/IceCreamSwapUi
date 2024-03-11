@@ -31,6 +31,13 @@ export const blast: IceChain = {
     symbol: 'WETH',
     name: 'Wrapped Ether',
   },
+  iceAddress: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
+  stableToken: {
+    address: '0x4300000000000000000000000000000000000003',
+    decimals: 18,
+    symbol: 'USDB',
+    name: 'Blast USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

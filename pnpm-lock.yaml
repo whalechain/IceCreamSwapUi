@@ -1247,6 +1247,9 @@ importers:
 
   packages/tokens:
     dependencies:
+      '@icecreamswap/constants':
+        specifier: workspace:*
+        version: link:../constants
       '@pancakeswap/sdk':
         specifier: workspace:*
         version: link:../swap-sdk

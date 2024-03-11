@@ -1,11 +1,12 @@
 import { ChainId, ERC20Token, WETH9 } from '@pancakeswap/sdk'
+import {ICE} from "./common";
 
 export const coreTokens = {
   wcore: WETH9[ChainId.CORE],
   wcore_old: new ERC20Token(ChainId.CORE, '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f', 18, 'WCORE', 'WrappedCoreOld'),
   core: new ERC20Token(ChainId.CORE, '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',18,'CORE','CORE'),
+  ice: ICE[ChainId.CORE],
   score: new ERC20Token(ChainId.CORE, '0xA20b3B97df3a02f9185175760300a06B4e0A2C05',18,'SCORE','StakedCore','https://icecreamswap.com'),
-  ice: new ERC20Token(ChainId.CORE, '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44', 18, 'ICE', 'IceCream', 'https://icecreamswap.com'),
   usdt: new ERC20Token(ChainId.CORE, '0x81bCEa03678D1CEF4830942227720D542Aa15817', 18, 'USDT', 'Tether USD'),
   usdc: new ERC20Token(ChainId.CORE, '0xD2683b22287E63D22928CBe4514003a92507f474', 18, 'USDC', 'USD Coin'),
   eth: new ERC20Token(ChainId.CORE, '0xeF6b7BC74C9354BCf2e3F2A068e4b0B5CDf08F29', 18, 'ETH', 'Ether'),

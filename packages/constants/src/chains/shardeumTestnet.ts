@@ -31,6 +31,13 @@ export const shardeumTestnet: IceChain = {
     symbol: 'WSHM',
     name: 'Wrapped Shardeum',
   },
+  iceAddress: '0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42',
+  stableToken: {
+    address: '0x43891084581fD07Ee1189f3a2f04e51c26a95B77',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,

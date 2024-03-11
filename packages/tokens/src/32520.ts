@@ -1,8 +1,9 @@
 import { ChainId, WETH9, ERC20Token } from '@pancakeswap/sdk'
+import {ICE} from "./common";
 
 export const bitgertTokens = {
   wbrise: WETH9[ChainId.BITGERT],
-  ice: new ERC20Token(ChainId.BITGERT, '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D', 18, 'ICE', 'IceCream', 'https://icecreamswap.com'),
+  ice: ICE[ChainId.BITGERT],
   sps: new ERC20Token(ChainId.BITGERT, '0x1633b7157e7638C4d6593436111Bf125Ee74703F', 18, 'SPS', 'Splinterlands Token', 'https://splinterlands.com'),
   sphynx: new ERC20Token(ChainId.BITGERT, '0x0e11DCE06eF2FeD6f78CEF5144F970E1184b4298', 18, 'SPHYNX', 'Sphynx BRISE'),
   bpad: new ERC20Token(ChainId.BITGERT, '0x71946a5C9dA7C95ee804a9BE561EC15A3F286A7D', 8, 'BPAD', 'Brisepad'),

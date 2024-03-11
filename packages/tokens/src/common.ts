@@ -1,4 +1,5 @@
 import { ChainId, ERC20Token } from '@pancakeswap/sdk'
+import { chains } from '@icecreamswap/constants'
 import { bitgertTokens } from './32520'
 import { dogechainTokens } from './2000'
 import { dokenTokens } from './61916'
@@ -15,32 +16,36 @@ import { scrollTokens } from "./534352";
 import { neonTokens } from "./245022934";
 import {blastTokens} from "./81457";
 
-export const USD: Record<ChainId, ERC20Token> = {
-  [ChainId.BITGERT]: bitgertTokens.usdti,
-  [ChainId.DOGE]: dogechainTokens.usdt,
-  [ChainId.DOKEN]: dokenTokens.usdt,
-  [ChainId.FUSE]: fuseTokens.usdt,
-  [ChainId.XDC]: xdcTokens.usdt,
-  [ChainId.CORE]: coreTokens.usdt,
-  [ChainId.XODEX]: xodexTokens.usdt,
-  [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.usdt,
-  [ChainId.TELOS]: telosTokens.usdt,
-  [ChainId.SHIMMER_TEST]: shimmerTestnetTokens.usdt,
-  [ChainId.BASE]: baseTokens.usdt,
-  [ChainId.SHIMMER]: shimmerTokens.usdt,
-  [ChainId.SCROLL]: scrollTokens.usdt,
-  [ChainId.NEON]: neonTokens.usdt,
-  [ChainId.BLAST]: blastTokens.usdb,
-}
+export const USD: Record<ChainId, ERC20Token> = chains.reduce((acc, chain) => {
+  if (!chain.stableToken) return acc
+  return {...acc, [chain.id]: new ERC20Token(
+    chain.id,
+    chain.stableToken.address,
+    chain.stableToken.decimals,
+    chain.stableToken.symbol,
+    chain.stableToken.name
+  )}
+}, {})
 export const STABLE_COIN = USD
 
-export const ICE: Record<ChainId, ERC20Token> = {
+export const ICE: Record<ChainId, ERC20Token> = chains.reduce((acc, chain) => {
+  if (!chain.iceAddress) return acc
+  return {...acc, [chain.id]: new ERC20Token(
+      chain.id,
+      chain.iceAddress,
+      18,
+      'ICE',
+      'IceCream',
+      'https://icecreamswap.com'
+    )}
+}, {})
+export const ICE_OLD: Record<ChainId, ERC20Token> = {
   [ChainId.BITGERT]: bitgertTokens.ice,
   [ChainId.DOGE]: dogechainTokens.ice,
   [ChainId.DOKEN]: dokenTokens.ice,
   [ChainId.FUSE]: fuseTokens.ice,
   [ChainId.XDC]: xdcTokens.ice,
-  [ChainId.BSC]: bitgertTokens.ice,  // todo: add proper BSC ICE
+  [ChainId.BSC]: bitgertTokens.ice,
   [ChainId.CORE]: coreTokens.ice,
   [ChainId.XODEX]: xodexTokens.ice,
   [ChainId.SHARDEUM_TEST]: shardeumTestnetTokens.ice,
