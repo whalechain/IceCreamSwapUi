@@ -2,7 +2,7 @@ import IceChain from '../ice-chain'
 
 export const qitmeer: IceChain = {
   id: 813,
-  name: 'Qitmeer Blockchain',
+  name: 'Qitmeer',
   features: ['swap', 'bridge'],
   network: 'qitmeer',
   rpcUrls: {
