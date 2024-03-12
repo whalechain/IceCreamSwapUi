@@ -99,7 +99,7 @@ const chains = [
     name: 'CORE',
     decimals: 18,
     bridgeAddress: '0x88cD606B63C4665499ad0d47d4685d2ffc78e2Be'  as Address,
-    rpcUrl: 'https://rpc-core.icecreamswap.com',
+    rpcUrl: 'https://rpc.coredao.org',
     type: 'Ethereum',
     nativeTokenSymbol: 'CORE',
     tokens: [
