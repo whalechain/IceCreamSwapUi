@@ -1,4 +1,5 @@
-import {Address} from "viem";
+import { Address } from "viem";
+import { getChain, ChainId } from "@icecreamswap/constants"
 
 const chains = [
   {
@@ -7,7 +8,7 @@ const chains = [
     name: 'BinanceSmartChain',
     decimals: 18,
     bridgeAddress: '0x3D4440F335060a0341C9E6C3bBeE85E552505FFF' as Address,
-    rpcUrl: 'https://binance.llamarpc.com',
+    rpcUrl: getChain(ChainId.BSC).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'BNB',
     tokens: [
@@ -43,7 +44,7 @@ const chains = [
     name: 'Bitgert',
     decimals: 18,
     bridgeAddress: '0x6A6A2C9A9e9dDf3a6D76B8e1d05701d7D57596B8' as Address,
-    rpcUrl: 'https://rpc.icecreamswap.com',
+    rpcUrl: getChain(ChainId.BITGERT).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'Brise',
     tokens: [
@@ -71,7 +72,7 @@ const chains = [
     name: 'XDC',
     decimals: 18,
     bridgeAddress: '0x7D5a56742C082FcDfc240cd7D1775f00e059771F' as Address,
-    rpcUrl: 'https://erpc.xinfin.network',
+    rpcUrl: getChain(ChainId.XDC).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'XDC',
     tokens: [
@@ -99,7 +100,7 @@ const chains = [
     name: 'CORE',
     decimals: 18,
     bridgeAddress: '0x88cD606B63C4665499ad0d47d4685d2ffc78e2Be'  as Address,
-    rpcUrl: 'https://rpc.coredao.org',
+    rpcUrl: getChain(ChainId.CORE).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'CORE',
     tokens: [
@@ -142,7 +143,7 @@ const chains = [
     name: 'Telos',
     decimals: 18,
     bridgeAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
-    rpcUrl: 'https://mainnet.telos.net/evm',
+    rpcUrl: getChain(ChainId.TELOS).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'TLOS',
     tokens: [
@@ -169,7 +170,7 @@ const chains = [
     name: 'Base',
     decimals: 18,
     bridgeAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
-    rpcUrl: 'https://developer-access-mainnet.base.org',
+    rpcUrl: getChain(ChainId.BASE).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
@@ -196,7 +197,7 @@ const chains = [
     name: 'Shimmer',
     decimals: 18,
     bridgeAddress: '0x4ddC9394b8371765588B10134AA79472C1d42b16' as Address,
-    rpcUrl: 'https://json-rpc.evm.shimmer.network',
+    rpcUrl: getChain(ChainId.SHIMMER).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'SMR',
     tokens: [
@@ -223,7 +224,7 @@ const chains = [
     name: 'Scroll',
     decimals: 18,
     bridgeAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
-    rpcUrl: 'https://rpc-scroll.icecreamswap.com',
+    rpcUrl: getChain(ChainId.SCROLL).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
@@ -250,7 +251,7 @@ const chains = [
     name: 'Neon EVM',
     decimals: 18,
     bridgeAddress: '0x4ddC9394b8371765588B10134AA79472C1d42b16' as Address,
-    rpcUrl: 'https://neon-proxy-mainnet.solana.p2p.org',
+    rpcUrl: getChain(ChainId.NEON).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'NEON',
     tokens: [
@@ -277,7 +278,7 @@ const chains = [
     name: 'Blast',
     decimals: 18,
     bridgeAddress: '0x575C065Bf1Fa9D6F0F94AAC620a6936dD8517c7D' as Address,
-    rpcUrl: 'https://rpc.blast.io',
+    rpcUrl: getChain(ChainId.BLAST).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
