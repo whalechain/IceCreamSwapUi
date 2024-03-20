@@ -34,7 +34,7 @@ export function useStablecoinPrice(
 
   const isStableCoin = currency && stableCoin && currency.wrapped.equals(stableCoin)
 
-  const shouldEnabled = currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
+  const shouldEnabled = currency && enabled && currentChainId === chainId // currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
 
   const enableLlama = shouldEnabled // currency?.chainId === ChainId.ETHEREUM && shouldEnabled
 
@@ -76,7 +76,22 @@ export function useStablecoinPrice(
   })
 
   const price = useMemo(() => {
-    if (!currency || !stableCoin || !enabled) {
+    if (!currency || !enabled) {
+      return undefined
+    }
+
+    if (priceFromLlama && enableLlama) {
+      return new Price(
+        currency,
+        stableCoin,
+        1 * 10 ** currency.decimals,
+        getFullDecimalMultiplier(stableCoin.decimals || 18)
+          .times(parseFloat(priceFromLlama).toFixed(stableCoin.decimals || 18))
+          .toString(),
+      )
+    }
+
+    if (!stableCoin) {
       return undefined
     }
 
@@ -92,17 +107,6 @@ export function useStablecoinPrice(
     // handle stable coin
     if (isStableCoin) {
       return new Price(stableCoin, stableCoin, '1', '1')
-    }
-
-    if (priceFromLlama && enableLlama) {
-      return new Price(
-        currency,
-        stableCoin,
-        1 * 10 ** currency.decimals,
-        getFullDecimalMultiplier(stableCoin.decimals)
-          .times(parseFloat(priceFromLlama).toFixed(stableCoin.decimals))
-          .toString(),
-      )
     }
 
     if (trade) {
