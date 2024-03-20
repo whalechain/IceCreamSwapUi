@@ -273,6 +273,33 @@ const chains = [
     ],
   },
   {
+    domainId: 14,
+    networkId: 813,
+    name: 'Qitmeer',
+    decimals: 18,
+    bridgeAddress: '0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7' as Address,
+    rpcUrl: getChain(ChainId.QITMEER).rpcUrls.public.http[0],
+    type: 'Ethereum',
+    nativeTokenSymbol: 'MEER',
+    tokens: [
+      {
+        address: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0x7D5a56742C082FcDfc240cd7D1775f00e059771F' as Address,
+        name: 'Tether USD',
+        symbol: 'USDT',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
+        resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+    ],
+  },
+  {
     domainId: 15,
     networkId: 81457,
     name: 'Blast',

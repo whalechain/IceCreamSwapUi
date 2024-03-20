@@ -1,22 +1,9 @@
 import { ChainId } from '@pancakeswap/sdk'
+import { chains } from '@icecreamswap/constants'
 
-const chainName: Record<ChainId, string> = {
-  [ChainId.BITGERT]: 'Bitgert',
-  [ChainId.SHIMMER]: 'Shimmer EVM',
-  [ChainId.DOGE]: 'Doge',
-  [ChainId.DOKEN]: 'Doken',
-  [ChainId.FUSE]: 'Fuse',
-  [ChainId.XDC]: 'XDC',
-  [ChainId.BSC]: 'Binance',
-  [ChainId.CORE]: 'CORE',
-  [ChainId.XODEX]: 'XODEX',
-  [ChainId.SHARDEUM_TEST]: 'Shardeum (Testnet)',
-  [ChainId.TELOS]: 'Telos',
-  [ChainId.SHIMMER_TEST]: 'Shimmer (Testnet)',
-  [ChainId.BASE]: 'Base',
-  [ChainId.SCROLL]: 'Scroll',
-  [ChainId.NEON]: 'Neon EVM',
-  [ChainId.BLAST]: 'Blast L2',
-}
+const chainName: Record<ChainId, string> = chains.reduce(
+  (acc, chain) => ({...acc, [chain.id]: chain.name}),
+  {}
+)
 
 export default chainName

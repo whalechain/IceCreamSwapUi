@@ -14,6 +14,7 @@ import { shimmer } from "./shimmer"
 import { scroll } from "./scroll"
 import { neon } from "./neon"
 import { blast } from "./blast"
+import { qitmeer } from "./qitmeer"
 
 export const chainMap = {
   core,
@@ -32,6 +33,7 @@ export const chainMap = {
   dokenchain,
   shardeumTestnet,
   // shimmerTestnet,
+  qitmeer
 }
 export const chains = Object.values(chainMap)
 
@@ -56,6 +58,7 @@ export enum ChainId {
   DOKEN = dokenchain.id,
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
+  QITMEER = qitmeer.id,
 }
 
 export const defaultChainId = ChainId.CORE
