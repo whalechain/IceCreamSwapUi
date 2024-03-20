@@ -30,6 +30,13 @@ export const qitmeer: IceChain = {
     symbol: 'WMEER',
     name: 'Wrapped MEER',
   },
+  iceAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f',
+  stableToken: {
+    address: '0x7D5a56742C082FcDfc240cd7D1775f00e059771F',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: "0x84aeB58fb9187dD64282d0C0975F788e21dd4475",
     initCodeHash: "0xb41a03f1db88f3709f0a02439f5bc24ebb946603078d7fb1a50525c0c66ab827",
