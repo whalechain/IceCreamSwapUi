@@ -18,22 +18,22 @@ import { qitmeer } from "./qitmeer"
 
 export const chainMap = {
   core,
-  blast,
-  neon,
-  shimmer,
+  qitmeer,
   bsc,
-  scroll,
-  xdc,
-  telos,
+  neon,
   bitgert,
+  telos,
+  blast,
+  shimmer,
+  scroll,
   base,
+  xdc,
   dogechain,
   fuse,
   xodex,
   dokenchain,
   shardeumTestnet,
   // shimmerTestnet,
-  qitmeer
 }
 export const chains = Object.values(chainMap)
 
