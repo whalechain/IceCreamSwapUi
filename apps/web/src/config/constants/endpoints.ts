@@ -18,6 +18,7 @@ export const INFO_CLIENT_WITH_CHAIN = {
   [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-telos',
   [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-base',
   [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-shimmer',
+  [ChainId.QITMEER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-qitmeer',
 }
 
 export const BLOCKS_CLIENT_WITH_CHAIN = {
@@ -28,6 +29,7 @@ export const BLOCKS_CLIENT_WITH_CHAIN = {
   [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-telos',
   [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-base',
   [ChainId.SHIMMER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-shimmer',
+  [ChainId.QITMEER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-qitmeer',
 }
 
 export const V3_SUBGRAPH_URLS = {

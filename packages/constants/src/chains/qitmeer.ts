@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 export const qitmeer: IceChain = {
   id: 813,
   name: 'Qitmeer',
-  features: ['swap', 'bridge'],
+  features: ['swap', 'bridge', 'info'],
   network: 'qitmeer',
   rpcUrls: {
     public: { http: ['https://mainnet.meerlabs.com',] },

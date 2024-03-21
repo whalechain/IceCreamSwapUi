@@ -24,6 +24,7 @@ const BLOCKS_CLIENT_WITH_CHAIN = {
   [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core',
   [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-telos',
   [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-base',
+  [ChainId.QITMEER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-qitmeer',
 }
 
 const INFO_CLIENT_WITH_CHAIN = {
@@ -31,6 +32,7 @@ const INFO_CLIENT_WITH_CHAIN = {
   [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-core',
   [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-telos',
   [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-base',
+  [ChainId.QITMEER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-qitmeer',
 }
 
 const blockClientWithChain = (chainId: ChainId) => {
