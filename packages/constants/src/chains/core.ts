@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const core: IceChain = {
   id: 1116,
-  name: 'Core Blockchain',
+  name: 'Core Blockchain Mainnet',
   features: ['swap', 'swapV3', 'bridge', 'farms', 'farmsV3', 'locks', 'staking', 'info', 'kyc', 'launchpad', 'tokenDeployer'],
   network: 'core',
   rpcUrls: {
@@ -38,6 +38,13 @@ export const core: IceChain = {
     decimals: 18,
     symbol: 'WCORE',
     name: 'Wrapped Core',
+  },
+  iceAddress: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+  stableToken: {
+    address: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,

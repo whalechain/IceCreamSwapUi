@@ -4,6 +4,7 @@ import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { ChainLogo } from 'components/Logo/ChainLogo'
 import { useSwitchNetwork } from 'hooks/useSwitchNetwork'
 import { chains } from 'utils/wagmi'
+import { getChain } from '@icecreamswap/constants'
 import Page from '../Page'
 import { StyledBridgeBody, StyledBridgeContainer, StyledInputCurrencyWrapper } from './styles'
 import { useCurrencyBalance } from 'state/wallet/hooks'
@@ -97,7 +98,7 @@ const Bridge = () => {
                   </Text>
                 </AtomBox>
                 <StyledBridgeBody>
-                  {t('Home Chain')}
+                  {t('Source Chain')}
                   <Select
                     options={homeChainOptions}
                     onOptionChange={(option) => {
@@ -105,7 +106,7 @@ const Bridge = () => {
                     }}
                     value={chainId}
                   />
-                  {t('Target Chain')}
+                  {t('Destination Chain')}
                   <Select
                     options={targetChainOptions}
                     onOptionChange={(option) => {
@@ -167,23 +168,23 @@ const Bridge = () => {
                     */
                   }
                   <Divider margin="0px" />
-                  {currency && !!tax.bridgeFee && !!tax.hasBridgeFee && tax.bridgeFeeCurrency && (
+                  {currency && !!tax.bridgeFeeNative && !!tax.bridgeFee && !!tax.hasBridgeFee && tax.bridgeFeeCurrency && (
                     <>
                       <Flex justifyContent="space-between">
-                        <span>{t('Transfer Amount')}</span>
+                        <span>{t('Receive')}</span>
                         <pre>
-                          {formatAmount(depositAmount)} {currency.name}
+                          {formatAmount(Number(depositAmount) - tax.bridgeFee)} {currency.name}
                         </pre>
                       </Flex>
                       <Flex justifyContent="space-between">
-                        <span>{t('Bridge Fee')}</span>
+                        <span>{t('Gas fee')}</span>
                         <pre>
-                          {formatAmount(tax.bridgeFee ?? '0')} {tax.bridgeFeeCurrency.name}
+                          {formatAmount(tax.bridgeFeeNative)} {getChain(chainId).nativeCurrency.symbol}
                         </pre>
                       </Flex>
                     </>
                   )}
-                  <DepositButton validateForm={validateForm} setHasSubmitted={setHasSubmitted} />
+                  <DepositButton validateForm={validateForm} setHasSubmitted={setHasSubmitted} nativeFeeWei={tax.bridgeFeeNativeWei} />
                 </StyledBridgeBody>
               </AppBody>
             </StyledInputCurrencyWrapper>

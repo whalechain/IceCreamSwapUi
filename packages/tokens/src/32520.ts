@@ -1,8 +1,9 @@
 import { ChainId, WETH9, ERC20Token } from '@pancakeswap/sdk'
+import {ICE} from "./common";
 
 export const bitgertTokens = {
   wbrise: WETH9[ChainId.BITGERT],
-  ice: new ERC20Token(ChainId.BITGERT, '0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D', 18, 'ICE', 'IceCream', 'https://icecreamswap.com'),
+  ice: ICE[ChainId.BITGERT],
   sps: new ERC20Token(ChainId.BITGERT, '0x1633b7157e7638C4d6593436111Bf125Ee74703F', 18, 'SPS', 'Splinterlands Token', 'https://splinterlands.com'),
   sphynx: new ERC20Token(ChainId.BITGERT, '0x0e11DCE06eF2FeD6f78CEF5144F970E1184b4298', 18, 'SPHYNX', 'Sphynx BRISE'),
   bpad: new ERC20Token(ChainId.BITGERT, '0x71946a5C9dA7C95ee804a9BE561EC15A3F286A7D', 8, 'BPAD', 'Brisepad'),
@@ -41,4 +42,5 @@ export const bitgertTokens = {
   usdci: new ERC20Token(ChainId.BITGERT, '0xaEdD3Ff7b9Fc5fc4e44d140b80f0B1C7FdB6102c', 18, 'USDCi', 'USD Coin IcecreamSwap'),
   busdi: new ERC20Token(ChainId.BITGERT, '0xd0CE781960c6356A7175988751bfC8d7cd28EA60', 18, 'BUSDi', 'BUSD IcecreamSwap'),
   bambi: new ERC20Token(ChainId.BITGERT, '0x6C8Af2c462c4D3A487d005A6FeFBcdc95a7F5dfe', 18, 'WBMBIV2', 'WrappedBambiTokenV2'),
+  bbi: new ERC20Token(ChainId.BITGERT, '0x43Fd2FAfa5cfcCb66d03061b59a25f02ec194d1B', 9, 'BBI', 'BubbleBassInu'),
 }

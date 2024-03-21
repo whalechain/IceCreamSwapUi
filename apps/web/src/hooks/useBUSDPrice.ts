@@ -34,20 +34,24 @@ export function useStablecoinPrice(
 
   const isStableCoin = currency && stableCoin && currency.wrapped.equals(stableCoin)
 
-  const shouldEnabled = currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
+  const shouldEnabled = currency && enabled && currentChainId === chainId // currency && stableCoin && enabled && currentChainId === chainId && !isCake && !isStableCoin
 
-  const enableLlama = false // currency?.chainId === ChainId.ETHEREUM && shouldEnabled
+  const enableLlama = shouldEnabled // currency?.chainId === ChainId.ETHEREUM && shouldEnabled
 
-  // we don't have too many AMM pools on ethereum yet, try to get it from api
+  // using IceCreamSwap token prices API
   const { data: priceFromLlama, isLoading } = useSWRImmutable<string>(
     currency && enableLlama && ['fiat-price-ethereum', currency],
     async () => {
-      const address = currency?.isToken ? currency.address : '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
-      return fetch(`https://coins.llama.fi/prices/current/ethereum:${address}`) // <3 llama
+      const address = currency?.isToken ? currency.address : WETH9[chainId].address
+      return fetch(`https://pricing.icecreamswap.com/${chainId}?token=${address}`)
         .then((res) => res.json())
         .then(
-          (res) => res?.coins?.[`ethereum:${address}`]?.confidence > 0.9 && res?.coins?.[`ethereum:${address}`]?.price,
+          (res) => res?.[`${address}`],
         )
+        .catch(reason => {
+          console.warn("Error while getting token price", reason)
+          return null
+        })
     },
     {
       dedupingInterval: 30_000,
@@ -72,7 +76,22 @@ export function useStablecoinPrice(
   })
 
   const price = useMemo(() => {
-    if (!currency || !stableCoin || !enabled) {
+    if (!currency || !enabled) {
+      return undefined
+    }
+
+    if (priceFromLlama && enableLlama) {
+      return new Price(
+        currency,
+        stableCoin,
+        1 * 10 ** currency.decimals,
+        getFullDecimalMultiplier(stableCoin.decimals || 18)
+          .times(parseFloat(priceFromLlama).toFixed(stableCoin.decimals || 18))
+          .toString(),
+      )
+    }
+
+    if (!stableCoin) {
       return undefined
     }
 
@@ -88,17 +107,6 @@ export function useStablecoinPrice(
     // handle stable coin
     if (isStableCoin) {
       return new Price(stableCoin, stableCoin, '1', '1')
-    }
-
-    if (priceFromLlama && enableLlama) {
-      return new Price(
-        currency,
-        stableCoin,
-        1 * 10 ** currency.decimals,
-        getFullDecimalMultiplier(stableCoin.decimals)
-          .times(parseFloat(priceFromLlama).toFixed(stableCoin.decimals))
-          .toString(),
-      )
     }
 
     if (trade) {

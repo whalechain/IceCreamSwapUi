@@ -1,11 +1,12 @@
 import { ChainId, ERC20Token, WETH9 } from '@pancakeswap/sdk'
+import {ICE} from "./common";
 
 export const coreTokens = {
   wcore: WETH9[ChainId.CORE],
   wcore_old: new ERC20Token(ChainId.CORE, '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f', 18, 'WCORE', 'WrappedCoreOld'),
   core: new ERC20Token(ChainId.CORE, '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',18,'CORE','CORE'),
+  ice: ICE[ChainId.CORE],
   score: new ERC20Token(ChainId.CORE, '0xA20b3B97df3a02f9185175760300a06B4e0A2C05',18,'SCORE','StakedCore','https://icecreamswap.com'),
-  ice: new ERC20Token(ChainId.CORE, '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44', 18, 'ICE', 'IceCream', 'https://icecreamswap.com'),
   usdt: new ERC20Token(ChainId.CORE, '0x81bCEa03678D1CEF4830942227720D542Aa15817', 18, 'USDT', 'Tether USD'),
   usdc: new ERC20Token(ChainId.CORE, '0xD2683b22287E63D22928CBe4514003a92507f474', 18, 'USDC', 'USD Coin'),
   eth: new ERC20Token(ChainId.CORE, '0xeF6b7BC74C9354BCf2e3F2A068e4b0B5CDf08F29', 18, 'ETH', 'Ether'),
@@ -48,12 +49,12 @@ export const coreTokens = {
   hice: new ERC20Token(ChainId.CORE, '0xEcf2AdDc7267D65fBa77A8cFB23a9160B435fa31', 18, 'HICE', 'HOLD ICE'),
   gator: new ERC20Token(ChainId.CORE, '0xa386c445fb7219bFC37674D9fed086817dDF79BB', 9, 'GATOR', 'GATOR INU'),
   btcb: new ERC20Token(ChainId.CORE, '0x2297aEbD383787A160DD0d9F71508148769342E3', 8, 'BTC.b', 'Bitcoin'),
-  ypc: new ERC20Token(ChainId.CORE, '0xf15fBa1E7112d680055962fB85a0C04550f24097', 18, 'YPC', 'YoungParrot'),
   youngparrot: new ERC20Token(ChainId.CORE, '0xf15fBa1E7112d680055962fB85a0C04550f24097', 18, 'YPC', 'YoungParrot'),
   pipi: new ERC20Token(ChainId.CORE, '0x3034802fc4C9A278D0886eD77fd3F79fd789c898', 18, 'PIPI', 'PIPI_LOL'),
   cdao: new ERC20Token(ChainId.CORE, '0x42077e348702f13Ea80CE6a6A38b8b60fbb37B5d', 18, 'cDAO', 'cDAO'),
   koci: new ERC20Token(ChainId.CORE, '0x6C0eEB2B306e1c7ec699E618031cA5C7Fb0363ab', 18, 'KOCI', 'KING OCICAT'),
   ceth: new ERC20Token(ChainId.CORE, '0xfA9975c36Ae3D983EE44c02fF7bB4AEe1A4493ac', 18, 'cETH', 'CoretoshisETH'),
+
   ripple: new ERC20Token(ChainId.CORE, '0x54e89D1C0D7B246ecaED450eF6d1d8C7B45EC3B6', 18, '3RPL', '3RIPLE COIN'),
   life: new ERC20Token(ChainId.CORE, '0x01F37fa58f316Cbb9B01Da817E5b61236f4CE82d', 18, 'LIFE', 'SHADOW LIFE'),
   freecore: new ERC20Token(ChainId.CORE, '0x2898aD472234C27163b99191d8D77bfC8bB7356D', 18, 'FCD', 'FreeCoreDaoCom'),

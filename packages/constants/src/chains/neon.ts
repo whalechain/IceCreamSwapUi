@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const neon: IceChain = {
   id: 245022934,
-  name: 'Neon EVM Blockchain',
+  name: 'Neon EVM Mainnet',
   features: ['swap', 'bridge', 'staking', 'farms'],
   network: 'neon',
   rpcUrls: {
@@ -11,7 +11,7 @@ export const neon: IceChain = {
     default: { http: ['https://neon-proxy-mainnet.solana.p2p.org'] },
   },
   blockExplorers: {
-    default: { name: 'Neon EVM Explorer', url: 'https://neonscan.org/' },
+    default: { name: 'Neon EVM Explorer', url: 'https://neonscan.org' },
   },
   nativeCurrency: {
     name: 'Neon EVM',
@@ -30,6 +30,13 @@ export const neon: IceChain = {
     decimals: 18,
     symbol: 'WNEON',
     name: 'Wrapped NEON',
+  },
+  iceAddress: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+  stableToken: {
+    address: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,

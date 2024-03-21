@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const xdc: IceChain = {
   id: 50,
-  name: 'XinFin XDC Network',
+  name: 'XDC Network',
   features: ['swap', 'bridge', 'farms', 'staking', 'locks', 'info', 'kyc'],
   network: 'xdc',
   rpcUrls: {
@@ -33,6 +33,13 @@ export const xdc: IceChain = {
     decimals: 18,
     symbol: 'WXDC',
     name: 'Wrapped XDC',
+  },
+  iceAddress: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba',
+  stableToken: {
+    address: '0xc57F0eb99363e747D637B17BBdB4e1AB85e60631',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,

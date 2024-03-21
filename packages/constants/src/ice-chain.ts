@@ -40,6 +40,13 @@ interface ChainBase {
     address: Address
     decimals: number
   }
+  iceAddress?: Address
+  stableToken?: {
+    name: string
+    symbol: string
+    address: Address
+    decimals: number
+  }
   v3SubgraphStart?: number
   campaignFactory?: Address
   kyc?: KycConfig

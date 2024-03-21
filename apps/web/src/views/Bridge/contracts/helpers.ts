@@ -26,7 +26,7 @@ export const hasTokenSupplies = async (destinationChain: BridgeChain, token: Tok
       chainId: destinationChain.networkId,
       publicClient: destPublicClient
     })
-    const destinationNativeCoin = destinationToken.address === '0x0000000000000000000000000000000000000000'
+    const destinationNativeCoin = destinationToken.address === '0x0000000000000000000000000000000000000001'
 
     const destinationErc20Handler = await destinationBridge.read._resourceIDToHandlerAddress([destinationToken.resourceId as `0x${string}`])
 

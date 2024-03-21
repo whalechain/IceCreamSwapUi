@@ -14,6 +14,8 @@ import {
   shimmerTokens,
   scrollTokens,
   neonTokens,
+  blastTokens,
+  qitmeerTokens,
 } from '@pancakeswap/tokens'
 import { ChainTokenList } from './types'
 
@@ -37,16 +39,18 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.DOGE]: [dogechainTokens.ice],
   [ChainId.DOKEN]: [dokenTokens.ice],
   [ChainId.FUSE]: [fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.ice, xdcTokens.usdt],
-  [ChainId.CORE]: [coreTokens.ice, coreTokens.score, coreTokens.usdt],
-  [ChainId.XODEX]: [xodexTokens.ice, xodexTokens.usdt],
+  [ChainId.XDC]: [xdcTokens.ice],
+  [ChainId.CORE]: [coreTokens.ice, coreTokens.usdt],
+  [ChainId.XODEX]: [xodexTokens.ice],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
-  [ChainId.TELOS]: [telosTokens.ice, telosTokens.usdt],
-  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
-  [ChainId.BASE]: [baseTokens.ice, baseTokens.usdt],
-  [ChainId.SHIMMER]: [shimmerTokens.ice, shimmerTokens.usdt, shimmerTokens.wsmr],
-  [ChainId.SCROLL]: [scrollTokens.ice, scrollTokens.usdt, scrollTokens.weth],
-  [ChainId.NEON]: [neonTokens.ice, neonTokens.usdt, neonTokens.wneon],
+  [ChainId.TELOS]: [telosTokens.ice],
+  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice],
+  [ChainId.BASE]: [baseTokens.ice],
+  [ChainId.SHIMMER]: [shimmerTokens.ice],
+  [ChainId.SCROLL]: [scrollTokens.ice],
+  [ChainId.NEON]: [neonTokens.ice],
+  [ChainId.BLAST]: [blastTokens.ice, blastTokens.usdb],
+  [ChainId.QITMEER]: [qitmeerTokens.ice, qitmeerTokens.usdt],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -103,6 +107,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
   [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
   [ChainId.NEON]: [neonTokens.wneon, neonTokens.ice, neonTokens.usdt],
+  [ChainId.BLAST]: [blastTokens.ice, blastTokens.weth, blastTokens.usdb],
+  [ChainId.QITMEER]: [qitmeerTokens.wmeer, qitmeerTokens.ice, qitmeerTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -159,6 +165,16 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [neonTokens.usdt, neonTokens.ice],
     [neonTokens.wneon, neonTokens.ice],
     [neonTokens.wneon, neonTokens.usdt],
+  ],
+  [ChainId.BLAST]: [
+    [blastTokens.weth, blastTokens.ice],
+    [blastTokens.usdb, blastTokens.ice],
+    [blastTokens.weth, blastTokens.usdb],
+  ],
+  [ChainId.QITMEER]: [
+    [qitmeerTokens.usdt, qitmeerTokens.ice],
+    [qitmeerTokens.wmeer, qitmeerTokens.ice],
+    [qitmeerTokens.wmeer, qitmeerTokens.usdt],
   ],
 }
 

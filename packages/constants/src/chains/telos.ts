@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 
 export const telos: IceChain = {
   id: 40,
-  name: 'Telos',
+  name: 'Telos EVM Mainnet',
   features: ['swap', 'bridge', 'farms', 'info', 'kyc'],
   network: 'telos',
   rpcUrls: {
@@ -30,6 +30,13 @@ export const telos: IceChain = {
     decimals: 18,
     symbol: 'WTLOS',
     name: 'Wrapped TLOS',
+  },
+  iceAddress: '0xB25cB6a275a8D6a613228FB161eB3627b50EB696',
+  stableToken: {
+    address: '0xc57F0eb99363e747D637B17BBdB4e1AB85e60631',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
