@@ -6,8 +6,8 @@ export const qitmeer: IceChain = {
   features: ['swap', 'bridge', 'info'],
   network: 'qitmeer',
   rpcUrls: {
-    public: { http: ['https://mainnet.meerlabs.com',] },
-    default: { http: ['https://mainnet.meerlabs.com',] },
+    public: { http: ['https://rpc.dimai.ai',] },
+    default: { http: ['https://rpc.dimai.ai',] },
   },
   blockExplorers: {
     default: { name: 'Qitmeer Explorer', url: 'https://qng.qitmeer.io' },
