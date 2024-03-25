@@ -5,7 +5,7 @@ import { chains } from "@icecreamswap/constants";
 import { Address } from "viem";
 
 export const SMART_ROUTER_ADDRESSES: Record<ChainId, Address> = {
-  [ChainId.CORE]: '0x134edBD6c41cA8F4904822daD5d45c44c38e99d5',
+  [ChainId.CORE]: '0xBd8BB286Cd14124720F3f8C5F3fdD7fa13735Dc2',
   [ChainId.SHIMMER]: '0x698a912F8CA34Df9b46E6Ea4A2B2DB0B7151b083',
   [ChainId.BASE]: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
   [ChainId.BITGERT]: '0x4ddC9394b8371765588B10134AA79472C1d42b16',
