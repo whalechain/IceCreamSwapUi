@@ -98,7 +98,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
   [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
   [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt, xdcTokens.usdc],
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.score, coreTokens.ice, coreTokens.usdt],
+  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.score, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
   [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
   [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
   [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
@@ -127,8 +127,8 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [xdcTokens.usdt, xdcTokens.ice],
   ],
   [ChainId.CORE]: [
-    [coreTokens.score, coreTokens.ice],
-    [coreTokens.score, coreTokens.wcore],
+    [coreTokens.wcore, coreTokens.ice],
+    [coreTokens.wcore, coreTokens.usdt],
     [coreTokens.usdt, coreTokens.ice],
   ],
   [ChainId.XODEX]: [
