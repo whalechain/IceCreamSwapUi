@@ -37,14 +37,14 @@ const Stats = () => {
     <Flex justifyContent="center" alignItems="center" flexDirection="column">
       <GradientLogo height="48" width="48" style={{ marginBottom: '24px' }} />
       <Heading textAlign="center" scale="xl" mb="32px">
-        {t('Multi-chain DeFi solutions')}
+        {t('One stop shop for all your DeFi needs')}
       </Heading>
       {/* <Heading textAlign="center" scale="xl" mb="32px"> */}
       {/*   {t('Trusted with billions.')} */}
       {/* </Heading> */}
       <Text textAlign="center" color="textSubtle">
-        {t('Swap, Bridge, Farm and Launch')}<br/>
-        {t('across multiple blockchains')}
+        {t('Swap, Bridge, Stake, Farm and Launch')}<br/>
+        {t('across many blockchains')}
       </Text>
       {/*
       <Flex flexWrap="wrap">

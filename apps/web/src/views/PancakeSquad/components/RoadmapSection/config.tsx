@@ -103,28 +103,44 @@ const config = ({ t }: FAQsType) => [
     reached: '08-2023',
   },
   {
-    title: t('Trustless bridge upgrade and concentrated liquidity'),
+    title: t('Concentrated liquidity'),
     icon: '🔥',
     description: [
       t('Upgrade our DEX to support concentrated liquidity to drastically reduce slippage and increase capital efficiency'),
-      t('Upgrade our Bridge to work in a fully trustless manner by utilizing an optimistic approach'),
     ],
-    reached: '09-2023',
+    reached: '01-2024',
   },
   {
-    title: t('Bridge speed upgrade and basic price oracles'),
-    icon: '⏩',
+    title: t('In-house AI DEX aggregator'),
+    icon: '🚀',
     description: [
-      t('Add an insured speed boost to the Bridge, which offloads the risk to the insurer and completes Bridge near instant'),
-      t('Add price oracle for bridged tokens as well as on request'),
+      t('Implement an AI based DEX aggregator to optimize trading for all our users.'),
+      t('Provide the best trading rates for any token on IceCreamSwap'),
     ],
-    reached: '10-2023',
+    reached: '02-2024',
+  },
+  {
+    title: t('Implement AI DEX aggregator as API for external project use. Expand to Qitmeer chain'),
+    icon: '👨‍💻',
+    description: [
+      t('Make our AI DEX aggregator available for projects like wallets providing in wallet swaps.'),
+      t('Expand to Qitmmer Blockchain'),
+    ],
+    reached: '03-2024',
+  },
+  {
+    title: t('Make processes super robust to enable rapid mass expansion'),
+    icon: '👨‍💻',
+    description: [
+      t('Fully automate everything that\'s possible. We will be the first project deploying on hundreds of chains!'),
+    ],
+    reached: '04-2024',
   },
   {
     title: t('Mass expansion'),
     icon: '🚀🚀',
-    description: [t('Expand to a lot of blockchains and provide optimal dex routing on them thanks to our smart routing')],
-    reached: '11-2023',
+    description: [t('Expand to a lot of blockchains, making IceCreamSwap the single place traders need to visit on all the chains.')],
+    reached: '05-2024',
   },
 ]
 export default config

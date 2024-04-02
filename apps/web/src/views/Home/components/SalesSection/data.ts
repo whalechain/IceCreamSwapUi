@@ -7,9 +7,11 @@ import bridgeB from '../../../../../public/images/home/bridge/bridge_b.png'
 import earnIce from '../../../../../public/images/home/earn/ice.png'
 
 export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
-  headingText: t('Trade anything anywhere, hassle free'),
+  headingText: t('Trade any token at the best rate'),
   bodyText: t(
-    'Seamless trading on many chains with the best rates thanks to the built-in DEX aggregator.'
+    'Seamless trading on many chains with the best rates thanks to our AI DEX aggregator. ' +
+    'Our AI DEX aggregator scans the entire blockchain for liquidity pools to route your trade, achieving the best possible output. ' +
+    'Stop wasting money from inefficient trades now.'
   ),
   reverse: false,
   primaryButton: {
