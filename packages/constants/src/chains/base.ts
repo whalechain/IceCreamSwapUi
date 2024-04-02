@@ -47,6 +47,8 @@ export const base: IceChain = {
     initCodeHash: INIT_CODE_HASH,
     routerAddress: ROUTER_ADDRESS,
   },
+  smartRouterAddress: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
+  farmV2Address: '0xb5C7882e37359572FD1cCFAA276e7Fdf70145D42',
   kyc: {
     feeToken: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
     fee: 10,

@@ -31,6 +31,8 @@ interface KycConfig {
 interface ChainBase {
   features: ChainFeature[]
   swap?: SwapConfig
+  smartRouterAddress?: Address,
+  farmV2Address?: Address,
   locks?: LocksConfig
   tokenDeployerDividend?: TokenDeployerConfig
   blockInterval: number
