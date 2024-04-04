@@ -5,6 +5,7 @@ import {
   toggleFarmTransactionModal,
   pickFarmTransactionTx,
 } from './actions'
+import { defaultChainId } from '@icecreamswap/constants'
 
 export interface GlobalState {
   showFarmTransactionModal: boolean
@@ -18,7 +19,7 @@ export const initialState: GlobalState = {
   showFarmTransactionModal: false,
   pickedFarmTransactionModalTx: {
     tx: '',
-    chainId: ChainId.CORE,
+    chainId: defaultChainId,
   },
 }
 

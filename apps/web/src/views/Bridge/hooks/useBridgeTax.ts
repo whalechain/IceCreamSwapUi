@@ -20,6 +20,7 @@ export const useBridgeTax = () => {
   const { chainId } = useActiveChainId()
   const { data: walletClient } = useWalletClient()
   const { account} = useWeb3React()
+  const [bridgeFeeNativeWei, setBridgeFeeNativeWei] = useState<bigint | undefined>()
   const [bridgeFee, setBridgeFee] = useState<number | undefined>()
   const [bridgeFeeToken, setBridgeFeeToken] = useState<string | undefined>()
   const [relayerThreshold, setRelayerThreshold] = useState<number | undefined>()
@@ -38,7 +39,7 @@ export const useBridgeTax = () => {
     currency instanceof ERC20Token
       ? currency.address
       : currency?.isNative
-      ? '0x0000000000000000000000000000000000000000'
+      ? '0x0000000000000000000000000000000000000001'
       : undefined
   const destinationDomainId = destinationChainConfig?.domainId
 
@@ -63,7 +64,7 @@ export const useBridgeTax = () => {
           chainId,
           signer: walletClient,
         })
-        const isNative = token.address === '0x0000000000000000000000000000000000000000'
+        const isNative = token.address === '0x0000000000000000000000000000000000000001'
         const erc20Decimals = homeChainConfig.decimals || (isNative ? 18 : await erc20.read.decimals())
 
         const data: `0x${string}` = `0x${utils
@@ -73,14 +74,20 @@ export const useBridgeTax = () => {
         }`
 
         try {
-          const [ feeToken, fee ] = await homeBridge.read.calculateFee([
+          const [ feeToken, fee ] = await homeBridge.read.calculateHandlerFee([
+            destinationDomainId,
+            token.resourceId as `0x${string}`,
+            data,
+          ])
+
+          const feeNative = await homeBridge.read.calculateBridgeFee([
             destinationDomainId,
             token.resourceId as `0x${string}`,
             data,
           ])
           const feeTokenInfos = homeChainConfig.tokens.find((t) => t.address === feeToken)
           let decimals: number
-          if (feeToken === '0x0000000000000000000000000000000000000000') {
+          if (feeToken === '0x0000000000000000000000000000000000000001') {
             decimals = 18
           } else if (!feeTokenInfos) {
             const feeTokenErc20 = getContract({
@@ -95,6 +102,7 @@ export const useBridgeTax = () => {
           }
           // eslint-disable-next-line @typescript-eslint/no-shadow
           const bridgeFee = Number(utils.formatUnits(fee, decimals))
+          setBridgeFeeNativeWei(feeNative)
           setBridgeFee(bridgeFee)
           setBridgeFeeToken(feeToken)
         } catch (e) {
@@ -119,6 +127,8 @@ export const useBridgeTax = () => {
   return {
     bridgeFee,
     bridgeFeeToken,
+    bridgeFeeNativeWei,
+    bridgeFeeNative: bridgeFeeNativeWei? Number(utils.formatUnits(bridgeFeeNativeWei, 18)): undefined,
     relayerThreshold,
     bridgeFeeCurrency,
     hasBridgeFee: checkFee(),

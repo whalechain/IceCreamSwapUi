@@ -9,7 +9,7 @@ import { getContract } from "utils/contractHelpers";
 import { useActiveChainId } from "hooks/useActiveChainId";
 
 
-export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
+export const useDeposit = (bridgeFeeWei: bigint = 0n) => {
   const { account } = useWeb3React()
   const { chainId } = useActiveChainId()
   const { setTransactionStatus, setDepositNonce, setHomeTransferTxHash, homeChainConfig } = useBridge()
@@ -33,7 +33,7 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
       console.log('Invalid token selected')
       return
     }
-    const isNative = token.address === '0x0000000000000000000000000000000000000000'
+    const isNative = token.address === '0x0000000000000000000000000000000000000001'
     // const erc20 = Erc20DetailedFactory.connect(tokenAddress, signer)
     const erc20 = getContract({
       abi: erc20ABI,
@@ -80,7 +80,7 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
       chainId,
       signer: walletClient,
     })
-    const isNative = token.address === '0x0000000000000000000000000000000000000000'
+    const isNative = token.address === '0x0000000000000000000000000000000000000001'
 
     const erc20Decimals = isNative ? 18 : await erc20.read.decimals()
 
@@ -108,11 +108,9 @@ export const useDeposit = (bridgeFee?: number, bridgeFeeToken?: string) => {
 
       setTransactionStatus('Deposit')
 
-      let value = 0n
+      let value = bridgeFeeWei
       if (isNative) {
-        value = amountBI
-      } else if (bridgeFee && bridgeFeeToken === '0x0000000000000000000000000000000000000000') {
-        value = parseUnits(bridgeFee.toString(), 18)
+        value += amountBI
       }
 
       const depositTransaction = await homeBridge.write.deposit(

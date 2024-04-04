@@ -12,11 +12,12 @@ import {
   PCS_TELOS_START,
   PCS_BASE_START,
   PCS_SHIMMER_START,
+  PCS_QITMEER_START,
 } from "config/constants/info";
 import { GraphQLClient } from 'graphql-request'
 import { chains } from '@icecreamswap/constants'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL' | 'TELOS' | 'BASE' | 'SHIMMER' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET'
+export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL' | 'TELOS' | 'BASE' | 'SHIMMER' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET' | 'QITMEER'
 export type MultiChainNameExtend = MultiChainName
 
 export const multiChainQueryMainToken = chains.reduce((acc, chain) => (
@@ -36,6 +37,7 @@ export const multiChainStartTime = {
   TELOS: PCS_TELOS_START,
   BASE: PCS_BASE_START,
   SHIMMER: PCS_SHIMMER_START,
+  QITMEER: PCS_QITMEER_START,
 }
 
 export const multiChainId = chains.reduce((acc, chain) => (

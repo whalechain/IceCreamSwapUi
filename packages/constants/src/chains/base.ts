@@ -3,8 +3,8 @@ import IceChain from '../ice-chain'
 
 export const base: IceChain = {
   id: 8453,
-  name: 'Base Blockchain',
-  features: ['swap', 'bridge', 'farms', 'info', 'kyc'],
+  name: 'Base',
+  features: ['swap', 'bridge', 'farms', 'kyc'],
   network: 'base',
   rpcUrls: {
     public: { http: ['https://developer-access-mainnet.base.org',] },
@@ -34,6 +34,13 @@ export const base: IceChain = {
     decimals: 18,
     symbol: 'WETH',
     name: 'Wrapped Ether',
+  },
+  iceAddress: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
+  stableToken: {
+    address: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,

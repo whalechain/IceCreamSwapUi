@@ -16,6 +16,7 @@ import { SettingsMode } from './GlobalSettings/types'
 import { useMenuItems } from './hooks/useMenuItems'
 import UserMenu from './UserMenu'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
+import {ICE} from "@pancakeswap/tokens";
 
 const LinkComponent = (linkProps) => {
   return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
@@ -94,7 +95,7 @@ const Menu = (props) => {
         activeItem={activeMenuItem?.href}
         activeSubItem={activeSubMenuItem?.href}
         buyCakeLabel={t('Buy ICE')}
-        buyCakeLink="https://icecreamswap.com/swap?chainId=1116&outputCurrency=0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44"
+        buyCakeLink={`/swap?chainId=${chainId}&outputCurrency=${ICE[chainId]}`}
         {...props}
       />
     </>

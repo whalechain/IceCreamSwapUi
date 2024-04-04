@@ -159,7 +159,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const tokensWithoutDecimals = homeChainConfig?.tokens.reduce<Tokens>((acc, current) => {
       if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return acc
-      if (current.address === '0x0000000000000000000000000000000000000000') return acc
+      if (current.address === '0x0000000000000000000000000000000000000001') return acc
       return {
         ...acc,
         [current.address]: new ERC20Token(
@@ -178,7 +178,7 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       await Promise.all(
         homeChainConfig?.tokens.map(async (current) => {
           if (!destinationChainConfig?.tokens.find((token) => token.resourceId === current.resourceId)) return
-          if (current.address === '0x0000000000000000000000000000000000000000') return
+          if (current.address === '0x0000000000000000000000000000000000000001') return
           const erc20 = getContract({
             abi: erc20ABI,
             address: current.address as `0x${string}`,
@@ -213,13 +213,13 @@ export const BridgeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }
   if (homeChainConfig && nativeBalance?.value) {
     Object.assign(tokenBalances, {
-      [homeChainConfig?.tokens.find((token) => token.address === '0x0000000000000000000000000000000000000000')
+      [homeChainConfig?.tokens.find((token) => token.address === '0x0000000000000000000000000000000000000001')
         ?.address]: CurrencyAmount.fromRawAmount(Native.onChain(chainId), nativeBalance?.value?.toString()),
     })
   }
   const showNative = useMemo(() => {
     const nativeToken = homeChainConfig?.tokens.find(
-      (token) => token.address === '0x0000000000000000000000000000000000000000',
+      (token) => token.address === '0x0000000000000000000000000000000000000001',
     )
     if (!nativeToken) return false
     return destinationChainConfig?.tokens.some((token) => token.resourceId === nativeToken.resourceId)

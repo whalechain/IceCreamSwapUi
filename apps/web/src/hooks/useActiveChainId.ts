@@ -6,6 +6,7 @@ import { isChainSupported } from '../utils/wagmi'
 import { useNetwork } from 'wagmi'
 import { getChainId } from 'config/chains'
 import { useSessionChainId } from './useSessionChainId'
+import { defaultChainId } from '@icecreamswap/constants'
 
 const queryChainIdAtom = atom(-1) // -1 unload, 0 no chainId on query
 
@@ -48,7 +49,7 @@ export const useActiveChainId = () => {
   const queryChainId = useAtomValue(queryChainIdAtom)
 
   const { chain } = useNetwork()
-  const chainId = localChainId ?? chain?.id ?? (queryChainId >= 0 ? ChainId.CORE : undefined)
+  const chainId = localChainId ?? chain?.id ?? (queryChainId >= 0 ? defaultChainId : undefined)
 
   const isNotMatched = useDeferredValue(chain && localChainId && chain.id !== localChainId)
 

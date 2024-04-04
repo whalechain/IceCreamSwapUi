@@ -458,16 +458,21 @@ export const fetchTokenUSDValues = async (currencies: Currency[] = []): Promise<
     const list = currencies
       .map(
         (currency) =>
-          `${CHAIN_ID_TO_CHAIN_NAME[currency.chainId as FarmV3SupportedChainId]}:${currency.wrapped.address}`,
+          `${currency.wrapped.address}`,
       )
       .join(',')
-    const result: { coins: { [key: string]: { price: string } } } = await fetch(
-      `https://coins.llama.fi/prices/current/${list}`,
-    ).then((res) => res.json())
+    const result: { [key: string]: string } = await fetch(
+      `https://pricing.icecreamswap.com/${currencies[0].chainId}?token=${list}`,
+    )
+      .then((res) => res.json())
+      .catch(reason => {
+        console.warn("Error while getting token price", reason)
+        return {}
+      })
 
-    Object.entries(result.coins || {}).forEach(([key, value]) => {
-      const [, address] = key.split(':')
-      commonTokenUSDValue[address] = value.price
+    Object.entries(result || {}).forEach(([key, value]) => {
+      const address = key
+      commonTokenUSDValue[address] = value
     })
   }
 

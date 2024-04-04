@@ -2,23 +2,28 @@ export const bridgeABI = [
   {
     inputs: [
       {
-        name: 'domainID',
         internalType: 'uint8',
+        name: 'domainID',
         type: 'uint8'
       },
       {
-        name: 'initialRelayers',
         internalType: 'address[]',
+        name: 'initialRelayers',
         type: 'address[]'
       },
       {
-        name: 'initialRelayerThreshold',
         internalType: 'uint256',
+        name: 'initialRelayerThreshold',
         type: 'uint256'
       },
       {
-        name: 'expiry',
         internalType: 'uint256',
+        name: 'expiry',
+        type: 'uint256'
+      },
+      {
+        internalType: 'uint256',
+        name: 'bridgeFee',
         type: 'uint256'
       }
     ],
@@ -26,1058 +31,1102 @@ export const bridgeABI = [
     type: 'constructor'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: false,
-        name: 'destinationDomainID',
         internalType: 'uint8',
+        name: 'destinationDomainID',
         type: 'uint8'
       },
       {
         indexed: false,
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceID',
         type: 'bytes32'
       },
       {
         indexed: false,
-        name: 'depositNonce',
         internalType: 'uint64',
+        name: 'depositNonce',
         type: 'uint64'
       },
       {
         indexed: true,
-        name: 'user',
         internalType: 'address',
+        name: 'user',
         type: 'address'
       },
       {
         indexed: false,
-        name: 'data',
         internalType: 'bytes',
+        name: 'data',
         type: 'bytes'
       },
       {
         indexed: false,
-        name: 'handlerResponse',
         internalType: 'bytes',
+        name: 'handlerResponse',
         type: 'bytes'
       }
     ],
     name: 'Deposit',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: false,
-        name: 'lowLevelData',
         internalType: 'bytes',
+        name: 'lowLevelData',
         type: 'bytes'
       }
     ],
     name: 'FailedHandlerExecution',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: false,
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'Paused',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: false,
-        name: 'originDomainID',
         internalType: 'uint8',
+        name: 'originDomainID',
         type: 'uint8'
       },
       {
         indexed: false,
-        name: 'depositNonce',
         internalType: 'uint64',
+        name: 'depositNonce',
         type: 'uint64'
       },
       {
         indexed: false,
+        internalType: 'enum IceCreamSwapBridge.ProposalStatus',
         name: 'status',
-        internalType: 'enum Bridge.ProposalStatus',
         type: 'uint8'
       },
       {
         indexed: false,
-        name: 'dataHash',
         internalType: 'bytes32',
+        name: 'dataHash',
         type: 'bytes32'
       }
     ],
     name: 'ProposalEvent',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: false,
-        name: 'originDomainID',
         internalType: 'uint8',
+        name: 'originDomainID',
         type: 'uint8'
       },
       {
         indexed: false,
-        name: 'depositNonce',
         internalType: 'uint64',
+        name: 'depositNonce',
         type: 'uint64'
       },
       {
         indexed: false,
+        internalType: 'enum IceCreamSwapBridge.ProposalStatus',
         name: 'status',
-        internalType: 'enum Bridge.ProposalStatus',
         type: 'uint8'
       },
       {
         indexed: false,
-        name: 'dataHash',
         internalType: 'bytes32',
+        name: 'dataHash',
         type: 'bytes32'
       }
     ],
     name: 'ProposalVote',
-    anonymous: false,
     type: 'event'
   },
   {
-    inputs: [
-      {
-        indexed: false,
-        name: 'relayer',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
-    name: 'RelayerAdded',
     anonymous: false,
-    type: 'event'
-  },
-  {
     inputs: [
       {
         indexed: false,
-        name: 'relayer',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
-    name: 'RelayerRemoved',
-    anonymous: false,
-    type: 'event'
-  },
-  {
-    inputs: [
-      {
-        indexed: false,
-        name: 'newThreshold',
         internalType: 'uint256',
+        name: 'newThreshold',
         type: 'uint256'
       }
     ],
     name: 'RelayerThresholdChanged',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: true,
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
         indexed: true,
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       },
       {
         indexed: true,
-        name: 'sender',
         internalType: 'address',
+        name: 'sender',
         type: 'address'
       }
     ],
     name: 'RoleGranted',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: true,
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
         indexed: true,
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       },
       {
         indexed: true,
-        name: 'sender',
         internalType: 'address',
+        name: 'sender',
         type: 'address'
       }
     ],
     name: 'RoleRevoked',
-    anonymous: false,
     type: 'event'
   },
   {
+    anonymous: false,
     inputs: [
       {
         indexed: false,
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'Unpaused',
-    anonymous: false,
     type: 'event'
   },
   {
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
     outputs: [
       {
-        name: '',
         internalType: 'bytes32',
+        name: '',
         type: 'bytes32'
       }
     ],
-    inputs: [],
-    name: 'DEFAULT_ADMIN_ROLE',
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: 'EXECUTOR_ROLE',
     outputs: [
       {
+        internalType: 'bytes32',
         name: '',
+        type: 'bytes32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'MAX_RELAYERS',
+    outputs: [
+      {
         internalType: 'uint256',
+        name: '',
         type: 'uint256'
       }
     ],
-    inputs: [],
-    name: 'MAX_RELAYERS',
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: 'RELAYER_ROLE',
     outputs: [
       {
-        name: '',
         internalType: 'bytes32',
+        name: '',
         type: 'bytes32'
       }
     ],
-    inputs: [],
-    name: 'RELAYER_ROLE',
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: '_bridgeFee',
     outputs: [
       {
+        internalType: 'uint256',
         name: '',
-        internalType: 'uint64',
-        type: 'uint64'
+        type: 'uint256'
       }
     ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
     inputs: [
       {
-        name: '',
         internalType: 'uint8',
+        name: '',
         type: 'uint8'
       }
     ],
     name: '_depositCounts',
+    outputs: [
+      {
+        internalType: 'uint64',
+        name: '',
+        type: 'uint64'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: '_domainID',
     outputs: [
       {
-        name: '',
         internalType: 'uint8',
+        name: '',
         type: 'uint8'
       }
     ],
-    inputs: [],
-    name: '_domainID',
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: '_expiry',
     outputs: [
       {
-        name: '',
         internalType: 'uint40',
+        name: '',
         type: 'uint40'
       }
     ],
-    inputs: [],
-    name: '_expiry',
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'bool',
-        type: 'bool'
-      }
-    ],
     inputs: [
       {
-        name: 'destNonce',
         internalType: 'uint72',
+        name: 'destNonce',
         type: 'uint72'
       },
       {
-        name: 'dataHash',
         internalType: 'bytes32',
+        name: 'dataHash',
         type: 'bytes32'
       },
       {
-        name: 'relayer',
         internalType: 'address',
+        name: 'relayer',
         type: 'address'
       }
     ],
     name: '_hasVotedOnProposal',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: '_relayerThreshold',
     outputs: [
       {
-        name: '',
         internalType: 'uint8',
+        name: '',
         type: 'uint8'
       }
     ],
-    inputs: [],
-    name: '_relayerThreshold',
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
     inputs: [
       {
-        name: '',
         internalType: 'bytes32',
+        name: '',
         type: 'bytes32'
       }
     ],
     name: '_resourceIDToHandlerAddress',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
+    inputs: [],
+    name: '_totalRelayers',
     outputs: [
       {
-        name: '',
         internalType: 'uint256',
+        name: '',
         type: 'uint256'
       }
     ],
-    inputs: [],
-    name: '_totalRelayers',
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'relayerAddress',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
-    name: 'adminAddRelayer',
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    outputs: [],
-    inputs: [
-      {
-        name: 'handlerAddress',
-        internalType: 'address',
-        type: 'address'
-      },
-      {
-        name: 'feeData',
-        internalType: 'bytes',
-        type: 'bytes'
-      }
-    ],
-    name: 'adminChangeFee',
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    outputs: [],
-    inputs: [
-      {
-        name: 'newThreshold',
         internalType: 'uint256',
+        name: 'newThreshold',
         type: 'uint256'
       }
     ],
     name: 'adminChangeRelayerThreshold',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
-    inputs: [
-      {
-        name: 'handlerAddress',
-        internalType: 'address',
-        type: 'address'
-      },
-      {
-        name: 'newBridgeAddress',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
-    name: 'adminMigrateHandler',
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    outputs: [],
     inputs: [],
     name: 'adminPauseTransfers',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'relayerAddress',
-        internalType: 'address',
-        type: 'address'
+        internalType: 'bytes32',
+        name: 'resourceID',
+        type: 'bytes32'
       }
     ],
-    name: 'adminRemoveRelayer',
+    name: 'adminRemoveResource',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'handlerAddress',
-        internalType: 'address',
-        type: 'address'
-      },
-      {
-        name: 'tokenAddress',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
-    name: 'adminSetBurnable',
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    outputs: [],
-    inputs: [
-      {
-        name: 'domainID',
         internalType: 'uint8',
+        name: 'domainID',
         type: 'uint8'
       },
       {
-        name: 'nonce',
         internalType: 'uint64',
+        name: 'nonce',
         type: 'uint64'
       }
     ],
     name: 'adminSetDepositNonce',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'forwarder',
         internalType: 'address',
+        name: 'forwarder',
         type: 'address'
       },
       {
-        name: 'valid',
         internalType: 'bool',
+        name: 'valid',
         type: 'bool'
       }
     ],
     name: 'adminSetForwarder',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'handlerAddress',
         internalType: 'address',
+        name: 'handlerAddress',
         type: 'address'
       },
       {
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceID',
         type: 'bytes32'
       },
       {
-        name: 'contractAddress',
         internalType: 'address',
+        name: 'contractAddress',
         type: 'address'
       },
       {
-        name: 'depositFunctionSig',
         internalType: 'bytes4',
+        name: 'depositFunctionSig',
         type: 'bytes4'
       },
       {
-        name: 'depositFunctionDepositerOffset',
         internalType: 'uint256',
+        name: 'depositFunctionDepositerOffset',
         type: 'uint256'
       },
       {
-        name: 'executeFunctionSig',
         internalType: 'bytes4',
+        name: 'executeFunctionSig',
         type: 'bytes4'
       }
     ],
     name: 'adminSetGenericResource',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'handlerAddress',
         internalType: 'address',
+        name: 'handlerAddress',
         type: 'address'
       },
       {
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceID',
         type: 'bytes32'
       },
       {
-        name: 'tokenAddress',
         internalType: 'address',
+        name: 'tokenAddress',
         type: 'address'
       }
     ],
     name: 'adminSetResource',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [],
     name: 'adminUnpauseTransfers',
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
     outputs: [],
-    inputs: [
-      {
-        name: 'handlerAddress',
-        internalType: 'address',
-        type: 'address'
-      },
-      {
-        name: 'data',
-        internalType: 'bytes',
-        type: 'bytes'
-      }
-    ],
-    name: 'adminWithdraw',
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: 'feeToken',
-        internalType: 'address',
-        type: 'address'
-      },
-      {
-        name: 'fee',
-        internalType: 'uint256',
-        type: 'uint256'
-      }
-    ],
     inputs: [
       {
-        name: 'destinationDomainID',
         internalType: 'uint8',
+        name: 'destinationDomainID',
         type: 'uint8'
       },
       {
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceID',
         type: 'bytes32'
       },
       {
-        name: 'data',
         internalType: 'bytes',
+        name: '',
         type: 'bytes'
       }
     ],
-    name: 'calculateFee',
+    name: 'calculateBridgeFee',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'fee',
+        type: 'uint256'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'domainID',
         internalType: 'uint8',
+        name: 'destinationDomainID',
         type: 'uint8'
       },
       {
-        name: 'depositNonce',
+        internalType: 'bytes32',
+        name: 'resourceID',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'bytes',
+        name: 'data',
+        type: 'bytes'
+      }
+    ],
+    name: 'calculateHandlerFee',
+    outputs: [
+      {
+        internalType: 'address',
+        name: 'feeToken',
+        type: 'address'
+      },
+      {
+        internalType: 'uint256',
+        name: 'fee',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
+        name: 'domainID',
+        type: 'uint8'
+      },
+      {
         internalType: 'uint64',
+        name: 'depositNonce',
         type: 'uint64'
       },
       {
-        name: 'dataHash',
         internalType: 'bytes32',
+        name: 'dataHash',
         type: 'bytes32'
       }
     ],
     name: 'cancelProposal',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'destinationDomainID',
         internalType: 'uint8',
+        name: '',
+        type: 'uint8'
+      }
+    ],
+    name: 'chainFeeMultipliers',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
+        name: 'destinationDomainID',
         type: 'uint8'
       },
       {
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceID',
         type: 'bytes32'
       },
       {
-        name: 'data',
         internalType: 'bytes',
+        name: 'data',
         type: 'bytes'
       }
     ],
     name: 'deposit',
+    outputs: [],
     stateMutability: 'payable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'domainID',
         internalType: 'uint8',
+        name: 'domainID',
         type: 'uint8'
       },
       {
-        name: 'depositNonce',
         internalType: 'uint64',
+        name: 'depositNonce',
         type: 'uint64'
       },
       {
-        name: 'data',
         internalType: 'bytes',
+        name: 'data',
         type: 'bytes'
       },
       {
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceID',
         type: 'bytes32'
       },
       {
-        name: 'revertOnFail',
         internalType: 'bool',
+        name: 'revertOnFail',
         type: 'bool'
       }
     ],
     name: 'executeProposal',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        components: [
-          {
-            name: '_status',
-            internalType: 'enum Bridge.ProposalStatus',
-            type: 'uint8'
-          },
-          {
-            name: '_yesVotes',
-            internalType: 'uint200',
-            type: 'uint200'
-          },
-          {
-            name: '_yesVotesTotal',
-            internalType: 'uint8',
-            type: 'uint8'
-          },
-          {
-            name: '_proposedBlock',
-            internalType: 'uint40',
-            type: 'uint40'
-          }
-        ],
-        name: '',
-        internalType: 'struct Bridge.Proposal',
-        type: 'tuple'
-      }
-    ],
     inputs: [
       {
-        name: 'originDomainID',
         internalType: 'uint8',
+        name: 'originDomainID',
         type: 'uint8'
       },
       {
-        name: 'depositNonce',
         internalType: 'uint64',
+        name: 'depositNonce',
         type: 'uint64'
       },
       {
-        name: 'dataHash',
         internalType: 'bytes32',
+        name: 'dataHash',
         type: 'bytes32'
       }
     ],
     name: 'getProposal',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'enum IceCreamSwapBridge.ProposalStatus',
+            name: '_status',
+            type: 'uint8'
+          },
+          {
+            internalType: 'uint200',
+            name: '_yesVotes',
+            type: 'uint200'
+          },
+          {
+            internalType: 'uint8',
+            name: '_yesVotesTotal',
+            type: 'uint8'
+          },
+          {
+            internalType: 'uint40',
+            name: '_proposedBlock',
+            type: 'uint40'
+          }
+        ],
+        internalType: 'struct IceCreamSwapBridge.Proposal',
+        name: '',
+        type: 'tuple'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'bytes32',
-        type: 'bytes32'
-      }
-    ],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       }
     ],
     name: 'getRoleAdmin',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'address',
-        type: 'address'
-      }
-    ],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
-        name: 'index',
         internalType: 'uint256',
+        name: 'index',
         type: 'uint256'
       }
     ],
     name: 'getRoleMember',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'uint256',
-        type: 'uint256'
-      }
-    ],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       }
     ],
     name: 'getRoleMemberCount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'uint256',
-        type: 'uint256'
-      }
-    ],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'getRoleMemberIndex',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'grantRole',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'bool',
-        type: 'bool'
-      }
-    ],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'hasRole',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'bool',
-        type: 'bool'
-      }
-    ],
     inputs: [
       {
-        name: 'relayer',
         internalType: 'address',
+        name: 'relayer',
         type: 'address'
       }
     ],
     name: 'isRelayer',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
+    ],
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [
-      {
-        name: '',
-        internalType: 'bool',
-        type: 'bool'
-      }
-    ],
     inputs: [
       {
-        name: '',
         internalType: 'address',
+        name: '',
         type: 'address'
       }
     ],
     name: 'isValidForwarder',
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
     outputs: [
       {
-        name: '',
         internalType: 'bool',
+        name: '',
         type: 'bool'
       }
     ],
-    inputs: [],
-    name: 'paused',
     stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [],
-    inputs: [
+    inputs: [],
+    name: 'paused',
+    outputs: [
       {
-        name: 'newAdmin',
-        internalType: 'address',
-        type: 'address'
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
       }
     ],
-    name: 'renounceAdmin',
-    stateMutability: 'nonpayable',
+    stateMutability: 'view',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'renounceRole',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'role',
         internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
+    ],
+    name: 'resourceFeeMultipliers',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
         type: 'bytes32'
       },
       {
-        name: 'account',
         internalType: 'address',
+        name: 'account',
         type: 'address'
       }
     ],
     name: 'revokeRole',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'tokens',
-        internalType: 'address[]',
-        type: 'address[]'
-      },
-      {
-        name: 'receivers',
-        internalType: 'address[]',
-        type: 'address[]'
-      },
-      {
-        name: 'amounts',
-        internalType: 'uint256[]',
-        type: 'uint256[]'
+        internalType: 'uint256',
+        name: 'bridgeFee',
+        type: 'uint256'
       }
     ],
-    name: 'transferTokens',
+    name: 'setBridgeFee',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
-    outputs: [],
     inputs: [
       {
-        name: 'domainID',
+        internalType: 'uint40',
+        name: 'expiry',
+        type: 'uint40'
+      }
+    ],
+    name: 'setExpiry',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
         internalType: 'uint8',
+        name: 'domainId',
         type: 'uint8'
       },
       {
-        name: 'depositNonce',
-        internalType: 'uint64',
-        type: 'uint64'
-      },
+        internalType: 'uint256',
+        name: 'feeMultiplier',
+        type: 'uint256'
+      }
+    ],
+    name: 'setFeeMultiplierChain',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
       {
-        name: 'resourceID',
         internalType: 'bytes32',
+        name: 'resourceId',
         type: 'bytes32'
       },
       {
-        name: 'data',
+        internalType: 'uint256',
+        name: 'feeMultiplier',
+        type: 'uint256'
+      }
+    ],
+    name: 'setFeeMultiplierResource',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newAdmin',
+        type: 'address'
+      }
+    ],
+    name: 'transferAdmin',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
+        name: 'domainID',
+        type: 'uint8'
+      },
+      {
+        internalType: 'uint64',
+        name: 'depositNonce',
+        type: 'uint64'
+      },
+      {
+        internalType: 'bytes32',
+        name: 'resourceID',
+        type: 'bytes32'
+      },
+      {
         internalType: 'bytes',
+        name: 'data',
         type: 'bytes'
       }
     ],
     name: 'voteProposal',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'tokenAddress',
+        type: 'address'
+      },
+      {
+        internalType: 'address',
+        name: 'recipient',
+        type: 'address'
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
+    ],
+    name: 'withdraw',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },

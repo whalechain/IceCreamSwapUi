@@ -13,17 +13,21 @@ import { base } from "./base";
 import { shimmer } from "./shimmer"
 import { scroll } from "./scroll"
 import { neon } from "./neon"
+import { blast } from "./blast"
+import { qitmeer } from "./qitmeer"
 
 export const chainMap = {
   core,
-  neon,
-  shimmer,
+  qitmeer,
   bsc,
-  scroll,
-  xdc,
-  telos,
+  neon,
   bitgert,
+  telos,
+  blast,
+  shimmer,
+  scroll,
   base,
+  xdc,
   dogechain,
   fuse,
   xodex,
@@ -39,6 +43,7 @@ export const getChain = (chainId: number) => {
 
 export enum ChainId {
   CORE = core.id,
+  BLAST = blast.id,
   NEON = neon.id,
   SHIMMER = shimmer.id,
   BSC = bsc.id,
@@ -53,4 +58,7 @@ export enum ChainId {
   DOKEN = dokenchain.id,
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
+  QITMEER = qitmeer.id,
 }
+
+export const defaultChainId = ChainId.CORE

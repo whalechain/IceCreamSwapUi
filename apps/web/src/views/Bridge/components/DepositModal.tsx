@@ -55,7 +55,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ bridge, deposit, approve })
     currency instanceof ERC20Token
       ? currency.address
       : currency?.isNative
-      ? '0x0000000000000000000000000000000000000000'
+      ? '0x0000000000000000000000000000000000000001'
       : undefined
   const handleDeposit = () => {
     deposit(depositAmount, recipient as `0x${string}`, selectedToken, destinationChainConfig.domainId)

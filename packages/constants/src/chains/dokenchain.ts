@@ -31,6 +31,13 @@ export const dokenchain: IceChain = {
     symbol: 'WDKN',
     name: 'Wrapped DoKEN',
   },
+  iceAddress: '0x54051D9DbE99687867090d95fe15C3D3E35512Ba',
+  stableToken: {
+    address: '0x8e6dAa037b7F130020b30562f1E2a5D02233E6c5',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,

@@ -14,6 +14,7 @@ export const PCS_SCROLL_START = 1697565600 // 21:00 Oct 17, 2023
 export const PCS_TELOS_START = 1688072400 // Jun 30, 2023
 export const PCS_BASE_START = 1690664400 // Jul 30, 2023
 export const PCS_SHIMMER_START = 1695934800 // Sep 29, 2023
+export const PCS_QITMEER_START = 1710453600 // March 15, 2024
 
 export const ONE_DAY_UNIX = 86400 // 24h * 60m * 60s
 export const ONE_HOUR_SECONDS = 3600
