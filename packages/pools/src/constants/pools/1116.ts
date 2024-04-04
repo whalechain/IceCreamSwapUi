@@ -14,6 +14,15 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     version: 2,
   },
   {
+    sousId: 59,
+    stakingToken: coreTokens.ASX,
+    earningToken: coreTokens.ASX,
+    contractAddress: '0x45Bf1C5fe305eEcBE501fC2BE4F906102b4EFFA3',
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '0.002314',
+    version: 2,
+  },
+  {
     sousId: 58,
     stakingToken: coreTokens.life,
     earningToken: coreTokens.ripple,
