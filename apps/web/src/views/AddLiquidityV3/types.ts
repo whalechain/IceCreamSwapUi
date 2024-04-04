@@ -14,35 +14,15 @@ interface HandleFeePoolSelectArgs {
 
 export const QUICK_ACTION_CONFIGS: Record<FeeAmount, { [percentage: number]: ZoomLevels }> = {
   [FeeAmount.LOWEST]: {
-    0.1: {
-      initialMin: 0.999,
-      initialMax: 1.001,
-      min: 0.00001,
-      max: 1.5,
-    },
-    0.5: {
-      initialMin: 0.995,
-      initialMax: 1.005,
-      min: 0.00001,
-      max: 1.5,
-    },
     1: {
       initialMin: 0.99,
       initialMax: 1.01,
       min: 0.00001,
       max: 1.5,
     },
-  },
-  [FeeAmount.LOW]: {
     5: {
       initialMin: 0.95,
       initialMax: 1.054,
-      min: 0.00001,
-      max: 1.5,
-    },
-    10: {
-      initialMin: 0.9,
-      initialMax: 1.11,
       min: 0.00001,
       max: 1.5,
     },
@@ -53,7 +33,7 @@ export const QUICK_ACTION_CONFIGS: Record<FeeAmount, { [percentage: number]: Zoo
       max: 1.5,
     },
   },
-  [FeeAmount.MEDIUM]: {
+  [FeeAmount.LOW]: {
     10: {
       initialMin: 0.9,
       initialMax: 1.11,
@@ -68,7 +48,7 @@ export const QUICK_ACTION_CONFIGS: Record<FeeAmount, { [percentage: number]: Zoo
     },
     50: ZOOM_LEVELS[FeeAmount.MEDIUM],
   },
-  [FeeAmount.HIGH]: {
+  [FeeAmount.MEDIUM]: {
     10: {
       initialMin: 0.9,
       initialMax: 1.1,
@@ -82,6 +62,21 @@ export const QUICK_ACTION_CONFIGS: Record<FeeAmount, { [percentage: number]: Zoo
       max: 20,
     },
     50: ZOOM_LEVELS[FeeAmount.HIGH],
+  },
+  [FeeAmount.HIGH]: {
+    20: {
+      initialMin: 0.8,
+      initialMax: 1.25,
+      min: 0.00001,
+      max: 20,
+    },
+    50: ZOOM_LEVELS[FeeAmount.HIGH],
+    80: {
+      initialMin: 0.2,
+      initialMax: 5,
+      min: 0.00001,
+      max: 20,
+    },
   },
 }
 

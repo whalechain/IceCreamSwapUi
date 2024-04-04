@@ -15,12 +15,14 @@ import { scroll } from "./scroll"
 import { neon } from "./neon"
 import { blast } from "./blast"
 import { qitmeer } from "./qitmeer"
+import { degen } from "./degen"
 
 export const chainMap = {
   core,
   qitmeer,
   bsc,
   neon,
+  degen,
   bitgert,
   telos,
   blast,
@@ -59,6 +61,7 @@ export enum ChainId {
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
   QITMEER = qitmeer.id,
+  DEGEN = degen.id,
 }
 
 export const defaultChainId = ChainId.CORE

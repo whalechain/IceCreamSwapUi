@@ -43,4 +43,6 @@ export const fuse: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  smartRouterAddress: '0x698a912F8CA34Df9b46E6Ea4A2B2DB0B7151b083',
+  farmV2Address: '0xBbB4CCfc93657AC125F4b1f734111349d1bFF611',
 }

@@ -43,6 +43,8 @@ export const telos: IceChain = {
     initCodeHash: INIT_CODE_HASH,
     routerAddress: ROUTER_ADDRESS,
   },
+  smartRouterAddress: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
+  farmV2Address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
   kyc: {
     feeToken: '0xB25cB6a275a8D6a613228FB161eB3627b50EB696',
     fee: 10,

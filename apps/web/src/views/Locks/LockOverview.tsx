@@ -65,7 +65,7 @@ export const LockOverview: React.FC<{ lockId: number }> = ({ lockId }) => {
     },
     [token],
   )
-  const claimed = lock?.amount === lock.amountUnlocked
+  const claimed = lock && lock.amount === lock.amountUnlocked
 
   const claim = useCallback(() => {
     if (!lock) return

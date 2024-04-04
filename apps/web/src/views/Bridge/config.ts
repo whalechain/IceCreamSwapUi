@@ -36,6 +36,22 @@ const chains = [
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
+      {
+        address: '0xebD3619642d78F0C98c84f6Fa9a678653fB5A99B' as Address,
+        name: 'ASX',
+        symbol: 'ASX',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB28B43209d9de61306172Af0320f4f55e50E2f29/logo.png',
+        resourceId: '0x000000000000000000000ebD3619642d78F0C98c84f6Fa9a678653fB5A99B001',
+      },
+      {
+        address: '0xA4fb427C67DF2400315c794155401c7C998Ed97d' as Address,
+        name: '3D City',
+        symbol: '3DC',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png',
+        resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
+      },
     ],
   },
   {
@@ -63,6 +79,14 @@ const chains = [
         imageUri:
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+      {
+        address: '0xe6400344D65011450FC49E569dc1A9F98Ee29849' as Address,
+        name: '3D City',
+        symbol: '3DC',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png',
+        resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
       },
     ],
   },
@@ -134,6 +158,14 @@ const chains = [
         imageUri:
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+      {
+        address: '0xB28B43209d9de61306172Af0320f4f55e50E2f29' as Address,
+        name: 'ASX',
+        symbol: 'ASX',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB28B43209d9de61306172Af0320f4f55e50E2f29/logo.png',
+        resourceId: '0x000000000000000000000ebD3619642d78F0C98c84f6Fa9a678653fB5A99B001',
       },
     ],
   },
@@ -323,6 +355,33 @@ const chains = [
         imageUri:
           'https://icecreamswap-assets.s3.amazonaws.com/token/81457/0x4300000000000000000000000000000000000004.png',
         resourceId: '0x00000000000000000000002170Ed0880ac9A755fd29B2688956BD959F933F801',
+      },
+    ],
+  },
+  {
+    domainId: 17,
+    networkId: 666666666,
+    name: 'Degen',
+    decimals: 18,
+    bridgeAddress: '0x3D4440F335060a0341C9E6C3bBeE85E552505FFF' as Address,
+    rpcUrl: getChain(ChainId.DEGEN).rpcUrls.public.http[0],
+    type: 'Ethereum',
+    nativeTokenSymbol: 'DEGEN',
+    tokens: [
+      {
+        address: '0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7' as Address,
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0x8ACeb2687B59F97Da274FE9135C3fAda0751ecb2' as Address,
+        name: 'Tether USD',
+        symbol: 'USDT',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
+        resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
     ],
   },
