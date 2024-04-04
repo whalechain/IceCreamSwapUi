@@ -57,6 +57,5 @@ export const coreTokens = {
   ripple: new ERC20Token(ChainId.CORE, '0x54e89D1C0D7B246ecaED450eF6d1d8C7B45EC3B6', 18, '3RPL', '3RIPLE COIN'),
   life: new ERC20Token(ChainId.CORE, '0x01F37fa58f316Cbb9B01Da817E5b61236f4CE82d', 18, 'LIFE', 'SHADOW LIFE'),
   freecore: new ERC20Token(ChainId.CORE, '0x2898aD472234C27163b99191d8D77bfC8bB7356D', 18, 'FCD', 'FreeCoreDaoCom'),
-
   asx: new ERC20Token(ChainId.CORE, '0xB28B43209d9de61306172Af0320f4f55e50E2f29', 18, 'ASX', 'ASX'),
 }
