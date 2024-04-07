@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 export const degen: IceChain = {
   id: 666666666,
   name: 'Degen Chain',
-  features: ['bridge'],
+  features: ['swap', 'bridge'],
   network: 'degen',
   rpcUrls: {
     public: { http: ['https://rpc.degen.tips'] },
@@ -37,4 +37,10 @@ export const degen: IceChain = {
     symbol: 'USDT',
     name: 'Tether USD',
   },
+  swap: {
+    factoryAddress: "0x064b3B79A13A3D8959614AC45ffb7907A135f57a",
+    routerAddress: "0x4Cbd6DE8819237d43EA44b8F14fd4d39bCc3c2D5",
+    initCodeHash: "0x0b6b499b70a5c571677814eaf859942ef2336f97496a25dfb5a151a02e7f1c5d",
+  },
+  smartRouterAddress: '0xb6D5B39F96d379569d47cC84024f3Cd78c5Ef651',
 }
