@@ -1,10 +1,10 @@
-import { SUPPORT_SWAP } from '../../config/constants/supportChains'
-import { AddToken } from '../../strict/views/Listing/AddToken'
+import { SUPPORT_ANY } from 'config/constants/supportChains'
+import { AddToken } from 'strict/views/Listing/AddToken'
 
-const LocksOverviewPage = () => {
+const AddTokenPage = () => {
   return <AddToken />
 }
 
-LocksOverviewPage.chains = SUPPORT_SWAP
+AddTokenPage.chains = SUPPORT_ANY
 
-export default LocksOverviewPage
+export default AddTokenPage

@@ -43,6 +43,8 @@ export const shimmer: IceChain = {
     routerAddress: "0xBbB4CCfc93657AC125F4b1f734111349d1bFF611",
     initCodeHash: INIT_CODE_HASH,
   },
+  smartRouterAddress: '0x698a912F8CA34Df9b46E6Ea4A2B2DB0B7151b083',
+  farmV2Address: '0xC4b5F645134DDc57c25D44095e5C1318A83C8481',
   kyc: {
     feeToken: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
     fee: 10,

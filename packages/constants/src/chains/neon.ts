@@ -43,4 +43,6 @@ export const neon: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  smartRouterAddress: '0x698a912F8CA34Df9b46E6Ea4A2B2DB0B7151b083',
+  farmV2Address: '0xe028aa99fe8e4c562f2477306eb7b98c8e083e4d',
 }

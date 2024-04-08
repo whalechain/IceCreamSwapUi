@@ -51,6 +51,8 @@ export const core: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  smartRouterAddress: '0xBd8BB286Cd14124720F3f8C5F3fdD7fa13735Dc2',
+  farmV2Address: '0xe3277bb0f3C4b9C6FC1DBf81E328E14F3C9368C3',
   campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
   kyc: {
     feeToken: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',

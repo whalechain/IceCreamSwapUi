@@ -43,4 +43,5 @@ export const xodex: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  farmV2Address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',
 }

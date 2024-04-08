@@ -43,4 +43,5 @@ export const shardeumTestnet: IceChain = {
     initCodeHash: INIT_CODE_HASH,
     routerAddress: "0xf3a3dAf360161B2f10c645EF039C709A3Fd4Ea62",
   },
+  smartRouterAddress: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
 }

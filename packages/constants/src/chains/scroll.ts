@@ -43,6 +43,8 @@ export const scroll: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  smartRouterAddress: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
+  farmV2Address: '0x1E0b5202F8D4a247d12528ac865ab73C61Db35Af',
   kyc: {
     feeToken: '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',
     fee: 10,

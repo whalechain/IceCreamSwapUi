@@ -1,11 +1,10 @@
-import { chains, ChainId } from '@icecreamswap/constants'
+import { chains } from '@icecreamswap/constants'
 import { CHAIN_IDS } from "utils/wagmi";
 
 export const SUPPORT_FARMS = chains.filter((chain) => chain.features.includes('farms')).map((chain) => chain.id)
 export const SUPPORT_FARMS_V3 = chains.filter((chain) => chain.features.includes('farmsV3')).map((chain) => chain.id)
 
 export const SUPPORT_ANY = CHAIN_IDS
-export const SUPPORT_ONLY_BITGERT = [ChainId.BITGERT]
 
 export const SUPPORT_SWAP = chains.filter((chain) => chain.features.includes('swap')).map((chain) => chain.id)
 export const SUPPORT_SWAP_V3 = chains.filter((chain) => chain.features.includes('swapV3')).map((chain) => chain.id)

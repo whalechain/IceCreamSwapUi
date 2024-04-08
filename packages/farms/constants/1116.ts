@@ -28,6 +28,13 @@ export const farmsV3 = defineFarmV3Configs([
         feeAmount: FeeAmount.LOW,
     },
     {
+        pid: 10,
+        token0: coreTokens.wcore,
+        token1: coreTokens.asx,
+        lpAddress: '0xdc935f1c4679466210aB02603881775542BCe668',
+        feeAmount: FeeAmount.MEDIUM,
+    },
+    {
         pid: 9,
         token0: coreTokens.wcore,
         token1: coreTokens.youngparrot,
