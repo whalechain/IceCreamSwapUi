@@ -135,7 +135,7 @@ const Hero = () => {
             {t('Welcome to AI enhanced DeFi')}
           </Heading>
           <Heading as="p" scale="md" mb="24px">
-            {t('Trade anny tokens at the best rates with our AI DEX aggregator!')}
+            {t('Trade any tokens at the best rates with our AI DEX aggregator!')}
           </Heading>
           <Flex>
             <NextLinkFromReactRouter to="/swap">
