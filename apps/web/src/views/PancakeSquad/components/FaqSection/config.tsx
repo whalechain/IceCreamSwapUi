@@ -9,14 +9,7 @@ const config = ({ t }: FAQsType) => [
   {
     title: t('What is IceCreamSwap building?'),
     description: [
-      t('A one stop DeFi solution which users and founders can utilize on all chains and whichever DeFi utility they are searching for.' +
-      " This removes the need to search for new utility providers on every blockchain and unifies all utility's in a single, simple to use, interface.")
-    ],
-  },
-  {
-    title: t('How is IceCreamSwap protecting me?'),
-    description: [
-      t('There are multiple levels of user protection like KYCing listed projects, providing full time support on our Telegram and utilizing audited and battle tested smart contracts')
+      t('A one stop DeFi solution with AI DEX aggregator and an intuitive UI to access efficient DeFi on all chains.')
     ],
   },
   {
@@ -33,63 +26,32 @@ const config = ({ t }: FAQsType) => [
           {t('CertiK Audit')}
         </Link>
         {t('.')}
-        <br/>
-        {t('Also our DEX is using the unmodified Uniswap V2 contracts, which are battle tested for years and trusted with billions of $')}
       </Text>,
     ],
   },
   {
-    title: t('How is the Bridge secured?'),
+    title: t('How does IceCreamSwap combine AI with Blockchains?'),
     description: [
-      <Text as="p" color="textSubtle" fontSize="16px">
-        {t('The IceCream bridge builds on top of the industry leading ChainBridge, by ')}
-        <Link
-          display="inline-flex"
-          color="text"
-          title="ChainSafe"
-          href="https://chainsafe.io/"
-        >
-          {t('ChainSafe')}
-        </Link>
-        {t(', codebase. This codebase has multiple audits and is used in many huge bridges like the Dogechain bridge or ')}
-        <Link
-          display="inline-flex"
-          color="text"
-          title="Meter passport"
-          href="https://passport.meter.io"
-        >
-          {t('Meter passport')}
-        </Link>
-        {t('.')}
-      </Text>,
-      <Text as="p" color="textSubtle" fontSize="16px">
-        {t('In addition we completed an audit with an member of the ')}
-        <Link
-          display="inline-flex"
-          color="text"
-          title="DeFi Security Alliance"
-          href="https://defisec.info/"
-        >
-          {t('DeFi Security Alliance')}
-        </Link>
-        {t('.')}
-      </Text>,
+      t('The Blockchain is an amazing tool for security and trust minimization. But as it\'s still in It\'s early stage, ' +
+      'inefficiencies occur which result in an unwanted value transfer from users to MEV/Arbitrage bots. ' +
+      'Our AI DEX aggregator detects these inefficiencies and automatically extracts them for our users, resulting in more efficient trades and less value lost.'),
     ],
   },
   {
-    title: t('How does the IceCreamSwap DEX aggregator help me?'),
+    title: t('What is the IceCreamSwap AI DEX aggregator?'),
     description: [
-      t('The IceCreamSwap DEX aggregator aggregates the entire liquidity on the chain to find the optimal trading route for your swap.' +
-      ' Basically you are guaranteed that there is no better place to do the swap as we utilize all other providers to find the optimal execution for you.' +
-      ' All this happens in the background and in a single transaction.'),
+      t('It \'s a sophisticated system that scans the entire blockchain to find the optimal way to execute your swap. ' +
+      'It allows you to trade any token at the best rate, not only taking into account the IceCreamSwap liquidity, but also the liquidity of other DEXes. ' +
+      'Simplified you can think about it as the booking.com of DEXes, finding you the best offer to execute your trade. ' +
+      'It even extracts Arbitrage opportunities for you, so your trades sometimes end with more value than they began with.'),
     ],
   },
   {
-    title: t('What is the IceCreamSwap KYC?'),
+    title: t('How does IceCreamSwap extract arbitrage for me?'),
     description: [
-      t('It is a fully automated Identity verification service that just takes a few minutes and mints you a soulbound token on completion, which attests the KYC on chain.' +
-      ' Founders can use it to show their transparency and commitment to their project, while users can prove their unique identity to e.g. receive AirDrops not meant for Bots.' +
-      ' Founders with KYC token are way less likely to scam their users as they can be tracked down by authorities.')
+      t('On every trade, our AI DEX aggregator not only finds you the best way to execute that trade, but even scans for Arbitrage opportunities. ' +
+      'These opportunities are extracted directly in your trade. ' +
+      'As most Arbitrage is generated from inefficient trades, IceCreamSwap users not only don\'t loose value to Arbitrage, they even directly profit from users that still use less sophisticated DEXes.'),
     ],
   },
   {
@@ -99,72 +61,12 @@ const config = ({ t }: FAQsType) => [
     ],
   },
   {
-    title: t('How to create a ERC20 token?'),
-    description: [
-      t('IceCreamSwap has a simple utility for that, which fully automates the process. You can find it in the Token Deployer tab.'),
-    ],
-  },
-  {
     title: t('How much reward will I get for providing liquidity?'),
     description: [
       t(
-        '5/6 (83%) of the trading fees are distributed by the dex smart contract to all liquidity providers. Also there are Farming pools to receive additional ICE tokens and some tokens like SCORE even generate rewards through securing the Blockchain.',
+        'most of the trading fees are distributed directly to our liquidity providers. Also there are Farming pools to receive additional ICE tokens and some tokens like SCORE even generate rewards through securing the Blockchain.',
       ),
     ],
-  },
-  {
-    title: t('Which chains are supported?'),
-    description: [
-      <Text as="p" color="textSubtle" fontSize="16px">
-        {t('Currently we are supporting CORE, Telos, Bitgert (Brise), XDC, Shardeum, Binance smart chain (BSC), XoDex, Dogechain and Fuse Chains, as well as soon IOTA Shimmer. For an always up to date list please take a look at our ')}
-        <Link
-          display="inline-flex"
-          color="text"
-          title="IceCreamSwap Wiki"
-          href="https://wiki.icecreamswap.com/intro/multichain"
-        >
-          {t('Wiki')}
-        </Link>
-        {t('.')}
-      </Text>,
-    ],
-  },
-  {
-    title: t('What is the address of the IceCream token?'),
-    description: [
-      t('IceCream is a multi chain token and therefore available on and bridgable between multiple blockchains:'),
-      <br/>,
-      t('0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44 CORE'),
-      t('0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D Bitgert'),
-      t('0xce6c9c70f91c6797873EFC80505f972290A88f5D BSC'),
-      t('0x54051D9DbE99687867090d95fe15C3D3E35512Ba XDC'),
-      t('0x81bCEa03678D1CEF4830942227720D542Aa15817 XoDex'),
-      t('0x81bCEa03678D1CEF4830942227720D542Aa15817 Dogechain'),
-      t('0x54051D9DbE99687867090d95fe15C3D3E35512Ba DoKEN'),
-      t('0x867f08A3ab824b42e8058a1B48e32E1dF205b092 Fuse'),
-      <br/>,
-      <Text as="p" color="textSubtle" fontSize="16px">
-        {t('An up to date list of all IceCream addresses for all supported chains can be found on our ')}
-        <Link
-          display="inline-flex"
-          color="text"
-          title={t('Wiki')}
-          external
-          href="https://wiki.icecreamswap.com/intro/ice"
-        >
-          {t('Wiki')}
-        </Link>
-      </Text>,
-    ],
-  },
-  {
-    title: t('What are the Router and Factory addresses?'),
-    description: [
-      t('The router and factory addresses are the same on every supported chain:'),
-      <br/>,
-      `${t('Router02')} : 0xBb5e1777A331ED93E07cF043363e48d320eb96c4`,
-      `${t('Factory')} : 0x9E6d21E759A7A288b80eef94E4737D313D31c13f`,
-    ],
-  },
+  }
 ]
 export default config
