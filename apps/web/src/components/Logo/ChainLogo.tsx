@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from 'next/image'
 import { HelpIcon } from '@pancakeswap/uikit'
-import { isChainSupported } from '../../utils/wagmi'
+import { isChainSupported } from 'utils/wagmi'
 import { memo } from 'react'
 import logo32520 from '../../../public/images/chains/32520.png'
 import logo2000 from '../../../public/images/chains/2000.png'
@@ -20,6 +20,7 @@ import logo245022934 from '../../../public/images/chains/245022934.png'
 import logo81457 from '../../../public/images/chains/81457.png'
 import logo813 from '../../../public/images/chains/813.png'
 import logo666666666 from '../../../public/images/chains/666666666.png'
+import logo60808 from '../../../public/images/chains/60808.png'
 import { ChainId } from '@pancakeswap/sdk'
 
 const logoMap: Record<ChainId, StaticImageData> = {
@@ -41,6 +42,7 @@ const logoMap: Record<ChainId, StaticImageData> = {
   81457: logo81457,
   813: logo813,
   666666666: logo666666666,
+  60808: logo60808,
 }
 
 export const ChainLogo = memo(

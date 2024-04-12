@@ -17,6 +17,7 @@ import {
   blastTokens,
   qitmeerTokens,
   degenTokens,
+  bobTokens,
 } from '@pancakeswap/tokens'
 import { ChainTokenList } from './types'
 
@@ -53,6 +54,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.BLAST]: [blastTokens.ice, blastTokens.usdb],
   [ChainId.QITMEER]: [qitmeerTokens.ice, qitmeerTokens.usdt],
   [ChainId.DEGEN]: [degenTokens.ice, degenTokens.usdt],
+  [ChainId.BOB]: [],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -112,6 +114,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BLAST]: [blastTokens.ice, blastTokens.weth, blastTokens.usdb],
   [ChainId.QITMEER]: [qitmeerTokens.wmeer, qitmeerTokens.ice, qitmeerTokens.usdt],
   [ChainId.DEGEN]: [degenTokens.wdegen, degenTokens.ice, degenTokens.usdt],
+  [ChainId.BOB]: [bobTokens.weth],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -184,6 +187,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [degenTokens.wdegen, degenTokens.ice],
     [degenTokens.wdegen, degenTokens.usdt],
   ],
+  [ChainId.BOB]: [],
 }
 
 export const BIG_INT_ZERO = 0n

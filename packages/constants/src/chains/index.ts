@@ -16,10 +16,12 @@ import { neon } from "./neon"
 import { blast } from "./blast"
 import { qitmeer } from "./qitmeer"
 import { degen } from "./degen"
+import { bob } from "./bob"
 
 export const chainMap = {
   core,
   bsc,
+  bob,
   base,
   qitmeer,
   neon,
@@ -62,6 +64,7 @@ export enum ChainId {
   SHIMMER_TEST = shimmerTestnet.id,
   QITMEER = qitmeer.id,
   DEGEN = degen.id,
+  BOB = bob.id,
 }
 
 export const defaultChainId = ChainId.CORE
