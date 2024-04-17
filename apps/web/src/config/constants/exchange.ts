@@ -181,7 +181,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ],
   [ChainId.BOBA]: [
     [bobaTokens.usdt, bobaTokens.ice],
-    [bobaTokens.weth, bobaTokens.weth],
     [bobaTokens.weth, bobaTokens.usdt],
   ],
 }
