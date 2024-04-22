@@ -38,8 +38,8 @@ export const boba: IceChain = {
     name: 'Tether USD',
   },
   swap: {
-    factoryAddress: '0x3D4440F335060a0341C9E6C3bBeE85E552505FFF',
-    routerAddress: '0xe0627818b29D2f28E62f54bC988E6e02C8dbC300',
+    factoryAddress: '0x9e0207169c4e016a147Eb5216A1d946219D746fA',
+    routerAddress: '0xCe219d5C5dDcbd9e668e72241BaF309AE86B55bc',
     initCodeHash: '0x0b6b499b70a5c571677814eaf859942ef2336f97496a25dfb5a151a02e7f1c5d',
   }
 }
