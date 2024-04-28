@@ -1,4 +1,3 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const avalanche: IceChain = {
@@ -24,7 +23,7 @@ export const avalanche: IceChain = {
       blockCreated: 44439977,
     },
   },
-  blockInterval: 60,
+  blockInterval: 2,
   wrappedNative: {
     address: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
     decimals: 18,

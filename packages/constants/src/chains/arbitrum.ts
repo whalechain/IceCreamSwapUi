@@ -1,4 +1,3 @@
-import { FACTORY_ADDRESS, INIT_CODE_HASH, ROUTER_ADDRESS } from "../common/swap";
 import IceChain from '../ice-chain'
 
 export const arbitrum: IceChain = {
@@ -24,7 +23,7 @@ export const arbitrum: IceChain = {
       blockCreated: 202100344,
     },
   },
-  blockInterval: 1,
+  blockInterval: 0.25,
   wrappedNative: {
     address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
     decimals: 18,
