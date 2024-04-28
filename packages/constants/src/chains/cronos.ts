@@ -31,7 +31,7 @@ export const cronos: IceChain = {
     name: 'Wrapped CRO',
   },
   stableToken: {
-    address: '0x66e428c3f67a68878562e79a0234c1f83c208770',
+    address: '0x66e428c3f67a68878562e79A0234c1F83c208770',
     decimals: 6,
     symbol: 'USDT',
     name: 'Tether USD',
