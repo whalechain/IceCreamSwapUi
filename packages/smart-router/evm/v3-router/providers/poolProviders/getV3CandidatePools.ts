@@ -123,7 +123,7 @@ export function createGetV3CandidatePools<T = any>(
     const { currencyA, currencyB } = params
     const chainId = currencyA?.chainId || currencyB?.chainId || defaultChainId
     if (!getChain(chainId)?.features.includes('swapV3')) {
-      return new Promise((resolve, reject) => resolve([]));
+      return [] as ReturnType<typeof v3PoolTvlSelector>;
     }
 
     const pools = await getV3PoolsWithFallbacks(params)
