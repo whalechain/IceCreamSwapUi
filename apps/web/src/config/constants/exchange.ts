@@ -42,7 +42,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     WETH9[chain.id] && ICE[chain.id] && pairs.push([WETH9[chain.id], ICE[chain.id]])
     return {...acc, [chain.id]: pairs}
   }, {}),
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.score, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
 }
 
 export const BIG_INT_ZERO = 0n
