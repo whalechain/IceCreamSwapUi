@@ -85,7 +85,7 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
             <Select
               options={chainSelectionOptions}
               onOptionChange={(option) => switchNetworkAsync(option.value)}
-              value={chainId}
+              placeHolderText={"Select Chain"}
               width={"100px"}
             />
           </div>
