@@ -168,7 +168,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
   }, [chainId, supportedChains])
   */
-  const wrongChain = typeof chainId !== 'undefined' && !supportedChains.includes(chainId)
+  const wrongChain = typeof chainId !== 'undefined' && supportedChains.length != 0 && !supportedChains.includes(chainId)
   if (Component.pure) {
     return <Component {...pageProps} />
   }
