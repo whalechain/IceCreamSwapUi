@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { getChain, ChainId } from "@icecreamswap/constants"
+import {ChainId} from "@pancakeswap/sdk";
 
 const chains = [
   {
@@ -8,7 +8,6 @@ const chains = [
     name: 'BinanceSmartChain',
     decimals: 18,
     bridgeAddress: '0x3D4440F335060a0341C9E6C3bBeE85E552505FFF' as Address,
-    rpcUrl: getChain(ChainId.BSC).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'BNB',
     tokens: [
@@ -36,6 +35,22 @@ const chains = [
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
+      {
+        address: '0xebD3619642d78F0C98c84f6Fa9a678653fB5A99B' as Address,
+        name: 'ASX',
+        symbol: 'ASX',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB28B43209d9de61306172Af0320f4f55e50E2f29/logo.png',
+        resourceId: '0x000000000000000000000ebD3619642d78F0C98c84f6Fa9a678653fB5A99B001',
+      },
+      {
+        address: '0xA4fb427C67DF2400315c794155401c7C998Ed97d' as Address,
+        name: '3D City',
+        symbol: '3DC',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png',
+        resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
+      },
     ],
   },
   {
@@ -44,7 +59,6 @@ const chains = [
     name: 'Bitgert',
     decimals: 18,
     bridgeAddress: '0x6A6A2C9A9e9dDf3a6D76B8e1d05701d7D57596B8' as Address,
-    rpcUrl: getChain(ChainId.BITGERT).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'Brise',
     tokens: [
@@ -64,6 +78,14 @@ const chains = [
           'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
+      {
+        address: '0xe6400344D65011450FC49E569dc1A9F98Ee29849' as Address,
+        name: '3D City',
+        symbol: '3DC',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0x5feDA75eaB27814Cba0694C9711F7d4abEa5b0b5/logo.png',
+        resourceId: '0x00000000000000000000005feDA75eaB27814Cba0694C9711F7d4abEa5b0b502',
+      },
     ],
   },
   {
@@ -72,7 +94,6 @@ const chains = [
     name: 'XDC',
     decimals: 18,
     bridgeAddress: '0x7D5a56742C082FcDfc240cd7D1775f00e059771F' as Address,
-    rpcUrl: getChain(ChainId.XDC).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'XDC',
     tokens: [
@@ -100,7 +121,6 @@ const chains = [
     name: 'CORE',
     decimals: 18,
     bridgeAddress: '0x88cD606B63C4665499ad0d47d4685d2ffc78e2Be'  as Address,
-    rpcUrl: getChain(ChainId.CORE).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'CORE',
     tokens: [
@@ -135,6 +155,14 @@ const chains = [
             'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
         resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
       },
+      {
+        address: '0xB28B43209d9de61306172Af0320f4f55e50E2f29' as Address,
+        name: 'ASX',
+        symbol: 'ASX',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/core/assets/0xB28B43209d9de61306172Af0320f4f55e50E2f29/logo.png',
+        resourceId: '0x000000000000000000000ebD3619642d78F0C98c84f6Fa9a678653fB5A99B001',
+      },
     ],
   },
   {
@@ -143,7 +171,6 @@ const chains = [
     name: 'Telos',
     decimals: 18,
     bridgeAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
-    rpcUrl: getChain(ChainId.TELOS).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'TLOS',
     tokens: [
@@ -170,7 +197,6 @@ const chains = [
     name: 'Base',
     decimals: 18,
     bridgeAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
-    rpcUrl: getChain(ChainId.BASE).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
@@ -197,7 +223,6 @@ const chains = [
     name: 'Shimmer',
     decimals: 18,
     bridgeAddress: '0x4ddC9394b8371765588B10134AA79472C1d42b16' as Address,
-    rpcUrl: getChain(ChainId.SHIMMER).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'SMR',
     tokens: [
@@ -224,7 +249,6 @@ const chains = [
     name: 'Scroll',
     decimals: 18,
     bridgeAddress: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
-    rpcUrl: getChain(ChainId.SCROLL).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
@@ -251,7 +275,6 @@ const chains = [
     name: 'Neon EVM',
     decimals: 18,
     bridgeAddress: '0x4ddC9394b8371765588B10134AA79472C1d42b16' as Address,
-    rpcUrl: getChain(ChainId.NEON).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'NEON',
     tokens: [
@@ -278,7 +301,6 @@ const chains = [
     name: 'Qitmeer',
     decimals: 18,
     bridgeAddress: '0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7' as Address,
-    rpcUrl: getChain(ChainId.QITMEER).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'MEER',
     tokens: [
@@ -305,7 +327,6 @@ const chains = [
     name: 'Blast',
     decimals: 18,
     bridgeAddress: '0x575C065Bf1Fa9D6F0F94AAC620a6936dD8517c7D' as Address,
-    rpcUrl: getChain(ChainId.BLAST).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
     tokens: [
@@ -332,9 +353,60 @@ const chains = [
     name: 'Boba',
     decimals: 18,
     bridgeAddress: '0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7' as Address,
-    rpcUrl: getChain(ChainId.BOBA).rpcUrls.public.http[0],
     type: 'Ethereum',
     nativeTokenSymbol: 'ETH',
+    tokens: [
+      {
+        address: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0x7D5a56742C082FcDfc240cd7D1775f00e059771F' as Address,
+        name: 'Tether USD',
+        symbol: 'USDT',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
+        resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+    ],
+  },
+  {
+    domainId: 17,
+    networkId: 666666666,
+    name: 'Degen',
+    decimals: 18,
+    bridgeAddress: '0x3D4440F335060a0341C9E6C3bBeE85E552505FFF' as Address,
+    type: 'Ethereum',
+    nativeTokenSymbol: 'DEGEN',
+    tokens: [
+      {
+        address: '0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7' as Address,
+        name: 'IceCream',
+        symbol: 'ICE',
+        imageUri: 'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xB999Ea90607a826A3E6E6646B404c3C7d11fa39D/logo.png',
+        resourceId: '0x0000000000000000000000B999Ea90607a826A3E6E6646B404c3C7d11fa39D02',
+      },
+      {
+        address: '0x8ACeb2687B59F97Da274FE9135C3fAda0751ecb2' as Address,
+        name: 'Tether USD',
+        symbol: 'USDT',
+        imageUri:
+          'https://raw.githubusercontent.com/simone1999/trustwallet-assets/master/blockchains/bitgert/assets/0xC7E6d7E08A89209F02af47965337714153c529F0/logo.png',
+        resourceId: '0x0000000000000000000000C7E6d7E08A89209F02af47965337714153c529F001',
+      },
+    ],
+  },
+  {
+    domainId: 18,
+    networkId: ChainId.RARI,
+    name: 'Rari',
+    decimals: 18,
+    bridgeAddress: '0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7' as Address,
+    type: 'Ethereum',
+    nativeTokenSymbol: 'RARI',
     tokens: [
       {
         address: '0xd65CceCFf339e5680b1A1E7821421932cc2b114f' as Address,

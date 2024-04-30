@@ -5,7 +5,7 @@ const bscExplorer = { name: 'BscScan', url: 'https://bscscan.com' }
 export const bsc: IceChain = {
   id: 56,
   name: 'BNB Smart Chain Mainnet',
-  features: ['bridge'],
+  features: ['bridge'],  // 'swap'
   network: 'binance',
   rpcUrls: {
     public: { http: ['https://rpc.ankr.com/bsc'] },
@@ -40,4 +40,10 @@ export const bsc: IceChain = {
     symbol: 'USDT',
     name: 'Tether USD',
   },
+  swap: {
+    factoryAddress: '0x89BdF2078BAFbdde92A796F7FC76abd36B84d4Db',
+    initCodeHash: '0x0437378fc27e93c612c5c385779bf540ca2064b54705e48c313aa216da380100',
+    routerAddress: '0xB403c6c93446eD1453CAa51d69A492053e008240',
+  },
+  smartRouterAddress: '0x16A3247Db4588176c24C6A5F6d3fd2C174122DF5',
 }

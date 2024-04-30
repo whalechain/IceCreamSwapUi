@@ -1,4 +1,5 @@
 import { bitgert } from './bitgert'
+import { boba } from "./boba"
 import { bsc } from './bsc'
 import { core } from './core'
 import { dogechain } from './dogechain'
@@ -15,20 +16,23 @@ import { scroll } from "./scroll"
 import { neon } from "./neon"
 import { blast } from "./blast"
 import { qitmeer } from "./qitmeer"
-import { boba } from "./boba"
+import { degen } from "./degen"
+import { rari } from "./rari"
 
 export const chainMap = {
   core,
-  qitmeer,
   bsc,
+  base,
   boba,
+  qitmeer,
   neon,
+  rari,
+  degen,
+  blast,
   bitgert,
   telos,
-  blast,
   shimmer,
   scroll,
-  base,
   xdc,
   dogechain,
   fuse,
@@ -61,6 +65,8 @@ export enum ChainId {
   SHARDEUM_TEST = shardeumTestnet.id,
   SHIMMER_TEST = shimmerTestnet.id,
   QITMEER = qitmeer.id,
+  DEGEN = degen.id,
+  RARI = rari.id,
   BOBA = boba.id,
 }
 

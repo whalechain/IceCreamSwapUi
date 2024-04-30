@@ -11,6 +11,12 @@ export type FarmV2SupportedChainId = (typeof supportedChainIdV2)[number]
 
 export type FarmV3SupportedChainId = (typeof supportedChainIdV3)[number]
 
+export const SMART_ROUTER_ADDRESSES: Record<ChainId, `0x${string}`> = chains.reduce((acc, chain) => {
+  return chain.farmV2Address
+    ?{...acc, [chain.id]: chain.farmV2Address}
+    :acc
+}, {})
+
 export const masterChefAddresses: Record<number, `0x${string}`> = {
   32520: '0x090B19ea55b93C969EC98E1D8E3db0695698efCa',
   2000: "0xc44a6eb41f02740A6778CCb9591448a5EBC73b74",

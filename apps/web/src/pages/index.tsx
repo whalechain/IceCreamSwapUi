@@ -128,6 +128,6 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 */
 
-IndexPage.chains = CHAIN_IDS
+IndexPage.chains = []
 
 export default IndexPage

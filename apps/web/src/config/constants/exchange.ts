@@ -1,24 +1,7 @@
-import { ChainId, Percent, Token } from '@pancakeswap/sdk'
-import {
-  bitgertTokens,
-  coreTokens,
-  dogechainTokens,
-  dokenTokens,
-  fuseTokens,
-  xdcTokens,
-  xodexTokens,
-  shardeumTestnetTokens,
-  telosTokens,
-  shimmerTestnetTokens,
-  baseTokens,
-  shimmerTokens,
-  scrollTokens,
-  neonTokens,
-  blastTokens,
-  qitmeerTokens,
-  bobaTokens,
-} from '@pancakeswap/tokens'
-import { ChainTokenList } from './types'
+import {ChainId, Percent, Token, WETH9} from '@pancakeswap/sdk'
+import { coreTokens, USD, ICE } from '@pancakeswap/tokens'
+import { chains } from '@icecreamswap/constants'
+import { ChainMap, ChainTokenList } from './types'
 
 export {
   ADDITIONAL_BASES,
@@ -27,162 +10,38 @@ export {
   CUSTOM_BASES,
 } from '@pancakeswap/smart-router/evm'
 
-// todo: make dynamic for all ChainIds
-export const CHAIN_REFRESH_TIME = {
-  [ChainId.BSC]: 6_000,
-  [ChainId.BITGERT]: 6_000,
-  [ChainId.CORE]: 6_000,
-} as const satisfies Record<ChainId, number>
+export const CHAIN_REFRESH_TIME: ChainMap<number> = chains.reduce(
+  (acc, chain) => ({...acc, [chain.id]: 6_000}),
+  {}
+)
 
 // used for display in the default list when adding liquidity
-export const SUGGESTED_BASES: ChainTokenList = {
-  [ChainId.BITGERT]: [bitgertTokens.ice, bitgertTokens.usdti],
-  [ChainId.DOGE]: [dogechainTokens.ice],
-  [ChainId.DOKEN]: [dokenTokens.ice],
-  [ChainId.FUSE]: [fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.ice],
-  [ChainId.CORE]: [coreTokens.ice, coreTokens.usdt],
-  [ChainId.XODEX]: [xodexTokens.ice],
-  [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
-  [ChainId.TELOS]: [telosTokens.ice],
-  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.ice],
-  [ChainId.BASE]: [baseTokens.ice],
-  [ChainId.SHIMMER]: [shimmerTokens.ice],
-  [ChainId.SCROLL]: [scrollTokens.ice],
-  [ChainId.NEON]: [neonTokens.ice],
-  [ChainId.BLAST]: [blastTokens.ice, blastTokens.usdb],
-  [ChainId.QITMEER]: [qitmeerTokens.ice, qitmeerTokens.usdt],
-  [ChainId.BOBA]: [bobaTokens.ice, bobaTokens.usdt],
-}
+export const SUGGESTED_BASES: ChainTokenList = chains.reduce((acc, chain) => {
+  const tokens: Token[] = []
+  USD[chain.id] && tokens.push(USD[chain.id])
+  ICE[chain.id] && tokens.push(ICE[chain.id])
+  return {...acc, [chain.id]: tokens}
+}, {})
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  [ChainId.BITGERT]: [
-    bitgertTokens.wbrise,
-    bitgertTokens.sphynx,
-    bitgertTokens.bpad,
-    bitgertTokens.broge,
-    bitgertTokens.brzilla,
-    bitgertTokens.btxt,
-    bitgertTokens.eltg,
-    bitgertTokens.evo,
-    bitgertTokens.map,
-    bitgertTokens.miidas,
-    bitgertTokens.mir,
-    bitgertTokens.numi,
-    bitgertTokens.omnia,
-    bitgertTokens.prds,
-    bitgertTokens.rluna,
-    bitgertTokens.vef,
-    bitgertTokens.wmf,
-    bitgertTokens.yogo,
-    bitgertTokens.ypc,
-    bitgertTokens.ice,
-    bitgertTokens.tokyo,
-    bitgertTokens.usdc,
-    bitgertTokens.usdt,
-    bitgertTokens.wolf,
-    bitgertTokens.usdti,
-    bitgertTokens.$3dc,
-    bitgertTokens.darrival,
-    bitgertTokens.ethi,
-    bitgertTokens.dogei,
-    bitgertTokens.bnbi,
-    bitgertTokens.shibi,
-    bitgertTokens.daii,
-    bitgertTokens.usdc,
-    bitgertTokens.busdi,
-    bitgertTokens.baskom,
-    bitgertTokens.abr,
-    bitgertTokens.lung,
-  ],
-  [ChainId.DOGE]: [dogechainTokens.wdoge, dogechainTokens.ice],
-  [ChainId.DOKEN]: [dokenTokens.wdkn, dokenTokens.ice, dokenTokens.usdt],
-  [ChainId.FUSE]: [fuseTokens.wfuse, fuseTokens.ice],
-  [ChainId.XDC]: [xdcTokens.wxdc, xdcTokens.ice, xdcTokens.usdt, xdcTokens.usdc],
+  ...chains.reduce((acc, chain) => {
+    const tokens: Token[] = []
+    WETH9[chain.id] && tokens.push(WETH9[chain.id])
+    USD[chain.id] && tokens.push(USD[chain.id])
+    ICE[chain.id] && tokens.push(ICE[chain.id])
+    return {...acc, [chain.id]: tokens}
+  }, {}),
   [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.score, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
-  [ChainId.XODEX]: [xodexTokens.wxodex, xodexTokens.ice, xodexTokens.usdt],
-  [ChainId.SHARDEUM_TEST]: [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice, shardeumTestnetTokens.usdt],
-  [ChainId.TELOS]: [telosTokens.wtlos, telosTokens.ice, telosTokens.usdt],
-  [ChainId.SHIMMER_TEST]: [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice, shimmerTestnetTokens.usdt],
-  [ChainId.BASE]: [baseTokens.weth, baseTokens.ice, baseTokens.usdt],
-  [ChainId.SHIMMER]: [shimmerTokens.wsmr, shimmerTokens.ice, shimmerTokens.usdt],
-  [ChainId.SCROLL]: [scrollTokens.weth, scrollTokens.ice, scrollTokens.usdt],
-  [ChainId.NEON]: [neonTokens.wneon, neonTokens.ice, neonTokens.usdt],
-  [ChainId.BLAST]: [blastTokens.ice, blastTokens.weth, blastTokens.usdb],
-  [ChainId.QITMEER]: [qitmeerTokens.wmeer, qitmeerTokens.ice, qitmeerTokens.usdt],
-  [ChainId.BOBA]: [bobaTokens.weth, bobaTokens.ice, bobaTokens.usdt],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
-  [ChainId.BITGERT]: [
-    [bitgertTokens.wbrise, bitgertTokens.ice],
-    [bitgertTokens.usdti, bitgertTokens.ice],
-  ],
-  [ChainId.DOGE]: [
-    [dogechainTokens.wdoge, dogechainTokens.ice],
-    [dogechainTokens.usdt, dogechainTokens.ice],
-  ],
-  [ChainId.DOKEN]: [[dokenTokens.wdkn, dokenTokens.ice]],
-  [ChainId.FUSE]: [[fuseTokens.wfuse, fuseTokens.ice]],
-  [ChainId.XDC]: [
-    [xdcTokens.wxdc, xdcTokens.ice],
-    [xdcTokens.usdt, xdcTokens.ice],
-  ],
-  [ChainId.CORE]: [
-    [coreTokens.wcore, coreTokens.ice],
-    [coreTokens.wcore, coreTokens.usdt],
-    [coreTokens.usdt, coreTokens.ice],
-  ],
-  [ChainId.XODEX]: [
-    [xodexTokens.wxodex, xodexTokens.ice],
-    [xodexTokens.usdt, xodexTokens.ice],
-  ],
-  [ChainId.SHARDEUM_TEST]: [
-    [shardeumTestnetTokens.wshm, shardeumTestnetTokens.ice],
-    [shardeumTestnetTokens.usdt, shardeumTestnetTokens.ice]
-  ],
-  [ChainId.TELOS]: [
-    [telosTokens.wtlos, telosTokens.ice],
-    [telosTokens.usdt, telosTokens.ice],
-  ],
-  [ChainId.SHIMMER_TEST]: [
-    [shimmerTestnetTokens.wsmr, shimmerTestnetTokens.ice],
-    [shimmerTestnetTokens.usdt, shimmerTestnetTokens.ice],
-  ],
-  [ChainId.BASE]: [
-    [baseTokens.weth, baseTokens.ice],
-    [baseTokens.usdt, baseTokens.ice],
-  ],
-  [ChainId.SHIMMER]: [
-    [shimmerTokens.usdt, shimmerTokens.ice],
-    [shimmerTokens.wsmr, shimmerTokens.ice],
-    [shimmerTokens.wsmr, shimmerTokens.usdt],
-  ],
-  [ChainId.SCROLL]: [
-    [scrollTokens.usdt, scrollTokens.ice],
-    [scrollTokens.weth, scrollTokens.ice],
-    [scrollTokens.weth, scrollTokens.usdt],
-  ],
-  [ChainId.NEON]: [
-    [neonTokens.usdt, neonTokens.ice],
-    [neonTokens.wneon, neonTokens.ice],
-    [neonTokens.wneon, neonTokens.usdt],
-  ],
-  [ChainId.BLAST]: [
-    [blastTokens.weth, blastTokens.ice],
-    [blastTokens.usdb, blastTokens.ice],
-    [blastTokens.weth, blastTokens.usdb],
-  ],
-  [ChainId.QITMEER]: [
-    [qitmeerTokens.usdt, qitmeerTokens.ice],
-    [qitmeerTokens.wmeer, qitmeerTokens.ice],
-    [qitmeerTokens.wmeer, qitmeerTokens.usdt],
-  ],
-  [ChainId.BOBA]: [
-    [bobaTokens.usdt, bobaTokens.ice],
-    [bobaTokens.weth, bobaTokens.usdt],
-  ],
+  ...chains.reduce((acc, chain) => {
+    const pairs: [Token, Token][] = []
+    WETH9[chain.id] && USD[chain.id] && pairs.push([WETH9[chain.id], USD[chain.id]])
+    WETH9[chain.id] && ICE[chain.id] && pairs.push([WETH9[chain.id], ICE[chain.id]])
+    return {...acc, [chain.id]: pairs}
+  }, {}),
 }
 
 export const BIG_INT_ZERO = 0n

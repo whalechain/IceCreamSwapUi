@@ -43,4 +43,5 @@ export const dokenchain: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
   },
+  farmV2Address: '0x509733EaB85DEbdAE55306Aa81e3E4326f71cE0D',
 }

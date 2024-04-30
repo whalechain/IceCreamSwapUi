@@ -1,4 +1,4 @@
-import { Button, Grid, Message, MessageText, Modal, Text } from '@pancakeswap/uikit'
+import {Button, Grid, Message, MessageText, Modal, Select, Text} from '@pancakeswap/uikit'
 import { useLocalNetworkChain } from 'hooks/useActiveChainId'
 import { useTranslation } from '@pancakeswap/localization'
 import { useSwitchNetwork, useSwitchNetworkLocal } from 'hooks/useSwitchNetwork'
@@ -8,9 +8,11 @@ import { useRouter } from 'next/router'
 import { getActiveMenuItem, getActiveSubMenuItem } from '../Menu/utils'
 import { useAccount, useNetwork } from 'wagmi'
 import { useMemo } from 'react'
-import Dots from '../Loader/Dots'
+// import Dots from '../Loader/Dots'
 import { defaultChainId } from '@icecreamswap/constants'
-import {CHAIN_QUERY_NAME} from "config/chains";
+// import { CHAIN_QUERY_NAME } from "config/chains";
+import { ChainLogo } from "components/Logo/ChainLogo";
+import chainName from "config/constants/chainName";
 
 // Where chain is not supported or page not supported
 export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupportedChains: number[] }) {
@@ -44,26 +46,49 @@ export function UnsupportedNetworkModal({ pageSupportedChains }: { pageSupported
     [chains, pageSupportedChains],
   )
 
+  const chainSelectionOptions = useMemo(
+    () =>
+      supportedMainnetChains
+        .map((chain) => ({
+          label: (
+            <>
+              <ChainLogo chainId={chain.id} />
+              {chainName[chain.id]}
+            </>
+          ),
+          value: chain.id,
+        })),
+    [],
+  )
+
   return (
     <Modal title={t('Check your network')} hideCloseButton headerBackground="gradientCardHeader">
       <Grid style={{ gap: '16px' }} maxWidth="336px">
-        <Text>
-          {t('Currently %feature% is only supported on', { feature: typeof title === 'string' ? title : t('this page') })}{' '}
-          {supportedMainnetChains?.map((c) => c.name).join(', ')}
+        <Text style={{ textAlign: 'center' }}>
+          {t('Currently %feature% is supported on', { feature: typeof title === 'string' ? title : t('this page') })}{' '}
+          {
+            supportedMainnetChains.length < 5?
+              supportedMainnetChains?.map((c) => c.name).join(', '):
+              String(supportedMainnetChains.length) + " Chains"
+          }
         </Text>
         <div style={{ textAlign: 'center' }}>
-          {t("Check your network")}
+          {t("Switch to one of them")}
         </div>
+        {/*
         <Message variant="warning">
           <MessageText>{t('Please switch your network to continue.')}</MessageText>
         </Message>
+        */}
         {canSwitch && supportedMainnetChains.length !== 0 ? (
-          <Button
-            isLoading={isLoading}
-            onClick={() => switchNetworkAsync(chainIdToSwitchTo)}
-          >
-            {isLoading ? <Dots>{t('Switch wallet to %network%', {network: CHAIN_QUERY_NAME[chainIdToSwitchTo]})}</Dots> : t('Switch wallet to %network%', {network: CHAIN_QUERY_NAME[chainIdToSwitchTo]})}
-          </Button>
+          <div style={{ height: '250px' }}>
+            <Select
+              options={chainSelectionOptions}
+              onOptionChange={(option) => switchNetworkAsync(option.value)}
+              placeHolderText={"Select Chain"}
+              width={"100px"}
+            />
+          </div>
         ) : (
           <Message variant="danger">
             <MessageText>{t('Unable to switch network. Please try it on your wallet')}</MessageText>

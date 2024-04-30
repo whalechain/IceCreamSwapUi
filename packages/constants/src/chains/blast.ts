@@ -43,4 +43,5 @@ export const blast: IceChain = {
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: "0x9b0297e747ad7631e230f0352322013f59d077acbd23be52a45de6c5593b825a",
   },
+  smartRouterAddress: '0x84aeB58fb9187dD64282d0C0975F788e21dd4475',
 }

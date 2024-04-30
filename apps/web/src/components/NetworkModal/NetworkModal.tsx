@@ -1,11 +1,11 @@
 import { ModalV2 } from '@pancakeswap/uikit'
-import useActiveWeb3React from '../../hooks/useActiveWeb3React'
-import { CHAIN_IDS } from '../../utils/wagmi'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { CHAIN_IDS } from 'utils/wagmi'
 import { ChainId } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
 import { useNetwork } from 'wagmi'
 import { atom, useAtom } from 'jotai'
-import { SUPPORT_ONLY_BITGERT } from '../../config/constants/supportChains'
+import { SUPPORT_ANY } from 'config/constants/supportChains'
 import dynamic from 'next/dynamic'
 
 export const hideWrongNetworkModalAtom = atom(false)
@@ -22,7 +22,7 @@ const UnsupportedNetworkModal = dynamic(
   { ssr: false },
 )
 
-export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BITGERT }: { pageSupportedChains?: number[] }) => {
+export const NetworkModal = ({ pageSupportedChains = SUPPORT_ANY }: { pageSupportedChains?: number[] }) => {
   const { chainId, chain, isWrongNetwork } = useActiveWeb3React()
   const { chains } = useNetwork()
   const [dismissWrongNetwork, setDismissWrongNetwork] = useAtom(hideWrongNetworkModalAtom)
@@ -37,6 +37,7 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BITGERT }: { p
   )
   if (pageSupportedChains?.length === 0) return null // open to all chains
 
+  /*
   if (isPageNotSupported && isBitgertOnlyPage) {
     return (
       <ModalV2 isOpen closeOnOverlayClick={false}>
@@ -44,6 +45,7 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BITGERT }: { p
       </ModalV2>
     )
   }
+  */
 
   if (isWrongNetwork && !dismissWrongNetwork && !isPageNotSupported) {
     const currentChain = chains.find((c) => c.id === chainId)

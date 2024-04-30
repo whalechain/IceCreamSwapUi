@@ -1,15 +1,17 @@
 import { Address, PublicClient, formatUnits } from 'viem'
 import BN from 'bignumber.js'
 import { BIG_TWO, BIG_ZERO } from '@pancakeswap/utils/bigNumber'
-import { ChainId } from '@pancakeswap/sdk'
+import { ChainId, FACTORY_ADDRESS_MAP, Pair, WETH9 } from '@pancakeswap/sdk'
 import { getFarmsPrices } from './farmPrices'
 import { fetchPublicFarmsData } from './fetchPublicFarmData'
 import { fetchStableFarmData } from './fetchStableFarmData'
 import { isStableFarm, SerializedFarmConfig } from '../types'
 import { getFullDecimalMultiplier } from './getFullDecimalMultiplier'
 import { FarmV2SupportedChainId, supportedChainIdV2 } from '../const'
+import { USD } from "@pancakeswap/tokens";
+import { chains } from '@icecreamswap/constants'
 
-// todo: do this automatically. wrapped token and usd token is available for all chains and liquidity address can be calculated with Pair.getAddress from @pancakeswap/sdk.
+
 const evmNativeStableLpMap: Record<
   FarmV2SupportedChainId,
   {
@@ -17,68 +19,14 @@ const evmNativeStableLpMap: Record<
     wNative: string
     stable: string
   }
-> = {
-  [ChainId.BITGERT]: {
-    address: '0x8e7dd0d762f60942e0bd05b1114d6cedf4435a18',
-    wNative: 'WBRISE',
-    stable: 'USDTi',
-  },
-  [ChainId.DOGE]: {
-    address: '0x95b9d21a77e91b8c4b7c57628e9fc7d34d1d7379',
-    wNative: 'WDOGE',
-    stable: 'USDT',
-  },
-  [ChainId.DOKEN]: {
-    address: '0x3ef68d91d420fecc9bbb1b95382f14a19de3f3bb',
-    wNative: 'WDOKEN',
-    stable: 'USDT',
-  },
-  [ChainId.FUSE]: {
-    address: '0x0000000000000000000000000000000000000000',  // todo: add Fuse stable LP
-    wNative: 'WFUSE',
-    stable: 'USDT',
-  },
-  [ChainId.XDC]: {
-    address: '0xe9450d66a493C3ae6eBC3Bb0B2B01a5107ea8bDb',
-    wNative: 'WXDC',
-    stable: 'USDT',
-  },
-  [ChainId.CORE]: {
-    address: '0x5ebAE3A840fF34B107D637c8Ed07C3D1D2017178',
-    wNative: 'WCORE',
-    stable: 'USDT',
-  },
-  [ChainId.XODEX]: {
-    address: '0xe3dd2db66c31b79ed7f4308a182262a904056a19',
-    wNative: 'WXODEX',
-    stable: 'USDT',
-  },
-  [ChainId.TELOS]: {
-    address: '0x86CA8345bDa0D6052E93f07BE4dcC680Af927d53',
-    wNative: 'WTLOS',
-    stable: 'USDT',
-  },
-  [ChainId.BASE]: {
-    address: '0xfCe2fcc39738DbCdFF2B4EfD9A0B142eC6BcE4AD',
-    wNative: 'WETH',
-    stable: 'USDT',
-  },
-  [ChainId.SHIMMER]: {
-    address: '0x82A7F6a7C2f54a552349A2C59Ecb3ceca7BF4a60',
-    wNative: 'WSMR',
-    stable: 'USDT',
-  },
-  [ChainId.SCROLL]: {
-    address: '0x98182F51fAcEaca17cAe1aF7b0b94B1E2c2D1BA0',
-    wNative: 'WETH',
-    stable: 'USDT',
-  },
-  [ChainId.NEON]: {
-    address: '0x8EA822e85D2eABFE8cfbAF90F153B393f802aAEa',
-    wNative: 'WNEON',
-    stable: 'USDT',
-  },
-}
+> = chains.reduce((acc, chain) => {
+  if (!WETH9[chain.id] || !USD[chain.id] || !FACTORY_ADDRESS_MAP[chain.id]) return acc
+  return {...acc, [chain.id]: {
+      address: Pair.getAddress(WETH9[chain.id], USD[chain.id]),
+      wNative: WETH9[chain.id].symbol,
+      stable: USD[chain.id].symbol,
+    }}
+}, {})
 
 export const getTokenAmount = (balance: BN, decimals: number) => {
   return balance.div(getFullDecimalMultiplier(decimals))
