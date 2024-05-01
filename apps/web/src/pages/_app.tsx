@@ -1,4 +1,4 @@
-import { Flex, ResetCSS, ScrollToTopButtonV2, Spinner, ToastListener } from "@pancakeswap/uikit";
+import {Flex, Message, ResetCSS, ScrollToTopButtonV2, Select, Spinner, ToastListener} from "@pancakeswap/uikit";
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from '../components/GlobalCheckClaimStatus'
 import { NetworkModal } from '../components/NetworkModal'
@@ -14,7 +14,7 @@ import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 import { DefaultSeo } from 'next-seo'
 import { PageMeta } from 'components/Layout/Page'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -31,9 +31,10 @@ import { SupportedChainsProvider, useSupportedChains } from '../hooks/useSupport
 import { CHAIN_IDS } from '../utils/wagmi'
 import { poppins } from '../style/font'
 import { trpc } from '@icecreamswap/backend'
-import { useActiveChainId } from "hooks/useActiveChainId";
-import {CHAIN_QUERY_NAME} from "config/chains";
-import replaceBrowserHistory from '@pancakeswap/utils/replaceBrowserHistory'
+import { useActiveChainId } from "hooks/useActiveChainId"
+import { ChainLogo } from "components/Logo/ChainLogo";
+import chainName from "config/constants/chainName";
+import { useSwitchNetwork } from "hooks/useSwitchNetwork";
 
 const EasterEgg = dynamic(() => import('../components/EasterEgg'), { ssr: false })
 
@@ -159,6 +160,7 @@ const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryEr
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { chainId } = useActiveChainId()
   const supportedChains = useSupportedChains()
+  // const { switchNetworkAsync } = useSwitchNetwork()
   /*
   useEffect(() => {
     if (supportedChains.length > 0 && !supportedChains.includes(chainId)) {
@@ -166,7 +168,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
   }, [chainId, supportedChains])
   */
-  const wrongChain = typeof chainId !== 'undefined' && !supportedChains.includes(chainId)
+  const wrongChain = typeof chainId !== 'undefined' && supportedChains.length != 0 && !supportedChains.includes(chainId)
   if (Component.pure) {
     return <Component {...pageProps} />
   }
@@ -176,14 +178,46 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const ShowMenu = Component.mp ? Fragment : Menu
   const isShowScrollToTopButton = Component.isShowScrollToTopButton || true
 
+  /*
+  const chainSelectionOptions = useMemo(
+    () =>
+      supportedChains
+        .map((chainId) => ({
+          label: (
+            <>
+              <ChainLogo chainId={chainId} />
+              {chainName[chainId]}
+            </>
+          ),
+          value: chainId,
+        })),
+    [],
+  )
+  */
+
   return (
     <ProductionErrorBoundary>
       <ShowMenu>
         <Layout>
           {wrongChain ? (
-            <Flex justifyContent="center" alignItems="center" height="400px">
-              <Spinner />
-            </Flex>
+            <>
+              <Flex justifyContent="center" alignItems="center" height="250px">
+                <Spinner />
+              </Flex>
+              {/*
+              <Flex justifyContent="center" alignItems="center" height="250px" flexDirection={"column"}>
+                <Message variant={"warning"}>
+                  This chain is not yet supported on this page, please select a different one.
+                </Message>
+                <Select
+                  options={chainSelectionOptions}
+                  onOptionChange={(option) => switchNetworkAsync(option.value)}
+                  value={chainId}
+                  width={"100px"}
+                />
+              </Flex>
+              */}
+            </>
           ) : (
             <Component {...pageProps} />
           )}
