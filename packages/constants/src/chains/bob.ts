@@ -37,9 +37,9 @@ export const bob: IceChain = {
     name: 'Tether USD',
   },
   swap: {
-    factoryAddress: "0x3D4440F335060a0341C9E6C3bBeE85E552505FFF",
-    initCodeHash: "0x0b6b499b70a5c571677814eaf859942ef2336f97496a25dfb5a151a02e7f1c5d",
-    routerAddress: "0xe0627818b29D2f28E62f54bC988E6e02C8dbC300",
+    factoryAddress: "0x7b2a5C88AB9367147F6ac384F857CbaDF5aA70a7",
+    initCodeHash: "0x0437378fc27e93c612c5c385779bf540ca2064b54705e48c313aa216da380100",
+    routerAddress: "0x698a912F8CA34Df9b46E6Ea4A2B2DB0B7151b083",
   },
   smartRouterAddress: '0x575C065Bf1Fa9D6F0F94AAC620a6936dD8517c7D',
 }
