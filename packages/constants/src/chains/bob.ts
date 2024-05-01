@@ -2,7 +2,7 @@ import IceChain from '../ice-chain'
 
 export const bob: IceChain = {
   id: 60808,
-  name: 'Build on Bitcoin',
+  name: 'BOB',
   features: ['swap'],
   network: 'bob',
   rpcUrls: {
