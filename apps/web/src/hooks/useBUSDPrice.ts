@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Price, WNATIVE, WETH9, TradeType } from '@pancakeswap/sdk'
+import {ChainId, Currency, CurrencyAmount, Price, WNATIVE, WETH9, TradeType, ERC20Token} from '@pancakeswap/sdk'
 import { STABLE_COIN, ICE } from '@pancakeswap/tokens'
 import { useMemo } from 'react'
 import useSWRImmutable from 'swr/immutable'
@@ -60,7 +60,7 @@ export function useStablecoinPrice(
   )
 
   const amountOut = useMemo(
-    () => (stableCoin ? CurrencyAmount.fromRawAmount(stableCoin, 5 * 10 ** stableCoin.decimals) : undefined),
+    () => (stableCoin && CurrencyAmount.fromRawAmount(stableCoin, 5 * 10 ** stableCoin.decimals)),
     [stableCoin],
   )
 
@@ -83,10 +83,15 @@ export function useStablecoinPrice(
     if (priceFromLlama && enableLlama) {
       return new Price(
         currency,
-        stableCoin,
-        1 * 10 ** currency.decimals,
-        getFullDecimalMultiplier(stableCoin.decimals || 18)
-          .times(parseFloat(priceFromLlama).toFixed(stableCoin.decimals || 18))
+        stableCoin || new ERC20Token(
+          currency.chainId,
+          "0x0000000000000000000000000000000000000000",
+          18,
+          "Null"
+        ),
+        10 ** currency.decimals,
+        getFullDecimalMultiplier(stableCoin?.decimals || 18)
+          .times(parseFloat(priceFromLlama).toFixed(stableCoin?.decimals || 18))
           .toString(),
       )
     }
@@ -99,7 +104,7 @@ export function useStablecoinPrice(
       return new Price(
         currency,
         stableCoin,
-        1 * 10 ** currency.decimals,
+        10 ** currency.decimals,
         getFullDecimalMultiplier(stableCoin.decimals).times(cakePrice.toFixed(stableCoin.decimals)).toString(),
       )
     }

@@ -30,6 +30,12 @@ export const bob: IceChain = {
     symbol: 'WETH',
     name: 'Wrapped Ether',
   },
+  stableToken: {
+    address: '0x05D032ac25d322df992303dCa074EE7392C117b9',
+    decimals: 18,
+    symbol: 'USDT',
+    name: 'Tether USD',
+  },
   swap: {
     factoryAddress: "0x3D4440F335060a0341C9E6C3bBeE85E552505FFF",
     initCodeHash: "0x0b6b499b70a5c571677814eaf859942ef2336f97496a25dfb5a151a02e7f1c5d",
