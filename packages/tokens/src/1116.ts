@@ -58,4 +58,7 @@ export const coreTokens = {
   life: new ERC20Token(ChainId.CORE, '0x01F37fa58f316Cbb9B01Da817E5b61236f4CE82d', 18, 'LIFE', 'SHADOW LIFE'),
   freecore: new ERC20Token(ChainId.CORE, '0x2898aD472234C27163b99191d8D77bfC8bB7356D', 18, 'FCD', 'FreeCoreDaoCom'),
   asx: new ERC20Token(ChainId.CORE, '0xB28B43209d9de61306172Af0320f4f55e50E2f29', 18, 'ASX', 'ASX'),
+  cctr: new ERC20Token(ChainId.CORE, '0x811af333E431f4a6283bFbB1E0cD244715FD9C54', 8, 'CCTR', 'Corecuties Refection'),
+  pump: new ERC20Token(ChainId.CORE, '0x1483A469EF2C5B7DD2cb1B9174b01545C9a7fb69', 18, 'PUMP', 'Pumpkin Cat'),
+
 }

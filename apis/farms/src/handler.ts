@@ -1,12 +1,13 @@
 import BN from 'bignumber.js'
 import { formatUnits } from 'viem'
 import { SerializedFarmConfig, FarmWithPrices } from '@pancakeswap/farms'
-import { ChainId, CurrencyAmount, Pair } from '@pancakeswap/sdk'
+import { ChainId, CurrencyAmount, ERC20Token, FACTORY_ADDRESS_MAP, Pair } from '@pancakeswap/sdk'
 import { USD, ICE } from '@pancakeswap/tokens'
 import { farmFetcher } from './helper'
 import { FarmKV, FarmResult } from './kv'
 import { updateLPsAPR } from './lpApr'
 import { viemProviders } from './provider'
+import { chains } from '@icecreamswap/constants'
 
 // copy from src/config, should merge them later
 const BSC_BLOCK_TIME = 3
@@ -61,38 +62,14 @@ const pairAbi = [
   },
 ] as const
 
-const iceUsdPairMap = {
-  [ChainId.BITGERT]: {
-    address: Pair.getAddress(ICE[ChainId.BITGERT], USD[ChainId.BITGERT]),
-    tokenA: ICE[ChainId.BITGERT],
-    tokenB: USD[ChainId.BITGERT],
-  },
-  [ChainId.DOGE]: {
-    address: Pair.getAddress(ICE[ChainId.DOGE], USD[ChainId.DOGE]),
-    tokenA: ICE[ChainId.DOGE],
-    tokenB: USD[ChainId.DOGE],
-  },
-  [ChainId.DOKEN]: {
-    address: Pair.getAddress(ICE[ChainId.DOKEN], USD[ChainId.DOKEN]),
-    tokenA: ICE[ChainId.DOKEN],
-    tokenB: USD[ChainId.DOKEN],
-  },
-  [ChainId.FUSE]: {
-    address: Pair.getAddress(ICE[ChainId.FUSE], USD[ChainId.FUSE]),
-    tokenA: ICE[ChainId.FUSE],
-    tokenB: USD[ChainId.FUSE],
-  },
-  [ChainId.CORE]: {
-    address: Pair.getAddress(ICE[ChainId.CORE], USD[ChainId.CORE]),
-    tokenA: ICE[ChainId.CORE],
-    tokenB: USD[ChainId.CORE],
-  },
-  [ChainId.XODEX]: {
-    address: Pair.getAddress(ICE[ChainId.XODEX], USD[ChainId.XODEX]),
-    tokenA: ICE[ChainId.XODEX],
-    tokenB: USD[ChainId.XODEX],
-  },
-}
+const iceUsdPairMap: {[p: number]: {address: `0x${string}`, tokenA: ERC20Token, tokenB: ERC20Token}} =chains.reduce((acc, chain) => {
+  if (!ICE[chain.id] || !USD[chain.id] || !FACTORY_ADDRESS_MAP[chain.id]) return acc
+  return {...acc, [chain.id]: {
+      address: Pair.getAddress(ICE[chain.id], USD[chain.id]),
+      tokenA: ICE[chain.id],
+      tokenB: USD[chain.id],
+    }}
+}, {})
 
 const getIcePrice = async () => {
   const pairConfig = iceUsdPairMap[ChainId.CORE]

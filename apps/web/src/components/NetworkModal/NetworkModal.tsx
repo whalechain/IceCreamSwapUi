@@ -37,6 +37,7 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ANY }: { pageSuppor
   )
   if (pageSupportedChains?.length === 0) return null // open to all chains
 
+  /*
   if (isPageNotSupported && isBitgertOnlyPage) {
     return (
       <ModalV2 isOpen closeOnOverlayClick={false}>
@@ -44,6 +45,7 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ANY }: { pageSuppor
       </ModalV2>
     )
   }
+  */
 
   if (isWrongNetwork && !dismissWrongNetwork && !isPageNotSupported) {
     const currentChain = chains.find((c) => c.id === chainId)

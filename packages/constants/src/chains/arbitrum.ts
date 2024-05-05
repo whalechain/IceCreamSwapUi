@@ -23,7 +23,7 @@ export const arbitrum: IceChain = {
       blockCreated: 202100344,
     },
   },
-  blockInterval: 0.25,
+  blockInterval: 12,  // calling block.number in solidity returns the Ethereum block number, not Arbitrum
   wrappedNative: {
     address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
     decimals: 18,

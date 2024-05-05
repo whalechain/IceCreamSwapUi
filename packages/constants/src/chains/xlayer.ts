@@ -25,13 +25,13 @@ export const xlayer: IceChain = {
   },
   blockInterval: 2,
   wrappedNative: {
-    address: '0xe538905cf8410324e03a5a23c1c177a474d59b2b',
+    address: '0xe538905cf8410324e03A5A23C1c177a474D59b2b',
     decimals: 18,
     symbol: 'WOKB',
     name: 'Wrapped OKB',
   },
   stableToken: {
-    address: '0x1e4a5963abfd975d8c9021ce480b42188849d41d',
+    address: '0x1E4a5963aBFD975d8c9021ce480b42188849D41d',
     decimals: 6,
     symbol: 'USDT',
     name: 'Tether USD',
