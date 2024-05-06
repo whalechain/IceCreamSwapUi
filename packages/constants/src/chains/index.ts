@@ -1,4 +1,5 @@
 import { bitgert } from './bitgert'
+import { boba } from "./boba"
 import { bsc } from './bsc'
 import { core } from './core'
 import { dogechain } from './dogechain'
@@ -24,6 +25,7 @@ export const chainMap = {
   bsc,
   bob,
   base,
+  boba,
   qitmeer,
   neon,
   rari,
@@ -68,6 +70,7 @@ export enum ChainId {
   DEGEN = degen.id,
   RARI = rari.id,
   BOB = bob.id,
+  BOBA = boba.id,
 }
 
 export const defaultChainId = ChainId.CORE
