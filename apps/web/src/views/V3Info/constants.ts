@@ -23,7 +23,7 @@ export const ONE_DAY_SECONDS = 86400
 export const MAX_UINT128 = 2n ** 128n - 1n
 
 export const SUBGRAPH_START_BLOCK: Record<ChainId, number> = chains.reduce((acc, chain) => {
-  return {...acc, [chain.id]: chain.v3SubgraphStart || 0}
+  return {...acc, [chain.id]: chain.v3SubgraphStart}
 }, {})
 
 export const NODE_REAL_ADDRESS_LIMIT = 50

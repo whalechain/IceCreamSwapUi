@@ -3,6 +3,7 @@ import { masterChefV3Addresses, FarmV3SupportedChainId } from '@pancakeswap/farm
 import { ChainId, ERC20Token } from '@pancakeswap/sdk'
 import { CurrencyAmount } from '@pancakeswap/swap-sdk-core'
 import { PositionMath } from '@pancakeswap/v3-sdk'
+import { chains } from '@icecreamswap/constants'
 import { gql, GraphQLClient } from 'graphql-request'
 import { Request } from 'itty-router'
 import { error, json } from 'itty-router-extras'
@@ -13,11 +14,13 @@ import { viemProviders } from './provider'
 import { FarmKV } from './kv'
 
 
-export const V3_SUBGRAPH_CLIENTS = {
-  [ChainId.CORE]: new GraphQLClient('https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-core', {
-    fetch,
-  }),
-} satisfies Record<FarmV3SupportedChainId, GraphQLClient>
+export const V3_SUBGRAPH_CLIENTS: Record<FarmV3SupportedChainId, GraphQLClient> = chains.reduce((acc, chain) => {
+  if (!chain.features.includes('infoV3')) return acc
+  return {
+    ...acc,
+    [chain.id]: new GraphQLClient(`https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-${chain.network}`, { fetch })
+  }
+}, {})
 
 const zChainId = z.enum([
   String(ChainId.CORE),

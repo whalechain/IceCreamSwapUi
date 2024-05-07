@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { ChainId } from '@pancakeswap/sdk'
+import { chains } from '@icecreamswap/constants'
 import chunk from 'lodash/chunk'
 import BigNumber from 'bignumber.js'
 import { gql, GraphQLClient } from 'graphql-request'
@@ -19,21 +20,17 @@ const STABLESWAP_SUBGRAPH_ENDPOINT = 'https://api.thegraph.com/subgraphs/name/pa
 const LP_HOLDERS_FEE = 0.0017
 const WEEKS_IN_A_YEAR = 52.1429
 
-const BLOCKS_CLIENT_WITH_CHAIN = {
-  [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-bitgert',
-  [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-core',
-  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-telos',
-  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-base',
-  [ChainId.QITMEER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-qitmeer',
-}
 
-const INFO_CLIENT_WITH_CHAIN = {
-  [ChainId.BITGERT]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-bitgert',
-  [ChainId.CORE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-core',
-  [ChainId.TELOS]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-telos',
-  [ChainId.BASE]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-base',
-  [ChainId.QITMEER]: 'https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-qitmeer',
-}
+const BLOCKS_CLIENT_WITH_CHAIN: Record<ChainId, string> = chains.reduce((acc, chain) => {
+  if (!chain.features.includes('info')) return acc;
+  return {...acc, [chain.id]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-${chain.network}`}
+}, {})
+
+const INFO_CLIENT_WITH_CHAIN: Record<ChainId, string> = chains.reduce((acc, chain) => {
+  if (!chain.features.includes('info')) return acc;
+  return {...acc, [chain.id]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-${chain.network}`}
+}, {})
+
 
 const blockClientWithChain = (chainId: ChainId) => {
   return new GraphQLClient(BLOCKS_CLIENT_WITH_CHAIN[chainId], {
