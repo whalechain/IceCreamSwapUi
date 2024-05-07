@@ -4,20 +4,10 @@ import {
   INFO_CLIENT_WITH_CHAIN
 } from "config/constants/endpoints";
 import { ChainId } from '@pancakeswap/sdk'
-import {
-  PCS_BITGERT_START,
-  PCS_CORE_START,
-  PCS_SCROLL_START,
-  PCS_XDC_START,
-  PCS_TELOS_START,
-  PCS_BASE_START,
-  PCS_SHIMMER_START,
-  PCS_QITMEER_START,
-} from "config/constants/info";
 import { GraphQLClient } from 'graphql-request'
 import { chains } from '@icecreamswap/constants'
 
-export type MultiChainName = 'BITGERT' | 'DOGECHAIN' | 'DOKEN' | 'FUSE' | 'XDC' | 'BSC' | 'CORE' | 'XODEX' | 'SCROLL' | 'TELOS' | 'BASE' | 'SHIMMER' | 'SHARDEUM_TESTNET' | 'SHIMMER_TESTNET' | 'QITMEER'
+export type MultiChainName = keyof typeof ChainId;
 export type MultiChainNameExtend = MultiChainName
 
 export const multiChainQueryMainToken = chains.reduce((acc, chain) => (
@@ -28,17 +18,10 @@ export const multiChainBlocksClient = chains.reduce((acc, chain) => (
     {...acc, [chain.network.toUpperCase()]: BLOCKS_CLIENT_WITH_CHAIN[chain.id]}
 ), {}) as Record<MultiChainName, string>
 
-// todo: add to constants package
-export const multiChainStartTime = {
-  BITGERT: PCS_BITGERT_START,
-  XDC: PCS_XDC_START,
-  CORE: PCS_CORE_START,
-  SCROLL: PCS_SCROLL_START,
-  TELOS: PCS_TELOS_START,
-  BASE: PCS_BASE_START,
-  SHIMMER: PCS_SHIMMER_START,
-  QITMEER: PCS_QITMEER_START,
-}
+
+export const multiChainStartTime = chains.reduce((acc, chain) => {
+  return {...acc, [chain.network.toUpperCase()]: chain.swap?.deploymentTs}
+}, {}) as Record<MultiChainName, ChainId>
 
 export const multiChainId = chains.reduce((acc, chain) => (
     {...acc, [chain.network.toUpperCase()]: chain.id}

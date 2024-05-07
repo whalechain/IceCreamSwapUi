@@ -1,12 +1,13 @@
 import { Chain } from "wagmi";
 import { Address, Hash } from 'viem'
 
-type ChainFeature = 'swap' | 'swapV3' | 'bridge' | 'info' | 'farms' | 'farmsV3' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer'  | 'kyc'
+type ChainFeature = 'swap' | 'swapV3' | 'farms' | 'farmsV3' | 'info' | 'infoV3' | 'bridge' | 'staking' | 'locks' | 'launchpad' | 'tokenDeployer'  | 'kyc'
 
 interface SwapConfig {
   factoryAddress: Address
   routerAddress: Address
   initCodeHash: Hash
+  deploymentTs?: number
 }
 
 interface LocksConfig {

@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const core: IceChain = {
   id: 1116,
   name: 'Core Blockchain Mainnet',
-  features: ['swap', 'swapV3', 'bridge', 'farms', 'farmsV3', 'locks', 'staking', 'info', 'kyc', 'launchpad', 'tokenDeployer'],
+  features: ['swap', 'swapV3', 'farms', 'farmsV3', 'info', 'infoV3', 'bridge', 'locks', 'staking', 'kyc', 'launchpad', 'tokenDeployer'],
   network: 'core',
   rpcUrls: {
     public: { http: ['https://rpc-core.icecreamswap.com'] },
@@ -50,6 +50,7 @@ export const core: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    deploymentTs: 1675828800,
   },
   smartRouterAddress: '0xBd8BB286Cd14124720F3f8C5F3fdD7fa13735Dc2',
   farmV2Address: '0xe3277bb0f3C4b9C6FC1DBf81E328E14F3C9368C3',

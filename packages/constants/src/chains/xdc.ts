@@ -45,6 +45,7 @@ export const xdc: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    deploymentTs: 1670108400,
   },
   smartRouterAddress: '0x2a9a2D31819cD71B60F25729Bc60a2D7E7545233',
   farmV2Address: '0xdD156cA7bff002f7827BDfFd38a0651CFBbe400e',

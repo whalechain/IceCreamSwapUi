@@ -42,6 +42,7 @@ export const telos: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
     routerAddress: ROUTER_ADDRESS,
+    deploymentTs: 1688072400,
   },
   smartRouterAddress: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
   farmV2Address: '0xBD2e577dEa54602C7c367fa144981c8ACA6FD570',

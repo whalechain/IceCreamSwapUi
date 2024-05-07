@@ -41,6 +41,7 @@ export const boba: IceChain = {
     factoryAddress: '0x39135bD1FD3A04381C1094AB0Dd35c7bbe61b3C5',
     routerAddress: '0x9eC206B37659f8eD9c5F9A051F05FDbC3baA5CE6',
     initCodeHash: '0x0437378fc27e93c612c5c385779bf540ca2064b54705e48c313aa216da380100',
+    deploymentTs: 1713906000,
   },
   smartRouterAddress: '0xA608FF30563cEed3f0BC52eFc4abfc9502F1a71C',
 }

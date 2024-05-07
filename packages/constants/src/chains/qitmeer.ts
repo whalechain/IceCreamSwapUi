@@ -41,6 +41,7 @@ export const qitmeer: IceChain = {
     factoryAddress: "0x84aeB58fb9187dD64282d0C0975F788e21dd4475",
     initCodeHash: "0xb41a03f1db88f3709f0a02439f5bc24ebb946603078d7fb1a50525c0c66ab827",
     routerAddress: "0x575C065Bf1Fa9D6F0F94AAC620a6936dD8517c7D",
+    deploymentTs: 1710453600,
   },
   smartRouterAddress: '0x8bCf938b30575594B02420e86b100121c92A54a3',
 }

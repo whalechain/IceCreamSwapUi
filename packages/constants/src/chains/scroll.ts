@@ -42,6 +42,7 @@ export const scroll: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    deploymentTs: 1697565600,
   },
   smartRouterAddress: '0xD810A437e334B9C3660C18b38fB3C01000B91DD3',
   farmV2Address: '0x1E0b5202F8D4a247d12528ac865ab73C61Db35Af',

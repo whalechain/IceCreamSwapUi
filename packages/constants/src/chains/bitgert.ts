@@ -45,6 +45,7 @@ export const bitgert: IceChain = {
     factoryAddress: FACTORY_ADDRESS,
     routerAddress: ROUTER_ADDRESS,
     initCodeHash: INIT_CODE_HASH,
+    deploymentTs: 1654207200,
   },
   smartRouterAddress: '0x4ddC9394b8371765588B10134AA79472C1d42b16',
   farmV2Address: '0x090B19ea55b93C969EC98E1D8E3db0695698efCa',

@@ -42,6 +42,7 @@ export const shimmer: IceChain = {
     factoryAddress: "0x24cb308a4e2F3a4352F513681Bd0c31a0bd3BA31",
     routerAddress: "0xBbB4CCfc93657AC125F4b1f734111349d1bFF611",
     initCodeHash: INIT_CODE_HASH,
+    deploymentTs: 1695934800,
   },
   smartRouterAddress: '0x698a912F8CA34Df9b46E6Ea4A2B2DB0B7151b083',
   farmV2Address: '0xC4b5F645134DDc57c25D44095e5C1318A83C8481',
