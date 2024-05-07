@@ -19,14 +19,16 @@ import { qitmeer } from "./qitmeer"
 import { degen } from "./degen"
 import { rari } from "./rari"
 import { bob } from "./bob"
+import { lightlink } from "./lightlink"
 
 export const chainMap = {
   core,
   bsc,
   bob,
-  base,
   boba,
+  base,
   qitmeer,
+  lightlink,
   neon,
   rari,
   degen,
@@ -71,6 +73,7 @@ export enum ChainId {
   RARI = rari.id,
   BOB = bob.id,
   BOBA = boba.id,
+  LIGHTLINK = lightlink.id,
 }
 
 export const defaultChainId = ChainId.CORE
