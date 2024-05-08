@@ -60,5 +60,6 @@ export const coreTokens = {
   asx: new ERC20Token(ChainId.CORE, '0xB28B43209d9de61306172Af0320f4f55e50E2f29', 18, 'ASX', 'ASX'),
   cctr: new ERC20Token(ChainId.CORE, '0x811af333E431f4a6283bFbB1E0cD244715FD9C54', 8, 'CCTR', 'Corecuties Refection'),
   pump: new ERC20Token(ChainId.CORE, '0x1483A469EF2C5B7DD2cb1B9174b01545C9a7fb69', 18, 'PUMP', 'Pumpkin Cat'),
+  laugh: new ERC20Token(ChainId.CORE, '0xAd52f7099EeD91ddaA4614292f9090920aF00936', 18, 'LAUGH', 'LAUGH KOIN'),
 
 }
