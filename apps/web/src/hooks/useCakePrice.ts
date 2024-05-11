@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { publicClient } from 'utils/wagmi'
 import { FAST_INTERVAL } from 'config/constants'
 import { useQuery } from '@tanstack/react-query'
-import { ICE, USD } from "@pancakeswap/tokens";
+import {coreTokens, ICE, USD} from "@pancakeswap/tokens";
 import { useActiveChainId } from "hooks/useActiveChainId";
 
 // for migration to bignumber.js to avoid breaking changes
@@ -37,7 +37,7 @@ const getIcePriceFromV2Pair = async (chainId: ChainId) => {
   const pairConfig = {
     address: Pair.getAddress(ICE[pricingChain], USD[pricingChain]),
     tokenA: ICE[pricingChain],
-    tokenB: USD[pricingChain],
+    tokenB: pricingChain === ChainId.CORE? coreTokens.usdt: USD[pricingChain],
   }
   const client = publicClient({chainId: pricingChain})
   const [reserve0, reserve1] = await client.readContract({
