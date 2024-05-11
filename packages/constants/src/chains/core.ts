@@ -41,10 +41,10 @@ export const core: IceChain = {
   },
   iceAddress: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
   stableToken: {
-    address: '0x81bCEa03678D1CEF4830942227720D542Aa15817',
+    address: '0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1',
     decimals: 18,
     symbol: 'USDT',
-    name: 'Tether USD',
+    name: 'Tether USD (CORE Bridge)',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,
