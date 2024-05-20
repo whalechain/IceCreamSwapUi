@@ -71,27 +71,39 @@ export const tokenRouter = router({
     }),
 
   defaultList: publicProcedure.query(async () => {
-    const tokens: (Token & { tags?: string[] })[] = await prisma.token.findMany({
-      where: {
-        listed: Listed.DEFAULT_LIST,
-      },
-    })
-    const kycs = await prisma.delegation.findMany({
-      where: {
-        target: {
-          in: tokens.map((token) => token.address),
-          mode: 'insensitive',
+    let tokens: (Token & { tags?: string[] })[] = []
+
+    try{
+      tokens = await prisma.token.findMany({
+        where: {
+          listed: Listed.DEFAULT_LIST,
         },
-        status: 'MINTED',
-      },
-    })
-    kycs.forEach((kyc) => {
-      const token = tokens.find((t) => t.address.toLowerCase() === kyc.target.toLowerCase())
-      if (token) {
-        token.tags = token.tags || []
-        token.tags.push('KYCed')
-      }
-    })
+      })
+    } catch (e) {
+      console.error('failed to load tokens to generate token list', e)
+    }
+
+    try{
+      const kycs = await prisma.delegation.findMany({
+        where: {
+          target: {
+            in: tokens.map((token) => token.address),
+            mode: 'insensitive',
+          },
+          status: 'MINTED',
+        },
+      })
+      kycs.forEach((kyc) => {
+        const token = tokens.find((t) => t.address.toLowerCase() === kyc.target.toLowerCase())
+        if (token) {
+          token.tags = token.tags || []
+          token.tags.push('KYCed')
+        }
+      })
+    } catch (e) {
+      console.error('Failed to load KYC delegations to generate token list', e)
+    }
+
     const kycedTokens = tokens.filter(token => token.tags?.includes('KYCed'))
     const nonKycedTokens = tokens.filter(token => !(token.tags?.includes('KYCed')))
     const tokensSorted = kycedTokens.concat(nonKycedTokens)
