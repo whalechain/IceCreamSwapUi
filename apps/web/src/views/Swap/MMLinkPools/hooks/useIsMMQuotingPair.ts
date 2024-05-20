@@ -1,5 +1,5 @@
 import { ChainId, Currency } from '@pancakeswap/sdk'
-import { PANCAKE_BSC_MM, PANCAKE_ETH_MM } from 'config/constants/lists'
+import { PANCAKE_BSC_MM } from 'config/constants/lists'
 import { ConnectorNames } from 'config/wallet'
 import { ExtendEthereum } from 'global'
 import { useAtomValue } from 'jotai'
@@ -11,7 +11,6 @@ import { IS_SUPPORT_NATIVE_TOKEN, MM_STABLE_TOKENS_WHITE_LIST, NATIVE_CURRENCY_A
 import { useIsMMSupportChain } from './useIsMMSupportChain'
 
 const QUOTING_WHITE_LIST = {
-  1: PANCAKE_ETH_MM,
   56: PANCAKE_BSC_MM,
 }
 
