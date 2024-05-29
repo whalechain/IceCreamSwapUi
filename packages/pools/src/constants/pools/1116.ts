@@ -23,21 +23,21 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     version: 2,
   },
   {
-    sousId: 61,
-    stakingToken: coreTokens.pump,
-    earningToken: coreTokens.pump,
-    contractAddress: '0xD24c62d47229D8F49d7d5365374a951a21679C4C',
-    poolCategory: PoolCategory.CORE,
-    tokenPerBlock: '173611.0',
-    version: 2,
-  },
-  {
     sousId: 65,
     stakingToken: coreTokens.laugh,
     earningToken: coreTokens.laugh,
     contractAddress: '0x39011422e4d333363831bCBfB4A55A29E8530BDc',
     poolCategory: PoolCategory.CORE,
     tokenPerBlock: '6.134',
+    version: 2,
+  },
+  {
+    sousId: 67,
+    stakingToken: coreTokens.dogwif,
+    earningToken: coreTokens.dogwif,
+    contractAddress: '0xc0d8097b6783C9890aA66FEF6B8fe801faD9b759',
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '332.75',
     version: 2,
   },
   {
@@ -49,6 +49,16 @@ export const livePools: SerializedPool[] = [// souceId can be any positive numbe
     tokenPerBlock: '6.134',
     version: 2,
   },
+  {
+    sousId: 61,
+    stakingToken: coreTokens.pump,
+    earningToken: coreTokens.pump,
+    contractAddress: '0xD24c62d47229D8F49d7d5365374a951a21679C4C',
+    poolCategory: PoolCategory.CORE,
+    tokenPerBlock: '173611.0',
+    version: 2,
+  },
+
   {
     sousId: 62,
     stakingToken: coreTokens.asx,
