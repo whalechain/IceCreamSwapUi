@@ -39,7 +39,7 @@ export const bitgert: IceChain = {
     address: '0xC7E6d7E08A89209F02af47965337714153c529F0',
     decimals: 18,
     symbol: 'USDTi',
-    name: 'Tether USD IceCreamSwap',
+    name: 'Tether USD WhaleChain',
   },
   swap: {
     factoryAddress: FACTORY_ADDRESS,

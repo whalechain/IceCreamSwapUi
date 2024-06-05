@@ -13,7 +13,7 @@ import contractKycAbi from '../../abi/contractKyc.json'
 import { getDeploymentUrl } from '../getDeploymentUrl'
 import { solidityKeccak256 } from 'ethers/lib/utils'
 
-const core = getChain(1116)!
+const core = getChain(372)!
 const provider = new providers.JsonRpcProvider(core.rpcUrls.default.http[0])
 export const kycRouter = router({
   delegate: publicProcedure
@@ -215,7 +215,7 @@ const getLargestTokenId = async () => {
 }
 
 const updateTokenId = async (walletAddress: string) => {
-  const coreChain = getChain(1116)
+  const coreChain = getChain(372)
   let tokenId = (await getLargestTokenId()) || 0
   let owner: string | undefined
   const kyc = new Contract(coreChain!.kyc?.contractKyced as any, kycAbi, provider)

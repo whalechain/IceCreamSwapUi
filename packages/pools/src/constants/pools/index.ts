@@ -1,6 +1,6 @@
 import { ChainId } from '@pancakeswap/sdk'
 
-import { pools as corePools, livePools as coreLivePools } from './1116'
+import { pools as corePools, livePools as coreLivePools } from './372'
 import { pools as bitgertPools, livePools as bitgertLivePools } from './32520'
 import { pools as xdcPools, livePools as xdcLivePools } from './50'
 import { pools as neonPools, livePools as neonLivePools } from './245022934'

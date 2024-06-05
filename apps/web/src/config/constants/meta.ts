@@ -3,7 +3,7 @@ import { ContextApi } from '@pancakeswap/localization'
 import { PageMeta } from './types'
 
 export const DEFAULT_META: PageMeta = {
-  title: 'IceCreamSwap Multi-chain DeFi ecosystem, Swap, Bridge, LaunchPad',
+  title: 'WhaleChain Multi-chain DeFi ecosystem, Swap, Bridge, LaunchPad',
   description:
     'Multi-chain DeFi ecosystem with Swap, Bridge and Launchpad. Trade, Bridge, Earn and Launch on Bitgert (Brise), Binance smart chain (BSC), XDC, XoDex, Dogechain, Doken, Fuse and CORE blockchain',
   image: 'https://icecreamswap.com/images/hero.png',
@@ -25,18 +25,18 @@ const getPathList = (t: ContextApi['t']): PathList => {
       '/find': { title: t('Import Pool') },
       '/farms': { title: t('Farms') },
       '/pools': { title: t('Pools') },
-      '/info': { title: t('Overview'), description: 'View statistics for IceCreamSwap exchanges.' },
-      '/info/pools': { title: t('Pools'), description: 'View statistics for IceCreamSwap exchanges.' },
-      '/info/tokens': { title: t('Tokens'), description: 'View statistics for IceCreamSwap exchanges.' },
+      '/info': { title: t('Overview'), description: 'View statistics for WhaleChain exchanges.' },
+      '/info/pools': { title: t('Pools'), description: 'View statistics for WhaleChain exchanges.' },
+      '/info/tokens': { title: t('Tokens'), description: 'View statistics for WhaleChain exchanges.' },
       '/core': { basePath: true, title: t('Get Ready for Core 🚀') },
       '/bridge': {
         basePath: true,
         title: t('Bridge'),
         description:
-          'Transfer tokens between multiple Chains including Core, Bitgert, Binance, XDC, Fuse and may more on IceCreamSwap DEX.',
+          'Transfer tokens between multiple Chains including Core, Bitgert, Binance, XDC, Fuse and may more on WhaleChain DEX.',
       },
     },
-    defaultTitleSuffix: t('IceCreamSwap'),
+    defaultTitleSuffix: t('WhaleChain'),
   }
 }
 

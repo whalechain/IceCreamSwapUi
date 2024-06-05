@@ -1,7 +1,7 @@
 import { getFarmsPriceHelperLpFiles } from '@pancakeswap/farms'
 import { ChainId } from '@pancakeswap/sdk'
 import PoolsBitgertPriceHelper from './pools/32520'
-import PoolsCorePriceHelper from './pools/1116'
+import PoolsCorePriceHelper from './pools/372'
 import PoolsNeonPriceHelper from './pools/245022934'
 
 export { getFarmsPriceHelperLpFiles }

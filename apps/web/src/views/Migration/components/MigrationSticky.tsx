@@ -81,7 +81,7 @@ export const TEXT = {
     ],
   },
   v3: {
-    title: <Trans>IceCreamSwap v3 Migration</Trans>,
+    title: <Trans>WhaleChain v3 Migration</Trans>,
     steps: [
       {
         title: <Trans>Unstaking from V2 Farms</Trans>,

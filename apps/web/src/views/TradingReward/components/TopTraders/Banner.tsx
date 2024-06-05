@@ -154,7 +154,7 @@ const TopTradersBanner = () => {
             </Text>
           </Flex>
           <Text bold mb="32px" maxWidth="520px" lineHeight="26.4px" fontSize={['16px', '16px', '16px', '24px']}>
-            {t('Earn CAKE while trading your favorite tokens on IceCreamSwap by being the top traders!')}
+            {t('Earn CAKE while trading your favorite tokens on WhaleChain by being the top traders!')}
           </Text>
           <Flex alignSelf={['center', 'center', 'center', 'auto']}>
             <Link href="/swap?showTradingReward=true" external>

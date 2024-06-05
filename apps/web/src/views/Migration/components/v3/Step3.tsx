@@ -162,11 +162,11 @@ export function Step3() {
   return (
     <AtomBox textAlign="center">
       <Heading scale="lg" pb="16px">
-        {t('Quick Start')} - {t('IceCreamSwap V3')}
+        {t('Quick Start')} - {t('WhaleChain V3')}
       </Heading>
       <Text pb="48px">
         {t(
-          'In IceCreamSwap Exchange V3, liquidity providers are able to customize the trading fee tier and concentrate their liquidity to a specific price range to maximize their capital efficiency.',
+          'In WhaleChain Exchange V3, liquidity providers are able to customize the trading fee tier and concentrate their liquidity to a specific price range to maximize their capital efficiency.',
         )}
       </Text>
 

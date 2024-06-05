@@ -4,6 +4,6 @@ const LaunchpadPage = () => {
   return <CreateCampaign />
 }
 
-LaunchpadPage.chains = [1116]
+LaunchpadPage.chains = [372]
 
 export default LaunchpadPage

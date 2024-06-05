@@ -4,6 +4,6 @@ const AirdropPage = () => {
   return <Airdrop />
 }
 
-AirdropPage.chains = [1116]
+AirdropPage.chains = [372]
 
 export default AirdropPage

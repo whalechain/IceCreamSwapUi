@@ -117,7 +117,7 @@ const chains = [
   },
   {
     domainId: 7,
-    networkId: 1116,
+    networkId: 372,
     name: 'CORE',
     decimals: 18,
     bridgeAddress: '0x88cD606B63C4665499ad0d47d4685d2ffc78e2Be'  as Address,

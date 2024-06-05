@@ -1,6 +1,6 @@
 import {ChainId} from '@pancakeswap/sdk'
 import FarmsBitgertPriceHelper from './32520'
-import FarmsCorePriceHelper from './1116'
+import FarmsCorePriceHelper from './372'
 import FarmsXodexPriceHelper from './2415'
 
 // todo: make dynamic

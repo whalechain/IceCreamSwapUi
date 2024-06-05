@@ -138,7 +138,7 @@ const config = {
       },
       {
         source: '/telegram',
-        destination: 'https://t.me/Icecreamswap_com',
+        destination: 'https://t.me/whalechainetwork',
         permanent: false,
       },
       {

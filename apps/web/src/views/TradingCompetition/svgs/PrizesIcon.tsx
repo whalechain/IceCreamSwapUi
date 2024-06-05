@@ -163,7 +163,7 @@ const Prizes: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
         rx="23.6986"
         ry="22.5171"
         transform="matrix(0.886825 -0.462106 0.538873 0.842387 86.9218 44.656)"
-        fill="#FFC700"
+        fill="#00b7fe"
       />
       <path
         fillRule="evenodd"

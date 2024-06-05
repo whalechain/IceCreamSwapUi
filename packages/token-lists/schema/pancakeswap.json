@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "pancakeswap",
-  "title": "IceCreamSwap Token List",
-  "description": "Schema for lists of tokens compatible with the IceCreamSwap Interface, including Uniswap standard and IceCreamSwap Aptos",
+  "title": "WhaleChain Token List",
+  "description": "Schema for lists of tokens compatible with the WhaleChain Interface, including Uniswap standard and WhaleChain Aptos",
   "definitions": {
     "Version": {
       "type": "object",

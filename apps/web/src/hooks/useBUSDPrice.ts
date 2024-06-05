@@ -38,7 +38,7 @@ export function useStablecoinPrice(
 
   const enableLlama = shouldEnabled // currency?.chainId === ChainId.ETHEREUM && shouldEnabled
 
-  // using IceCreamSwap token prices API
+  // using WhaleChain token prices API
   const { data: priceFromLlama, isLoading } = useSWRImmutable<string>(
     currency && enableLlama && ['fiat-price-ethereum', currency],
     async () => {

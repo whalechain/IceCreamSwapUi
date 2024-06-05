@@ -1,7 +1,7 @@
 {
   "name": "@icecreamswap/backend",
   "version": "1.2.0",
-  "description": "IceCreamSwap backend",
+  "description": "WhaleChain backend",
   "license": "MIT",
   "module": "dist/index.mjs",
   "main": "dist/index.js",

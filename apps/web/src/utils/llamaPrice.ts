@@ -3,7 +3,7 @@ import { ChainId } from '@pancakeswap/sdk'
 const CHAIN_MAPPING = {
 } as const satisfies Record<number, string>
 
-// use for fetch usd outside of the liquidity pools on IceCreamSwap
+// use for fetch usd outside of the liquidity pools on WhaleChain
 export const fetchTokenUSDValue = async (chainId: number, tokenAddresses: string[]) => {
   if (!tokenAddresses.length) return new Map<string, string>()
 

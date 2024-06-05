@@ -113,8 +113,8 @@ const Footer = () => {
         <Flex mb="24px" style={{ gap: '12px' }}>
           <Button
             as="a"
-            title={t('IceCreamSwap Twitter')}
-            href="https://twitter.com/icecream_swap"
+            title={t('WhaleChain Twitter')}
+            href="https://twitter.com/whalechainetwork"
             variant="primary"
             scale="md"
             mr="8px"
@@ -123,8 +123,8 @@ const Footer = () => {
           </Button>
           <Button
             as="a"
-            title={t('IceCreamSwap Telegram')}
-            href="https://t.me/Icecreamswap_com"
+            title={t('WhaleChain Telegram')}
+            href="https://t.me/whalechainetwork"
             variant="primary"
             scale="md"
             mr="8px"

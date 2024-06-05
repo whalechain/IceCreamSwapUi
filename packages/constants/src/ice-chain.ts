@@ -31,6 +31,7 @@ interface KycConfig {
 
 interface ChainBase {
   features: ChainFeature[]
+  visible?: boolean
   swap?: SwapConfig
   smartRouterAddress?: Address,
   farmV2Address?: Address,

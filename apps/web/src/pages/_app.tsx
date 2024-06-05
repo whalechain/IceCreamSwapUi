@@ -85,15 +85,15 @@ function MyApp(props: AppProps<{ initialReduxState: any }>) {
           name="description"
           content="DEX, DEX Aggregator, RPC, Block Explorer, KYC, Launchpad and Bridge on Base, Core DAO, Telos, Bitgert, XDC, Shardeum, Shimmer, BSC, Xodex, Dogechain and Fuse."
         />
-        <meta name="theme-color" content="#F8567F" />
+        <meta name="theme-color" content="#00b8ff" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="https://icecreamswap.com/images/hero.png" />
-        <meta name="twitter:title" content="🍦 IceCreamSwap - Multi-chain DeFi ecosystem" />
+        <meta name="twitter:title" content="🍦 WhaleChain - Multi-chain DeFi ecosystem" />
         <meta
           name="twitter:description"
           content="DEX, DEX Aggregator, RPC, Block Explorer, KYC, Launchpad and Bridge on Base, Core DAO, Telos, Bitgert, XDC, Shardeum, Shimmer, BSC, Xodex, Dogechain and Fuse."
         />
-        <title>IceCreamSwap</title>
+        <title>WhaleChain</title>
       </Head>
       <DefaultSeo {...SEO} />
 

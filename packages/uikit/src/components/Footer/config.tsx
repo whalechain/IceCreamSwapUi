@@ -80,7 +80,7 @@ export const socials = [
   {
     label: "Twitter",
     icon: TwitterIcon,
-    href: "https://twitter.com/icecream_swap",
+    href: "https://twitter.com/whalechainetwork",
   },
   {
     label: "Telegram",
@@ -88,7 +88,7 @@ export const socials = [
     items: [
       {
         label: "English",
-        href: "https://t.me/Icecreamswap_com",
+        href: "https://t.me/whalechainetwork",
       },
     ],
   },

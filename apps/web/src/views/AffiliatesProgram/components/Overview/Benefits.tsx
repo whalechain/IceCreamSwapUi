@@ -79,7 +79,7 @@ const Benefits = () => {
       <Flex alignItems="center" flexDirection="column" justifyContent="center">
         <GradientLogo height="36" width="36" />
         <Heading maxWidth={['700px']} textAlign="center" scale="xl">
-          {t('Unlock the Power of IceCreamSwap Affiliate Benefits')}
+          {t('Unlock the Power of WhaleChain Affiliate Benefits')}
         </Heading>
         <StyledContainer>
           {BenefitsList.map((benefit, index) => (

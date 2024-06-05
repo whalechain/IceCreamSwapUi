@@ -1,4 +1,4 @@
-# 🍦 IceCreamSwap Frontend
+# 🍦 WhaleChain Frontend
 
 <p align="center">
   <a href="https://icecreamswap.com">
@@ -6,7 +6,7 @@
   </a>
 </p>
 
-This project contains the main features of the IceCreamSwap website.
+This project contains the main features of the WhaleChain website.
 
 If you want to contribute, please refer to the [contributing guidelines](./CONTRIBUTING.md) of this project.
 

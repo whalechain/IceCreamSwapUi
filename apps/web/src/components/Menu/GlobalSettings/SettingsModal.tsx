@@ -179,7 +179,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
               <Flex alignItems="center">
                 <Text>{t('Flippy sounds')}</Text>
                 <QuestionHelper
-                  text={t('Fun sounds to make a truly immersive IceCreamSwap trading experience')}
+                  text={t('Fun sounds to make a truly immersive WhaleChain trading experience')}
                   placement="top"
                   ml="4px"
                 />
@@ -264,7 +264,7 @@ function RoutingSettings() {
           <PreTitle mb="24px">{t('Liquidity source')}</PreTitle>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>IceCreamSwap V3</Text>
+              <Text>WhaleChain V3</Text>
               <QuestionHelper
                 text={
                   <Flex>
@@ -288,7 +288,7 @@ function RoutingSettings() {
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>IceCreamSwap V2</Text>
+              <Text>WhaleChain V2</Text>
               <QuestionHelper
                 text={
                   <Flex flexDirection="column">
@@ -314,7 +314,7 @@ function RoutingSettings() {
           {/*
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>IceCreamSwap {t('StableSwap')}</Text>
+              <Text>WhaleChain {t('StableSwap')}</Text>
               <QuestionHelper
                 text={
                   <Flex flexDirection="column">
@@ -341,7 +341,7 @@ function RoutingSettings() {
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>{`IceCreamSwap ${t('MM Linked Pool')}`}</Text>
+              <Text>{`WhaleChain ${t('MM Linked Pool')}`}</Text>
               <QuestionHelper
                 text={
                   <Flex flexDirection="column">

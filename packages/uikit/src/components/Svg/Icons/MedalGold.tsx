@@ -38,7 +38,7 @@ const Icon: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
         rx="6.64749"
         ry="6.39038"
         transform="matrix(0.882297 -0.470693 0.52989 0.848067 12.4778 12.6875)"
-        fill="#FFC700"
+        fill="#00b7fe"
       />
       <path
         fillRule="evenodd"

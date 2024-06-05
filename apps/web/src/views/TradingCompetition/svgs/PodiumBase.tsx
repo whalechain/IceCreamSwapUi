@@ -141,7 +141,7 @@ const Prizes: React.FC<React.PropsWithChildren<SvgProps>> = (props) => {
         </linearGradient>
         <linearGradient id="podium_paint5_linear" x1="128" y1="19.5" x2="261" y2="111" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFE76B" />
-          <stop offset="0.374839" stopColor="#FFC700" />
+          <stop offset="0.374839" stopColor="#00b7fe" />
           <stop offset="1" stopColor="#EFAC00" />
         </linearGradient>
         <linearGradient id="podium_paint6_linear" x1="194.5" y1="16" x2="194.5" y2="111" gradientUnits="userSpaceOnUse">

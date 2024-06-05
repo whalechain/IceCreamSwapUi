@@ -241,7 +241,7 @@ const V3LaunchBanner = () => {
               {t(`Ev3ryone's Favourite D3X`)}
             </StyledSubheading>
             <TitleWrapper alignItems="center" style={{ gap: 5 }}>
-              <LogoIcon /> <Title>{t('IceCreamSwap v3 is live!')}</Title>
+              <LogoIcon /> <Title>{t('WhaleChain v3 is live!')}</Title>
             </TitleWrapper>
           </TextBox>
           <NextLinkFromReactRouter

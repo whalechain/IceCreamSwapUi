@@ -61,7 +61,7 @@ export const AddToken: React.FC = () => {
   return (
     <AppWrapper title={t('Add Token')} subtitle={t('Add your own token in seconds')}>
       <Text small>
-        {t("You can easily list your token on IceCreamSwap. For this you need to complete KYC, delegate the KYC to your token and have a minimum of $4k liquidity, while liquidity paired with ICE counts double.")}
+        {t("You can easily list your token on WhaleChain. For this you need to complete KYC, delegate the KYC to your token and have a minimum of $4k liquidity, while liquidity paired with ICE counts double.")}
       </Text>
       <br/>
       <FormProvider {...form}>

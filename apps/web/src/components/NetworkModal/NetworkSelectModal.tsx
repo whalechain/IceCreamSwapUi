@@ -14,6 +14,7 @@ const NetworkSelect = ({switchNetwork, chainId, onCloseModal, filter}) => {
   const supportedChains = useSupportedChains()
 
   const contents = chains
+    .filter((chain) => chain.visible === true)
     .filter((chain) => chainName[chain.id].toLowerCase().indexOf(filter.toLowerCase()) >= 0)
     .filter((chain) => !chain.testnet || chain.id === chainId)
     .filter((chain) => supportedChains.length == 0 || supportedChains.includes(chain.id));

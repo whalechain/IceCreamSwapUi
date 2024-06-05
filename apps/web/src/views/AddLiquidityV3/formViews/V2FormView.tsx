@@ -108,7 +108,7 @@ export default function V2FormView({
             <Flex flexDirection="column">
               <MessageText>
                 {t(
-                  'Adding liquidity to this V2 pair is currently not available on IceCreamSwap UI. Please follow the instructions to resolve it using blockchain explorer.',
+                  'Adding liquidity to this V2 pair is currently not available on WhaleChain UI. Please follow the instructions to resolve it using blockchain explorer.',
                 )}
               </MessageText>
               <LinkExternal

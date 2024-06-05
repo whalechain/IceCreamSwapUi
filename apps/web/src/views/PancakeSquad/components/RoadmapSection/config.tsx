@@ -50,7 +50,7 @@ const config = ({ t }: FAQsType) => [
     title: t('UI upgrades'),
     icon: '👨‍💻',
     description: [
-      t('Upgrade from Uniswap based UI to IceCreamSwap based UI'),
+      t('Upgrade from Uniswap based UI to WhaleChain based UI'),
       t('Upgrade from weekly AirDrops to continuous liquidity farming')
     ],
     reached: '12-2022',
@@ -115,7 +115,7 @@ const config = ({ t }: FAQsType) => [
     icon: '🚀',
     description: [
       t('Implement an AI based DEX aggregator to optimize trading for all our users.'),
-      t('Provide the best trading rates for any token on IceCreamSwap'),
+      t('Provide the best trading rates for any token on WhaleChain'),
     ],
     reached: '02-2024',
   },
@@ -139,7 +139,7 @@ const config = ({ t }: FAQsType) => [
   {
     title: t('Mass expansion'),
     icon: '🚀🚀',
-    description: [t('Expand to a lot of blockchains, making IceCreamSwap the single place traders need to visit on all the chains.')],
+    description: [t('Expand to a lot of blockchains, making WhaleChain the single place traders need to visit on all the chains.')],
     reached: '05-2024',
   },
 ]

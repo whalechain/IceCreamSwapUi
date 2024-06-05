@@ -7,6 +7,6 @@ const LaunchpadPage = () => {
   return <CampaignOverview id={Number(id)} />
 }
 
-LaunchpadPage.chains = [1116]
+LaunchpadPage.chains = [372]
 
 export default LaunchpadPage

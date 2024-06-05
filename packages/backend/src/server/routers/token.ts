@@ -109,7 +109,7 @@ export const tokenRouter = router({
     const tokensSorted = kycedTokens.concat(nonKycedTokens)
 
     return {
-      name: 'IceCreamSwap Default',
+      name: 'WhaleChain Default',
       timestamp: new Date().toISOString(),
       version: {
         major: 1,
