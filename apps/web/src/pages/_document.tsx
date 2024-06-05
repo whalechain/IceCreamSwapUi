@@ -45,19 +45,6 @@ class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
-          <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-ZER0X0YN79" />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-ZER0X0YN79', {
-            'storage': 'none'
-          });
-          gtag('set', 'allowAdFeatures', false);
-          `}
-          </Script>
 
           <Main />
           <NextScript />

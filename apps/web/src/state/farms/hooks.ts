@@ -41,7 +41,7 @@ export function useFarmV2PublicAPI() {
   return useSWRImmutable(
     chainId && supportedChainIdV2.includes(chainId) ? ['farm-v2-pubic-api', chainId] : null,
     async () => {
-      return fetch(`https://farms-api.icecreamswap.com/${chainId}`)
+      return fetch(`https://farms-api.whalechain.live/${chainId}`)
         .then((res) => res.json())
         .then((res) => res.data)
     },

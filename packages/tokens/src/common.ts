@@ -21,6 +21,6 @@ export const ICE: Record<ChainId, ERC20Token> = chains.reduce((acc, chain) => {
       18,
       'ICE',
       'IceCream',
-      'https://icecreamswap.com'
+      'https://whalechain.live'
     )}
 }, {})

@@ -25,5 +25,5 @@ export function subgraphHealthIndicatorFactory({ getSubgraphName }: FactoryParam
 
 export const V3SubgraphHealthIndicator = subgraphHealthIndicatorFactory({
   getSubgraphName: (chainId) =>
-    V3_SUBGRAPH_URLS[chainId]?.replace('https://the-graph.icecreamswap.com/subgraphs/name/', '') || '',
+    V3_SUBGRAPH_URLS[chainId]?.replace('https://the-graph.whalechain.live/subgraphs/name/', '') || '',
 })

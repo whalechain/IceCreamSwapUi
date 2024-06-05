@@ -195,7 +195,7 @@ const Bridge = () => {
           {/*   the tax is 1% of the transfer amount. Transactions are processed by our bridge smart contract - this way */}
           {/*   transactions can never get lost. We are currently supporting {supportedNames}. For more information, please */}
           {/*   visit our{' '} */}
-          {/*   <Link href="https://wiki.icecreamswap.com/dex/bridge" display="inline-flex" external target="_blank"> */}
+          {/*   <Link href="https://wiki.whalechain.live/dex/bridge" display="inline-flex" external target="_blank"> */}
           {/*     Wiki */}
           {/*   </Link> */}
           {/*   . */}

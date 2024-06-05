@@ -117,7 +117,7 @@ export const tokenRouter = router({
         patch: 0,
       },
       tags: {},
-      logoURI: 'https://icecreamswap.com/logo.png',
+      logoURI: 'https://whalechain.live/logo.png',
       keywords: ['icecreamswap', 'default'],
       tokens: tokensSorted.map((token) => ({
         name: token.name,

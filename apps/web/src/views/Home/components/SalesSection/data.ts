@@ -20,7 +20,7 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/dex/swap',
+    to: 'https://wiki.whalechain.live/dex/swap',
     text: t('Learn'),
     external: true,
   },
@@ -46,7 +46,7 @@ export const bridgeSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/dex/bridge',
+    to: 'https://wiki.whalechain.live/dex/bridge',
     text: t('Learn'),
     external: true,
   },
@@ -68,7 +68,7 @@ export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
     external: false,
   },
   secondaryButton: {
-    to: 'https://wiki.icecreamswap.com/dex/farm',
+    to: 'https://wiki.whalechain.live/dex/farm',
     text: t('Learn'),
     external: true,
   },

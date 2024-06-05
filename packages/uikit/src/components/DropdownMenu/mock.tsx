@@ -12,7 +12,7 @@ const ItemsMock: DropdownMenuItems[] = [
   },
   {
     label: "LP Migration",
-    href: "https://v1exchange.icecreamswap.com/#/migrate",
+    href: "https://v1exchange.whalechain.live/#/migrate",
     type: DropdownMenuItemType.EXTERNAL_LINK,
   },
   {

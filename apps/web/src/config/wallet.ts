@@ -63,9 +63,9 @@ const walletsConfig = ({
       icon: '/images/wallets/metamask.png',
       installed: typeof window !== 'undefined' && Boolean(window.ethereum?.isMetaMask) && metaMaskConnector.ready,
       connectorId: ConnectorNames.MetaMask,
-      deepLink: 'https://metamask.app.link/dapp/icecreamswap.com/',
+      deepLink: 'https://metamask.app.link/dapp/whalechain.live/',
       qrCode,
-      downloadLink: 'https://metamask.app.link/dapp/icecreamswap.com/',
+      downloadLink: 'https://metamask.app.link/dapp/whalechain.live/',
     },
     {
       id: 'binance',
@@ -96,7 +96,7 @@ const walletsConfig = ({
       get installed() {
         return !!getTrustWalletProvider()
       },
-      deepLink: 'https://link.trustwallet.com/open_url?coin_id=20000714&url=https://icecreamswap.com/',
+      deepLink: 'https://link.trustwallet.com/open_url?coin_id=20000714&url=https://whalechain.live/',
       downloadLink: 'https://chrome.google.com/webstore/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph',
       guide: {
         desktop: 'https://trustwallet.com/browser-extension',
@@ -258,5 +258,5 @@ const docLangCodeMapping: Record<string, string> = {
 
 export const getDocLink = (code: string) =>
   docLangCodeMapping[code]
-    ? `https://wiki.icecreamswap.com/v/${docLangCodeMapping[code]}/get-started/setup-wallet`
-    : `https://wiki.icecreamswap.com/get-started/setup-wallet`
+    ? `https://wiki.whalechain.live/v/${docLangCodeMapping[code]}/get-started/setup-wallet`
+    : `https://wiki.whalechain.live/get-started/setup-wallet`

@@ -35,7 +35,7 @@ const eventDescriptionConfigBuilder = ({ t }: EventDescriptionType) => ({
     },
   ],
   primaryButton: {
-    to: 'https://docs.icecreamswap.com/',
+    to: 'https://docs.whalechain.live/',
     text: t('View Documentation'),
     external: true,
     isDisplayed: false,

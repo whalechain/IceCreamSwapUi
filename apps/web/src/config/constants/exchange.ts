@@ -79,6 +79,6 @@ export const DEFAULT_OUTPUT_CURRENCY = '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE
 export const GELATO_HANDLER = 'pancakeswap'
 export const GENERIC_GAS_LIMIT_ORDER_EXECUTION = 500000n
 
-export const LIMIT_ORDERS_DOCS_URL = 'https://docs.icecreamswap.com/products/pancakeswap-exchange/limit-orders'
+export const LIMIT_ORDERS_DOCS_URL = 'https://docs.whalechain.live/products/pancakeswap-exchange/limit-orders'
 
 export const EXCHANGE_PAGE_PATHS = ['/swap', '/limit-orders', 'liquidity', '/add', '/find', '/remove']

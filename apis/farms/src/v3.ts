@@ -18,7 +18,7 @@ export const V3_SUBGRAPH_CLIENTS: Record<FarmV3SupportedChainId, GraphQLClient> 
   if (!chain.features.includes('infoV3')) return acc
   return {
     ...acc,
-    [chain.id]: new GraphQLClient(`https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v3-${chain.network}`, { fetch })
+    [chain.id]: new GraphQLClient(`https://the-graph.whalechain.live/subgraphs/name/icecreamswap/exchange-v3-${chain.network}`, { fetch })
   }
 }, {})
 

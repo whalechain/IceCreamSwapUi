@@ -23,12 +23,12 @@ const WEEKS_IN_A_YEAR = 52.1429
 
 const BLOCKS_CLIENT_WITH_CHAIN: Record<ChainId, string> = chains.reduce((acc, chain) => {
   if (!chain.features.includes('info')) return acc;
-  return {...acc, [chain.id]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/blocks-${chain.network}`}
+  return {...acc, [chain.id]: `https://the-graph.whalechain.live/subgraphs/name/icecreamswap/blocks-${chain.network}`}
 }, {})
 
 const INFO_CLIENT_WITH_CHAIN: Record<ChainId, string> = chains.reduce((acc, chain) => {
   if (!chain.features.includes('info')) return acc;
-  return {...acc, [chain.id]: `https://the-graph.icecreamswap.com/subgraphs/name/icecreamswap/exchange-v2-${chain.network}`}
+  return {...acc, [chain.id]: `https://the-graph.whalechain.live/subgraphs/name/icecreamswap/exchange-v2-${chain.network}`}
 }, {})
 
 

@@ -11,5 +11,5 @@ const docLangCodeMapping: Record<string, string> = {
 
 export const getDocLink = (code: string) =>
   docLangCodeMapping[code]
-    ? `https://docs.icecreamswap.com/v/${docLangCodeMapping[code]}/get-started/connection-guide`
-    : `https://docs.icecreamswap.com/get-started/connection-guide`
+    ? `https://docs.whalechain.live/v/${docLangCodeMapping[code]}/get-started/connection-guide`
+    : `https://docs.whalechain.live/get-started/connection-guide`

@@ -169,7 +169,7 @@ const config: (
         },
         {
           label: t('Wiki'),
-          href: languageCode === 'zh-cn' ? 'https://wiki.icecreamswap.com/v/zh' : 'https://wiki.icecreamswap.com',
+          href: languageCode === 'zh-cn' ? 'https://wiki.whalechain.live/v/zh' : 'https://wiki.whalechain.live',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
         // {
@@ -225,7 +225,7 @@ const config: (
         },
         {
           label: t('Docs'),
-          href: 'https://docs.icecreamswap.com',
+          href: 'https://docs.whalechain.live',
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
       ].map((item) => addMenuItemSupported(item, chainId)),

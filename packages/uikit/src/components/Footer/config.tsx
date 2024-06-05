@@ -8,7 +8,7 @@ export const footerLinks: FooterLinkType[] = [
     items: [
       {
         label: "Contact",
-        href: "https://docs.icecreamswap.com/contact-us",
+        href: "https://docs.whalechain.live/contact-us",
       },
       {
         label: "Blog",
@@ -16,11 +16,11 @@ export const footerLinks: FooterLinkType[] = [
       },
       {
         label: "Community",
-        href: "https://docs.icecreamswap.com/contact-us/telegram",
+        href: "https://docs.whalechain.live/contact-us/telegram",
       },
       {
         label: "ICE",
-        href: "https://docs.icecreamswap.com/tokenomics/cake",
+        href: "https://docs.whalechain.live/tokenomics/cake",
       },
       {
         label: "—",
@@ -37,15 +37,15 @@ export const footerLinks: FooterLinkType[] = [
     items: [
       {
         label: "Customer",
-        href: "Support https://docs.icecreamswap.com/contact-us/customer-support",
+        href: "Support https://docs.whalechain.live/contact-us/customer-support",
       },
       {
         label: "Troubleshooting",
-        href: "https://docs.icecreamswap.com/help/troubleshooting",
+        href: "https://docs.whalechain.live/help/troubleshooting",
       },
       {
         label: "Guides",
-        href: "https://docs.icecreamswap.com/get-started",
+        href: "https://docs.whalechain.live/get-started",
       },
     ],
   },
@@ -58,7 +58,7 @@ export const footerLinks: FooterLinkType[] = [
       },
       {
         label: "Documentation",
-        href: "https://docs.icecreamswap.com",
+        href: "https://docs.whalechain.live",
       },
       {
         label: "Bug Bounty",
@@ -66,11 +66,11 @@ export const footerLinks: FooterLinkType[] = [
       },
       {
         label: "Audits",
-        href: "https://docs.icecreamswap.com/help/faq#is-pancakeswap-safe-has-pancakeswap-been-audited",
+        href: "https://docs.whalechain.live/help/faq#is-pancakeswap-safe-has-pancakeswap-been-audited",
       },
       {
         label: "Careers",
-        href: "https://docs.icecreamswap.com/hiring/become-a-chef",
+        href: "https://docs.whalechain.live/hiring/become-a-chef",
       },
     ],
   },

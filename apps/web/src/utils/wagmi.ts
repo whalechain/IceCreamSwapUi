@@ -54,14 +54,14 @@ export const coinbaseConnector = new CoinbaseWalletConnector({
   chains,
   options: {
     appName: 'WhaleChain',
-    appLogoUrl: 'https://icecreamswap.com/favicon.ico',
+    appLogoUrl: 'https://whalechain.live/favicon.ico',
   },
 })
 
 export const walletConnectConnector = new WalletConnectConnector({
   chains,
   options: {
-    projectId: 'c33f5b4a87af478e80a3b8b807e52895',
+    projectId: 'dbd7e44dfca0fd2ad97b2d618b8cfe02',
     showQrModal: true,
   },
 })
@@ -69,7 +69,7 @@ export const walletConnectConnector = new WalletConnectConnector({
 export const walletConnectNoQrCodeConnector = new WalletConnectConnector({
   chains,
   options: {
-    projectId: 'c33f5b4a87af478e80a3b8b807e52895',
+    projectId: 'dbd7e44dfca0fd2ad97b2d618b8cfe02',
     showQrModal: false,
   },
 })
@@ -92,7 +92,7 @@ const bloctoConnector = new BloctoConnector({
 const ledgerConnector = new LedgerConnector({
   chains,
   options: {
-    projectId: 'c33f5b4a87af478e80a3b8b807e52895',
+    projectId: 'dbd7e44dfca0fd2ad97b2d618b8cfe02',
   },
 })
 

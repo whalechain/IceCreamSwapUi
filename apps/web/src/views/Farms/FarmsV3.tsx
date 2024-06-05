@@ -576,7 +576,7 @@ const Farms: React.FC<React.PropsWithChildren> = ({ children }) => {
                 external
                 color="failure"
                 fontSize={['16px', null, '20px']}
-                href="https://icecreamswap.com/farms/history"
+                href="https://whalechain.live/farms/history"
               >
                 {t('check out v1 farms')}.
               </FinishedTextLink>

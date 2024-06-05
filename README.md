@@ -1,8 +1,8 @@
 # 🍦 WhaleChain Frontend
 
 <p align="center">
-  <a href="https://icecreamswap.com">
-      <img src="https://icecreamswap.com/logo.png" height="128">
+  <a href="https://whalechain.live">
+      <img src="https://whalechain.live/logo.png" height="128">
   </a>
 </p>
 
