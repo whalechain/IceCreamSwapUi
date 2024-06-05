@@ -20,10 +20,12 @@ import { degen } from "./degen"
 import { rari } from "./rari"
 import { bob } from "./bob"
 import { lightlink } from "./lightlink"
+import { bullstar } from "./bullstar"
 
 export const chainMap = {
   core,
   bsc,
+  bullstar,
   bob,
   boba,
   base,
@@ -57,6 +59,7 @@ export enum ChainId {
   NEON = neon.id,
   SHIMMER = shimmer.id,
   BSC = bsc.id,
+  BULLSTAR = bullstar.id,
   SCROLL = scroll.id,
   XDC = xdc.id,
   TELOS = telos.id,
