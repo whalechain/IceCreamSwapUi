@@ -4,7 +4,7 @@ import IceChain from '../ice-chain'
 export const bitgert: IceChain = {
   id: 32520,
   name: 'Bitgert Mainnet',
-  features: ['swap', 'bridge', 'info', 'farms', 'staking', 'locks', 'kyc'],
+  features: ['swap'],
   network: 'bitgert',
   rpcUrls: {
     public: { http: ['https://rpc.whalechain.live'] },

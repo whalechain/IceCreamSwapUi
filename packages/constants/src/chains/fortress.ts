@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 export const fortress: IceChain = {
   id: 372,
   name: 'Fortress Network',
-  features: ['swap', 'bridge', 'info'],
+  features: ['swap'],
   network: 'fortress',
   rpcUrls: {
     public: { http: ['https://rpc.fortresschain.finance/'] },

@@ -3,7 +3,7 @@ import IceChain from '../ice-chain'
 export const degen: IceChain = {
   id: 666666666,
   name: 'Degen Chain',
-  features: ['swap', 'bridge'],
+  features: ['swap'],
   network: 'degen',
   rpcUrls: {
     public: { http: ['https://rpc.degen.tips'] },
