@@ -56,7 +56,7 @@ export const core: IceChain = {
     initCodeHash: '0x900e0b44caa3cef1b67ea21e95e02996e60924aefe84a8edb87390593dbbc9f5',
     deploymentTs: 1717693698,
   },
-  smartRouterAddress: '0x65199525ca542514C8bE4CBEdA44D103EdEeE433',
+  smartRouterAddress: '0xE7aeBEB3A455e25153341f7f7298460fFDFFB603',
   // farmV2Address: '0xe3277bb0f3C4b9C6FC1DBf81E328E14F3C9368C3',
   // campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
   // kyc: {
