@@ -1,31 +1,31 @@
 import IceChain from '../ice-chain'
 
-const fortresschainExplorer = { name: 'Explorer', url: 'https://explorer.fortresschain.finance' }
+const fortresschainExplorer = { name: 'Explorer', url: 'https://explorer.whalechain.live' }
 
 export const core: IceChain = {
-  id: 372,
+  id: 370,
   visible: true,
-  name: 'Fortress Chain',
+  name: 'Whale Chain',
   // features: ['swap', 'swapV3', 'farms', 'farmsV3', 'info', 'infoV3', 'bridge', 'locks', 'staking', 'kyc', 'launchpad', 'tokenDeployer'],
   features: ['swap', 'swapV3'],
   network: 'fortress',
   rpcUrls: {
-    public: { http: ['https://rpc.fortresschain.finance'] },
-    default: { http: ['https://rpc.fortresschain.finance'] },
+    public: { http: ['https://rpc.whalechain.live'] },
+    default: { http: ['https://rpc.whalechain.live'] },
   },
   blockExplorers: {
     default: fortresschainExplorer,
     etherscan: fortresschainExplorer,
   },
   nativeCurrency: {
-    name: 'FortressChain Native Token',
+    name: 'WhaleChain Native Token',
     symbol: 'FTSC',
     decimals: 18,
   },
   contracts: {
     multicall3: {
-      address: '0x5288B80d6d23e5DC2CAC62d2cfE43985313CE5C0',
-      blockCreated: 432,
+      address: '0xC1561cB8af64bAF6adCE7451e504d869C1Bf5BeA',
+      blockCreated: 5366,
     },
   },
   // tokenDeployerDividend: {
@@ -38,25 +38,25 @@ export const core: IceChain = {
   // },
   blockInterval: 3,
   wrappedNative: {
-    address: '0x0cD0Cf75E4696bd531cde0FAFb73c22b4985bcEC',
+    address: '0xCC24119e80e582d744D040F030F49A80468A6707',
     decimals: 18,
-    symbol: 'wFTSC',
-    name: 'Wrapped FTSC',
+    symbol: 'wWHALE',
+    name: 'Wrapped WHALE',
   },
   iceAddress: '0xc0E49f8C615d3d4c245970F6Dc528E4A47d69a44',
   stableToken: {
-    address: '0x900101d06A7426441Ae63e9AB3B9b0F63Be145F1',
+    address: '0x3d62674B6Ab8346D09f4574E86399DF256E995e8',
     decimals: 18,
     symbol: 'USDT',
-    name: 'Tether USD (CORE Bridge)',
+    name: 'Tether USD (WHALE Bridge)',
   },
   swap: {
-    factoryAddress: '0x0f8a3f52fEF4a9a810A2D97F7909a438e519E07b',
-    routerAddress: '0xceeE5004344DD69de1132AFba49cA05Dce593E7f',
-    initCodeHash: '0x8e3103f27f962fa2837ea8d0411124f602256d5f26e5116033f8d1e1195d177d',
-    // deploymentTs: 1675828800,
+    factoryAddress: '0xe67Ea76815cB09C6D05E06B8065D00C0E0E0C6fb',
+    routerAddress: '0xF97406c72C6A98782a6fBF6C97d0195336B8A3F5',
+    initCodeHash: '0xf1d8e685b06db1e5df1431fdca3cdbf6a0b766aefed5efd833603f00c41c99a5',
+    deploymentTs: 1717688201,
   },
-  smartRouterAddress: '0xBd8BB286Cd14124720F3f8C5F3fdD7fa13735Dc2',
+  smartRouterAddress: '0x65199525ca542514C8bE4CBEdA44D103EdEeE433',
   // farmV2Address: '0xe3277bb0f3C4b9C6FC1DBf81E328E14F3C9368C3',
   // campaignFactory: '0x79218D6d562a435ec258f2f4D8D17f1DEbbb114a',
   // kyc: {
