@@ -163,7 +163,7 @@ export default function RemoveLiquidity({ currencyA, currencyB, currencyIdA, cur
       { name: 'verifyingContract', type: 'address' },
     ]
     const domain = {
-      name: 'whalechain.live LP',
+      name: 'icecreamswap.com LP',
       version: '1',
       chainId,
       verifyingContract: pair.liquidityToken.address as `0x${string}`,
