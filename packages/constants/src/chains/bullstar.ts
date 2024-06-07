@@ -46,5 +46,4 @@ export const bullstar: IceChain = {
     initCodeHash: '0x3a7034d59e5b7ea8555ce70e496b0e187fb4e315ff1bf33bfd96d7c598c5205c',
     routerAddress: '0xe08EdE834633CB8300EE54B5e20f5172484A6C61',
   },
-  smartRouterAddress: '0x16A3247Db4588176c24C6A5F6d3fd2C174122DF5',
 }

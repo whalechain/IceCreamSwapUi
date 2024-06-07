@@ -7,7 +7,7 @@ export const core: IceChain = {
   visible: true,
   name: 'Whale Chain',
   // features: ['swap', 'swapV3', 'farms', 'farmsV3', 'info', 'infoV3', 'bridge', 'locks', 'staking', 'kyc', 'launchpad', 'tokenDeployer'],
-  features: ['swap', 'swapV3'],
+  features: ['swap'],
   network: 'fortress',
   rpcUrls: {
     public: { http: ['https://rpc.whalechain.live'] },
