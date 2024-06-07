@@ -7,6 +7,7 @@ const MenuButton = styled(Button)`
   border-radius: 8px;
 `;
 MenuButton.defaultProps = {
+  // @ts-ignore
   variant: "text",
   size: "sm",
 };

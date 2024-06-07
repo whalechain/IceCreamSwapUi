@@ -4,10 +4,10 @@ import { TrustWalletConnector } from '@pancakeswap/wagmi/connectors/trustWallet'
 import { CHAINS } from 'config/chains'
 import memoize from 'lodash/memoize'
 import { configureChains, createConfig, createStorage } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
+// import { mainnet } from 'wagmi/chains'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { LedgerConnector } from 'wagmi/connectors/ledger'
+// import { LedgerConnector } from 'wagmi/connectors/ledger'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
@@ -89,12 +89,12 @@ const bloctoConnector = new BloctoConnector({
   },
 })
 
-const ledgerConnector = new LedgerConnector({
-  chains,
-  options: {
-    projectId: 'dbd7e44dfca0fd2ad97b2d618b8cfe02',
-  },
-})
+// const ledgerConnector = new LedgerConnector({
+//   chains,
+//   options: {
+//     projectId: 'dbd7e44dfca0fd2ad97b2d618b8cfe02',
+//   },
+// })
 
 export const bscConnector = new BinanceWalletConnector({ chains })
 
@@ -186,7 +186,7 @@ export const wagmiConfig = createConfig({
     okxConnector,
     // @ts-ignore FIXME: wagmi
     bloctoConnector,
-    ledgerConnector,
+    // ledgerConnector,
     trustWalletConnector,
   ],
 })

@@ -38,6 +38,7 @@ export const styleVariants: { [key: string]: { backgroundColor?: string; bg?: st
   [variants.WARNING]: {
     backgroundColor: "warning",
   },
+  // @ts-ignore
   [variants.WARNING]: {
     backgroundColor: "warning",
   },

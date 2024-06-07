@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 
 import { Card, CardBody, CardFooter } from "../../components/Card";
+// eslint-disable-next-line import/no-cycle
 import { AtomBox, AtomBoxProps } from "../../components";
 import LiquidityCardHeader from "./LiquidityCardHeader";
 
