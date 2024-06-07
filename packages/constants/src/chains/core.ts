@@ -19,7 +19,7 @@ export const core: IceChain = {
   },
   nativeCurrency: {
     name: 'WhaleChain Native Token',
-    symbol: 'FTSC',
+    symbol: 'WHALEC',
     decimals: 18,
   },
   contracts: {
