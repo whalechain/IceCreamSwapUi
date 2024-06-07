@@ -2,6 +2,7 @@ import IceChain from '../ice-chain'
 
 export const fortress: IceChain = {
   id: 372,
+  visible: true,
   name: 'Fortress Network',
   features: ['swap'],
   network: 'fortress',
@@ -19,13 +20,13 @@ export const fortress: IceChain = {
   },
   contracts: {
     multicall3: {
-      address: '0xf8ac4BEB2F75d2cFFb588c63251347fdD629B92c',
-      blockCreated: 22663,
+      address: '0x5288B80d6d23e5DC2CAC62d2cfE43985313CE5C0',
+      blockCreated: 38175,
     },
   },
   blockInterval: 10,
   wrappedNative: {
-    address: '0x7c166ec194E2959aa7F5E2962c7da096dE8a13e0',
+    address: '0x0cD0Cf75E4696bd531cde0FAFb73c22b4985bcEC',
     decimals: 18,
     symbol: 'wFTSC',
     name: 'Wrapped FTSC',
@@ -38,10 +39,9 @@ export const fortress: IceChain = {
     name: 'Tether USD',
   },
   swap: {
-    factoryAddress: '0xC87De04e2EC1F4282dFF2933A2D58199f688fC3d',
-    routerAddress: '0xE578184bC88EB48485Bba23a37B5509578d2aE38',
-    initCodeHash: '0x0437378fc27e93c612c5c385779bf540ca2064b54705e48c313aa216da380100',
+    factoryAddress: '0x0f8a3f52fEF4a9a810A2D97F7909a438e519E07b',
+    routerAddress: '0xceeE5004344DD69de1132AFba49cA05Dce593E7f',
+    initCodeHash: '0x8e3103f27f962fa2837ea8d0411124f602256d5f26e5116033f8d1e1195d177d',
     deploymentTs: 1716545743,
   },
-  smartRouterAddress: '0x16A3247Db4588176c24C6A5F6d3fd2C174122DF5',
 }
