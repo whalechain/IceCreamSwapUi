@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring'
 import { Currency, CurrencyAmount, Trade, Token, Price, Native, TradeType } from '@pancakeswap/sdk'
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY, BIG_INT_TEN } from 'config/constants/exchange'
+import { DEFAULT_INPUT_CURRENCY, BIG_INT_TEN } from 'config/constants/exchange'
 import { useRouter } from 'next/router'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useCurrency } from 'hooks/Tokens'
@@ -463,7 +463,7 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
 // Also the whole thing doesn't make sense, in swap inputValue is not initialized but typedValue is. WTF
 const queryParametersToSwapState = (parsedQs: ParsedUrlQuery): OrderState => {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || DEFAULT_INPUT_CURRENCY
-  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency) || DEFAULT_OUTPUT_CURRENCY
+  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency) || null
   if (inputCurrency === outputCurrency) {
     if (typeof parsedQs.outputCurrency === 'string') {
       inputCurrency = ''

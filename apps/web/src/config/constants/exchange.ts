@@ -18,7 +18,7 @@ export const CHAIN_REFRESH_TIME: ChainMap<number> = chains.reduce(
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = chains.reduce((acc, chain) => {
   const tokens: Token[] = []
-  USD[chain.id] && tokens.push(USD[chain.id])
+  WETH9[chain.id] && tokens.push(WETH9[chain.id])
   return {...acc, [chain.id]: tokens}
 }, {})
 
@@ -27,17 +27,14 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...chains.reduce((acc, chain) => {
     const tokens: Token[] = []
     WETH9[chain.id] && tokens.push(WETH9[chain.id])
-    USD[chain.id] && tokens.push(USD[chain.id])
     return {...acc, [chain.id]: tokens}
   }, {}),
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.score, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
-  [ChainId.BOBA]: [bobaTokens.weth, bobaTokens.ice, bobaTokens.usdt, bobaTokens.boba, bobaTokens.usdc],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   ...chains.reduce((acc, chain) => {
     const pairs: [Token, Token][] = []
-    WETH9[chain.id] && USD[chain.id] && pairs.push([WETH9[chain.id], USD[chain.id]])
+    WETH9[chain.id] && pairs.push([WETH9[chain.id]])
     return {...acc, [chain.id]: pairs}
   }, {}),
 }
@@ -69,8 +66,6 @@ export const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(BASE_FEE)
 
 // BNB
 export const DEFAULT_INPUT_CURRENCY = 'BNB'
-// ICE
-export const DEFAULT_OUTPUT_CURRENCY = '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82'
 
 // Handler string is passed to Gelato to use PCS router
 export const GELATO_HANDLER = 'pancakeswap'
