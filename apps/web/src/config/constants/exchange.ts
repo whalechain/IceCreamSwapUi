@@ -1,5 +1,4 @@
 import { ChainId, Percent, Token, WETH9 } from '@pancakeswap/sdk'
-import { coreTokens, USD, ICE, bobaTokens } from '@pancakeswap/tokens'
 import { chains } from '@icecreamswap/constants'
 import { ChainMap, ChainTokenList } from './types'
 
