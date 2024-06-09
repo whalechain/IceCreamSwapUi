@@ -1,8 +1,9 @@
-import { ChainId, WETH9 } from '@pancakeswap/sdk'
+import { ChainId, ERC20Token, WETH9 } from '@pancakeswap/sdk'
 // import {ICE} from "./common";
 
 export const coreTokens = {
   wcore: WETH9[ChainId.CORE],
+  usdt: new ERC20Token(ChainId.CORE, '0x81bCEa03678D1CEF4830942227720D542Aa15817', 18, 'USDTi', 'Tether USD (ICE Bridge)'),
   // wcore_old: new ERC20Token(ChainId.CORE, '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f', 18, 'WCORE', 'WrappedCoreOld'),
   // core: new ERC20Token(ChainId.CORE, '0x40375C92d9FAf44d2f9db9Bd9ba41a3317a2404f',18,'CORE','CORE'),
   // ice: ICE[ChainId.CORE],
