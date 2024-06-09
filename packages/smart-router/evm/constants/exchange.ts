@@ -24,11 +24,9 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...chains.reduce((acc, chain) => {
     const tokens: Token[] = []
     WETH9[chain.id] && tokens.push(WETH9[chain.id])
-    ICE[chain.id] && tokens.push(ICE[chain.id])
-    USD[chain.id] && tokens.push(USD[chain.id])
     return {...acc, [chain.id]: tokens}
   }, {}),
-  [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
+  [ChainId.CORE]: [coreTokens.wcore],
 }
 
 /**

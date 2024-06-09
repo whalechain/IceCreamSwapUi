@@ -22,7 +22,7 @@ import { SwapFeaturesContext } from './SwapFeaturesContext'
 import chainName from "config/constants/chainName";
 import { useWeb3React } from "@pancakeswap/wagmi";
 import { useBalance } from "wagmi";
-import { coreTokens } from "@pancakeswap/tokens";
+// import { coreTokens } from "@pancakeswap/tokens";
 
 export default function Swap() {
   const { query } = useRouter()
@@ -67,10 +67,11 @@ export default function Swap() {
   const balance = useBalance({ address: account })
 
   const isConnectedAndHasNoBalance = !!(isConnected && balance.data?.value === 0n)
-  const isOldWcore = walletChainId === ChainId.CORE && (
-      inputCurrencyId === coreTokens.wcore_old.address ||
-      outputCurrencyId === coreTokens.wcore_old.address
-  )
+  // const isOldWcore = walletChainId === ChainId.CORE && (
+  //     inputCurrencyId === coreTokens.wcore_old.address ||
+  //     outputCurrencyId === coreTokens.wcore_old.address
+  // )
+  const isOldWcore = walletChainId === ChainId.CORE && false;
 
   const singleTokenPrice = useSingleTokenSwapInfo(inputCurrencyId, inputCurrency, outputCurrencyId, outputCurrency)
   const warningSwapHandler = useWarningImport()

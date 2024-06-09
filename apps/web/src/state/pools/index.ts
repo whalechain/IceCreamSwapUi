@@ -189,7 +189,7 @@ export const fetchPoolsPublicDataAsync = (chainId: number) => async (dispatch, g
       activePriceHelperLpsConfig.length > 0
         ? [...orderBy(farmsV3Data, 'lmPoolLiquidity', 'desc'), ...poolsWithDifferentFarmToken].filter(
             (farm) => farm.quoteToken.address === USD[chainId].address &&
-              (farm.token.chainId !== ChainId.CORE? farm.token.address === WETH9[chainId].address: farm.token.address === coreTokens.wcore_old.address),
+              (farm.token.chainId !== ChainId.CORE? farm.token.address === WETH9[chainId].address: farm.token.address === WETH9[chainId].address),
           )
         : []
     const farmsWithPricesOfDifferentTokenPools =
