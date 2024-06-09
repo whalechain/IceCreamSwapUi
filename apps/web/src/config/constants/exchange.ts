@@ -17,7 +17,6 @@ export const CHAIN_REFRESH_TIME: ChainMap<number> = chains.reduce(
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = chains.reduce((acc, chain) => {
   const tokens: Token[] = []
-  WETH9[chain.id] && tokens.push(WETH9[chain.id])
   return {...acc, [chain.id]: tokens}
 }, {})
 
@@ -25,7 +24,6 @@ export const SUGGESTED_BASES: ChainTokenList = chains.reduce((acc, chain) => {
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...chains.reduce((acc, chain) => {
     const tokens: Token[] = []
-    WETH9[chain.id] && tokens.push(WETH9[chain.id])
     return {...acc, [chain.id]: tokens}
   }, {}),
 }
@@ -33,7 +31,6 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   ...chains.reduce((acc, chain) => {
     const pairs: [Token, Token][] = []
-    WETH9[chain.id] && pairs.push([WETH9[chain.id]])
     return {...acc, [chain.id]: pairs}
   }, {}),
 }
