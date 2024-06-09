@@ -1,6 +1,5 @@
 import { getAddress } from "viem";
 import { SerializedFarmConfig } from '@pancakeswap/farms'
-import { coreTokens } from '@pancakeswap/tokens'
 
 const priceHelperLps: SerializedFarmConfig[] = [
     // {
