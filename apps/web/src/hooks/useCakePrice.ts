@@ -33,7 +33,7 @@ export const getCakePriceFromOracle = async () => {
 }
 
 const getIcePriceFromV2Pair = async (chainId: ChainId) => {
-  const pricingChain = chainId == ChainId.SHARDEUM_TEST? ChainId.SHARDEUM_TEST: ChainId.CORE
+  const pricingChain = ChainId.CORE
   const usdToken = pricingChain === ChainId.CORE? coreTokens.usdt: USD[pricingChain]
   const iceToken = ICE[pricingChain]
   const pairConfig = {
