@@ -12,7 +12,7 @@ const useTokenBalance = (tokenAddress: Address, forceBitgert?: boolean) => {
   const { chainId } = useActiveChainId()
 
   const { data, status, ...rest } = useContractRead({
-    chainId: forceBitgert ? ChainId.BITGERT : chainId,
+    chainId: forceBitgert ? ChainId.CORE : chainId,
     abi: erc20ABI,
     address: tokenAddress,
     functionName: 'balanceOf',
@@ -41,7 +41,7 @@ export const useGetBnbBalance = () => {
 }
 
 export const useBitgertIceBalance = () => {
-  const { balance, fetchStatus } = useTokenBalance(ICE[ChainId.BITGERT]?.address, true)
+  const { balance, fetchStatus } = useTokenBalance(ICE[ChainId.CORE]?.address, true)
 
   return { balance: BigInt(balance.toString()), fetchStatus }
 }

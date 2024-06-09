@@ -1,15 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { ChainId } from '@pancakeswap/sdk'
 import { blocksPerYear } from '../config'
-import lpAprs32520 from '../config/constants/lpAprs/32520.json'
-import lpAprs1116 from '../config/constants/lpAprs/1116.json'
+import lpAprs370 from '../config/constants/lpAprs/370.json'
 
 const getLpApr = (chainId: number) => {
   switch (chainId) {
-    case ChainId.BITGERT:
-      return lpAprs32520
     case ChainId.CORE:
-      return lpAprs1116
+      return lpAprs370
     default:
       return {}
   }

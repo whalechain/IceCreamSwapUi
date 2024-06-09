@@ -164,7 +164,7 @@ function splitNormalAndStableFarmsReducer(result: SplitFarmResult, farm: any): S
 }
 // ====
 
-const FETCH_CHAIN_ID = [ChainId.BITGERT, ChainId.CORE]
+const FETCH_CHAIN_ID = [ChainId.CORE]
 const fetchAndUpdateLPsAPR = async () => {
   Promise.all(
     FETCH_CHAIN_ID.map(async (chainId) => {
