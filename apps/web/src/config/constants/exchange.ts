@@ -19,7 +19,6 @@ export const CHAIN_REFRESH_TIME: ChainMap<number> = chains.reduce(
 export const SUGGESTED_BASES: ChainTokenList = chains.reduce((acc, chain) => {
   const tokens: Token[] = []
   USD[chain.id] && tokens.push(USD[chain.id])
-  ICE[chain.id] && tokens.push(ICE[chain.id])
   return {...acc, [chain.id]: tokens}
 }, {})
 
@@ -29,7 +28,6 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
     const tokens: Token[] = []
     WETH9[chain.id] && tokens.push(WETH9[chain.id])
     USD[chain.id] && tokens.push(USD[chain.id])
-    ICE[chain.id] && tokens.push(ICE[chain.id])
     return {...acc, [chain.id]: tokens}
   }, {}),
   [ChainId.CORE]: [coreTokens.wcore, coreTokens.wcore_old, coreTokens.score, coreTokens.ice, coreTokens.usdt, coreTokens.usdtl0],
@@ -40,7 +38,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ...chains.reduce((acc, chain) => {
     const pairs: [Token, Token][] = []
     WETH9[chain.id] && USD[chain.id] && pairs.push([WETH9[chain.id], USD[chain.id]])
-    WETH9[chain.id] && ICE[chain.id] && pairs.push([WETH9[chain.id], ICE[chain.id]])
     return {...acc, [chain.id]: pairs}
   }, {}),
 }
