@@ -1,5 +1,5 @@
 import {ChainId, WETH9} from '@pancakeswap/sdk'
 
-export const bscTokens = {
+export const fortressTokens = {
   wbnb: WETH9[ChainId.FORTRESS],
 }

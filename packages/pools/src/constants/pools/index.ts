@@ -14,16 +14,9 @@ export type PoolsConfigByChain<TChainId extends ChainId> = {
 
 export const POOLS_CONFIG_BY_CHAIN = {
   [ChainId.CORE]: corePools,
-  [ChainId.BITGERT]: bitgertPools,
-  [ChainId.XDC]: xdcPools,
-  [ChainId.NEON]: neonPools,
 } as PoolsConfigByChain<SupportedChainId>
 
 export const LIVE_POOLS_CONFIG_BY_CHAIN = {
-  [ChainId.BSC]: coreLivePools,
-  [ChainId.BITGERT]: bitgertLivePools,
-  [ChainId.XDC]: xdcLivePools,
-  [ChainId.NEON]: neonLivePools,
 } as PoolsConfigByChain<SupportedChainId>
 
 export const getPoolsConfig = (chainId: ChainId) => {

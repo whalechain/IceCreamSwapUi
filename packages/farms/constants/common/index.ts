@@ -1,5 +1,4 @@
-import { ChainId, ERC20Token } from '@pancakeswap/sdk'
-import { bscTokens } from '@pancakeswap/tokens'
+import { ERC20Token } from '@pancakeswap/sdk'
 import type { CommonPrice } from '../../src/fetchFarmsV3'
 import type { FarmV3SupportedChainId } from '../../src'
 
