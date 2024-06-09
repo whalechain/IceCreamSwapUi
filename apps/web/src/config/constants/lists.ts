@@ -16,11 +16,6 @@ export const MULTI_CHAIN_LIST_URLS: { [chainId: number]: string[] } = {
     'https://tokens.pancakeswap.finance/coingecko.json',
     PANCAKE_BSC_MM
   ],
-  [ChainId.BASE]: [
-    'https://tokens.pancakeswap.finance/pancakeswap-base-default.json',
-    'https://static.optimism.io/optimism.tokenlist.json',
-    'https://tokens.coingecko.com/base/all.json'
-  ],
 }
 
 export const UNSUPPORTED_LIST_URLS: string[] = []
